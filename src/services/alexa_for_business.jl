@@ -7,7 +7,8 @@ using AWS.UUIDs
 """
     ApproveSkill()
 
-Associates a skill with the organization under the customer's AWS account. If a skill is private, the user implicitly accepts access to this skill during enablement.
+Associates a skill with the organization under the customer's AWS account. If a skill is
+private, the user implicitly accepts access to this skill during enablement.
 
 # Required Parameters
 - `SkillId`: The unique identifier of the skill.
@@ -45,7 +46,9 @@ associate_device_with_network_profile(DeviceArn, NetworkProfileArn, args::Abstra
 """
     AssociateDeviceWithRoom()
 
-Associates a device with a given room. This applies all the settings from the room profile to the device, and all the skills in any skill groups added to that room. This operation requires the device to be online, or else a manual sync is required. 
+Associates a device with a given room. This applies all the settings from the room profile
+to the device, and all the skills in any skill groups added to that room. This operation
+requires the device to be online, or else a manual sync is required.
 
 # Optional Parameters
 - `DeviceArn`: The ARN of the device to associate to a room. Required.
@@ -57,7 +60,8 @@ associate_device_with_room(args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     AssociateSkillGroupWithRoom()
 
-Associates a skill group with a given room. This enables all skills in the associated skill group on all devices in the room.
+Associates a skill group with a given room. This enables all skills in the associated skill
+group on all devices in the room.
 
 # Optional Parameters
 - `RoomArn`: The ARN of the room with which to associate the skill group. Required.
@@ -101,7 +105,8 @@ Creates an address book with the specified details.
 - `Name`: The name of the address book.
 
 # Optional Parameters
-- `ClientRequestToken`: A unique, user-specified identifier for the request that ensures idempotency.
+- `ClientRequestToken`: A unique, user-specified identifier for the request that ensures
+  idempotency.
 - `Description`: The description of the address book.
 """
 create_address_book(Name; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateAddressBook", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
@@ -110,16 +115,20 @@ create_address_book(Name, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     CreateBusinessReportSchedule()
 
-Creates a recurring schedule for usage reports to deliver to the specified S3 location with a specified daily or weekly interval.
+Creates a recurring schedule for usage reports to deliver to the specified S3 location with
+a specified daily or weekly interval.
 
 # Required Parameters
 - `ContentRange`: The content range of the reports.
-- `Format`: The format of the generated report (individual CSV files or zipped files of individual files).
+- `Format`: The format of the generated report (individual CSV files or zipped files of
+  individual files).
 
 # Optional Parameters
 - `ClientRequestToken`: The client request token.
-- `Recurrence`: The recurrence of the reports. If this isn't specified, the report will only be delivered one time when the API is called. 
-- `S3BucketName`: The S3 bucket name of the output reports. If this isn't specified, the report can be retrieved from a download link by calling ListBusinessReportSchedule. 
+- `Recurrence`: The recurrence of the reports. If this isn't specified, the report will
+  only be delivered one time when the API is called.
+- `S3BucketName`: The S3 bucket name of the output reports. If this isn't specified, the
+  report can be retrieved from a download link by calling ListBusinessReportSchedule.
 - `S3KeyPrefix`: The S3 key where the report is delivered.
 - `ScheduleName`: The name identifier of the schedule.
 - `Tags`: The tags for the business report schedule.
@@ -154,10 +163,13 @@ Creates a contact with the specified details.
 - `FirstName`: The first name of the contact that is used to call the contact on the device.
 
 # Optional Parameters
-- `ClientRequestToken`: A unique, user-specified identifier for this request that ensures idempotency.
+- `ClientRequestToken`: A unique, user-specified identifier for this request that ensures
+  idempotency.
 - `DisplayName`: The name of the contact to display on the console.
 - `LastName`: The last name of the contact that is used to call the contact on the device.
-- `PhoneNumber`: The phone number of the contact in E.164 format. The phone number type defaults to WORK. You can specify PhoneNumber or PhoneNumbers. We recommend that you use PhoneNumbers, which lets you specify the phone number type and multiple numbers.
+- `PhoneNumber`: The phone number of the contact in E.164 format. The phone number type
+  defaults to WORK. You can specify PhoneNumber or PhoneNumbers. We recommend that you use
+  PhoneNumbers, which lets you specify the phone number type and multiple numbers.
 - `PhoneNumbers`: The list of phone numbers for the contact.
 - `SipAddresses`: The list of SIP addresses for the contact.
 """
@@ -170,7 +182,8 @@ create_contact(FirstName, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 Creates a gateway group with the specified details.
 
 # Required Parameters
-- `ClientRequestToken`:  A unique, user-specified identifier for the request that ensures idempotency.
+- `ClientRequestToken`:  A unique, user-specified identifier for the request that ensures
+  idempotency.
 - `Name`: The name of the gateway group.
 
 # Optional Parameters
@@ -185,18 +198,24 @@ create_gateway_group(ClientRequestToken, Name, args::AbstractDict{String, <:Any}
 Creates a network profile with the specified details.
 
 # Required Parameters
-- `ClientRequestToken`: 
+- `ClientRequestToken`:
 - `NetworkProfileName`: The name of the network profile associated with a device.
-- `SecurityType`: The security type of the Wi-Fi network. This can be WPA2_ENTERPRISE, WPA2_PSK, WPA_PSK, WEP, or OPEN.
+- `SecurityType`: The security type of the Wi-Fi network. This can be WPA2_ENTERPRISE,
+  WPA2_PSK, WPA_PSK, WEP, or OPEN.
 - `Ssid`: The SSID of the Wi-Fi network.
 
 # Optional Parameters
-- `CertificateAuthorityArn`: The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
+- `CertificateAuthorityArn`: The ARN of the Private Certificate Authority (PCA) created in
+  AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
 - `CurrentPassword`: The current password of the Wi-Fi network.
 - `Description`: Detailed information about a device's network profile.
-- `EapMethod`: The authentication standard that is used in the EAP framework. Currently, EAP_TLS is supported.
-- `NextPassword`: The next, or subsequent, password of the Wi-Fi network. This password is asynchronously transmitted to the device and is used when the password of the network changes to NextPassword. 
-- `TrustAnchors`: The root certificates of your authentication server that is installed on your devices and used to trust your authentication server during EAP negotiation. 
+- `EapMethod`: The authentication standard that is used in the EAP framework. Currently,
+  EAP_TLS is supported.
+- `NextPassword`: The next, or subsequent, password of the Wi-Fi network. This password is
+  asynchronously transmitted to the device and is used when the password of the network
+  changes to NextPassword.
+- `TrustAnchors`: The root certificates of your authentication server that is installed on
+  your devices and used to trust your authentication server during EAP negotiation.
 """
 create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid); aws_config=aws_config)
 create_network_profile(ClientRequestToken, NetworkProfileName, SecurityType, Ssid, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("CreateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NetworkProfileName"=>NetworkProfileName, "SecurityType"=>SecurityType, "Ssid"=>Ssid), args)); aws_config=aws_config)
@@ -215,8 +234,10 @@ Creates a new room profile with the specified details.
 - `WakeWord`: A wake word for Alexa, Echo, Amazon, or a computer.
 
 # Optional Parameters
-- `ClientRequestToken`: The user-specified token that is used during the creation of a profile.
-- `Locale`: The locale of the room profile. (This is currently only available to a limited preview audience.)
+- `ClientRequestToken`: The user-specified token that is used during the creation of a
+  profile.
+- `Locale`: The locale of the room profile. (This is currently only available to a limited
+  preview audience.)
 - `MaxVolumeLimit`: The maximum volume limit for a room profile.
 - `MeetingRoomConfiguration`: The meeting room settings of a room profile.
 - `PSTNEnabled`: Whether PSTN calling is enabled.
@@ -235,7 +256,8 @@ Creates a room with the specified details.
 - `RoomName`: The name for the room.
 
 # Optional Parameters
-- `ClientRequestToken`: A unique, user-specified identifier for this request that ensures idempotency. 
+- `ClientRequestToken`: A unique, user-specified identifier for this request that ensures
+  idempotency.
 - `Description`: The description for the room.
 - `ProfileArn`: The profile ARN for the room. This is required.
 - `ProviderCalendarId`: The calendar ARN for the room.
@@ -253,7 +275,8 @@ Creates a skill group with a specified name and description.
 - `SkillGroupName`: The name for the skill group.
 
 # Optional Parameters
-- `ClientRequestToken`: A unique, user-specified identifier for this request that ensures idempotency. 
+- `ClientRequestToken`: A unique, user-specified identifier for this request that ensures
+  idempotency.
 - `Description`: The description for the skill group.
 - `Tags`: The tags for the skill group.
 """
@@ -269,7 +292,8 @@ Creates a user.
 - `UserId`: The ARN for the user.
 
 # Optional Parameters
-- `ClientRequestToken`: A unique, user-specified identifier for this request that ensures idempotency. 
+- `ClientRequestToken`: A unique, user-specified identifier for this request that ensures
+  idempotency.
 - `Email`: The email address for the user.
 - `FirstName`: The first name for the user.
 - `LastName`: The last name for the user.
@@ -341,7 +365,9 @@ delete_device(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     DeleteDeviceUsageData()
 
-When this action is called for a specified shared device, it allows authorized users to delete the device's entire previous history of voice input data and associated response data. This action can be called once every 24 hours for a specific shared device.
+When this action is called for a specified shared device, it allows authorized users to
+delete the device's entire previous history of voice input data and associated response
+data. This action can be called once every 24 hours for a specific shared device.
 
 # Required Parameters
 - `DeviceArn`: The ARN of the device.
@@ -467,7 +493,9 @@ disassociate_contact_from_address_book(AddressBookArn, ContactArn, args::Abstrac
 """
     DisassociateDeviceFromRoom()
 
-Disassociates a device from its current room. The device continues to be connected to the Wi-Fi network and is still registered to the account. The device settings and skills are removed from the room.
+Disassociates a device from its current room. The device continues to be connected to the
+Wi-Fi network and is still registered to the account. The device settings and skills are
+removed from the room.
 
 # Optional Parameters
 - `DeviceArn`: The ARN of the device to disassociate from a room. Required.
@@ -492,7 +520,8 @@ disassociate_skill_from_skill_group(SkillId, args::AbstractDict{String, <:Any}; 
 """
     DisassociateSkillFromUsers()
 
-Makes a private skill unavailable for enrolled users and prevents them from enabling it on their devices.
+Makes a private skill unavailable for enrolled users and prevents them from enabling it on
+their devices.
 
 # Required Parameters
 - `SkillId`:  The private skill ID you want to make unavailable for enrolled users.
@@ -504,10 +533,12 @@ disassociate_skill_from_users(SkillId, args::AbstractDict{String, <:Any}; aws_co
 """
     DisassociateSkillGroupFromRoom()
 
-Disassociates a skill group from a specified room. This disables all skills in the skill group on all devices in the room.
+Disassociates a skill group from a specified room. This disables all skills in the skill
+group on all devices in the room.
 
 # Optional Parameters
-- `RoomArn`: The ARN of the room from which the skill group is to be disassociated. Required.
+- `RoomArn`: The ARN of the room from which the skill group is to be disassociated.
+  Required.
 - `SkillGroupArn`: The ARN of the skill group to disassociate from a room. Required.
 """
 disassociate_skill_group_from_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("DisassociateSkillGroupFromRoom"; aws_config=aws_config)
@@ -655,10 +686,11 @@ Gets room skill parameter details by room, skill, and parameter key ARN.
 
 # Required Parameters
 - `ParameterKey`: The room skill parameter key for which to get details. Required.
-- `SkillId`: The ARN of the skill from which to get the room skill parameter details. Required.
+- `SkillId`: The ARN of the skill from which to get the room skill parameter details.
+  Required.
 
 # Optional Parameters
-- `RoomArn`: The ARN of the room from which to get the room skill parameter details. 
+- `RoomArn`: The ARN of the room from which to get the room skill parameter details.
 """
 get_room_skill_parameter(ParameterKey, SkillId; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId); aws_config=aws_config)
 get_room_skill_parameter(ParameterKey, SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("GetRoomSkillParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterKey"=>ParameterKey, "SkillId"=>SkillId), args)); aws_config=aws_config)
@@ -677,7 +709,9 @@ get_skill_group(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig
 """
     ListBusinessReportSchedules()
 
-Lists the details of the schedules that a user configured. A download URL of the report associated with each schedule is returned every time this action is called. A new download URL is returned each time, and is valid for 24 hours.
+Lists the details of the schedules that a user configured. A download URL of the report
+associated with each schedule is returned every time this action is called. A new download
+URL is returned each time, and is valid for 24 hours.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of schedules listed in the call.
@@ -692,7 +726,8 @@ list_business_report_schedules(args::AbstractDict{String, <:Any}; aws_config::Ab
 Lists conference providers under a specific AWS account.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of conference providers to be returned, per paginated calls.
+- `MaxResults`: The maximum number of conference providers to be returned, per paginated
+  calls.
 - `NextToken`: The tokens used for pagination.
 """
 list_conference_providers(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListConferenceProviders"; aws_config=aws_config)
@@ -707,9 +742,17 @@ Lists the device event history, including device connection status, for up to 30
 - `DeviceArn`: The ARN of a device.
 
 # Optional Parameters
-- `EventType`: The event type to filter device events. If EventType isn't specified, this returns a list of all device events in reverse chronological order. If EventType is specified, this returns a list of device events for that EventType in reverse chronological order. 
-- `MaxResults`: The maximum number of results to include in the response. The default value is 50. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults. When the end of results is reached, the response has a value of null.
+- `EventType`: The event type to filter device events. If EventType isn't specified, this
+  returns a list of all device events in reverse chronological order. If EventType is
+  specified, this returns a list of device events for that EventType in reverse chronological
+  order.
+- `MaxResults`: The maximum number of results to include in the response. The default value
+  is 50. If more results exist than the specified MaxResults value, a token is included in
+  the response so that the remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response only
+  includes results beyond the token, up to the value specified by MaxResults. When the end of
+  results is reached, the response has a value of null.
 """
 list_device_events(DeviceArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}("DeviceArn"=>DeviceArn); aws_config=aws_config)
 list_device_events(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListDeviceEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceArn"=>DeviceArn), args)); aws_config=aws_config)
@@ -717,7 +760,8 @@ list_device_events(DeviceArn, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     ListGatewayGroups()
 
-Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a specific gateway group.
+Retrieves a list of gateway group summaries. Use GetGatewayGroup to retrieve details of a
+specific gateway group.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of gateway group summaries to return. The default is 50.
@@ -729,7 +773,9 @@ list_gateway_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     ListGateways()
 
-Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries of gateways that are associated with that gateway group ARN.
+Retrieves a list of gateway summaries. Use GetGateway to retrieve details of a specific
+gateway. An optional gateway group ARN can be provided to only retrieve gateway summaries
+of gateways that are associated with that gateway group ARN.
 
 # Optional Parameters
 - `GatewayGroupArn`: The gateway group ARN for which to list gateways.
@@ -746,8 +792,12 @@ Lists all enabled skills in a specific skill group.
 
 # Optional Parameters
 - `EnablementType`: Whether the skill is enabled under the user's account.
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
 - `SkillGroupArn`: The ARN of the skill group for which to list enabled skills.
 - `SkillType`: Whether the skill is publicly available or is a private skill.
 """
@@ -772,7 +822,8 @@ list_skills_store_categories(args::AbstractDict{String, <:Any}; aws_config::Abst
 Lists all skills in the Alexa skill store by category.
 
 # Required Parameters
-- `CategoryId`: The category ID for which the skills are being retrieved from the skill store.
+- `CategoryId`: The category ID for which the skills are being retrieved from the skill
+  store.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of skills returned per paginated calls.
@@ -805,8 +856,12 @@ Lists all tags for the specified resource.
 - `Arn`: The ARN of the specified resource for which to list tags.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
 """
 list_tags(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
 list_tags(Arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
@@ -826,14 +881,17 @@ put_conference_preference(ConferencePreference, args::AbstractDict{String, <:Any
 """
     PutInvitationConfiguration()
 
-Configures the email template for the user enrollment invitation with the specified attributes.
+Configures the email template for the user enrollment invitation with the specified
+attributes.
 
 # Required Parameters
 - `OrganizationName`: The name of the organization sending the enrollment invite to a user.
 
 # Optional Parameters
-- `ContactEmail`: The email ID of the organization or individual contact that the enrolled user can use. 
-- `PrivateSkillIds`: The list of private skill IDs that you want to recommend to the user to enable in the invitation.
+- `ContactEmail`: The email ID of the organization or individual contact that the enrolled
+  user can use.
+- `PrivateSkillIds`: The list of private skill IDs that you want to recommend to the user
+  to enable in the invitation.
 """
 put_invitation_configuration(OrganizationName; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}("OrganizationName"=>OrganizationName); aws_config=aws_config)
 put_invitation_configuration(OrganizationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("PutInvitationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationName"=>OrganizationName), args)); aws_config=aws_config)
@@ -841,7 +899,8 @@ put_invitation_configuration(OrganizationName, args::AbstractDict{String, <:Any}
 """
     PutRoomSkillParameter()
 
-Updates room skill parameter details by room, skill, and parameter key ID. Not all skills have a room skill parameter.
+Updates room skill parameter details by room, skill, and parameter key ID. Not all skills
+have a room skill parameter.
 
 # Required Parameters
 - `RoomSkillParameter`: The updated room skill parameter. Required.
@@ -856,10 +915,13 @@ put_room_skill_parameter(RoomSkillParameter, SkillId, args::AbstractDict{String,
 """
     PutSkillAuthorization()
 
-Links a user's account to a third-party skill provider. If this API operation is called by an assumed IAM role, the skill being linked must be a private skill. Also, the skill must be owned by the AWS account that assumed the IAM role.
+Links a user's account to a third-party skill provider. If this API operation is called by
+an assumed IAM role, the skill being linked must be a private skill. Also, the skill must
+be owned by the AWS account that assumed the IAM role.
 
 # Required Parameters
-- `AuthorizationResult`: The authorization result specific to OAUTH code grant output. \"Code” must be populated in the AuthorizationResult map to establish the authorization.
+- `AuthorizationResult`: The authorization result specific to OAUTH code grant output.
+  \"Code” must be populated in the AuthorizationResult map to establish the authorization.
 - `SkillId`: The unique identifier of a skill.
 
 # Optional Parameters
@@ -871,16 +933,22 @@ put_skill_authorization(AuthorizationResult, SkillId, args::AbstractDict{String,
 """
     RegisterAVSDevice()
 
-Registers an Alexa-enabled device built by an Original Equipment Manufacturer (OEM) using Alexa Voice Service (AVS).
+Registers an Alexa-enabled device built by an Original Equipment Manufacturer (OEM) using
+Alexa Voice Service (AVS).
 
 # Required Parameters
-- `AmazonId`: The device type ID for your AVS device generated by Amazon when the OEM creates a new product on Amazon's Developer Console.
-- `ClientId`: The client ID of the OEM used for code-based linking authorization on an AVS device.
+- `AmazonId`: The device type ID for your AVS device generated by Amazon when the OEM
+  creates a new product on Amazon's Developer Console.
+- `ClientId`: The client ID of the OEM used for code-based linking authorization on an AVS
+  device.
 - `ProductId`: The product ID used to identify your AVS device during authorization.
-- `UserCode`: The code that is obtained after your AVS device has made a POST request to LWA as a part of the Device Authorization Request component of the OAuth code-based linking specification.
+- `UserCode`: The code that is obtained after your AVS device has made a POST request to
+  LWA as a part of the Device Authorization Request component of the OAuth code-based linking
+  specification.
 
 # Optional Parameters
-- `DeviceSerialNumber`: The key generated by the OEM that uniquely identifies a specified instance of your AVS device.
+- `DeviceSerialNumber`: The key generated by the OEM that uniquely identifies a specified
+  instance of your AVS device.
 - `RoomArn`: The ARN of the room with which to associate your AVS device.
 """
 register_avsdevice(AmazonId, ClientId, ProductId, UserCode; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("RegisterAVSDevice", Dict{String, Any}("AmazonId"=>AmazonId, "ClientId"=>ClientId, "ProductId"=>ProductId, "UserCode"=>UserCode); aws_config=aws_config)
@@ -889,7 +957,9 @@ register_avsdevice(AmazonId, ClientId, ProductId, UserCode, args::AbstractDict{S
 """
     RejectSkill()
 
-Disassociates a skill from the organization under a user's AWS account. If the skill is a private skill, it moves to an AcceptStatus of PENDING. Any private or public skill that is rejected can be added later by calling the ApproveSkill API. 
+Disassociates a skill from the organization under a user's AWS account. If the skill is a
+private skill, it moves to an AcceptStatus of PENDING. Any private or public skill that is
+rejected can be added later by calling the ApproveSkill API.
 
 # Required Parameters
 - `SkillId`: The unique identifier of the skill.
@@ -901,7 +971,8 @@ reject_skill(SkillId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     ResolveRoom()
 
-Determines the details for the room from which a skill request was invoked. This operation is used by skill developers.
+Determines the details for the room from which a skill request was invoked. This operation
+is used by skill developers.
 
 # Required Parameters
 - `SkillId`: The ARN of the skill that was requested. Required.
@@ -929,10 +1000,16 @@ revoke_invitation(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 Searches address books and lists the ones that meet a set of filter and sort criteria.
 
 # Optional Parameters
-- `Filters`: The filters to use to list a specified set of address books. The supported filter key is AddressBookName.
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
-- `SortCriteria`: The sort order to use in listing the specified set of address books. The supported sort key is AddressBookName.
+- `Filters`: The filters to use to list a specified set of address books. The supported
+  filter key is AddressBookName.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response only
+  includes results beyond the token, up to the value specified by MaxResults.
+- `SortCriteria`: The sort order to use in listing the specified set of address books. The
+  supported sort key is AddressBookName.
 """
 search_address_books(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks"; aws_config=aws_config)
 search_address_books(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchAddressBooks", args; aws_config=aws_config)
@@ -943,10 +1020,16 @@ search_address_books(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 Searches contacts and lists the ones that meet a set of filter and sort criteria.
 
 # Optional Parameters
-- `Filters`: The filters to use to list a specified set of address books. The supported filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response only includes results beyond the token, up to the value specified by MaxResults.
-- `SortCriteria`: The sort order to use in listing the specified set of contacts. The supported sort keys are DisplayName, FirstName, and LastName.
+- `Filters`: The filters to use to list a specified set of address books. The supported
+  filter keys are DisplayName, FirstName, LastName, and AddressBookArns.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response only
+  includes results beyond the token, up to the value specified by MaxResults.
+- `SortCriteria`: The sort order to use in listing the specified set of contacts. The
+  supported sort keys are DisplayName, FirstName, and LastName.
 """
 search_contacts(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchContacts"; aws_config=aws_config)
 search_contacts(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchContacts", args; aws_config=aws_config)
@@ -957,10 +1040,19 @@ search_contacts(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig
 Searches devices and lists the ones that meet a set of filter criteria.
 
 # Optional Parameters
-- `Filters`: The filters to use to list a specified set of devices. Supported filter keys are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType, DeviceSerialNumber, UnassociatedOnly, ConnectionStatus (ONLINE and OFFLINE), NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-- `SortCriteria`: The sort order to use in listing the specified set of devices. Supported sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber, ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
+- `Filters`: The filters to use to list a specified set of devices. Supported filter keys
+  are DeviceName, DeviceStatus, DeviceStatusDetailCode, RoomName, DeviceType,
+  DeviceSerialNumber, UnassociatedOnly, ConnectionStatus (ONLINE and OFFLINE),
+  NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
+- `SortCriteria`: The sort order to use in listing the specified set of devices. Supported
+  sort keys are DeviceName, DeviceStatus, RoomName, DeviceType, DeviceSerialNumber,
+  ConnectionStatus, NetworkProfileName, NetworkProfileArn, Feature, and FailureCode.
 """
 search_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchDevices"; aws_config=aws_config)
 search_devices(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchDevices", args; aws_config=aws_config)
@@ -971,10 +1063,16 @@ search_devices(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=
 Searches network profiles and lists the ones that meet a set of filter and sort criteria.
 
 # Optional Parameters
-- `Filters`: The filters to use to list a specified set of network profiles. Valid filters are NetworkProfileName, Ssid, and SecurityType.
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. 
-- `SortCriteria`: The sort order to use to list the specified set of network profiles. Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
+- `Filters`: The filters to use to list a specified set of network profiles. Valid filters
+  are NetworkProfileName, Ssid, and SecurityType.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
+- `SortCriteria`: The sort order to use to list the specified set of network profiles.
+  Valid sort criteria includes NetworkProfileName, Ssid, and SecurityType.
 """
 search_network_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles"; aws_config=aws_config)
 search_network_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchNetworkProfiles", args; aws_config=aws_config)
@@ -985,10 +1083,16 @@ search_network_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Searches room profiles and lists the ones that meet a set of filter criteria.
 
 # Optional Parameters
-- `Filters`: The filters to use to list a specified set of room profiles. Supported filter keys are ProfileName and Address. Required. 
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-- `SortCriteria`: The sort order to use in listing the specified set of room profiles. Supported sort keys are ProfileName and Address.
+- `Filters`: The filters to use to list a specified set of room profiles. Supported filter
+  keys are ProfileName and Address. Required.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
+- `SortCriteria`: The sort order to use in listing the specified set of room profiles.
+  Supported sort keys are ProfileName and Address.
 """
 search_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles"; aws_config=aws_config)
 search_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchProfiles", args; aws_config=aws_config)
@@ -999,10 +1103,16 @@ search_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig
 Searches rooms and lists the ones that meet a set of filter and sort criteria.
 
 # Optional Parameters
-- `Filters`: The filters to use to list a specified set of rooms. The supported filter keys are RoomName and ProfileName.
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
-- `SortCriteria`: The sort order to use in listing the specified set of rooms. The supported sort keys are RoomName and ProfileName.
+- `Filters`: The filters to use to list a specified set of rooms. The supported filter keys
+  are RoomName and ProfileName.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults.
+- `SortCriteria`: The sort order to use in listing the specified set of rooms. The
+  supported sort keys are RoomName and ProfileName.
 """
 search_rooms(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchRooms"; aws_config=aws_config)
 search_rooms(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchRooms", args; aws_config=aws_config)
@@ -1013,10 +1123,16 @@ search_rooms(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=gl
 Searches skill groups and lists the ones that meet a set of filter and sort criteria.
 
 # Optional Parameters
-- `Filters`: The filters to use to list a specified set of skill groups. The supported filter key is SkillGroupName. 
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. 
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
-- `SortCriteria`: The sort order to use in listing the specified set of skill groups. The supported sort key is SkillGroupName. 
+- `Filters`: The filters to use to list a specified set of skill groups. The supported
+  filter key is SkillGroupName.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults. Required.
+- `SortCriteria`: The sort order to use in listing the specified set of skill groups. The
+  supported sort key is SkillGroupName.
 """
 search_skill_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups"; aws_config=aws_config)
 search_skill_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchSkillGroups", args; aws_config=aws_config)
@@ -1027,10 +1143,16 @@ search_skill_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 Searches users and lists the ones that meet a set of filter and sort criteria.
 
 # Optional Parameters
-- `Filters`: The filters to use for listing a specific set of users. Required. Supported filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
-- `MaxResults`: The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved. Required.
-- `NextToken`: An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults. Required.
-- `SortCriteria`: The sort order to use in listing the filtered set of users. Required. Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
+- `Filters`: The filters to use for listing a specific set of users. Required. Supported
+  filter keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
+- `MaxResults`: The maximum number of results to include in the response. If more results
+  exist than the specified MaxResults value, a token is included in the response so that the
+  remaining results can be retrieved. Required.
+- `NextToken`: An optional token returned from a prior request. Use this token for
+  pagination of results from this action. If this parameter is specified, the response
+  includes only results beyond the token, up to the value specified by MaxResults. Required.
+- `SortCriteria`: The sort order to use in listing the filtered set of users. Required.
+  Supported sort keys are UserId, FirstName, LastName, Email, and EnrollmentStatus.
 """
 search_users(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchUsers"; aws_config=aws_config)
 search_users(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SearchUsers", args; aws_config=aws_config)
@@ -1038,15 +1160,21 @@ search_users(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=gl
 """
     SendAnnouncement()
 
-Triggers an asynchronous flow to send text, SSML, or audio announcements to rooms that are identified by a search or filter. 
+Triggers an asynchronous flow to send text, SSML, or audio announcements to rooms that are
+identified by a search or filter.
 
 # Required Parameters
-- `ClientRequestToken`: The unique, user-specified identifier for the request that ensures idempotency.
-- `Content`: The announcement content. This can contain only one of the three possible announcement types (text, SSML or audio).
-- `RoomFilters`: The filters to use to send an announcement to a specified list of rooms. The supported filter keys are RoomName, ProfileName, RoomArn, and ProfileArn. To send to all rooms, specify an empty RoomFilters list.
+- `ClientRequestToken`: The unique, user-specified identifier for the request that ensures
+  idempotency.
+- `Content`: The announcement content. This can contain only one of the three possible
+  announcement types (text, SSML or audio).
+- `RoomFilters`: The filters to use to send an announcement to a specified list of rooms.
+  The supported filter keys are RoomName, ProfileName, RoomArn, and ProfileArn. To send to
+  all rooms, specify an empty RoomFilters list.
 
 # Optional Parameters
-- `TimeToLiveInSeconds`: The time to live for an announcement. Default is 300. If delivery doesn't occur within this time, the announcement is not delivered.
+- `TimeToLiveInSeconds`: The time to live for an announcement. Default is 300. If delivery
+  doesn't occur within this time, the announcement is not delivered.
 """
 send_announcement(ClientRequestToken, Content, RoomFilters; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters); aws_config=aws_config)
 send_announcement(ClientRequestToken, Content, RoomFilters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("SendAnnouncement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "RoomFilters"=>RoomFilters), args)); aws_config=aws_config)
@@ -1054,7 +1182,8 @@ send_announcement(ClientRequestToken, Content, RoomFilters, args::AbstractDict{S
 """
     SendInvitation()
 
-Sends an enrollment invitation email with a URL to a user. The URL is valid for 30 days or until you call this operation again, whichever comes first. 
+Sends an enrollment invitation email with a URL to a user. The URL is valid for 30 days or
+until you call this operation again, whichever comes first.
 
 # Optional Parameters
 - `UserArn`: The ARN of the user to whom to send an invitation. Required.
@@ -1065,7 +1194,14 @@ send_invitation(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig
 """
     StartDeviceSync()
 
-Resets a device and its account to the known default settings. This clears all information and settings set by previous users in the following ways:   Bluetooth - This unpairs all bluetooth devices paired with your echo device.   Volume - This resets the echo device's volume to the default value.   Notifications - This clears all notifications from your echo device.   Lists - This clears all to-do items from your echo device.   Settings - This internally syncs the room's profile (if the device is assigned to a room), contacts, address books, delegation access for account linking, and communications (if enabled on the room profile).  
+Resets a device and its account to the known default settings. This clears all information
+and settings set by previous users in the following ways:   Bluetooth - This unpairs all
+bluetooth devices paired with your echo device.   Volume - This resets the echo device's
+volume to the default value.   Notifications - This clears all notifications from your echo
+device.   Lists - This clears all to-do items from your echo device.   Settings - This
+internally syncs the room's profile (if the device is assigned to a room), contacts,
+address books, delegation access for account linking, and communications (if enabled on the
+room profile).
 
 # Required Parameters
 - `Features`: Request structure to start the device sync. Required.
@@ -1095,8 +1231,9 @@ start_smart_home_appliance_discovery(RoomArn, args::AbstractDict{String, <:Any};
 Adds metadata tags to a specified resource.
 
 # Required Parameters
-- `Arn`: The ARN of the resource to which to add metadata tags. Required. 
-- `Tags`: The tags to be added to the specified resource. Do not provide system tags. Required. 
+- `Arn`: The ARN of the resource to which to add metadata tags. Required.
+- `Tags`: The tags to be added to the specified resource. Do not provide system tags.
+  Required.
 
 """
 tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("TagResource", Dict{String, Any}("Arn"=>Arn, "Tags"=>Tags); aws_config=aws_config)
@@ -1108,8 +1245,9 @@ tag_resource(Arn, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Removes metadata tags from a specified resource.
 
 # Required Parameters
-- `Arn`: The ARN of the resource from which to remove metadata tags. Required. 
-- `TagKeys`: The tags to be removed from the specified resource. Do not provide system tags. Required. 
+- `Arn`: The ARN of the resource from which to remove metadata tags. Required.
+- `TagKeys`: The tags to be removed from the specified resource. Do not provide system
+  tags. Required.
 
 """
 untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UntagResource", Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys); aws_config=aws_config)
@@ -1139,7 +1277,8 @@ Updates the configuration of the report delivery schedule with the specified sch
 - `ScheduleArn`: The ARN of the business report schedule.
 
 # Optional Parameters
-- `Format`: The format of the generated report (individual CSV files or zipped files of individual files).
+- `Format`: The format of the generated report (individual CSV files or zipped files of
+  individual files).
 - `Recurrence`: The recurrence of the reports.
 - `S3BucketName`: The S3 location of the output reports.
 - `S3KeyPrefix`: The S3 key where the report is delivered.
@@ -1177,7 +1316,9 @@ Updates the contact details by the contact ARN.
 - `DisplayName`: The updated display name of the contact.
 - `FirstName`: The updated first name of the contact.
 - `LastName`: The updated last name of the contact.
-- `PhoneNumber`: The updated phone number of the contact. The phone number type defaults to WORK. You can either specify PhoneNumber or PhoneNumbers. We recommend that you use PhoneNumbers, which lets you specify the phone number type and multiple numbers.
+- `PhoneNumber`: The updated phone number of the contact. The phone number type defaults to
+  WORK. You can either specify PhoneNumber or PhoneNumbers. We recommend that you use
+  PhoneNumbers, which lets you specify the phone number type and multiple numbers.
 - `PhoneNumbers`: The list of phone numbers for the contact.
 - `SipAddresses`: The list of SIP addresses for the contact.
 """
@@ -1199,7 +1340,8 @@ update_device(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=g
 """
     UpdateGateway()
 
-Updates the details of a gateway. If any optional field is not provided, the existing corresponding value is left unmodified.
+Updates the details of a gateway. If any optional field is not provided, the existing
+corresponding value is left unmodified.
 
 # Required Parameters
 - `GatewayArn`: The ARN of the gateway to update.
@@ -1207,7 +1349,8 @@ Updates the details of a gateway. If any optional field is not provided, the exi
 # Optional Parameters
 - `Description`: The updated description of the gateway.
 - `Name`: The updated name of the gateway.
-- `SoftwareVersion`: The updated software version of the gateway. The gateway automatically updates its software version during normal operation.
+- `SoftwareVersion`: The updated software version of the gateway. The gateway automatically
+  updates its software version during normal operation.
 """
 update_gateway(GatewayArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}("GatewayArn"=>GatewayArn); aws_config=aws_config)
 update_gateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayArn"=>GatewayArn), args)); aws_config=aws_config)
@@ -1215,7 +1358,8 @@ update_gateway(GatewayArn, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     UpdateGatewayGroup()
 
-Updates the details of a gateway group. If any optional field is not provided, the existing corresponding value is left unmodified.
+Updates the details of a gateway group. If any optional field is not provided, the existing
+corresponding value is left unmodified.
 
 # Required Parameters
 - `GatewayGroupArn`: The ARN of the gateway group to update.
@@ -1236,12 +1380,17 @@ Updates a network profile by the network profile ARN.
 - `NetworkProfileArn`: The ARN of the network profile associated with a device.
 
 # Optional Parameters
-- `CertificateAuthorityArn`: The ARN of the Private Certificate Authority (PCA) created in AWS Certificate Manager (ACM). This is used to issue certificates to the devices. 
+- `CertificateAuthorityArn`: The ARN of the Private Certificate Authority (PCA) created in
+  AWS Certificate Manager (ACM). This is used to issue certificates to the devices.
 - `CurrentPassword`: The current password of the Wi-Fi network.
 - `Description`: Detailed information about a device's network profile.
 - `NetworkProfileName`: The name of the network profile associated with a device.
-- `NextPassword`: The next, or subsequent, password of the Wi-Fi network. This password is asynchronously transmitted to the device and is used when the password of the network changes to NextPassword. 
-- `TrustAnchors`: The root certificate(s) of your authentication server that will be installed on your devices and used to trust your authentication server during EAP negotiation. 
+- `NextPassword`: The next, or subsequent, password of the Wi-Fi network. This password is
+  asynchronously transmitted to the device and is used when the password of the network
+  changes to NextPassword.
+- `TrustAnchors`: The root certificate(s) of your authentication server that will be
+  installed on your devices and used to trust your authentication server during EAP
+  negotiation.
 """
 update_network_profile(NetworkProfileArn; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn); aws_config=aws_config)
 update_network_profile(NetworkProfileArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateNetworkProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NetworkProfileArn"=>NetworkProfileArn), args)); aws_config=aws_config)
@@ -1254,8 +1403,10 @@ Updates an existing room profile by room profile ARN.
 # Optional Parameters
 - `Address`: The updated address for the room profile.
 - `DistanceUnit`: The updated distance unit for the room profile.
-- `IsDefault`: Sets the profile as default if selected. If this is missing, no update is done to the default status.
-- `Locale`: The updated locale for the room profile. (This is currently only available to a limited preview audience.)
+- `IsDefault`: Sets the profile as default if selected. If this is missing, no update is
+  done to the default status.
+- `Locale`: The updated locale for the room profile. (This is currently only available to a
+  limited preview audience.)
 - `MaxVolumeLimit`: The updated maximum volume limit for the room profile.
 - `MeetingRoomConfiguration`: The updated meeting room settings of a room profile.
 - `PSTNEnabled`: Whether the PSTN setting of the room profile is enabled.
@@ -1278,7 +1429,7 @@ Updates room details by room ARN.
 - `Description`: The updated description for the room.
 - `ProfileArn`: The updated profile ARN for the room.
 - `ProviderCalendarId`: The updated provider calendar ARN for the room.
-- `RoomArn`: The ARN of the room to update. 
+- `RoomArn`: The ARN of the room to update.
 - `RoomName`: The updated name for the room.
 """
 update_room(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateRoom"; aws_config=aws_config)
@@ -1291,7 +1442,7 @@ Updates skill group details by skill group ARN.
 
 # Optional Parameters
 - `Description`: The updated description for the skill group.
-- `SkillGroupArn`: The ARN of the skill group to update. 
+- `SkillGroupArn`: The ARN of the skill group to update.
 - `SkillGroupName`: The updated name for the skill group.
 """
 update_skill_group(; aws_config::AbstractAWSConfig=global_aws_config()) = alexa_for_business("UpdateSkillGroup"; aws_config=aws_config)

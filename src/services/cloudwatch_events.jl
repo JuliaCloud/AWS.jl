@@ -7,7 +7,8 @@ using AWS.UUIDs
 """
     ActivateEventSource()
 
-Activates a partner event source that has been deactivated. Once activated, your matching event bus will start receiving events from the event source.
+Activates a partner event source that has been deactivated. Once activated, your matching
+event bus will start receiving events from the event source.
 
 # Required Parameters
 - `Name`: The name of the partner event source to activate.
@@ -31,7 +32,11 @@ cancel_replay(ReplayName, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     CreateArchive()
 
-Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.
+Creates an archive of events with the specified settings. When you create an archive,
+incoming events might not immediately start being sent to the archive. Allow a short period
+of time for changes to take effect. If you do not specify a pattern to filter events sent
+to the archive, all events are sent to the archive except replayed events. Replayed events
+are not sent to an archive.
 
 # Required Parameters
 - `ArchiveName`: The name for the archive to create.
@@ -40,7 +45,8 @@ Creates an archive of events with the specified settings. When you create an arc
 # Optional Parameters
 - `Description`: A description for the archive.
 - `EventPattern`: An event pattern to use to filter events sent to the archive.
-- `RetentionDays`: The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely
+- `RetentionDays`: The number of days to retain events for. Default value is 0. If set to
+  0, events are retained indefinitely
 """
 create_archive(ArchiveName, EventSourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("CreateArchive", Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn); aws_config=aws_config)
 create_archive(ArchiveName, EventSourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("CreateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn), args)); aws_config=aws_config)
@@ -48,13 +54,19 @@ create_archive(ArchiveName, EventSourceArn, args::AbstractDict{String, <:Any}; a
 """
     CreateEventBus()
 
-Creates a new event bus within your account. This can be a custom event bus which you can use to receive events from your custom applications and services, or it can be a partner event bus which can be matched to a partner event source.
+Creates a new event bus within your account. This can be a custom event bus which you can
+use to receive events from your custom applications and services, or it can be a partner
+event bus which can be matched to a partner event source.
 
 # Required Parameters
-- `Name`: The name of the new event bus.  Event bus names cannot contain the / character. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. If this is a partner event bus, the name must exactly match the name of the partner event source that this event bus is matched to.
+- `Name`: The name of the new event bus.  Event bus names cannot contain the / character.
+  You can't use the name default for a custom event bus, as this name is already used for
+  your account's default event bus. If this is a partner event bus, the name must exactly
+  match the name of the partner event source that this event bus is matched to.
 
 # Optional Parameters
-- `EventSourceName`: If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
+- `EventSourceName`: If you are creating a partner event bus, this specifies the partner
+  event source that the new event bus will be matched with.
 - `Tags`: Tags to associate with the event bus.
 """
 create_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("CreateEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
@@ -63,11 +75,28 @@ create_event_bus(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     CreatePartnerEventSource()
 
-Called by an SaaS partner to create a partner event source. This operation is not used by AWS customers. Each partner event source can be used by one AWS account to create a matching partner event bus in that AWS account. A SaaS partner must create one partner event source for each AWS account that wants to receive those event types.  A partner event source creates events based on resources within the SaaS partner's service or application. An AWS account that creates a partner event bus that matches the partner event source can use that event bus to receive events from the partner, and then process them using AWS Events rules and targets. Partner event source names follow this format:   partner_name/event_namespace/event_name    partner_name is determined during partner registration and identifies the partner to AWS customers. event_namespace is determined by the partner and is a way for the partner to categorize their events. event_name is determined by the partner, and should uniquely identify an event-generating resource within the partner system. The combination of event_namespace and event_name should help AWS customers decide whether to create an event bus to receive these events.
+Called by an SaaS partner to create a partner event source. This operation is not used by
+AWS customers. Each partner event source can be used by one AWS account to create a
+matching partner event bus in that AWS account. A SaaS partner must create one partner
+event source for each AWS account that wants to receive those event types.  A partner event
+source creates events based on resources within the SaaS partner's service or application.
+An AWS account that creates a partner event bus that matches the partner event source can
+use that event bus to receive events from the partner, and then process them using AWS
+Events rules and targets. Partner event source names follow this format:
+partner_name/event_namespace/event_name    partner_name is determined during partner
+registration and identifies the partner to AWS customers. event_namespace is determined by
+the partner and is a way for the partner to categorize their events. event_name is
+determined by the partner, and should uniquely identify an event-generating resource within
+the partner system. The combination of event_namespace and event_name should help AWS
+customers decide whether to create an event bus to receive these events.
 
 # Required Parameters
-- `Account`: The AWS account ID that is permitted to create a matching partner event bus for this partner event source.
-- `Name`: The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The AWS account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
+- `Account`: The AWS account ID that is permitted to create a matching partner event bus
+  for this partner event source.
+- `Name`: The name of the partner event source. This name must be unique and must be in the
+  format  partner_name/event_namespace/event_name . The AWS account that wants to use this
+  partner event source must create a partner event bus with a name that matches the name of
+  the partner event source.
 
 """
 create_partner_event_source(Account, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("CreatePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
@@ -76,7 +105,11 @@ create_partner_event_source(Account, Name, args::AbstractDict{String, <:Any}; aw
 """
     DeactivateEventSource()
 
-You can use this operation to temporarily stop receiving events from the specified partner event source. The matching event bus is not deleted.  When you deactivate a partner event source, the source goes into PENDING state. If it remains in PENDING state for more than two weeks, it is deleted. To activate a deactivated partner event source, use ActivateEventSource.
+You can use this operation to temporarily stop receiving events from the specified partner
+event source. The matching event bus is not deleted.  When you deactivate a partner event
+source, the source goes into PENDING state. If it remains in PENDING state for more than
+two weeks, it is deleted. To activate a deactivated partner event source, use
+ActivateEventSource.
 
 # Required Parameters
 - `Name`: The name of the partner event source to deactivate.
@@ -100,7 +133,8 @@ delete_archive(ArchiveName, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     DeleteEventBus()
 
-Deletes the specified custom event bus or partner event bus. All rules associated with this event bus need to be deleted. You can't delete your account's default event bus.
+Deletes the specified custom event bus or partner event bus. All rules associated with this
+event bus need to be deleted. You can't delete your account's default event bus.
 
 # Required Parameters
 - `Name`: The name of the event bus to delete.
@@ -112,7 +146,9 @@ delete_event_bus(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     DeletePartnerEventSource()
 
-This operation is used by SaaS partners to delete a partner event source. This operation is not used by AWS customers. When you delete an event source, the status of the corresponding partner event bus in the AWS customer account becomes DELETED. 
+This operation is used by SaaS partners to delete a partner event source. This operation is
+not used by AWS customers. When you delete an event source, the status of the corresponding
+partner event bus in the AWS customer account becomes DELETED.
 
 # Required Parameters
 - `Account`: The AWS account ID of the AWS customer that the event source was created for.
@@ -125,14 +161,24 @@ delete_partner_event_source(Account, Name, args::AbstractDict{String, <:Any}; aw
 """
     DeleteRule()
 
-Deletes the specified rule. Before you can delete the rule, you must remove all targets, using RemoveTargets. When you delete a rule, incoming events might continue to match to the deleted rule. Allow a short period of time for changes to take effect. Managed rules are rules created and managed by another AWS service on your behalf. These rules are created by those other AWS services to support functionality in those services. You can delete these rules using the Force option, but you should do so only if you are sure the other service is not still using that rule.
+Deletes the specified rule. Before you can delete the rule, you must remove all targets,
+using RemoveTargets. When you delete a rule, incoming events might continue to match to the
+deleted rule. Allow a short period of time for changes to take effect. Managed rules are
+rules created and managed by another AWS service on your behalf. These rules are created by
+those other AWS services to support functionality in those services. You can delete these
+rules using the Force option, but you should do so only if you are sure the other service
+is not still using that rule.
 
 # Required Parameters
 - `Name`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
-- `Force`: If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit
+  this, the default event bus is used.
+- `Force`: If this is a managed rule, created by an AWS service on your behalf, you must
+  specify Force as True to delete the rule. This parameter is ignored for rules that are not
+  managed rules. You can check whether a rule is a managed rule by using DescribeRule or
+  ListRules and checking the ManagedBy field of the response.
 """
 delete_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("DeleteRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 delete_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
@@ -152,10 +198,16 @@ describe_archive(ArchiveName, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     DescribeEventBus()
 
-Displays details about an event bus in your account. This can include the external AWS accounts that are permitted to write events to your default event bus, and the associated policy. For custom event buses and partner event buses, it displays the name, ARN, policy, state, and creation time.  To enable your account to receive events from other accounts on its default event bus, use PutPermission. For more information about partner event buses, see CreateEventBus.
+Displays details about an event bus in your account. This can include the external AWS
+accounts that are permitted to write events to your default event bus, and the associated
+policy. For custom event buses and partner event buses, it displays the name, ARN, policy,
+state, and creation time.  To enable your account to receive events from other accounts on
+its default event bus, use PutPermission. For more information about partner event buses,
+see CreateEventBus.
 
 # Optional Parameters
-- `Name`: The name or ARN of the event bus to show details for. If you omit this, the default event bus is displayed.
+- `Name`: The name or ARN of the event bus to show details for. If you omit this, the
+  default event bus is displayed.
 """
 describe_event_bus(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("DescribeEventBus"; aws_config=aws_config)
 describe_event_bus(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("DescribeEventBus", args; aws_config=aws_config)
@@ -175,7 +227,9 @@ describe_event_source(Name, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     DescribePartnerEventSource()
 
-An SaaS partner can use this operation to list details about a partner event source that they have created. AWS customers do not use this operation. Instead, AWS customers can use DescribeEventSource to see details about a partner event source that is shared with them.
+An SaaS partner can use this operation to list details about a partner event source that
+they have created. AWS customers do not use this operation. Instead, AWS customers can use
+DescribeEventSource to see details about a partner event source that is shared with them.
 
 # Required Parameters
 - `Name`: The name of the event source to display.
@@ -187,7 +241,14 @@ describe_partner_event_source(Name, args::AbstractDict{String, <:Any}; aws_confi
 """
     DescribeReplay()
 
-Retrieves details about a replay. Use DescribeReplay to determine the progress of a running replay. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you use StartReplay and specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the progress of a replay. The value returned for EventLastReplayedTime indicates the time within the specified time range associated with the last event replayed.
+Retrieves details about a replay. Use DescribeReplay to determine the progress of a running
+replay. A replay processes events to replay based on the time in the event, and replays
+them using 1 minute intervals. If you use StartReplay and specify an EventStartTime and an
+EventEndTime that covers a 20 minute time range, the events are replayed from the first
+minute of that 20 minute range first. Then the events from the second minute are replayed.
+You can use DescribeReplay to determine the progress of a replay. The value returned for
+EventLastReplayedTime indicates the time within the specified time range associated with
+the last event replayed.
 
 # Required Parameters
 - `ReplayName`: The name of the replay to retrieve.
@@ -199,13 +260,15 @@ describe_replay(ReplayName, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     DescribeRule()
 
-Describes the specified rule. DescribeRule does not list the targets of a rule. To see the targets associated with a rule, use ListTargetsByRule.
+Describes the specified rule. DescribeRule does not list the targets of a rule. To see the
+targets associated with a rule, use ListTargetsByRule.
 
 # Required Parameters
 - `Name`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit
+  this, the default event bus is used.
 """
 describe_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("DescribeRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 describe_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("DescribeRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
@@ -213,13 +276,16 @@ describe_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     DisableRule()
 
-Disables the specified rule. A disabled rule won't match any events, and won't self-trigger if it has a schedule expression. When you disable a rule, incoming events might continue to match to the disabled rule. Allow a short period of time for changes to take effect.
+Disables the specified rule. A disabled rule won't match any events, and won't self-trigger
+if it has a schedule expression. When you disable a rule, incoming events might continue to
+match to the disabled rule. Allow a short period of time for changes to take effect.
 
 # Required Parameters
 - `Name`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit
+  this, the default event bus is used.
 """
 disable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("DisableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 disable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("DisableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
@@ -227,13 +293,16 @@ disable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     EnableRule()
 
-Enables the specified rule. If the rule does not exist, the operation fails. When you enable a rule, incoming events might not immediately start matching to a newly enabled rule. Allow a short period of time for changes to take effect.
+Enables the specified rule. If the rule does not exist, the operation fails. When you
+enable a rule, incoming events might not immediately start matching to a newly enabled
+rule. Allow a short period of time for changes to take effect.
 
 # Required Parameters
 - `Name`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit
+  this, the default event bus is used.
 """
 enable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("EnableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 enable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
@@ -241,12 +310,14 @@ enable_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 """
     ListArchives()
 
-Lists your archives. You can either list all the archives or you can provide a prefix to match to the archive names. Filter parameters are exclusive.
+Lists your archives. You can either list all the archives or you can provide a prefix to
+match to the archive names. Filter parameters are exclusive.
 
 # Optional Parameters
 - `EventSourceArn`: The ARN of the event source associated with the archive.
 - `Limit`: The maximum number of results to return.
-- `NamePrefix`: A name prefix to filter the archives returned. Only archives with name that match the prefix are returned.
+- `NamePrefix`: A name prefix to filter the archives returned. Only archives with name that
+  match the prefix are returned.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 - `State`: The state of the archive.
 """
@@ -256,11 +327,15 @@ list_archives(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=g
 """
     ListEventBuses()
 
-Lists all the event buses in your account, including the default event bus, custom event buses, and partner event buses.
+Lists all the event buses in your account, including the default event bus, custom event
+buses, and partner event buses.
 
 # Optional Parameters
-- `Limit`: Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
-- `NamePrefix`: Specifying this limits the results to only those event buses with names that start with the specified prefix.
+- `Limit`: Specifying this limits the number of results returned by this operation. The
+  operation also returns a NextToken which you can use in a subsequent operation to retrieve
+  the next set of results.
+- `NamePrefix`: Specifying this limits the results to only those event buses with names
+  that start with the specified prefix.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
 list_event_buses(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("ListEventBuses"; aws_config=aws_config)
@@ -269,11 +344,15 @@ list_event_buses(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfi
 """
     ListEventSources()
 
-You can use this to see all the partner event sources that have been shared with your AWS account. For more information about partner event sources, see CreateEventBus.
+You can use this to see all the partner event sources that have been shared with your AWS
+account. For more information about partner event sources, see CreateEventBus.
 
 # Optional Parameters
-- `Limit`: Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
-- `NamePrefix`: Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
+- `Limit`: Specifying this limits the number of results returned by this operation. The
+  operation also returns a NextToken which you can use in a subsequent operation to retrieve
+  the next set of results.
+- `NamePrefix`: Specifying this limits the results to only those partner event sources with
+  names that start with the specified prefix.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
 list_event_sources(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("ListEventSources"; aws_config=aws_config)
@@ -282,14 +361,19 @@ list_event_sources(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     ListPartnerEventSourceAccounts()
 
-An SaaS partner can use this operation to display the AWS account ID that a particular partner event source name is associated with. This operation is not used by AWS customers.
+An SaaS partner can use this operation to display the AWS account ID that a particular
+partner event source name is associated with. This operation is not used by AWS customers.
 
 # Required Parameters
-- `EventSourceName`: The name of the partner event source to display account information about.
+- `EventSourceName`: The name of the partner event source to display account information
+  about.
 
 # Optional Parameters
-- `Limit`: Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
-- `NextToken`: The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+- `Limit`: Specifying this limits the number of results returned by this operation. The
+  operation also returns a NextToken which you can use in a subsequent operation to retrieve
+  the next set of results.
+- `NextToken`: The token returned by a previous call to this operation. Specifying this
+  retrieves the next set of results.
 """
 list_partner_event_source_accounts(EventSourceName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("ListPartnerEventSourceAccounts", Dict{String, Any}("EventSourceName"=>EventSourceName); aws_config=aws_config)
 list_partner_event_source_accounts(EventSourceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("ListPartnerEventSourceAccounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSourceName"=>EventSourceName), args)); aws_config=aws_config)
@@ -297,14 +381,19 @@ list_partner_event_source_accounts(EventSourceName, args::AbstractDict{String, <
 """
     ListPartnerEventSources()
 
-An SaaS partner can use this operation to list all the partner event source names that they have created. This operation is not used by AWS customers.
+An SaaS partner can use this operation to list all the partner event source names that they
+have created. This operation is not used by AWS customers.
 
 # Required Parameters
-- `NamePrefix`: If you specify this, the results are limited to only those partner event sources that start with the string you specify.
+- `NamePrefix`: If you specify this, the results are limited to only those partner event
+  sources that start with the string you specify.
 
 # Optional Parameters
-- `Limit`: pecifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
-- `NextToken`: The token returned by a previous call to this operation. Specifying this retrieves the next set of results.
+- `Limit`: pecifying this limits the number of results returned by this operation. The
+  operation also returns a NextToken which you can use in a subsequent operation to retrieve
+  the next set of results.
+- `NextToken`: The token returned by a previous call to this operation. Specifying this
+  retrieves the next set of results.
 """
 list_partner_event_sources(NamePrefix; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("ListPartnerEventSources", Dict{String, Any}("NamePrefix"=>NamePrefix); aws_config=aws_config)
 list_partner_event_sources(NamePrefix, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("ListPartnerEventSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamePrefix"=>NamePrefix), args)); aws_config=aws_config)
@@ -312,12 +401,14 @@ list_partner_event_sources(NamePrefix, args::AbstractDict{String, <:Any}; aws_co
 """
     ListReplays()
 
-Lists your replays. You can either list all the replays or you can provide a prefix to match to the replay names. Filter parameters are exclusive.
+Lists your replays. You can either list all the replays or you can provide a prefix to
+match to the replay names. Filter parameters are exclusive.
 
 # Optional Parameters
 - `EventSourceArn`: The ARN of the event source associated with the replay.
 - `Limit`: The maximum number of replays to retrieve.
-- `NamePrefix`: A name prefix to filter the replays returned. Only replays with name that match the prefix are returned.
+- `NamePrefix`: A name prefix to filter the replays returned. Only replays with name that
+  match the prefix are returned.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 - `State`: The state of the replay.
 """
@@ -327,13 +418,15 @@ list_replays(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=gl
 """
     ListRuleNamesByTarget()
 
-Lists the rules for the specified target. You can see which of the rules in Amazon EventBridge can invoke a specific target in your account.
+Lists the rules for the specified target. You can see which of the rules in Amazon
+EventBridge can invoke a specific target in your account.
 
 # Required Parameters
 - `TargetArn`: The Amazon Resource Name (ARN) of the target resource.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus to list rules for. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus to list rules for. If you omit this, the
+  default event bus is used.
 - `Limit`: The maximum number of results to return.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
@@ -343,10 +436,13 @@ list_rule_names_by_target(TargetArn, args::AbstractDict{String, <:Any}; aws_conf
 """
     ListRules()
 
-Lists your Amazon EventBridge rules. You can either list all the rules or you can provide a prefix to match to the rule names. ListRules does not list the targets of a rule. To see the targets associated with a rule, use ListTargetsByRule.
+Lists your Amazon EventBridge rules. You can either list all the rules or you can provide a
+prefix to match to the rule names. ListRules does not list the targets of a rule. To see
+the targets associated with a rule, use ListTargetsByRule.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus to list the rules for. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus to list the rules for. If you omit this,
+  the default event bus is used.
 - `Limit`: The maximum number of results to return.
 - `NamePrefix`: The prefix matching the rule name.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
@@ -357,7 +453,8 @@ list_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=glob
 """
     ListTagsForResource()
 
-Displays the tags associated with an EventBridge resource. In EventBridge, rules and event buses can be tagged.
+Displays the tags associated with an EventBridge resource. In EventBridge, rules and event
+buses can be tagged.
 
 # Required Parameters
 - `ResourceARN`: The ARN of the EventBridge resource for which you want to view tags.
@@ -375,7 +472,8 @@ Lists the targets assigned to the specified rule.
 - `Rule`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit
+  this, the default event bus is used.
 - `Limit`: The maximum number of results to return.
 - `NextToken`: The token returned by a previous call to retrieve the next set of results.
 """
@@ -388,7 +486,9 @@ list_targets_by_rule(Rule, args::AbstractDict{String, <:Any}; aws_config::Abstra
 Sends custom events to Amazon EventBridge so that they can be matched to rules.
 
 # Required Parameters
-- `Entries`: The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
+- `Entries`: The entry that defines an event in your system. You can specify several
+  parameters for the entry such as the source and type of the event, resources associated
+  with the event, and so on.
 
 """
 put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
@@ -397,7 +497,8 @@ put_events(Entries, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     PutPartnerEvents()
 
-This is used by SaaS partners to write events to a customer's partner event bus. AWS customers do not use this operation.
+This is used by SaaS partners to write events to a customer's partner event bus. AWS
+customers do not use this operation.
 
 # Required Parameters
 - `Entries`: The list of events to write to the event bus.
@@ -409,15 +510,44 @@ put_partner_events(Entries, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     PutPermission()
 
-Running PutPermission permits the specified AWS account or AWS organization to put events to the specified event bus. Amazon EventBridge (CloudWatch Events) rules in your account are triggered by these events arriving to an event bus in your account.  For another account to send events to your account, that external account must have an EventBridge rule with your account's event bus as a target. To enable multiple AWS accounts to put events to your event bus, run PutPermission once for each of these accounts. Or, if all the accounts are members of the same AWS organization, you can run PutPermission once specifying Principal as \"*\" and specifying the AWS organization ID in Condition, to grant permissions to all accounts in that organization. If you grant permissions using an organization, then accounts in that organization must specify a RoleArn with proper permissions when they use PutTarget to add your account's event bus as a target. For more information, see Sending and Receiving Events Between AWS Accounts in the Amazon EventBridge User Guide. The permission policy on the default event bus cannot exceed 10 KB in size.
+Running PutPermission permits the specified AWS account or AWS organization to put events
+to the specified event bus. Amazon EventBridge (CloudWatch Events) rules in your account
+are triggered by these events arriving to an event bus in your account.  For another
+account to send events to your account, that external account must have an EventBridge rule
+with your account's event bus as a target. To enable multiple AWS accounts to put events to
+your event bus, run PutPermission once for each of these accounts. Or, if all the accounts
+are members of the same AWS organization, you can run PutPermission once specifying
+Principal as \"*\" and specifying the AWS organization ID in Condition, to grant
+permissions to all accounts in that organization. If you grant permissions using an
+organization, then accounts in that organization must specify a RoleArn with proper
+permissions when they use PutTarget to add your account's event bus as a target. For more
+information, see Sending and Receiving Events Between AWS Accounts in the Amazon
+EventBridge User Guide. The permission policy on the default event bus cannot exceed 10 KB
+in size.
 
 # Optional Parameters
-- `Action`: The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
-- `Condition`: This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify \"*\" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
-- `EventBusName`: The name of the event bus associated with the rule. If you omit this, the default event bus is used.
-- `Policy`: A JSON string that describes the permission policy statement. You can include a Policy parameter in the request instead of using the StatementId, Action, Principal, or Condition parameters.
-- `Principal`: The 12-digit AWS account ID that you are permitting to put events to your default event bus. Specify \"*\" to permit any account to put events to your default event bus. If you specify \"*\" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
-- `StatementId`: An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
+- `Action`: The action that you are enabling the other account to perform. Currently, this
+  must be events:PutEvents.
+- `Condition`: This parameter enables you to limit the permission to accounts that fulfill
+  a certain condition, such as being a member of a certain AWS organization. For more
+  information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations
+  User Guide. If you specify Condition with an AWS organization ID, and specify \"*\" as the
+  value for Principal, you grant permission to all the accounts in the named organization.
+  The Condition is a JSON string which must contain Type, Key, and Value fields.
+- `EventBusName`: The name of the event bus associated with the rule. If you omit this, the
+  default event bus is used.
+- `Policy`: A JSON string that describes the permission policy statement. You can include a
+  Policy parameter in the request instead of using the StatementId, Action, Principal, or
+  Condition parameters.
+- `Principal`: The 12-digit AWS account ID that you are permitting to put events to your
+  default event bus. Specify \"*\" to permit any account to put events to your default event
+  bus. If you specify \"*\" without specifying Condition, avoid creating rules that may match
+  undesirable events. To create more secure rules, make sure that the event pattern for each
+  rule contains an account field with a specific account ID from which to receive events.
+  Rules with an account field do not match any events sent from other accounts.
+- `StatementId`: An identifier string for the external account that you are granting
+  permissions to. If you later want to revoke the permission for this external account,
+  specify this StatementId when you run RemovePermission.
 """
 put_permission(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutPermission"; aws_config=aws_config)
 put_permission(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutPermission", args; aws_config=aws_config)
@@ -425,17 +555,53 @@ put_permission(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=
 """
     PutRule()
 
-Creates or updates the specified rule. Rules are enabled by default, or based on value of the state. You can disable a rule using DisableRule. A single rule watches for events from a single event bus. Events generated by AWS services go to your account's default event bus. Events generated by SaaS partner services or applications go to the matching partner event bus. If you have custom applications or services, you can specify whether their events go to your default event bus or a custom event bus that you have created. For more information, see CreateEventBus. If you are updating an existing rule, the rule is replaced with what you specify in this PutRule command. If you omit arguments in PutRule, the old values for those arguments are not kept. Instead, they are replaced with null values. When you create or update a rule, incoming events might not immediately start matching to new or updated rules. Allow a short period of time for changes to take effect. A rule must contain at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when a matching event is observed. Rules with ScheduleExpressions self-trigger based on the given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which case the rule triggers on matching events as well as on a schedule. When you initially create a rule, you can optionally assign one or more tags to the rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only rules with certain tag values. To use the PutRule operation and assign tags, you must have both the events:PutRule and events:TagResource permissions. If you are updating an existing rule, any tags you specify in the PutRule operation are ignored. To update the tags of an existing rule, use TagResource and UntagResource. Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match. In EventBridge, it is possible to create rules that lead to infinite loops, where a rule is fired repeatedly. For example, a rule might detect that ACLs have changed on an S3 bucket, and trigger software to change them to the desired state. If the rule is not written carefully, the subsequent change to the ACLs fires the rule again, creating an infinite loop. To prevent this, write the rules so that the triggered actions do not re-fire the same rule. For example, your rule could fire only if ACLs are found to be in a bad state, instead of after any change.  An infinite loop can quickly cause higher than expected charges. We recommend that you use budgeting, which alerts you when charges exceed your specified limit. For more information, see Managing Your Costs with Budgets.
+Creates or updates the specified rule. Rules are enabled by default, or based on value of
+the state. You can disable a rule using DisableRule. A single rule watches for events from
+a single event bus. Events generated by AWS services go to your account's default event
+bus. Events generated by SaaS partner services or applications go to the matching partner
+event bus. If you have custom applications or services, you can specify whether their
+events go to your default event bus or a custom event bus that you have created. For more
+information, see CreateEventBus. If you are updating an existing rule, the rule is replaced
+with what you specify in this PutRule command. If you omit arguments in PutRule, the old
+values for those arguments are not kept. Instead, they are replaced with null values. When
+you create or update a rule, incoming events might not immediately start matching to new or
+updated rules. Allow a short period of time for changes to take effect. A rule must contain
+at least an EventPattern or ScheduleExpression. Rules with EventPatterns are triggered when
+a matching event is observed. Rules with ScheduleExpressions self-trigger based on the
+given schedule. A rule can have both an EventPattern and a ScheduleExpression, in which
+case the rule triggers on matching events as well as on a schedule. When you initially
+create a rule, you can optionally assign one or more tags to the rule. Tags can help you
+organize and categorize your resources. You can also use them to scope user permissions, by
+granting a user permission to access or change only rules with certain tag values. To use
+the PutRule operation and assign tags, you must have both the events:PutRule and
+events:TagResource permissions. If you are updating an existing rule, any tags you specify
+in the PutRule operation are ignored. To update the tags of an existing rule, use
+TagResource and UntagResource. Most services in AWS treat : or / as the same character in
+Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns
+and rules. Be sure to use the correct ARN characters when creating event patterns so that
+they match the ARN syntax in the event you want to match. In EventBridge, it is possible to
+create rules that lead to infinite loops, where a rule is fired repeatedly. For example, a
+rule might detect that ACLs have changed on an S3 bucket, and trigger software to change
+them to the desired state. If the rule is not written carefully, the subsequent change to
+the ACLs fires the rule again, creating an infinite loop. To prevent this, write the rules
+so that the triggered actions do not re-fire the same rule. For example, your rule could
+fire only if ACLs are found to be in a bad state, instead of after any change.  An infinite
+loop can quickly cause higher than expected charges. We recommend that you use budgeting,
+which alerts you when charges exceed your specified limit. For more information, see
+Managing Your Costs with Budgets.
 
 # Required Parameters
 - `Name`: The name of the rule that you are creating or updating.
 
 # Optional Parameters
 - `Description`: A description of the rule.
-- `EventBusName`: The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
-- `EventPattern`: The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
+- `EventBusName`: The name or ARN of the event bus to associate with this rule. If you omit
+  this, the default event bus is used.
+- `EventPattern`: The event pattern. For more information, see Events and Event Patterns in
+  the Amazon EventBridge User Guide.
 - `RoleArn`: The Amazon Resource Name (ARN) of the IAM role associated with the rule.
-- `ScheduleExpression`: The scheduling expression. For example, \"cron(0 20 * * ? *)\" or \"rate(5 minutes)\".
+- `ScheduleExpression`: The scheduling expression. For example, \"cron(0 20 * * ? *)\" or
+  \"rate(5 minutes)\".
 - `State`: Indicates whether the rule is enabled or disabled.
 - `Tags`: The list of key-value pairs to associate with the rule.
 """
@@ -445,14 +611,65 @@ put_rule(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=
 """
     PutTargets()
 
-Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. You can configure the following as targets for Events:   EC2 instances   SSM Run Command   SSM Automation   AWS Lambda functions   Data streams in Amazon Kinesis Data Streams   Data delivery streams in Amazon Kinesis Data Firehose   Amazon ECS tasks   AWS Step Functions state machines   AWS Batch jobs   AWS CodeBuild projects   Pipelines in AWS CodePipeline   Amazon Inspector assessment templates   Amazon SNS topics   Amazon SQS queues, including FIFO queues   The default event bus of another AWS account   Amazon API Gateway REST APIs   Redshift Clusters to invoke Data API ExecuteStatement on   Creating rules with built-in targets is supported only in the AWS Management Console. The built-in targets are EC2 CreateSnapshot API call, EC2 RebootInstances API call, EC2 StopInstances API call, and EC2 TerminateInstances API call.  For some target types, PutTargets provides target-specific parameters. If the target is a Kinesis data stream, you can optionally specify which shard the event goes to by using the KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule, you can use the RunCommandParameters field. To be able to make API calls against the resources that you own, Amazon EventBridge (CloudWatch Events) needs the appropriate permissions. For AWS Lambda and Amazon SNS resources, EventBridge relies on resource-based policies. For EC2 instances, Kinesis data streams, AWS Step Functions state machines and API Gateway REST APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in PutTargets. For more information, see Authentication and Access Control in the Amazon EventBridge User Guide. If another AWS account is in the same region and has granted you permission (using PutPermission), you can send events to that account. Set that account's event bus as a target of the rules in your account. To send the matched events to the other account, specify that account's event bus as the Arn value when you run PutTargets. If your account sends events to another account, your account is charged for each sent event. Each event sent to another account is charged as a custom event. The account receiving the event is not charged. For more information, see Amazon EventBridge (CloudWatch Events) Pricing.   Input, InputPath, and InputTransformer are not available with PutTarget if the target is an event bus of a different AWS account.  If you are setting the event bus of another account as the target, and that account granted permission to your account through an organization instead of directly by the account ID, then you must specify a RoleArn with proper permissions in the Target structure. For more information, see Sending and Receiving Events Between AWS Accounts in the Amazon EventBridge User Guide. For more information about enabling cross-account events, see PutPermission.  Input, InputPath, and InputTransformer are mutually exclusive and optional parameters of a target. When a rule is triggered due to a matched event:   If none of the following arguments are specified for a target, then the entire event is passed to the target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in which case nothing from the event is passed to the target).   If Input is specified in the form of valid JSON, then the matched event is overridden with this constant.   If InputPath is specified in the form of JSONPath (for example, .detail), then only the part of the event specified in the path is passed to the target (for example, only the detail part of the event is passed).   If InputTransformer is specified, then one or more specified JSONPaths are extracted from the event and used as values in a template that you specify as the input to the target.   When you specify InputPath or InputTransformer, you must use JSON dot notation, not bracket notation. When you add targets to a rule and the associated rule triggers soon after, new or updated targets might not be immediately invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.
+Adds the specified targets to the specified rule, or updates the targets if they are
+already associated with the rule. Targets are the resources that are invoked when a rule is
+triggered. You can configure the following as targets for Events:   EC2 instances   SSM Run
+Command   SSM Automation   AWS Lambda functions   Data streams in Amazon Kinesis Data
+Streams   Data delivery streams in Amazon Kinesis Data Firehose   Amazon ECS tasks   AWS
+Step Functions state machines   AWS Batch jobs   AWS CodeBuild projects   Pipelines in AWS
+CodePipeline   Amazon Inspector assessment templates   Amazon SNS topics   Amazon SQS
+queues, including FIFO queues   The default event bus of another AWS account   Amazon API
+Gateway REST APIs   Redshift Clusters to invoke Data API ExecuteStatement on   Creating
+rules with built-in targets is supported only in the AWS Management Console. The built-in
+targets are EC2 CreateSnapshot API call, EC2 RebootInstances API call, EC2 StopInstances
+API call, and EC2 TerminateInstances API call.  For some target types, PutTargets provides
+target-specific parameters. If the target is a Kinesis data stream, you can optionally
+specify which shard the event goes to by using the KinesisParameters argument. To invoke a
+command on multiple EC2 instances with one rule, you can use the RunCommandParameters
+field. To be able to make API calls against the resources that you own, Amazon EventBridge
+(CloudWatch Events) needs the appropriate permissions. For AWS Lambda and Amazon SNS
+resources, EventBridge relies on resource-based policies. For EC2 instances, Kinesis data
+streams, AWS Step Functions state machines and API Gateway REST APIs, EventBridge relies on
+IAM roles that you specify in the RoleARN argument in PutTargets. For more information, see
+Authentication and Access Control in the Amazon EventBridge User Guide. If another AWS
+account is in the same region and has granted you permission (using PutPermission), you can
+send events to that account. Set that account's event bus as a target of the rules in your
+account. To send the matched events to the other account, specify that account's event bus
+as the Arn value when you run PutTargets. If your account sends events to another account,
+your account is charged for each sent event. Each event sent to another account is charged
+as a custom event. The account receiving the event is not charged. For more information,
+see Amazon EventBridge (CloudWatch Events) Pricing.   Input, InputPath, and
+InputTransformer are not available with PutTarget if the target is an event bus of a
+different AWS account.  If you are setting the event bus of another account as the target,
+and that account granted permission to your account through an organization instead of
+directly by the account ID, then you must specify a RoleArn with proper permissions in the
+Target structure. For more information, see Sending and Receiving Events Between AWS
+Accounts in the Amazon EventBridge User Guide. For more information about enabling
+cross-account events, see PutPermission.  Input, InputPath, and InputTransformer are
+mutually exclusive and optional parameters of a target. When a rule is triggered due to a
+matched event:   If none of the following arguments are specified for a target, then the
+entire event is passed to the target in JSON format (unless the target is Amazon EC2 Run
+Command or Amazon ECS task, in which case nothing from the event is passed to the target).
+ If Input is specified in the form of valid JSON, then the matched event is overridden with
+this constant.   If InputPath is specified in the form of JSONPath (for example, .detail),
+then only the part of the event specified in the path is passed to the target (for example,
+only the detail part of the event is passed).   If InputTransformer is specified, then one
+or more specified JSONPaths are extracted from the event and used as values in a template
+that you specify as the input to the target.   When you specify InputPath or
+InputTransformer, you must use JSON dot notation, not bracket notation. When you add
+targets to a rule and the associated rule triggers soon after, new or updated targets might
+not be immediately invoked. Allow a short period of time for changes to take effect. This
+action can partially fail if too many requests are made at the same time. If that happens,
+FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the
+ID of the failed target and the error code.
 
 # Required Parameters
 - `Rule`: The name of the rule.
 - `Targets`: The targets to update or add to the rule.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit
+  this, the default event bus is used.
 """
 put_targets(Rule, Targets; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutTargets", Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets); aws_config=aws_config)
 put_targets(Rule, Targets, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("PutTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets), args)); aws_config=aws_config)
@@ -460,12 +677,17 @@ put_targets(Rule, Targets, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     RemovePermission()
 
-Revokes the permission of another AWS account to be able to put events to the specified event bus. Specify the account to revoke by the StatementId value that you associated with the account when you granted it permission with PutPermission. You can find the StatementId by using DescribeEventBus.
+Revokes the permission of another AWS account to be able to put events to the specified
+event bus. Specify the account to revoke by the StatementId value that you associated with
+the account when you granted it permission with PutPermission. You can find the StatementId
+by using DescribeEventBus.
 
 # Optional Parameters
-- `EventBusName`: The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
+- `EventBusName`: The name of the event bus to revoke permissions for. If you omit this,
+  the default event bus is used.
 - `RemoveAllPermissions`: Specifies whether to remove all permissions.
-- `StatementId`: The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
+- `StatementId`: The statement ID corresponding to the account that is no longer allowed to
+  put events to the default event bus.
 """
 remove_permission(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission"; aws_config=aws_config)
 remove_permission(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("RemovePermission", args; aws_config=aws_config)
@@ -473,15 +695,24 @@ remove_permission(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 """
     RemoveTargets()
 
-Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked. When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect. This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.
+Removes the specified targets from the specified rule. When the rule is triggered, those
+targets are no longer be invoked. When you remove a target, when the associated rule
+triggers, removed targets might continue to be invoked. Allow a short period of time for
+changes to take effect. This action can partially fail if too many requests are made at the
+same time. If that happens, FailedEntryCount is non-zero in the response and each entry in
+FailedEntries provides the ID of the failed target and the error code.
 
 # Required Parameters
 - `Ids`: The IDs of the targets to remove from the rule.
 - `Rule`: The name of the rule.
 
 # Optional Parameters
-- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit this, the default event bus is used.
-- `Force`: If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
+- `EventBusName`: The name or ARN of the event bus associated with the rule. If you omit
+  this, the default event bus is used.
+- `Force`: If this is a managed rule, created by an AWS service on your behalf, you must
+  specify Force as True to remove targets. This parameter is ignored for rules that are not
+  managed rules. You can check whether a rule is a managed rule by using DescribeRule or
+  ListRules and checking the ManagedBy field of the response.
 """
 remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("RemoveTargets", Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule); aws_config=aws_config)
 remove_targets(Ids, Rule, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("RemoveTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule), args)); aws_config=aws_config)
@@ -489,13 +720,23 @@ remove_targets(Ids, Rule, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     StartReplay()
 
-Starts the specified replay. Events are not necessarily replayed in the exact same order that they were added to the archive. A replay processes events to replay based on the time in the event, and replays them using 1 minute intervals. If you specify an EventStartTime and an EventEndTime that covers a 20 minute time range, the events are replayed from the first minute of that 20 minute range first. Then the events from the second minute are replayed. You can use DescribeReplay to determine the progress of a replay. The value returned for EventLastReplayedTime indicates the time within the specified time range associated with the last event replayed.
+Starts the specified replay. Events are not necessarily replayed in the exact same order
+that they were added to the archive. A replay processes events to replay based on the time
+in the event, and replays them using 1 minute intervals. If you specify an EventStartTime
+and an EventEndTime that covers a 20 minute time range, the events are replayed from the
+first minute of that 20 minute range first. Then the events from the second minute are
+replayed. You can use DescribeReplay to determine the progress of a replay. The value
+returned for EventLastReplayedTime indicates the time within the specified time range
+associated with the last event replayed.
 
 # Required Parameters
-- `Destination`: A ReplayDestination object that includes details about the destination for the replay.
-- `EventEndTime`: A time stamp for the time to stop replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
+- `Destination`: A ReplayDestination object that includes details about the destination for
+  the replay.
+- `EventEndTime`: A time stamp for the time to stop replaying events. Only events that
+  occurred between the EventStartTime and EventEndTime are replayed.
 - `EventSourceArn`: The ARN of the archive to replay events from.
-- `EventStartTime`: A time stamp for the time to start replaying events. Only events that occurred between the EventStartTime and EventEndTime are replayed.
+- `EventStartTime`: A time stamp for the time to start replaying events. Only events that
+  occurred between the EventStartTime and EventEndTime are replayed.
 - `ReplayName`: The name of the replay to start.
 
 # Optional Parameters
@@ -507,7 +748,16 @@ start_replay(Destination, EventEndTime, EventSourceArn, EventStartTime, ReplayNa
 """
     TagResource()
 
-Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In EventBridge, rules and event buses can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource.
+Assigns one or more tags (key-value pairs) to the specified EventBridge resource. Tags can
+help you organize and categorize your resources. You can also use them to scope user
+permissions by granting a user permission to access or change only resources with certain
+tag values. In EventBridge, rules and event buses can be tagged. Tags don't have any
+semantic meaning to AWS and are interpreted strictly as strings of characters. You can use
+the TagResource action with a resource that already has tags. If you specify a new tag key,
+this tag is appended to the list of tags associated with the resource. If you specify a tag
+key that is already associated with the resource, the new tag value that you specify
+replaces the previous value for that tag. You can associate as many as 50 tags with a
+resource.
 
 # Required Parameters
 - `ResourceARN`: The ARN of the EventBridge resource that you're adding tags to.
@@ -520,11 +770,16 @@ tag_resource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     TestEventPattern()
 
-Tests whether the specified event pattern matches the provided event. Most services in AWS treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge uses an exact match in event patterns and rules. Be sure to use the correct ARN characters when creating event patterns so that they match the ARN syntax in the event you want to match.
+Tests whether the specified event pattern matches the provided event. Most services in AWS
+treat : or / as the same character in Amazon Resource Names (ARNs). However, EventBridge
+uses an exact match in event patterns and rules. Be sure to use the correct ARN characters
+when creating event patterns so that they match the ARN syntax in the event you want to
+match.
 
 # Required Parameters
 - `Event`: The event, in JSON format, to test against the event pattern.
-- `EventPattern`: The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
+- `EventPattern`: The event pattern. For more information, see Events and Event Patterns in
+  the Amazon EventBridge User Guide.
 
 """
 test_event_pattern(Event, EventPattern; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_events("TestEventPattern", Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern); aws_config=aws_config)
@@ -533,7 +788,8 @@ test_event_pattern(Event, EventPattern, args::AbstractDict{String, <:Any}; aws_c
 """
     UntagResource()
 
-Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge (CloudWatch Events, rules and event buses can be tagged.
+Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge
+(CloudWatch Events, rules and event buses can be tagged.
 
 # Required Parameters
 - `ResourceARN`: The ARN of the EventBridge resource from which you are removing tags.

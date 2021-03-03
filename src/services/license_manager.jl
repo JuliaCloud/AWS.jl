@@ -36,10 +36,14 @@ check_in_license(LicenseConsumptionToken, args::AbstractDict{String, <:Any}; aws
 Checks out the specified license for offline use.
 
 # Required Parameters
-- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `DigitalSignatureMethod`: Digital signature method. The possible value is JSON Web Signature (JWS) algorithm PS384. For more information, see RFC 7518 Digital Signature with RSASSA-PSS.
+- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `DigitalSignatureMethod`: Digital signature method. The possible value is JSON Web
+  Signature (JWS) algorithm PS384. For more information, see RFC 7518 Digital Signature with
+  RSASSA-PSS.
 - `Entitlements`: License entitlements. Partial checkouts are not supported.
-- `LicenseArn`: Amazon Resource Name (ARN) of the license. The license must use the borrow consumption configuration.
+- `LicenseArn`: Amazon Resource Name (ARN) of the license. The license must use the borrow
+  consumption configuration.
 
 # Optional Parameters
 - `CheckoutMetadata`: Information about constraints.
@@ -55,7 +59,8 @@ Checks out the specified license.
 
 # Required Parameters
 - `CheckoutType`: Checkout type.
-- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `Entitlements`: License entitlements.
 - `KeyFingerprint`: Key fingerprint identifying the license.
 - `ProductSKU`: Product SKU.
@@ -70,11 +75,13 @@ checkout_license(CheckoutType, ClientToken, Entitlements, KeyFingerprint, Produc
 """
     CreateGrant()
 
-Creates a grant for the specified license. A grant shares the use of license entitlements with specific AWS accounts.
+Creates a grant for the specified license. A grant shares the use of license entitlements
+with specific AWS accounts.
 
 # Required Parameters
 - `AllowedOperations`: Allowed operations for the grant.
-- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `GrantName`: Grant name.
 - `HomeRegion`: Home Region of the grant.
 - `LicenseArn`: Amazon Resource Name (ARN) of the license.
@@ -90,7 +97,8 @@ create_grant(AllowedOperations, ClientToken, GrantName, HomeRegion, LicenseArn, 
 Creates a new version of the specified grant.
 
 # Required Parameters
-- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `GrantArn`: Amazon Resource Name (ARN) of the grant.
 
 # Optional Parameters
@@ -109,8 +117,11 @@ Creates a license.
 
 # Required Parameters
 - `Beneficiary`: License beneficiary.
-- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `ConsumptionConfiguration`: Configuration for consumption of the license. Choose a provisional configuration for workloads running with continuous connectivity. Choose a borrow configuration for workloads with offline usage.
+- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `ConsumptionConfiguration`: Configuration for consumption of the license. Choose a
+  provisional configuration for workloads running with continuous connectivity. Choose a
+  borrow configuration for workloads with offline usage.
 - `Entitlements`: License entitlements.
 - `HomeRegion`: Home Region for the license.
 - `Issuer`: License issuer.
@@ -128,7 +139,12 @@ create_license(Beneficiary, ClientToken, ConsumptionConfiguration, Entitlements,
 """
     CreateLicenseConfiguration()
 
-Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
+Creates a license configuration. A license configuration is an abstraction of a customer
+license agreement that can be consumed and enforced by License Manager. Components include
+specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed
+tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license
+affinity to host (how long a license must be associated with a host), and the number of
+licenses purchased and used.
 
 # Required Parameters
 - `LicenseCountingType`: Dimension used to track the license inventory.
@@ -136,10 +152,21 @@ Creates a license configuration. A license configuration is an abstraction of a 
 
 # Optional Parameters
 - `Description`: Description of the license configuration.
-- `DisassociateWhenNotFound`: When true, disassociates a resource when software is uninstalled.
+- `DisassociateWhenNotFound`: When true, disassociates a resource when software is
+  uninstalled.
 - `LicenseCount`: Number of licenses managed by the license configuration.
-- `LicenseCountHardLimit`: Indicates whether hard or soft license enforcement is used. Exceeding a hard limit blocks the launch of new instances.
-- `LicenseRules`: License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows.    Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores     Instances dimension: allowedTenancy | maximumCores | minimumCores | maximumSockets | minimumSockets | maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy | licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy | honorVcpuOptimization | maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost is days and the range is 1 to 180. The possible values for allowedTenancy are EC2-Default, EC2-DedicatedHost, and EC2-DedicatedInstance. The possible values for honorVcpuOptimization are True and False.
+- `LicenseCountHardLimit`: Indicates whether hard or soft license enforcement is used.
+  Exceeding a hard limit blocks the launch of new instances.
+- `LicenseRules`: License rules. The syntax is #name=value (for example,
+  #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows.
+  Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores
+  Instances dimension: allowedTenancy | maximumCores | minimumCores | maximumSockets |
+  minimumSockets | maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy |
+  licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy
+  | honorVcpuOptimization | maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost
+  is days and the range is 1 to 180. The possible values for allowedTenancy are EC2-Default,
+  EC2-DedicatedHost, and EC2-DedicatedInstance. The possible values for honorVcpuOptimization
+  are True and False.
 - `ProductInformationList`: Product information.
 - `Tags`: Tags to add to the license configuration.
 """
@@ -152,8 +179,11 @@ create_license_configuration(LicenseCountingType, Name, args::AbstractDict{Strin
 Creates a new version of the specified license.
 
 # Required Parameters
-- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `ConsumptionConfiguration`: Configuration for consumption of the license. Choose a provisional configuration for workloads running with continuous connectivity. Choose a borrow configuration for workloads with offline usage.
+- `ClientToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `ConsumptionConfiguration`: Configuration for consumption of the license. Choose a
+  provisional configuration for workloads running with continuous connectivity. Choose a
+  borrow configuration for workloads with offline usage.
 - `Entitlements`: License entitlements.
 - `HomeRegion`: Home Region of the license.
 - `Issuer`: License issuer.
@@ -173,16 +203,22 @@ create_license_version(ClientToken, ConsumptionConfiguration, Entitlements, Home
 """
     CreateToken()
 
-Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license.
+Creates a long-lived token. A refresh token is a JWT token used to get an access token.
+With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that
+you can use to call License Manager to manage the specified license.
 
 # Required Parameters
 - `ClientToken`: Idempotency token, valid for 10 minutes.
-- `LicenseArn`: Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud claim of the JWT token.
+- `LicenseArn`: Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud
+  claim of the JWT token.
 
 # Optional Parameters
-- `ExpirationInDays`: Token expiration, in days, counted from token creation. The default is 365 days.
-- `RoleArns`: Amazon Resource Name (ARN) of the IAM roles to embed in the token. License Manager does not check whether the roles are in use.
-- `TokenProperties`: Data specified by the caller to be included in the JWT token. The data is mapped to the amr claim of the JWT token.
+- `ExpirationInDays`: Token expiration, in days, counted from token creation. The default
+  is 365 days.
+- `RoleArns`: Amazon Resource Name (ARN) of the IAM roles to embed in the token. License
+  Manager does not check whether the roles are in use.
+- `TokenProperties`: Data specified by the caller to be included in the JWT token. The data
+  is mapped to the amr claim of the JWT token.
 """
 create_token(ClientToken, LicenseArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateToken", Dict{String, Any}("ClientToken"=>ClientToken, "LicenseArn"=>LicenseArn); aws_config=aws_config)
 create_token(ClientToken, LicenseArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "LicenseArn"=>LicenseArn), args)); aws_config=aws_config)
@@ -216,7 +252,8 @@ delete_license(LicenseArn, SourceVersion, args::AbstractDict{String, <:Any}; aws
 """
     DeleteLicenseConfiguration()
 
-Deletes the specified license configuration. You cannot delete a license configuration that is in use.
+Deletes the specified license configuration. You cannot delete a license configuration that
+is in use.
 
 # Required Parameters
 - `LicenseConfigurationArn`: ID of the license configuration.
@@ -246,7 +283,9 @@ Extends the expiration date for license consumption.
 - `LicenseConsumptionToken`: License consumption token.
 
 # Optional Parameters
-- `DryRun`: Checks whether you have the required permissions for the action, without actually making the request. Provides an error response if you do not have the required permissions.
+- `DryRun`: Checks whether you have the required permissions for the action, without
+  actually making the request. Provides an error response if you do not have the required
+  permissions.
 """
 extend_license_consumption(LicenseConsumptionToken; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ExtendLicenseConsumption", Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken); aws_config=aws_config)
 extend_license_consumption(LicenseConsumptionToken, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ExtendLicenseConsumption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken), args)); aws_config=aws_config)
@@ -254,7 +293,8 @@ extend_license_consumption(LicenseConsumptionToken, args::AbstractDict{String, <
 """
     GetAccessToken()
 
-Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour.
+Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are
+valid for one hour.
 
 # Required Parameters
 - `Token`: Refresh token, encoded as a JWT token.
@@ -329,7 +369,9 @@ get_service_settings(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     ListAssociationsForLicenseConfiguration()
 
-Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
+Lists the resource associations for the specified license configuration. Resource
+associations need not consume licenses from a license configuration. For example, an AMI or
+a stopped instance might not consume a license (depending on the license rules).
 
 # Required Parameters
 - `LicenseConfigurationArn`: Amazon Resource Name (ARN) of a license configuration.
@@ -347,7 +389,8 @@ list_associations_for_license_configuration(LicenseConfigurationArn, args::Abstr
 Lists the grants distributed for the specified license.
 
 # Optional Parameters
-- `Filters`: Filters to scope the results. The following filters are supported:    LicenseARN     Status     PrincipalARN     ParentARN   
+- `Filters`: Filters to scope the results. The following filters are supported:
+  LicenseARN     Status     PrincipalARN     ParentARN
 - `GrantArns`: Amazon Resource Names (ARNs) of the grants.
 - `MaxResults`: Maximum number of results to return in a single call.
 - `NextToken`: Token for the next set of results.
@@ -376,7 +419,13 @@ list_failures_for_license_configuration_operations(LicenseConfigurationArn, args
 Lists the license configurations for your account.
 
 # Optional Parameters
-- `Filters`: Filters to scope the results. The following filters and logical operators are supported:    licenseCountingType - The dimension on which licenses are counted. Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A Boolean value that indicates whether the available licenses have been exceeded. Logical operators are EQUALS | NOT_EQUALS.  
+- `Filters`: Filters to scope the results. The following filters and logical operators are
+  supported:    licenseCountingType - The dimension on which licenses are counted. Possible
+  values are vCPU | Instance | Core | Socket. Logical operators are EQUALS | NOT_EQUALS.
+  enforceLicenseCount - A Boolean value that indicates whether hard license enforcement is
+  used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A Boolean value
+  that indicates whether the available licenses have been exceeded. Logical operators are
+  EQUALS | NOT_EQUALS.
 - `LicenseConfigurationArns`: Amazon Resource Names (ARN) of the license configurations.
 - `MaxResults`: Maximum number of results to return in a single call.
 - `NextToken`: Token for the next set of results.
@@ -390,7 +439,8 @@ list_license_configurations(args::AbstractDict{String, <:Any}; aws_config::Abstr
 Describes the license configurations for the specified resource.
 
 # Required Parameters
-- `ResourceArn`: Amazon Resource Name (ARN) of a resource that has an associated license configuration.
+- `ResourceArn`: Amazon Resource Name (ARN) of a resource that has an associated license
+  configuration.
 
 # Optional Parameters
 - `MaxResults`: Maximum number of results to return in a single call.
@@ -420,7 +470,8 @@ list_license_versions(LicenseArn, args::AbstractDict{String, <:Any}; aws_config:
 Lists the licenses for your account.
 
 # Optional Parameters
-- `Filters`: Filters to scope the results. The following filters are supported:    Beneficiary     ProductSKU     KeyFingerprint     Status   
+- `Filters`: Filters to scope the results. The following filters are supported:
+  Beneficiary     ProductSKU     KeyFingerprint     Status
 - `LicenseArns`: Amazon Resource Names (ARNs) of the licenses.
 - `MaxResults`: Maximum number of results to return in a single call.
 - `NextToken`: Token for the next set of results.
@@ -434,7 +485,8 @@ list_licenses(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=g
 Lists grants that are received but not accepted.
 
 # Optional Parameters
-- `Filters`: Filters to scope the results. The following filters are supported:    LicenseARN     Status   
+- `Filters`: Filters to scope the results. The following filters are supported:
+  LicenseARN     Status
 - `GrantArns`: Amazon Resource Names (ARNs) of the grants.
 - `MaxResults`: Maximum number of results to return in a single call.
 - `NextToken`: Token for the next set of results.
@@ -448,7 +500,8 @@ list_received_grants(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 Lists received licenses.
 
 # Optional Parameters
-- `Filters`: Filters to scope the results. The following filters are supported:    ProductSKU     Status     KeyFingerprint     Issuer   
+- `Filters`: Filters to scope the results. The following filters are supported:
+  ProductSKU     Status     KeyFingerprint     Issuer
 - `LicenseArns`: Amazon Resource Names (ARNs) of the licenses.
 - `MaxResults`: Maximum number of results to return in a single call.
 - `NextToken`: Token for the next set of results.
@@ -462,7 +515,16 @@ list_received_licenses(args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 Lists resources managed using Systems Manager inventory.
 
 # Optional Parameters
-- `Filters`: Filters to scope the results. The following filters and logical operators are supported:    account_id - The ID of the AWS account that owns the resource. Logical operators are EQUALS | NOT_EQUALS.    application_name - The name of the application. Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of license included. Logical operators are EQUALS | NOT_EQUALS. Possible values are sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.    platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH.    resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Logical operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account).  
+- `Filters`: Filters to scope the results. The following filters and logical operators are
+  supported:    account_id - The ID of the AWS account that owns the resource. Logical
+  operators are EQUALS | NOT_EQUALS.    application_name - The name of the application.
+  Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of license
+  included. Logical operators are EQUALS | NOT_EQUALS. Possible values are
+  sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.
+   platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH.
+  resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS.
+  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Logical
+  operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account).
 - `MaxResults`: Maximum number of results to return in a single call.
 - `NextToken`: Token for the next set of results.
 """
@@ -487,7 +549,8 @@ list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_confi
 Lists your tokens.
 
 # Optional Parameters
-- `Filters`: Filters to scope the results. The following filter is supported:    licenseArns   
+- `Filters`: Filters to scope the results. The following filter is supported:
+  licenseArns
 - `MaxResults`: Maximum number of results to return in a single call.
 - `NextToken`: Token for the next set of results.
 - `TokenIds`: Token IDs.
@@ -498,13 +561,20 @@ list_tokens(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=glo
 """
     ListUsageForLicenseConfiguration()
 
-Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
+Lists all license usage records for a license configuration, displaying license consumption
+details by resource at a selected point in time. Use this action to audit the current
+license consumption for any license inventory and configuration.
 
 # Required Parameters
 - `LicenseConfigurationArn`: Amazon Resource Name (ARN) of the license configuration.
 
 # Optional Parameters
-- `Filters`: Filters to scope the results. The following filters and logical operators are supported:    resourceArn - The ARN of the license configuration resource. Logical operators are EQUALS | NOT_EQUALS.    resourceType - The resource type (EC2_INSTANCE | EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE). Logical operators are EQUALS | NOT_EQUALS.    resourceAccount - The ID of the account that owns the resource. Logical operators are EQUALS | NOT_EQUALS.  
+- `Filters`: Filters to scope the results. The following filters and logical operators are
+  supported:    resourceArn - The ARN of the license configuration resource. Logical
+  operators are EQUALS | NOT_EQUALS.    resourceType - The resource type (EC2_INSTANCE |
+  EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE). Logical operators are EQUALS |
+  NOT_EQUALS.    resourceAccount - The ID of the account that owns the resource. Logical
+  operators are EQUALS | NOT_EQUALS.
 - `MaxResults`: Maximum number of results to return in a single call.
 - `NextToken`: Token for the next set of results.
 """
@@ -559,11 +629,13 @@ Modifies the attributes of an existing license configuration.
 
 # Optional Parameters
 - `Description`: New description of the license configuration.
-- `DisassociateWhenNotFound`: When true, disassociates a resource when software is uninstalled.
+- `DisassociateWhenNotFound`: When true, disassociates a resource when software is
+  uninstalled.
 - `LicenseConfigurationStatus`: New status of the license configuration.
 - `LicenseCount`: New number of licenses managed by the license configuration.
 - `LicenseCountHardLimit`: New hard limit of the number of available licenses.
-- `LicenseRules`: New license rule. The only rule that you can add after you create a license configuration is licenseAffinityToHost.
+- `LicenseRules`: New license rule. The only rule that you can add after you create a
+  license configuration is licenseAffinityToHost.
 - `Name`: New name of the license configuration.
 - `ProductInformationList`: New product information.
 """
@@ -573,7 +645,10 @@ update_license_configuration(LicenseConfigurationArn, args::AbstractDict{String,
 """
     UpdateLicenseSpecificationsForResource()
 
-Adds or removes the specified license configurations for the specified AWS resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and AWS CloudFormation templates, as they send license configurations to the operation that creates the resource.
+Adds or removes the specified license configurations for the specified AWS resource. You
+can update the license specifications of AMIs, instances, and hosts. You cannot update the
+license specifications for launch templates and AWS CloudFormation templates, as they send
+license configurations to the operation that creates the resource.
 
 # Required Parameters
 - `ResourceArn`: Amazon Resource Name (ARN) of the AWS resource.
@@ -592,9 +667,12 @@ Updates License Manager settings for the current Region.
 
 # Optional Parameters
 - `EnableCrossAccountsDiscovery`: Activates cross-account discovery.
-- `OrganizationConfiguration`: Enables integration with AWS Organizations for cross-account discovery.
-- `S3BucketArn`: Amazon Resource Name (ARN) of the Amazon S3 bucket where the License Manager information is stored.
-- `SnsTopicArn`: Amazon Resource Name (ARN) of the Amazon SNS topic used for License Manager alerts.
+- `OrganizationConfiguration`: Enables integration with AWS Organizations for cross-account
+  discovery.
+- `S3BucketArn`: Amazon Resource Name (ARN) of the Amazon S3 bucket where the License
+  Manager information is stored.
+- `SnsTopicArn`: Amazon Resource Name (ARN) of the Amazon SNS topic used for License
+  Manager alerts.
 """
 update_service_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings"; aws_config=aws_config)
 update_service_settings(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings", args; aws_config=aws_config)

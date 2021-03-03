@@ -7,15 +7,19 @@ using AWS.UUIDs
 """
     CreateApplication()
 
-Creates a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change. 
+Creates a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT
+Device Management is in public preview and is subject to change.
 
 # Required Parameters
 - `applicationName`: The name of the web application.
-- `roleArn`: The ARN of the role that the web application assumes when it interacts with AWS IoT Core.  The name of the role must be in the form AWSIotFleetHub_random_string . 
+- `roleArn`: The ARN of the role that the web application assumes when it interacts with
+  AWS IoT Core.  The name of the role must be in the form AWSIotFleetHub_random_string .
 
 # Optional Parameters
 - `applicationDescription`: An optional description of the web application.
-- `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+- `clientToken`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
 - `tags`: A set of key/value pairs that you can use to manage the web application resource.
 """
 create_application(applicationName, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iotfleethub("POST", "/applications", Dict{String, Any}("applicationName"=>applicationName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
@@ -24,13 +28,16 @@ create_application(applicationName, roleArn, args::AbstractDict{String, <:Any}; 
 """
     DeleteApplication()
 
-Deletes a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change. 
+Deletes a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT
+Device Management is in public preview and is subject to change.
 
 # Required Parameters
 - `applicationId`: The unique Id of the web application.
 
 # Optional Parameters
-- `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+- `clientToken`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
 """
 delete_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = iotfleethub("DELETE", "/applications/$(applicationId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 delete_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotfleethub("DELETE", "/applications/$(applicationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -38,7 +45,8 @@ delete_application(applicationId, args::AbstractDict{String, <:Any}; aws_config:
 """
     DescribeApplication()
 
-Gets information about a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change. 
+Gets information about a Fleet Hub for AWS IoT Device Management web application.  Fleet
+Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 # Required Parameters
 - `applicationId`: The unique Id of the web application.
@@ -50,7 +58,9 @@ describe_application(applicationId, args::AbstractDict{String, <:Any}; aws_confi
 """
     ListApplications()
 
-Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current account.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change. 
+Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current
+account.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to
+change.
 
 # Optional Parameters
 - `nextToken`: A token used to get the next set of results.
@@ -61,7 +71,8 @@ list_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 """
     ListTagsForResource()
 
-Lists the tags for the specified resource.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change. 
+Lists the tags for the specified resource.  Fleet Hub for AWS IoT Device Management is in
+public preview and is subject to change.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource.
@@ -73,7 +84,9 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     TagResource()
 
-Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change. 
+Adds to or modifies the tags of the specified resource. Tags are metadata which can be used
+to manage a resource.  Fleet Hub for AWS IoT Device Management is in public preview and is
+subject to change.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource.
@@ -86,7 +99,8 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
-Removes the specified tags (metadata) from the resource.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change. 
+Removes the specified tags (metadata) from the resource.  Fleet Hub for AWS IoT Device
+Management is in public preview and is subject to change.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource.
@@ -99,7 +113,8 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateApplication()
 
-Updates information about a Fleet Hub for a AWS IoT Device Management web application.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to change. 
+Updates information about a Fleet Hub for a AWS IoT Device Management web application.
+Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 # Required Parameters
 - `applicationId`: The unique Id of the web application.
@@ -107,7 +122,9 @@ Updates information about a Fleet Hub for a AWS IoT Device Management web applic
 # Optional Parameters
 - `applicationDescription`: An optional description of the web application.
 - `applicationName`: The name of the web application.
-- `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+- `clientToken`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
 """
 update_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = iotfleethub("PATCH", "/applications/$(applicationId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 update_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotfleethub("PATCH", "/applications/$(applicationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)

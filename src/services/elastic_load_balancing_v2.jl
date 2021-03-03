@@ -7,10 +7,15 @@ using AWS.UUIDs
 """
     AddListenerCertificates()
 
-Adds the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener. If the certificate in already in the certificate list, the call is successful but the certificate is not added again. For more information, see HTTPS listeners in the Application Load Balancers Guide or TLS listeners in the Network Load Balancers Guide.
+Adds the specified SSL server certificate to the certificate list for the specified HTTPS
+or TLS listener. If the certificate in already in the certificate list, the call is
+successful but the certificate is not added again. For more information, see HTTPS
+listeners in the Application Load Balancers Guide or TLS listeners in the Network Load
+Balancers Guide.
 
 # Required Parameters
-- `Certificates`: The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
+- `Certificates`: The certificate to add. You can specify one certificate per call. Set
+  CertificateArn to the certificate ARN but do not set IsDefault.
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
 
 """
@@ -20,7 +25,10 @@ add_listener_certificates(Certificates, ListenerArn, args::AbstractDict{String, 
 """
     AddTags()
 
-Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, listeners, and rules. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value.
+Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your
+Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups,
+listeners, and rules. Each tag consists of a key and an optional value. If a resource
+already has a tag with the same key, AddTags updates its value.
 
 # Required Parameters
 - `ResourceArns`: The Amazon Resource Name (ARN) of the resource.
@@ -33,18 +41,35 @@ add_tags(ResourceArns, Tags, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     CreateListener()
 
-Creates a listener for the specified Application Load Balancer, Network Load Balancer. or Gateway Load Balancer. For more information, see the following:    Listeners for your Application Load Balancers     Listeners for your Network Load Balancers     Listeners for your Gateway Load Balancers    This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple listeners with the same settings, each call succeeds.
+Creates a listener for the specified Application Load Balancer, Network Load Balancer, or
+Gateway Load Balancer. For more information, see the following:    Listeners for your
+Application Load Balancers     Listeners for your Network Load Balancers     Listeners for
+your Gateway Load Balancers    This operation is idempotent, which means that it completes
+at most one time. If you attempt to create multiple listeners with the same settings, each
+call succeeds.
 
 # Required Parameters
 - `DefaultActions`: The actions for the default rule.
 - `LoadBalancerArn`: The Amazon Resource Name (ARN) of the load balancer.
 
 # Optional Parameters
-- `AlpnPolicy`: [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN policies in the Network Load Balancers Guide.
-- `Certificates`: [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
-- `Port`: The port on which the load balancer is listening. You cannot specify a port for a Gateway Load Balancer.
-- `Protocol`: The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
-- `SslPolicy`: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide.
+- `AlpnPolicy`: [TLS listeners] The name of the Application-Layer Protocol Negotiation
+  (ALPN) policy. You can specify one policy name. The following are the possible values:
+  HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more
+  information, see ALPN policies in the Network Load Balancers Guide.
+- `Certificates`: [HTTPS and TLS listeners] The default certificate for the listener. You
+  must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not
+  set IsDefault.
+- `Port`: The port on which the load balancer is listening. You cannot specify a port for a
+  Gateway Load Balancer.
+- `Protocol`: The protocol for connections from clients to the load balancer. For
+  Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load
+  Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the
+  UDP or TCP_UDP protocol if dual-stack mode is enabled. You cannot specify a protocol for a
+  Gateway Load Balancer.
+- `SslPolicy`: [HTTPS and TLS listeners] The security policy that defines which protocols
+  and ciphers are supported. For more information, see Security policies in the Application
+  Load Balancers Guide and Security policies in the Network Load Balancers Guide.
 - `Tags`: The tags to assign to the listener.
 """
 create_listener(DefaultActions, LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateListener", Dict{String, Any}("DefaultActions"=>DefaultActions, "LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
@@ -53,18 +78,52 @@ create_listener(DefaultActions, LoadBalancerArn, args::AbstractDict{String, <:An
 """
     CreateLoadBalancer()
 
-Creates an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following:    Application Load Balancers     Network Load Balancers     Gateway Load Balancers    This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple load balancers with the same settings, each call succeeds.
+Creates an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For
+more information, see the following:    Application Load Balancers     Network Load
+Balancers     Gateway Load Balancers    This operation is idempotent, which means that it
+completes at most one time. If you attempt to create multiple load balancers with the same
+settings, each call succeeds.
 
 # Required Parameters
-- `Name`: The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with \"internal-\".
+- `Name`: The name of the load balancer. This name must be unique per region per account,
+  can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens,
+  must not begin or end with a hyphen, and must not begin with \"internal-\".
 
 # Optional Parameters
-- `CustomerOwnedIpv4Pool`: [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
-- `IpAddressType`: The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
-- `Scheme`: The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You cannot specify a scheme for a Gateway Load Balancer.
-- `SecurityGroups`: [Application Load Balancers] The IDs of the security groups for the load balancer.
-- `SubnetMappings`: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You cannot specify Elastic IP addresses for your subnets.
-- `Subnets`: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You can specify subnets from one or more Availability Zones.
+- `CustomerOwnedIpv4Pool`: [Application Load Balancers on Outposts] The ID of the
+  customer-owned address pool (CoIP pool).
+- `IpAddressType`: The type of IP addresses used by the subnets for your load balancer. The
+  possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses).
+  Internal load balancers must use ipv4.
+- `Scheme`: The nodes of an Internet-facing load balancer have public IP addresses. The DNS
+  name of an Internet-facing load balancer is publicly resolvable to the public IP addresses
+  of the nodes. Therefore, Internet-facing load balancers can route requests from clients
+  over the internet. The nodes of an internal load balancer have only private IP addresses.
+  The DNS name of an internal load balancer is publicly resolvable to the private IP
+  addresses of the nodes. Therefore, internal load balancers can route requests only from
+  clients with access to the VPC for the load balancer. The default is an Internet-facing
+  load balancer. You cannot specify a scheme for a Gateway Load Balancer.
+- `SecurityGroups`: [Application Load Balancers] The IDs of the security groups for the
+  load balancer.
+- `SubnetMappings`: The IDs of the public subnets. You can specify only one subnet per
+  Availability Zone. You must specify either subnets or subnet mappings. [Application Load
+  Balancers] You must specify subnets from at least two Availability Zones. You cannot
+  specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You
+  must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can
+  specify subnets from one or more Local Zones. [Network Load Balancers] You can specify
+  subnets from one or more Availability Zones. You can specify one Elastic IP address per
+  subnet if you need static IP addresses for your internet-facing load balancer. For internal
+  load balancers, you can specify one private IP address per subnet from the IPv4 range of
+  the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
+  [Gateway Load Balancers] You can specify subnets from one or more Availability Zones. You
+  cannot specify Elastic IP addresses for your subnets.
+- `Subnets`: The IDs of the public subnets. You can specify only one subnet per
+  Availability Zone. You must specify either subnets or subnet mappings. [Application Load
+  Balancers] You must specify subnets from at least two Availability Zones. [Application Load
+  Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on
+  Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers]
+  You can specify subnets from one or more Availability Zones. [Gateway Load Balancers] You
+  can specify subnets from one or more Availability Zones.
 - `Tags`: The tags to assign to the load balancer.
 - `Type`: The type of load balancer. The default is application.
 """
@@ -74,13 +133,19 @@ create_load_balancer(Name, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     CreateRule()
 
-Creates a rule for the specified listener. The listener must be associated with an Application Load Balancer. Each rule consists of a priority, one or more actions, and one or more conditions. Rules are evaluated in priority order, from the lowest value to the highest value. When the conditions for a rule are met, its actions are performed. If the conditions for no rules are met, the actions for the default rule are performed. For more information, see Listener rules in the Application Load Balancers Guide.
+Creates a rule for the specified listener. The listener must be associated with an
+Application Load Balancer. Each rule consists of a priority, one or more actions, and one
+or more conditions. Rules are evaluated in priority order, from the lowest value to the
+highest value. When the conditions for a rule are met, its actions are performed. If the
+conditions for no rules are met, the actions for the default rule are performed. For more
+information, see Listener rules in the Application Load Balancers Guide.
 
 # Required Parameters
 - `Actions`: The actions.
 - `Conditions`: The conditions.
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
-- `Priority`: The rule priority. A listener can't have multiple rules with the same priority.
+- `Priority`: The rule priority. A listener can't have multiple rules with the same
+  priority.
 
 # Optional Parameters
 - `Tags`: The tags to assign to the rule.
@@ -91,27 +156,76 @@ create_rule(Actions, Conditions, ListenerArn, Priority, args::AbstractDict{Strin
 """
     CreateTargetGroup()
 
-Creates a target group. For more information, see the following:    Target groups for your Application Load Balancers     Target groups for your Network Load Balancers     Target groups for your Gateway Load Balancers    This operation is idempotent, which means that it completes at most one time. If you attempt to create multiple target groups with the same settings, each call succeeds.
+Creates a target group. For more information, see the following:    Target groups for your
+Application Load Balancers     Target groups for your Network Load Balancers     Target
+groups for your Gateway Load Balancers    This operation is idempotent, which means that it
+completes at most one time. If you attempt to create multiple target groups with the same
+settings, each call succeeds.
 
 # Required Parameters
-- `Name`: The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
+- `Name`: The name of the target group. This name must be unique per region per account,
+  can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens,
+  and must not begin or end with a hyphen.
 
 # Optional Parameters
-- `HealthCheckEnabled`: Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance or ip, health checks are always enabled and cannot be disabled.
-- `HealthCheckIntervalSeconds`: The approximate amount of time, in seconds, between health checks of an individual target. For TCP health checks, the supported values are 10 and 30 seconds. If the target type is instance or ip, the default is 30 seconds. If the target group protocol is GENEVE, the default is 10 seconds. If the target type is lambda, the default is 35 seconds.
-- `HealthCheckPath`: [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /AWS.ALB/healthcheck.
-- `HealthCheckPort`: The port the load balancer uses when performing health checks on targets. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or TCP_UDP, the default is traffic-port, which is the port on which each target receives traffic from the load balancer. If the protocol is GENEVE, the default is port 80.
-- `HealthCheckProtocol`: The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
-- `HealthCheckTimeoutSeconds`: The amount of time, in seconds, during which no response from a target means a failed health check. For target groups with a protocol of HTTP, HTTPS, or GENEVE, the default is 5 seconds. For target groups with a protocol of TCP or TLS, this value must be 6 seconds for HTTP health checks and 10 seconds for TCP and HTTPS health checks. If the target type is lambda, the default is 30 seconds.
-- `HealthyThresholdCount`: The number of consecutive health checks successes required before considering an unhealthy target healthy. For target groups with a protocol of HTTP or HTTPS, the default is 5. For target groups with a protocol of TCP, TLS, or GENEVE, the default is 3. If the target type is lambda, the default is 5.
-- `Matcher`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target.
-- `Port`: The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply. If the protocol is GENEVE, the supported port is 6081.
-- `Protocol`: The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. For Gateway Load Balancers, the supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target group. If the target is a Lambda function, this parameter does not apply.
-- `ProtocolVersion`: [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send requests to targets using gRPC. Specify HTTP2 to send requests to targets using HTTP/2. The default is HTTP1, which sends requests to targets using HTTP/1.1.
+- `HealthCheckEnabled`: Indicates whether health checks are enabled. If the target type is
+  lambda, health checks are disabled by default but can be enabled. If the target type is
+  instance or ip, health checks are always enabled and cannot be disabled.
+- `HealthCheckIntervalSeconds`: The approximate amount of time, in seconds, between health
+  checks of an individual target. If the target group protocol is TCP, TLS, UDP, or TCP_UDP,
+  the supported values are 10 and 30 seconds. If the target group protocol is HTTP or HTTPS,
+  the default is 30 seconds. If the target group protocol is GENEVE, the default is 10
+  seconds. If the target type is lambda, the default is 35 seconds.
+- `HealthCheckPath`: [HTTP/HTTPS health checks] The destination for health checks on the
+  targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
+  version] The path of a custom health check method with the format /package.service/method.
+  The default is /AWS.ALB/healthcheck.
+- `HealthCheckPort`: The port the load balancer uses when performing health checks on
+  targets. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or TCP_UDP, the default is
+  traffic-port, which is the port on which each target receives traffic from the load
+  balancer. If the protocol is GENEVE, the default is port 80.
+- `HealthCheckProtocol`: The protocol the load balancer uses when performing health checks
+  on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers
+  and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for
+  health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP,
+  and TCP_UDP protocols are not supported for health checks.
+- `HealthCheckTimeoutSeconds`: The amount of time, in seconds, during which no response
+  from a target means a failed health check. For target groups with a protocol of HTTP,
+  HTTPS, or GENEVE, the default is 5 seconds. For target groups with a protocol of TCP or
+  TLS, this value must be 6 seconds for HTTP health checks and 10 seconds for TCP and HTTPS
+  health checks. If the target type is lambda, the default is 30 seconds.
+- `HealthyThresholdCount`: The number of consecutive health checks successes required
+  before considering an unhealthy target healthy. For target groups with a protocol of HTTP
+  or HTTPS, the default is 5. For target groups with a protocol of TCP, TLS, or GENEVE, the
+  default is 3. If the target type is lambda, the default is 5.
+- `Matcher`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
+  successful response from a target.
+- `Port`: The port on which the targets receive traffic. This port is used unless you
+  specify a port override when registering the target. If the target is a Lambda function,
+  this parameter does not apply. If the protocol is GENEVE, the supported port is 6081.
+- `Protocol`: The protocol to use for routing traffic to the targets. For Application Load
+  Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the
+  supported protocols are TCP, TLS, UDP, or TCP_UDP. For Gateway Load Balancers, the
+  supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target
+  group. If the target is a Lambda function, this parameter does not apply.
+- `ProtocolVersion`: [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send
+  requests to targets using gRPC. Specify HTTP2 to send requests to targets using HTTP/2. The
+  default is HTTP1, which sends requests to targets using HTTP/1.1.
 - `Tags`: The tags to assign to the target group.
-- `TargetType`: The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Register targets by instance ID. This is the default value.    ip - Register targets by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - Register a single Lambda function as a target.  
-- `UnhealthyThresholdCount`: The number of consecutive health check failures required before considering a target unhealthy. If the target group protocol is HTTP or HTTPS, the default is 2. If the target group protocol is TCP or TLS, this value must be the same as the healthy threshold count. If the target group protocol is GENEVE, the default is 3. If the target type is lambda, the default is 2.
-- `VpcId`: The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
+- `TargetType`: The type of target that you must specify when registering targets with this
+  target group. You can't specify targets for a target group using more than one target type.
+     instance - Register targets by instance ID. This is the default value.    ip - Register
+  targets by IP address. You can specify IP addresses from the subnets of the virtual private
+  cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and
+  192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly
+  routable IP addresses.    lambda - Register a single Lambda function as a target.
+- `UnhealthyThresholdCount`: The number of consecutive health check failures required
+  before considering a target unhealthy. If the target group protocol is HTTP or HTTPS, the
+  default is 2. If the target group protocol is TCP or TLS, this value must be the same as
+  the healthy threshold count. If the target group protocol is GENEVE, the default is 3. If
+  the target type is lambda, the default is 2.
+- `VpcId`: The identifier of the virtual private cloud (VPC). If the target is a Lambda
+  function, this parameter does not apply. Otherwise, this parameter is required.
 """
 create_target_group(Name; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 create_target_group(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("CreateTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
@@ -119,7 +233,8 @@ create_target_group(Name, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     DeleteListener()
 
-Deletes the specified listener. Alternatively, your listener is deleted when you delete the load balancer to which it is attached.
+Deletes the specified listener. Alternatively, your listener is deleted when you delete the
+load balancer to which it is attached.
 
 # Required Parameters
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
@@ -131,7 +246,13 @@ delete_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     DeleteLoadBalancer()
 
-Deletes the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. Deleting a load balancer also deletes its listeners. You can't delete a load balancer if deletion protection is enabled. If the load balancer does not exist or has already been deleted, the call succeeds. Deleting a load balancer does not affect its registered targets. For example, your EC2 instances continue to run and are still registered to their target groups. If you no longer need these EC2 instances, you can stop or terminate them.
+Deletes the specified Application Load Balancer, Network Load Balancer, or Gateway Load
+Balancer. Deleting a load balancer also deletes its listeners. You can't delete a load
+balancer if deletion protection is enabled. If the load balancer does not exist or has
+already been deleted, the call succeeds. Deleting a load balancer does not affect its
+registered targets. For example, your EC2 instances continue to run and are still
+registered to their target groups. If you no longer need these EC2 instances, you can stop
+or terminate them.
 
 # Required Parameters
 - `LoadBalancerArn`: The Amazon Resource Name (ARN) of the load balancer.
@@ -155,7 +276,10 @@ delete_rule(RuleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     DeleteTargetGroup()
 
-Deletes the specified target group. You can delete a target group if it is not referenced by any actions. Deleting a target group also deletes any associated health checks. Deleting a target group does not affect its registered targets. For example, any EC2 instances continue to run until you stop or terminate them.
+Deletes the specified target group. You can delete a target group if it is not referenced
+by any actions. Deleting a target group also deletes any associated health checks. Deleting
+a target group does not affect its registered targets. For example, any EC2 instances
+continue to run until you stop or terminate them.
 
 # Required Parameters
 - `TargetGroupArn`: The Amazon Resource Name (ARN) of the target group.
@@ -167,11 +291,13 @@ delete_target_group(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     DeregisterTargets()
 
-Deregisters the specified targets from the specified target group. After the targets are deregistered, they no longer receive traffic from the load balancer.
+Deregisters the specified targets from the specified target group. After the targets are
+deregistered, they no longer receive traffic from the load balancer.
 
 # Required Parameters
 - `TargetGroupArn`: The Amazon Resource Name (ARN) of the target group.
-- `Targets`: The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
+- `Targets`: The targets. If you specified a port override when you registered a target,
+  you must specify both the target ID and the port when you deregister it.
 
 """
 deregister_targets(TargetGroupArn, Targets; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("DeregisterTargets", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn, "Targets"=>Targets); aws_config=aws_config)
@@ -180,10 +306,13 @@ deregister_targets(TargetGroupArn, Targets, args::AbstractDict{String, <:Any}; a
 """
     DescribeAccountLimits()
 
-Describes the current Elastic Load Balancing resource limits for your AWS account. For more information, see the following:    Quotas for your Application Load Balancers     Quotas for your Network Load Balancers     Quotas for your Gateway Load Balancers   
+Describes the current Elastic Load Balancing resource limits for your AWS account. For more
+information, see the following:    Quotas for your Application Load Balancers     Quotas
+for your Network Load Balancers     Quotas for your Gateway Load Balancers
 
 # Optional Parameters
-- `Marker`: The marker for the next set of results. (You received this marker from a previous call.)
+- `Marker`: The marker for the next set of results. (You received this marker from a
+  previous call.)
 - `PageSize`: The maximum number of results to return with this call.
 """
 describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeAccountLimits"; aws_config=aws_config)
@@ -192,13 +321,18 @@ describe_account_limits(args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     DescribeListenerCertificates()
 
-Describes the default certificate and the certificate list for the specified HTTPS or TLS listener. If the default certificate is also in the certificate list, it appears twice in the results (once with IsDefault set to true and once with IsDefault set to false). For more information, see SSL certificates in the Application Load Balancers Guide or Server certificates in the Network Load Balancers Guide.
+Describes the default certificate and the certificate list for the specified HTTPS or TLS
+listener. If the default certificate is also in the certificate list, it appears twice in
+the results (once with IsDefault set to true and once with IsDefault set to false). For
+more information, see SSL certificates in the Application Load Balancers Guide or Server
+certificates in the Network Load Balancers Guide.
 
 # Required Parameters
 - `ListenerArn`: The Amazon Resource Names (ARN) of the listener.
 
 # Optional Parameters
-- `Marker`: The marker for the next set of results. (You received this marker from a previous call.)
+- `Marker`: The marker for the next set of results. (You received this marker from a
+  previous call.)
 - `PageSize`: The maximum number of results to return with this call.
 """
 describe_listener_certificates(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListenerCertificates", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
@@ -207,12 +341,15 @@ describe_listener_certificates(ListenerArn, args::AbstractDict{String, <:Any}; a
 """
     DescribeListeners()
 
-Describes the specified listeners or the listeners for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load balancer or one or more listeners.
+Describes the specified listeners or the listeners for the specified Application Load
+Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load
+balancer or one or more listeners.
 
 # Optional Parameters
 - `ListenerArns`: The Amazon Resource Names (ARN) of the listeners.
 - `LoadBalancerArn`: The Amazon Resource Name (ARN) of the load balancer.
-- `Marker`: The marker for the next set of results. (You received this marker from a previous call.)
+- `Marker`: The marker for the next set of results. (You received this marker from a
+  previous call.)
 - `PageSize`: The maximum number of results to return with this call.
 """
 describe_listeners(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeListeners"; aws_config=aws_config)
@@ -221,7 +358,11 @@ describe_listeners(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     DescribeLoadBalancerAttributes()
 
-Describes the attributes for the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. For more information, see the following:    Load balancer attributes in the Application Load Balancers Guide     Load balancer attributes in the Network Load Balancers Guide     Load balancer attributes in the Gateway Load Balancers Guide   
+Describes the attributes for the specified Application Load Balancer, Network Load
+Balancer, or Gateway Load Balancer. For more information, see the following:    Load
+balancer attributes in the Application Load Balancers Guide     Load balancer attributes in
+the Network Load Balancers Guide     Load balancer attributes in the Gateway Load Balancers
+Guide
 
 # Required Parameters
 - `LoadBalancerArn`: The Amazon Resource Name (ARN) of the load balancer.
@@ -236,8 +377,10 @@ describe_load_balancer_attributes(LoadBalancerArn, args::AbstractDict{String, <:
 Describes the specified load balancers or all of your load balancers.
 
 # Optional Parameters
-- `LoadBalancerArns`: The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
-- `Marker`: The marker for the next set of results. (You received this marker from a previous call.)
+- `LoadBalancerArns`: The Amazon Resource Names (ARN) of the load balancers. You can
+  specify up to 20 load balancers in a single call.
+- `Marker`: The marker for the next set of results. (You received this marker from a
+  previous call.)
 - `Names`: The names of the load balancers.
 - `PageSize`: The maximum number of results to return with this call.
 """
@@ -247,11 +390,13 @@ describe_load_balancers(args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     DescribeRules()
 
-Describes the specified rules or the rules for the specified listener. You must specify either a listener or one or more rules.
+Describes the specified rules or the rules for the specified listener. You must specify
+either a listener or one or more rules.
 
 # Optional Parameters
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
-- `Marker`: The marker for the next set of results. (You received this marker from a previous call.)
+- `Marker`: The marker for the next set of results. (You received this marker from a
+  previous call.)
 - `PageSize`: The maximum number of results to return with this call.
 - `RuleArns`: The Amazon Resource Names (ARN) of the rules.
 """
@@ -261,10 +406,13 @@ describe_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=
 """
     DescribeSSLPolicies()
 
-Describes the specified policies or all policies used for SSL negotiation. For more information, see Security policies in the Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
+Describes the specified policies or all policies used for SSL negotiation. For more
+information, see Security policies in the Application Load Balancers Guide or Security
+policies in the Network Load Balancers Guide.
 
 # Optional Parameters
-- `Marker`: The marker for the next set of results. (You received this marker from a previous call.)
+- `Marker`: The marker for the next set of results. (You received this marker from a
+  previous call.)
 - `Names`: The names of the policies.
 - `PageSize`: The maximum number of results to return with this call.
 """
@@ -274,10 +422,13 @@ describe_sslpolicies(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     DescribeTags()
 
-Describes the tags for the specified Elastic Load Balancing resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, listeners, or rules.
+Describes the tags for the specified Elastic Load Balancing resources. You can describe the
+tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load
+Balancers, target groups, listeners, or rules.
 
 # Required Parameters
-- `ResourceArns`: The Amazon Resource Names (ARN) of the resources. You can specify up to 20 resources in a single call.
+- `ResourceArns`: The Amazon Resource Names (ARN) of the resources. You can specify up to
+  20 resources in a single call.
 
 """
 describe_tags(ResourceArns; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("DescribeTags", Dict{String, Any}("ResourceArns"=>ResourceArns); aws_config=aws_config)
@@ -286,7 +437,10 @@ describe_tags(ResourceArns, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     DescribeTargetGroupAttributes()
 
-Describes the attributes for the specified target group. For more information, see the following:    Target group attributes in the Application Load Balancers Guide     Target group attributes in the Network Load Balancers Guide     Target group attributes in the Gateway Load Balancers Guide   
+Describes the attributes for the specified target group. For more information, see the
+following:    Target group attributes in the Application Load Balancers Guide     Target
+group attributes in the Network Load Balancers Guide     Target group attributes in the
+Gateway Load Balancers Guide
 
 # Required Parameters
 - `TargetGroupArn`: The Amazon Resource Name (ARN) of the target group.
@@ -298,11 +452,15 @@ describe_target_group_attributes(TargetGroupArn, args::AbstractDict{String, <:An
 """
     DescribeTargetGroups()
 
-Describes the specified target groups or all of your target groups. By default, all target groups are described. Alternatively, you can specify one of the following to filter the results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of one or more target groups.
+Describes the specified target groups or all of your target groups. By default, all target
+groups are described. Alternatively, you can specify one of the following to filter the
+results: the ARN of the load balancer, the names of one or more target groups, or the ARNs
+of one or more target groups.
 
 # Optional Parameters
 - `LoadBalancerArn`: The Amazon Resource Name (ARN) of the load balancer.
-- `Marker`: The marker for the next set of results. (You received this marker from a previous call.)
+- `Marker`: The marker for the next set of results. (You received this marker from a
+  previous call.)
 - `Names`: The names of the target groups.
 - `PageSize`: The maximum number of results to return with this call.
 - `TargetGroupArns`: The Amazon Resource Names (ARN) of the target groups.
@@ -327,18 +485,35 @@ describe_target_health(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_co
 """
     ModifyListener()
 
-Replaces the specified properties of the specified listener. Any properties that you do not specify remain unchanged. Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default certificate properties. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action.
+Replaces the specified properties of the specified listener. Any properties that you do not
+specify remain unchanged. Changing the protocol from HTTPS to HTTP, or from TLS to TCP,
+removes the security policy and default certificate properties. If you change the protocol
+from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default
+certificate properties. To add an item to a list, remove an item from a list, or update an
+item in a list, you must provide the entire list. For example, to add an action, specify a
+list with the current actions plus the new action.
 
 # Required Parameters
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
 
 # Optional Parameters
-- `AlpnPolicy`: [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN policies in the Network Load Balancers Guide.
-- `Certificates`: [HTTPS and TLS listeners] The default certificate for the listener. You must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not set IsDefault.
+- `AlpnPolicy`: [TLS listeners] The name of the Application-Layer Protocol Negotiation
+  (ALPN) policy. You can specify one policy name. The following are the possible values:
+  HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more
+  information, see ALPN policies in the Network Load Balancers Guide.
+- `Certificates`: [HTTPS and TLS listeners] The default certificate for the listener. You
+  must provide exactly one certificate. Set CertificateArn to the certificate ARN but do not
+  set IsDefault.
 - `DefaultActions`: The actions for the default rule.
-- `Port`: The port for connections from clients to the load balancer. You cannot specify a port for a Gateway Load Balancer.
-- `Protocol`: The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
-- `SslPolicy`: [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
+- `Port`: The port for connections from clients to the load balancer. You cannot specify a
+  port for a Gateway Load Balancer.
+- `Protocol`: The protocol for connections from clients to the load balancer. Application
+  Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the
+  TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if
+  dual-stack mode is enabled. You cannot specify a protocol for a Gateway Load Balancer.
+- `SslPolicy`: [HTTPS and TLS listeners] The security policy that defines which protocols
+  and ciphers are supported. For more information, see Security policies in the Application
+  Load Balancers Guide or Security policies in the Network Load Balancers Guide.
 """
 modify_listener(ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws_config=aws_config)
 modify_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws_config=aws_config)
@@ -346,7 +521,10 @@ modify_listener(ListenerArn, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     ModifyLoadBalancerAttributes()
 
-Modifies the specified attributes of the specified Application Load Balancer, Network Load Balancer, or Gateway Load Balancer. If any of the specified attributes can't be modified as requested, the call fails. Any existing attributes that you do not modify retain their current values.
+Modifies the specified attributes of the specified Application Load Balancer, Network Load
+Balancer, or Gateway Load Balancer. If any of the specified attributes can't be modified as
+requested, the call fails. Any existing attributes that you do not modify retain their
+current values.
 
 # Required Parameters
 - `Attributes`: The load balancer attributes.
@@ -359,7 +537,10 @@ modify_load_balancer_attributes(Attributes, LoadBalancerArn, args::AbstractDict{
 """
     ModifyRule()
 
-Replaces the specified properties of the specified rule. Any properties that you do not specify are unchanged. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action.
+Replaces the specified properties of the specified rule. Any properties that you do not
+specify are unchanged. To add an item to a list, remove an item from a list, or update an
+item in a list, you must provide the entire list. For example, to add an action, specify a
+list with the current actions plus the new action.
 
 # Required Parameters
 - `RuleArn`: The Amazon Resource Name (ARN) of the rule.
@@ -374,21 +555,38 @@ modify_rule(RuleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     ModifyTargetGroup()
 
-Modifies the health checks used when evaluating the health state of the targets in the specified target group.
+Modifies the health checks used when evaluating the health state of the targets in the
+specified target group.
 
 # Required Parameters
 - `TargetGroupArn`: The Amazon Resource Name (ARN) of the target group.
 
 # Optional Parameters
 - `HealthCheckEnabled`: Indicates whether health checks are enabled.
-- `HealthCheckIntervalSeconds`: The approximate amount of time, in seconds, between health checks of an individual target. For TCP health checks, the supported values are 10 or 30 seconds. With Network Load Balancers, you can't modify this setting.
-- `HealthCheckPath`: [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /AWS.ALB/healthcheck.
-- `HealthCheckPort`: The port the load balancer uses when performing health checks on targets.
-- `HealthCheckProtocol`: The protocol the load balancer uses when performing health checks on targets. The TCP protocol is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks. With Network Load Balancers, you can't modify this setting.
-- `HealthCheckTimeoutSeconds`: [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check. With Network Load Balancers, you can't modify this setting.
-- `HealthyThresholdCount`: The number of consecutive health checks successes required before considering an unhealthy target healthy.
-- `Matcher`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful response from a target. With Network Load Balancers, you can't modify this setting.
-- `UnhealthyThresholdCount`: The number of consecutive health check failures required before considering the target unhealthy. For target groups with a protocol of TCP or TLS, this value must be the same as the healthy threshold count.
+- `HealthCheckIntervalSeconds`: The approximate amount of time, in seconds, between health
+  checks of an individual target. For TCP health checks, the supported values are 10 or 30
+  seconds. With Network Load Balancers, you can't modify this setting.
+- `HealthCheckPath`: [HTTP/HTTPS health checks] The destination for health checks on the
+  targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
+  version] The path of a custom health check method with the format /package.service/method.
+  The default is /AWS.ALB/healthcheck.
+- `HealthCheckPort`: The port the load balancer uses when performing health checks on
+  targets.
+- `HealthCheckProtocol`: The protocol the load balancer uses when performing health checks
+  on targets. The TCP protocol is supported for health checks only if the protocol of the
+  target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE, TLS, UDP, and TCP_UDP protocols are
+  not supported for health checks. With Network Load Balancers, you can't modify this setting.
+- `HealthCheckTimeoutSeconds`: [HTTP/HTTPS health checks] The amount of time, in seconds,
+  during which no response means a failed health check. With Network Load Balancers, you
+  can't modify this setting.
+- `HealthyThresholdCount`: The number of consecutive health checks successes required
+  before considering an unhealthy target healthy.
+- `Matcher`: [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a
+  successful response from a target. With Network Load Balancers, you can't modify this
+  setting.
+- `UnhealthyThresholdCount`: The number of consecutive health check failures required
+  before considering the target unhealthy. For target groups with a protocol of TCP or TLS,
+  this value must be the same as the healthy threshold count.
 """
 modify_target_group(TargetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}("TargetGroupArn"=>TargetGroupArn); aws_config=aws_config)
 modify_target_group(TargetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("ModifyTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetGroupArn"=>TargetGroupArn), args)); aws_config=aws_config)
@@ -409,7 +607,14 @@ modify_target_group_attributes(Attributes, TargetGroupArn, args::AbstractDict{St
 """
     RegisterTargets()
 
-Registers the specified targets with the specified target group. If the target is an EC2 instance, it must be in the running state when you register it. By default, the load balancer routes requests to registered targets using the protocol and port for the target group. Alternatively, you can override the port for a target when you register it. You can register each EC2 instance or IP address with the same target group multiple times using different ports. With a Network Load Balancer, you cannot register instances by instance ID if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1, CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of these types by IP address.
+Registers the specified targets with the specified target group. If the target is an EC2
+instance, it must be in the running state when you register it. By default, the load
+balancer routes requests to registered targets using the protocol and port for the target
+group. Alternatively, you can override the port for a target when you register it. You can
+register each EC2 instance or IP address with the same target group multiple times using
+different ports. With a Network Load Balancer, you cannot register instances by instance ID
+if they have the following instance types: C1, CC1, CC2, CG1, CG2, CR1, CS1, G1, G2, HI1,
+HS1, M1, M2, M3, and T1. You can register instances of these types by IP address.
 
 # Required Parameters
 - `TargetGroupArn`: The Amazon Resource Name (ARN) of the target group.
@@ -422,10 +627,12 @@ register_targets(TargetGroupArn, Targets, args::AbstractDict{String, <:Any}; aws
 """
     RemoveListenerCertificates()
 
-Removes the specified certificate from the certificate list for the specified HTTPS or TLS listener.
+Removes the specified certificate from the certificate list for the specified HTTPS or TLS
+listener.
 
 # Required Parameters
-- `Certificates`: The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
+- `Certificates`: The certificate to remove. You can specify one certificate per call. Set
+  CertificateArn to the certificate ARN but do not set IsDefault.
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
 
 """
@@ -435,7 +642,9 @@ remove_listener_certificates(Certificates, ListenerArn, args::AbstractDict{Strin
 """
     RemoveTags()
 
-Removes the specified tags from the specified Elastic Load Balancing resources. You can remove the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load Balancers, target groups, listeners, or rules.
+Removes the specified tags from the specified Elastic Load Balancing resources. You can
+remove the tags for one or more Application Load Balancers, Network Load Balancers, Gateway
+Load Balancers, target groups, listeners, or rules.
 
 # Required Parameters
 - `ResourceArns`: The Amazon Resource Name (ARN) of the resource.
@@ -448,10 +657,13 @@ remove_tags(ResourceArns, TagKeys, args::AbstractDict{String, <:Any}; aws_config
 """
     SetIpAddressType()
 
-Sets the type of IP addresses used by the subnets of the specified Application Load Balancer or Network Load Balancer.
+Sets the type of IP addresses used by the subnets of the specified Application Load
+Balancer or Network Load Balancer.
 
 # Required Parameters
-- `IpAddressType`: The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4. You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
+- `IpAddressType`: The IP address type. The possible values are ipv4 (for IPv4 addresses)
+  and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4. You
+  can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener.
 - `LoadBalancerArn`: The Amazon Resource Name (ARN) of the load balancer.
 
 """
@@ -461,7 +673,9 @@ set_ip_address_type(IpAddressType, LoadBalancerArn, args::AbstractDict{String, <
 """
     SetRulePriorities()
 
-Sets the priorities of the specified rules. You can reorder the rules as long as there are no priority conflicts in the new order. Any existing rules that you do not specify retain their current priority.
+Sets the priorities of the specified rules. You can reorder the rules as long as there are
+no priority conflicts in the new order. Any existing rules that you do not specify retain
+their current priority.
 
 # Required Parameters
 - `RulePriorities`: The rule priorities.
@@ -473,7 +687,9 @@ set_rule_priorities(RulePriorities, args::AbstractDict{String, <:Any}; aws_confi
 """
     SetSecurityGroups()
 
-Associates the specified security groups with the specified Application Load Balancer. The specified security groups override the previously associated security groups. You can't specify a security group for a Network Load Balancer or Gateway Load Balancer.
+Associates the specified security groups with the specified Application Load Balancer. The
+specified security groups override the previously associated security groups. You can't
+specify a security group for a Network Load Balancer or Gateway Load Balancer.
 
 # Required Parameters
 - `LoadBalancerArn`: The Amazon Resource Name (ARN) of the load balancer.
@@ -486,15 +702,36 @@ set_security_groups(LoadBalancerArn, SecurityGroups, args::AbstractDict{String, 
 """
     SetSubnets()
 
-Enables the Availability Zones for the specified public subnets for the specified Application Load Balancer or Network Load Balancer. The specified subnets replace the previously enabled subnets. When you specify subnets for a Network Load Balancer, you must include all subnets that were enabled previously, with their existing configurations, plus any additional subnets.
+Enables the Availability Zones for the specified public subnets for the specified
+Application Load Balancer or Network Load Balancer. The specified subnets replace the
+previously enabled subnets. When you specify subnets for a Network Load Balancer, you must
+include all subnets that were enabled previously, with their existing configurations, plus
+any additional subnets.
 
 # Required Parameters
 - `LoadBalancerArn`: The Amazon Resource Name (ARN) of the load balancer.
 
 # Optional Parameters
-- `IpAddressType`: [Network Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP or TCP_UDP listener. Internal load balancers must use ipv4.
-- `SubnetMappings`: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones. You can specify one Elastic IP address per subnet if you need static IP addresses for your internet-facing load balancer. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
-- `Subnets`: The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
+- `IpAddressType`: [Network Load Balancers] The type of IP addresses used by the subnets
+  for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack
+  (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer with a UDP
+  or TCP_UDP listener. Internal load balancers must use ipv4.
+- `SubnetMappings`: The IDs of the public subnets. You can specify only one subnet per
+  Availability Zone. You must specify either subnets or subnet mappings. [Application Load
+  Balancers] You must specify subnets from at least two Availability Zones. You cannot
+  specify Elastic IP addresses for your subnets. [Application Load Balancers on Outposts] You
+  must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can
+  specify subnets from one or more Local Zones. [Network Load Balancers] You can specify
+  subnets from one or more Availability Zones. You can specify one Elastic IP address per
+  subnet if you need static IP addresses for your internet-facing load balancer. For internal
+  load balancers, you can specify one private IP address per subnet from the IPv4 range of
+  the subnet. For internet-facing load balancer, you can specify one IPv6 address per subnet.
+- `Subnets`: The IDs of the public subnets. You can specify only one subnet per
+  Availability Zone. You must specify either subnets or subnet mappings. [Application Load
+  Balancers] You must specify subnets from at least two Availability Zones. [Application Load
+  Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on
+  Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers]
+  You can specify subnets from one or more Availability Zones.
 """
 set_subnets(LoadBalancerArn; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSubnets", Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn); aws_config=aws_config)
 set_subnets(LoadBalancerArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing_v2("SetSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerArn"=>LoadBalancerArn), args)); aws_config=aws_config)

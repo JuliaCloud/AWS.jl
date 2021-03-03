@@ -11,8 +11,10 @@ Accepts the invitation to be monitored by a GuardDuty administrator account.
 
 # Required Parameters
 - `detectorId`: The unique ID of the detector of the GuardDuty member account.
-- `invitationId`: The value that is used to validate the administrator account to the member account.
-- `masterId`: The account ID of the GuardDuty administrator account whose invitation you're accepting.
+- `invitationId`: The value that is used to validate the administrator account to the
+  member account.
+- `masterId`: The account ID of the GuardDuty administrator account whose invitation you're
+  accepting.
 
 """
 accept_invitation(detectorId, invitationId, masterId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/master", Dict{String, Any}("invitationId"=>invitationId, "masterId"=>masterId); aws_config=aws_config)
@@ -21,10 +23,13 @@ accept_invitation(detectorId, invitationId, masterId, args::AbstractDict{String,
 """
     ArchiveFindings()
 
-Archives GuardDuty findings that are specified by the list of finding IDs.  Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts. 
+Archives GuardDuty findings that are specified by the list of finding IDs.  Only the
+administrator account can archive findings. Member accounts don't have permission to
+archive findings from their accounts.
 
 # Required Parameters
-- `detectorId`: The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
+- `detectorId`: The ID of the detector that specifies the GuardDuty service whose findings
+  you want to archive.
 - `findingIds`: The IDs of the findings that you want to archive.
 
 """
@@ -34,7 +39,10 @@ archive_findings(detectorId, findingIds, args::AbstractDict{String, <:Any}; aws_
 """
     CreateDetector()
 
-Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
+Creates a single Amazon GuardDuty detector. A detector is a resource that represents the
+GuardDuty service. To start using GuardDuty, you must create a detector in each Region
+where you enable the service. You can have only one detector per account per Region. All
+data sources are enabled in a new detector by default.
 
 # Required Parameters
 - `enable`: A Boolean value that specifies whether the detector is to be enabled.
@@ -42,7 +50,8 @@ Creates a single Amazon GuardDuty detector. A detector is a resource that repres
 # Optional Parameters
 - `clientToken`: The idempotency token for the create request.
 - `dataSources`: Describes which data sources will be enabled for the detector.
-- `findingPublishingFrequency`: A value that specifies how frequently updated findings are exported.
+- `findingPublishingFrequency`: A value that specifies how frequently updated findings are
+  exported.
 - `tags`: The tags to be added to a new detector resource.
 """
 create_detector(enable; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector", Dict{String, Any}("enable"=>enable, "clientToken"=>string(uuid4())); aws_config=aws_config)
@@ -54,15 +63,60 @@ create_detector(enable, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Creates a filter using the specified finding criteria.
 
 # Required Parameters
-- `detectorId`: The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
-- `findingCriteria`: Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.  
-- `name`: The name of the filter. Minimum length of 3. Maximum length of 64. Valid characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces are not allowed.
+- `detectorId`: The ID of the detector belonging to the GuardDuty account that you want to
+  create a filter for.
+- `findingCriteria`: Represents the criteria to be used in the filter for querying
+  findings. You can only use the following attributes to query findings:   accountId   region
+    confidence   id   resource.accessKeyDetails.accessKeyId
+  resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName
+  resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id
+  resource.instanceDetails.imageId   resource.instanceDetails.instanceId
+  resource.instanceDetails.outpostArn
+  resource.instanceDetails.networkInterfaces.ipv6Addresses
+  resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
+  resource.instanceDetails.networkInterfaces.publicDnsName
+  resource.instanceDetails.networkInterfaces.publicIp
+  resource.instanceDetails.networkInterfaces.securityGroups.groupId
+  resource.instanceDetails.networkInterfaces.securityGroups.groupName
+  resource.instanceDetails.networkInterfaces.subnetId
+  resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key
+  resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType
+  service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType
+  service.action.awsApiCallAction.errorCode
+  service.action.awsApiCallAction.remoteIpDetails.city.cityName
+  service.action.awsApiCallAction.remoteIpDetails.country.countryName
+  service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
+  service.action.awsApiCallAction.remoteIpDetails.organization.asn
+  service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
+  service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain
+  service.action.networkConnectionAction.blocked
+  service.action.networkConnectionAction.connectionDirection
+  service.action.networkConnectionAction.localPortDetails.port
+  service.action.networkConnectionAction.protocol
+  service.action.networkConnectionAction.localIpDetails.ipAddressV4
+  service.action.networkConnectionAction.remoteIpDetails.city.cityName
+  service.action.networkConnectionAction.remoteIpDetails.country.countryName
+  service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+  service.action.networkConnectionAction.remoteIpDetails.organization.asn
+  service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
+  service.action.networkConnectionAction.remotePortDetails.port
+  service.additionalInfo.threatListName   service.archived When this attribute is set to
+  TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings
+  are listed. When this attribute is not set, all existing findings are listed.
+  service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format:
+  YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains
+  milliseconds.
+- `name`: The name of the filter. Minimum length of 3. Maximum length of 64. Valid
+  characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces
+  are not allowed.
 
 # Optional Parameters
-- `action`: Specifies the action that is to be applied to the findings that match the filter.
+- `action`: Specifies the action that is to be applied to the findings that match the
+  filter.
 - `clientToken`: The idempotency token for the create request.
 - `description`: The description of the filter.
-- `rank`: Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
+- `rank`: Specifies the position of the filter in the list of current filters. Also
+  specifies the order in which this filter is applied to the findings.
 - `tags`: The tags to be added to a new filter resource.
 """
 create_filter(detectorId, findingCriteria, name; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/filter", Dict{String, Any}("findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
@@ -71,14 +125,21 @@ create_filter(detectorId, findingCriteria, name, args::AbstractDict{String, <:An
 """
     CreateIPSet()
 
-Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with AWS infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
+Creates a new IPSet, which is called a trusted IP list in the console user interface. An
+IPSet is a list of IP addresses that are trusted for secure communication with AWS
+infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that
+are included in IPSets. Only users from the administrator account can use this operation.
 
 # Required Parameters
-- `activate`: A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
-- `detectorId`: The unique ID of the detector of the GuardDuty account that you want to create an IPSet for.
+- `activate`: A Boolean value that indicates whether GuardDuty is to start using the
+  uploaded IPSet.
+- `detectorId`: The unique ID of the detector of the GuardDuty account that you want to
+  create an IPSet for.
 - `format`: The format of the file that contains the IPSet.
-- `location`: The URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
-- `name`: The user-friendly name to identify the IPSet.  Allowed characters are alphanumerics, spaces, hyphens (-), and underscores (_).
+- `location`: The URI of the file that contains the IPSet. For example:
+  https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+- `name`: The user-friendly name to identify the IPSet.  Allowed characters are
+  alphanumerics, spaces, hyphens (-), and underscores (_).
 
 # Optional Parameters
 - `clientToken`: The idempotency token for the create request.
@@ -90,11 +151,20 @@ create_ipset(activate, detectorId, format, location, name, args::AbstractDict{St
 """
     CreateMembers()
 
-Creates member accounts of the current AWS account by specifying a list of AWS account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using  Invite Members .
+Creates member accounts of the current AWS account by specifying a list of AWS account IDs.
+This step is a prerequisite for managing the associated member accounts either by
+invitation or through an organization. When using Create Members as an organizations
+delegated administrator this action will enable GuardDuty in the added member accounts,
+with the exception of the organization delegated administrator account, which must enable
+GuardDuty prior to being added as a member. If you are adding accounts by invitation use
+this action after GuardDuty has been enabled in potential member accounts and before using
+Invite Members .
 
 # Required Parameters
-- `accountDetails`: A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
-- `detectorId`: The unique ID of the detector of the GuardDuty account that you want to associate member accounts with.
+- `accountDetails`: A list of account ID and email address pairs of the accounts that you
+  want to associate with the GuardDuty administrator account.
+- `detectorId`: The unique ID of the detector of the GuardDuty account that you want to
+  associate member accounts with.
 
 """
 create_members(accountDetails, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member", Dict{String, Any}("accountDetails"=>accountDetails); aws_config=aws_config)
@@ -103,11 +173,14 @@ create_members(accountDetails, detectorId, args::AbstractDict{String, <:Any}; aw
 """
     CreatePublishingDestination()
 
-Creates a publishing destination to export findings to. The resource to export findings to must exist before you use this operation.
+Creates a publishing destination to export findings to. The resource to export findings to
+must exist before you use this operation.
 
 # Required Parameters
-- `destinationProperties`: The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption.
-- `destinationType`: The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported.
+- `destinationProperties`: The properties of the publishing destination, including the ARNs
+  for the destination and the KMS key used for encryption.
+- `destinationType`: The type of resource for the publishing destination. Currently only
+  Amazon S3 buckets are supported.
 - `detectorId`: The ID of the GuardDuty detector associated with the publishing destination.
 
 # Optional Parameters
@@ -119,7 +192,9 @@ create_publishing_destination(destinationProperties, destinationType, detectorId
 """
     CreateSampleFindings()
 
-Generates example findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates example findings of all supported finding types.
+Generates example findings of types specified by the list of finding types. If 'NULL' is
+specified for findingTypes, the API generates example findings of all supported finding
+types.
 
 # Required Parameters
 - `detectorId`: The ID of the detector to create sample findings for.
@@ -133,14 +208,20 @@ create_sample_findings(detectorId, args::AbstractDict{String, <:Any}; aws_config
 """
     CreateThreatIntelSet()
 
-Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
+Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses.
+GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator
+account can use this operation.
 
 # Required Parameters
-- `activate`: A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
-- `detectorId`: The unique ID of the detector of the GuardDuty account that you want to create a threatIntelSet for.
+- `activate`: A Boolean value that indicates whether GuardDuty is to start using the
+  uploaded ThreatIntelSet.
+- `detectorId`: The unique ID of the detector of the GuardDuty account that you want to
+  create a threatIntelSet for.
 - `format`: The format of the file that contains the ThreatIntelSet.
-- `location`: The URI of the file that contains the ThreatIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
-- `name`: A user-friendly ThreatIntelSet name displayed in all findings that are generated by activity that involves IP addresses included in this ThreatIntelSet.
+- `location`: The URI of the file that contains the ThreatIntelSet. For example:
+  https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+- `name`: A user-friendly ThreatIntelSet name displayed in all findings that are generated
+  by activity that involves IP addresses included in this ThreatIntelSet.
 
 # Optional Parameters
 - `clientToken`: The idempotency token for the create request.
@@ -152,10 +233,12 @@ create_threat_intel_set(activate, detectorId, format, location, name, args::Abst
 """
     DeclineInvitations()
 
-Declines invitations sent to the current member account by AWS accounts specified by their account IDs.
+Declines invitations sent to the current member account by AWS accounts specified by their
+account IDs.
 
 # Required Parameters
-- `accountIds`: A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
+- `accountIds`: A list of account IDs of the AWS accounts that sent invitations to the
+  current member account that you want to decline invitations from.
 
 """
 decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/invitation/decline", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -189,7 +272,8 @@ delete_filter(detectorId, filterName, args::AbstractDict{String, <:Any}; aws_con
 """
     DeleteIPSet()
 
-Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the console user interface.
+Deletes the IPSet specified by the ipSetId. IPSets are called trusted IP lists in the
+console user interface.
 
 # Required Parameters
 - `detectorId`: The unique ID of the detector associated with the IPSet.
@@ -202,10 +286,12 @@ delete_ipset(detectorId, ipSetId, args::AbstractDict{String, <:Any}; aws_config:
 """
     DeleteInvitations()
 
-Deletes invitations sent to the current member account by AWS accounts specified by their account IDs.
+Deletes invitations sent to the current member account by AWS accounts specified by their
+account IDs.
 
 # Required Parameters
-- `accountIds`: A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to delete invitations from.
+- `accountIds`: A list of account IDs of the AWS accounts that sent invitations to the
+  current member account that you want to delete invitations from.
 
 """
 delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/invitation/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -214,11 +300,14 @@ delete_invitations(accountIds, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     DeleteMembers()
 
-Deletes GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
+Deletes GuardDuty member accounts (to the current GuardDuty administrator account)
+specified by the account IDs.
 
 # Required Parameters
-- `accountIds`: A list of account IDs of the GuardDuty member accounts that you want to delete.
-- `detectorId`: The unique ID of the detector of the GuardDuty account whose members you want to delete.
+- `accountIds`: A list of account IDs of the GuardDuty member accounts that you want to
+  delete.
+- `detectorId`: The unique ID of the detector of the GuardDuty account whose members you
+  want to delete.
 
 """
 delete_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -231,7 +320,8 @@ Deletes the publishing definition with the specified destinationId.
 
 # Required Parameters
 - `destinationId`: The ID of the publishing destination to delete.
-- `detectorId`: The unique ID of the detector associated with the publishing destination to delete.
+- `detectorId`: The unique ID of the detector associated with the publishing destination to
+  delete.
 
 """
 delete_publishing_destination(destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("DELETE", "/detector/$(detectorId)/publishingDestination/$(destinationId)"; aws_config=aws_config)
@@ -256,7 +346,8 @@ delete_threat_intel_set(detectorId, threatIntelSetId, args::AbstractDict{String,
 Returns information about the account selected as the delegated administrator for GuardDuty.
 
 # Required Parameters
-- `detectorId`: The ID of the detector to retrieve information about the delegated administrator from.
+- `detectorId`: The ID of the detector to retrieve information about the delegated
+  administrator from.
 
 """
 describe_organization_configuration(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/admin"; aws_config=aws_config)
@@ -265,11 +356,13 @@ describe_organization_configuration(detectorId, args::AbstractDict{String, <:Any
 """
     DescribePublishingDestination()
 
-Returns information about the publishing destination specified by the provided destinationId.
+Returns information about the publishing destination specified by the provided
+destinationId.
 
 # Required Parameters
 - `destinationId`: The ID of the publishing destination to retrieve.
-- `detectorId`: The unique ID of the detector associated with the publishing destination to retrieve.
+- `detectorId`: The unique ID of the detector associated with the publishing destination to
+  retrieve.
 
 """
 describe_publishing_destination(destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/publishingDestination/$(destinationId)"; aws_config=aws_config)
@@ -281,7 +374,8 @@ describe_publishing_destination(destinationId, detectorId, args::AbstractDict{St
 Disables an AWS account within the Organization as the GuardDuty delegated administrator.
 
 # Required Parameters
-- `adminAccountId`: The AWS Account ID for the organizations account to be disabled as a GuardDuty delegated administrator.
+- `adminAccountId`: The AWS Account ID for the organizations account to be disabled as a
+  GuardDuty delegated administrator.
 
 """
 disable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/admin/disable", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
@@ -302,11 +396,14 @@ disassociate_from_master_account(detectorId, args::AbstractDict{String, <:Any}; 
 """
     DisassociateMembers()
 
-Disassociates GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
+Disassociates GuardDuty member accounts (to the current GuardDuty administrator account)
+specified by the account IDs.
 
 # Required Parameters
-- `accountIds`: A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account.
-- `detectorId`: The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the administrator account.
+- `accountIds`: A list of account IDs of the GuardDuty member accounts that you want to
+  disassociate from the administrator account.
+- `detectorId`: The unique ID of the detector of the GuardDuty account whose members you
+  want to disassociate from the administrator account.
 
 """
 disassociate_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/disassociate", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -318,7 +415,8 @@ disassociate_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; 
 Enables an AWS account within the organization as the GuardDuty delegated administrator.
 
 # Required Parameters
-- `adminAccountId`: The AWS Account ID for the organization account to be enabled as a GuardDuty delegated administrator.
+- `adminAccountId`: The AWS Account ID for the organization account to be enabled as a
+  GuardDuty delegated administrator.
 
 """
 enable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/admin/enable", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
@@ -355,7 +453,8 @@ get_filter(detectorId, filterName, args::AbstractDict{String, <:Any}; aws_config
 Describes Amazon GuardDuty findings specified by finding IDs.
 
 # Required Parameters
-- `detectorId`: The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
+- `detectorId`: The ID of the detector that specifies the GuardDuty service whose findings
+  you want to retrieve.
 - `findingIds`: The IDs of the findings that you want to retrieve.
 
 # Optional Parameters
@@ -370,7 +469,8 @@ get_findings(detectorId, findingIds, args::AbstractDict{String, <:Any}; aws_conf
 Lists Amazon GuardDuty findings statistics for the specified detector ID.
 
 # Required Parameters
-- `detectorId`: The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
+- `detectorId`: The ID of the detector that specifies the GuardDuty service whose findings'
+  statistics you want to retrieve.
 - `findingStatisticTypes`: The types of finding statistics to retrieve.
 
 # Optional Parameters
@@ -395,7 +495,8 @@ get_ipset(detectorId, ipSetId, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     GetInvitationsCount()
 
-Returns the count of all GuardDuty membership invitations that were sent to the current member account except the currently accepted invitation.
+Returns the count of all GuardDuty membership invitations that were sent to the current
+member account except the currently accepted invitation.
 
 """
 get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation/count"; aws_config=aws_config)
@@ -404,7 +505,8 @@ get_invitations_count(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 """
     GetMasterAccount()
 
-Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
+Provides the details for the GuardDuty administrator account associated with the current
+GuardDuty member account.
 
 # Required Parameters
 - `detectorId`: The unique ID of the detector of the GuardDuty member account.
@@ -429,11 +531,14 @@ get_member_detectors(accountIds, detectorId, args::AbstractDict{String, <:Any}; 
 """
     GetMembers()
 
-Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
+Retrieves GuardDuty member accounts (of the current GuardDuty administrator account)
+specified by the account IDs.
 
 # Required Parameters
-- `accountIds`: A list of account IDs of the GuardDuty member accounts that you want to describe.
-- `detectorId`: The unique ID of the detector of the GuardDuty account whose members you want to retrieve.
+- `accountIds`: A list of account IDs of the GuardDuty member accounts that you want to
+  describe.
+- `detectorId`: The unique ID of the detector of the GuardDuty account whose members you
+  want to retrieve.
 
 """
 get_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/get", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -455,17 +560,26 @@ get_threat_intel_set(detectorId, threatIntelSetId, args::AbstractDict{String, <:
 """
     GetUsageStatistics()
 
-Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector ID. For newly enabled detectors or data sources the cost returned will include only the usage so far under 30 days, this may differ from the cost metrics in the console, which projects usage over 30 days to provide a monthly cost estimate. For more information see Understanding How Usage Costs are Calculated.
+Lists Amazon GuardDuty usage statistics over the last 30 days for the specified detector
+ID. For newly enabled detectors or data sources the cost returned will include only the
+usage so far under 30 days, this may differ from the cost metrics in the console, which
+projects usage over 30 days to provide a monthly cost estimate. For more information see
+Understanding How Usage Costs are Calculated.
 
 # Required Parameters
-- `detectorId`: The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
+- `detectorId`: The ID of the detector that specifies the GuardDuty service whose usage
+  statistics you want to retrieve.
 - `usageCriteria`: Represents the criteria used for querying usage.
 - `usageStatisticsType`: The type of usage statistics to retrieve.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in the response.
-- `nextToken`: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
-- `unit`: The currency unit you would like to view your usage statistics in. Current valid values are USD.
+- `nextToken`: A token to use for paginating results that are returned in the response. Set
+  the value of this parameter to null for the first request to a list action. For subsequent
+  calls, use the NextToken value returned from the previous request to continue listing
+  results after the first page.
+- `unit`: The currency unit you would like to view your usage statistics in. Current valid
+  values are USD.
 """
 get_usage_statistics(detectorId, usageCriteria, usageStatisticsType; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/usage/statistics", Dict{String, Any}("usageCriteria"=>usageCriteria, "usageStatisticsType"=>usageStatisticsType); aws_config=aws_config)
 get_usage_statistics(detectorId, usageCriteria, usageStatisticsType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/usage/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("usageCriteria"=>usageCriteria, "usageStatisticsType"=>usageStatisticsType), args)); aws_config=aws_config)
@@ -473,15 +587,21 @@ get_usage_statistics(detectorId, usageCriteria, usageStatisticsType, args::Abstr
 """
     InviteMembers()
 
-Invites other AWS accounts (created as members of the current AWS account by CreateMembers) to enable GuardDuty, and allow the current AWS account to view and manage these accounts' findings on their behalf as the GuardDuty administrator account.
+Invites other AWS accounts (created as members of the current AWS account by CreateMembers)
+to enable GuardDuty, and allow the current AWS account to view and manage these accounts'
+findings on their behalf as the GuardDuty administrator account.
 
 # Required Parameters
-- `accountIds`: A list of account IDs of the accounts that you want to invite to GuardDuty as members.
-- `detectorId`: The unique ID of the detector of the GuardDuty account that you want to invite members with.
+- `accountIds`: A list of account IDs of the accounts that you want to invite to GuardDuty
+  as members.
+- `detectorId`: The unique ID of the detector of the GuardDuty account that you want to
+  invite members with.
 
 # Optional Parameters
-- `disableEmailNotification`: A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
-- `message`: The invitation message that you want to send to the accounts that you're inviting to GuardDuty as members.
+- `disableEmailNotification`: A Boolean value that specifies whether you want to disable
+  email notification to the accounts that you are inviting to GuardDuty as members.
+- `message`: The invitation message that you want to send to the accounts that you're
+  inviting to GuardDuty as members.
 """
 invite_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/invite", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
 invite_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/invite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), args)); aws_config=aws_config)
@@ -492,8 +612,12 @@ invite_members(accountIds, detectorId, args::AbstractDict{String, <:Any}; aws_co
 Lists detectorIds of all the existing Amazon GuardDuty detector resources.
 
 # Optional Parameters
-- `maxResults`: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-- `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+- `maxResults`: You can use this parameter to indicate the maximum number of items that you
+  want in the response. The default value is 50. The maximum value is 50.
+- `nextToken`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
 """
 list_detectors(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector"; aws_config=aws_config)
 list_detectors(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector", args; aws_config=aws_config)
@@ -507,8 +631,12 @@ Returns a paginated list of the current filters.
 - `detectorId`: The unique ID of the detector that the filter is associated with.
 
 # Optional Parameters
-- `maxResults`: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-- `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+- `maxResults`: You can use this parameter to indicate the maximum number of items that you
+  want in the response. The default value is 50. The maximum value is 50.
+- `nextToken`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
 """
 list_filters(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/filter"; aws_config=aws_config)
 list_filters(detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/filter", args; aws_config=aws_config)
@@ -519,12 +647,53 @@ list_filters(detectorId, args::AbstractDict{String, <:Any}; aws_config::Abstract
 Lists Amazon GuardDuty findings for the specified detector ID.
 
 # Required Parameters
-- `detectorId`: The ID of the detector that specifies the GuardDuty service whose findings you want to list.
+- `detectorId`: The ID of the detector that specifies the GuardDuty service whose findings
+  you want to list.
 
 # Optional Parameters
-- `findingCriteria`: Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000  
-- `maxResults`: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-- `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+- `findingCriteria`: Represents the criteria used for querying findings. Valid values
+  include:   JSON field name   accountId   region   confidence   id
+  resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId
+  resource.accessKeyDetails.userName   resource.accessKeyDetails.userType
+  resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId
+  resource.instanceDetails.instanceId
+  resource.instanceDetails.networkInterfaces.ipv6Addresses
+  resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
+  resource.instanceDetails.networkInterfaces.publicDnsName
+  resource.instanceDetails.networkInterfaces.publicIp
+  resource.instanceDetails.networkInterfaces.securityGroups.groupId
+  resource.instanceDetails.networkInterfaces.securityGroups.groupName
+  resource.instanceDetails.networkInterfaces.subnetId
+  resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key
+  resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType
+  service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType
+  service.action.awsApiCallAction.remoteIpDetails.city.cityName
+  service.action.awsApiCallAction.remoteIpDetails.country.countryName
+  service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
+  service.action.awsApiCallAction.remoteIpDetails.organization.asn
+  service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
+  service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain
+  service.action.networkConnectionAction.blocked
+  service.action.networkConnectionAction.connectionDirection
+  service.action.networkConnectionAction.localPortDetails.port
+  service.action.networkConnectionAction.protocol
+  service.action.networkConnectionAction.remoteIpDetails.city.cityName
+  service.action.networkConnectionAction.remoteIpDetails.country.countryName
+  service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+  service.action.networkConnectionAction.remoteIpDetails.organization.asn
+  service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
+  service.action.networkConnectionAction.remotePortDetails.port
+  service.additionalInfo.threatListName   service.archived When this attribute is set to
+  'true', only archived findings are listed. When it's set to 'false', only unarchived
+  findings are listed. When this attribute is not set, all existing findings are listed.
+  service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch
+  millisecond format: 1486685375000
+- `maxResults`: You can use this parameter to indicate the maximum number of items you want
+  in the response. The default value is 50. The maximum value is 50.
+- `nextToken`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
 - `sortCriteria`: Represents the criteria used for sorting findings.
 """
 list_findings(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/findings"; aws_config=aws_config)
@@ -533,14 +702,20 @@ list_findings(detectorId, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     ListIPSets()
 
-Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the IPSets returned are the IPSets from the associated administrator account.
+Lists the IPSets of the GuardDuty service specified by the detector ID. If you use this
+operation from a member account, the IPSets returned are the IPSets from the associated
+administrator account.
 
 # Required Parameters
 - `detectorId`: The unique ID of the detector that the IPSet is associated with.
 
 # Optional Parameters
-- `maxResults`: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-- `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+- `maxResults`: You can use this parameter to indicate the maximum number of items you want
+  in the response. The default value is 50. The maximum value is 50.
+- `nextToken`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
 """
 list_ipsets(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/ipset"; aws_config=aws_config)
 list_ipsets(detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/ipset", args; aws_config=aws_config)
@@ -551,8 +726,12 @@ list_ipsets(detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Lists all GuardDuty membership invitations that were sent to the current AWS account.
 
 # Optional Parameters
-- `maxResults`: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-- `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+- `maxResults`: You can use this parameter to indicate the maximum number of items that you
+  want in the response. The default value is 50. The maximum value is 50.
+- `nextToken`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation"; aws_config=aws_config)
 list_invitations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation", args; aws_config=aws_config)
@@ -566,9 +745,14 @@ Lists details about all member accounts for the current GuardDuty administrator 
 - `detectorId`: The unique ID of the detector the member is associated with.
 
 # Optional Parameters
-- `maxResults`: You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-- `nextToken`: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
-- `onlyAssociated`: Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated).
+- `maxResults`: You can use this parameter to indicate the maximum number of items you want
+  in the response. The default value is 50. The maximum value is 50.
+- `nextToken`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
+- `onlyAssociated`: Specifies whether to only return associated members or to return all
+  members (including members who haven't been invited yet or have been disassociated).
 """
 list_members(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/member"; aws_config=aws_config)
 list_members(detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/member", args; aws_config=aws_config)
@@ -580,7 +764,10 @@ Lists the accounts configured as GuardDuty delegated administrators.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in the response.
-- `nextToken`: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+- `nextToken`: A token to use for paginating results that are returned in the response. Set
+  the value of this parameter to null for the first request to a list action. For subsequent
+  calls, use the NextToken value returned from the previous request to continue listing
+  results after the first page.
 """
 list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/admin"; aws_config=aws_config)
 list_organization_admin_accounts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/admin", args; aws_config=aws_config)
@@ -595,7 +782,10 @@ Returns a list of publishing destinations associated with the specified dectecto
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in the response.
-- `nextToken`: A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+- `nextToken`: A token to use for paginating results that are returned in the response. Set
+  the value of this parameter to null for the first request to a list action. For subsequent
+  calls, use the NextToken value returned from the previous request to continue listing
+  results after the first page.
 """
 list_publishing_destinations(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/publishingDestination"; aws_config=aws_config)
 list_publishing_destinations(detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/publishingDestination", args; aws_config=aws_config)
@@ -603,10 +793,12 @@ list_publishing_destinations(detectorId, args::AbstractDict{String, <:Any}; aws_
 """
     ListTagsForResource()
 
-Lists tags for a resource. Tagging is currently supported for detectors, finding filters, IP sets, and threat intel sets, with a limit of 50 tags per resource. When invoked, this operation returns all assigned tags for a given resource.
+Lists tags for a resource. Tagging is currently supported for detectors, finding filters,
+IP sets, and threat intel sets, with a limit of 50 tags per resource. When invoked, this
+operation returns all assigned tags for a given resource.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) for the given GuardDuty resource. 
+- `resourceArn`: The Amazon Resource Name (ARN) for the given GuardDuty resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
@@ -615,14 +807,20 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     ListThreatIntelSets()
 
-Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use this operation from a member account, the ThreatIntelSets associated with the administrator account are returned.
+Lists the ThreatIntelSets of the GuardDuty service specified by the detector ID. If you use
+this operation from a member account, the ThreatIntelSets associated with the administrator
+account are returned.
 
 # Required Parameters
 - `detectorId`: The unique ID of the detector that the threatIntelSet is associated with.
 
 # Optional Parameters
-- `maxResults`: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-- `nextToken`: You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+- `maxResults`: You can use this parameter to indicate the maximum number of items that you
+  want in the response. The default value is 50. The maximum value is 50.
+- `nextToken`: You can use this parameter to paginate results in the response. Set the
+  value of this parameter to null on your first call to the list action. For subsequent calls
+  to the action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
 """
 list_threat_intel_sets(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/threatintelset"; aws_config=aws_config)
 list_threat_intel_sets(detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector/$(detectorId)/threatintelset", args; aws_config=aws_config)
@@ -630,11 +828,14 @@ list_threat_intel_sets(detectorId, args::AbstractDict{String, <:Any}; aws_config
 """
     StartMonitoringMembers()
 
-Turns on GuardDuty monitoring of the specified member accounts. Use this operation to restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
+Turns on GuardDuty monitoring of the specified member accounts. Use this operation to
+restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers
+operation.
 
 # Required Parameters
 - `accountIds`: A list of account IDs of the GuardDuty member accounts to start monitoring.
-- `detectorId`: The unique ID of the detector of the GuardDuty administrator account associated with the member accounts to monitor.
+- `detectorId`: The unique ID of the detector of the GuardDuty administrator account
+  associated with the member accounts to monitor.
 
 """
 start_monitoring_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/start", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -643,11 +844,13 @@ start_monitoring_members(accountIds, detectorId, args::AbstractDict{String, <:An
 """
     StopMonitoringMembers()
 
-Stops GuardDuty monitoring for the specified member accounts. Use the StartMonitoringMembers operation to restart monitoring for those accounts.
+Stops GuardDuty monitoring for the specified member accounts. Use the
+StartMonitoringMembers operation to restart monitoring for those accounts.
 
 # Required Parameters
 - `accountIds`: A list of account IDs for the member accounts to stop monitoring.
-- `detectorId`: The unique ID of the detector associated with the GuardDuty administrator account that is monitoring member accounts.
+- `detectorId`: The unique ID of the detector associated with the GuardDuty administrator
+  account that is monitoring member accounts.
 
 """
 stop_monitoring_members(accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/member/stop", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -659,7 +862,8 @@ stop_monitoring_members(accountIds, detectorId, args::AbstractDict{String, <:Any
 Adds tags to a resource.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
+- `resourceArn`: The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag
+  to.
 - `tags`: The tags to be added to a resource.
 
 """
@@ -703,7 +907,8 @@ Updates the Amazon GuardDuty detector specified by the detectorId.
 # Optional Parameters
 - `dataSources`: Describes which data sources will be updated.
 - `enable`: Specifies whether the detector is enabled or not enabled.
-- `findingPublishingFrequency`: An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
+- `findingPublishingFrequency`: An enum value that specifies how frequently findings are
+  exported, such as to CloudWatch Events.
 """
 update_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)"; aws_config=aws_config)
 update_detector(detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)", args; aws_config=aws_config)
@@ -714,14 +919,17 @@ update_detector(detectorId, args::AbstractDict{String, <:Any}; aws_config::Abstr
 Updates the filter specified by the filter name.
 
 # Required Parameters
-- `detectorId`: The unique ID of the detector that specifies the GuardDuty service where you want to update a filter.
+- `detectorId`: The unique ID of the detector that specifies the GuardDuty service where
+  you want to update a filter.
 - `filterName`: The name of the filter.
 
 # Optional Parameters
-- `action`: Specifies the action that is to be applied to the findings that match the filter.
+- `action`: Specifies the action that is to be applied to the findings that match the
+  filter.
 - `description`: The description of the filter.
 - `findingCriteria`: Represents the criteria to be used in the filter for querying findings.
-- `rank`: Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
+- `rank`: Specifies the position of the filter in the list of current filters. Also
+  specifies the order in which this filter is applied to the findings.
 """
 update_filter(detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/filter/$(filterName)"; aws_config=aws_config)
 update_filter(detectorId, filterName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/filter/$(filterName)", args; aws_config=aws_config)
@@ -748,12 +956,14 @@ update_findings_feedback(detectorId, feedback, findingIds, args::AbstractDict{St
 Updates the IPSet specified by the IPSet ID.
 
 # Required Parameters
-- `detectorId`: The detectorID that specifies the GuardDuty service whose IPSet you want to update.
+- `detectorId`: The detectorID that specifies the GuardDuty service whose IPSet you want to
+  update.
 - `ipSetId`: The unique ID that specifies the IPSet that you want to update.
 
 # Optional Parameters
 - `activate`: The updated Boolean value that specifies whether the IPSet is active or not.
-- `location`: The updated URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+- `location`: The updated URI of the file that contains the IPSet. For example:
+  https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
 - `name`: The unique ID that specifies the IPSet that you want to update.
 """
 update_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/ipset/$(ipSetId)"; aws_config=aws_config)
@@ -780,7 +990,8 @@ update_member_detectors(accountIds, detectorId, args::AbstractDict{String, <:Any
 Updates the delegated administrator account with the values provided.
 
 # Required Parameters
-- `autoEnable`: Indicates whether to automatically enable member accounts in the organization.
+- `autoEnable`: Indicates whether to automatically enable member accounts in the
+  organization.
 - `detectorId`: The ID of the detector to update the delegated administrator for.
 
 # Optional Parameters
@@ -796,10 +1007,12 @@ Updates information about the publishing destination specified by the destinatio
 
 # Required Parameters
 - `destinationId`: The ID of the publishing destination to update.
-- `detectorId`: The ID of the detector associated with the publishing destinations to update.
+- `detectorId`: The ID of the detector associated with the publishing destinations to
+  update.
 
 # Optional Parameters
-- `destinationProperties`: A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination.
+- `destinationProperties`: A DestinationProperties object that includes the DestinationArn
+  and KmsKeyArn of the publishing destination.
 """
 update_publishing_destination(destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/publishingDestination/$(destinationId)"; aws_config=aws_config)
 update_publishing_destination(destinationId, detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("POST", "/detector/$(detectorId)/publishingDestination/$(destinationId)", args; aws_config=aws_config)
@@ -810,11 +1023,14 @@ update_publishing_destination(destinationId, detectorId, args::AbstractDict{Stri
 Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
 
 # Required Parameters
-- `detectorId`: The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
-- `threatIntelSetId`: The unique ID that specifies the ThreatIntelSet that you want to update.
+- `detectorId`: The detectorID that specifies the GuardDuty service whose ThreatIntelSet
+  you want to update.
+- `threatIntelSetId`: The unique ID that specifies the ThreatIntelSet that you want to
+  update.
 
 # Optional Parameters
-- `activate`: The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
+- `activate`: The updated Boolean value that specifies whether the ThreateIntelSet is
+  active or not.
 - `location`: The updated URI of the file that contains the ThreateIntelSet.
 - `name`: The unique ID that specifies the ThreatIntelSet that you want to update.
 """

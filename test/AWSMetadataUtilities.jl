@@ -476,3 +476,130 @@ end
         end
     end
 end
+
+@testset "string wrapping functionality" begin
+    @testset "_validindex" begin
+        str = "jμΛIα"  # μ, Λ, α have 2 codeunits.
+        @test _validindex(str, 1) == 1 # j
+        @test _validindex(str, 2) == 2 # μ
+        @test _validindex(str, 3) == 2 # μ still
+        @test _validindex(str, 4) == 4 # Λ
+        @test_throws BoundsError _validindex(str, 0)
+        @test_throws BoundsError _validindex(str, 10)
+    end
+
+    @testset "_splitline" begin
+        str = "This is a short sentence."
+
+        @testset "limit < 1" begin
+            @test_throws DomainError _splitline(str, 0)
+            @test_throws DomainError _splitline(str, -1)
+        end
+
+        @testset "limit == 1" begin
+            result = _splitline(str, 1)
+            @test result isa Tuple{String,String}
+            line1, line2 = result
+            @test line1 == string(first(str)) == "T"
+            @test line2 == str[2:end] == "his is a short sentence."
+        end
+
+        @testset "limit >= ncodeunits" begin
+            for limit in (ncodeunits(str), ncodeunits(str) + 1)
+                result = _splitline(str, limit)
+                @test result isa Tuple{String,String}
+                line1, line2 = result
+                @test line1 == str
+                @test line2 == ""
+            end
+        end
+
+        @testset "split on whitespace when possible" begin
+            abc = "Aa Bb Cc"
+            @test _splitline(abc, 1) == ("A", "a Bb Cc")  # No preceding whitespace to split on
+            @test _splitline(abc, 2) == ("Aa", " Bb Cc")
+            @test _splitline(abc, 3) == ("Aa ", "Bb Cc")
+            @test _splitline(abc, 4) == ("Aa ", "Bb Cc")  # 4 == `B`, split on preceding whitespace
+            @test _splitline(abc, 5) == ("Aa ", "Bb Cc")  # 5 == 'b', split on preceding whitespace
+            @test _splitline(abc, 6) == ("Aa Bb ", "Cc")
+            @test _splitline(abc, ncodeunits(abc) - 1) == ("Aa Bb ", "Cc")
+        end
+
+        @testset "does not try to split mid-character" begin
+            str = "jμΛIα"  # 'μ' starts at str[2], 'Λ' starts at str[4]
+            @test _splitline(str, 2) == ("jμ", "ΛIα")
+            @test _splitline(str, 3) == ("jμ", "ΛIα") # should not try to split mid-'μ'
+            @test _splitline(str, 4) == ("jμΛ", "Iα")
+        end
+
+        @testset "does not split on punctuation" begin
+            str = "\"arn:aws:health:us-west-1::event/EBS/AWS\""
+            result = _splitline(str, ncodeunits(str) - 1)
+            # don't split escaped closing quote `\"` into `\` and `"`
+            @test result == ("\"arn:aws:health:us-west-1::event/EBS/AWS", "\"")
+        end
+    end
+
+    @testset "_wraplines" begin
+        str = "This sentence contains exactly `η = 50` codeunits"
+
+        @testset "limit < 1" begin
+            @test_throws DomainError _wraplines(str, 0)
+            @test_throws DomainError _wraplines(str, -1)
+        end
+
+        @testset "limit == 1" begin
+            wrapped = _wraplines(str, 1)
+            @test wrapped isa String
+            @test startswith(wrapped, "T\nh\ni\ns\n\ns\ne")
+        end
+
+        @testset "limit >= ncodeunits" begin
+            for limit in (50, 99)
+                wrapped = _wraplines(str, limit)
+                @test wrapped isa String
+                @test wrapped == str
+            end
+        end
+
+        @testset "1 < limit < ncodeunits" begin
+            @test _wraplines(str, 20) == """
+                This sentence
+                contains exactly
+                `η = 50` codeunits"""
+            @test _wraplines(str, 25) == """
+                This sentence contains
+                exactly `η = 50`
+                codeunits"""
+            @test _wraplines(str, 30) == """
+                This sentence contains
+                exactly `η = 50` codeunits"""
+        end
+
+        @testset "trailing whitespace is stripped" begin
+            str = "16charactersthen    fourspaces "
+            @test _wraplines(str, 16) == "16charactersthen\n    fourspaces"
+            @test _wraplines(str, 17) == "16charactersthen\n   fourspaces"
+            @test _wraplines(str, 18) == "16charactersthen\n  fourspaces"
+        end
+
+        @testset "has default `limit=92` argument" begin
+            str = string(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            )
+            @test _wraplines(str) == _wraplines(str, 92)
+        end
+
+        @testset "optional `delim` keyword" begin
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            )
+            @test _wraplines(str, 50; delim="\n  ") == """
+                - Lorem ipsum dolor sit amet, consectetur
+                  adipiscing elit, sed do eiusmod tempor incididunt
+                  ut labore et dolore magna aliqua."""
+        end
+    end
+end

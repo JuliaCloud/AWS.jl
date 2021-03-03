@@ -13,7 +13,10 @@ Associates a partner account with your AWS account.
 - `Sidewalk`: The Sidewalk account credentials.
 
 # Optional Parameters
-- `ClientRequestToken`: Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `ClientRequestToken`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
 """
 associate_aws_account_with_partner_account(Sidewalk; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/partner-accounts", Dict{String, Any}("Sidewalk"=>Sidewalk, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 associate_aws_account_with_partner_account(Sidewalk, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/partner-accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sidewalk"=>Sidewalk, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -69,9 +72,13 @@ Creates a new destination that maps a device message to an AWS IoT rule.
 - `RoleArn`: The ARN of the IAM Role that authorizes the destination.
 
 # Optional Parameters
-- `ClientRequestToken`: Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `ClientRequestToken`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
 - `Description`: The description of the new resource.
-- `Tags`: The tags to attach to the new destination. Tags are metadata that can be used to manage a resource.
+- `Tags`: The tags to attach to the new destination. Tags are metadata that can be used to
+  manage a resource.
 """
 create_destination(Expression, ExpressionType, Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/destinations", Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "Name"=>Name, "RoleArn"=>RoleArn, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_destination(Expression, ExpressionType, Name, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "Name"=>Name, "RoleArn"=>RoleArn, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -82,10 +89,14 @@ create_destination(Expression, ExpressionType, Name, RoleArn, args::AbstractDict
 Creates a new device profile.
 
 # Optional Parameters
-- `ClientRequestToken`: Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `ClientRequestToken`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
 - `LoRaWAN`: The device profile information to use to create the device profile.
 - `Name`: The name of the new resource.
-- `Tags`: The tags to attach to the new device profile Tags are metadata that can be used to manage a resource.
+- `Tags`: The tags to attach to the new device profile Tags are metadata that can be used
+  to manage a resource.
 """
 create_device_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/device-profiles", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_device_profile(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/device-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -96,10 +107,14 @@ create_device_profile(args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 Creates a new service profile.
 
 # Optional Parameters
-- `ClientRequestToken`: Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `ClientRequestToken`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
 - `LoRaWAN`: The service profile information to use to create the service profile.
 - `Name`: The name of the new resource.
-- `Tags`: The tags to attach to the new service profile. Tags are metadata that can be used to manage a resource.
+- `Tags`: The tags to attach to the new service profile. Tags are metadata that can be used
+  to manage a resource.
 """
 create_service_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/service-profiles", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_service_profile(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/service-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -114,7 +129,10 @@ Provisions a wireless device.
 - `Type`: The wireless device type.
 
 # Optional Parameters
-- `ClientRequestToken`: Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `ClientRequestToken`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
 - `Description`: The description of the new resource.
 - `LoRaWAN`: The device configuration information to use to create the wireless device.
 - `Name`: The name of the new resource.
@@ -131,10 +149,14 @@ Provisions a wireless gateway.
 - `LoRaWAN`: The gateway configuration information to use to create the wireless gateway.
 
 # Optional Parameters
-- `ClientRequestToken`: Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `ClientRequestToken`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
 - `Description`: The description of the new resource.
 - `Name`: The name of the new resource.
-- `Tags`: The tags to attach to the new wireless gateway. Tags are metadata that can be used to manage a resource.
+- `Tags`: The tags to attach to the new wireless gateway. Tags are metadata that can be
+  used to manage a resource.
 """
 create_wireless_gateway(LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways", Dict{String, Any}("LoRaWAN"=>LoRaWAN, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_wireless_gateway(LoRaWAN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoRaWAN"=>LoRaWAN, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -158,10 +180,15 @@ create_wireless_gateway_task(Id, WirelessGatewayTaskDefinitionId, args::Abstract
 Creates a gateway task definition.
 
 # Required Parameters
-- `AutoCreateTasks`: Whether to automatically create tasks using this task definition for all gateways with the specified current version. If false, the task must me created by calling CreateWirelessGatewayTask.
+- `AutoCreateTasks`: Whether to automatically create tasks using this task definition for
+  all gateways with the specified current version. If false, the task must me created by
+  calling CreateWirelessGatewayTask.
 
 # Optional Parameters
-- `ClientRequestToken`: Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
+- `ClientRequestToken`: Each resource must have a unique client request token. If you try
+  to create a new resource with the same token as a resource that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
 - `Name`: The name of the new resource.
 - `Update`: Information about the gateways to update.
 """
@@ -243,7 +270,8 @@ delete_wireless_gateway_task(Id, args::AbstractDict{String, <:Any}; aws_config::
 """
     DeleteWirelessGatewayTaskDefinition()
 
-Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
+Deletes a wireless gateway task definition. Deleting this task definition does not affect
+tasks that are currently in progress.
 
 # Required Parameters
 - `Id`: The ID of the resource to delete.
@@ -255,7 +283,8 @@ delete_wireless_gateway_task_definition(Id, args::AbstractDict{String, <:Any}; a
 """
     DisassociateAwsAccountFromPartnerAccount()
 
-Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
+Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType
+are null, disassociates your AWS account from all partner accounts.
 
 # Required Parameters
 - `PartnerAccountId`: The partner account ID to disassociate from the AWS account.
@@ -328,7 +357,8 @@ get_device_profile(Id, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     GetPartnerAccount()
 
-Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
+Gets information about a partner account. If PartnerAccountId and PartnerType are null,
+returns all partner accounts.
 
 # Required Parameters
 - `PartnerAccountId`: The partner account ID to disassociate from the AWS account.
@@ -341,10 +371,13 @@ get_partner_account(PartnerAccountId, partnerType, args::AbstractDict{String, <:
 """
     GetServiceEndpoint()
 
-Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
+Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or
+LoRaWAN Network Server (LNS) connections.
 
 # Optional Parameters
-- `serviceType`: The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint.
+- `serviceType`: The service type for which to get endpoint information about. Can be CUPS
+  for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server
+  endpoint.
 """
 get_service_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-endpoint"; aws_config=aws_config)
 get_service_endpoint(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-endpoint", args; aws_config=aws_config)
@@ -466,7 +499,8 @@ Lists the destinations registered to your AWS account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations"; aws_config=aws_config)
 list_destinations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations", args; aws_config=aws_config)
@@ -478,7 +512,8 @@ Lists the device profiles registered to your AWS account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_device_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles"; aws_config=aws_config)
 list_device_profiles(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles", args; aws_config=aws_config)
@@ -490,7 +525,8 @@ Lists the partner accounts associated with your AWS account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_partner_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts"; aws_config=aws_config)
 list_partner_accounts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts", args; aws_config=aws_config)
@@ -502,7 +538,8 @@ Lists the service profiles registered to your AWS account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_service_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles"; aws_config=aws_config)
 list_service_profiles(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles", args; aws_config=aws_config)
@@ -526,11 +563,15 @@ Lists the wireless devices registered to your AWS account.
 
 # Optional Parameters
 - `destinationName`: A filter to list only the wireless devices that use this destination.
-- `deviceProfileId`: A filter to list only the wireless devices that use this device profile.
+- `deviceProfileId`: A filter to list only the wireless devices that use this device
+  profile.
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
-- `serviceProfileId`: A filter to list only the wireless devices that use this service profile.
-- `wirelessDeviceType`: A filter to list only the wireless devices that use this wireless device type.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+- `serviceProfileId`: A filter to list only the wireless devices that use this service
+  profile.
+- `wirelessDeviceType`: A filter to list only the wireless devices that use this wireless
+  device type.
 """
 list_wireless_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices"; aws_config=aws_config)
 list_wireless_devices(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices", args; aws_config=aws_config)
@@ -542,8 +583,10 @@ List the wireless gateway tasks definitions registered to your AWS account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
-- `taskDefinitionType`: A filter to list only the wireless gateway task definitions that use this task definition type.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+- `taskDefinitionType`: A filter to list only the wireless gateway task definitions that
+  use this task definition type.
 """
 list_wireless_gateway_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions"; aws_config=aws_config)
 list_wireless_gateway_task_definitions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions", args; aws_config=aws_config)
@@ -555,7 +598,8 @@ Lists the wireless gateways registered to your AWS account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_wireless_gateways(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways"; aws_config=aws_config)
 list_wireless_gateways(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways", args; aws_config=aws_config)
@@ -568,7 +612,8 @@ Sends a decrypted application data frame to a device.
 # Required Parameters
 - `Id`: The ID of the wireless device to receive the data.
 - `PayloadData`: The message payload to send.
-- `TransmitMode`: The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode), 1 for AM (acknowledge mode), or 2 for (TM) transparent mode.
+- `TransmitMode`: The transmit mode to use to send data to the wireless device. Can be: 0
+  for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
 
 # Optional Parameters
 - `WirelessMetadata`: Metadata about the message request.
@@ -582,7 +627,8 @@ send_data_to_wireless_device(Id, PayloadData, TransmitMode, args::AbstractDict{S
 Adds a tag to a resource.
 
 # Required Parameters
-- `Tags`: Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
+- `Tags`: Adds to or modifies the tags of the given resource. Tags are metadata that can be
+  used to manage a resource.
 - `resourceArn`: The ARN of the resource to add tags to.
 
 """

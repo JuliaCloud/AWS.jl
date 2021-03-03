@@ -55,7 +55,8 @@ cancel_simulation_job(job, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     CancelSimulationJobBatch()
 
-Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch. 
+Cancels a simulation job batch. When you cancel a simulation job batch, you are also
+cancelling all of the active simulation jobs created as part of the batch.
 
 # Required Parameters
 - `batch`: The id of the batch to cancel.
@@ -91,16 +92,22 @@ cancel_world_generation_job(job, args::AbstractDict{String, <:Any}; aws_config::
 """
     CreateDeploymentJob()
 
-Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.  
+Deploys a specific version of a robot application to robots in a fleet. The robot
+application must have a numbered applicationVersion for consistency reasons. To create a
+new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.
+  After 90 days, deployment jobs expire and will be deleted. They will no longer be
+accessible.
 
 # Required Parameters
-- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `deploymentApplicationConfigs`: The deployment application configuration.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet to deploy.
 
 # Optional Parameters
 - `deploymentConfig`: The requested deployment configuration.
-- `tags`: A map that contains tag keys and tag values that are attached to the deployment job.
+- `tags`: A map that contains tag keys and tag values that are attached to the deployment
+  job.
 """
 create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet); aws_config=aws_config)
 create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet), args)); aws_config=aws_config)
@@ -138,15 +145,17 @@ create_robot(architecture, greengrassGroupId, name, args::AbstractDict{String, <
 """
     CreateRobotApplication()
 
-Creates a robot application. 
+Creates a robot application.
 
 # Required Parameters
 - `name`: The name of the robot application.
-- `robotSoftwareSuite`: The robot software suite (ROS distribuition) used by the robot application.
+- `robotSoftwareSuite`: The robot software suite (ROS distribuition) used by the robot
+  application.
 - `sources`: The sources of the robot application.
 
 # Optional Parameters
-- `tags`: A map that contains tag keys and tag values that are attached to the robot application.
+- `tags`: A map that contains tag keys and tag values that are attached to the robot
+  application.
 """
 create_robot_application(name, robotSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws_config=aws_config)
 create_robot_application(name, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
@@ -160,7 +169,8 @@ Creates a version of a robot application.
 - `application`: The application information for the robot application.
 
 # Optional Parameters
-- `currentRevisionId`: The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
+- `currentRevisionId`: The current revision id for the robot application. If you provide a
+  value and it matches the latest revision ID, a new version will be created.
 """
 create_robot_application_version(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}("application"=>application); aws_config=aws_config)
 create_robot_application_version(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
@@ -172,13 +182,16 @@ Creates a simulation application.
 
 # Required Parameters
 - `name`: The name of the simulation application.
-- `robotSoftwareSuite`: The robot software suite (ROS distribution) used by the simulation application.
-- `simulationSoftwareSuite`: The simulation software suite used by the simulation application.
+- `robotSoftwareSuite`: The robot software suite (ROS distribution) used by the simulation
+  application.
+- `simulationSoftwareSuite`: The simulation software suite used by the simulation
+  application.
 - `sources`: The sources of the simulation application.
 
 # Optional Parameters
 - `renderingEngine`: The rendering engine for the simulation application.
-- `tags`: A map that contains tag keys and tag values that are attached to the simulation application.
+- `tags`: A map that contains tag keys and tag values that are attached to the simulation
+  application.
 """
 create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws_config=aws_config)
 create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws_config=aws_config)
@@ -192,7 +205,8 @@ Creates a simulation application with a specific revision id.
 - `application`: The application information for the simulation application.
 
 # Optional Parameters
-- `currentRevisionId`: The current revision id for the simulation application. If you provide a value and it matches the latest revision ID, a new version will be created.
+- `currentRevisionId`: The current revision id for the simulation application. If you
+  provide a value and it matches the latest revision ID, a new version will be created.
 """
 create_simulation_application_version(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}("application"=>application); aws_config=aws_config)
 create_simulation_application_version(application, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws_config=aws_config)
@@ -200,23 +214,37 @@ create_simulation_application_version(application, args::AbstractDict{String, <:
 """
     CreateSimulationJob()
 
-Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.  
+Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They
+will no longer be accessible.
 
 # Required Parameters
-- `iamRole`: The IAM role name that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. 
-- `maxJobDurationInSeconds`: The maximum simulation job duration in seconds (up to 14 days or 1,209,600 seconds. When maxJobDurationInSeconds is reached, the simulation job will status will transition to Completed.
+- `iamRole`: The IAM role name that allows the simulation instance to call the AWS APIs
+  that are specified in its associated policies on your behalf. This is how credentials are
+  passed in to your simulation job.
+- `maxJobDurationInSeconds`: The maximum simulation job duration in seconds (up to 14 days
+  or 1,209,600 seconds. When maxJobDurationInSeconds is reached, the simulation job will
+  status will transition to Completed.
 
 # Optional Parameters
-- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `compute`: Compute information for the simulation job.
-- `dataSources`: Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
-- `failureBehavior`: The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
+- `dataSources`: Specify data sources to mount read-only files from S3 into your
+  simulation. These files are available under /opt/robomaker/datasources/data_source_name.
+  There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.
+  
+- `failureBehavior`: The failure behavior the simulation job.  Continue  Restart the
+  simulation job in the same host instance.  Fail  Stop the simulation job and terminate the
+  instance.
 - `loggingConfig`: The logging configuration.
 - `outputLocation`: Location for output files generated by the simulation job.
 - `robotApplications`: The robot application to use in the simulation job.
 - `simulationApplications`: The simulation application to use in the simulation job.
-- `tags`: A map that contains tag keys and tag values that are attached to the simulation job.
-- `vpcConfig`: If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
+- `tags`: A map that contains tag keys and tag values that are attached to the simulation
+  job.
+- `vpcConfig`: If your simulation job accesses resources in a VPC, you provide this
+  parameter identifying the list of security group IDs and subnet IDs. These must belong to
+  the same VPC. You must provide at least one security group and one subnet ID.
 """
 create_simulation_job(iamRole, maxJobDurationInSeconds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_simulation_job(iamRole, maxJobDurationInSeconds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -227,13 +255,16 @@ create_simulation_job(iamRole, maxJobDurationInSeconds, args::AbstractDict{Strin
 Creates a world export job.
 
 # Required Parameters
-- `iamRole`: The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
-- `outputLocation`: 
+- `iamRole`: The IAM role that the world export process uses to access the Amazon S3 bucket
+  and put the export.
+- `outputLocation`:
 - `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to export.
 
 # Optional Parameters
-- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `tags`: A map that contains tag keys and tag values that are attached to the world export job.
+- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `tags`: A map that contains tag keys and tag values that are attached to the world export
+  job.
 """
 create_world_export_job(iamRole, outputLocation, worlds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_world_export_job(iamRole, outputLocation, worlds, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -244,13 +275,17 @@ create_world_export_job(iamRole, outputLocation, worlds, args::AbstractDict{Stri
 Creates worlds using the specified template.
 
 # Required Parameters
-- `template`: The Amazon Resource Name (arn) of the world template describing the worlds you want to create.
+- `template`: The Amazon Resource Name (arn) of the world template describing the worlds
+  you want to create.
 - `worldCount`: Information about the world count.
 
 # Optional Parameters
-- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `tags`: A map that contains tag keys and tag values that are attached to the world generator job.
-- `worldTags`: A map that contains tag keys and tag values that are attached to the generated worlds.
+- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `tags`: A map that contains tag keys and tag values that are attached to the world
+  generator job.
+- `worldTags`: A map that contains tag keys and tag values that are attached to the
+  generated worlds.
 """
 create_world_generation_job(template, worldCount; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_world_generation_job(template, worldCount, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -261,9 +296,11 @@ create_world_generation_job(template, worldCount, args::AbstractDict{String, <:A
 Creates a world template.
 
 # Optional Parameters
-- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `name`: The name of the world template.
-- `tags`: A map that contains tag keys and tag values that are attached to the world template.
+- `tags`: A map that contains tag keys and tag values that are attached to the world
+  template.
 - `templateBody`: The world template body.
 - `templateLocation`: The location of the world template.
 """
@@ -498,12 +535,25 @@ get_world_template_body(args::AbstractDict{String, Any}; aws_config::AbstractAWS
 """
     ListDeploymentJobs()
 
-Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. 
+Returns a list of deployment jobs for a fleet. You can optionally provide filters to
+retrieve specific deployment jobs.
 
 # Optional Parameters
-- `filters`: Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
-- `maxResults`: When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListDeploymentJobs returns up to 200 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `filters`: Optional filters to limit results. The filter names status and fleetName are
+  supported. When filtering, you must use the complete value of the filtered item. You can
+  use up to three filters, but they must be for the same named item. For example, if you are
+  looking for items with the status InProgress or the status Pending.
+- `maxResults`: When this parameter is used, ListDeploymentJobs only returns maxResults
+  results in a single page along with a nextToken response element. The remaining results of
+  the initial request can be seen by sending another ListDeploymentJobs request with the
+  returned nextToken value. This value can be between 1 and 200. If this parameter is not
+  used, then ListDeploymentJobs returns up to 200 results and a nextToken value if
+  applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListDeploymentJobs again and assign that token to the request
+  object's nextToken parameter. If there are no remaining results, the previous response
+  object's NextToken parameter is set to null.
 """
 list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs"; aws_config=aws_config)
 list_deployment_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs", args; aws_config=aws_config)
@@ -511,12 +561,24 @@ list_deployment_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 """
     ListFleets()
 
-Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
+Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
 
 # Optional Parameters
-- `filters`: Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
-- `maxResults`: When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListFleets returns up to 200 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
+- `filters`: Optional filters to limit results. The filter name name is supported. When
+  filtering, you must use the complete value of the filtered item. You can use up to three
+  filters.
+- `maxResults`: When this parameter is used, ListFleets only returns maxResults results in
+  a single page along with a nextToken response element. The remaining results of the initial
+  request can be seen by sending another ListFleets request with the returned nextToken
+  value. This value can be between 1 and 200. If this parameter is not used, then ListFleets
+  returns up to 200 results and a nextToken value if applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListFleets again and assign that token to the request object's
+  nextToken parameter. If there are no remaining results, the previous response object's
+  NextToken parameter is set to null.   This token should be treated as an opaque identifier
+  that is only used to retrieve the next items in a list and not for other programmatic
+  purposes.
 """
 list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets"; aws_config=aws_config)
 list_fleets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets", args; aws_config=aws_config)
@@ -524,12 +586,24 @@ list_fleets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=globa
 """
     ListRobotApplications()
 
-Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
+Returns a list of robot application. You can optionally provide filters to retrieve
+specific robot applications.
 
 # Optional Parameters
-- `filters`: Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
-- `maxResults`: When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `filters`: Optional filters to limit results. The filter name name is supported. When
+  filtering, you must use the complete value of the filtered item. You can use up to three
+  filters.
+- `maxResults`: When this parameter is used, ListRobotApplications only returns maxResults
+  results in a single page along with a nextToken response element. The remaining results of
+  the initial request can be seen by sending another ListRobotApplications request with the
+  returned nextToken value. This value can be between 1 and 100. If this parameter is not
+  used, then ListRobotApplications returns up to 100 results and a nextToken value if
+  applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListRobotApplications again and assign that token to the request
+  object's nextToken parameter. If there are no remaining results, the previous response
+  object's NextToken parameter is set to null.
 - `versionQualifier`: The version qualifier of the robot application.
 """
 list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications"; aws_config=aws_config)
@@ -541,9 +615,20 @@ list_robot_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWS
 Returns a list of robots. You can optionally provide filters to retrieve specific robots.
 
 # Optional Parameters
-- `filters`: Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
-- `maxResults`: When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListRobots returns up to 200 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `filters`: Optional filters to limit results. The filter names status and fleetName are
+  supported. When filtering, you must use the complete value of the filtered item. You can
+  use up to three filters, but they must be for the same named item. For example, if you are
+  looking for items with the status Registered or the status Available.
+- `maxResults`: When this parameter is used, ListRobots only returns maxResults results in
+  a single page along with a nextToken response element. The remaining results of the initial
+  request can be seen by sending another ListRobots request with the returned nextToken
+  value. This value can be between 1 and 200. If this parameter is not used, then ListRobots
+  returns up to 200 results and a nextToken value if applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListRobots again and assign that token to the request object's
+  nextToken parameter. If there are no remaining results, the previous response object's
+  NextToken parameter is set to null.
 """
 list_robots(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots"; aws_config=aws_config)
 list_robots(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots", args; aws_config=aws_config)
@@ -551,12 +636,24 @@ list_robots(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=globa
 """
     ListSimulationApplications()
 
-Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
+Returns a list of simulation applications. You can optionally provide filters to retrieve
+specific simulation applications.
 
 # Optional Parameters
-- `filters`: Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
-- `maxResults`: When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `filters`: Optional list of filters to limit results. The filter name name is supported.
+  When filtering, you must use the complete value of the filtered item. You can use up to
+  three filters.
+- `maxResults`: When this parameter is used, ListSimulationApplications only returns
+  maxResults results in a single page along with a nextToken response element. The remaining
+  results of the initial request can be seen by sending another ListSimulationApplications
+  request with the returned nextToken value. This value can be between 1 and 100. If this
+  parameter is not used, then ListSimulationApplications returns up to 100 results and a
+  nextToken value if applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListSimulationApplications again and assign that token to the
+  request object's nextToken parameter. If there are no remaining results, the previous
+  response object's NextToken parameter is set to null.
 - `versionQualifier`: The version qualifier of the simulation application.
 """
 list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications"; aws_config=aws_config)
@@ -565,12 +662,20 @@ list_simulation_applications(args::AbstractDict{String, Any}; aws_config::Abstra
 """
     ListSimulationJobBatches()
 
-Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs. 
+Returns a list simulation job batches. You can optionally provide filters to retrieve
+specific simulation batch jobs.
 
 # Optional Parameters
 - `filters`: Optional filters to limit results.
-- `maxResults`: When this parameter is used, ListSimulationJobBatches only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobBatches request with the returned nextToken value. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `maxResults`: When this parameter is used, ListSimulationJobBatches only returns
+  maxResults results in a single page along with a nextToken response element. The remaining
+  results of the initial request can be seen by sending another ListSimulationJobBatches
+  request with the returned nextToken value.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListSimulationJobBatches again and assign that token to the
+  request object's nextToken parameter. If there are no remaining results, the previous
+  response object's NextToken parameter is set to null.
 """
 list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches"; aws_config=aws_config)
 list_simulation_job_batches(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches", args; aws_config=aws_config)
@@ -578,12 +683,26 @@ list_simulation_job_batches(args::AbstractDict{String, Any}; aws_config::Abstrac
 """
     ListSimulationJobs()
 
-Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
+Returns a list of simulation jobs. You can optionally provide filters to retrieve specific
+simulation jobs.
 
 # Optional Parameters
-- `filters`: Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
-- `maxResults`: When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListSimulationJobs returns up to 1000 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `filters`: Optional filters to limit results. The filter names status and
+  simulationApplicationName and robotApplicationName are supported. When filtering, you must
+  use the complete value of the filtered item. You can use up to three filters, but they must
+  be for the same named item. For example, if you are looking for items with the status
+  Preparing or the status Running.
+- `maxResults`: When this parameter is used, ListSimulationJobs only returns maxResults
+  results in a single page along with a nextToken response element. The remaining results of
+  the initial request can be seen by sending another ListSimulationJobs request with the
+  returned nextToken value. This value can be between 1 and 1000. If this parameter is not
+  used, then ListSimulationJobs returns up to 1000 results and a nextToken value if
+  applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListSimulationJobs again and assign that token to the request
+  object's nextToken parameter. If there are no remaining results, the previous response
+  object's NextToken parameter is set to null.
 """
 list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs"; aws_config=aws_config)
 list_simulation_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs", args; aws_config=aws_config)
@@ -607,8 +726,17 @@ Lists world export jobs.
 
 # Optional Parameters
 - `filters`: Optional filters to limit results. You can use generationJobId and templateId.
-- `maxResults`: When this parameter is used, ListWorldExportJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldExportJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldExportJobs returns up to 100 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `maxResults`: When this parameter is used, ListWorldExportJobs only returns maxResults
+  results in a single page along with a nextToken response element. The remaining results of
+  the initial request can be seen by sending another ListWorldExportJobs request with the
+  returned nextToken value. This value can be between 1 and 100. If this parameter is not
+  used, then ListWorldExportJobs returns up to 100 results and a nextToken value if
+  applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListWorldExportJobs again and assign that token to the request
+  object's nextToken parameter. If there are no remaining results, the previous response
+  object's NextToken parameter is set to null.
 """
 list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs"; aws_config=aws_config)
 list_world_export_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs", args; aws_config=aws_config)
@@ -620,8 +748,17 @@ Lists world generator jobs.
 
 # Optional Parameters
 - `filters`: Optional filters to limit results. You can use status and templateId.
-- `maxResults`: When this parameter is used, ListWorldGeneratorJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldGeneratorJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldGeneratorJobs returns up to 100 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGenerationJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `maxResults`: When this parameter is used, ListWorldGeneratorJobs only returns maxResults
+  results in a single page along with a nextToken response element. The remaining results of
+  the initial request can be seen by sending another ListWorldGeneratorJobs request with the
+  returned nextToken value. This value can be between 1 and 100. If this parameter is not
+  used, then ListWorldGeneratorJobs returns up to 100 results and a nextToken value if
+  applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListWorldGenerationJobsRequest again and assign that token to the
+  request object's nextToken parameter. If there are no remaining results, the previous
+  response object's NextToken parameter is set to null.
 """
 list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs"; aws_config=aws_config)
 list_world_generation_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs", args; aws_config=aws_config)
@@ -632,8 +769,17 @@ list_world_generation_jobs(args::AbstractDict{String, Any}; aws_config::Abstract
 Lists world templates.
 
 # Optional Parameters
-- `maxResults`: When this parameter is used, ListWorldTemplates only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldTemplates request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldTemplates returns up to 100 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `maxResults`: When this parameter is used, ListWorldTemplates only returns maxResults
+  results in a single page along with a nextToken response element. The remaining results of
+  the initial request can be seen by sending another ListWorldTemplates request with the
+  returned nextToken value. This value can be between 1 and 100. If this parameter is not
+  used, then ListWorldTemplates returns up to 100 results and a nextToken value if
+  applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListWorldTemplates again and assign that token to the request
+  object's nextToken parameter. If there are no remaining results, the previous response
+  object's NextToken parameter is set to null.
 """
 list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates"; aws_config=aws_config)
 list_world_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates", args; aws_config=aws_config)
@@ -645,8 +791,16 @@ Lists worlds.
 
 # Optional Parameters
 - `filters`: Optional filters to limit results. You can use status.
-- `maxResults`: When this parameter is used, ListWorlds only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorlds request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorlds returns up to 100 results and a nextToken value if applicable. 
-- `nextToken`: If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
+- `maxResults`: When this parameter is used, ListWorlds only returns maxResults results in
+  a single page along with a nextToken response element. The remaining results of the initial
+  request can be seen by sending another ListWorlds request with the returned nextToken
+  value. This value can be between 1 and 100. If this parameter is not used, then ListWorlds
+  returns up to 100 results and a nextToken value if applicable.
+- `nextToken`: If the previous paginated request did not return all of the remaining
+  results, the response object's nextToken parameter value is set to a token. To retrieve the
+  next set of results, call ListWorlds again and assign that token to the request object's
+  nextToken parameter. If there are no remaining results, the previous response object's
+  NextToken parameter is set to null.
 """
 list_worlds(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds"; aws_config=aws_config)
 list_worlds(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds", args; aws_config=aws_config)
@@ -679,15 +833,18 @@ restart_simulation_job(job, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     StartSimulationJobBatch()
 
-Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects. 
+Starts a new simulation job batch. The batch is defined using one or more
+SimulationJobRequest objects.
 
 # Required Parameters
 - `createSimulationJobRequests`: A list of simulation job requests to create in the batch.
 
 # Optional Parameters
 - `batchPolicy`: The batch policy.
-- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `tags`: A map that contains tag keys and tag values that are attached to the deployment job batch.
+- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `tags`: A map that contains tag keys and tag values that are attached to the deployment
+  job batch.
 """
 start_simulation_job_batch(createSimulationJobRequests; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 start_simulation_job_batch(createSimulationJobRequests, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -695,10 +852,12 @@ start_simulation_job_batch(createSimulationJobRequests, args::AbstractDict{Strin
 """
     SyncDeploymentJob()
 
-Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
+Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were
+added after a deployment.
 
 # Required Parameters
-- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+- `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
 - `fleet`: The target fleet for the synchronization.
 
 """
@@ -708,10 +867,14 @@ sync_deployment_job(clientRequestToken, fleet, args::AbstractDict{String, <:Any}
 """
     TagResource()
 
-Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide. 
+Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag
+value. Tag keys and tag values are both required, but tag values can be empty strings.  For
+information about the rules that apply to tag keys and tag values, see User-Defined Tag
+Restrictions in the AWS Billing and Cost Management User Guide.
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are tagging.
+- `resourceArn`: The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are
+  tagging.
 - `tags`: A map that contains tag keys and tag values that are attached to the resource.
 
 """
@@ -721,11 +884,14 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     UntagResource()
 
-Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource . 
+Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag,
+specify the tag key. To change the tag value of an existing tag key, use  TagResource .
 
 # Required Parameters
-- `resourceArn`: The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are removing tags.
-- `tagKeys`: A map that contains tag keys and tag values that will be unattached from the resource.
+- `resourceArn`: The Amazon Resource Name (ARN) of the AWS RoboMaker resource you are
+  removing tags.
+- `tagKeys`: A map that contains tag keys and tag values that will be unattached from the
+  resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
@@ -738,7 +904,8 @@ Updates a robot application.
 
 # Required Parameters
 - `application`: The application information for the robot application.
-- `robotSoftwareSuite`: The robot software suite (ROS distribution) used by the robot application.
+- `robotSoftwareSuite`: The robot software suite (ROS distribution) used by the robot
+  application.
 - `sources`: The sources of the robot application.
 
 # Optional Parameters
@@ -755,7 +922,8 @@ Updates a simulation application.
 # Required Parameters
 - `application`: The application information for the simulation application.
 - `robotSoftwareSuite`: Information about the robot software suite (ROS distribution).
-- `simulationSoftwareSuite`: The simulation software suite used by the simulation application.
+- `simulationSoftwareSuite`: The simulation software suite used by the simulation
+  application.
 - `sources`: The sources of the simulation application.
 
 # Optional Parameters

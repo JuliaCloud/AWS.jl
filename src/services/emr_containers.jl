@@ -7,7 +7,8 @@ using AWS.UUIDs
 """
     CancelJobRun()
 
-Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
+Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
+SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Required Parameters
 - `jobRunId`: The ID of the job run to cancel.
@@ -20,7 +21,8 @@ cancel_job_run(jobRunId, virtualClusterId, args::AbstractDict{String, <:Any}; aw
 """
     CreateManagedEndpoint()
 
-Creates a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+Creates a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to
+Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
 
 # Required Parameters
 - `certificateArn`: The certificate ARN of the managed endpoint.
@@ -32,8 +34,9 @@ Creates a managed endpoint. A managed endpoint is a gateway that connects EMR St
 - `virtualClusterId`: The ID of the virtual cluster for which a managed endpoint is created.
 
 # Optional Parameters
-- `configurationOverrides`: The configuration settings that will be used to override existing configurations.
-- `tags`: The tags of the managed endpoint. 
+- `configurationOverrides`: The configuration settings that will be used to override
+  existing configurations.
+- `tags`: The tags of the managed endpoint.
 """
 create_managed_endpoint(certificateArn, clientToken, executionRoleArn, name, releaseLabel, type, virtualClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/endpoints", Dict{String, Any}("certificateArn"=>certificateArn, "clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "name"=>name, "releaseLabel"=>releaseLabel, "type"=>type); aws_config=aws_config)
 create_managed_endpoint(certificateArn, clientToken, executionRoleArn, name, releaseLabel, type, virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("POST", "/virtualclusters/$(virtualClusterId)/endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("certificateArn"=>certificateArn, "clientToken"=>clientToken, "executionRoleArn"=>executionRoleArn, "name"=>name, "releaseLabel"=>releaseLabel, "type"=>type), args)); aws_config=aws_config)
@@ -41,7 +44,11 @@ create_managed_endpoint(certificateArn, clientToken, executionRoleArn, name, rel
 """
     CreateVirtualCluster()
 
-Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You
+can create, describe, list and delete virtual clusters. They do not consume any additional
+resource in your system. A single virtual cluster maps to a single Kubernetes namespace.
+Given this relationship, you can model virtual clusters the same way you model Kubernetes
+namespaces to meet your requirements.
 
 # Required Parameters
 - `clientToken`: The client token of the virtual cluster.
@@ -57,7 +64,8 @@ create_virtual_cluster(clientToken, containerProvider, name, args::AbstractDict{
 """
     DeleteManagedEndpoint()
 
-Deletes a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+Deletes a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to
+Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
 
 # Required Parameters
 - `endpointId`: The ID of the managed endpoint.
@@ -70,7 +78,11 @@ delete_managed_endpoint(endpointId, virtualClusterId, args::AbstractDict{String,
 """
     DeleteVirtualCluster()
 
-Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You
+can create, describe, list and delete virtual clusters. They do not consume any additional
+resource in your system. A single virtual cluster maps to a single Kubernetes namespace.
+Given this relationship, you can model virtual clusters the same way you model Kubernetes
+namespaces to meet your requirements.
 
 # Required Parameters
 - `virtualClusterId`: The ID of the virtual cluster that will be deleted.
@@ -82,10 +94,11 @@ delete_virtual_cluster(virtualClusterId, args::AbstractDict{String, <:Any}; aws_
 """
     DescribeJobRun()
 
-Displays detailed information about a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
+Displays detailed information about a job run. A job run is a unit of work, such as a Spark
+jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Required Parameters
-- `jobRunId`: The ID of the job run request. 
+- `jobRunId`: The ID of the job run request.
 - `virtualClusterId`: The ID of the virtual cluster for which the job run is submitted.
 
 """
@@ -95,7 +108,9 @@ describe_job_run(jobRunId, virtualClusterId, args::AbstractDict{String, <:Any}; 
 """
     DescribeManagedEndpoint()
 
-Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+Displays detailed information about a managed endpoint. A managed endpoint is a gateway
+that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your
+virtual cluster.
 
 # Required Parameters
 - `endpointId`: This output displays ID of the managed endpoint.
@@ -108,7 +123,11 @@ describe_managed_endpoint(endpointId, virtualClusterId, args::AbstractDict{Strin
 """
     DescribeVirtualCluster()
 
-Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+Displays detailed information about a specified virtual cluster. Virtual cluster is a
+managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual
+clusters. They do not consume any additional resource in your system. A single virtual
+cluster maps to a single Kubernetes namespace. Given this relationship, you can model
+virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
 
 # Required Parameters
 - `virtualClusterId`: The ID of the virtual cluster that will be described.
@@ -120,10 +139,11 @@ describe_virtual_cluster(virtualClusterId, args::AbstractDict{String, <:Any}; aw
 """
     ListJobRuns()
 
-Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
+Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark
+jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Required Parameters
-- `virtualClusterId`: The ID of the virtual cluster for which to list the job run. 
+- `virtualClusterId`: The ID of the virtual cluster for which to list the job run.
 
 # Optional Parameters
 - `createdAfter`: The date and time after which the job runs were submitted.
@@ -139,7 +159,9 @@ list_job_runs(virtualClusterId, args::AbstractDict{String, <:Any}; aws_config::A
 """
     ListManagedEndpoints()
 
-Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that
+connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your
+virtual cluster.
 
 # Required Parameters
 - `virtualClusterId`: The ID of the virtual cluster.
@@ -148,7 +170,7 @@ Lists managed endpoints based on a set of parameters. A managed endpoint is a ga
 - `createdAfter`:  The date and time after which the endpoints are created.
 - `createdBefore`: The date and time before which the endpoints are created.
 - `maxResults`: The maximum number of managed endpoints that can be listed.
-- `nextToken`:  The token for the next set of managed endpoints to return. 
+- `nextToken`:  The token for the next set of managed endpoints to return.
 - `states`: The states of the managed endpoints.
 - `types`: The types of the managed endpoints.
 """
@@ -170,15 +192,20 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     ListVirtualClusters()
 
-Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+Lists information about the specified virtual cluster. Virtual cluster is a managed entity
+on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do
+not consume any additional resource in your system. A single virtual cluster maps to a
+single Kubernetes namespace. Given this relationship, you can model virtual clusters the
+same way you model Kubernetes namespaces to meet your requirements.
 
 # Optional Parameters
 - `containerProviderId`: The container provider ID of the virtual cluster.
-- `containerProviderType`: The container provider type of the virtual cluster. EKS is the only supported type as of now.
+- `containerProviderType`: The container provider type of the virtual cluster. EKS is the
+  only supported type as of now.
 - `createdAfter`: The date and time after which the virtual clusters are created.
 - `createdBefore`: The date and time before which the virtual clusters are created.
 - `maxResults`: The maximum number of virtual clusters that can be listed.
-- `nextToken`: The token for the next set of virtual clusters to return. 
+- `nextToken`: The token for the next set of virtual clusters to return.
 - `states`: The states of the requested virtual clusters.
 """
 list_virtual_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters"; aws_config=aws_config)
@@ -187,10 +214,11 @@ list_virtual_clusters(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 """
     StartJobRun()
 
-Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
+Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or
+SparkSQL query, that you submit to Amazon EMR on EKS.
 
 # Required Parameters
-- `clientToken`: The client idempotency token of the job run request. 
+- `clientToken`: The client idempotency token of the job run request.
 - `executionRoleArn`: The execution role ARN for the job run.
 - `jobDriver`: The job driver for the job run.
 - `releaseLabel`: The Amazon EMR release version to use for the job run.
@@ -207,7 +235,14 @@ start_job_run(clientToken, executionRoleArn, jobDriver, releaseLabel, virtualClu
 """
     TagResource()
 
-Assigns tags to resources. A tag is a label that you assign to an AWS resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your AWS resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. For example, you can define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
+Assigns tags to resources. A tag is a label that you assign to an AWS resource. Each tag
+consists of a key and an optional value, both of which you define. Tags enable you to
+categorize your AWS resources by attributes such as purpose, owner, or environment. When
+you have many resources of the same type, you can quickly identify a specific resource
+based on the tags you've assigned to it. For example, you can define a set of tags for your
+Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We
+recommend that you devise a consistent set of tag keys for each resource type. You can then
+search and filter the resources based on the tags that you add.
 
 # Required Parameters
 - `resourceArn`: The ARN of resources.

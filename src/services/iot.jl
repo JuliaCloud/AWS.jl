@@ -7,10 +7,13 @@ using AWS.UUIDs
 """
     AcceptCertificateTransfer()
 
-Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates.
+Accepts a pending certificate transfer. The default state of the certificate is INACTIVE.
+To check for pending certificate transfers, call ListCertificates to enumerate your
+certificates.
 
 # Required Parameters
-- `certificateId`: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+- `certificateId`: The ID of the certificate. (The last part of the certificate ARN
+  contains the certificate ID.)
 
 # Optional Parameters
 - `setAsActive`: Specifies whether the certificate is active.
@@ -38,7 +41,10 @@ add_thing_to_billing_group(args::AbstractDict{String, Any}; aws_config::Abstract
 Adds a thing to a thing group.
 
 # Optional Parameters
-- `overrideDynamicGroups`: Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
+- `overrideDynamicGroups`: Override dynamic thing groups with static thing groups when
+  10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those
+  groups are dynamic thing groups, adding a thing to a static group removes the thing from
+  the last dynamic group.
 - `thingArn`: The ARN of the thing to add to a group.
 - `thingGroupArn`: The ARN of the group to which you are adding a thing.
 - `thingGroupName`: The name of the group to which you are adding a thing.
@@ -50,15 +56,23 @@ add_thing_to_thing_group(args::AbstractDict{String, Any}; aws_config::AbstractAW
 """
     AssociateTargetsWithJob()
 
-Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to \"CONTINUOUS\".   The job status must currently be \"IN_PROGRESS\".   The total number of targets associated with a job must not exceed 100.  
+Associates a group with a continuous job. The following criteria must be met:    The job
+must have been created with the targetSelection field set to \"CONTINUOUS\".   The job
+status must currently be \"IN_PROGRESS\".   The total number of targets associated with a
+job must not exceed 100.
 
 # Required Parameters
 - `jobId`: The unique identifier you assigned to this job when it was created.
 - `targets`: A list of thing group ARNs that define the targets of the job.
 
 # Optional Parameters
-- `comment`: An optional comment string describing why the job was associated with the targets.
-- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview. 
+- `comment`: An optional comment string describing why the job was associated with the
+  targets.
+- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
+  topics that contain the value in the following format.
+  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
+  is in public preview.
 """
 associate_targets_with_job(jobId, targets; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/jobs/$(jobId)/targets", Dict{String, Any}("targets"=>targets); aws_config=aws_config)
 associate_targets_with_job(jobId, targets, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/jobs/$(jobId)/targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targets"=>targets), args)); aws_config=aws_config)
@@ -79,11 +93,13 @@ attach_policy(policyName, target, args::AbstractDict{String, <:Any}; aws_config:
 """
     AttachPrincipalPolicy()
 
-Attaches the specified policy to the specified principal (certificate or other credential).  Note: This API is deprecated. Please use AttachPolicy instead.
+Attaches the specified policy to the specified principal (certificate or other credential).
+ Note: This API is deprecated. Please use AttachPolicy instead.
 
 # Required Parameters
 - `policyName`: The policy name.
-- `x-amzn-iot-principal`: The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
+- `x-amzn-iot-principal`: The principal, which can be a certificate ARN (as returned from
+  the CreateCertificate operation) or an Amazon Cognito ID.
 
 """
 attach_principal_policy(policyName, x_amzn_iot_principal; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/principal-policies/$(policyName)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-iot-principal"=>x_amzn_iot_principal)); aws_config=aws_config)
@@ -92,11 +108,13 @@ attach_principal_policy(policyName, x_amzn_iot_principal, args::AbstractDict{Str
 """
     AttachSecurityProfile()
 
-Associates a Device Defender security profile with a thing group or this account. Each thing group or account can have up to five security profiles associated with it.
+Associates a Device Defender security profile with a thing group or this account. Each
+thing group or account can have up to five security profiles associated with it.
 
 # Required Parameters
 - `securityProfileName`: The security profile that is attached.
-- `securityProfileTargetArn`: The ARN of the target (thing group) to which the security profile is attached.
+- `securityProfileTargetArn`: The ARN of the target (thing group) to which the security
+  profile is attached.
 
 """
 attach_security_profile(securityProfileName, securityProfileTargetArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/security-profiles/$(securityProfileName)/targets", Dict{String, Any}("securityProfileTargetArn"=>securityProfileTargetArn); aws_config=aws_config)
@@ -105,11 +123,14 @@ attach_security_profile(securityProfileName, securityProfileTargetArn, args::Abs
 """
     AttachThingPrincipal()
 
-Attaches the specified principal to the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
+Attaches the specified principal to the specified thing. A principal can be X.509
+certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+identities.
 
 # Required Parameters
 - `thingName`: The name of the thing.
-- `x-amzn-principal`: The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
+- `x-amzn-principal`: The principal, which can be a certificate ARN (as returned from the
+  CreateCertificate operation) or an Amazon Cognito ID.
 
 """
 attach_thing_principal(thingName, x_amzn_principal; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/things/$(thingName)/principals", Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)); aws_config=aws_config)
@@ -118,10 +139,11 @@ attach_thing_principal(thingName, x_amzn_principal, args::AbstractDict{String, <
 """
     CancelAuditMitigationActionsTask()
 
-Cancels a mitigation action task that is in progress. If the task is not in progress, an InvalidRequestException occurs.
+Cancels a mitigation action task that is in progress. If the task is not in progress, an
+InvalidRequestException occurs.
 
 # Required Parameters
-- `taskId`: The unique identifier for the task that you want to cancel. 
+- `taskId`: The unique identifier for the task that you want to cancel.
 
 """
 cancel_audit_mitigation_actions_task(taskId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/audit/mitigationactions/tasks/$(taskId)/cancel"; aws_config=aws_config)
@@ -130,10 +152,12 @@ cancel_audit_mitigation_actions_task(taskId, args::AbstractDict{String, <:Any}; 
 """
     CancelAuditTask()
 
-Cancels an audit that is in progress. The audit can be either scheduled or on demand. If the audit isn't in progress, an \"InvalidRequestException\" occurs.
+Cancels an audit that is in progress. The audit can be either scheduled or on demand. If
+the audit isn't in progress, an \"InvalidRequestException\" occurs.
 
 # Required Parameters
-- `taskId`: The ID of the audit you want to cancel. You can only cancel an audit that is \"IN_PROGRESS\".
+- `taskId`: The ID of the audit you want to cancel. You can only cancel an audit that is
+  \"IN_PROGRESS\".
 
 """
 cancel_audit_task(taskId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/audit/tasks/$(taskId)/cancel"; aws_config=aws_config)
@@ -142,10 +166,16 @@ cancel_audit_task(taskId, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     CancelCertificateTransfer()
 
-Cancels a pending transfer for the specified certificate.  Note Only the transfer source account can use this operation to cancel a transfer. (Transfer destinations can use RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the source account in the INACTIVE state. After the destination account has accepted the transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the status of the certificate changes from PENDING_TRANSFER to INACTIVE.
+Cancels a pending transfer for the specified certificate.  Note Only the transfer source
+account can use this operation to cancel a transfer. (Transfer destinations can use
+RejectCertificateTransfer instead.) After transfer, AWS IoT returns the certificate to the
+source account in the INACTIVE state. After the destination account has accepted the
+transfer, the transfer cannot be cancelled. After a certificate transfer is cancelled, the
+status of the certificate changes from PENDING_TRANSFER to INACTIVE.
 
 # Required Parameters
-- `certificateId`: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+- `certificateId`: The ID of the certificate. (The last part of the certificate ARN
+  contains the certificate ID.)
 
 """
 cancel_certificate_transfer(certificateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/cancel-certificate-transfer/$(certificateId)"; aws_config=aws_config)
@@ -154,10 +184,10 @@ cancel_certificate_transfer(certificateId, args::AbstractDict{String, <:Any}; aw
 """
     CancelDetectMitigationActionsTask()
 
- Cancels a Device Defender ML Detect mitigation action. 
+ Cancels a Device Defender ML Detect mitigation action.
 
 # Required Parameters
-- `taskId`:  The unique identifier of the task. 
+- `taskId`:  The unique identifier of the task.
 
 """
 cancel_detect_mitigation_actions_task(taskId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/detect/mitigationactions/tasks/$(taskId)/cancel"; aws_config=aws_config)
@@ -173,7 +203,11 @@ Cancels a job.
 
 # Optional Parameters
 - `comment`: An optional comment string describing why the job was canceled.
-- `force`: (Optional) If true job executions with status \"IN_PROGRESS\" and \"QUEUED\" are canceled, otherwise only job executions with status \"QUEUED\" are canceled. The default is false. Canceling a job which is \"IN_PROGRESS\", will cause a device which is executing the job to be unable to update the job execution status. Use caution and ensure that each device executing a job which is canceled is able to recover to a valid state.
+- `force`: (Optional) If true job executions with status \"IN_PROGRESS\" and \"QUEUED\" are
+  canceled, otherwise only job executions with status \"QUEUED\" are canceled. The default is
+  false. Canceling a job which is \"IN_PROGRESS\", will cause a device which is executing the
+  job to be unable to update the job execution status. Use caution and ensure that each
+  device executing a job which is canceled is able to recover to a valid state.
 - `reasonCode`: (Optional)A reason code string that explains why the job was canceled.
 """
 cancel_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/jobs/$(jobId)/cancel"; aws_config=aws_config)
@@ -189,9 +223,22 @@ Cancels the execution of a job for a given thing.
 - `thingName`: The name of the thing whose execution of the job will be canceled.
 
 # Optional Parameters
-- `expectedVersion`: (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
-- `force`: (Optional) If true the job execution will be canceled if it has status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true, then an InvalidStateTransitionException will be thrown. The default is false. Canceling a job execution which is \"IN_PROGRESS\", will cause the device to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
-- `statusDetails`: A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs.
+- `expectedVersion`: (Optional) The expected current version of the job execution. Each
+  time you update the job execution, its version is incremented. If the version of the job
+  execution stored in Jobs does not match, the update is rejected with a VersionMismatch
+  error, and an ErrorResponse that contains the current job execution status data is
+  returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in
+  order to obtain the job execution status data.)
+- `force`: (Optional) If true the job execution will be canceled if it has status
+  IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status
+  QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set
+  force to true, then an InvalidStateTransitionException will be thrown. The default is
+  false. Canceling a job execution which is \"IN_PROGRESS\", will cause the device to be
+  unable to update the job execution status. Use caution and ensure that the device is able
+  to recover to a valid state.
+- `statusDetails`: A collection of name/value pairs that describe the status of the job
+  execution. If not specified, the statusDetails are unchanged. You can specify at most 10
+  name/value pairs.
 """
 cancel_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/things/$(thingName)/jobs/$(jobId)/cancel"; aws_config=aws_config)
 cancel_job_execution(jobId, thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/things/$(thingName)/jobs/$(jobId)/cancel", args; aws_config=aws_config)
@@ -208,10 +255,14 @@ clear_default_authorizer(args::AbstractDict{String, Any}; aws_config::AbstractAW
 """
     ConfirmTopicRuleDestination()
 
-Confirms a topic rule destination. When you create a rule requiring a destination, AWS IoT sends a confirmation message to the endpoint or base address you specify. The message includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm that you own or have access to the endpoint.
+Confirms a topic rule destination. When you create a rule requiring a destination, AWS IoT
+sends a confirmation message to the endpoint or base address you specify. The message
+includes a token which you pass back when calling ConfirmTopicRuleDestination to confirm
+that you own or have access to the endpoint.
 
 # Required Parameters
-- `confirmationToken`: The token used to confirm ownership or access to the topic rule confirmation URL.
+- `confirmationToken`: The token used to confirm ownership or access to the topic rule
+  confirmation URL.
 
 """
 confirm_topic_rule_destination(confirmationToken; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/confirmdestination/$(confirmationToken)"; aws_config=aws_config)
@@ -220,17 +271,18 @@ confirm_topic_rule_destination(confirmationToken, args::AbstractDict{String, <:A
 """
     CreateAuditSuppression()
 
- Creates a Device Defender audit suppression. 
+ Creates a Device Defender audit suppression.
 
 # Required Parameters
-- `checkName`: 
-- `clientRequestToken`:  The epoch timestamp in seconds at which this suppression expires. 
-- `resourceIdentifier`: 
+- `checkName`:
+- `clientRequestToken`:  The epoch timestamp in seconds at which this suppression expires.
+- `resourceIdentifier`:
 
 # Optional Parameters
-- `description`:  The description of the audit suppression. 
-- `expirationDate`:  The epoch timestamp in seconds at which this suppression expires. 
-- `suppressIndefinitely`:  Indicates whether a suppression should exist indefinitely or not. 
+- `description`:  The description of the audit suppression.
+- `expirationDate`:  The epoch timestamp in seconds at which this suppression expires.
+- `suppressIndefinitely`:  Indicates whether a suppression should exist indefinitely or
+  not.
 """
 create_audit_suppression(checkName, clientRequestToken, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/create", Dict{String, Any}("checkName"=>checkName, "clientRequestToken"=>clientRequestToken, "resourceIdentifier"=>resourceIdentifier); aws_config=aws_config)
 create_audit_suppression(checkName, clientRequestToken, resourceIdentifier, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkName"=>checkName, "clientRequestToken"=>clientRequestToken, "resourceIdentifier"=>resourceIdentifier), args)); aws_config=aws_config)
@@ -245,11 +297,16 @@ Creates an authorizer.
 - `authorizerName`: The authorizer name.
 
 # Optional Parameters
-- `signingDisabled`: Specifies whether AWS IoT validates the token signature in an authorization request.
+- `signingDisabled`: Specifies whether AWS IoT validates the token signature in an
+  authorization request.
 - `status`: The status of the create authorizer request.
-- `tags`: Metadata which can be used to manage the custom authorizer.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" 
+- `tags`: Metadata which can be used to manage the custom authorizer.  For URI Request
+  parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
+  use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
+  use format: \"tags\": \"key1=value1&amp;key2=value2...\"
 - `tokenKeyName`: The name of the token key used to extract the token from the HTTP headers.
-- `tokenSigningPublicKeys`: The public keys used to verify the digital signature returned by your custom authentication service.
+- `tokenSigningPublicKeys`: The public keys used to verify the digital signature returned
+  by your custom authentication service.
 """
 create_authorizer(authorizerFunctionArn, authorizerName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/authorizer/$(authorizerName)", Dict{String, Any}("authorizerFunctionArn"=>authorizerFunctionArn); aws_config=aws_config)
 create_authorizer(authorizerFunctionArn, authorizerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/authorizer/$(authorizerName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authorizerFunctionArn"=>authorizerFunctionArn), args)); aws_config=aws_config)
@@ -272,7 +329,27 @@ create_billing_group(billingGroupName, args::AbstractDict{String, <:Any}; aws_co
 """
     CreateCertificateFromCsr()
 
-Creates an X.509 certificate using the specified certificate signing request.  Note: The CSR must include a public key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate signing request (CSR) results in a distinct certificate. You can create multiple certificates in a batch by creating a directory, copying multiple .csr files into that directory, and then specifying that directory on the command line. The following commands show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs are located inside of the directory my-csr-directory: On Linux and OS X, the command is:  ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr AWS CLI command to create a certificate for the corresponding CSR. The aws iot create-certificate-from-csr part of the command can also be run in parallel to speed up the certificate creation process:  ls my-csr-directory/ | xargs -P 10 -I {} aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is: &gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr --certificate-signing-request file://my-csr-directory/_} On a Windows command prompt, the command to create certificates for all CSRs in my-csr-directory is: &gt; forfiles /p my-csr-directory /c \"cmd /c aws iot create-certificate-from-csr --certificate-signing-request file://@path\"
+Creates an X.509 certificate using the specified certificate signing request.  Note: The
+CSR must include a public key that is either an RSA key with a length of at least 2048 bits
+or an ECC key from NIST P-256 or NIST P-384 curves.   Note: Reusing the same certificate
+signing request (CSR) results in a distinct certificate. You can create multiple
+certificates in a batch by creating a directory, copying multiple .csr files into that
+directory, and then specifying that directory on the command line. The following commands
+show how to create a batch of certificates given a batch of CSRs. Assuming a set of CSRs
+are located inside of the directory my-csr-directory: On Linux and OS X, the command is:
+ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr
+--certificate-signing-request file://my-csr-directory/{} This command lists all of the CSRs
+in my-csr-directory and pipes each CSR file name to the aws iot create-certificate-from-csr
+AWS CLI command to create a certificate for the corresponding CSR. The aws iot
+create-certificate-from-csr part of the command can also be run in parallel to speed up the
+certificate creation process:  ls my-csr-directory/ | xargs -P 10 -I {} aws iot
+create-certificate-from-csr --certificate-signing-request file://my-csr-directory/{} On
+Windows PowerShell, the command to create certificates for all CSRs in my-csr-directory is:
+&gt; ls -Name my-csr-directory | %{aws iot create-certificate-from-csr
+--certificate-signing-request file://my-csr-directory/_} On a Windows command prompt, the
+command to create certificates for all CSRs in my-csr-directory is: &gt; forfiles /p
+my-csr-directory /c \"cmd /c aws iot create-certificate-from-csr
+--certificate-signing-request file://@path\"
 
 # Required Parameters
 - `certificateSigningRequest`: The certificate signing request (CSR).
@@ -286,16 +363,23 @@ create_certificate_from_csr(certificateSigningRequest, args::AbstractDict{String
 """
     CreateCustomMetric()
 
- Use this API to define a Custom Metric published by your devices to Device Defender. 
+ Use this API to define a Custom Metric published by your devices to Device Defender.
 
 # Required Parameters
-- `clientRequestToken`: Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
-- `metricName`:  The name of the custom metric. This will be used in the metric report submitted from the device/thing. Shouldn't begin with aws:. Cannot be updated once defined.
-- `metricType`:  The type of the custom metric. Types include string-list, ip-address-list, number-list, and number. 
+- `clientRequestToken`: Each custom metric must have a unique client request token. If you
+  try to create a new custom metric that already exists with a different token, an exception
+  occurs. If you omit this value, AWS SDKs will automatically generate a unique client
+  request.
+- `metricName`:  The name of the custom metric. This will be used in the metric report
+  submitted from the device/thing. Shouldn't begin with aws:. Cannot be updated once defined.
+- `metricType`:  The type of the custom metric. Types include string-list, ip-address-list,
+  number-list, and number.
 
 # Optional Parameters
-- `displayName`:  Field represents a friendly name in the console for the custom metric; it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated once defined.
-- `tags`:  Metadata that can be used to manage the custom metric. 
+- `displayName`:  Field represents a friendly name in the console for the custom metric; it
+  doesn't have to be unique. Don't use this name as the metric identifier in the device
+  metric report. Can be updated once defined.
+- `tags`:  Metadata that can be used to manage the custom metric.
 """
 create_custom_metric(clientRequestToken, metricName, metricType; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/custom-metric/$(metricName)", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "metricType"=>metricType); aws_config=aws_config)
 create_custom_metric(clientRequestToken, metricName, metricType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/custom-metric/$(metricName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "metricType"=>metricType), args)); aws_config=aws_config)
@@ -303,13 +387,21 @@ create_custom_metric(clientRequestToken, metricName, metricType, args::AbstractD
 """
     CreateDimension()
 
-Create a dimension that you can use to limit the scope of a metric used in a security profile for AWS IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can narrow down the scope of the metric only to MQTT topics whose name match the pattern specified in the dimension.
+Create a dimension that you can use to limit the scope of a metric used in a security
+profile for AWS IoT Device Defender. For example, using a TOPIC_FILTER dimension, you can
+narrow down the scope of the metric only to MQTT topics whose name match the pattern
+specified in the dimension.
 
 # Required Parameters
-- `clientRequestToken`: Each dimension must have a unique client request token. If you try to create a new dimension with the same token as a dimension that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
-- `name`: A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
-- `stringValues`: Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, \"admin/#\").
-- `type`: Specifies the type of dimension. Supported types: TOPIC_FILTER. 
+- `clientRequestToken`: Each dimension must have a unique client request token. If you try
+  to create a new dimension with the same token as a dimension that already exists, an
+  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
+- `name`: A unique identifier for the dimension. Choose something that describes the type
+  and value to make it easy to remember what it does.
+- `stringValues`: Specifies the value or list of values for the dimension. For TOPIC_FILTER
+  dimensions, this is a pattern used to match the MQTT topic (for example, \"admin/#\").
+- `type`: Specifies the type of dimension. Supported types: TOPIC_FILTER.
 
 # Optional Parameters
 - `tags`: Metadata that can be used to manage the dimension.
@@ -320,18 +412,28 @@ create_dimension(clientRequestToken, name, stringValues, type, args::AbstractDic
 """
     CreateDomainConfiguration()
 
-Creates a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+Creates a domain configuration.  The domain configuration feature is in public preview and
+is subject to change.
 
 # Required Parameters
-- `domainConfigurationName`: The name of the domain configuration. This value must be unique to a region.
+- `domainConfigurationName`: The name of the domain configuration. This value must be
+  unique to a region.
 
 # Optional Parameters
 - `authorizerConfig`: An object that specifies the authorization service for a domain.
 - `domainName`: The name of the domain.
-- `serverCertificateArns`: The ARNs of the certificates that AWS IoT passes to the device during the TLS handshake. Currently you can specify only one certificate ARN. This value is not required for AWS-managed domains.
-- `serviceType`: The type of service delivered by the endpoint.  AWS IoT Core currently supports only the DATA service type. 
-- `tags`: Metadata which can be used to manage the domain configuration.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" 
-- `validationCertificateArn`: The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority. This value is not required for AWS-managed domains.
+- `serverCertificateArns`: The ARNs of the certificates that AWS IoT passes to the device
+  during the TLS handshake. Currently you can specify only one certificate ARN. This value is
+  not required for AWS-managed domains.
+- `serviceType`: The type of service delivered by the endpoint.  AWS IoT Core currently
+  supports only the DATA service type.
+- `tags`: Metadata which can be used to manage the domain configuration.  For URI Request
+  parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
+  use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
+  use format: \"tags\": \"key1=value1&amp;key2=value2...\"
+- `validationCertificateArn`: The certificate used to validate the server certificate and
+  prove domain name ownership. This certificate must be signed by a public certificate
+  authority. This value is not required for AWS-managed domains.
 """
 create_domain_configuration(domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/domainConfigurations/$(domainConfigurationName)"; aws_config=aws_config)
 create_domain_configuration(domainConfigurationName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/domainConfigurations/$(domainConfigurationName)", args; aws_config=aws_config)
@@ -342,12 +444,15 @@ create_domain_configuration(domainConfigurationName, args::AbstractDict{String, 
 Creates a dynamic thing group.
 
 # Required Parameters
-- `queryString`: The dynamic thing group search query string. See Query Syntax for information about query string syntax.
+- `queryString`: The dynamic thing group search query string. See Query Syntax for
+  information about query string syntax.
 - `thingGroupName`: The dynamic thing group name to create.
 
 # Optional Parameters
-- `indexName`: The dynamic thing group index name.  Currently one index is supported: \"AWS_Things\". 
-- `queryVersion`: The dynamic thing group query version.  Currently one query version is supported: \"2017-09-30\". If not specified, the query version defaults to this value. 
+- `indexName`: The dynamic thing group index name.  Currently one index is supported:
+  \"AWS_Things\".
+- `queryVersion`: The dynamic thing group query version.  Currently one query version is
+  supported: \"2017-09-30\". If not specified, the query version defaults to this value.
 - `tags`: Metadata which can be used to manage the dynamic thing group.
 - `thingGroupProperties`: The dynamic thing group properties.
 """
@@ -360,20 +465,35 @@ create_dynamic_thing_group(queryString, thingGroupName, args::AbstractDict{Strin
 Creates a job.
 
 # Required Parameters
-- `jobId`: A job identifier which must be unique for your AWS account. We recommend using a UUID. Alpha-numeric characters, \"-\" and \"_\" are valid for use here.
+- `jobId`: A job identifier which must be unique for your AWS account. We recommend using a
+  UUID. Alpha-numeric characters, \"-\" and \"_\" are valid for use here.
 - `targets`: A list of things and thing groups to which the job should be sent.
 
 # Optional Parameters
 - `abortConfig`: Allows you to create criteria to abort a job.
 - `description`: A short text description of the job.
-- `document`: The job document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking. 
+- `document`: The job document.  If the job document resides in an S3 bucket, you must use
+  a placeholder link when specifying the document. The placeholder link is of the following
+  form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your
+  bucket name and key is the object in the bucket to which you are linking.
 - `documentSource`: An S3 link to the job document.
 - `jobExecutionsRolloutConfig`: Allows you to create a staged rollout of the job.
-- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview. 
+- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
+  topics that contain the value in the following format.
+  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
+  is in public preview.
 - `presignedUrlConfig`: Configuration information for pre-signed S3 URLs.
 - `tags`: Metadata which can be used to manage the job.
-- `targetSelection`: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
-- `timeoutConfig`: Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
+- `targetSelection`: Specifies whether the job will continue to run (CONTINUOUS), or will
+  be complete after all those things specified as targets have completed the job (SNAPSHOT).
+  If continuous, the job may also be run on a thing when a change is detected in a target.
+  For example, a job will run on a thing when the thing is added to a target group, even
+  after the job was completed by all things originally in the group.
+- `timeoutConfig`: Specifies the amount of time each device has to finish its execution of
+  the job. The timer is started when the job execution status is set to IN_PROGRESS. If the
+  job execution status is not set to another terminal state before the time expires, it will
+  be automatically set to TIMED_OUT.
 """
 create_job(jobId, targets; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/jobs/$(jobId)", Dict{String, Any}("targets"=>targets); aws_config=aws_config)
 create_job(jobId, targets, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targets"=>targets), args)); aws_config=aws_config)
@@ -381,7 +501,10 @@ create_job(jobId, targets, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     CreateKeysAndCertificate()
 
-Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public key. You can also call CreateKeysAndCertificate over MQTT from a device, for more information, see Provisioning MQTT API.  Note This is the only time AWS IoT issues the private key for this certificate, so it is important to keep it in a secure location.
+Creates a 2048-bit RSA key pair and issues an X.509 certificate using the issued public
+key. You can also call CreateKeysAndCertificate over MQTT from a device, for more
+information, see Provisioning MQTT API.  Note This is the only time AWS IoT issues the
+private key for this certificate, so it is important to keep it in a secure location.
 
 # Optional Parameters
 - `setAsActive`: Specifies whether the certificate is active.
@@ -392,10 +515,14 @@ create_keys_and_certificate(args::AbstractDict{String, Any}; aws_config::Abstrac
 """
     CreateMitigationAction()
 
-Defines an action that can be applied to audit findings by using StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to specific check names. For more information, see Mitigation actions. Each mitigation action can apply only one type of change.
+Defines an action that can be applied to audit findings by using
+StartAuditMitigationActionsTask. Only certain types of mitigation actions can be applied to
+specific check names. For more information, see Mitigation actions. Each mitigation action
+can apply only one type of change.
 
 # Required Parameters
-- `actionName`: A friendly name for the action. Choose a friendly name that accurately describes the action (for example, EnableLoggingAction).
+- `actionName`: A friendly name for the action. Choose a friendly name that accurately
+  describes the action (for example, EnableLoggingAction).
 - `actionParams`: Defines the type of action and the parameters for that action.
 - `roleArn`: The ARN of the IAM role that is used to apply the mitigation action.
 
@@ -413,19 +540,31 @@ Creates an AWS IoT OTAUpdate on a target group of things or groups.
 # Required Parameters
 - `files`: The files to be streamed by the OTA update.
 - `otaUpdateId`: The ID of the OTA update to be created.
-- `roleArn`: The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and AWS Code Signing resources to create an OTA update job.
+- `roleArn`: The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and AWS
+  Code Signing resources to create an OTA update job.
 - `targets`: The devices targeted to receive OTA updates.
 
 # Optional Parameters
-- `additionalParameters`: A list of additional OTA update parameters which are name-value pairs.
+- `additionalParameters`: A list of additional OTA update parameters which are name-value
+  pairs.
 - `awsJobAbortConfig`: The criteria that determine when and how a job abort takes place.
 - `awsJobExecutionsRolloutConfig`: Configuration for the rollout of OTA updates.
 - `awsJobPresignedUrlConfig`: Configuration information for pre-signed URLs.
-- `awsJobTimeoutConfig`: Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
+- `awsJobTimeoutConfig`: Specifies the amount of time each device has to finish its
+  execution of the job. A timer is started when the job execution status is set to
+  IN_PROGRESS. If the job execution status is not set to another terminal state before the
+  timer expires, it will be automatically set to TIMED_OUT.
 - `description`: The description of the OTA update.
-- `protocols`: The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.
+- `protocols`: The protocol used to transfer the OTA update image. Valid values are [HTTP],
+  [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose
+  the protocol.
 - `tags`: Metadata which can be used to manage updates.
-- `targetSelection`: Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT.
+- `targetSelection`: Specifies whether the update will continue to run (CONTINUOUS), or
+  will be complete after all the things specified as targets have completed the update
+  (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected
+  in a target. For example, an update will run on a thing when the thing is added to a target
+  group, even after the update was completed by all things originally in the group. Valid
+  values: CONTINUOUS | SNAPSHOT.
 """
 create_otaupdate(files, otaUpdateId, roleArn, targets; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/otaUpdates/$(otaUpdateId)", Dict{String, Any}("files"=>files, "roleArn"=>roleArn, "targets"=>targets); aws_config=aws_config)
 create_otaupdate(files, otaUpdateId, roleArn, targets, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/otaUpdates/$(otaUpdateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("files"=>files, "roleArn"=>roleArn, "targets"=>targets), args)); aws_config=aws_config)
@@ -433,14 +572,20 @@ create_otaupdate(files, otaUpdateId, roleArn, targets, args::AbstractDict{String
 """
     CreatePolicy()
 
-Creates an AWS IoT policy. The created policy is the default version for the policy. This operation creates a policy version with a version identifier of 1 and sets 1 as the policy's default version.
+Creates an AWS IoT policy. The created policy is the default version for the policy. This
+operation creates a policy version with a version identifier of 1 and sets 1 as the
+policy's default version.
 
 # Required Parameters
-- `policyDocument`: The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
+- `policyDocument`: The JSON document that describes the policy. policyDocument must have a
+  minimum length of 1, with a maximum length of 2048, excluding whitespace.
 - `policyName`: The policy name.
 
 # Optional Parameters
-- `tags`: Metadata which can be used to manage the policy.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" 
+- `tags`: Metadata which can be used to manage the policy.  For URI Request parameters use
+  format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format:
+  &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format:
+  \"tags\": \"key1=value1&amp;key2=value2...\"
 """
 create_policy(policyDocument, policyName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/policies/$(policyName)", Dict{String, Any}("policyDocument"=>policyDocument); aws_config=aws_config)
 create_policy(policyDocument, policyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/policies/$(policyName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument), args)); aws_config=aws_config)
@@ -448,14 +593,22 @@ create_policy(policyDocument, policyName, args::AbstractDict{String, <:Any}; aws
 """
     CreatePolicyVersion()
 
-Creates a new version of the specified AWS IoT policy. To update a policy, create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must use DeletePolicyVersion to delete an existing version before you create a new one. Optionally, you can set the new version as the policy's default version. The default version is the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
+Creates a new version of the specified AWS IoT policy. To update a policy, create a new
+policy version. A managed policy can have up to five versions. If the policy has five
+versions, you must use DeletePolicyVersion to delete an existing version before you create
+a new one. Optionally, you can set the new version as the policy's default version. The
+default version is the operative version (that is, the version that is in effect for the
+certificates to which the policy is attached).
 
 # Required Parameters
-- `policyDocument`: The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace.
+- `policyDocument`: The JSON document that describes the policy. Minimum length of 1.
+  Maximum length of 2048, excluding whitespace.
 - `policyName`: The policy name.
 
 # Optional Parameters
-- `setAsDefault`: Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached).
+- `setAsDefault`: Specifies whether the policy version is set as the default. When this
+  parameter is true, the new policy version becomes the operative version (that is, the
+  version that is in effect for the certificates to which the policy is attached).
 """
 create_policy_version(policyDocument, policyName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/policies/$(policyName)/version", Dict{String, Any}("policyDocument"=>policyDocument); aws_config=aws_config)
 create_policy_version(policyDocument, policyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/policies/$(policyName)/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument), args)); aws_config=aws_config)
@@ -478,7 +631,8 @@ create_provisioning_claim(templateName, args::AbstractDict{String, <:Any}; aws_c
 Creates a fleet provisioning template.
 
 # Required Parameters
-- `provisioningRoleArn`: The role ARN for the role associated with the fleet provisioning template. This IoT role grants permission to provision a device.
+- `provisioningRoleArn`: The role ARN for the role associated with the fleet provisioning
+  template. This IoT role grants permission to provision a device.
 - `templateBody`: The JSON formatted contents of the fleet provisioning template.
 - `templateName`: The name of the fleet provisioning template.
 
@@ -486,7 +640,10 @@ Creates a fleet provisioning template.
 - `description`: The description of the fleet provisioning template.
 - `enabled`: True to enable the fleet provisioning template, otherwise false.
 - `preProvisioningHook`: Creates a pre-provisioning hook template.
-- `tags`: Metadata which can be used to manage the fleet provisioning template.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" 
+- `tags`: Metadata which can be used to manage the fleet provisioning template.  For URI
+  Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line
+  parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the
+  cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\"
 """
 create_provisioning_template(provisioningRoleArn, templateBody, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/provisioning-templates", Dict{String, Any}("provisioningRoleArn"=>provisioningRoleArn, "templateBody"=>templateBody, "templateName"=>templateName); aws_config=aws_config)
 create_provisioning_template(provisioningRoleArn, templateBody, templateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/provisioning-templates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("provisioningRoleArn"=>provisioningRoleArn, "templateBody"=>templateBody, "templateName"=>templateName), args)); aws_config=aws_config)
@@ -512,12 +669,16 @@ create_provisioning_template_version(templateBody, templateName, args::AbstractD
 Creates a role alias.
 
 # Required Parameters
-- `roleAlias`: The role alias that points to a role ARN. This allows you to change the role without having to update the device.
+- `roleAlias`: The role alias that points to a role ARN. This allows you to change the role
+  without having to update the device.
 - `roleArn`: The role ARN.
 
 # Optional Parameters
 - `credentialDurationSeconds`: How long (in seconds) the credentials will be valid.
-- `tags`: Metadata which can be used to manage the role alias.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" 
+- `tags`: Metadata which can be used to manage the role alias.  For URI Request parameters
+  use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use
+  format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use
+  format: \"tags\": \"key1=value1&amp;key2=value2...\"
 """
 create_role_alias(roleAlias, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/role-aliases/$(roleAlias)", Dict{String, Any}("roleArn"=>roleArn); aws_config=aws_config)
 create_role_alias(roleAlias, roleArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/role-aliases/$(roleAlias)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("roleArn"=>roleArn), args)); aws_config=aws_config)
@@ -528,13 +689,22 @@ create_role_alias(roleAlias, roleArn, args::AbstractDict{String, <:Any}; aws_con
 Creates a scheduled audit that is run at a specified time interval.
 
 # Required Parameters
-- `frequency`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY or MONTHLY. The start time of each audit is determined by the system.
+- `frequency`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY or
+  MONTHLY. The start time of each audit is determined by the system.
 - `scheduledAuditName`: The name you want to give to the scheduled audit. (Max. 128 chars)
-- `targetCheckNames`: Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
+- `targetCheckNames`: Which checks are performed during the scheduled audit. Checks must be
+  enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all
+  checks, including those that are enabled or use UpdateAccountAuditConfiguration to select
+  which checks are enabled.)
 
 # Optional Parameters
-- `dayOfMonth`: The day of the month on which the scheduled audit takes place. This can be \"1\" through \"31\" or \"LAST\". This field is required if the \"frequency\" parameter is set to MONTHLY. If days 29 to 31 are specified, and the month doesn't have that many days, the audit takes place on the LAST day of the month.
-- `dayOfWeek`: The day of the week on which the scheduled audit takes place, either SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the frequency parameter is set to WEEKLY or BIWEEKLY.
+- `dayOfMonth`: The day of the month on which the scheduled audit takes place. This can be
+  \"1\" through \"31\" or \"LAST\". This field is required if the \"frequency\" parameter is
+  set to MONTHLY. If days 29 to 31 are specified, and the month doesn't have that many days,
+  the audit takes place on the LAST day of the month.
+- `dayOfWeek`: The day of the week on which the scheduled audit takes place, either SUN,
+  MON, TUE, WED, THU, FRI, or SAT. This field is required if the frequency parameter is set
+  to WEEKLY or BIWEEKLY.
 - `tags`: Metadata that can be used to manage the scheduled audit.
 """
 create_scheduled_audit(frequency, scheduledAuditName, targetCheckNames; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/scheduledaudits/$(scheduledAuditName)", Dict{String, Any}("frequency"=>frequency, "targetCheckNames"=>targetCheckNames); aws_config=aws_config)
@@ -549,10 +719,19 @@ Creates a Device Defender security profile.
 - `securityProfileName`: The name you are giving to the security profile.
 
 # Optional Parameters
-- `additionalMetricsToRetain`:  Please use CreateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
-- `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
-- `alertTargets`: Specifies the destinations to which alerts are sent. (Alerts are always sent to the console.) Alerts are generated when a device (thing) violates a behavior.
-- `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an alert.
+- `additionalMetricsToRetain`:  Please use
+  CreateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose
+  data is retained (stored). By default, data is retained for any metric used in the
+  profile's behaviors, but it is also retained for any metric specified here. Can be used
+  with custom metrics; cannot be used with dimensions.
+- `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By
+  default, data is retained for any metric used in the profile's behaviors, but it is also
+  retained for any metric specified here. Can be used with custom metrics; cannot be used
+  with dimensions.
+- `alertTargets`: Specifies the destinations to which alerts are sent. (Alerts are always
+  sent to the console.) Alerts are generated when a device (thing) violates a behavior.
+- `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an
+  alert.
 - `securityProfileDescription`: A description of the security profile.
 - `tags`: Metadata that can be used to manage the security profile.
 """
@@ -562,11 +741,14 @@ create_security_profile(securityProfileName, args::AbstractDict{String, <:Any}; 
 """
     CreateStream()
 
-Creates a stream for delivering one or more large files in chunks over MQTT. A stream transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3. You can have one or more files associated with a stream.
+Creates a stream for delivering one or more large files in chunks over MQTT. A stream
+transports data bytes in chunks or blocks packaged as MQTT messages from a source like S3.
+You can have one or more files associated with a stream.
 
 # Required Parameters
 - `files`: The files to stream.
-- `roleArn`: An IAM role that allows the IoT service principal assumes to access your S3 files.
+- `roleArn`: An IAM role that allows the IoT service principal assumes to access your S3
+  files.
 - `streamId`: The stream ID.
 
 # Optional Parameters
@@ -579,13 +761,20 @@ create_stream(files, roleArn, streamId, args::AbstractDict{String, <:Any}; aws_c
 """
     CreateThing()
 
-Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
+Creates a thing record in the registry. If this call is made multiple times using the same
+thing name and configuration, the call will succeed. If this call is made with the same
+thing name but different configuration a ResourceAlreadyExistsException is thrown.  This is
+a control plane operation. See Authorization for information about authorizing control
+plane actions.
 
 # Required Parameters
-- `thingName`: The name of the thing to create. You can't change a thing's name after you create it. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing.
+- `thingName`: The name of the thing to create. You can't change a thing's name after you
+  create it. To change a thing's name, you must create a new thing, give it the new name, and
+  then delete the old thing.
 
 # Optional Parameters
-- `attributePayload`: The attribute payload, which consists of up to three name/value pairs in a JSON document. For example:  {\"attributes\":{\"string1\":\"string2\"}} 
+- `attributePayload`: The attribute payload, which consists of up to three name/value pairs
+  in a JSON document. For example:  {\"attributes\":{\"string1\":\"string2\"}}
 - `billingGroupName`: The name of the billing group the thing will be added to.
 - `thingTypeName`: The name of the thing type associated with the new thing.
 """
@@ -595,7 +784,8 @@ create_thing(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     CreateThingGroup()
 
-Create a thing group.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
+Create a thing group.  This is a control plane operation. See Authorization for information
+about authorizing control plane actions.
 
 # Required Parameters
 - `thingGroupName`: The thing group name to create.
@@ -618,7 +808,9 @@ Creates a new thing type.
 
 # Optional Parameters
 - `tags`: Metadata which can be used to manage the thing type.
-- `thingTypeProperties`: The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names.
+- `thingTypeProperties`: The ThingTypeProperties for the thing type to create. It contains
+  information about the new thing type including a description, and a list of searchable
+  thing attribute names.
 """
 create_thing_type(thingTypeName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/thing-types/$(thingTypeName)"; aws_config=aws_config)
 create_thing_type(thingTypeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/thing-types/$(thingTypeName)", args; aws_config=aws_config)
@@ -626,14 +818,18 @@ create_thing_type(thingTypeName, args::AbstractDict{String, <:Any}; aws_config::
 """
     CreateTopicRule()
 
-Creates a rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
+Creates a rule. Creating rules is an administrator-level action. Any user who has
+permission to create rules will be able to access data processed by the rule.
 
 # Required Parameters
 - `ruleName`: The name of the rule.
 - `topicRulePayload`: The rule payload.
 
 # Optional Parameters
-- `x-amz-tagging`: Metadata which can be used to manage the topic rule.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: --tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" 
+- `x-amz-tagging`: Metadata which can be used to manage the topic rule.  For URI Request
+  parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
+  use format: --tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use
+  format: \"tags\": \"key1=value1&amp;key2=value2...\"
 """
 create_topic_rule(ruleName, topicRulePayload; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/rules/$(ruleName)", Dict{String, Any}("topicRulePayload"=>topicRulePayload); aws_config=aws_config)
 create_topic_rule(ruleName, topicRulePayload, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/rules/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("topicRulePayload"=>topicRulePayload), args)); aws_config=aws_config)
@@ -653,7 +849,8 @@ create_topic_rule_destination(destinationConfiguration, args::AbstractDict{Strin
 """
     DeleteAccountAuditConfiguration()
 
-Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. 
+Restores the default settings for Device Defender audits for this account. Any
+configuration data you entered is deleted and all audit checks are reset to disabled.
 
 # Optional Parameters
 - `deleteScheduledAudits`: If true, all scheduled audits are deleted.
@@ -664,11 +861,11 @@ delete_account_audit_configuration(args::AbstractDict{String, Any}; aws_config::
 """
     DeleteAuditSuppression()
 
- Deletes a Device Defender audit suppression. 
+ Deletes a Device Defender audit suppression.
 
 # Required Parameters
-- `checkName`: 
-- `resourceIdentifier`: 
+- `checkName`:
+- `resourceIdentifier`:
 
 """
 delete_audit_suppression(checkName, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/delete", Dict{String, Any}("checkName"=>checkName, "resourceIdentifier"=>resourceIdentifier); aws_config=aws_config)
@@ -695,7 +892,9 @@ Deletes the billing group.
 - `billingGroupName`: The name of the billing group.
 
 # Optional Parameters
-- `expectedVersion`: The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the DeleteBillingGroup request is rejected with a VersionConflictException.
+- `expectedVersion`: The expected version of the billing group. If the version of the
+  billing group does not match the expected version specified in the request, the
+  DeleteBillingGroup request is rejected with a VersionConflictException.
 """
 delete_billing_group(billingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/billing-groups/$(billingGroupName)"; aws_config=aws_config)
 delete_billing_group(billingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/billing-groups/$(billingGroupName)", args; aws_config=aws_config)
@@ -706,7 +905,8 @@ delete_billing_group(billingGroupName, args::AbstractDict{String, <:Any}; aws_co
 Deletes a registered CA certificate.
 
 # Required Parameters
-- `caCertificateId`: The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)
+- `caCertificateId`: The ID of the certificate to delete. (The last part of the certificate
+  ARN contains the certificate ID.)
 
 """
 delete_cacertificate(caCertificateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/cacertificate/$(caCertificateId)"; aws_config=aws_config)
@@ -715,13 +915,18 @@ delete_cacertificate(caCertificateId, args::AbstractDict{String, <:Any}; aws_con
 """
     DeleteCertificate()
 
-Deletes the specified certificate. A certificate cannot be deleted if it has a policy or IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate API to set the certificate to the INACTIVE status.
+Deletes the specified certificate. A certificate cannot be deleted if it has a policy or
+IoT thing attached to it or if its status is set to ACTIVE. To delete a certificate, first
+use the DetachPrincipalPolicy API to detach all policies. Next, use the UpdateCertificate
+API to set the certificate to the INACTIVE status.
 
 # Required Parameters
-- `certificateId`: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+- `certificateId`: The ID of the certificate. (The last part of the certificate ARN
+  contains the certificate ID.)
 
 # Optional Parameters
-- `forceDelete`: Forces the deletion of a certificate if it is inactive and is not attached to an IoT thing.
+- `forceDelete`: Forces the deletion of a certificate if it is inactive and is not attached
+  to an IoT thing.
 """
 delete_certificate(certificateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/certificates/$(certificateId)"; aws_config=aws_config)
 delete_certificate(certificateId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/certificates/$(certificateId)", args; aws_config=aws_config)
@@ -729,10 +934,13 @@ delete_certificate(certificateId, args::AbstractDict{String, <:Any}; aws_config:
 """
     DeleteCustomMetric()
 
- Before you can delete a custom metric, you must first remove the custom metric from all security profiles it's a part of. The security profile associated with the custom metric can be found using the ListSecurityProfiles API with metricName set to your custom metric name.   Deletes a Device Defender detect custom metric. 
+ Before you can delete a custom metric, you must first remove the custom metric from all
+security profiles it's a part of. The security profile associated with the custom metric
+can be found using the ListSecurityProfiles API with metricName set to your custom metric
+name.   Deletes a Device Defender detect custom metric.
 
 # Required Parameters
-- `metricName`:  The name of the custom metric. 
+- `metricName`:  The name of the custom metric.
 
 """
 delete_custom_metric(metricName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/custom-metric/$(metricName)"; aws_config=aws_config)
@@ -753,7 +961,8 @@ delete_dimension(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     DeleteDomainConfiguration()
 
-Deletes the specified domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+Deletes the specified domain configuration.  The domain configuration feature is in public
+preview and is subject to change.
 
 # Required Parameters
 - `domainConfigurationName`: The name of the domain configuration to be deleted.
@@ -779,14 +988,30 @@ delete_dynamic_thing_group(thingGroupName, args::AbstractDict{String, <:Any}; aw
 """
     DeleteJob()
 
-Deletes a job and its related job executions. Deleting a job may take time, depending on the number of job executions created for the job and various other factors. While the job is being deleted, the status of the job will be shown as \"DELETION_IN_PROGRESS\". Attempting to delete or cancel a job whose status is already \"DELETION_IN_PROGRESS\" will result in an error. Only 10 jobs may have status \"DELETION_IN_PROGRESS\" at the same time, or a LimitExceededException will occur.
+Deletes a job and its related job executions. Deleting a job may take time, depending on
+the number of job executions created for the job and various other factors. While the job
+is being deleted, the status of the job will be shown as \"DELETION_IN_PROGRESS\".
+Attempting to delete or cancel a job whose status is already \"DELETION_IN_PROGRESS\" will
+result in an error. Only 10 jobs may have status \"DELETION_IN_PROGRESS\" at the same time,
+or a LimitExceededException will occur.
 
 # Required Parameters
-- `jobId`: The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
+- `jobId`: The ID of the job to be deleted. After a job deletion is completed, you may
+  reuse this jobId when you create a new job. However, this is not recommended, and you must
+  ensure that your devices are not using the jobId to refer to the deleted job.
 
 # Optional Parameters
-- `force`: (Optional) When true, you can delete a job which is \"IN_PROGRESS\". Otherwise, you can only delete a job which is in a terminal state (\"COMPLETED\" or \"CANCELED\") or an exception will occur. The default is false.  Deleting a job which is \"IN_PROGRESS\", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state. 
-- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview. 
+- `force`: (Optional) When true, you can delete a job which is \"IN_PROGRESS\". Otherwise,
+  you can only delete a job which is in a terminal state (\"COMPLETED\" or \"CANCELED\") or
+  an exception will occur. The default is false.  Deleting a job which is \"IN_PROGRESS\",
+  will cause a device which is executing the job to be unable to access job information or
+  update the job execution status. Use caution and ensure that each device executing a job
+  which is deleted is able to recover to a valid state.
+- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
+  topics that contain the value in the following format.
+  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
+  is in public preview.
 """
 delete_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/jobs/$(jobId)"; aws_config=aws_config)
 delete_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/jobs/$(jobId)", args; aws_config=aws_config)
@@ -797,13 +1022,25 @@ delete_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 Deletes a job execution.
 
 # Required Parameters
-- `executionNumber`: The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.
+- `executionNumber`: The ID of the job execution to be deleted. The executionNumber refers
+  to the execution of a particular job on a particular device. Note that once a job execution
+  is deleted, the executionNumber may be reused by IoT, so be sure you get and use the
+  correct value here.
 - `jobId`: The ID of the job whose execution on a particular device will be deleted.
 - `thingName`: The name of the thing whose job execution will be deleted.
 
 # Optional Parameters
-- `force`: (Optional) When true, you can delete a job execution which is \"IN_PROGRESS\". Otherwise, you can only delete a job execution which is in a terminal state (\"SUCCEEDED\", \"FAILED\", \"REJECTED\", \"REMOVED\" or \"CANCELED\") or an exception will occur. The default is false.  Deleting a job execution which is \"IN_PROGRESS\", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state. 
-- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview. 
+- `force`: (Optional) When true, you can delete a job execution which is \"IN_PROGRESS\".
+  Otherwise, you can only delete a job execution which is in a terminal state (\"SUCCEEDED\",
+  \"FAILED\", \"REJECTED\", \"REMOVED\" or \"CANCELED\") or an exception will occur. The
+  default is false.  Deleting a job execution which is \"IN_PROGRESS\", will cause the device
+  to be unable to access job information or update the job execution status. Use caution and
+  ensure that the device is able to recover to a valid state.
+- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
+  topics that contain the value in the following format.
+  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
+  is in public preview.
 """
 delete_job_execution(executionNumber, jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)"; aws_config=aws_config)
 delete_job_execution(executionNumber, jobId, thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)", args; aws_config=aws_config)
@@ -829,8 +1066,12 @@ Delete an OTA update.
 - `otaUpdateId`: The ID of the OTA update to delete.
 
 # Optional Parameters
-- `deleteStream`: When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
-- `forceDeleteAWSJob`: When true, deletes the AWS job created by the OTAUpdate process even if it is \"IN_PROGRESS\". Otherwise, if the job is not in a terminal state (\"COMPLETED\" or \"CANCELED\") an exception will occur. The default is false.
+- `deleteStream`: When true, the stream created by the OTAUpdate process is deleted when
+  the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by
+  the user.
+- `forceDeleteAWSJob`: When true, deletes the AWS job created by the OTAUpdate process even
+  if it is \"IN_PROGRESS\". Otherwise, if the job is not in a terminal state (\"COMPLETED\"
+  or \"CANCELED\") an exception will occur. The default is false.
 """
 delete_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/otaUpdates/$(otaUpdateId)"; aws_config=aws_config)
 delete_otaupdate(otaUpdateId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/otaUpdates/$(otaUpdateId)", args; aws_config=aws_config)
@@ -838,7 +1079,11 @@ delete_otaupdate(otaUpdateId, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     DeletePolicy()
 
-Deletes the specified policy. A policy cannot be deleted if it has non-default versions or it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach the policy from any certificate; and then use the DeletePolicy API to delete the policy. When a policy is deleted using DeletePolicy, its default version is deleted with it.
+Deletes the specified policy. A policy cannot be deleted if it has non-default versions or
+it is attached to any certificate. To delete a policy, use the DeletePolicyVersion API to
+delete all non-default versions of the policy; use the DetachPrincipalPolicy API to detach
+the policy from any certificate; and then use the DeletePolicy API to delete the policy.
+When a policy is deleted using DeletePolicy, its default version is deleted with it.
 
 # Required Parameters
 - `policyName`: The name of the policy to delete.
@@ -850,7 +1095,10 @@ delete_policy(policyName, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     DeletePolicyVersion()
 
-Deletes the specified version of the specified policy. You cannot delete the default version of a policy using this API. To delete the default version of a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions.
+Deletes the specified version of the specified policy. You cannot delete the default
+version of a policy using this API. To delete the default version of a policy, use
+DeletePolicy. To find out which version of a policy is marked as the default version, use
+ListPolicyVersions.
 
 # Required Parameters
 - `policyName`: The name of the policy.
@@ -927,7 +1175,9 @@ Deletes a Device Defender security profile.
 - `securityProfileName`: The name of the security profile to be deleted.
 
 # Optional Parameters
-- `expectedVersion`: The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
+- `expectedVersion`: The expected version of the security profile. A new version is
+  generated whenever the security profile is updated. If you specify a value that is
+  different from the actual version, a VersionConflictException is thrown.
 """
 delete_security_profile(securityProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/security-profiles/$(securityProfileName)"; aws_config=aws_config)
 delete_security_profile(securityProfileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/security-profiles/$(securityProfileName)", args; aws_config=aws_config)
@@ -947,13 +1197,16 @@ delete_stream(streamId, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     DeleteThing()
 
-Deletes the specified thing. Returns successfully with no error if the deletion is successful or you specify a thing that doesn't exist.
+Deletes the specified thing. Returns successfully with no error if the deletion is
+successful or you specify a thing that doesn't exist.
 
 # Required Parameters
 - `thingName`: The name of the thing to delete.
 
 # Optional Parameters
-- `expectedVersion`: The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
+- `expectedVersion`: The expected version of the thing record in the registry. If the
+  version of the record in the registry does not match the expected version specified in the
+  request, the DeleteThing request is rejected with a VersionConflictException.
 """
 delete_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/things/$(thingName)"; aws_config=aws_config)
 delete_thing(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/things/$(thingName)", args; aws_config=aws_config)
@@ -975,7 +1228,11 @@ delete_thing_group(thingGroupName, args::AbstractDict{String, <:Any}; aws_config
 """
     DeleteThingType()
 
-Deletes the specified thing type. You cannot delete a thing type if it has things associated with it. To delete a thing type, first mark it as deprecated by calling DeprecateThingType, then remove any associated things by calling UpdateThing to change the thing type on any associated thing, and finally use DeleteThingType to delete the thing type.
+Deletes the specified thing type. You cannot delete a thing type if it has things
+associated with it. To delete a thing type, first mark it as deprecated by calling
+DeprecateThingType, then remove any associated things by calling UpdateThing to change the
+thing type on any associated thing, and finally use DeleteThingType to delete the thing
+type.
 
 # Required Parameters
 - `thingTypeName`: The name of the thing type.
@@ -1015,7 +1272,8 @@ Deletes a logging level.
 
 # Required Parameters
 - `targetName`: The name of the resource for which you are configuring logging.
-- `targetType`: The type of resource for which you are configuring logging. Must be THING_Group.
+- `targetType`: The type of resource for which you are configuring logging. Must be
+  THING_Group.
 
 """
 delete_v2_logging_level(targetName, targetType; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/v2LoggingLevel", Dict{String, Any}("targetName"=>targetName, "targetType"=>targetType); aws_config=aws_config)
@@ -1030,7 +1288,8 @@ Deprecates a thing type. You can not associate new things with deprecated thing 
 - `thingTypeName`: The name of the thing type to deprecate.
 
 # Optional Parameters
-- `undoDeprecate`: Whether to undeprecate a deprecated thing type. If true, the thing type will not be deprecated anymore and you can associate it with things.
+- `undoDeprecate`: Whether to undeprecate a deprecated thing type. If true, the thing type
+  will not be deprecated anymore and you can associate it with things.
 """
 deprecate_thing_type(thingTypeName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/thing-types/$(thingTypeName)/deprecate"; aws_config=aws_config)
 deprecate_thing_type(thingTypeName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/thing-types/$(thingTypeName)/deprecate", args; aws_config=aws_config)
@@ -1038,7 +1297,8 @@ deprecate_thing_type(thingTypeName, args::AbstractDict{String, <:Any}; aws_confi
 """
     DescribeAccountAuditConfiguration()
 
-Gets information about the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled.
+Gets information about the Device Defender audit settings for this account. Settings
+include how audit notifications are sent and which audit checks are enabled or disabled.
 
 """
 describe_account_audit_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/configuration"; aws_config=aws_config)
@@ -1047,10 +1307,13 @@ describe_account_audit_configuration(args::AbstractDict{String, Any}; aws_config
 """
     DescribeAuditFinding()
 
-Gets information about a single audit finding. Properties include the reason for noncompliance, the severity of the issue, and the start time when the audit that returned the finding.
+Gets information about a single audit finding. Properties include the reason for
+noncompliance, the severity of the issue, and the start time when the audit that returned
+the finding.
 
 # Required Parameters
-- `findingId`: A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding.
+- `findingId`: A unique identifier for a single audit finding. You can use this identifier
+  to apply mitigation actions to the finding.
 
 """
 describe_audit_finding(findingId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/findings/$(findingId)"; aws_config=aws_config)
@@ -1059,7 +1322,9 @@ describe_audit_finding(findingId, args::AbstractDict{String, <:Any}; aws_config:
 """
     DescribeAuditMitigationActionsTask()
 
-Gets information about an audit mitigation task that is used to apply mitigation actions to a set of audit findings. Properties include the actions being applied, the audit checks to which they're being applied, the task status, and aggregated task statistics.
+Gets information about an audit mitigation task that is used to apply mitigation actions to
+a set of audit findings. Properties include the actions being applied, the audit checks to
+which they're being applied, the task status, and aggregated task statistics.
 
 # Required Parameters
 - `taskId`: The unique identifier for the audit mitigation task.
@@ -1071,11 +1336,11 @@ describe_audit_mitigation_actions_task(taskId, args::AbstractDict{String, <:Any}
 """
     DescribeAuditSuppression()
 
- Gets information about a Device Defender audit suppression. 
+ Gets information about a Device Defender audit suppression.
 
 # Required Parameters
-- `checkName`: 
-- `resourceIdentifier`: 
+- `checkName`:
+- `resourceIdentifier`:
 
 """
 describe_audit_suppression(checkName, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/describe", Dict{String, Any}("checkName"=>checkName, "resourceIdentifier"=>resourceIdentifier); aws_config=aws_config)
@@ -1135,7 +1400,8 @@ describe_cacertificate(caCertificateId, args::AbstractDict{String, <:Any}; aws_c
 Gets information about the specified certificate.
 
 # Required Parameters
-- `certificateId`: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+- `certificateId`: The ID of the certificate. (The last part of the certificate ARN
+  contains the certificate ID.)
 
 """
 describe_certificate(certificateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/certificates/$(certificateId)"; aws_config=aws_config)
@@ -1144,10 +1410,10 @@ describe_certificate(certificateId, args::AbstractDict{String, <:Any}; aws_confi
 """
     DescribeCustomMetric()
 
- Gets information about a Device Defender detect custom metric. 
+ Gets information about a Device Defender detect custom metric.
 
 # Required Parameters
-- `metricName`:  The name of the custom metric. 
+- `metricName`:  The name of the custom metric.
 
 """
 describe_custom_metric(metricName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/custom-metric/$(metricName)"; aws_config=aws_config)
@@ -1165,10 +1431,10 @@ describe_default_authorizer(args::AbstractDict{String, Any}; aws_config::Abstrac
 """
     DescribeDetectMitigationActionsTask()
 
- Gets information about a Device Defender ML Detect mitigation action. 
+ Gets information about a Device Defender ML Detect mitigation action.
 
 # Required Parameters
-- `taskId`:  The unique identifier of the task. 
+- `taskId`:  The unique identifier of the task.
 
 """
 describe_detect_mitigation_actions_task(taskId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/tasks/$(taskId)"; aws_config=aws_config)
@@ -1189,7 +1455,8 @@ describe_dimension(name, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     DescribeDomainConfiguration()
 
-Gets summary information about a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+Gets summary information about a domain configuration.  The domain configuration feature is
+in public preview and is subject to change.
 
 # Required Parameters
 - `domainConfigurationName`: The name of the domain configuration.
@@ -1204,7 +1471,12 @@ describe_domain_configuration(domainConfigurationName, args::AbstractDict{String
 Returns a unique endpoint specific to the AWS account making the call.
 
 # Optional Parameters
-- `endpointType`: The endpoint type. Valid endpoint types include:    iot:Data - Returns a VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.      iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.      iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.   We strongly recommend that customers use the newer iot:Data-ATS endpoint type to avoid issues related to the widespread distrust of Symantec certificate authorities.
+- `endpointType`: The endpoint type. Valid endpoint types include:    iot:Data - Returns a
+  VeriSign signed data endpoint.      iot:Data-ATS - Returns an ATS signed data endpoint.
+   iot:CredentialProvider - Returns an AWS IoT credentials provider API endpoint.
+  iot:Jobs - Returns an AWS IoT device management Jobs API endpoint.   We strongly recommend
+  that customers use the newer iot:Data-ATS endpoint type to avoid issues related to the
+  widespread distrust of Symantec certificate authorities.
 """
 describe_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/endpoint"; aws_config=aws_config)
 describe_endpoint(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/endpoint", args; aws_config=aws_config)
@@ -1252,7 +1524,8 @@ Describes a job execution.
 - `thingName`: The name of the thing on which the job execution is running.
 
 # Optional Parameters
-- `executionNumber`: A string (consisting of the digits \"0\" through \"9\" which is used to specify a particular job execution on a particular device.
+- `executionNumber`: A string (consisting of the digits \"0\" through \"9\" which is used
+  to specify a particular job execution on a particular device.
 """
 describe_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/jobs/$(jobId)"; aws_config=aws_config)
 describe_job_execution(jobId, thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/jobs/$(jobId)", args; aws_config=aws_config)
@@ -1406,11 +1679,14 @@ detach_policy(policyName, target, args::AbstractDict{String, <:Any}; aws_config:
 """
     DetachPrincipalPolicy()
 
-Removes the specified policy from the specified certificate.  Note: This API is deprecated. Please use DetachPolicy instead.
+Removes the specified policy from the specified certificate.  Note: This API is deprecated.
+Please use DetachPolicy instead.
 
 # Required Parameters
 - `policyName`: The name of the policy to detach.
-- `x-amzn-iot-principal`: The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
+- `x-amzn-iot-principal`: The principal. Valid principals are CertificateArn
+  (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
+  (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 
 """
 detach_principal_policy(policyName, x_amzn_iot_principal; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/principal-policies/$(policyName)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-iot-principal"=>x_amzn_iot_principal)); aws_config=aws_config)
@@ -1423,7 +1699,8 @@ Disassociates a Device Defender security profile from a thing group or from this
 
 # Required Parameters
 - `securityProfileName`: The security profile that is detached.
-- `securityProfileTargetArn`: The ARN of the thing group from which the security profile is detached.
+- `securityProfileTargetArn`: The ARN of the thing group from which the security profile is
+  detached.
 
 """
 detach_security_profile(securityProfileName, securityProfileTargetArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/security-profiles/$(securityProfileName)/targets", Dict{String, Any}("securityProfileTargetArn"=>securityProfileTargetArn); aws_config=aws_config)
@@ -1432,11 +1709,16 @@ detach_security_profile(securityProfileName, securityProfileTargetArn, args::Abs
 """
     DetachThingPrincipal()
 
-Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.  This call is asynchronous. It might take several seconds for the detachment to propagate. 
+Detaches the specified principal from the specified thing. A principal can be X.509
+certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+identities.  This call is asynchronous. It might take several seconds for the detachment to
+propagate.
 
 # Required Parameters
 - `thingName`: The name of the thing.
-- `x-amzn-principal`: If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.
+- `x-amzn-principal`: If the principal is a certificate, this value must be ARN of the
+  certificate. If the principal is an Amazon Cognito identity, this value must be the ID of
+  the Amazon Cognito identity.
 
 """
 detach_thing_principal(thingName, x_amzn_principal; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/things/$(thingName)/principals", Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)); aws_config=aws_config)
@@ -1469,12 +1751,12 @@ enable_topic_rule(ruleName, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     GetBehaviorModelTrainingSummaries()
 
- Returns a Device Defender's ML Detect Security Profile training model's status. 
+ Returns a Device Defender's ML Detect Security Profile training model's status.
 
 # Optional Parameters
-- `maxResults`:  The maximum number of results to return at one time. The default is 25. 
-- `nextToken`:  The token for the next set of results. 
-- `securityProfileName`:  The name of the security profile. 
+- `maxResults`:  The maximum number of results to return at one time. The default is 25.
+- `nextToken`:  The token for the next set of results.
+- `securityProfileName`:  The name of the security profile.
 """
 get_behavior_model_training_summaries(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/behavior-model-training/summaries"; aws_config=aws_config)
 get_behavior_model_training_summaries(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/behavior-model-training/summaries", args; aws_config=aws_config)
@@ -1498,11 +1780,14 @@ get_cardinality(queryString, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     GetEffectivePolicies()
 
-Gets a list of the policies that have an effect on the authorization behavior of the specified device when it connects to the AWS IoT device gateway.
+Gets a list of the policies that have an effect on the authorization behavior of the
+specified device when it connects to the AWS IoT device gateway.
 
 # Optional Parameters
 - `cognitoIdentityPoolId`: The Cognito identity pool ID.
-- `principal`: The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
+- `principal`: The principal. Valid principals are CertificateArn
+  (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
+  (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 - `thingName`: The thing name.
 """
 get_effective_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/effective-policies"; aws_config=aws_config)
@@ -1532,7 +1817,8 @@ get_job_document(jobId, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     GetLoggingOptions()
 
-Gets the logging options. NOTE: use of this command is not recommended. Use GetV2LoggingOptions instead.
+Gets the logging options. NOTE: use of this command is not recommended. Use
+GetV2LoggingOptions instead.
 
 """
 get_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/loggingOptions"; aws_config=aws_config)
@@ -1553,7 +1839,14 @@ get_otaupdate(otaUpdateId, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     GetPercentiles()
 
-Groups the aggregated values that match the query into percentile groupings. The default percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you call GetPercentiles. This function returns a value for each percentile group specified (or the default percentile groupings). The percentile group \"1\" contains the aggregated field value that occurs in approximately one percent of the values that match the query. The percentile group \"5\" contains the aggregated field value that occurs in approximately five percent of the values that match the query, and so on. The result is an approximation, the more values that match the query, the more accurate the percentile values.
+Groups the aggregated values that match the query into percentile groupings. The default
+percentile groupings are: 1,5,25,50,75,95,99, although you can specify your own when you
+call GetPercentiles. This function returns a value for each percentile group specified (or
+the default percentile groupings). The percentile group \"1\" contains the aggregated field
+value that occurs in approximately one percent of the values that match the query. The
+percentile group \"5\" contains the aggregated field value that occurs in approximately
+five percent of the values that match the query, and so on. The result is an approximation,
+the more values that match the query, the more accurate the percentile values.
 
 # Required Parameters
 - `queryString`: The query string.
@@ -1604,10 +1897,13 @@ get_registration_code(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 """
     GetStatistics()
 
-Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard deviation for the specified aggregated field. If the aggregation field is of type String, only the count statistic is returned.
+Returns the count, average, sum, minimum, maximum, sum of squares, variance, and standard
+deviation for the specified aggregated field. If the aggregation field is of type String,
+only the count statistic is returned.
 
 # Required Parameters
-- `queryString`: The query used to search. You can specify \"*\" for the query string to get the count of all indexed things in your AWS account.
+- `queryString`: The query used to search. You can specify \"*\" for the query string to
+  get the count of all indexed things in your AWS account.
 
 # Optional Parameters
 - `aggregationField`: The aggregation field name.
@@ -1656,11 +1952,12 @@ get_v2_logging_options(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 Lists the active violations for a given Device Defender security profile.
 
 # Optional Parameters
-- `behaviorCriteriaType`:  The criteria for a behavior. 
-- `listSuppressedAlerts`:  A list of all suppressed alerts. 
+- `behaviorCriteriaType`:  The criteria for a behavior.
+- `listSuppressedAlerts`:  A list of all suppressed alerts.
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
-- `securityProfileName`: The name of the Device Defender security profile for which violations are listed.
+- `securityProfileName`: The name of the Device Defender security profile for which
+  violations are listed.
 - `thingName`: The name of the thing whose active violations are listed.
 """
 list_active_violations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/active-violations"; aws_config=aws_config)
@@ -1672,7 +1969,9 @@ list_active_violations(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 Lists the policies attached to the specified thing group.
 
 # Required Parameters
-- `target`: The group or principal for which the policies will be listed. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
+- `target`: The group or principal for which the policies will be listed. Valid principals
+  are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
+  (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 
 # Optional Parameters
 - `marker`: The token to retrieve the next set of results.
@@ -1685,17 +1984,23 @@ list_attached_policies(target, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     ListAuditFindings()
 
-Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)
+Lists the findings (results) of a Device Defender audit or of the audits performed during a
+specified time period. (Findings are retained for 90 days.)
 
 # Optional Parameters
 - `checkName`: A filter to limit results to the findings for the specified audit check.
-- `endTime`: A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
-- `listSuppressedFindings`:  Boolean flag indicating whether only the suppressed findings or the unsuppressed findings should be listed. If this parameter isn't provided, the response will list both suppressed and unsuppressed findings. 
+- `endTime`: A filter to limit results to those found before the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
+- `listSuppressedFindings`:  Boolean flag indicating whether only the suppressed findings
+  or the unsuppressed findings should be listed. If this parameter isn't provided, the
+  response will list both suppressed and unsuppressed findings.
 - `maxResults`: The maximum number of results to return at one time. The default is 25.
 - `nextToken`: The token for the next set of results.
 - `resourceIdentifier`: Information identifying the noncompliant resource.
-- `startTime`: A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both.
-- `taskId`: A filter to limit results to the audit with the specified ID. You must specify either the taskId or the startTime and endTime, but not both.
+- `startTime`: A filter to limit results to those found after the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
+- `taskId`: A filter to limit results to the audit with the specified ID. You must specify
+  either the taskId or the startTime and endTime, but not both.
 """
 list_audit_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/findings"; aws_config=aws_config)
 list_audit_findings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/findings", args; aws_config=aws_config)
@@ -1706,8 +2011,10 @@ list_audit_findings(args::AbstractDict{String, Any}; aws_config::AbstractAWSConf
 Gets the status of audit mitigation action tasks that were executed.
 
 # Required Parameters
-- `findingId`: Specify this filter to limit results to those that were applied to a specific audit finding.
-- `taskId`: Specify this filter to limit results to actions for a specific audit mitigation actions task.
+- `findingId`: Specify this filter to limit results to those that were applied to a
+  specific audit finding.
+- `taskId`: Specify this filter to limit results to actions for a specific audit mitigation
+  actions task.
 
 # Optional Parameters
 - `actionStatus`: Specify this filter to limit results to those with a specific status.
@@ -1723,12 +2030,16 @@ list_audit_mitigation_actions_executions(findingId, taskId, args::AbstractDict{S
 Gets a list of audit mitigation action tasks that match the specified filters.
 
 # Required Parameters
-- `endTime`: Specify this filter to limit results to tasks that were completed or canceled on or before a specific date and time.
-- `startTime`: Specify this filter to limit results to tasks that began on or after a specific date and time.
+- `endTime`: Specify this filter to limit results to tasks that were completed or canceled
+  on or before a specific date and time.
+- `startTime`: Specify this filter to limit results to tasks that began on or after a
+  specific date and time.
 
 # Optional Parameters
-- `auditTaskId`: Specify this filter to limit results to tasks that were applied to results for a specific audit.
-- `findingId`: Specify this filter to limit results to tasks that were applied to a specific audit finding.
+- `auditTaskId`: Specify this filter to limit results to tasks that were applied to results
+  for a specific audit.
+- `findingId`: Specify this filter to limit results to tasks that were applied to a
+  specific audit finding.
 - `maxResults`: The maximum number of results to return at one time. The default is 25.
 - `nextToken`: The token for the next set of results.
 - `taskStatus`: Specify this filter to limit results to tasks that are in a specific state.
@@ -1739,14 +2050,15 @@ list_audit_mitigation_actions_tasks(endTime, startTime, args::AbstractDict{Strin
 """
     ListAuditSuppressions()
 
- Lists your Device Defender audit listings. 
+ Lists your Device Defender audit listings.
 
 # Optional Parameters
-- `ascendingOrder`:  Determines whether suppressions are listed in ascending order by expiration date or not. If parameter isn't provided, ascendingOrder=true. 
-- `checkName`: 
-- `maxResults`:  The maximum number of results to return at one time. The default is 25. 
-- `nextToken`:  The token for the next set of results. 
-- `resourceIdentifier`: 
+- `ascendingOrder`:  Determines whether suppressions are listed in ascending order by
+  expiration date or not. If parameter isn't provided, ascendingOrder=true.
+- `checkName`:
+- `maxResults`:  The maximum number of results to return at one time. The default is 25.
+- `nextToken`:  The token for the next set of results.
+- `resourceIdentifier`:
 """
 list_audit_suppressions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/list"; aws_config=aws_config)
 list_audit_suppressions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/list", args; aws_config=aws_config)
@@ -1758,13 +2070,17 @@ Lists the Device Defender audits that have been performed during a given time pe
 
 # Required Parameters
 - `endTime`: The end of the time period.
-- `startTime`: The beginning of the time period. Audit information is retained for a limited time (90 days). Requesting a start time prior to what is retained results in an \"InvalidRequestException\".
+- `startTime`: The beginning of the time period. Audit information is retained for a
+  limited time (90 days). Requesting a start time prior to what is retained results in an
+  \"InvalidRequestException\".
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time. The default is 25.
 - `nextToken`: The token for the next set of results.
-- `taskStatus`: A filter to limit the output to audits with the specified completion status: can be one of \"IN_PROGRESS\", \"COMPLETED\", \"FAILED\", or \"CANCELED\".
-- `taskType`: A filter to limit the output to the specified type of audit: can be one of \"ON_DEMAND_AUDIT_TASK\" or \"SCHEDULED__AUDIT_TASK\".
+- `taskStatus`: A filter to limit the output to audits with the specified completion
+  status: can be one of \"IN_PROGRESS\", \"COMPLETED\", \"FAILED\", or \"CANCELED\".
+- `taskType`: A filter to limit the output to the specified type of audit: can be one of
+  \"ON_DEMAND_AUDIT_TASK\" or \"SCHEDULED__AUDIT_TASK\".
 """
 list_audit_tasks(endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/tasks", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime); aws_config=aws_config)
 list_audit_tasks(endTime, startTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), args)); aws_config=aws_config)
@@ -1791,7 +2107,8 @@ Lists the billing groups you have created.
 # Optional Parameters
 - `maxResults`: The maximum number of results to return per request.
 - `namePrefixFilter`: Limit the results to billing groups whose names have the given prefix.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_billing_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/billing-groups"; aws_config=aws_config)
 list_billing_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/billing-groups", args; aws_config=aws_config)
@@ -1799,7 +2116,8 @@ list_billing_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSConf
 """
     ListCACertificates()
 
-Lists the CA certificates registered for your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
+Lists the CA certificates registered for your AWS account. The results are paginated with a
+default page size of 25. You can use the returned marker to retrieve additional results.
 
 # Optional Parameters
 - `isAscendingOrder`: Determines the order of the results.
@@ -1812,10 +2130,12 @@ list_cacertificates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConf
 """
     ListCertificates()
 
-Lists the certificates registered in your AWS account. The results are paginated with a default page size of 25. You can use the returned marker to retrieve additional results.
+Lists the certificates registered in your AWS account. The results are paginated with a
+default page size of 25. You can use the returned marker to retrieve additional results.
 
 # Optional Parameters
-- `isAscendingOrder`: Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
+- `isAscendingOrder`: Specifies the order for results. If True, the results are returned in
+  ascending order, based on the creation date.
 - `marker`: The marker for the next set of results.
 - `pageSize`: The result page size.
 """
@@ -1828,10 +2148,12 @@ list_certificates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 List the device certificates signed by the specified CA certificate.
 
 # Required Parameters
-- `caCertificateId`: The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate.
+- `caCertificateId`: The ID of the CA certificate. This operation will list all registered
+  device certificate that were signed by this CA certificate.
 
 # Optional Parameters
-- `isAscendingOrder`: Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
+- `isAscendingOrder`: Specifies the order for results. If True, the results are returned in
+  ascending order, based on the creation date.
 - `marker`: The marker for the next set of results.
 - `pageSize`: The result page size.
 """
@@ -1841,11 +2163,11 @@ list_certificates_by_ca(caCertificateId, args::AbstractDict{String, <:Any}; aws_
 """
     ListCustomMetrics()
 
- Lists your Device Defender detect custom metrics. 
+ Lists your Device Defender detect custom metrics.
 
 # Optional Parameters
-- `maxResults`:  The maximum number of results to return at one time. The default is 25. 
-- `nextToken`:  The token for the next set of results. 
+- `maxResults`:  The maximum number of results to return at one time. The default is 25.
+- `nextToken`:  The token for the next set of results.
 """
 list_custom_metrics(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/custom-metrics"; aws_config=aws_config)
 list_custom_metrics(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/custom-metrics", args; aws_config=aws_config)
@@ -1853,16 +2175,18 @@ list_custom_metrics(args::AbstractDict{String, Any}; aws_config::AbstractAWSConf
 """
     ListDetectMitigationActionsExecutions()
 
- Lists mitigation actions executions for a Device Defender ML Detect Security Profile. 
+ Lists mitigation actions executions for a Device Defender ML Detect Security Profile.
 
 # Optional Parameters
-- `endTime`:  The end of the time period for which ML Detect mitigation actions executions are returned. 
-- `maxResults`:  The maximum number of results to return at one time. The default is 25. 
-- `nextToken`:  The token for the next set of results. 
-- `startTime`:  A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both. 
-- `taskId`:  The unique identifier of the task. 
-- `thingName`:  The name of the thing whose mitigation actions are listed. 
-- `violationId`:  The unique identifier of the violation. 
+- `endTime`:  The end of the time period for which ML Detect mitigation actions executions
+  are returned.
+- `maxResults`:  The maximum number of results to return at one time. The default is 25.
+- `nextToken`:  The token for the next set of results.
+- `startTime`:  A filter to limit results to those found after the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
+- `taskId`:  The unique identifier of the task.
+- `thingName`:  The name of the thing whose mitigation actions are listed.
+- `violationId`:  The unique identifier of the violation.
 """
 list_detect_mitigation_actions_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/executions"; aws_config=aws_config)
 list_detect_mitigation_actions_executions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/executions", args; aws_config=aws_config)
@@ -1870,15 +2194,17 @@ list_detect_mitigation_actions_executions(args::AbstractDict{String, Any}; aws_c
 """
     ListDetectMitigationActionsTasks()
 
- List of Device Defender ML Detect mitigation actions tasks. 
+ List of Device Defender ML Detect mitigation actions tasks.
 
 # Required Parameters
-- `endTime`:  The end of the time period for which ML Detect mitigation actions tasks are returned. 
-- `startTime`:  A filter to limit results to those found after the specified time. You must specify either the startTime and endTime or the taskId, but not both. 
+- `endTime`:  The end of the time period for which ML Detect mitigation actions tasks are
+  returned.
+- `startTime`:  A filter to limit results to those found after the specified time. You must
+  specify either the startTime and endTime or the taskId, but not both.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time. The default is 25.
-- `nextToken`:  The token for the next set of results. 
+- `nextToken`:  The token for the next set of results.
 """
 list_detect_mitigation_actions_tasks(endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/tasks", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime); aws_config=aws_config)
 list_detect_mitigation_actions_tasks(endTime, startTime, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), args)); aws_config=aws_config)
@@ -1898,7 +2224,9 @@ list_dimensions(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=g
 """
     ListDomainConfigurations()
 
-Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change. 
+Gets a list of domain configurations for the user. This list is sorted alphabetically by
+domain configuration name.  The domain configuration feature is in public preview and is
+subject to change.
 
 # Optional Parameters
 - `marker`: The marker for the next set of results.
@@ -1915,7 +2243,8 @@ Lists the search indices.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: The token used to get the next set of results, or null if there are no additional results.
+- `nextToken`: The token used to get the next set of results, or null if there are no
+  additional results.
 """
 list_indices(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/indices"; aws_config=aws_config)
 list_indices(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/indices", args; aws_config=aws_config)
@@ -1946,7 +2275,11 @@ Lists the job executions for the specified thing.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to be returned per request.
-- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview. 
+- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
+  topics that contain the value in the following format.
+  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
+  is in public preview.
 - `nextToken`: The token to retrieve the next set of results.
 - `status`: An optional filter that lets you search for jobs that have the specified status.
 """
@@ -1960,10 +2293,18 @@ Lists jobs.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return per request.
-- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview. 
+- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
+  topics that contain the value in the following format.
+  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
+  is in public preview.
 - `nextToken`: The token to retrieve the next set of results.
 - `status`: An optional filter that lets you search for jobs that have the specified status.
-- `targetSelection`: Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group. 
+- `targetSelection`: Specifies whether the job will continue to run (CONTINUOUS), or will
+  be complete after all those things specified as targets have completed the job (SNAPSHOT).
+  If continuous, the job may also be run on a thing when a change is detected in a target.
+  For example, a job will run on a thing when the thing is added to a target group, even
+  after the job was completed by all things originally in the group.
 - `thingGroupId`: A filter that limits the returned jobs to those for the specified group.
 - `thingGroupName`: A filter that limits the returned jobs to those for the specified group.
 """
@@ -1976,7 +2317,8 @@ list_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_
 Gets a list of all mitigation actions that match the specified filter criteria.
 
 # Optional Parameters
-- `actionType`: Specify a value to limit the result to mitigation actions with a specific action type.
+- `actionType`: Specify a value to limit the result to mitigation actions with a specific
+  action type.
 - `maxResults`: The maximum number of results to return at one time. The default is 25.
 - `nextToken`: The token for the next set of results.
 """
@@ -2002,7 +2344,8 @@ list_otaupdates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=g
 Lists certificates that are being transferred but not yet accepted.
 
 # Optional Parameters
-- `isAscendingOrder`: Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
+- `isAscendingOrder`: Specifies the order for results. If True, the results are returned in
+  ascending order, based on the creation date.
 - `marker`: The marker for the next set of results.
 - `pageSize`: The result page size.
 """
@@ -2015,7 +2358,8 @@ list_outgoing_certificates(args::AbstractDict{String, Any}; aws_config::Abstract
 Lists your policies.
 
 # Optional Parameters
-- `isAscendingOrder`: Specifies the order for results. If true, the results are returned in ascending creation order.
+- `isAscendingOrder`: Specifies the order for results. If true, the results are returned in
+  ascending creation order.
 - `marker`: The marker for the next set of results.
 - `pageSize`: The result page size.
 """
@@ -2025,13 +2369,15 @@ list_policies(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glo
 """
     ListPolicyPrincipals()
 
-Lists the principals associated with the specified policy.  Note: This API is deprecated. Please use ListTargetsForPolicy instead.
+Lists the principals associated with the specified policy.  Note: This API is deprecated.
+Please use ListTargetsForPolicy instead.
 
 # Required Parameters
 - `x-amzn-iot-policy`: The policy name.
 
 # Optional Parameters
-- `isAscendingOrder`: Specifies the order for results. If true, the results are returned in ascending creation order.
+- `isAscendingOrder`: Specifies the order for results. If true, the results are returned in
+  ascending creation order.
 - `marker`: The marker for the next set of results.
 - `pageSize`: The result page size.
 """
@@ -2053,13 +2399,18 @@ list_policy_versions(policyName, args::AbstractDict{String, <:Any}; aws_config::
 """
     ListPrincipalPolicies()
 
-Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This API is deprecated. Please use ListAttachedPolicies instead.
+Lists the policies attached to the specified principal. If you use an Cognito identity, the
+ID must be in AmazonCognito Identity format.  Note: This API is deprecated. Please use
+ListAttachedPolicies instead.
 
 # Required Parameters
-- `x-amzn-iot-principal`: The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
+- `x-amzn-iot-principal`: The principal. Valid principals are CertificateArn
+  (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
+  (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 
 # Optional Parameters
-- `isAscendingOrder`: Specifies the order for results. If true, results are returned in ascending creation order.
+- `isAscendingOrder`: Specifies the order for results. If true, results are returned in
+  ascending creation order.
 - `marker`: The marker for the next set of results.
 - `pageSize`: The result page size.
 """
@@ -2069,14 +2420,17 @@ list_principal_policies(x_amzn_iot_principal, args::AbstractDict{String, <:Any};
 """
     ListPrincipalThings()
 
-Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. 
+Lists the things associated with the specified principal. A principal can be X.509
+certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+identities.
 
 # Required Parameters
 - `x-amzn-principal`: The principal.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_principal_things(x_amzn_principal; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/principals/things", Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)); aws_config=aws_config)
 list_principal_things(x_amzn_principal, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/principals/things", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amzn-principal"=>x_amzn_principal)), args)); aws_config=aws_config)
@@ -2136,12 +2490,15 @@ list_scheduled_audits(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 """
     ListSecurityProfiles()
 
-Lists the Device Defender security profiles you've created. You can filter security profiles by dimension or custom metric.   dimensionName and metricName cannot be used in the same request. 
+Lists the Device Defender security profiles you've created. You can filter security
+profiles by dimension or custom metric.   dimensionName and metricName cannot be used in
+the same request.
 
 # Optional Parameters
-- `dimensionName`: A filter to limit results to the security profiles that use the defined dimension. Cannot be used with metricName 
+- `dimensionName`: A filter to limit results to the security profiles that use the defined
+  dimension. Cannot be used with metricName
 - `maxResults`: The maximum number of results to return at one time.
-- `metricName`:  The name of the custom metric. Cannot be used with dimensionName. 
+- `metricName`:  The name of the custom metric. Cannot be used with dimensionName.
 - `nextToken`: The token for the next set of results.
 """
 list_security_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/security-profiles"; aws_config=aws_config)
@@ -2153,7 +2510,8 @@ list_security_profiles(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 Lists the Device Defender security profiles attached to a target (thing group).
 
 # Required Parameters
-- `securityProfileTargetArn`: The ARN of the target (thing group) whose attached security profiles you want to get.
+- `securityProfileTargetArn`: The ARN of the target (thing group) whose attached security
+  profiles you want to get.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
@@ -2185,7 +2543,8 @@ Lists the tags (metadata) you have assigned to the resource.
 - `resourceArn`: The ARN of the resource.
 
 # Optional Parameters
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
 list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
@@ -2227,8 +2586,10 @@ List the thing groups in your account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `namePrefixFilter`: A filter that limits the results to those with the specified name prefix.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `namePrefixFilter`: A filter that limits the results to those with the specified name
+  prefix.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 - `parentGroup`: A filter that limits the results to those with the specified parent group.
 - `recursive`: If true, return child groups as well.
 """
@@ -2245,7 +2606,8 @@ List the thing groups to which the specified thing belongs.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_thing_groups_for_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/thing-groups"; aws_config=aws_config)
 list_thing_groups_for_thing(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/thing-groups", args; aws_config=aws_config)
@@ -2253,14 +2615,17 @@ list_thing_groups_for_thing(thingName, args::AbstractDict{String, <:Any}; aws_co
 """
     ListThingPrincipals()
 
-Lists the principals associated with the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
+Lists the principals associated with the specified thing. A principal can be X.509
+certificates, IAM users, groups, and roles, Amazon Cognito identities or federated
+identities.
 
 # Required Parameters
 - `thingName`: The name of the thing.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_thing_principals(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/principals"; aws_config=aws_config)
 list_thing_principals(thingName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/principals", args; aws_config=aws_config)
@@ -2276,7 +2641,8 @@ Information about the thing registration tasks.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return per request.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_thing_registration_task_reports(reportType, taskId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks/$(taskId)/reports", Dict{String, Any}("reportType"=>reportType); aws_config=aws_config)
 list_thing_registration_task_reports(reportType, taskId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks/$(taskId)/reports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportType"=>reportType), args)); aws_config=aws_config)
@@ -2288,7 +2654,8 @@ List bulk thing provisioning tasks.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 - `status`: The status of the bulk thing provisioning task.
 """
 list_thing_registration_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks"; aws_config=aws_config)
@@ -2301,7 +2668,8 @@ Lists the existing thing types.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 - `thingTypeName`: The name of the thing type.
 """
 list_thing_types(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-types"; aws_config=aws_config)
@@ -2310,13 +2678,19 @@ list_thing_types(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=
 """
     ListThings()
 
-Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.   You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned. 
+Lists your things. Use the attributeName and attributeValue parameters to filter your
+things. For example, calling ListThings with attributeName=Color and attributeValue=Red
+retrieves all things in the registry that contain an attribute Color with the value Red.
+You will not be charged for calling this API if an Access denied error is returned. You
+will also not be charged if no attributes or pagination token was provided in request and
+no pagination token and no results were returned.
 
 # Optional Parameters
 - `attributeName`: The attribute name used to search for things.
 - `attributeValue`: The attribute value used to search for things.
 - `maxResults`: The maximum number of results to return in this operation.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 - `thingTypeName`: The name of the thing type used to search for things.
 """
 list_things(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things"; aws_config=aws_config)
@@ -2332,7 +2706,8 @@ Lists the things you have added to the given billing group.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return per request.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_things_in_billing_group(billingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/billing-groups/$(billingGroupName)/things"; aws_config=aws_config)
 list_things_in_billing_group(billingGroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/billing-groups/$(billingGroupName)/things", args; aws_config=aws_config)
@@ -2347,7 +2722,8 @@ Lists the things in the specified group.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 - `recursive`: When true, list things in this thing group and in all child groups as well.
 """
 list_things_in_thing_group(thingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-groups/$(thingGroupName)/things"; aws_config=aws_config)
@@ -2360,7 +2736,8 @@ Lists all the topic rule destinations in your AWS account.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 """
 list_topic_rule_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/destinations"; aws_config=aws_config)
 list_topic_rule_destinations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/destinations", args; aws_config=aws_config)
@@ -2372,7 +2749,8 @@ Lists the rules for the specific topic.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
 - `ruleDisabled`: Specifies whether the rule is disabled.
 - `topic`: The topic.
 """
@@ -2386,8 +2764,10 @@ Lists logging levels.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
-- `targetType`: The type of resource for which you are configuring logging. Must be THING_Group.
+- `nextToken`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+- `targetType`: The type of resource for which you are configuring logging. Must be
+  THING_Group.
 """
 list_v2_logging_levels(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/v2LoggingLevel"; aws_config=aws_config)
 list_v2_logging_levels(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/v2LoggingLevel", args; aws_config=aws_config)
@@ -2395,18 +2775,21 @@ list_v2_logging_levels(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 """
     ListViolationEvents()
 
-Lists the Device Defender security profile violations discovered during the given time period. You can use filters to limit the results to those alerts issued for a particular security profile, behavior, or thing (device).
+Lists the Device Defender security profile violations discovered during the given time
+period. You can use filters to limit the results to those alerts issued for a particular
+security profile, behavior, or thing (device).
 
 # Required Parameters
 - `endTime`: The end time for the alerts to be listed.
 - `startTime`: The start time for the alerts to be listed.
 
 # Optional Parameters
-- `behaviorCriteriaType`:  The criteria for a behavior. 
-- `listSuppressedAlerts`:  A list of all suppressed alerts. 
+- `behaviorCriteriaType`:  The criteria for a behavior.
+- `listSuppressedAlerts`:  A list of all suppressed alerts.
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
-- `securityProfileName`: A filter to limit results to those alerts generated by the specified security profile.
+- `securityProfileName`: A filter to limit results to those alerts generated by the
+  specified security profile.
 - `thingName`: A filter to limit results to those alerts caused by the specified thing.
 """
 list_violation_events(endTime, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/violation-events", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime); aws_config=aws_config)
@@ -2415,17 +2798,26 @@ list_violation_events(endTime, startTime, args::AbstractDict{String, <:Any}; aws
 """
     RegisterCACertificate()
 
-Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign device certificates, which can be then registered with AWS IoT. You can register up to 10 CA certificates per AWS account that have the same subject field. This enables you to have up to 10 certificate authorities sign your device certificates. If you have more than one CA certificate registered, make sure you pass the CA certificate when you register your device certificates with the RegisterCertificate API.
+Registers a CA certificate with AWS IoT. This CA certificate can then be used to sign
+device certificates, which can be then registered with AWS IoT. You can register up to 10
+CA certificates per AWS account that have the same subject field. This enables you to have
+up to 10 certificate authorities sign your device certificates. If you have more than one
+CA certificate registered, make sure you pass the CA certificate when you register your
+device certificates with the RegisterCertificate API.
 
 # Required Parameters
 - `caCertificate`: The CA certificate.
 - `verificationCertificate`: The private key verification certificate.
 
 # Optional Parameters
-- `allowAutoRegistration`: Allows this CA certificate to be used for auto registration of device certificates.
+- `allowAutoRegistration`: Allows this CA certificate to be used for auto registration of
+  device certificates.
 - `registrationConfig`: Information about the registration configuration.
 - `setAsActive`: A boolean value that specifies if the CA certificate is set to active.
-- `tags`: Metadata which can be used to manage the CA certificate.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" 
+- `tags`: Metadata which can be used to manage the CA certificate.  For URI Request
+  parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
+  use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
+  use format: \"tags\": \"key1=value1&amp;key2=value2...\"
 """
 register_cacertificate(caCertificate, verificationCertificate; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/cacertificate", Dict{String, Any}("caCertificate"=>caCertificate, "verificationCertificate"=>verificationCertificate); aws_config=aws_config)
 register_cacertificate(caCertificate, verificationCertificate, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/cacertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("caCertificate"=>caCertificate, "verificationCertificate"=>verificationCertificate), args)); aws_config=aws_config)
@@ -2433,13 +2825,16 @@ register_cacertificate(caCertificate, verificationCertificate, args::AbstractDic
 """
     RegisterCertificate()
 
-Registers a device certificate with AWS IoT. If you have more than one CA certificate that has the same subject field, you must specify the CA certificate that was used to sign the device certificate being registered.
+Registers a device certificate with AWS IoT. If you have more than one CA certificate that
+has the same subject field, you must specify the CA certificate that was used to sign the
+device certificate being registered.
 
 # Required Parameters
 - `certificatePem`: The certificate data, in PEM format.
 
 # Optional Parameters
-- `caCertificatePem`: The CA certificate used to sign the device certificate being registered.
+- `caCertificatePem`: The CA certificate used to sign the device certificate being
+  registered.
 - `setAsActive`: A boolean value that specifies if the certificate is set to active.
 - `status`: The status of the register certificate request.
 """
@@ -2463,13 +2858,18 @@ register_certificate_without_ca(certificatePem, args::AbstractDict{String, <:Any
 """
     RegisterThing()
 
-Provisions a thing in the device registry. RegisterThing calls other AWS IoT control plane APIs. These calls might exceed your account level  AWS IoT Throttling Limits and cause throttle errors. Please contact AWS Customer Support to raise your throttling limits if necessary.
+Provisions a thing in the device registry. RegisterThing calls other AWS IoT control plane
+APIs. These calls might exceed your account level  AWS IoT Throttling Limits and cause
+throttle errors. Please contact AWS Customer Support to raise your throttling limits if
+necessary.
 
 # Required Parameters
-- `templateBody`: The provisioning template. See Provisioning Devices That Have Device Certificates for more information.
+- `templateBody`: The provisioning template. See Provisioning Devices That Have Device
+  Certificates for more information.
 
 # Optional Parameters
-- `parameters`: The parameters for provisioning a thing. See Provisioning Templates for more information.
+- `parameters`: The parameters for provisioning a thing. See Provisioning Templates for
+  more information.
 """
 register_thing(templateBody; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/things", Dict{String, Any}("templateBody"=>templateBody); aws_config=aws_config)
 register_thing(templateBody, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/things", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateBody"=>templateBody), args)); aws_config=aws_config)
@@ -2477,10 +2877,15 @@ register_thing(templateBody, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     RejectCertificateTransfer()
 
-Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates. This operation can only be called by the transfer destination. After it is called, the certificate will be returned to the source's account in the INACTIVE state.
+Rejects a pending certificate transfer. After AWS IoT rejects a certificate transfer, the
+certificate status changes from PENDING_TRANSFER to INACTIVE. To check for pending
+certificate transfers, call ListCertificates to enumerate your certificates. This operation
+can only be called by the transfer destination. After it is called, the certificate will be
+returned to the source's account in the INACTIVE state.
 
 # Required Parameters
-- `certificateId`: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+- `certificateId`: The ID of the certificate. (The last part of the certificate ARN
+  contains the certificate ID.)
 
 # Optional Parameters
 - `rejectReason`: The reason the certificate transfer was rejected.
@@ -2505,7 +2910,9 @@ remove_thing_from_billing_group(args::AbstractDict{String, Any}; aws_config::Abs
 """
     RemoveThingFromThingGroup()
 
-Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. 
+Remove the specified thing from the specified group. You must specify either a
+thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a
+thingName to identify the thing to remove from the thing group.
 
 # Optional Parameters
 - `thingArn`: The ARN of the thing to remove from the group.
@@ -2519,7 +2926,9 @@ remove_thing_from_thing_group(args::AbstractDict{String, Any}; aws_config::Abstr
 """
     ReplaceTopicRule()
 
-Replaces the rule. You must specify all parameters for the new rule. Creating rules is an administrator-level action. Any user who has permission to create rules will be able to access data processed by the rule.
+Replaces the rule. You must specify all parameters for the new rule. Creating rules is an
+administrator-level action. Any user who has permission to create rules will be able to
+access data processed by the rule.
 
 # Required Parameters
 - `ruleName`: The name of the rule.
@@ -2540,7 +2949,8 @@ The query search index.
 # Optional Parameters
 - `indexName`: The search index name.
 - `maxResults`: The maximum number of results to return at one time.
-- `nextToken`: The token used to get the next set of results, or null if there are no additional results.
+- `nextToken`: The token used to get the next set of results, or null if there are no
+  additional results.
 - `queryVersion`: The query version.
 """
 search_index(queryString; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/indices/search", Dict{String, Any}("queryString"=>queryString); aws_config=aws_config)
@@ -2549,7 +2959,8 @@ search_index(queryString, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     SetDefaultAuthorizer()
 
-Sets the default authorizer. This will be used if a websocket connection is made without specifying an authorizer.
+Sets the default authorizer. This will be used if a websocket connection is made without
+specifying an authorizer.
 
 # Required Parameters
 - `authorizerName`: The authorizer name.
@@ -2561,7 +2972,9 @@ set_default_authorizer(authorizerName, args::AbstractDict{String, <:Any}; aws_co
 """
     SetDefaultPolicyVersion()
 
-Sets the specified version of the specified policy as the policy's default (operative) version. This action affects all certificates to which the policy is attached. To list the principals the policy is attached to, use the ListPrincipalPolicy API.
+Sets the specified version of the specified policy as the policy's default (operative)
+version. This action affects all certificates to which the policy is attached. To list the
+principals the policy is attached to, use the ListPrincipalPolicy API.
 
 # Required Parameters
 - `policyName`: The policy name.
@@ -2574,7 +2987,8 @@ set_default_policy_version(policyName, policyVersionId, args::AbstractDict{Strin
 """
     SetLoggingOptions()
 
-Sets the logging options. NOTE: use of this command is not recommended. Use SetV2LoggingOptions instead.
+Sets the logging options. NOTE: use of this command is not recommended. Use
+SetV2LoggingOptions instead.
 
 # Required Parameters
 - `loggingOptionsPayload`: The logging options payload.
@@ -2615,10 +3029,17 @@ set_v2_logging_options(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 Starts a task that applies a set of mitigation actions to the specified target.
 
 # Required Parameters
-- `auditCheckToActionsMapping`: For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your AWS account.
-- `clientRequestToken`: Each audit mitigation task must have a unique client request token. If you try to start a new task with the same token as a task that already exists, an exception occurs. If you omit this value, a unique client request token is generated automatically.
-- `target`: Specifies the audit findings to which the mitigation actions are applied. You can apply them to a type of audit check, to all findings from an audit, or to a specific set of findings.
-- `taskId`: A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it.
+- `auditCheckToActionsMapping`: For an audit check, specifies which mitigation actions to
+  apply. Those actions must be defined in your AWS account.
+- `clientRequestToken`: Each audit mitigation task must have a unique client request token.
+  If you try to start a new task with the same token as a task that already exists, an
+  exception occurs. If you omit this value, a unique client request token is generated
+  automatically.
+- `target`: Specifies the audit findings to which the mitigation actions are applied. You
+  can apply them to a type of audit check, to all findings from an audit, or to a specific
+  set of findings.
+- `taskId`: A unique identifier for the task. You can use this identifier to check the
+  status of the task or to cancel it.
 
 """
 start_audit_mitigation_actions_task(auditCheckToActionsMapping, clientRequestToken, target, taskId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/mitigationactions/tasks/$(taskId)", Dict{String, Any}("auditCheckToActionsMapping"=>auditCheckToActionsMapping, "clientRequestToken"=>clientRequestToken, "target"=>target); aws_config=aws_config)
@@ -2627,18 +3048,22 @@ start_audit_mitigation_actions_task(auditCheckToActionsMapping, clientRequestTok
 """
     StartDetectMitigationActionsTask()
 
- Starts a Device Defender ML Detect mitigation actions task. 
+ Starts a Device Defender ML Detect mitigation actions task.
 
 # Required Parameters
-- `actions`:  The actions to be performed when a device has unexpected behavior. 
-- `clientRequestToken`:  Each mitigation action task must have a unique client request token. If you try to create a new task with the same token as a task that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. 
-- `target`:  Specifies the ML Detect findings to which the mitigation actions are applied. 
-- `taskId`:  The unique identifier of the task. 
+- `actions`:  The actions to be performed when a device has unexpected behavior.
+- `clientRequestToken`:  Each mitigation action task must have a unique client request
+  token. If you try to create a new task with the same token as a task that already exists,
+  an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
+  client request.
+- `target`:  Specifies the ML Detect findings to which the mitigation actions are applied.
+- `taskId`:  The unique identifier of the task.
 
 # Optional Parameters
-- `includeOnlyActiveViolations`:  Specifies to list only active violations. 
-- `includeSuppressedAlerts`:  Specifies to include suppressed alerts. 
-- `violationEventOccurrenceRange`:  Specifies the time period of which violation events occurred between. 
+- `includeOnlyActiveViolations`:  Specifies to list only active violations.
+- `includeSuppressedAlerts`:  Specifies to include suppressed alerts.
+- `violationEventOccurrenceRange`:  Specifies the time period of which violation events
+  occurred between.
 """
 start_detect_mitigation_actions_task(actions, clientRequestToken, target, taskId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/detect/mitigationactions/tasks/$(taskId)", Dict{String, Any}("actions"=>actions, "clientRequestToken"=>clientRequestToken, "target"=>target); aws_config=aws_config)
 start_detect_mitigation_actions_task(actions, clientRequestToken, target, taskId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/detect/mitigationactions/tasks/$(taskId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions, "clientRequestToken"=>clientRequestToken, "target"=>target), args)); aws_config=aws_config)
@@ -2649,7 +3074,10 @@ start_detect_mitigation_actions_task(actions, clientRequestToken, target, taskId
 Starts an on-demand Device Defender audit.
 
 # Required Parameters
-- `targetCheckNames`: Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
+- `targetCheckNames`: Which checks are performed during the audit. The checks you specify
+  must be enabled for your account or an exception occurs. Use
+  DescribeAccountAuditConfiguration to see the list of all checks, including those that are
+  enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
 
 """
 start_on_demand_audit_task(targetCheckNames; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/tasks", Dict{String, Any}("targetCheckNames"=>targetCheckNames); aws_config=aws_config)
@@ -2662,7 +3090,9 @@ Creates a bulk thing provisioning task.
 
 # Required Parameters
 - `inputFileBucket`: The S3 bucket that contains the input file.
-- `inputFileKey`: The name of input file within the S3 bucket. This file contains a newline delimited JSON file. Each line contains the parameter values to provision one device (thing).
+- `inputFileKey`: The name of input file within the S3 bucket. This file contains a newline
+  delimited JSON file. Each line contains the parameter values to provision one device
+  (thing).
 - `roleArn`: The IAM role ARN that grants permission the input file.
 - `templateBody`: The provisioning template.
 
@@ -2685,7 +3115,8 @@ stop_thing_registration_task(taskId, args::AbstractDict{String, <:Any}; aws_conf
 """
     TagResource()
 
-Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
+Adds to or modifies the tags of the given resource. Tags are metadata which can be used to
+manage a resource.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resource.
@@ -2698,17 +3129,24 @@ tag_resource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     TestAuthorization()
 
-Tests if a specified principal is authorized to perform an AWS IoT action on a specified resource. Use this to test and debug the authorization behavior of devices that connect to the AWS IoT device gateway.
+Tests if a specified principal is authorized to perform an AWS IoT action on a specified
+resource. Use this to test and debug the authorization behavior of devices that connect to
+the AWS IoT device gateway.
 
 # Required Parameters
-- `authInfos`: A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list.
+- `authInfos`: A list of authorization info objects. Simulating authorization will create a
+  response for each authInfo object in the list.
 
 # Optional Parameters
 - `clientId`: The MQTT client ID.
 - `cognitoIdentityPoolId`: The Cognito identity pool ID.
-- `policyNamesToAdd`: When testing custom authorization, the policies specified here are treated as if they are attached to the principal being authorized.
-- `policyNamesToSkip`: When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being authorized.
-- `principal`: The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
+- `policyNamesToAdd`: When testing custom authorization, the policies specified here are
+  treated as if they are attached to the principal being authorized.
+- `policyNamesToSkip`: When testing custom authorization, the policies specified here are
+  treated as if they are not attached to the principal being authorized.
+- `principal`: The principal. Valid principals are CertificateArn
+  (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn
+  (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
 """
 test_authorization(authInfos; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/test-authorization", Dict{String, Any}("authInfos"=>authInfos); aws_config=aws_config)
 test_authorization(authInfos, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/test-authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authInfos"=>authInfos), args)); aws_config=aws_config)
@@ -2716,7 +3154,9 @@ test_authorization(authInfos, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     TestInvokeAuthorizer()
 
-Tests a custom authorization behavior by invoking a specified custom authorizer. Use this to test and debug the custom authorization behavior of devices that connect to the AWS IoT device gateway.
+Tests a custom authorization behavior by invoking a specified custom authorizer. Use this
+to test and debug the custom authorization behavior of devices that connect to the AWS IoT
+device gateway.
 
 # Required Parameters
 - `authorizerName`: The custom authorizer name.
@@ -2726,7 +3166,8 @@ Tests a custom authorization behavior by invoking a specified custom authorizer.
 - `mqttContext`: Specifies a test MQTT authorization request.
 - `tlsContext`: Specifies a test TLS authorization request.
 - `token`: The token returned by your custom authentication service.
-- `tokenSignature`: The signature made with the token and your custom authentication service's private key. This value must be Base-64-encoded.
+- `tokenSignature`: The signature made with the token and your custom authentication
+  service's private key. This value must be Base-64-encoded.
 """
 test_invoke_authorizer(authorizerName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/authorizer/$(authorizerName)/test"; aws_config=aws_config)
 test_invoke_authorizer(authorizerName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/authorizer/$(authorizerName)/test", args; aws_config=aws_config)
@@ -2734,10 +3175,16 @@ test_invoke_authorizer(authorizerName, args::AbstractDict{String, <:Any}; aws_co
 """
     TransferCertificate()
 
-Transfers the specified certificate to the specified AWS account. You can cancel the transfer until it is acknowledged by the recipient. No notification is sent to the transfer destination's account. It is up to the caller to notify the transfer target. The certificate being transferred must not be in the ACTIVE state. You can use the UpdateCertificate API to deactivate it. The certificate must not have any policies attached to it. You can use the DetachPrincipalPolicy API to detach them.
+Transfers the specified certificate to the specified AWS account. You can cancel the
+transfer until it is acknowledged by the recipient. No notification is sent to the transfer
+destination's account. It is up to the caller to notify the transfer target. The
+certificate being transferred must not be in the ACTIVE state. You can use the
+UpdateCertificate API to deactivate it. The certificate must not have any policies attached
+to it. You can use the DetachPrincipalPolicy API to detach them.
 
 # Required Parameters
-- `certificateId`: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
+- `certificateId`: The ID of the certificate. (The last part of the certificate ARN
+  contains the certificate ID.)
 - `targetAwsAccount`: The AWS account.
 
 # Optional Parameters
@@ -2762,12 +3209,23 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateAccountAuditConfiguration()
 
-Configures or reconfigures the Device Defender audit settings for this account. Settings include how audit notifications are sent and which audit checks are enabled or disabled.
+Configures or reconfigures the Device Defender audit settings for this account. Settings
+include how audit notifications are sent and which audit checks are enabled or disabled.
 
 # Optional Parameters
-- `auditCheckConfigurations`: Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it's used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
-- `auditNotificationTargetConfigurations`: Information about the targets to which audit notifications are sent.
-- `roleArn`: The Amazon Resource Name (ARN) of the role that grants permission to AWS IoT to access information about your devices, policies, certificates, and other items as required when performing an audit.
+- `auditCheckConfigurations`: Specifies which audit checks are enabled and disabled for
+  this account. Use DescribeAccountAuditConfiguration to see the list of all checks,
+  including those that are currently enabled. Some data collection might start immediately
+  when certain checks are enabled. When a check is disabled, any data collected so far in
+  relation to the check is deleted. You cannot disable a check if it's used by any scheduled
+  audit. You must first delete the check from the scheduled audit or delete the scheduled
+  audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is
+  required and must specify at least one enabled check.
+- `auditNotificationTargetConfigurations`: Information about the targets to which audit
+  notifications are sent.
+- `roleArn`: The Amazon Resource Name (ARN) of the role that grants permission to AWS IoT
+  to access information about your devices, policies, certificates, and other items as
+  required when performing an audit.
 """
 update_account_audit_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/configuration"; aws_config=aws_config)
 update_account_audit_configuration(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/configuration", args; aws_config=aws_config)
@@ -2775,16 +3233,18 @@ update_account_audit_configuration(args::AbstractDict{String, Any}; aws_config::
 """
     UpdateAuditSuppression()
 
- Updates a Device Defender audit suppression. 
+ Updates a Device Defender audit suppression.
 
 # Required Parameters
-- `checkName`: 
-- `resourceIdentifier`: 
+- `checkName`:
+- `resourceIdentifier`:
 
 # Optional Parameters
-- `description`:  The description of the audit suppression. 
-- `expirationDate`:  The expiration date (epoch timestamp in seconds) that you want the suppression to adhere to. 
-- `suppressIndefinitely`:  Indicates whether a suppression should exist indefinitely or not. 
+- `description`:  The description of the audit suppression.
+- `expirationDate`:  The expiration date (epoch timestamp in seconds) that you want the
+  suppression to adhere to.
+- `suppressIndefinitely`:  Indicates whether a suppression should exist indefinitely or
+  not.
 """
 update_audit_suppression(checkName, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/suppressions/update", Dict{String, Any}("checkName"=>checkName, "resourceIdentifier"=>resourceIdentifier); aws_config=aws_config)
 update_audit_suppression(checkName, resourceIdentifier, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/suppressions/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkName"=>checkName, "resourceIdentifier"=>resourceIdentifier), args)); aws_config=aws_config)
@@ -2800,7 +3260,7 @@ Updates an authorizer.
 # Optional Parameters
 - `authorizerFunctionArn`: The ARN of the authorizer's Lambda function.
 - `status`: The status of the update authorizer request.
-- `tokenKeyName`: The key used to extract the token from the HTTP headers. 
+- `tokenKeyName`: The key used to extract the token from the HTTP headers.
 - `tokenSigningPublicKeys`: The public keys used to verify the token signature.
 """
 update_authorizer(authorizerName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/authorizer/$(authorizerName)"; aws_config=aws_config)
@@ -2816,7 +3276,9 @@ Updates information about the billing group.
 - `billingGroupProperties`: The properties of the billing group.
 
 # Optional Parameters
-- `expectedVersion`: The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the UpdateBillingGroup request is rejected with a VersionConflictException.
+- `expectedVersion`: The expected version of the billing group. If the version of the
+  billing group does not match the expected version specified in the request, the
+  UpdateBillingGroup request is rejected with a VersionConflictException.
 """
 update_billing_group(billingGroupName, billingGroupProperties; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/billing-groups/$(billingGroupName)", Dict{String, Any}("billingGroupProperties"=>billingGroupProperties); aws_config=aws_config)
 update_billing_group(billingGroupName, billingGroupProperties, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/billing-groups/$(billingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("billingGroupProperties"=>billingGroupProperties), args)); aws_config=aws_config)
@@ -2830,8 +3292,10 @@ Updates a registered CA certificate.
 - `caCertificateId`: The CA certificate identifier.
 
 # Optional Parameters
-- `newAutoRegistrationStatus`: The new value for the auto registration status. Valid values are: \"ENABLE\" or \"DISABLE\".
-- `newStatus`: The updated status of the CA certificate.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
+- `newAutoRegistrationStatus`: The new value for the auto registration status. Valid values
+  are: \"ENABLE\" or \"DISABLE\".
+- `newStatus`: The updated status of the CA certificate.  Note: The status value
+  REGISTER_INACTIVE is deprecated and should not be used.
 - `registrationConfig`: Information about the registration configuration.
 - `removeAutoRegistration`: If true, removes auto registration.
 """
@@ -2841,11 +3305,20 @@ update_cacertificate(caCertificateId, args::AbstractDict{String, <:Any}; aws_con
 """
     UpdateCertificate()
 
-Updates the status of the specified certificate. This operation is idempotent. Certificates must be in the ACTIVE state to authenticate devices that use a certificate to connect to AWS IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other state, AWS IoT disconnects all devices that used that certificate to connect. Devices cannot use a certificate that is not in the ACTIVE state to reconnect.
+Updates the status of the specified certificate. This operation is idempotent. Certificates
+must be in the ACTIVE state to authenticate devices that use a certificate to connect to
+AWS IoT. Within a few minutes of updating a certificate from the ACTIVE state to any other
+state, AWS IoT disconnects all devices that used that certificate to connect. Devices
+cannot use a certificate that is not in the ACTIVE state to reconnect.
 
 # Required Parameters
-- `certificateId`: The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
-- `newStatus`: The new status.  Note: Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used.
+- `certificateId`: The ID of the certificate. (The last part of the certificate ARN
+  contains the certificate ID.)
+- `newStatus`: The new status.  Note: Setting the status to PENDING_TRANSFER or
+  PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and
+  PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not intended for
+  developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be
+  used.
 
 """
 update_certificate(certificateId, newStatus; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/certificates/$(certificateId)", Dict{String, Any}("newStatus"=>newStatus); aws_config=aws_config)
@@ -2854,11 +3327,13 @@ update_certificate(certificateId, newStatus, args::AbstractDict{String, <:Any}; 
 """
     UpdateCustomMetric()
 
-Updates a Device Defender detect custom metric. 
+Updates a Device Defender detect custom metric.
 
 # Required Parameters
-- `displayName`:  Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated. 
-- `metricName`:  The name of the custom metric. Cannot be updated. 
+- `displayName`:  Field represents a friendly name in the console for the custom metric, it
+  doesn't have to be unique. Don't use this name as the metric identifier in the device
+  metric report. Can be updated.
+- `metricName`:  The name of the custom metric. Cannot be updated.
 
 """
 update_custom_metric(displayName, metricName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/custom-metric/$(metricName)", Dict{String, Any}("displayName"=>displayName); aws_config=aws_config)
@@ -2867,11 +3342,14 @@ update_custom_metric(displayName, metricName, args::AbstractDict{String, <:Any};
 """
     UpdateDimension()
 
-Updates the definition for a dimension. You cannot change the type of a dimension after it is created (you can delete it and recreate it).
+Updates the definition for a dimension. You cannot change the type of a dimension after it
+is created (you can delete it and recreate it).
 
 # Required Parameters
-- `name`: A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
-- `stringValues`: Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, \"admin/#\").
+- `name`: A unique identifier for the dimension. Choose something that describes the type
+  and value to make it easy to remember what it does.
+- `stringValues`: Specifies the value or list of values for the dimension. For TOPIC_FILTER
+  dimensions, this is a pattern used to match the MQTT topic (for example, \"admin/#\").
 
 """
 update_dimension(name, stringValues; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/dimensions/$(name)", Dict{String, Any}("stringValues"=>stringValues); aws_config=aws_config)
@@ -2880,14 +3358,17 @@ update_dimension(name, stringValues, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateDomainConfiguration()
 
-Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.  The domain configuration feature is in public preview and is subject to change. 
+Updates values stored in the domain configuration. Domain configurations for default
+endpoints can't be updated.  The domain configuration feature is in public preview and is
+subject to change.
 
 # Required Parameters
 - `domainConfigurationName`: The name of the domain configuration to be updated.
 
 # Optional Parameters
 - `authorizerConfig`: An object that specifies the authorization service for a domain.
-- `domainConfigurationStatus`: The status to which the domain configuration should be updated.
+- `domainConfigurationStatus`: The status to which the domain configuration should be
+  updated.
 - `removeAuthorizerConfig`: Removes the authorization configuration from a domain.
 """
 update_domain_configuration(domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/domainConfigurations/$(domainConfigurationName)"; aws_config=aws_config)
@@ -2904,9 +3385,12 @@ Updates a dynamic thing group.
 
 # Optional Parameters
 - `expectedVersion`: The expected version of the dynamic thing group to update.
-- `indexName`: The dynamic thing group index to update.  Currently one index is supported: 'AWS_Things'. 
+- `indexName`: The dynamic thing group index to update.  Currently one index is supported:
+  'AWS_Things'.
 - `queryString`: The dynamic thing group search query string to update.
-- `queryVersion`: The dynamic thing group query version to update.  Currently one query version is supported: \"2017-09-30\". If not specified, the query version defaults to this value. 
+- `queryVersion`: The dynamic thing group query version to update.  Currently one query
+  version is supported: \"2017-09-30\". If not specified, the query version defaults to this
+  value.
 """
 update_dynamic_thing_group(thingGroupName, thingGroupProperties; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/dynamic-thing-groups/$(thingGroupName)", Dict{String, Any}("thingGroupProperties"=>thingGroupProperties); aws_config=aws_config)
 update_dynamic_thing_group(thingGroupName, thingGroupProperties, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/dynamic-thing-groups/$(thingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("thingGroupProperties"=>thingGroupProperties), args)); aws_config=aws_config)
@@ -2946,9 +3430,16 @@ Updates supported fields of the specified job.
 - `abortConfig`: Allows you to create criteria to abort a job.
 - `description`: A short text description of the job.
 - `jobExecutionsRolloutConfig`: Allows you to create a staged rollout of the job.
-- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT topics that contain the value in the following format.  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview. 
+- `namespaceId`: The namespace used to indicate that a job is a customer-managed job. When
+  you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
+  topics that contain the value in the following format.
+  aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
+  is in public preview.
 - `presignedUrlConfig`: Configuration information for pre-signed S3 URLs.
-- `timeoutConfig`: Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT. 
+- `timeoutConfig`: Specifies the amount of time each device has to finish its execution of
+  the job. The timer is started when the job execution status is set to IN_PROGRESS. If the
+  job execution status is not set to another terminal state before the time expires, it will
+  be automatically set to TIMED_OUT.
 """
 update_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/jobs/$(jobId)"; aws_config=aws_config)
 update_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/jobs/$(jobId)", args; aws_config=aws_config)
@@ -2959,7 +3450,9 @@ update_job(jobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 Updates the definition for the specified mitigation action.
 
 # Required Parameters
-- `actionName`: The friendly name for the mitigation action. You cannot change the name by using UpdateMitigationAction. Instead, you must delete and recreate the mitigation action with the new name.
+- `actionName`: The friendly name for the mitigation action. You cannot change the name by
+  using UpdateMitigationAction. Instead, you must delete and recreate the mitigation action
+  with the new name.
 
 # Optional Parameters
 - `actionParams`: Defines the type of action and the parameters for that action.
@@ -2981,7 +3474,8 @@ Updates a fleet provisioning template.
 - `description`: The description of the fleet provisioning template.
 - `enabled`: True to enable the fleet provisioning template, otherwise false.
 - `preProvisioningHook`: Updates the pre-provisioning hook template.
-- `provisioningRoleArn`: The ARN of the role associated with the provisioning template. This IoT role grants permission to provision a device.
+- `provisioningRoleArn`: The ARN of the role associated with the provisioning template.
+  This IoT role grants permission to provision a device.
 - `removePreProvisioningHook`: Removes pre-provisioning hook template.
 """
 update_provisioning_template(templateName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/provisioning-templates/$(templateName)"; aws_config=aws_config)
@@ -3005,16 +3499,26 @@ update_role_alias(roleAlias, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     UpdateScheduledAudit()
 
-Updates a scheduled audit, including which checks are performed and how often the audit takes place.
+Updates a scheduled audit, including which checks are performed and how often the audit
+takes place.
 
 # Required Parameters
 - `scheduledAuditName`: The name of the scheduled audit. (Max. 128 chars)
 
 # Optional Parameters
-- `dayOfMonth`: The day of the month on which the scheduled audit takes place. This can be 1 through 31 or LAST. This field is required if the frequency parameter is set to MONTHLY. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the \"LAST\" day of the month.
-- `dayOfWeek`: The day of the week on which the scheduled audit takes place. This can be one of SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the \"frequency\" parameter is set to WEEKLY or BIWEEKLY.
-- `frequency`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY, or MONTHLY. The start time of each audit is determined by the system.
-- `targetCheckNames`: Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
+- `dayOfMonth`: The day of the month on which the scheduled audit takes place. This can be
+  1 through 31 or LAST. This field is required if the frequency parameter is set to MONTHLY.
+  If days 29-31 are specified, and the month does not have that many days, the audit takes
+  place on the \"LAST\" day of the month.
+- `dayOfWeek`: The day of the week on which the scheduled audit takes place. This can be
+  one of SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the \"frequency\"
+  parameter is set to WEEKLY or BIWEEKLY.
+- `frequency`: How often the scheduled audit takes place, either DAILY, WEEKLY, BIWEEKLY,
+  or MONTHLY. The start time of each audit is determined by the system.
+- `targetCheckNames`: Which checks are performed during the scheduled audit. Checks must be
+  enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all
+  checks, including those that are enabled or use UpdateAccountAuditConfiguration to select
+  which checks are enabled.)
 """
 update_scheduled_audit(scheduledAuditName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/scheduledaudits/$(scheduledAuditName)"; aws_config=aws_config)
 update_scheduled_audit(scheduledAuditName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/scheduledaudits/$(scheduledAuditName)", args; aws_config=aws_config)
@@ -3028,14 +3532,28 @@ Updates a Device Defender security profile.
 - `securityProfileName`: The name of the security profile you want to update.
 
 # Optional Parameters
-- `additionalMetricsToRetain`:  Please use UpdateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
-- `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
+- `additionalMetricsToRetain`:  Please use
+  UpdateSecurityProfileRequestadditionalMetricsToRetainV2 instead.  A list of metrics whose
+  data is retained (stored). By default, data is retained for any metric used in the
+  profile's behaviors, but it is also retained for any metric specified here. Can be used
+  with custom metrics; cannot be used with dimensions.
+- `additionalMetricsToRetainV2`: A list of metrics whose data is retained (stored). By
+  default, data is retained for any metric used in the profile's behaviors, but it is also
+  retained for any metric specified here. Can be used with custom metrics; cannot be used
+  with dimensions.
 - `alertTargets`: Where the alerts are sent. (Alerts are always sent to the console.)
-- `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an alert.
-- `deleteAdditionalMetricsToRetain`: If true, delete all additionalMetricsToRetain defined for this security profile. If any additionalMetricsToRetain are defined in the current invocation, an exception occurs.
-- `deleteAlertTargets`: If true, delete all alertTargets defined for this security profile. If any alertTargets are defined in the current invocation, an exception occurs.
-- `deleteBehaviors`: If true, delete all behaviors defined for this security profile. If any behaviors are defined in the current invocation, an exception occurs.
-- `expectedVersion`: The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
+- `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an
+  alert.
+- `deleteAdditionalMetricsToRetain`: If true, delete all additionalMetricsToRetain defined
+  for this security profile. If any additionalMetricsToRetain are defined in the current
+  invocation, an exception occurs.
+- `deleteAlertTargets`: If true, delete all alertTargets defined for this security profile.
+  If any alertTargets are defined in the current invocation, an exception occurs.
+- `deleteBehaviors`: If true, delete all behaviors defined for this security profile. If
+  any behaviors are defined in the current invocation, an exception occurs.
+- `expectedVersion`: The expected version of the security profile. A new version is
+  generated whenever the security profile is updated. If you specify a value that is
+  different from the actual version, a VersionConflictException is thrown.
 - `securityProfileDescription`: A description of the security profile.
 """
 update_security_profile(securityProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/security-profiles/$(securityProfileName)"; aws_config=aws_config)
@@ -3052,7 +3570,8 @@ Updates an existing stream. The stream version will be incremented by one.
 # Optional Parameters
 - `description`: The description of the stream.
 - `files`: The files associated with the stream.
-- `roleArn`: An IAM role that allows the IoT service principal assumes to access your S3 files.
+- `roleArn`: An IAM role that allows the IoT service principal assumes to access your S3
+  files.
 """
 update_stream(streamId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/streams/$(streamId)"; aws_config=aws_config)
 update_stream(streamId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/streams/$(streamId)", args; aws_config=aws_config)
@@ -3063,11 +3582,17 @@ update_stream(streamId, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Updates the data for a thing.
 
 # Required Parameters
-- `thingName`: The name of the thing to update. You can't change a thing's name. To change a thing's name, you must create a new thing, give it the new name, and then delete the old thing.
+- `thingName`: The name of the thing to update. You can't change a thing's name. To change
+  a thing's name, you must create a new thing, give it the new name, and then delete the old
+  thing.
 
 # Optional Parameters
-- `attributePayload`: A list of thing attributes, a JSON string containing name-value pairs. For example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new attributes or update existing attributes.
-- `expectedVersion`: The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException.
+- `attributePayload`: A list of thing attributes, a JSON string containing name-value
+  pairs. For example:  {\"attributes\":{\"name1\":\"value2\"}}  This data is used to add new
+  attributes or update existing attributes.
+- `expectedVersion`: The expected version of the thing record in the registry. If the
+  version of the record in the registry does not match the expected version specified in the
+  request, the UpdateThing request is rejected with a VersionConflictException.
 - `removeThingType`: Remove a thing type association. If true, the association is removed.
 - `thingTypeName`: The name of the thing type.
 """
@@ -3084,7 +3609,8 @@ Update a thing group.
 - `thingGroupProperties`: The thing group properties.
 
 # Optional Parameters
-- `expectedVersion`: The expected version of the thing group. If this does not match the version of the thing group being updated, the update will fail.
+- `expectedVersion`: The expected version of the thing group. If this does not match the
+  version of the thing group being updated, the update will fail.
 """
 update_thing_group(thingGroupName, thingGroupProperties; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/thing-groups/$(thingGroupName)", Dict{String, Any}("thingGroupProperties"=>thingGroupProperties); aws_config=aws_config)
 update_thing_group(thingGroupName, thingGroupProperties, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/thing-groups/$(thingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("thingGroupProperties"=>thingGroupProperties), args)); aws_config=aws_config)
@@ -3095,7 +3621,10 @@ update_thing_group(thingGroupName, thingGroupProperties, args::AbstractDict{Stri
 Updates the groups to which the thing belongs.
 
 # Optional Parameters
-- `overrideDynamicGroups`: Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
+- `overrideDynamicGroups`: Override dynamic thing groups with static thing groups when
+  10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those
+  groups are dynamic thing groups, adding a thing to a static group removes the thing from
+  the last dynamic group.
 - `thingGroupsToAdd`: The groups to which the thing will be added.
 - `thingGroupsToRemove`: The groups from which the thing will be removed.
 - `thingName`: The thing whose group memberships will be updated.
@@ -3106,11 +3635,23 @@ update_thing_groups_for_thing(args::AbstractDict{String, Any}; aws_config::Abstr
 """
     UpdateTopicRuleDestination()
 
-Updates a topic rule destination. You use this to change the status, endpoint URL, or confirmation URL of the destination.
+Updates a topic rule destination. You use this to change the status, endpoint URL, or
+confirmation URL of the destination.
 
 # Required Parameters
 - `arn`: The ARN of the topic rule destination.
-- `status`: The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  
+- `status`: The status of the topic rule destination. Valid values are:  IN_PROGRESS  A
+  topic rule destination was created but has not been confirmed. You can set status to
+  IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination
+  causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED
+  Confirmation was completed, and traffic to this destination is allowed. You can set status
+  to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed,
+  and traffic to this destination is not allowed. You can set status to ENABLED by calling
+  UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the
+  confirmation timed out. You can call GetTopicRuleDestination for details about the error.
+  You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling
+  UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your
+  confirmation endpoint.
 
 """
 update_topic_rule_destination(arn, status; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/destinations", Dict{String, Any}("arn"=>arn, "status"=>status); aws_config=aws_config)
@@ -3122,7 +3663,8 @@ update_topic_rule_destination(arn, status, args::AbstractDict{String, <:Any}; aw
 Validates a Device Defender security profile behaviors specification.
 
 # Required Parameters
-- `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an alert.
+- `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an
+  alert.
 
 """
 validate_security_profile_behaviors(behaviors; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/security-profile-behaviors/validate", Dict{String, Any}("behaviors"=>behaviors); aws_config=aws_config)

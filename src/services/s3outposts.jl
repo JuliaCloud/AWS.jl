@@ -7,10 +7,14 @@ using AWS.UUIDs
 """
     CreateEndpoint()
 
-S3 on Outposts access points simplify managing data access at scale for shared datasets in Amazon S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC).  This action creates an endpoint and associates it with the specified Outpost.   Related actions include:    DeleteEndpoint     ListEndpoints   
+S3 on Outposts access points simplify managing data access at scale for shared datasets in
+Amazon S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that
+you can perform actions within your virtual private cloud (VPC).  This action creates an
+endpoint and associates it with the specified Outpost.   Related actions include:
+DeleteEndpoint     ListEndpoints
 
 # Required Parameters
-- `OutpostId`: The ID of the AWS Outpost. 
+- `OutpostId`: The ID of the AWS Outpost.
 - `SecurityGroupId`: The ID of the security group to use with the endpoint.
 - `SubnetId`: The ID of the subnet in the selected VPC.
 
@@ -21,11 +25,14 @@ create_endpoint(OutpostId, SecurityGroupId, SubnetId, args::AbstractDict{String,
 """
     DeleteEndpoint()
 
-S3 on Outposts access points simplify managing data access at scale for shared datasets in Amazon S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC).  This action deletes an endpoint.   Related actions include:    CreateEndpoint     ListEndpoints   
+S3 on Outposts access points simplify managing data access at scale for shared datasets in
+Amazon S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that
+you can perform actions within your virtual private cloud (VPC).  This action deletes an
+endpoint.   Related actions include:    CreateEndpoint     ListEndpoints
 
 # Required Parameters
 - `endpointId`: The ID of the end point.
-- `outpostId`: The ID of the AWS Outpost. 
+- `outpostId`: The ID of the AWS Outpost.
 
 """
 delete_endpoint(endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId); aws_config=aws_config)
@@ -34,7 +41,11 @@ delete_endpoint(endpointId, outpostId, args::AbstractDict{String, <:Any}; aws_co
 """
     ListEndpoints()
 
-S3 on Outposts access points simplify managing data access at scale for shared datasets in Amazon S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC).  This action lists endpoints associated with the Outpost.   Related actions include:    CreateEndpoint     DeleteEndpoint   
+S3 on Outposts access points simplify managing data access at scale for shared datasets in
+Amazon S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that
+you can perform actions within your virtual private cloud (VPC).  This action lists
+endpoints associated with the Outpost.   Related actions include:    CreateEndpoint
+DeleteEndpoint
 
 # Optional Parameters
 - `maxResults`: The max number of endpoints that can be returned on the request.

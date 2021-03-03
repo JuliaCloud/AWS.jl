@@ -46,7 +46,9 @@ batch_get_builds(ids, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 Gets information about one or more build projects.
 
 # Required Parameters
-- `names`: The names or ARNs of the build projects. To get information about a project shared with your AWS account, its ARN must be specified. You cannot specify a shared project using its name.
+- `names`: The names or ARNs of the build projects. To get information about a project
+  shared with your AWS account, its ARN must be specified. You cannot specify a shared
+  project using its name.
 
 """
 batch_get_projects(names; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}("names"=>names); aws_config=aws_config)
@@ -55,10 +57,11 @@ batch_get_projects(names, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     BatchGetReportGroups()
 
- Returns an array of report groups. 
+ Returns an array of report groups.
 
 # Required Parameters
-- `reportGroupArns`:  An array of report group ARNs that identify the report groups to return. 
+- `reportGroupArns`:  An array of report group ARNs that identify the report groups to
+  return.
 
 """
 batch_get_report_groups(reportGroupArns; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetReportGroups", Dict{String, Any}("reportGroupArns"=>reportGroupArns); aws_config=aws_config)
@@ -67,10 +70,10 @@ batch_get_report_groups(reportGroupArns, args::AbstractDict{String, <:Any}; aws_
 """
     BatchGetReports()
 
- Returns an array of reports. 
+ Returns an array of reports.
 
 # Required Parameters
-- `reportArns`:  An array of ARNs that identify the Report objects to return. 
+- `reportArns`:  An array of ARNs that identify the Report objects to return.
 
 """
 batch_get_reports(reportArns; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetReports", Dict{String, Any}("reportArns"=>reportArns); aws_config=aws_config)
@@ -85,24 +88,59 @@ Creates a build project.
 - `artifacts`: Information about the build output artifacts for the build project.
 - `environment`: Information about the build environment for the build project.
 - `name`: The name of the build project.
-- `serviceRole`: The ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+- `serviceRole`: The ARN of the AWS Identity and Access Management (IAM) role that enables
+  AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
 - `source`: Information about the build input source code for the build project.
 
 # Optional Parameters
-- `badgeEnabled`: Set this to true to generate a publicly accessible URL for your project's build badge.
-- `buildBatchConfig`: A ProjectBuildBatchConfig object that defines the batch build options for the project.
-- `cache`: Stores recently used information so that it can be quickly accessed at a later time.
+- `badgeEnabled`: Set this to true to generate a publicly accessible URL for your project's
+  build badge.
+- `buildBatchConfig`: A ProjectBuildBatchConfig object that defines the batch build options
+  for the project.
+- `cache`: Stores recently used information so that it can be quickly accessed at a later
+  time.
+- `concurrentBuildLimit`: The maximum number of concurrent builds that are allowed for this
+  project. New builds are only started if the current number of builds is less than or equal
+  to this limit. If the current build count meets this limit, new builds are throttled and
+  are not run.
 - `description`: A description that makes the build project easy to identify.
-- `encryptionKey`: The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts.  You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/&lt;alias-name&gt;).
-- `fileSystemLocations`:  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System. 
-- `logsConfig`: Information about logs for the build project. These can be logs in Amazon CloudWatch Logs, logs uploaded to a specified S3 bucket, or both. 
-- `queuedTimeoutInMinutes`: The number of minutes a build is allowed to be queued before it times out. 
-- `secondaryArtifacts`: An array of ProjectArtifacts objects. 
-- `secondarySourceVersions`: An array of ProjectSourceVersion objects. If secondarySourceVersions is specified at the build level, then they take precedence over these secondarySourceVersions (at the project level). 
-- `secondarySources`: An array of ProjectSource objects. 
-- `sourceVersion`: A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).  For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
-- `tags`: A list of tag key and value pairs associated with this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-- `timeoutInMinutes`: How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before it times out any build that has not been marked as completed. The default is 60 minutes.
+- `encryptionKey`: The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
+  used for encrypting the build output artifacts.  You can use a cross-account KMS key to
+  encrypt the build output artifacts if your service role has permission to that key.   You
+  can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's
+  alias (using the format alias/&lt;alias-name&gt;).
+- `fileSystemLocations`:  An array of ProjectFileSystemLocation objects for a CodeBuild
+  build project. A ProjectFileSystemLocation object specifies the identifier, location,
+  mountOptions, mountPoint, and type of a file system created using Amazon Elastic File
+  System.
+- `logsConfig`: Information about logs for the build project. These can be logs in Amazon
+  CloudWatch Logs, logs uploaded to a specified S3 bucket, or both.
+- `queuedTimeoutInMinutes`: The number of minutes a build is allowed to be queued before it
+  times out.
+- `secondaryArtifacts`: An array of ProjectArtifacts objects.
+- `secondarySourceVersions`: An array of ProjectSourceVersion objects. If
+  secondarySourceVersions is specified at the build level, then they take precedence over
+  these secondarySourceVersions (at the project level).
+- `secondarySources`: An array of ProjectSource objects.
+- `sourceVersion`: A version of the build input to be built for this project. If not
+  specified, the latest version is used. If specified, it must be one of:    For AWS
+  CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull
+  request ID, branch name, or tag name that corresponds to the version of the source code you
+  want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID
+  (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If
+  not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID,
+  branch name, or tag name that corresponds to the version of the source code you want to
+  build. If a branch name is specified, the branch's HEAD commit ID is used. If not
+  specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of
+  the object that represents the build input ZIP file to use.   If sourceVersion is specified
+  at the build level, then that version takes precedence over this sourceVersion (at the
+  project level).  For more information, see Source Version Sample with CodeBuild in the AWS
+  CodeBuild User Guide.
+- `tags`: A list of tag key and value pairs associated with this build project. These tags
+  are available for use by AWS services that support AWS CodeBuild build project tags.
+- `timeoutInMinutes`: How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to
+  wait before it times out any build that has not been marked as completed. The default is 60
+  minutes.
 - `vpcConfig`: VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
 """
 create_project(artifacts, environment, name, serviceRole, source; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateProject", Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source); aws_config=aws_config)
@@ -111,15 +149,17 @@ create_project(artifacts, environment, name, serviceRole, source, args::Abstract
 """
     CreateReportGroup()
 
- Creates a report group. A report group contains a collection of reports. 
+ Creates a report group. A report group contains a collection of reports.
 
 # Required Parameters
-- `exportConfig`:  A ReportExportConfig object that contains information about where the report group test results are exported. 
-- `name`:  The name of the report group. 
-- `type`:  The type of report group. 
+- `exportConfig`:  A ReportExportConfig object that contains information about where the
+  report group test results are exported.
+- `name`:  The name of the report group.
+- `type`:  The type of report group.
 
 # Optional Parameters
-- `tags`:  A list of tag key and value pairs associated with this report group.  These tags are available for use by AWS services that support AWS CodeBuild report group tags.
+- `tags`:  A list of tag key and value pairs associated with this report group.  These tags
+  are available for use by AWS services that support AWS CodeBuild report group tags.
 """
 create_report_group(exportConfig, name, type; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type); aws_config=aws_config)
 create_report_group(exportConfig, name, type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type), args)); aws_config=aws_config)
@@ -127,15 +167,29 @@ create_report_group(exportConfig, name, type, args::AbstractDict{String, <:Any};
 """
     CreateWebhook()
 
-For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, enables AWS CodeBuild to start rebuilding the source code every time a code change is pushed to the repository.  If you enable webhooks for an AWS CodeBuild project, and the project is used as a build step in AWS CodePipeline, then two identical builds are created for each commit. One build is triggered through webhooks, and one through AWS CodePipeline. Because billing is on a per-build basis, you are billed for both builds. Therefore, if you are using AWS CodePipeline, we recommend that you disable webhooks in AWS CodeBuild. In the AWS CodeBuild console, clear the Webhook box. For more information, see step 5 in Change a Build Project's Settings. 
+For an existing AWS CodeBuild build project that has its source code stored in a GitHub or
+Bitbucket repository, enables AWS CodeBuild to start rebuilding the source code every time
+a code change is pushed to the repository.  If you enable webhooks for an AWS CodeBuild
+project, and the project is used as a build step in AWS CodePipeline, then two identical
+builds are created for each commit. One build is triggered through webhooks, and one
+through AWS CodePipeline. Because billing is on a per-build basis, you are billed for both
+builds. Therefore, if you are using AWS CodePipeline, we recommend that you disable
+webhooks in AWS CodeBuild. In the AWS CodeBuild console, clear the Webhook box. For more
+information, see step 5 in Change a Build Project's Settings.
 
 # Required Parameters
 - `projectName`: The name of the AWS CodeBuild project.
 
 # Optional Parameters
-- `branchFilter`: A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.  It is recommended that you use filterGroups instead of branchFilter.  
+- `branchFilter`: A regular expression used to determine which repository branches are
+  built when a webhook is triggered. If the name of a branch matches the regular expression,
+  then it is built. If branchFilter is empty, then all branches are built.  It is recommended
+  that you use filterGroups instead of branchFilter.
 - `buildType`: Specifies the type of build this webhook will trigger.
-- `filterGroups`: An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type.  For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass. 
+- `filterGroups`: An array of arrays of WebhookFilter objects used to determine which
+  webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its
+  type.  For a build to be triggered, at least one filter group in the filterGroups array
+  must pass. For a filter group to pass, each of its filters must pass.
 """
 create_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
 create_webhook(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), args)); aws_config=aws_config)
@@ -155,7 +209,7 @@ delete_build_batch(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     DeleteProject()
 
- Deletes a build project. When you delete a project, its builds are not deleted. 
+ Deletes a build project. When you delete a project, its builds are not deleted.
 
 # Required Parameters
 - `name`: The name of the build project.
@@ -167,10 +221,10 @@ delete_project(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     DeleteReport()
 
- Deletes a report. 
+ Deletes a report.
 
 # Required Parameters
-- `arn`:  The ARN of the report to delete. 
+- `arn`:  The ARN of the report to delete.
 
 """
 delete_report(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReport", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
@@ -179,13 +233,17 @@ delete_report(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     DeleteReportGroup()
 
-Deletes a report group. Before you delete a report group, you must delete its reports. 
+Deletes a report group. Before you delete a report group, you must delete its reports.
 
 # Required Parameters
-- `arn`: The ARN of the report group to delete. 
+- `arn`: The ARN of the report group to delete.
 
 # Optional Parameters
-- `deleteReports`: If true, deletes any reports that belong to a report group before deleting the report group.  If false, you must delete any reports in the report group. Use ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown. 
+- `deleteReports`: If true, deletes any reports that belong to a report group before
+  deleting the report group.  If false, you must delete any reports in the report group. Use
+  ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete
+  the reports. If you call DeleteReportGroup for a report group that contains one or more
+  reports, an exception is thrown.
 """
 delete_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
 delete_report_group(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
@@ -193,10 +251,10 @@ delete_report_group(arn, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     DeleteResourcePolicy()
 
- Deletes a resource policy that is identified by its resource ARN. 
+ Deletes a resource policy that is identified by its resource ARN.
 
 # Required Parameters
-- `resourceArn`:  The ARN of the resource that is associated with the resource policy. 
+- `resourceArn`:  The ARN of the resource that is associated with the resource policy.
 
 """
 delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
@@ -205,7 +263,7 @@ delete_resource_policy(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     DeleteSourceCredentials()
 
- Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials. 
+ Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
 
 # Required Parameters
 - `arn`:  The Amazon Resource Name (ARN) of the token.
@@ -217,7 +275,9 @@ delete_source_credentials(arn, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     DeleteWebhook()
 
-For an existing AWS CodeBuild build project that has its source code stored in a GitHub or Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every time a code change is pushed to the repository.
+For an existing AWS CodeBuild build project that has its source code stored in a GitHub or
+Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every time a code
+change is pushed to the repository.
 
 # Required Parameters
 - `projectName`: The name of the AWS CodeBuild project.
@@ -232,14 +292,18 @@ delete_webhook(projectName, args::AbstractDict{String, <:Any}; aws_config::Abstr
 Retrieves one or more code coverage reports.
 
 # Required Parameters
-- `reportArn`:  The ARN of the report for which test cases are returned. 
+- `reportArn`:  The ARN of the report for which test cases are returned.
 
 # Optional Parameters
 - `maxLineCoveragePercentage`: The maximum line coverage percentage to report.
 - `maxResults`: The maximum number of results to return.
 - `minLineCoveragePercentage`: The minimum line coverage percentage to report.
-- `nextToken`: The nextToken value returned from a previous call to DescribeCodeCoverages. This specifies the next item to return. To return the beginning of the list, exclude this parameter.
-- `sortBy`: Specifies how the results are sorted. Possible values are:  FILE_PATH  The results are sorted by file path.  LINE_COVERAGE_PERCENTAGE  The results are sorted by the percentage of lines that are covered.  
+- `nextToken`: The nextToken value returned from a previous call to DescribeCodeCoverages.
+  This specifies the next item to return. To return the beginning of the list, exclude this
+  parameter.
+- `sortBy`: Specifies how the results are sorted. Possible values are:  FILE_PATH  The
+  results are sorted by file path.  LINE_COVERAGE_PERCENTAGE  The results are sorted by the
+  percentage of lines that are covered.
 - `sortOrder`: Specifies if the results are sorted in ascending or descending order.
 """
 describe_code_coverages(reportArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeCodeCoverages", Dict{String, Any}("reportArn"=>reportArn); aws_config=aws_config)
@@ -248,15 +312,22 @@ describe_code_coverages(reportArn, args::AbstractDict{String, <:Any}; aws_config
 """
     DescribeTestCases()
 
- Returns a list of details about test cases for a report. 
+ Returns a list of details about test cases for a report.
 
 # Required Parameters
-- `reportArn`:  The ARN of the report for which test cases are returned. 
+- `reportArn`:  The ARN of the report for which test cases are returned.
 
 # Optional Parameters
-- `filter`:  A TestCaseFilter object used to filter the returned reports. 
-- `maxResults`:  The maximum number of paginated test cases returned per response. Use nextToken to iterate pages in the list of returned TestCase objects. The default value is 100. 
-- `nextToken`:  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
+- `filter`:  A TestCaseFilter object used to filter the returned reports.
+- `maxResults`:  The maximum number of paginated test cases returned per response. Use
+  nextToken to iterate pages in the list of returned TestCase objects. The default value is
+  100.
+- `nextToken`:  During a previous call, the maximum number of items that can be returned is
+  the value specified in maxResults. If there more items in the list, then a unique string
+  called a nextToken is returned. To get the next batch of items in the list, call this
+  operation again, adding the next token to the call. To get all of the items in the list,
+  keep calling this operation with each subsequent next token that is returned, until no more
+  next tokens are returned.
 """
 describe_test_cases(reportArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}("reportArn"=>reportArn); aws_config=aws_config)
 describe_test_cases(reportArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), args)); aws_config=aws_config)
@@ -264,14 +335,25 @@ describe_test_cases(reportArn, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     GetReportGroupTrend()
 
-
+Analyzes and accumulates test report values for the specified test reports.
 
 # Required Parameters
-- `reportGroupArn`: 
-- `trendField`: 
+- `reportGroupArn`: The ARN of the report group that contains the reports to analyze.
+- `trendField`: The test report value to accumulate. This must be one of the following
+  values:  Test reports:   DURATION  Accumulate the test run times for the specified reports.
+   PASS_RATE  Accumulate the percentage of tests that passed for the specified test reports.
+  TOTAL  Accumulate the total number of tests for the specified test reports.      Code
+  coverage reports:   BRANCH_COVERAGE  Accumulate the branch coverage percentages for the
+  specified test reports.  BRANCHES_COVERED  Accumulate the branches covered values for the
+  specified test reports.  BRANCHES_MISSED  Accumulate the branches missed values for the
+  specified test reports.  LINE_COVERAGE  Accumulate the line coverage percentages for the
+  specified test reports.  LINES_COVERED  Accumulate the lines covered values for the
+  specified test reports.  LINES_MISSED  Accumulate the lines not covered values for the
+  specified test reports.
 
 # Optional Parameters
-- `numOfReports`: 
+- `numOfReports`: The number of reports to analyze. This operation always retrieves the
+  most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed.
 """
 get_report_group_trend(reportGroupArn, trendField; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField); aws_config=aws_config)
 get_report_group_trend(reportGroupArn, trendField, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField), args)); aws_config=aws_config)
@@ -279,10 +361,10 @@ get_report_group_trend(reportGroupArn, trendField, args::AbstractDict{String, <:
 """
     GetResourcePolicy()
 
- Gets a resource policy that is identified by its resource ARN. 
+ Gets a resource policy that is identified by its resource ARN.
 
 # Required Parameters
-- `resourceArn`:  The ARN of the resource that is associated with the resource policy. 
+- `resourceArn`:  The ARN of the resource that is associated with the resource policy.
 
 """
 get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
@@ -291,16 +373,23 @@ get_resource_policy(resourceArn, args::AbstractDict{String, <:Any}; aws_config::
 """
     ImportSourceCredentials()
 
- Imports the source repository credentials for an AWS CodeBuild project that has its source code stored in a GitHub, GitHub Enterprise, or Bitbucket repository. 
+ Imports the source repository credentials for an AWS CodeBuild project that has its source
+code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
 
 # Required Parameters
-- `authType`:  The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the AWS CodeBuild console. 
-- `serverType`:  The source provider used for this project. 
-- `token`:  For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password. 
+- `authType`:  The type of authentication used to connect to a GitHub, GitHub Enterprise,
+  or Bitbucket repository. An OAUTH connection is not supported by the API and must be
+  created using the AWS CodeBuild console.
+- `serverType`:  The source provider used for this project.
+- `token`:  For GitHub or GitHub Enterprise, this is the personal access token. For
+  Bitbucket, this is the app password.
 
 # Optional Parameters
-- `shouldOverwrite`:  Set to false to prevent overwriting the repository source credentials. Set to true to overwrite the repository source credentials. The default value is true. 
-- `username`:  The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections. 
+- `shouldOverwrite`:  Set to false to prevent overwriting the repository source
+  credentials. Set to true to overwrite the repository source credentials. The default value
+  is true.
+- `username`:  The Bitbucket username when the authType is BASIC_AUTH. This parameter is
+  not valid for other types of source providers or connections.
 """
 import_source_credentials(authType, serverType, token; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token); aws_config=aws_config)
 import_source_credentials(authType, serverType, token, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token), args)); aws_config=aws_config)
@@ -325,8 +414,12 @@ Retrieves the identifiers of your build batches in the current region.
 # Optional Parameters
 - `filter`: A BuildBatchFilter object that specifies the filters for the search.
 - `maxResults`: The maximum number of results to return.
-- `nextToken`: The nextToken value returned from a previous call to ListBuildBatches. This specifies the next item to return. To return the beginning of the list, exclude this parameter.
-- `sortOrder`: Specifies the sort order of the returned items. Valid values include:    ASCENDING: List the batch build identifiers in ascending order by identifier.    DESCENDING: List the batch build identifiers in descending order by identifier.  
+- `nextToken`: The nextToken value returned from a previous call to ListBuildBatches. This
+  specifies the next item to return. To return the beginning of the list, exclude this
+  parameter.
+- `sortOrder`: Specifies the sort order of the returned items. Valid values include:
+  ASCENDING: List the batch build identifiers in ascending order by identifier.
+  DESCENDING: List the batch build identifiers in descending order by identifier.
 """
 list_build_batches(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatches"; aws_config=aws_config)
 list_build_batches(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatches", args; aws_config=aws_config)
@@ -339,9 +432,13 @@ Retrieves the identifiers of the build batches for a specific project.
 # Optional Parameters
 - `filter`: A BuildBatchFilter object that specifies the filters for the search.
 - `maxResults`: The maximum number of results to return.
-- `nextToken`: The nextToken value returned from a previous call to ListBuildBatchesForProject. This specifies the next item to return. To return the beginning of the list, exclude this parameter.
+- `nextToken`: The nextToken value returned from a previous call to
+  ListBuildBatchesForProject. This specifies the next item to return. To return the beginning
+  of the list, exclude this parameter.
 - `projectName`: The name of the project.
-- `sortOrder`: Specifies the sort order of the returned items. Valid values include:    ASCENDING: List the batch build identifiers in ascending order by identifier.    DESCENDING: List the batch build identifiers in descending order by identifier.  
+- `sortOrder`: Specifies the sort order of the returned items. Valid values include:
+  ASCENDING: List the batch build identifiers in ascending order by identifier.
+  DESCENDING: List the batch build identifiers in descending order by identifier.
 """
 list_build_batches_for_project(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatchesForProject"; aws_config=aws_config)
 list_build_batches_for_project(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatchesForProject", args; aws_config=aws_config)
@@ -352,8 +449,14 @@ list_build_batches_for_project(args::AbstractDict{String, <:Any}; aws_config::Ab
 Gets a list of build IDs, with each build ID representing a single build.
 
 # Optional Parameters
-- `nextToken`: During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-- `sortOrder`: The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
+- `nextToken`: During a previous call, if there are more than 100 items in the list, only
+  the first 100 items are returned, along with a unique string called a nextToken. To get the
+  next batch of items in the list, call this operation again, adding the next token to the
+  call. To get all of the items in the list, keep calling this operation with each subsequent
+  next token that is returned, until no more next tokens are returned.
+- `sortOrder`: The order to list build IDs. Valid values include:    ASCENDING: List the
+  build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending
+  order by build ID.
 """
 list_builds(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuilds"; aws_config=aws_config)
 list_builds(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuilds", args; aws_config=aws_config)
@@ -361,14 +464,22 @@ list_builds(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=glo
 """
     ListBuildsForProject()
 
-Gets a list of build IDs for the specified build project, with each build ID representing a single build.
+Gets a list of build identifiers for the specified build project, with each build
+identifier representing a single build.
 
 # Required Parameters
 - `projectName`: The name of the AWS CodeBuild project.
 
 # Optional Parameters
-- `nextToken`: During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-- `sortOrder`: The order to list build IDs. Valid values include:    ASCENDING: List the build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending order by build ID.  
+- `nextToken`: During a previous call, if there are more than 100 items in the list, only
+  the first 100 items are returned, along with a unique string called a nextToken. To get the
+  next batch of items in the list, call this operation again, adding the next token to the
+  call. To get all of the items in the list, keep calling this operation with each subsequent
+  next token that is returned, until no more next tokens are returned.
+- `sortOrder`: The order to list results in. The results are sorted by build number, not
+  the build identifier. Valid values include:    ASCENDING: List the build IDs in ascending
+  order by build ID.    DESCENDING: List the build IDs in descending order by build ID.   If
+  the project has more than 100 builds, setting the sort order will result in an error.
 """
 list_builds_for_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
 list_builds_for_project(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), args)); aws_config=aws_config)
@@ -385,12 +496,23 @@ list_curated_environment_images(args::AbstractDict{String, <:Any}; aws_config::A
 """
     ListProjects()
 
-Gets a list of build project names, with each build project name representing a single build project.
+Gets a list of build project names, with each build project name representing a single
+build project.
 
 # Optional Parameters
-- `nextToken`: During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
-- `sortBy`: The criterion to be used to list build project names. Valid values include:    CREATED_TIME: List based on when each build project was created.    LAST_MODIFIED_TIME: List based on when information about each build project was last changed.    NAME: List based on each build project's name.   Use sortOrder to specify in what order to list the build project names based on the preceding criteria.
-- `sortOrder`: The order in which to list build projects. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy to specify the criterion to be used to list build project names.
+- `nextToken`: During a previous call, if there are more than 100 items in the list, only
+  the first 100 items are returned, along with a unique string called a nextToken. To get the
+  next batch of items in the list, call this operation again, adding the next token to the
+  call. To get all of the items in the list, keep calling this operation with each subsequent
+  next token that is returned, until no more next tokens are returned.
+- `sortBy`: The criterion to be used to list build project names. Valid values include:
+  CREATED_TIME: List based on when each build project was created.    LAST_MODIFIED_TIME:
+  List based on when information about each build project was last changed.    NAME: List
+  based on each build project's name.   Use sortOrder to specify in what order to list the
+  build project names based on the preceding criteria.
+- `sortOrder`: The order in which to list build projects. Valid values include:
+  ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy
+  to specify the criterion to be used to list build project names.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListProjects"; aws_config=aws_config)
 list_projects(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListProjects", args; aws_config=aws_config)
@@ -398,13 +520,24 @@ list_projects(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=g
 """
     ListReportGroups()
 
- Gets a list ARNs for the report groups in the current AWS account. 
+ Gets a list ARNs for the report groups in the current AWS account.
 
 # Optional Parameters
-- `maxResults`:  The maximum number of paginated report groups returned per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100. 
-- `nextToken`:  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
-- `sortBy`:  The criterion to be used to list build report groups. Valid values include:     CREATED_TIME: List based on when each report group was created.    LAST_MODIFIED_TIME: List based on when each report group was last changed.    NAME: List based on each report group's name.  
-- `sortOrder`:  Used to specify the order to sort the list of returned report groups. Valid values are ASCENDING and DESCENDING. 
+- `maxResults`:  The maximum number of paginated report groups returned per response. Use
+  nextToken to iterate pages in the list of returned ReportGroup objects. The default value
+  is 100.
+- `nextToken`:  During a previous call, the maximum number of items that can be returned is
+  the value specified in maxResults. If there more items in the list, then a unique string
+  called a nextToken is returned. To get the next batch of items in the list, call this
+  operation again, adding the next token to the call. To get all of the items in the list,
+  keep calling this operation with each subsequent next token that is returned, until no more
+  next tokens are returned.
+- `sortBy`:  The criterion to be used to list build report groups. Valid values include:
+   CREATED_TIME: List based on when each report group was created.    LAST_MODIFIED_TIME:
+  List based on when each report group was last changed.    NAME: List based on each report
+  group's name.
+- `sortOrder`:  Used to specify the order to sort the list of returned report groups. Valid
+  values are ASCENDING and DESCENDING.
 """
 list_report_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportGroups"; aws_config=aws_config)
 list_report_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportGroups", args; aws_config=aws_config)
@@ -412,13 +545,23 @@ list_report_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     ListReports()
 
- Returns a list of ARNs for the reports in the current AWS account. 
+ Returns a list of ARNs for the reports in the current AWS account.
 
 # Optional Parameters
-- `filter`:  A ReportFilter object used to filter the returned reports. 
-- `maxResults`:  The maximum number of paginated reports returned per response. Use nextToken to iterate pages in the list of returned Report objects. The default value is 100. 
-- `nextToken`:  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
-- `sortOrder`:  Specifies the sort order for the list of returned reports. Valid values are:     ASCENDING: return reports in chronological order based on their creation date.     DESCENDING: return reports in the reverse chronological order based on their creation date.   
+- `filter`:  A ReportFilter object used to filter the returned reports.
+- `maxResults`:  The maximum number of paginated reports returned per response. Use
+  nextToken to iterate pages in the list of returned Report objects. The default value is
+  100.
+- `nextToken`:  During a previous call, the maximum number of items that can be returned is
+  the value specified in maxResults. If there more items in the list, then a unique string
+  called a nextToken is returned. To get the next batch of items in the list, call this
+  operation again, adding the next token to the call. To get all of the items in the list,
+  keep calling this operation with each subsequent next token that is returned, until no more
+  next tokens are returned.
+- `sortOrder`:  Specifies the sort order for the list of returned reports. Valid values
+  are:     ASCENDING: return reports in chronological order based on their creation date.
+  DESCENDING: return reports in the reverse chronological order based on their creation date.
+  
 """
 list_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReports"; aws_config=aws_config)
 list_reports(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReports", args; aws_config=aws_config)
@@ -426,16 +569,24 @@ list_reports(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=gl
 """
     ListReportsForReportGroup()
 
- Returns a list of ARNs for the reports that belong to a ReportGroup. 
+ Returns a list of ARNs for the reports that belong to a ReportGroup.
 
 # Required Parameters
-- `reportGroupArn`:  The ARN of the report group for which you want to return report ARNs. 
+- `reportGroupArn`:  The ARN of the report group for which you want to return report ARNs.
 
 # Optional Parameters
-- `filter`:  A ReportFilter object used to filter the returned reports. 
-- `maxResults`:  The maximum number of paginated reports in this report group returned per response. Use nextToken to iterate pages in the list of returned Report objects. The default value is 100. 
-- `nextToken`:  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
-- `sortOrder`:  Use to specify whether the results are returned in ascending or descending order. 
+- `filter`:  A ReportFilter object used to filter the returned reports.
+- `maxResults`:  The maximum number of paginated reports in this report group returned per
+  response. Use nextToken to iterate pages in the list of returned Report objects. The
+  default value is 100.
+- `nextToken`:  During a previous call, the maximum number of items that can be returned is
+  the value specified in maxResults. If there more items in the list, then a unique string
+  called a nextToken is returned. To get the next batch of items in the list, call this
+  operation again, adding the next token to the call. To get all of the items in the list,
+  keep calling this operation with each subsequent next token that is returned, until no more
+  next tokens are returned.
+- `sortOrder`:  Use to specify whether the results are returned in ascending or descending
+  order.
 """
 list_reports_for_report_group(reportGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}("reportGroupArn"=>reportGroupArn); aws_config=aws_config)
 list_reports_for_report_group(reportGroupArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn), args)); aws_config=aws_config)
@@ -443,13 +594,23 @@ list_reports_for_report_group(reportGroupArn, args::AbstractDict{String, <:Any};
 """
     ListSharedProjects()
 
- Gets a list of projects that are shared with other AWS accounts or users. 
+ Gets a list of projects that are shared with other AWS accounts or users.
 
 # Optional Parameters
-- `maxResults`:  The maximum number of paginated shared build projects returned per response. Use nextToken to iterate pages in the list of returned Project objects. The default value is 100. 
-- `nextToken`:  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
-- `sortBy`:  The criterion to be used to list build projects shared with the current AWS account or user. Valid values include:     ARN: List based on the ARN.     MODIFIED_TIME: List based on when information about the shared project was last changed.   
-- `sortOrder`: The order in which to list shared build projects. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.  
+- `maxResults`:  The maximum number of paginated shared build projects returned per
+  response. Use nextToken to iterate pages in the list of returned Project objects. The
+  default value is 100.
+- `nextToken`:  During a previous call, the maximum number of items that can be returned is
+  the value specified in maxResults. If there more items in the list, then a unique string
+  called a nextToken is returned. To get the next batch of items in the list, call this
+  operation again, adding the next token to the call. To get all of the items in the list,
+  keep calling this operation with each subsequent next token that is returned, until no more
+  next tokens are returned.
+- `sortBy`:  The criterion to be used to list build projects shared with the current AWS
+  account or user. Valid values include:     ARN: List based on the ARN.     MODIFIED_TIME:
+  List based on when information about the shared project was last changed.
+- `sortOrder`: The order in which to list shared build projects. Valid values include:
+  ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
 list_shared_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedProjects"; aws_config=aws_config)
 list_shared_projects(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedProjects", args; aws_config=aws_config)
@@ -457,13 +618,23 @@ list_shared_projects(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     ListSharedReportGroups()
 
- Gets a list of report groups that are shared with other AWS accounts or users. 
+ Gets a list of report groups that are shared with other AWS accounts or users.
 
 # Optional Parameters
-- `maxResults`:  The maximum number of paginated shared report groups per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100. 
-- `nextToken`:  During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned. 
-- `sortBy`:  The criterion to be used to list report groups shared with the current AWS account or user. Valid values include:     ARN: List based on the ARN.     MODIFIED_TIME: List based on when information about the shared report group was last changed.   
-- `sortOrder`: The order in which to list shared report groups. Valid values include:    ASCENDING: List in ascending order.    DESCENDING: List in descending order.  
+- `maxResults`:  The maximum number of paginated shared report groups per response. Use
+  nextToken to iterate pages in the list of returned ReportGroup objects. The default value
+  is 100.
+- `nextToken`:  During a previous call, the maximum number of items that can be returned is
+  the value specified in maxResults. If there more items in the list, then a unique string
+  called a nextToken is returned. To get the next batch of items in the list, call this
+  operation again, adding the next token to the call. To get all of the items in the list,
+  keep calling this operation with each subsequent next token that is returned, until no more
+  next tokens are returned.
+- `sortBy`:  The criterion to be used to list report groups shared with the current AWS
+  account or user. Valid values include:     ARN: List based on the ARN.     MODIFIED_TIME:
+  List based on when information about the shared report group was last changed.
+- `sortOrder`: The order in which to list shared report groups. Valid values include:
+  ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
 list_shared_report_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedReportGroups"; aws_config=aws_config)
 list_shared_report_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedReportGroups", args; aws_config=aws_config)
@@ -471,7 +642,7 @@ list_shared_report_groups(args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     ListSourceCredentials()
 
- Returns a list of SourceCredentialsInfo objects. 
+ Returns a list of SourceCredentialsInfo objects.
 
 """
 list_source_credentials(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSourceCredentials"; aws_config=aws_config)
@@ -480,11 +651,13 @@ list_source_credentials(args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     PutResourcePolicy()
 
- Stores a resource policy for the ARN of a Project or ReportGroup object. 
+ Stores a resource policy for the ARN of a Project or ReportGroup object.
 
 # Required Parameters
-- `policy`:  A JSON-formatted resource policy. For more information, see Sharing a Project and Sharing a Report Group in the AWS CodeBuild User Guide. 
-- `resourceArn`:  The ARN of the Project or ReportGroup resource you want to associate with a resource policy. 
+- `policy`:  A JSON-formatted resource policy. For more information, see Sharing a Project
+  and Sharing a Report Group in the AWS CodeBuild User Guide.
+- `resourceArn`:  The ARN of the Project or ReportGroup resource you want to associate with
+  a resource policy.
 
 """
 put_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("PutResourcePolicy", Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn); aws_config=aws_config)
@@ -497,7 +670,10 @@ Restarts a build.
 
 # Optional Parameters
 - `id`: Specifies the identifier of the build to restart.
-- `idempotencyToken`: A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuild request. The token is included in the RetryBuild request and is valid for five minutes. If you repeat the RetryBuild request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
+- `idempotencyToken`: A unique, case sensitive identifier you provide to ensure the
+  idempotency of the RetryBuild request. The token is included in the RetryBuild request and
+  is valid for five minutes. If you repeat the RetryBuild request with the same token, but
+  change a parameter, AWS CodeBuild returns a parameter mismatch error.
 """
 retry_build(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuild"; aws_config=aws_config)
 retry_build(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuild", args; aws_config=aws_config)
@@ -509,7 +685,10 @@ Restarts a failed batch build. Only batch builds that have failed can be retried
 
 # Optional Parameters
 - `id`: Specifies the identifier of the batch build to restart.
-- `idempotencyToken`: A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuildBatch request. The token is included in the RetryBuildBatch request and is valid for five minutes. If you repeat the RetryBuildBatch request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
+- `idempotencyToken`: A unique, case sensitive identifier you provide to ensure the
+  idempotency of the RetryBuildBatch request. The token is included in the RetryBuildBatch
+  request and is valid for five minutes. If you repeat the RetryBuildBatch request with the
+  same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
 - `retryType`: Specifies the type of retry to perform.
 """
 retry_build_batch(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuildBatch"; aws_config=aws_config)
@@ -524,36 +703,105 @@ Starts running a build.
 - `projectName`: The name of the AWS CodeBuild build project to start running a build.
 
 # Optional Parameters
-- `artifactsOverride`: Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
-- `buildStatusConfigOverride`: Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
-- `buildspecOverride`: A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project.  If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same AWS Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location. 
-- `cacheOverride`: A ProjectCache object specified for this build that overrides the one defined in the build project.
-- `certificateOverride`: The name of a certificate for this build that overrides the one specified in the build project.
-- `computeTypeOverride`: The name of a compute type for this build that overrides the one specified in the build project.
-- `debugSessionEnabled`: Specifies if session debugging is enabled for this build. For more information, see Viewing a running build in Session Manager.
-- `encryptionKeyOverride`: The AWS Key Management Service (AWS KMS) customer master key (CMK) that overrides the one specified in the build project. The CMK key encrypts the build output artifacts.   You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/&lt;alias-name&gt;).
-- `environmentTypeOverride`: A container type for this build that overrides the one specified in the build project.
-- `environmentVariablesOverride`: A set of environment variables that overrides, for this build only, the latest ones already defined in the build project.
-- `gitCloneDepthOverride`: The user-defined depth of history, with a minimum value of 0, that overrides, for this build only, any previous depth of history defined in the build project.
-- `gitSubmodulesConfigOverride`:  Information about the Git submodules configuration for this build of an AWS CodeBuild build project. 
-- `idempotencyToken`: A unique, case sensitive identifier you provide to ensure the idempotency of the StartBuild request. The token is included in the StartBuild request and is valid for 5 minutes. If you repeat the StartBuild request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error. 
-- `imageOverride`: The name of an image for this build that overrides the one specified in the build project.
-- `imagePullCredentialsTypeOverride`: The type of credentials AWS CodeBuild uses to pull images in your build. There are two valid values:   CODEBUILD  Specifies that AWS CodeBuild uses its own credentials. This requires that you modify your ECR repository policy to trust AWS CodeBuild's service principal.  SERVICE_ROLE  Specifies that AWS CodeBuild uses your build project's service role.    When using a cross-account or private registry image, you must use SERVICE_ROLE credentials. When using an AWS CodeBuild curated image, you must use CODEBUILD credentials. 
-- `insecureSslOverride`: Enable this flag to override the insecure SSL setting that is specified in the build project. The insecure SSL setting determines whether to ignore SSL warnings while connecting to the project source code. This override applies only if the build's source is GitHub Enterprise.
-- `logsConfigOverride`:  Log settings for this build that override the log settings defined in the build project. 
-- `privilegedModeOverride`: Enable this flag to override privileged mode in the build project.
-- `queuedTimeoutInMinutesOverride`:  The number of minutes a build is allowed to be queued before it times out. 
-- `registryCredentialOverride`:  The credentials for access to a private registry. 
-- `reportBuildStatusOverride`:  Set to true to report to your source provider the status of a build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown.    The status of a build triggered by a webhook is always reported to your source provider.  
-- `secondaryArtifactsOverride`:  An array of ProjectArtifacts objects. 
-- `secondarySourcesOverride`:  An array of ProjectSource objects. 
-- `secondarySourcesVersionOverride`:  An array of ProjectSourceVersion objects that specify one or more versions of the project's secondary sources to be used for this build only. 
-- `serviceRoleOverride`: The name of a service role for this build that overrides the one specified in the build project.
-- `sourceAuthOverride`: An authorization type for this build that overrides the one defined in the build project. This override applies only if the build project's source is BitBucket or GitHub.
-- `sourceLocationOverride`: A location that overrides, for this build, the source location for the one defined in the build project.
-- `sourceTypeOverride`: A source input type, for this build, that overrides the source input defined in the build project.
-- `sourceVersion`: The version of the build input to be built, for this build only. If not specified, the latest version is used. If specified, the contents depends on the source provider:  AWS CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Amazon Simple Storage Service (Amazon S3)  The version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.  For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
-- `timeoutInMinutesOverride`: The number of build timeout minutes, from 5 to 480 (8 hours), that overrides, for this build only, the latest setting already defined in the build project.
+- `artifactsOverride`: Build output artifact settings that override, for this build only,
+  the latest ones already defined in the build project.
+- `buildStatusConfigOverride`: Contains information that defines how the build project
+  reports the build status to the source provider. This option is only used when the source
+  provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
+- `buildspecOverride`: A buildspec file declaration that overrides, for this build only,
+  the latest one already defined in the build project.  If this value is set, it can be
+  either an inline buildspec definition, the path to an alternate buildspec file relative to
+  the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3
+  bucket. The bucket must be in the same AWS Region as the build project. Specify the
+  buildspec file using its ARN (for example,
+  arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set
+  to an empty string, the source code must contain a buildspec file in its root directory.
+  For more information, see Buildspec File Name and Storage Location.
+- `cacheOverride`: A ProjectCache object specified for this build that overrides the one
+  defined in the build project.
+- `certificateOverride`: The name of a certificate for this build that overrides the one
+  specified in the build project.
+- `computeTypeOverride`: The name of a compute type for this build that overrides the one
+  specified in the build project.
+- `debugSessionEnabled`: Specifies if session debugging is enabled for this build. For more
+  information, see Viewing a running build in Session Manager.
+- `encryptionKeyOverride`: The AWS Key Management Service (AWS KMS) customer master key
+  (CMK) that overrides the one specified in the build project. The CMK key encrypts the build
+  output artifacts.   You can use a cross-account KMS key to encrypt the build output
+  artifacts if your service role has permission to that key.   You can specify either the
+  Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format
+  alias/&lt;alias-name&gt;).
+- `environmentTypeOverride`: A container type for this build that overrides the one
+  specified in the build project.
+- `environmentVariablesOverride`: A set of environment variables that overrides, for this
+  build only, the latest ones already defined in the build project.
+- `gitCloneDepthOverride`: The user-defined depth of history, with a minimum value of 0,
+  that overrides, for this build only, any previous depth of history defined in the build
+  project.
+- `gitSubmodulesConfigOverride`:  Information about the Git submodules configuration for
+  this build of an AWS CodeBuild build project.
+- `idempotencyToken`: A unique, case sensitive identifier you provide to ensure the
+  idempotency of the StartBuild request. The token is included in the StartBuild request and
+  is valid for 5 minutes. If you repeat the StartBuild request with the same token, but
+  change a parameter, AWS CodeBuild returns a parameter mismatch error.
+- `imageOverride`: The name of an image for this build that overrides the one specified in
+  the build project.
+- `imagePullCredentialsTypeOverride`: The type of credentials AWS CodeBuild uses to pull
+  images in your build. There are two valid values:   CODEBUILD  Specifies that AWS CodeBuild
+  uses its own credentials. This requires that you modify your ECR repository policy to trust
+  AWS CodeBuild's service principal.  SERVICE_ROLE  Specifies that AWS CodeBuild uses your
+  build project's service role.    When using a cross-account or private registry image, you
+  must use SERVICE_ROLE credentials. When using an AWS CodeBuild curated image, you must use
+  CODEBUILD credentials.
+- `insecureSslOverride`: Enable this flag to override the insecure SSL setting that is
+  specified in the build project. The insecure SSL setting determines whether to ignore SSL
+  warnings while connecting to the project source code. This override applies only if the
+  build's source is GitHub Enterprise.
+- `logsConfigOverride`:  Log settings for this build that override the log settings defined
+  in the build project.
+- `privilegedModeOverride`: Enable this flag to override privileged mode in the build
+  project.
+- `queuedTimeoutInMinutesOverride`:  The number of minutes a build is allowed to be queued
+  before it times out.
+- `registryCredentialOverride`:  The credentials for access to a private registry.
+- `reportBuildStatusOverride`:  Set to true to report to your source provider the status of
+  a build's start and completion. If you use this option with a source provider other than
+  GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown.  To be able to
+  report the build status to the source provider, the user associated with the source
+  provider must have write access to the repo. If the user does not have write access, the
+  build status cannot be updated. For more information, see Source provider access in the AWS
+  CodeBuild User Guide.   The status of a build triggered by a webhook is always reported to
+  your source provider.
+- `secondaryArtifactsOverride`:  An array of ProjectArtifacts objects.
+- `secondarySourcesOverride`:  An array of ProjectSource objects.
+- `secondarySourcesVersionOverride`:  An array of ProjectSourceVersion objects that specify
+  one or more versions of the project's secondary sources to be used for this build only.
+- `serviceRoleOverride`: The name of a service role for this build that overrides the one
+  specified in the build project.
+- `sourceAuthOverride`: An authorization type for this build that overrides the one defined
+  in the build project. This override applies only if the build project's source is BitBucket
+  or GitHub.
+- `sourceLocationOverride`: A location that overrides, for this build, the source location
+  for the one defined in the build project.
+- `sourceTypeOverride`: A source input type, for this build, that overrides the source
+  input defined in the build project.
+- `sourceVersion`: The version of the build input to be built, for this build only. If not
+  specified, the latest version is used. If specified, the contents depends on the source
+  provider:  AWS CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit
+  ID, pull request ID, branch name, or tag name that corresponds to the version of the source
+  code you want to build. If a pull request ID is specified, it must use the format
+  pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD
+  commit ID is used. If not specified, the default branch's HEAD commit ID is used.
+  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the
+  source code you want to build. If a branch name is specified, the branch's HEAD commit ID
+  is used. If not specified, the default branch's HEAD commit ID is used.  Amazon S3  The
+  version ID of the object that represents the build input ZIP file to use.   If
+  sourceVersion is specified at the project level, then this sourceVersion (at the build
+  level) takes precedence.  For more information, see Source Version Sample with CodeBuild in
+  the AWS CodeBuild User Guide.
+- `timeoutInMinutesOverride`: The number of build timeout minutes, from 5 to 480 (8 hours),
+  that overrides, for this build only, the latest setting already defined in the build
+  project.
 """
 start_build(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuild", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
 start_build(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), args)); aws_config=aws_config)
@@ -567,35 +815,99 @@ Starts a batch build for a project.
 - `projectName`: The name of the project.
 
 # Optional Parameters
-- `artifactsOverride`: An array of ProjectArtifacts objects that contains information about the build output artifact overrides for the build project.
-- `buildBatchConfigOverride`: A BuildBatchConfigOverride object that contains batch build configuration overrides.
-- `buildTimeoutInMinutesOverride`: Overrides the build timeout specified in the batch build project.
-- `buildspecOverride`: A buildspec file declaration that overrides, for this build only, the latest one already defined in the build project. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same AWS Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see Buildspec File Name and Storage Location. 
+- `artifactsOverride`: An array of ProjectArtifacts objects that contains information about
+  the build output artifact overrides for the build project.
+- `buildBatchConfigOverride`: A BuildBatchConfigOverride object that contains batch build
+  configuration overrides.
+- `buildTimeoutInMinutesOverride`: Overrides the build timeout specified in the batch build
+  project.
+- `buildspecOverride`: A buildspec file declaration that overrides, for this build only,
+  the latest one already defined in the build project. If this value is set, it can be either
+  an inline buildspec definition, the path to an alternate buildspec file relative to the
+  value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket.
+  The bucket must be in the same AWS Region as the build project. Specify the buildspec file
+  using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value
+  is not provided or is set to an empty string, the source code must contain a buildspec file
+  in its root directory. For more information, see Buildspec File Name and Storage Location.
 - `cacheOverride`: A ProjectCache object that specifies cache overrides.
-- `certificateOverride`: The name of a certificate for this batch build that overrides the one specified in the batch build project.
-- `computeTypeOverride`: The name of a compute type for this batch build that overrides the one specified in the batch build project.
-- `encryptionKeyOverride`: The AWS Key Management Service (AWS KMS) customer master key (CMK) that overrides the one specified in the batch build project. The CMK key encrypts the build output artifacts.  You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/&lt;alias-name&gt;).
-- `environmentTypeOverride`: A container type for this batch build that overrides the one specified in the batch build project.
-- `environmentVariablesOverride`: An array of EnvironmentVariable objects that override, or add to, the environment variables defined in the batch build project.
-- `gitCloneDepthOverride`: The user-defined depth of history, with a minimum value of 0, that overrides, for this batch build only, any previous depth of history defined in the batch build project.
-- `gitSubmodulesConfigOverride`: A GitSubmodulesConfig object that overrides the Git submodules configuration for this batch build.
-- `idempotencyToken`: A unique, case sensitive identifier you provide to ensure the idempotency of the StartBuildBatch request. The token is included in the StartBuildBatch request and is valid for five minutes. If you repeat the StartBuildBatch request with the same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
-- `imageOverride`: The name of an image for this batch build that overrides the one specified in the batch build project.
-- `imagePullCredentialsTypeOverride`: The type of credentials AWS CodeBuild uses to pull images in your batch build. There are two valid values:   CODEBUILD  Specifies that AWS CodeBuild uses its own credentials. This requires that you modify your ECR repository policy to trust AWS CodeBuild's service principal.  SERVICE_ROLE  Specifies that AWS CodeBuild uses your build project's service role.    When using a cross-account or private registry image, you must use SERVICE_ROLE credentials. When using an AWS CodeBuild curated image, you must use CODEBUILD credentials. 
-- `insecureSslOverride`: Enable this flag to override the insecure SSL setting that is specified in the batch build project. The insecure SSL setting determines whether to ignore SSL warnings while connecting to the project source code. This override applies only if the build's source is GitHub Enterprise.
-- `logsConfigOverride`: A LogsConfig object that override the log settings defined in the batch build project.
-- `privilegedModeOverride`: Enable this flag to override privileged mode in the batch build project.
-- `queuedTimeoutInMinutesOverride`: The number of minutes a batch build is allowed to be queued before it times out.
-- `registryCredentialOverride`: A RegistryCredential object that overrides credentials for access to a private registry.
-- `reportBuildBatchStatusOverride`: Set to true to report to your source provider the status of a batch build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown.   The status of a build triggered by a webhook is always reported to your source provider.  
-- `secondaryArtifactsOverride`: An array of ProjectArtifacts objects that override the secondary artifacts defined in the batch build project.
-- `secondarySourcesOverride`: An array of ProjectSource objects that override the secondary sources defined in the batch build project.
-- `secondarySourcesVersionOverride`: An array of ProjectSourceVersion objects that override the secondary source versions in the batch build project.
-- `serviceRoleOverride`: The name of a service role for this batch build that overrides the one specified in the batch build project.
-- `sourceAuthOverride`: A SourceAuth object that overrides the one defined in the batch build project. This override applies only if the build project's source is BitBucket or GitHub.
-- `sourceLocationOverride`: A location that overrides, for this batch build, the source location defined in the batch build project.
-- `sourceTypeOverride`: The source input type that overrides the source input defined in the batch build project.
-- `sourceVersion`: The version of the batch build input to be built, for this build only. If not specified, the latest version is used. If specified, the contents depends on the source provider:  AWS CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.  Amazon Simple Storage Service (Amazon S3)  The version ID of the object that represents the build input ZIP file to use.   If sourceVersion is specified at the project level, then this sourceVersion (at the build level) takes precedence.  For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
+- `certificateOverride`: The name of a certificate for this batch build that overrides the
+  one specified in the batch build project.
+- `computeTypeOverride`: The name of a compute type for this batch build that overrides the
+  one specified in the batch build project.
+- `encryptionKeyOverride`: The AWS Key Management Service (AWS KMS) customer master key
+  (CMK) that overrides the one specified in the batch build project. The CMK key encrypts the
+  build output artifacts.  You can use a cross-account KMS key to encrypt the build output
+  artifacts if your service role has permission to that key.   You can specify either the
+  Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format
+  alias/&lt;alias-name&gt;).
+- `environmentTypeOverride`: A container type for this batch build that overrides the one
+  specified in the batch build project.
+- `environmentVariablesOverride`: An array of EnvironmentVariable objects that override, or
+  add to, the environment variables defined in the batch build project.
+- `gitCloneDepthOverride`: The user-defined depth of history, with a minimum value of 0,
+  that overrides, for this batch build only, any previous depth of history defined in the
+  batch build project.
+- `gitSubmodulesConfigOverride`: A GitSubmodulesConfig object that overrides the Git
+  submodules configuration for this batch build.
+- `idempotencyToken`: A unique, case sensitive identifier you provide to ensure the
+  idempotency of the StartBuildBatch request. The token is included in the StartBuildBatch
+  request and is valid for five minutes. If you repeat the StartBuildBatch request with the
+  same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
+- `imageOverride`: The name of an image for this batch build that overrides the one
+  specified in the batch build project.
+- `imagePullCredentialsTypeOverride`: The type of credentials AWS CodeBuild uses to pull
+  images in your batch build. There are two valid values:   CODEBUILD  Specifies that AWS
+  CodeBuild uses its own credentials. This requires that you modify your ECR repository
+  policy to trust AWS CodeBuild's service principal.  SERVICE_ROLE  Specifies that AWS
+  CodeBuild uses your build project's service role.    When using a cross-account or private
+  registry image, you must use SERVICE_ROLE credentials. When using an AWS CodeBuild curated
+  image, you must use CODEBUILD credentials.
+- `insecureSslOverride`: Enable this flag to override the insecure SSL setting that is
+  specified in the batch build project. The insecure SSL setting determines whether to ignore
+  SSL warnings while connecting to the project source code. This override applies only if the
+  build's source is GitHub Enterprise.
+- `logsConfigOverride`: A LogsConfig object that override the log settings defined in the
+  batch build project.
+- `privilegedModeOverride`: Enable this flag to override privileged mode in the batch build
+  project.
+- `queuedTimeoutInMinutesOverride`: The number of minutes a batch build is allowed to be
+  queued before it times out.
+- `registryCredentialOverride`: A RegistryCredential object that overrides credentials for
+  access to a private registry.
+- `reportBuildBatchStatusOverride`: Set to true to report to your source provider the
+  status of a batch build's start and completion. If you use this option with a source
+  provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is
+  thrown.   The status of a build triggered by a webhook is always reported to your source
+  provider.
+- `secondaryArtifactsOverride`: An array of ProjectArtifacts objects that override the
+  secondary artifacts defined in the batch build project.
+- `secondarySourcesOverride`: An array of ProjectSource objects that override the secondary
+  sources defined in the batch build project.
+- `secondarySourcesVersionOverride`: An array of ProjectSourceVersion objects that override
+  the secondary source versions in the batch build project.
+- `serviceRoleOverride`: The name of a service role for this batch build that overrides the
+  one specified in the batch build project.
+- `sourceAuthOverride`: A SourceAuth object that overrides the one defined in the batch
+  build project. This override applies only if the build project's source is BitBucket or
+  GitHub.
+- `sourceLocationOverride`: A location that overrides, for this batch build, the source
+  location defined in the batch build project.
+- `sourceTypeOverride`: The source input type that overrides the source input defined in
+  the batch build project.
+- `sourceVersion`: The version of the batch build input to be built, for this build only.
+  If not specified, the latest version is used. If specified, the contents depends on the
+  source provider:  AWS CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The
+  commit ID, pull request ID, branch name, or tag name that corresponds to the version of the
+  source code you want to build. If a pull request ID is specified, it must use the format
+  pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD
+  commit ID is used. If not specified, the default branch's HEAD commit ID is used.
+  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the
+  source code you want to build. If a branch name is specified, the branch's HEAD commit ID
+  is used. If not specified, the default branch's HEAD commit ID is used.  Amazon S3  The
+  version ID of the object that represents the build input ZIP file to use.   If
+  sourceVersion is specified at the project level, then this sourceVersion (at the build
+  level) takes precedence.  For more information, see Source Version Sample with CodeBuild in
+  the AWS CodeBuild User Guide.
 """
 start_build_batch(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
 start_build_batch(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), args)); aws_config=aws_config)
@@ -630,27 +942,65 @@ stop_build_batch(id, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 Changes the settings of a build project.
 
 # Required Parameters
-- `name`: The name of the build project.  You cannot change a build project's name. 
+- `name`: The name of the build project.  You cannot change a build project's name.
 
 # Optional Parameters
-- `artifacts`: Information to be changed about the build output artifacts for the build project.
-- `badgeEnabled`: Set this to true to generate a publicly accessible URL for your project's build badge.
-- `buildBatchConfig`: 
-- `cache`: Stores recently used information so that it can be quickly accessed at a later time.
+- `artifacts`: Information to be changed about the build output artifacts for the build
+  project.
+- `badgeEnabled`: Set this to true to generate a publicly accessible URL for your project's
+  build badge.
+- `buildBatchConfig`:
+- `cache`: Stores recently used information so that it can be quickly accessed at a later
+  time.
+- `concurrentBuildLimit`: The maximum number of concurrent builds that are allowed for this
+  project. New builds are only started if the current number of builds is less than or equal
+  to this limit. If the current build count meets this limit, new builds are throttled and
+  are not run. To remove this limit, set this value to -1.
 - `description`: A new or replacement description of the build project.
-- `encryptionKey`: The AWS Key Management Service (AWS KMS) customer master key (CMK) to be used for encrypting the build output artifacts.   You can use a cross-account KMS key to encrypt the build output artifacts if your service role has permission to that key.   You can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format alias/&lt;alias-name&gt;).
-- `environment`: Information to be changed about the build environment for the build project.
-- `fileSystemLocations`:  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object specifies the identifier, location, mountOptions, mountPoint, and type of a file system created using Amazon Elastic File System. 
-- `logsConfig`:  Information about logs for the build project. A project can create logs in Amazon CloudWatch Logs, logs in an S3 bucket, or both. 
-- `queuedTimeoutInMinutes`:  The number of minutes a build is allowed to be queued before it times out. 
-- `secondaryArtifacts`:  An array of ProjectSource objects. 
-- `secondarySourceVersions`:  An array of ProjectSourceVersion objects. If secondarySourceVersions is specified at the build level, then they take over these secondarySourceVersions (at the project level). 
-- `secondarySources`:  An array of ProjectSource objects. 
-- `serviceRole`: The replacement ARN of the AWS Identity and Access Management (IAM) role that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
-- `source`: Information to be changed about the build input source code for the build project.
-- `sourceVersion`:  A version of the build input to be built for this project. If not specified, the latest version is used. If specified, it must be one of:    For AWS CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.   For Amazon Simple Storage Service (Amazon S3): the version ID of the object that represents the build input ZIP file to use.    If sourceVersion is specified at the build level, then that version takes precedence over this sourceVersion (at the project level).   For more information, see Source Version Sample with CodeBuild in the AWS CodeBuild User Guide. 
-- `tags`: An updated list of tag key and value pairs associated with this build project. These tags are available for use by AWS services that support AWS CodeBuild build project tags.
-- `timeoutInMinutes`: The replacement value in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait before timing out any related build that did not get marked as completed.
+- `encryptionKey`: The AWS Key Management Service (AWS KMS) customer master key (CMK) to be
+  used for encrypting the build output artifacts.   You can use a cross-account KMS key to
+  encrypt the build output artifacts if your service role has permission to that key.   You
+  can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's
+  alias (using the format alias/&lt;alias-name&gt;).
+- `environment`: Information to be changed about the build environment for the build
+  project.
+- `fileSystemLocations`:  An array of ProjectFileSystemLocation objects for a CodeBuild
+  build project. A ProjectFileSystemLocation object specifies the identifier, location,
+  mountOptions, mountPoint, and type of a file system created using Amazon Elastic File
+  System.
+- `logsConfig`:  Information about logs for the build project. A project can create logs in
+  Amazon CloudWatch Logs, logs in an S3 bucket, or both.
+- `queuedTimeoutInMinutes`:  The number of minutes a build is allowed to be queued before
+  it times out.
+- `secondaryArtifacts`:  An array of ProjectSource objects.
+- `secondarySourceVersions`:  An array of ProjectSourceVersion objects. If
+  secondarySourceVersions is specified at the build level, then they take over these
+  secondarySourceVersions (at the project level).
+- `secondarySources`:  An array of ProjectSource objects.
+- `serviceRole`: The replacement ARN of the AWS Identity and Access Management (IAM) role
+  that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS
+  account.
+- `source`: Information to be changed about the build input source code for the build
+  project.
+- `sourceVersion`:  A version of the build input to be built for this project. If not
+  specified, the latest version is used. If specified, it must be one of:    For AWS
+  CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull
+  request ID, branch name, or tag name that corresponds to the version of the source code you
+  want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID
+  (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If
+  not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID,
+  branch name, or tag name that corresponds to the version of the source code you want to
+  build. If a branch name is specified, the branch's HEAD commit ID is used. If not
+  specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of
+  the object that represents the build input ZIP file to use.    If sourceVersion is
+  specified at the build level, then that version takes precedence over this sourceVersion
+  (at the project level).   For more information, see Source Version Sample with CodeBuild in
+  the AWS CodeBuild User Guide.
+- `tags`: An updated list of tag key and value pairs associated with this build project.
+  These tags are available for use by AWS services that support AWS CodeBuild build project
+  tags.
+- `timeoutInMinutes`: The replacement value in minutes, from 5 to 480 (8 hours), for AWS
+  CodeBuild to wait before timing out any related build that did not get marked as completed.
 - `vpcConfig`: VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
 """
 update_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
@@ -659,14 +1009,18 @@ update_project(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     UpdateReportGroup()
 
- Updates a report group. 
+ Updates a report group.
 
 # Required Parameters
-- `arn`:  The ARN of the report group to update. 
+- `arn`:  The ARN of the report group to update.
 
 # Optional Parameters
-- `exportConfig`:  Used to specify an updated export type. Valid values are:     S3: The report results are exported to an S3 bucket.     NO_EXPORT: The report results are not exported.   
-- `tags`:  An updated list of tag key and value pairs associated with this report group.  These tags are available for use by AWS services that support AWS CodeBuild report group tags.
+- `exportConfig`:  Used to specify an updated export type. Valid values are:     S3: The
+  report results are exported to an S3 bucket.     NO_EXPORT: The report results are not
+  exported.
+- `tags`:  An updated list of tag key and value pairs associated with this report group.
+  These tags are available for use by AWS services that support AWS CodeBuild report group
+  tags.
 """
 update_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
 update_report_group(arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws_config=aws_config)
@@ -674,16 +1028,24 @@ update_report_group(arn, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     UpdateWebhook()
 
- Updates the webhook associated with an AWS CodeBuild build project.    If you use Bitbucket for your repository, rotateSecret is ignored.  
+ Updates the webhook associated with an AWS CodeBuild build project.    If you use
+Bitbucket for your repository, rotateSecret is ignored.
 
 # Required Parameters
 - `projectName`: The name of the AWS CodeBuild project.
 
 # Optional Parameters
-- `branchFilter`: A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.   It is recommended that you use filterGroups instead of branchFilter.  
+- `branchFilter`: A regular expression used to determine which repository branches are
+  built when a webhook is triggered. If the name of a branch matches the regular expression,
+  then it is built. If branchFilter is empty, then all branches are built.   It is
+  recommended that you use filterGroups instead of branchFilter.
 - `buildType`: Specifies the type of build this webhook will trigger.
-- `filterGroups`:  An array of arrays of WebhookFilter objects used to determine if a webhook event can trigger a build. A filter group must contain at least one EVENT WebhookFilter. 
-- `rotateSecret`:  A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored. 
+- `filterGroups`:  An array of arrays of WebhookFilter objects used to determine if a
+  webhook event can trigger a build. A filter group must contain at least one EVENT
+  WebhookFilter.
+- `rotateSecret`:  A boolean value that specifies whether the associated GitHub
+  repository's secret token should be updated. If you use Bitbucket for your repository,
+  rotateSecret is ignored.
 """
 update_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
 update_webhook(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), args)); aws_config=aws_config)

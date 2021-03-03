@@ -10,10 +10,12 @@ using AWS.UUIDs
 Associates a physical device with a placement.
 
 # Required Parameters
-- `deviceId`: The ID of the physical device to be associated with the given placement in the project. Note that a mandatory 4 character prefix is required for all deviceId values.
+- `deviceId`: The ID of the physical device to be associated with the given placement in
+  the project. Note that a mandatory 4 character prefix is required for all deviceId values.
 - `deviceTemplateName`: The device template name to associate with the device ID.
 - `placementName`: The name of the placement in which to associate the device.
-- `projectName`: The name of the project containing the placement in which to associate the device.
+- `projectName`: The name of the project containing the placement in which to associate the
+  device.
 
 """
 associate_device_with_placement(deviceId, deviceTemplateName, placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)", Dict{String, Any}("deviceId"=>deviceId); aws_config=aws_config)
@@ -29,7 +31,8 @@ Creates an empty placement.
 - `projectName`: The name of the project in which to create the placement.
 
 # Optional Parameters
-- `attributes`: Optional user-defined key/value pairs providing contextual data (such as location or function) for the placement.
+- `attributes`: Optional user-defined key/value pairs providing contextual data (such as
+  location or function) for the placement.
 """
 create_placement(placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects/$(projectName)/placements", Dict{String, Any}("placementName"=>placementName); aws_config=aws_config)
 create_placement(placementName, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects/$(projectName)/placements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("placementName"=>placementName), args)); aws_config=aws_config)
@@ -37,15 +40,21 @@ create_placement(placementName, projectName, args::AbstractDict{String, <:Any}; 
 """
     CreateProject()
 
-Creates an empty project with a placement template. A project contains zero or more placements that adhere to the placement template defined in the project.
+Creates an empty project with a placement template. A project contains zero or more
+placements that adhere to the placement template defined in the project.
 
 # Required Parameters
 - `projectName`: The name of the project to create.
 
 # Optional Parameters
 - `description`: An optional description for the project.
-- `placementTemplate`: The schema defining the placement to be created. A placement template defines placement default attributes and device templates. You cannot add or remove device templates after the project has been created. However, you can update callbackOverrides for the device templates using the UpdateProject API.
-- `tags`: Optional tags (metadata key/value pairs) to be associated with the project. For example, { {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS Tagging Strategies.
+- `placementTemplate`: The schema defining the placement to be created. A placement
+  template defines placement default attributes and device templates. You cannot add or
+  remove device templates after the project has been created. However, you can update
+  callbackOverrides for the device templates using the UpdateProject API.
+- `tags`: Optional tags (metadata key/value pairs) to be associated with the project. For
+  example, { {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS
+  Tagging Strategies.
 """
 create_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
 create_project(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), args)); aws_config=aws_config)
@@ -53,7 +62,8 @@ create_project(projectName, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     DeletePlacement()
 
-Deletes a placement. To delete a placement, it must not have any devices associated with it.  When you delete a placement, all associated data becomes irretrievable. 
+Deletes a placement. To delete a placement, it must not have any devices associated with
+it.  When you delete a placement, all associated data becomes irretrievable.
 
 # Required Parameters
 - `placementName`: The name of the empty placement to delete.
@@ -66,7 +76,8 @@ delete_placement(placementName, projectName, args::AbstractDict{String, <:Any}; 
 """
     DeleteProject()
 
-Deletes a project. To delete a project, it must not have any placements associated with it.  When you delete a project, all associated data becomes irretrievable. 
+Deletes a project. To delete a project, it must not have any placements associated with it.
+ When you delete a project, all associated data becomes irretrievable.
 
 # Required Parameters
 - `projectName`: The name of the empty project to delete.
@@ -136,7 +147,8 @@ Lists the placement(s) of a project.
 - `projectName`: The project containing the placements to be listed.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return per request. If not set, a default value of 100 is used.
+- `maxResults`: The maximum number of results to return per request. If not set, a default
+  value of 100 is used.
 - `nextToken`: The token to retrieve the next set of results.
 """
 list_placements(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements"; aws_config=aws_config)
@@ -148,7 +160,8 @@ list_placements(projectName, args::AbstractDict{String, <:Any}; aws_config::Abst
 Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return per request. If not set, a default value of 100 is used.
+- `maxResults`: The maximum number of results to return per request. If not set, a default
+  value of 100 is used.
 - `nextToken`: The token to retrieve the next set of results.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects"; aws_config=aws_config)
@@ -169,11 +182,13 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     TagResource()
 
-Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be used to manage a resource. For more information, see AWS Tagging Strategies.
+Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be
+used to manage a resource. For more information, see AWS Tagging Strategies.
 
 # Required Parameters
 - `resourceArn`: The ARN of the resouce for which tag(s) should be added or modified.
-- `tags`: The new or modifying tag(s) for the resource. See AWS IoT 1-Click Service Limits for the maximum number of tags allowed per resource.
+- `tags`: The new or modifying tag(s) for the resource. See AWS IoT 1-Click Service Limits
+  for the maximum number of tags allowed per resource.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
@@ -195,14 +210,16 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdatePlacement()
 
-Updates a placement with the given attributes. To clear an attribute, pass an empty value (i.e., \"\").
+Updates a placement with the given attributes. To clear an attribute, pass an empty value
+(i.e., \"\").
 
 # Required Parameters
 - `placementName`: The name of the placement to update.
 - `projectName`: The name of the project containing the placement to be updated.
 
 # Optional Parameters
-- `attributes`: The user-defined object of attributes used to update the placement. The maximum number of key/value pairs is 50.
+- `attributes`: The user-defined object of attributes used to update the placement. The
+  maximum number of key/value pairs is 50.
 """
 update_placement(placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)"; aws_config=aws_config)
 update_placement(placementName, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)", args; aws_config=aws_config)
@@ -210,14 +227,20 @@ update_placement(placementName, projectName, args::AbstractDict{String, <:Any}; 
 """
     UpdateProject()
 
-Updates a project associated with your AWS account and region. With the exception of device template names, you can pass just the values that need to be updated because the update request will change only the values that are provided. To clear a value, pass the empty string (i.e., \"\").
+Updates a project associated with your AWS account and region. With the exception of device
+template names, you can pass just the values that need to be updated because the update
+request will change only the values that are provided. To clear a value, pass the empty
+string (i.e., \"\").
 
 # Required Parameters
 - `projectName`: The name of the project to be updated.
 
 # Optional Parameters
 - `description`: An optional user-defined description for the project.
-- `placementTemplate`: An object defining the project update. Once a project has been created, you cannot add device template names to the project. However, for a given placementTemplate, you can update the associated callbackOverrides for the device definition using this API.
+- `placementTemplate`: An object defining the project update. Once a project has been
+  created, you cannot add device template names to the project. However, for a given
+  placementTemplate, you can update the associated callbackOverrides for the device
+  definition using this API.
 """
 update_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)"; aws_config=aws_config)
 update_project(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)", args; aws_config=aws_config)

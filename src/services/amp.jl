@@ -10,8 +10,10 @@ using AWS.UUIDs
 Creates a new AMP workspace.
 
 # Optional Parameters
-- `alias`: An optional user-assigned alias for this workspace. This alias is for user reference and does not need to be unique.
-- `clientToken`: Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+- `alias`: An optional user-assigned alias for this workspace. This alias is for user
+  reference and does not need to be unique.
+- `clientToken`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
 create_workspace(; aws_config::AbstractAWSConfig=global_aws_config()) = amp("POST", "/workspaces", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 create_workspace(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("POST", "/workspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -25,7 +27,8 @@ Deletes an AMP workspace.
 - `workspaceId`: The ID of the workspace to delete.
 
 # Optional Parameters
-- `clientToken`: Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+- `clientToken`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
 delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 delete_workspace(workspaceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -48,9 +51,11 @@ describe_workspace(workspaceId, args::AbstractDict{String, <:Any}; aws_config::A
 Lists all AMP workspaces, including workspaces being created or deleted.
 
 # Optional Parameters
-- `alias`: Optional filter for workspace alias. Only the workspaces with aliases that begin with this value will be returned.
+- `alias`: Optional filter for workspace alias. Only the workspaces with aliases that begin
+  with this value will be returned.
 - `maxResults`: Maximum results to return in response (default=100, maximum=1000).
-- `nextToken`: Pagination token to request the next page in a paginated list. This token is obtained from the output of the previous ListWorkspaces request.
+- `nextToken`: Pagination token to request the next page in a paginated list. This token is
+  obtained from the output of the previous ListWorkspaces request.
 """
 list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces"; aws_config=aws_config)
 list_workspaces(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces", args; aws_config=aws_config)
@@ -65,7 +70,8 @@ Updates an AMP workspace alias.
 
 # Optional Parameters
 - `alias`: The new alias of the workspace.
-- `clientToken`: Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
+- `clientToken`: Optional, unique, case-sensitive, user-provided identifier to ensure the
+  idempotency of the request.
 """
 update_workspace_alias(workspaceId; aws_config::AbstractAWSConfig=global_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/alias", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 update_workspace_alias(workspaceId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)

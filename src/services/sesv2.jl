@@ -7,18 +7,27 @@ using AWS.UUIDs
 """
     CreateConfigurationSet()
 
-Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email. 
+Create a configuration set. Configuration sets are groups of rules that you can apply to
+the emails that you send. You apply a configuration set to an email by specifying the name
+of the configuration set when you call the Amazon SES API v2. When you apply a
+configuration set to an email, all of the rules in that configuration set are applied to
+the email.
 
 # Required Parameters
 - `ConfigurationSetName`: The name of the configuration set.
 
 # Optional Parameters
-- `DeliveryOptions`: An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
-- `ReputationOptions`: An object that defines whether or not Amazon SES collects reputation metrics for the emails that you send that use the configuration set.
-- `SendingOptions`: An object that defines whether or not Amazon SES can send email that you send using the configuration set.
-- `SuppressionOptions`: 
-- `Tags`: An array of objects that define the tags (keys and values) that you want to associate with the configuration set.
-- `TrackingOptions`: An object that defines the open and click tracking options for emails that you send using the configuration set.
+- `DeliveryOptions`: An object that defines the dedicated IP pool that is used to send
+  emails that you send using the configuration set.
+- `ReputationOptions`: An object that defines whether or not Amazon SES collects reputation
+  metrics for the emails that you send that use the configuration set.
+- `SendingOptions`: An object that defines whether or not Amazon SES can send email that
+  you send using the configuration set.
+- `SuppressionOptions`:
+- `Tags`: An array of objects that define the tags (keys and values) that you want to
+  associate with the configuration set.
+- `TrackingOptions`: An object that defines the open and click tracking options for emails
+  that you send using the configuration set.
 """
 create_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName); aws_config=aws_config)
 create_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), args)); aws_config=aws_config)
@@ -26,12 +35,19 @@ create_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}
 """
     CreateConfigurationSetEventDestination()
 
-Create an event destination. Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can include more than one event destination.
+Create an event destination. Events include message sends, deliveries, opens, clicks,
+bounces, and complaints. Event destinations are places that you can send information about
+these events to. For example, you can send event data to Amazon SNS to receive
+notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data
+Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can
+include more than one event destination.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to add an event destination to.
+- `ConfigurationSetName`: The name of the configuration set that you want to add an event
+  destination to.
 - `EventDestination`: An object that defines the event destination.
-- `EventDestinationName`: A name that identifies the event destination within the configuration set.
+- `EventDestinationName`: A name that identifies the event destination within the
+  configuration set.
 
 """
 create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName); aws_config=aws_config)
@@ -40,7 +56,8 @@ create_configuration_set_event_destination(ConfigurationSetName, EventDestinatio
 """
     CreateContact()
 
-Creates a contact, which is an end-user who is receiving the email, and adds them to a contact list.
+Creates a contact, which is an end-user who is receiving the email, and adds them to a
+contact list.
 
 # Required Parameters
 - `ContactListName`: The name of the contact list to which the contact should be added.
@@ -48,8 +65,10 @@ Creates a contact, which is an end-user who is receiving the email, and adds the
 
 # Optional Parameters
 - `AttributesData`: The attribute data attached to a contact.
-- `TopicPreferences`: The contact's preferences for being opted-in to or opted-out of topics.
-- `UnsubscribeAll`: A boolean value status noting if the contact is unsubscribed from all contact list topics.
+- `TopicPreferences`: The contact's preferences for being opted-in to or opted-out of
+  topics.
+- `UnsubscribeAll`: A boolean value status noting if the contact is unsubscribed from all
+  contact list topics.
 """
 create_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists/$(ContactListName)/contacts", Dict{String, Any}("EmailAddress"=>EmailAddress); aws_config=aws_config)
 create_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists/$(ContactListName)/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), args)); aws_config=aws_config)
@@ -65,7 +84,8 @@ Creates a contact list.
 # Optional Parameters
 - `Description`: A description of what the contact list is about.
 - `Tags`: The tags associated with a contact list.
-- `Topics`: An interest group, theme, or label within a list. A contact list can have multiple topics.
+- `Topics`: An interest group, theme, or label within a list. A contact list can have
+  multiple topics.
 """
 create_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists", Dict{String, Any}("ContactListName"=>ContactListName); aws_config=aws_config)
 create_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/contact-lists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactListName"=>ContactListName), args)); aws_config=aws_config)
@@ -73,13 +93,20 @@ create_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_conf
 """
     CreateCustomVerificationEmailTemplate()
 
-Creates a new custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Creates a new custom verification email template. For more information about custom
+verification email templates, see Using Custom Verification Email Templates in the Amazon
+SES Developer Guide. You can execute this operation no more than once per second.
 
 # Required Parameters
-- `FailureRedirectionURL`: The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+- `FailureRedirectionURL`: The URL that the recipient of the verification email is sent to
+  if his or her address is not successfully verified.
 - `FromEmailAddress`: The email address that the custom verification email is sent from.
-- `SuccessRedirectionURL`: The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
-- `TemplateContent`: The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
+- `SuccessRedirectionURL`: The URL that the recipient of the verification email is sent to
+  if his or her address is successfully verified.
+- `TemplateContent`: The content of the custom verification email. The total size of the
+  email must be less than 10 MB. The message body may contain HTML, with some limitations.
+  For more information, see Custom Verification Email Frequently Asked Questions in the
+  Amazon SES Developer Guide.
 - `TemplateName`: The name of the custom verification email template.
 - `TemplateSubject`: The subject line of the custom verification email.
 
@@ -90,13 +117,17 @@ create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddres
 """
     CreateDedicatedIpPool()
 
-Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP addresses that are associated with your AWS account. You can associate a pool with a configuration set. When you send an email that uses that configuration set, the message is sent from one of the addresses in the associated pool.
+Create a new pool of dedicated IP addresses. A pool can include one or more dedicated IP
+addresses that are associated with your AWS account. You can associate a pool with a
+configuration set. When you send an email that uses that configuration set, the message is
+sent from one of the addresses in the associated pool.
 
 # Required Parameters
 - `PoolName`: The name of the dedicated IP pool.
 
 # Optional Parameters
-- `Tags`: An object that defines the tags (keys and values) that you want to associate with the pool.
+- `Tags`: An object that defines the tags (keys and values) that you want to associate with
+  the pool.
 """
 create_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/dedicated-ip-pools", Dict{String, Any}("PoolName"=>PoolName); aws_config=aws_config)
 create_dedicated_ip_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/dedicated-ip-pools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), args)); aws_config=aws_config)
@@ -104,15 +135,25 @@ create_dedicated_ip_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config
 """
     CreateDeliverabilityTestReport()
 
-Create a new predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. Amazon SES then sends that message to special email addresses spread across several major email providers. After about 24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation to view the results of the test.
+Create a new predictive inbox placement test. Predictive inbox placement tests can help you
+predict how your messages will be handled by various email providers around the world. When
+you perform a predictive inbox placement test, you provide a sample message that contains
+the content that you plan to send to your customers. Amazon SES then sends that message to
+special email addresses spread across several major email providers. After about 24 hours,
+the test is complete, and you can use the GetDeliverabilityTestReport operation to view the
+results of the test.
 
 # Required Parameters
-- `Content`: The HTML body of the message that you sent when you performed the predictive inbox placement test.
-- `FromEmailAddress`: The email address that the predictive inbox placement test email was sent from.
+- `Content`: The HTML body of the message that you sent when you performed the predictive
+  inbox placement test.
+- `FromEmailAddress`: The email address that the predictive inbox placement test email was
+  sent from.
 
 # Optional Parameters
-- `ReportName`: A unique name that helps you to identify the predictive inbox placement test when you retrieve the results.
-- `Tags`: An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test.
+- `ReportName`: A unique name that helps you to identify the predictive inbox placement
+  test when you retrieve the results.
+- `Tags`: An array of objects that define the tags (keys and values) that you want to
+  associate with the predictive inbox placement test.
 """
 create_deliverability_test_report(Content, FromEmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/deliverability-dashboard/test", Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress); aws_config=aws_config)
 create_deliverability_test_report(Content, FromEmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/deliverability-dashboard/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress), args)); aws_config=aws_config)
@@ -120,15 +161,41 @@ create_deliverability_test_report(Content, FromEmailAddress, args::AbstractDict{
 """
     CreateEmailIdentity()
 
-Starts the process of verifying an email identity. An identity is an email address or domain that you use when you send email. Before you can use an identity to send email, you first have to verify it. By verifying an identity, you demonstrate that you're the owner of the identity, and that you've given Amazon SES API v2 permission to send email from the identity. When you verify an email address, Amazon SES sends an email to the address. Your email address is verified as soon as you follow the link in the verification email.  When you verify a domain without specifying the DkimSigningAttributes object, this operation provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you then add to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. This verification method is known as Easy DKIM. Alternatively, you can perform the verification process by providing your own public-private key pair. This verification method is known as Bring Your Own DKIM (BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include the DkimSigningAttributes object. When you specify this object, you provide a selector (a component of the DNS record name that identifies the public key that you want to use for DKIM authentication) and a private key. When you verify a domain, this operation provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your domain. Your domain is verified when Amazon SES detects these records in the DNS configuration for your domain. For some DNS providers, it can take 72 hours or more to complete the domain verification process. Additionally, you can associate an existing configuration set with the email identity that you're verifying.
+Starts the process of verifying an email identity. An identity is an email address or
+domain that you use when you send email. Before you can use an identity to send email, you
+first have to verify it. By verifying an identity, you demonstrate that you're the owner of
+the identity, and that you've given Amazon SES API v2 permission to send email from the
+identity. When you verify an email address, Amazon SES sends an email to the address. Your
+email address is verified as soon as you follow the link in the verification email.  When
+you verify a domain without specifying the DkimSigningAttributes object, this operation
+provides a set of DKIM tokens. You can convert these tokens into CNAME records, which you
+then add to the DNS configuration for your domain. Your domain is verified when Amazon SES
+detects these records in the DNS configuration for your domain. This verification method is
+known as Easy DKIM. Alternatively, you can perform the verification process by providing
+your own public-private key pair. This verification method is known as Bring Your Own DKIM
+(BYODKIM). To use BYODKIM, your call to the CreateEmailIdentity operation has to include
+the DkimSigningAttributes object. When you specify this object, you provide a selector (a
+component of the DNS record name that identifies the public key that you want to use for
+DKIM authentication) and a private key. When you verify a domain, this operation provides a
+set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME tokens to
+the DNS configuration for your domain. Your domain is verified when Amazon SES detects
+these records in the DNS configuration for your domain. For some DNS providers, it can take
+72 hours or more to complete the domain verification process. Additionally, you can
+associate an existing configuration set with the email identity that you're verifying.
 
 # Required Parameters
 - `EmailIdentity`: The email address or domain that you want to verify.
 
 # Optional Parameters
-- `ConfigurationSetName`: The configuration set to use by default when sending from this identity. Note that any configuration set defined in the email sending request takes precedence. 
-- `DkimSigningAttributes`: If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as opposed to the default method, Easy DKIM. You can only specify this object if the email identity is a domain, as opposed to an address.
-- `Tags`: An array of objects that define the tags (keys and values) that you want to associate with the email identity.
+- `ConfigurationSetName`: The configuration set to use by default when sending from this
+  identity. Note that any configuration set defined in the email sending request takes
+  precedence.
+- `DkimSigningAttributes`: If your request includes this object, Amazon SES configures the
+  identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, as opposed
+  to the default method, Easy DKIM. You can only specify this object if the email identity is
+  a domain, as opposed to an address.
+- `Tags`: An array of objects that define the tags (keys and values) that you want to
+  associate with the email identity.
 """
 create_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities", Dict{String, Any}("EmailIdentity"=>EmailIdentity); aws_config=aws_config)
 create_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailIdentity"=>EmailIdentity), args)); aws_config=aws_config)
@@ -136,12 +203,20 @@ create_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_conf
 """
     CreateEmailIdentityPolicy()
 
-Creates the specified sending authorization policy for the given identity (an email address or a domain).  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Creates the specified sending authorization policy for the given identity (an email address
+or a domain).  This API is for the identity owner only. If you have not verified the
+identity, this API will return an error.  Sending authorization is a feature that enables
+an identity owner to authorize other senders to use its identities. For information about
+using sending authorization, see the Amazon SES Developer Guide. You can execute this
+operation no more than once per second.
 
 # Required Parameters
 - `EmailIdentity`: The email identity for which you want to create a policy.
-- `Policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB. For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
-- `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+- `Policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB. For
+  information about the syntax of sending authorization policies, see the Amazon SES
+  Developer Guide.
+- `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can
+  only include alphanumeric characters, dashes, and underscores.
 
 """
 create_email_identity_policy(EmailIdentity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
@@ -150,10 +225,13 @@ create_email_identity_policy(EmailIdentity, Policy, PolicyName, args::AbstractDi
 """
     CreateEmailTemplate()
 
-Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Creates an email template. Email templates enable you to send personalized email to one or
+more destinations in a single API operation. For more information, see the Amazon SES
+Developer Guide. You can execute this operation no more than once per second.
 
 # Required Parameters
-- `TemplateContent`: The content of the email template, composed of a subject line, an HTML part, and a text-only part.
+- `TemplateContent`: The content of the email template, composed of a subject line, an HTML
+  part, and a text-only part.
 - `TemplateName`: The name of the template you want to create.
 
 """
@@ -176,7 +254,11 @@ create_import_job(ImportDataSource, ImportDestination, args::AbstractDict{String
 """
     DeleteConfigurationSet()
 
-Delete an existing configuration set.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
+Delete an existing configuration set.  Configuration sets are groups of rules that you can
+apply to the emails you send. You apply a configuration set to an email by including a
+reference to the configuration set in the headers of the email. When you apply a
+configuration set to an email, all of the rules in that configuration set are applied to
+the email.
 
 # Required Parameters
 - `ConfigurationSetName`: The name of the configuration set that you want to delete.
@@ -188,10 +270,15 @@ delete_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}
 """
     DeleteConfigurationSetEventDestination()
 
-Delete an event destination.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+Delete an event destination.  Events include message sends, deliveries, opens, clicks,
+bounces, and complaints. Event destinations are places that you can send information about
+these events to. For example, you can send event data to Amazon SNS to receive
+notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data
+Firehose to stream data to Amazon S3 for long-term storage.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that contains the event destination that you want to delete.
+- `ConfigurationSetName`: The name of the configuration set that contains the event
+  destination that you want to delete.
 - `EventDestinationName`: The name of the event destination that you want to delete.
 
 """
@@ -226,10 +313,13 @@ delete_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_conf
 """
     DeleteCustomVerificationEmailTemplate()
 
-Deletes an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Deletes an existing custom verification email template. For more information about custom
+verification email templates, see Using Custom Verification Email Templates in the Amazon
+SES Developer Guide. You can execute this operation no more than once per second.
 
 # Required Parameters
-- `TemplateName`: The name of the custom verification email template that you want to delete.
+- `TemplateName`: The name of the custom verification email template that you want to
+  delete.
 
 """
 delete_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/custom-verification-email-templates/$(TemplateName)"; aws_config=aws_config)
@@ -253,7 +343,8 @@ delete_dedicated_ip_pool(PoolName, args::AbstractDict{String, <:Any}; aws_config
 Deletes an email identity. An identity can be either an email address or a domain name.
 
 # Required Parameters
-- `EmailIdentity`: The identity (that is, the email address or domain) that you want to delete.
+- `EmailIdentity`: The identity (that is, the email address or domain) that you want to
+  delete.
 
 """
 delete_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)"; aws_config=aws_config)
@@ -262,11 +353,18 @@ delete_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_conf
 """
     DeleteEmailIdentityPolicy()
 
-Deletes the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Deletes the specified sending authorization policy for the given identity (an email address
+or a domain). This API returns successfully even if a policy with the specified name does
+not exist.  This API is for the identity owner only. If you have not verified the identity,
+this API will return an error.  Sending authorization is a feature that enables an identity
+owner to authorize other senders to use its identities. For information about using sending
+authorization, see the Amazon SES Developer Guide. You can execute this operation no more
+than once per second.
 
 # Required Parameters
 - `EmailIdentity`: The email identity for which you want to delete a policy.
-- `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+- `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can
+  only include alphanumeric characters, dashes, and underscores.
 
 """
 delete_email_identity_policy(EmailIdentity, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)"; aws_config=aws_config)
@@ -290,7 +388,8 @@ delete_email_template(TemplateName, args::AbstractDict{String, <:Any}; aws_confi
 Removes an email address from the suppression list for your account.
 
 # Required Parameters
-- `EmailAddress`: The suppressed email destination to remove from the account suppression list.
+- `EmailAddress`: The suppressed email destination to remove from the account suppression
+  list.
 
 """
 delete_suppressed_destination(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/suppression/addresses/$(EmailAddress)"; aws_config=aws_config)
@@ -299,7 +398,8 @@ delete_suppressed_destination(EmailAddress, args::AbstractDict{String, <:Any}; a
 """
     GetAccount()
 
-Obtain information about the email-sending status and capabilities of your Amazon SES account in the current AWS Region.
+Obtain information about the email-sending status and capabilities of your Amazon SES
+account in the current AWS Region.
 
 """
 get_account(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/account"; aws_config=aws_config)
@@ -311,7 +411,9 @@ get_account(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=globa
 Retrieve a list of the blacklists that your dedicated IP addresses appear on.
 
 # Required Parameters
-- `BlacklistItemNames`: A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon SES or Amazon Pinpoint.
+- `BlacklistItemNames`: A list of IP addresses that you want to retrieve blacklist
+  information about. You can only specify the dedicated IP addresses that you use to send
+  email using Amazon SES or Amazon Pinpoint.
 
 """
 get_blacklist_reports(BlacklistItemNames; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report", Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames); aws_config=aws_config)
@@ -320,10 +422,16 @@ get_blacklist_reports(BlacklistItemNames, args::AbstractDict{String, <:Any}; aws
 """
     GetConfigurationSet()
 
-Get information about an existing configuration set, including the dedicated IP pool that it's associated with, whether or not it's enabled for sending email, and more.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
+Get information about an existing configuration set, including the dedicated IP pool that
+it's associated with, whether or not it's enabled for sending email, and more.
+Configuration sets are groups of rules that you can apply to the emails you send. You apply
+a configuration set to an email by including a reference to the configuration set in the
+headers of the email. When you apply a configuration set to an email, all of the rules in
+that configuration set are applied to the email.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to obtain more information about.
+- `ConfigurationSetName`: The name of the configuration set that you want to obtain more
+  information about.
 
 """
 get_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
@@ -332,10 +440,16 @@ get_configuration_set(ConfigurationSetName, args::AbstractDict{String, <:Any}; a
 """
     GetConfigurationSetEventDestinations()
 
-Retrieve a list of event destinations that are associated with a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+Retrieve a list of event destinations that are associated with a configuration set.  Events
+include message sends, deliveries, opens, clicks, bounces, and complaints. Event
+destinations are places that you can send information about these events to. For example,
+you can send event data to Amazon SNS to receive notifications when you receive bounces or
+complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for
+long-term storage.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that contains the event destination.
+- `ConfigurationSetName`: The name of the configuration set that contains the event
+  destination.
 
 """
 get_configuration_set_event_destinations(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations"; aws_config=aws_config)
@@ -357,7 +471,8 @@ get_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aw
 """
     GetContactList()
 
-Returns contact list metadata. It does not return any information about the contacts present in the list.
+Returns contact list metadata. It does not return any information about the contacts
+present in the list.
 
 # Required Parameters
 - `ContactListName`: The name of the contact list.
@@ -369,10 +484,14 @@ get_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config:
 """
     GetCustomVerificationEmailTemplate()
 
-Returns the custom email verification template for the template name you specify. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Returns the custom email verification template for the template name you specify. For more
+information about custom verification email templates, see Using Custom Verification Email
+Templates in the Amazon SES Developer Guide. You can execute this operation no more than
+once per second.
 
 # Required Parameters
-- `TemplateName`: The name of the custom verification email template that you want to retrieve.
+- `TemplateName`: The name of the custom verification email template that you want to
+  retrieve.
 
 """
 get_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates/$(TemplateName)"; aws_config=aws_config)
@@ -381,10 +500,13 @@ get_custom_verification_email_template(TemplateName, args::AbstractDict{String, 
 """
     GetDedicatedIp()
 
-Get information about a dedicated IP address, including the name of the dedicated IP pool that it's associated with, as well information about the automatic warm-up process for the address.
+Get information about a dedicated IP address, including the name of the dedicated IP pool
+that it's associated with, as well information about the automatic warm-up process for the
+address.
 
 # Required Parameters
-- `IP`: The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your AWS account.
+- `IP`: The IP address that you want to obtain more information about. The value you
+  specify has to be a dedicated IP address that's assocaited with your AWS account.
 
 """
 get_dedicated_ip(IP; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips/$(IP)"; aws_config=aws_config)
@@ -396,8 +518,11 @@ get_dedicated_ip(IP, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 List the dedicated IP addresses that are associated with your AWS account.
 
 # Optional Parameters
-- `NextToken`: A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
-- `PageSize`: The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+- `NextToken`: A token returned from a previous call to GetDedicatedIps to indicate the
+  position of the dedicated IP pool in the list of IP pools.
+- `PageSize`: The number of results to show in a single call to GetDedicatedIpsRequest. If
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a NextToken element, which you can use to obtain additional results.
 - `PoolName`: The name of the IP pool that the dedicated IP address is associated with.
 """
 get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips"; aws_config=aws_config)
@@ -406,7 +531,13 @@ get_dedicated_ips(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 """
     GetDeliverabilityDashboardOptions()
 
-Retrieve information about the status of the Deliverability dashboard for your account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+Retrieve information about the status of the Deliverability dashboard for your account.
+When the Deliverability dashboard is enabled, you gain access to reputation,
+deliverability, and other metrics for the domains that you use to send email. You also gain
+the ability to perform predictive inbox placement tests. When you use the Deliverability
+dashboard, you pay a monthly subscription charge, in addition to any other fees that you
+accrue by using Amazon SES and other AWS services. For more information about the features
+and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
 
 """
 get_deliverability_dashboard_options(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard"; aws_config=aws_config)
@@ -427,10 +558,13 @@ get_deliverability_test_report(ReportId, args::AbstractDict{String, <:Any}; aws_
 """
     GetDomainDeliverabilityCampaign()
 
-Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
+Retrieve all the deliverability data for a specific campaign. This data is available for a
+campaign only if the campaign sent email by using a domain that the Deliverability
+dashboard is enabled for.
 
 # Required Parameters
-- `CampaignId`: The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
+- `CampaignId`: The unique identifier for the campaign. The Deliverability dashboard
+  automatically generates and assigns this identifier to a campaign.
 
 """
 get_domain_deliverability_campaign(CampaignId; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/$(CampaignId)"; aws_config=aws_config)
@@ -443,8 +577,11 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
 
 # Required Parameters
 - `Domain`: The domain that you want to obtain deliverability metrics for.
-- `EndDate`: The last day (in Unix time) that you want to obtain domain deliverability metrics for. The EndDate that you specify has to be less than or equal to 30 days after the StartDate.
-- `StartDate`: The first day (in Unix time) that you want to obtain domain deliverability metrics for.
+- `EndDate`: The last day (in Unix time) that you want to obtain domain deliverability
+  metrics for. The EndDate that you specify has to be less than or equal to 30 days after the
+  StartDate.
+- `StartDate`: The first day (in Unix time) that you want to obtain domain deliverability
+  metrics for.
 
 """
 get_domain_statistics_report(Domain, EndDate, StartDate; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate); aws_config=aws_config)
@@ -453,7 +590,9 @@ get_domain_statistics_report(Domain, EndDate, StartDate, args::AbstractDict{Stri
 """
     GetEmailIdentity()
 
-Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings.
+Provides information about a specific identity, including the identity's verification
+status, sending authorization policies, its DKIM authentication status, and its custom
+Mail-From settings.
 
 # Required Parameters
 - `EmailIdentity`: The email identity that you want to retrieve details for.
@@ -465,7 +604,13 @@ get_email_identity(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config:
 """
     GetEmailIdentityPolicies()
 
-Returns the requested sending authorization policies for the given identity (an email address or a domain). The policies are returned as a map of policy names to policy contents. You can retrieve a maximum of 20 policies at a time.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Returns the requested sending authorization policies for the given identity (an email
+address or a domain). The policies are returned as a map of policy names to policy
+contents. You can retrieve a maximum of 20 policies at a time.  This API is for the
+identity owner only. If you have not verified the identity, this API will return an error.
+Sending authorization is a feature that enables an identity owner to authorize other
+senders to use its identities. For information about using sending authorization, see the
+Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 # Required Parameters
 - `EmailIdentity`: The email identity that you want to retrieve policies for.
@@ -477,7 +622,8 @@ get_email_identity_policies(EmailIdentity, args::AbstractDict{String, <:Any}; aw
 """
     GetEmailTemplate()
 
-Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
+Displays the template object (which includes the subject line, HTML part and text part) for
+the template you specify. You can execute this operation no more than once per second.
 
 # Required Parameters
 - `TemplateName`: The name of the template you want to retrieve.
@@ -501,7 +647,8 @@ get_import_job(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     GetSuppressedDestination()
 
-Retrieves information about a specific email address that's on the suppression list for your account.
+Retrieves information about a specific email address that's on the suppression list for
+your account.
 
 # Required Parameters
 - `EmailAddress`: The email address that's on the account suppression list.
@@ -513,11 +660,18 @@ get_suppressed_destination(EmailAddress, args::AbstractDict{String, <:Any}; aws_
 """
     ListConfigurationSets()
 
-List all of the configuration sets associated with your account in the current region.  Configuration sets are groups of rules that you can apply to the emails you send. You apply a configuration set to an email by including a reference to the configuration set in the headers of the email. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
+List all of the configuration sets associated with your account in the current region.
+Configuration sets are groups of rules that you can apply to the emails you send. You apply
+a configuration set to an email by including a reference to the configuration set in the
+headers of the email. When you apply a configuration set to an email, all of the rules in
+that configuration set are applied to the email.
 
 # Optional Parameters
-- `NextToken`: A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
-- `PageSize`: The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+- `NextToken`: A token returned from a previous call to ListConfigurationSets to indicate
+  the position in the list of configuration sets.
+- `PageSize`: The number of results to show in a single call to ListConfigurationSets. If
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a NextToken element, which you can use to obtain additional results.
 """
 list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets"; aws_config=aws_config)
 list_configuration_sets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets", args; aws_config=aws_config)
@@ -528,8 +682,14 @@ list_configuration_sets(args::AbstractDict{String, Any}; aws_config::AbstractAWS
 Lists all of the contact lists available.
 
 # Optional Parameters
-- `NextToken`: A string token indicating that there might be additional contact lists available to be listed. Use the token provided in the Response to use in the subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
-- `PageSize`: Maximum number of contact lists to return at once. Use this parameter to paginate results. If additional contact lists exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional lists.
+- `NextToken`: A string token indicating that there might be additional contact lists
+  available to be listed. Use the token provided in the Response to use in the subsequent
+  call to ListContactLists with the same parameters to retrieve the next page of contact
+  lists.
+- `PageSize`: Maximum number of contact lists to return at once. Use this parameter to
+  paginate results. If additional contact lists exist beyond the specified limit, the
+  NextToken element is sent in the response. Use the NextToken value in subsequent requests
+  to retrieve additional lists.
 """
 list_contact_lists(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists"; aws_config=aws_config)
 list_contact_lists(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists", args; aws_config=aws_config)
@@ -544,8 +704,14 @@ Lists the contacts present in a specific contact list.
 
 # Optional Parameters
 - `Filter`: A filter that can be applied to a list of contacts.
-- `NextToken`: A string token indicating that there might be additional contacts available to be listed. Use the token provided in the Response to use in the subsequent call to ListContacts with the same parameters to retrieve the next page of contacts.
-- `PageSize`: The number of contacts that may be returned at once, which is dependent on if there are more or less contacts than the value of the PageSize. Use this parameter to paginate results. If additional contacts exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional contacts.
+- `NextToken`: A string token indicating that there might be additional contacts available
+  to be listed. Use the token provided in the Response to use in the subsequent call to
+  ListContacts with the same parameters to retrieve the next page of contacts.
+- `PageSize`: The number of contacts that may be returned at once, which is dependent on if
+  there are more or less contacts than the value of the PageSize. Use this parameter to
+  paginate results. If additional contacts exist beyond the specified limit, the NextToken
+  element is sent in the response. Use the NextToken value in subsequent requests to retrieve
+  additional contacts.
 """
 list_contacts(ContactListName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts"; aws_config=aws_config)
 list_contacts(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists/$(ContactListName)/contacts", args; aws_config=aws_config)
@@ -553,11 +719,20 @@ list_contacts(ContactListName, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     ListCustomVerificationEmailTemplates()
 
-Lists the existing custom verification email templates for your account in the current AWS Region. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Lists the existing custom verification email templates for your account in the current AWS
+Region. For more information about custom verification email templates, see Using Custom
+Verification Email Templates in the Amazon SES Developer Guide. You can execute this
+operation no more than once per second.
 
 # Optional Parameters
-- `NextToken`: A token returned from a previous call to ListCustomVerificationEmailTemplates to indicate the position in the list of custom verification email templates.
-- `PageSize`: The number of results to show in a single call to ListCustomVerificationEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
+- `NextToken`: A token returned from a previous call to
+  ListCustomVerificationEmailTemplates to indicate the position in the list of custom
+  verification email templates.
+- `PageSize`: The number of results to show in a single call to
+  ListCustomVerificationEmailTemplates. If the number of results is larger than the number
+  you specified in this parameter, then the response includes a NextToken element, which you
+  can use to obtain additional results. The value you specify has to be at least 1, and can
+  be no more than 50.
 """
 list_custom_verification_email_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates"; aws_config=aws_config)
 list_custom_verification_email_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates", args; aws_config=aws_config)
@@ -568,8 +743,11 @@ list_custom_verification_email_templates(args::AbstractDict{String, Any}; aws_co
 List all of the dedicated IP pools that exist in your AWS account in the current Region.
 
 # Optional Parameters
-- `NextToken`: A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
-- `PageSize`: The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+- `NextToken`: A token returned from a previous call to ListDedicatedIpPools to indicate
+  the position in the list of dedicated IP pools.
+- `PageSize`: The number of results to show in a single call to ListDedicatedIpPools. If
+  the number of results is larger than the number you specified in this parameter, then the
+  response includes a NextToken element, which you can use to obtain additional results.
 """
 list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools"; aws_config=aws_config)
 list_dedicated_ip_pools(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools", args; aws_config=aws_config)
@@ -577,11 +755,18 @@ list_dedicated_ip_pools(args::AbstractDict{String, Any}; aws_config::AbstractAWS
 """
     ListDeliverabilityTestReports()
 
-Show a list of the predictive inbox placement tests that you've performed, regardless of their statuses. For predictive inbox placement tests that are complete, you can use the GetDeliverabilityTestReport operation to view the results.
+Show a list of the predictive inbox placement tests that you've performed, regardless of
+their statuses. For predictive inbox placement tests that are complete, you can use the
+GetDeliverabilityTestReport operation to view the results.
 
 # Optional Parameters
-- `NextToken`: A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
-- `PageSize`: The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
+- `NextToken`: A token returned from a previous call to ListDeliverabilityTestReports to
+  indicate the position in the list of predictive inbox placement tests.
+- `PageSize`: The number of results to show in a single call to
+  ListDeliverabilityTestReports. If the number of results is larger than the number you
+  specified in this parameter, then the response includes a NextToken element, which you can
+  use to obtain additional results. The value you specify has to be at least 0, and can be no
+  more than 1000.
 """
 list_deliverability_test_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports"; aws_config=aws_config)
 list_deliverability_test_reports(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports", args; aws_config=aws_config)
@@ -589,16 +774,26 @@ list_deliverability_test_reports(args::AbstractDict{String, Any}; aws_config::Ab
 """
     ListDomainDeliverabilityCampaigns()
 
-Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
+Retrieve deliverability data for all the campaigns that used a specific domain to send
+email during a specified time range. This data is available for a domain only if you
+enabled the Deliverability dashboard for the domain.
 
 # Required Parameters
-- `EndDate`: The last day, in Unix time format, that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
-- `StartDate`: The first day, in Unix time format, that you want to obtain deliverability data for.
+- `EndDate`: The last day, in Unix time format, that you want to obtain deliverability data
+  for. This value has to be less than or equal to 30 days after the value of the StartDate
+  parameter.
+- `StartDate`: The first day, in Unix time format, that you want to obtain deliverability
+  data for.
 - `SubscribedDomain`: The domain to obtain deliverability data for.
 
 # Optional Parameters
-- `NextToken`: A token that’s returned from a previous call to the ListDomainDeliverabilityCampaigns operation. This token indicates the position of a campaign in the list of campaigns.
-- `PageSize`: The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results.
+- `NextToken`: A token that’s returned from a previous call to the
+  ListDomainDeliverabilityCampaigns operation. This token indicates the position of a
+  campaign in the list of campaigns.
+- `PageSize`: The maximum number of results to include in response to a single call to the
+  ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the
+  number that you specify in this parameter, the response includes a NextToken element, which
+  you can use to obtain additional results.
 """
 list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate); aws_config=aws_config)
 list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), args)); aws_config=aws_config)
@@ -606,11 +801,18 @@ list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain, args:
 """
     ListEmailIdentities()
 
-Returns a list of all of the email identities that are associated with your AWS account. An identity can be either an email address or a domain. This operation returns identities that are verified as well as those that aren't. This operation returns identities that are associated with Amazon SES and Amazon Pinpoint.
+Returns a list of all of the email identities that are associated with your AWS account. An
+identity can be either an email address or a domain. This operation returns identities that
+are verified as well as those that aren't. This operation returns identities that are
+associated with Amazon SES and Amazon Pinpoint.
 
 # Optional Parameters
-- `NextToken`: A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
-- `PageSize`: The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
+- `NextToken`: A token returned from a previous call to ListEmailIdentities to indicate the
+  position in the list of identities.
+- `PageSize`: The number of results to show in a single call to ListEmailIdentities. If the
+  number of results is larger than the number you specified in this parameter, then the
+  response includes a NextToken element, which you can use to obtain additional results. The
+  value you specify has to be at least 0, and can be no more than 1000.
 """
 list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities"; aws_config=aws_config)
 list_email_identities(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities", args; aws_config=aws_config)
@@ -618,11 +820,16 @@ list_email_identities(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 """
     ListEmailTemplates()
 
-Lists the email templates present in your Amazon SES account in the current AWS Region. You can execute this operation no more than once per second.
+Lists the email templates present in your Amazon SES account in the current AWS Region. You
+can execute this operation no more than once per second.
 
 # Optional Parameters
-- `NextToken`: A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
-- `PageSize`: The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 10.
+- `NextToken`: A token returned from a previous call to ListEmailTemplates to indicate the
+  position in the list of email templates.
+- `PageSize`: The number of results to show in a single call to ListEmailTemplates. If the
+  number of results is larger than the number you specified in this parameter, then the
+  response includes a NextToken element, which you can use to obtain additional results. The
+  value you specify has to be at least 1, and can be no more than 10.
 """
 list_email_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates"; aws_config=aws_config)
 list_email_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates", args; aws_config=aws_config)
@@ -633,9 +840,15 @@ list_email_templates(args::AbstractDict{String, Any}; aws_config::AbstractAWSCon
 Lists all of the import jobs.
 
 # Optional Parameters
-- `ImportDestinationType`: The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType.
-- `NextToken`: A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
-- `PageSize`: Maximum number of import jobs to return at once. Use this parameter to paginate results. If additional import jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional addresses.
+- `ImportDestinationType`: The destination of the import job, which can be used to list
+  import jobs that have a certain ImportDestinationType.
+- `NextToken`: A string token indicating that there might be additional import jobs
+  available to be listed. Copy this token to a subsequent call to ListImportJobs with the
+  same parameters to retrieve the next page of import jobs.
+- `PageSize`: Maximum number of import jobs to return at once. Use this parameter to
+  paginate results. If additional import jobs exist beyond the specified limit, the NextToken
+  element is sent in the response. Use the NextToken value in subsequent requests to retrieve
+  additional addresses.
 """
 list_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs"; aws_config=aws_config)
 list_import_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs", args; aws_config=aws_config)
@@ -646,11 +859,18 @@ list_import_jobs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=
 Retrieves a list of email addresses that are on the suppression list for your account.
 
 # Optional Parameters
-- `EndDate`: Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date. The date that you specify should be in Unix time format.
-- `NextToken`: A token returned from a previous call to ListSuppressedDestinations to indicate the position in the list of suppressed email addresses.
-- `PageSize`: The number of results to show in a single call to ListSuppressedDestinations. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+- `EndDate`: Used to filter the list of suppressed email destinations so that it only
+  includes addresses that were added to the list before a specific date. The date that you
+  specify should be in Unix time format.
+- `NextToken`: A token returned from a previous call to ListSuppressedDestinations to
+  indicate the position in the list of suppressed email addresses.
+- `PageSize`: The number of results to show in a single call to ListSuppressedDestinations.
+  If the number of results is larger than the number you specified in this parameter, then
+  the response includes a NextToken element, which you can use to obtain additional results.
 - `Reason`: The factors that caused the email address to be added to .
-- `StartDate`: Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date. The date that you specify should be in Unix time format.
+- `StartDate`: Used to filter the list of suppressed email destinations so that it only
+  includes addresses that were added to the list after a specific date. The date that you
+  specify should be in Unix time format.
 """
 list_suppressed_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses"; aws_config=aws_config)
 list_suppressed_destinations(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses", args; aws_config=aws_config)
@@ -658,10 +878,15 @@ list_suppressed_destinations(args::AbstractDict{String, Any}; aws_config::Abstra
 """
     ListTagsForResource()
 
-Retrieve a list of the tags (keys and values) that are associated with a specified resource. A tag is a label that you optionally define and associate with a resource. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
+Retrieve a list of the tags (keys and values) that are associated with a specified
+resource. A tag is a label that you optionally define and associate with a resource. Each
+tag consists of a required tag key and an optional associated tag value. A tag key is a
+general label that acts as a category for more specific tag values. A tag value acts as a
+descriptor within a tag key.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource that you want to retrieve
+  tag information for.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
@@ -673,7 +898,9 @@ list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_confi
 Enable or disable the automatic warm-up feature for dedicated IP addresses.
 
 # Optional Parameters
-- `AutoWarmupEnabled`: Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
+- `AutoWarmupEnabled`: Enables or disables the automatic warm-up feature for dedicated IP
+  addresses that are associated with your Amazon SES account in the current AWS Region. Set
+  to true to enable the automatic warm-up feature, or set to false to disable it.
 """
 put_account_dedicated_ip_warmup_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup"; aws_config=aws_config)
 put_account_dedicated_ip_warmup_attributes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup", args; aws_config=aws_config)
@@ -686,12 +913,21 @@ Update your Amazon SES account details.
 # Required Parameters
 - `MailType`: The type of email your account will send.
 - `UseCaseDescription`: A description of the types of email that you plan to send.
-- `WebsiteURL`: The URL of your website. This information helps us better understand the type of content that you plan to send.
+- `WebsiteURL`: The URL of your website. This information helps us better understand the
+  type of content that you plan to send.
 
 # Optional Parameters
-- `AdditionalContactEmailAddresses`: Additional email addresses that you would like to be notified regarding Amazon SES matters.
+- `AdditionalContactEmailAddresses`: Additional email addresses that you would like to be
+  notified regarding Amazon SES matters.
 - `ContactLanguage`: The language you would prefer to be contacted with.
-- `ProductionAccessEnabled`: Indicates whether or not your account should have production access in the current AWS Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
+- `ProductionAccessEnabled`: Indicates whether or not your account should have production
+  access in the current AWS Region. If the value is false, then your account is in the
+  sandbox. When your account is in the sandbox, you can only send email to verified
+  identities. Additionally, the maximum number of emails you can send in a 24-hour period
+  (your sending quota) is 200, and the maximum number of emails you can send per second (your
+  maximum sending rate) is 1. If the value is true, then your account has production access.
+  When your account has production access, you can send email to any address. The sending
+  quota and maximum sending rate for your account vary based on your specific use case.
 """
 put_account_details(MailType, UseCaseDescription, WebsiteURL; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/account/details", Dict{String, Any}("MailType"=>MailType, "UseCaseDescription"=>UseCaseDescription, "WebsiteURL"=>WebsiteURL); aws_config=aws_config)
 put_account_details(MailType, UseCaseDescription, WebsiteURL, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/account/details", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MailType"=>MailType, "UseCaseDescription"=>UseCaseDescription, "WebsiteURL"=>WebsiteURL), args)); aws_config=aws_config)
@@ -702,7 +938,10 @@ put_account_details(MailType, UseCaseDescription, WebsiteURL, args::AbstractDict
 Enable or disable the ability of your account to send email.
 
 # Optional Parameters
-- `SendingEnabled`: Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending.  If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email. 
+- `SendingEnabled`: Enables or disables your account's ability to send email. Set to true
+  to enable email sending, or set to false to disable email sending.  If AWS paused your
+  account's ability to send email, you can't use this operation to resume your account's
+  ability to send email.
 """
 put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending"; aws_config=aws_config)
 put_account_sending_attributes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending", args; aws_config=aws_config)
@@ -713,7 +952,12 @@ put_account_sending_attributes(args::AbstractDict{String, Any}; aws_config::Abst
 Change the settings for the account-level suppression list.
 
 # Optional Parameters
-- `SuppressedReasons`: A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
+- `SuppressedReasons`: A list that contains the reasons that email addresses will be
+  automatically added to the suppression list for your account. This list can contain any or
+  all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression
+  list for your account when a message sent to that address results in a complaint.    BOUNCE
+  – Amazon SES adds an email address to the suppression list for your account when a
+  message sent to that address results in a hard bounce.
 """
 put_account_suppression_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression"; aws_config=aws_config)
 put_account_suppression_attributes(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression", args; aws_config=aws_config)
@@ -721,14 +965,20 @@ put_account_suppression_attributes(args::AbstractDict{String, Any}; aws_config::
 """
     PutConfigurationSetDeliveryOptions()
 
-Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.
+Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to
+create groups of dedicated IP addresses for sending specific types of email.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to associate with a dedicated IP pool.
+- `ConfigurationSetName`: The name of the configuration set that you want to associate with
+  a dedicated IP pool.
 
 # Optional Parameters
-- `SendingPoolName`: The name of the dedicated IP pool that you want to associate with the configuration set.
-- `TlsPolicy`: Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
+- `SendingPoolName`: The name of the dedicated IP pool that you want to associate with the
+  configuration set.
+- `TlsPolicy`: Specifies whether messages that use the configuration set are required to
+  use Transport Layer Security (TLS). If the value is Require, messages are only delivered if
+  a TLS connection can be established. If the value is Optional, messages can be delivered in
+  plain text if a TLS connection can't be established.
 """
 put_configuration_set_delivery_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options"; aws_config=aws_config)
 put_configuration_set_delivery_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options", args; aws_config=aws_config)
@@ -736,13 +986,17 @@ put_configuration_set_delivery_options(ConfigurationSetName, args::AbstractDict{
 """
     PutConfigurationSetReputationOptions()
 
-Enable or disable collection of reputation metrics for emails that you send using a particular configuration set in a specific AWS Region.
+Enable or disable collection of reputation metrics for emails that you send using a
+particular configuration set in a specific AWS Region.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to enable or disable reputation metric tracking for.
+- `ConfigurationSetName`: The name of the configuration set that you want to enable or
+  disable reputation metric tracking for.
 
 # Optional Parameters
-- `ReputationMetricsEnabled`: If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
+- `ReputationMetricsEnabled`: If true, tracking of reputation metrics is enabled for the
+  configuration set. If false, tracking of reputation metrics is disabled for the
+  configuration set.
 """
 put_configuration_set_reputation_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options"; aws_config=aws_config)
 put_configuration_set_reputation_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options", args; aws_config=aws_config)
@@ -750,13 +1004,16 @@ put_configuration_set_reputation_options(ConfigurationSetName, args::AbstractDic
 """
     PutConfigurationSetSendingOptions()
 
-Enable or disable email sending for messages that use a particular configuration set in a specific AWS Region.
+Enable or disable email sending for messages that use a particular configuration set in a
+specific AWS Region.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to enable or disable email sending for.
+- `ConfigurationSetName`: The name of the configuration set that you want to enable or
+  disable email sending for.
 
 # Optional Parameters
-- `SendingEnabled`: If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
+- `SendingEnabled`: If true, email sending is enabled for the configuration set. If false,
+  email sending is disabled for the configuration set.
 """
 put_configuration_set_sending_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending"; aws_config=aws_config)
 put_configuration_set_sending_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending", args; aws_config=aws_config)
@@ -767,10 +1024,16 @@ put_configuration_set_sending_options(ConfigurationSetName, args::AbstractDict{S
 Specify the account suppression list preferences for a configuration set.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to change the suppression list preferences for.
+- `ConfigurationSetName`: The name of the configuration set that you want to change the
+  suppression list preferences for.
 
 # Optional Parameters
-- `SuppressedReasons`: A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  
+- `SuppressedReasons`: A list that contains the reasons that email addresses are
+  automatically added to the suppression list for your account. This list can contain any or
+  all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression
+  list for your account when a message sent to that address results in a complaint.    BOUNCE
+  – Amazon SES adds an email address to the suppression list for your account when a
+  message sent to that address results in a hard bounce.
 """
 put_configuration_set_suppression_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options"; aws_config=aws_config)
 put_configuration_set_suppression_options(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options", args; aws_config=aws_config)
@@ -781,7 +1044,8 @@ put_configuration_set_suppression_options(ConfigurationSetName, args::AbstractDi
 Specify a custom domain to use for open and click tracking elements in email that you send.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to add a custom tracking domain to.
+- `ConfigurationSetName`: The name of the configuration set that you want to add a custom
+  tracking domain to.
 
 # Optional Parameters
 - `CustomRedirectDomain`: The domain that you want to use to track open and click events.
@@ -792,11 +1056,16 @@ put_configuration_set_tracking_options(ConfigurationSetName, args::AbstractDict{
 """
     PutDedicatedIpInPool()
 
-Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address that you specify must already exist, and must be associated with your AWS account.  The dedicated IP pool you specify must already exist. You can create a new pool by using the CreateDedicatedIpPool operation. 
+Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address
+that you specify must already exist, and must be associated with your AWS account.  The
+dedicated IP pool you specify must already exist. You can create a new pool by using the
+CreateDedicatedIpPool operation.
 
 # Required Parameters
-- `DestinationPoolName`: The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
-- `IP`: The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your AWS account.
+- `DestinationPoolName`: The name of the IP pool that you want to add the dedicated IP
+  address to. You have to specify an IP pool that already exists.
+- `IP`: The IP address that you want to move to the dedicated IP pool. The value you
+  specify has to be a dedicated IP address that's associated with your AWS account.
 
 """
 put_dedicated_ip_in_pool(DestinationPoolName, IP; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/pool", Dict{String, Any}("DestinationPoolName"=>DestinationPoolName); aws_config=aws_config)
@@ -809,7 +1078,8 @@ put_dedicated_ip_in_pool(DestinationPoolName, IP, args::AbstractDict{String, <:A
 
 # Required Parameters
 - `IP`: The dedicated IP address that you want to update the warm-up attributes for.
-- `WarmupPercentage`: The warm-up percentage that you want to associate with the dedicated IP address.
+- `WarmupPercentage`: The warm-up percentage that you want to associate with the dedicated
+  IP address.
 
 """
 put_dedicated_ip_warmup_attributes(IP, WarmupPercentage; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}("WarmupPercentage"=>WarmupPercentage); aws_config=aws_config)
@@ -818,13 +1088,21 @@ put_dedicated_ip_warmup_attributes(IP, WarmupPercentage, args::AbstractDict{Stri
 """
     PutDeliverabilityDashboardOption()
 
-Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other AWS services. For more information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
+Enable or disable the Deliverability dashboard. When you enable the Deliverability
+dashboard, you gain access to reputation, deliverability, and other metrics for the domains
+that you use to send email. You also gain the ability to perform predictive inbox placement
+tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in
+addition to any other fees that you accrue by using Amazon SES and other AWS services. For
+more information about the features and cost of a Deliverability dashboard subscription,
+see Amazon SES Pricing.
 
 # Required Parameters
-- `DashboardEnabled`: Specifies whether to enable the Deliverability dashboard. To enable the dashboard, set this value to true.
+- `DashboardEnabled`: Specifies whether to enable the Deliverability dashboard. To enable
+  the dashboard, set this value to true.
 
 # Optional Parameters
-- `SubscribedDomains`: An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
+- `SubscribedDomains`: An array of objects, one for each verified domain that you use to
+  send email and enabled the Deliverability dashboard for.
 """
 put_deliverability_dashboard_option(DashboardEnabled; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/deliverability-dashboard", Dict{String, Any}("DashboardEnabled"=>DashboardEnabled); aws_config=aws_config)
 put_deliverability_dashboard_option(DashboardEnabled, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/deliverability-dashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardEnabled"=>DashboardEnabled), args)); aws_config=aws_config)
@@ -835,10 +1113,12 @@ put_deliverability_dashboard_option(DashboardEnabled, args::AbstractDict{String,
 Used to associate a configuration set with an email identity.
 
 # Required Parameters
-- `EmailIdentity`: The email address or domain that you want to associate with a configuration set.
+- `EmailIdentity`: The email address or domain that you want to associate with a
+  configuration set.
 
 # Optional Parameters
-- `ConfigurationSetName`: The configuration set that you want to associate with an email identity.
+- `ConfigurationSetName`: The configuration set that you want to associate with an email
+  identity.
 """
 put_email_identity_configuration_set_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/configuration-set"; aws_config=aws_config)
 put_email_identity_configuration_set_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/configuration-set", args; aws_config=aws_config)
@@ -852,7 +1132,9 @@ Used to enable or disable DKIM authentication for an email identity.
 - `EmailIdentity`: The email identity that you want to change the DKIM settings for.
 
 # Optional Parameters
-- `SigningEnabled`: Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing.
+- `SigningEnabled`: Sets the DKIM signing configuration for the identity. When you set this
+  value true, then the messages that are sent from the identity are signed using DKIM. If you
+  set this value to false, your messages are sent without DKIM signing.
 """
 put_email_identity_dkim_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim"; aws_config=aws_config)
 put_email_identity_dkim_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim", args; aws_config=aws_config)
@@ -860,14 +1142,24 @@ put_email_identity_dkim_attributes(EmailIdentity, args::AbstractDict{String, <:A
 """
     PutEmailIdentityDkimSigningAttributes()
 
-Used to configure or change the DKIM authentication settings for an email domain identity. You can use this operation to do any of the following:   Update the signing attributes for an identity that uses Bring Your Own DKIM (BYODKIM).   Change from using no DKIM authentication to using Easy DKIM.   Change from using no DKIM authentication to using BYODKIM.   Change from using Easy DKIM to using BYODKIM.   Change from using BYODKIM to using Easy DKIM.  
+Used to configure or change the DKIM authentication settings for an email domain identity.
+You can use this operation to do any of the following:   Update the signing attributes for
+an identity that uses Bring Your Own DKIM (BYODKIM).   Change from using no DKIM
+authentication to using Easy DKIM.   Change from using no DKIM authentication to using
+BYODKIM.   Change from using Easy DKIM to using BYODKIM.   Change from using BYODKIM to
+using Easy DKIM.
 
 # Required Parameters
 - `EmailIdentity`: The email identity that you want to configure DKIM for.
-- `SigningAttributesOrigin`: The method that you want to use to configure DKIM for the identity. There are two possible values:    AWS_SES – Configure DKIM for the identity by using Easy DKIM.    EXTERNAL – Configure DKIM for the identity by using Bring Your Own DKIM (BYODKIM).  
+- `SigningAttributesOrigin`: The method that you want to use to configure DKIM for the
+  identity. There are two possible values:    AWS_SES – Configure DKIM for the identity by
+  using Easy DKIM.    EXTERNAL – Configure DKIM for the identity by using Bring Your Own
+  DKIM (BYODKIM).
 
 # Optional Parameters
-- `SigningAttributes`: An object that contains information about the private key and selector that you want to use to configure DKIM for the identity. This object is only required if you want to configure Bring Your Own DKIM (BYODKIM) for the identity.
+- `SigningAttributes`: An object that contains information about the private key and
+  selector that you want to use to configure DKIM for the identity. This object is only
+  required if you want to configure Bring Your Own DKIM (BYODKIM) for the identity.
 """
 put_email_identity_dkim_signing_attributes(EmailIdentity, SigningAttributesOrigin; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing", Dict{String, Any}("SigningAttributesOrigin"=>SigningAttributesOrigin); aws_config=aws_config)
 put_email_identity_dkim_signing_attributes(EmailIdentity, SigningAttributesOrigin, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SigningAttributesOrigin"=>SigningAttributesOrigin), args)); aws_config=aws_config)
@@ -875,13 +1167,27 @@ put_email_identity_dkim_signing_attributes(EmailIdentity, SigningAttributesOrigi
 """
     PutEmailIdentityFeedbackAttributes()
 
-Used to enable or disable feedback forwarding for an identity. This setting determines what happens when an identity is used to send an email that results in a bounce or complaint event. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
+Used to enable or disable feedback forwarding for an identity. This setting determines what
+happens when an identity is used to send an email that results in a bounce or complaint
+event. If the value is true, you receive email notifications when bounce or complaint
+events occur. These notifications are sent to the address that you specified in the
+Return-Path header of the original email. You're required to have a method of tracking
+bounces and complaints. If you haven't set up another mechanism for receiving bounce or
+complaint notifications (for example, by setting up an event destination), you receive an
+email notification when these events occur (even if this setting is disabled).
 
 # Required Parameters
-- `EmailIdentity`: The email identity that you want to configure bounce and complaint feedback forwarding for.
+- `EmailIdentity`: The email identity that you want to configure bounce and complaint
+  feedback forwarding for.
 
 # Optional Parameters
-- `EmailForwardingEnabled`: Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
+- `EmailForwardingEnabled`: Sets the feedback forwarding configuration for the identity. If
+  the value is true, you receive email notifications when bounce or complaint events occur.
+  These notifications are sent to the address that you specified in the Return-Path header of
+  the original email. You're required to have a method of tracking bounces and complaints. If
+  you haven't set up another mechanism for receiving bounce or complaint notifications (for
+  example, by setting up an event destination), you receive an email notification when these
+  events occur (even if this setting is disabled).
 """
 put_email_identity_feedback_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback"; aws_config=aws_config)
 put_email_identity_feedback_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback", args; aws_config=aws_config)
@@ -892,11 +1198,20 @@ put_email_identity_feedback_attributes(EmailIdentity, args::AbstractDict{String,
 Used to enable or disable the custom Mail-From domain configuration for an email identity.
 
 # Required Parameters
-- `EmailIdentity`: The verified email identity that you want to set up the custom MAIL FROM domain for.
+- `EmailIdentity`: The verified email identity that you want to set up the custom MAIL FROM
+  domain for.
 
 # Optional Parameters
-- `BehaviorOnMxFailure`: The action that you want to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
-- `MailFromDomain`:  The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of the verified identity.   It can't be used to receive email.   It can't be used in a \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.  
+- `BehaviorOnMxFailure`: The action that you want to take if the required MX record isn't
+  found when you send an email. When you set this value to UseDefaultValue, the mail is sent
+  using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the
+  Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver
+  the email. These behaviors are taken when the custom MAIL FROM domain configuration is in
+  the Pending, Failed, and TemporaryFailure states.
+- `MailFromDomain`:  The custom MAIL FROM domain that you want the verified identity to
+  use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of
+  the verified identity.   It can't be used to receive email.   It can't be used in a
+  \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.
 """
 put_email_identity_mail_from_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from"; aws_config=aws_config)
 put_email_identity_mail_from_attributes(EmailIdentity, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from", args; aws_config=aws_config)
@@ -907,8 +1222,10 @@ put_email_identity_mail_from_attributes(EmailIdentity, args::AbstractDict{String
 Adds an email address to the suppression list for your account.
 
 # Required Parameters
-- `EmailAddress`: The email address that should be added to the suppression list for your account.
-- `Reason`: The factors that should cause the email address to be added to the suppression list for your account.
+- `EmailAddress`: The email address that should be added to the suppression list for your
+  account.
+- `Reason`: The factors that should cause the email address to be added to the suppression
+  list for your account.
 
 """
 put_suppressed_destination(EmailAddress, Reason; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/suppression/addresses", Dict{String, Any}("EmailAddress"=>EmailAddress, "Reason"=>Reason); aws_config=aws_config)
@@ -921,16 +1238,40 @@ Composes an email message to multiple destinations.
 
 # Required Parameters
 - `BulkEmailEntries`: The list of bulk email entry objects.
-- `DefaultContent`: An object that contains the body of the message. You can specify a template message.
+- `DefaultContent`: An object that contains the body of the message. You can specify a
+  template message.
 
 # Optional Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to use when sending the email.
-- `DefaultEmailTags`: A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
-- `FeedbackForwardingEmailAddress`: The address that you want bounce and complaint notifications to be sent to.
-- `FeedbackForwardingEmailAddressIdentityArn`: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
-- `FromEmailAddress`: The email address that you want to use as the \"From\" address for the email. The address that you specify has to be verified.
-- `FromEmailAddressIdentityArn`: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
-- `ReplyToAddresses`: The \"Reply-to\" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
+- `ConfigurationSetName`: The name of the configuration set that you want to use when
+  sending the email.
+- `DefaultEmailTags`: A list of tags, in the form of name/value pairs, to apply to an email
+  that you send using the SendEmail operation. Tags correspond to characteristics of the
+  email that you define, so that you can publish email sending events.
+- `FeedbackForwardingEmailAddress`: The address that you want bounce and complaint
+  notifications to be sent to.
+- `FeedbackForwardingEmailAddressIdentityArn`: This parameter is used only for sending
+  authorization. It is the ARN of the identity that is associated with the sending
+  authorization policy that permits you to use the email address specified in the
+  FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which
+  has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it
+  that authorizes you to use feedback@example.com, then you would specify the
+  FeedbackForwardingEmailAddressIdentityArn to be
+  arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
+  FeedbackForwardingEmailAddress to be feedback@example.com. For more information about
+  sending authorization, see the Amazon SES Developer Guide.
+- `FromEmailAddress`: The email address that you want to use as the \"From\" address for
+  the email. The address that you specify has to be verified.
+- `FromEmailAddressIdentityArn`: This parameter is used only for sending authorization. It
+  is the ARN of the identity that is associated with the sending authorization policy that
+  permits you to use the email address specified in the FromEmailAddress parameter. For
+  example, if the owner of example.com (which has ARN
+  arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that
+  authorizes you to use sender@example.com, then you would specify the
+  FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com,
+  and the FromEmailAddress to be sender@example.com. For more information about sending
+  authorization, see the Amazon SES Developer Guide.
+- `ReplyToAddresses`: The \"Reply-to\" email addresses for the message. When the recipient
+  replies to the message, each Reply-to address receives the reply.
 """
 send_bulk_email(BulkEmailEntries, DefaultContent; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-bulk-emails", Dict{String, Any}("BulkEmailEntries"=>BulkEmailEntries, "DefaultContent"=>DefaultContent); aws_config=aws_config)
 send_bulk_email(BulkEmailEntries, DefaultContent, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-bulk-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BulkEmailEntries"=>BulkEmailEntries, "DefaultContent"=>DefaultContent), args)); aws_config=aws_config)
@@ -938,14 +1279,21 @@ send_bulk_email(BulkEmailEntries, DefaultContent, args::AbstractDict{String, <:A
 """
     SendCustomVerificationEmail()
 
-Adds an email address to the list of identities for your Amazon SES account in the current AWS Region and attempts to verify it. As a result of executing this operation, a customized verification email is sent to the specified address. To use this operation, you must first create a custom verification email template. For more information about creating and using custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Adds an email address to the list of identities for your Amazon SES account in the current
+AWS Region and attempts to verify it. As a result of executing this operation, a customized
+verification email is sent to the specified address. To use this operation, you must first
+create a custom verification email template. For more information about creating and using
+custom verification email templates, see Using Custom Verification Email Templates in the
+Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 # Required Parameters
 - `EmailAddress`: The email address to verify.
-- `TemplateName`: The name of the custom verification email template to use when sending the verification email.
+- `TemplateName`: The name of the custom verification email template to use when sending
+  the verification email.
 
 # Optional Parameters
-- `ConfigurationSetName`: Name of a configuration set to use when sending the verification email.
+- `ConfigurationSetName`: Name of a configuration set to use when sending the verification
+  email.
 """
 send_custom_verification_email(EmailAddress, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-custom-verification-emails", Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName); aws_config=aws_config)
 send_custom_verification_email(EmailAddress, TemplateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-custom-verification-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName), args)); aws_config=aws_config)
@@ -953,21 +1301,56 @@ send_custom_verification_email(EmailAddress, TemplateName, args::AbstractDict{St
 """
     SendEmail()
 
-Sends an email message. You can use the Amazon SES API v2 to send two types of messages:    Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.    Raw – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.    Templated – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.  
+Sends an email message. You can use the Amazon SES API v2 to send two types of messages:
+Simple – A standard email message. When you create this type of message, you specify the
+sender, the recipient, and the message body, and Amazon SES assembles the message for you.
+  Raw – A raw, MIME-formatted email message. When you send this type of email, you have
+to specify all of the message headers, as well as the message body. You can use this
+message type to send messages that contain attachments. The message that you specify has to
+be a valid MIME message.    Templated – A message that contains personalization tags.
+When you send this type of email, Amazon SES API v2 automatically replaces the tags with
+values that you specify.
 
 # Required Parameters
-- `Content`: An object that contains the body of the message. You can send either a Simple message Raw message or a template Message.
+- `Content`: An object that contains the body of the message. You can send either a Simple
+  message Raw message or a template Message.
 
 # Optional Parameters
-- `ConfigurationSetName`: The name of the configuration set that you want to use when sending the email.
+- `ConfigurationSetName`: The name of the configuration set that you want to use when
+  sending the email.
 - `Destination`: An object that contains the recipients of the email message.
-- `EmailTags`: A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events. 
-- `FeedbackForwardingEmailAddress`: The address that you want bounce and complaint notifications to be sent to.
-- `FeedbackForwardingEmailAddressIdentityArn`: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use feedback@example.com, then you would specify the FeedbackForwardingEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FeedbackForwardingEmailAddress to be feedback@example.com. For more information about sending authorization, see the Amazon SES Developer Guide.
-- `FromEmailAddress`: The email address that you want to use as the \"From\" address for the email. The address that you specify has to be verified. 
-- `FromEmailAddressIdentityArn`: This parameter is used only for sending authorization. It is the ARN of the identity that is associated with the sending authorization policy that permits you to use the email address specified in the FromEmailAddress parameter. For example, if the owner of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that authorizes you to use sender@example.com, then you would specify the FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and the FromEmailAddress to be sender@example.com. For more information about sending authorization, see the Amazon SES Developer Guide. For Raw emails, the FromEmailAddressIdentityArn value overrides the X-SES-SOURCE-ARN and X-SES-FROM-ARN headers specified in raw email message content.
-- `ListManagementOptions`: An object used to specify a list or topic to which an email belongs, which will be used when a contact chooses to unsubscribe.
-- `ReplyToAddresses`: The \"Reply-to\" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
+- `EmailTags`: A list of tags, in the form of name/value pairs, to apply to an email that
+  you send using the SendEmail operation. Tags correspond to characteristics of the email
+  that you define, so that you can publish email sending events.
+- `FeedbackForwardingEmailAddress`: The address that you want bounce and complaint
+  notifications to be sent to.
+- `FeedbackForwardingEmailAddressIdentityArn`: This parameter is used only for sending
+  authorization. It is the ARN of the identity that is associated with the sending
+  authorization policy that permits you to use the email address specified in the
+  FeedbackForwardingEmailAddress parameter. For example, if the owner of example.com (which
+  has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it
+  that authorizes you to use feedback@example.com, then you would specify the
+  FeedbackForwardingEmailAddressIdentityArn to be
+  arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
+  FeedbackForwardingEmailAddress to be feedback@example.com. For more information about
+  sending authorization, see the Amazon SES Developer Guide.
+- `FromEmailAddress`: The email address that you want to use as the \"From\" address for
+  the email. The address that you specify has to be verified.
+- `FromEmailAddressIdentityArn`: This parameter is used only for sending authorization. It
+  is the ARN of the identity that is associated with the sending authorization policy that
+  permits you to use the email address specified in the FromEmailAddress parameter. For
+  example, if the owner of example.com (which has ARN
+  arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy to it that
+  authorizes you to use sender@example.com, then you would specify the
+  FromEmailAddressIdentityArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com,
+  and the FromEmailAddress to be sender@example.com. For more information about sending
+  authorization, see the Amazon SES Developer Guide. For Raw emails, the
+  FromEmailAddressIdentityArn value overrides the X-SES-SOURCE-ARN and X-SES-FROM-ARN headers
+  specified in raw email message content.
+- `ListManagementOptions`: An object used to specify a list or topic to which an email
+  belongs, which will be used when a contact chooses to unsubscribe.
+- `ReplyToAddresses`: The \"Reply-to\" email addresses for the message. When the recipient
+  replies to the message, each Reply-to address receives the reply.
 """
 send_email(Content; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-emails", Dict{String, Any}("Content"=>Content); aws_config=aws_config)
 send_email(Content, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/outbound-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), args)); aws_config=aws_config)
@@ -975,11 +1358,19 @@ send_email(Content, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     TagResource()
 
-Add one or more tags (keys and values) to a specified resource. A tag is a label that you optionally define and associate with a resource. Tags can help you categorize and manage resources in different ways, such as by purpose, owner, environment, or other criteria. A resource can have as many as 50 tags. Each tag consists of a required tag key and an associated tag value, both of which you define. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
+Add one or more tags (keys and values) to a specified resource. A tag is a label that you
+optionally define and associate with a resource. Tags can help you categorize and manage
+resources in different ways, such as by purpose, owner, environment, or other criteria. A
+resource can have as many as 50 tags. Each tag consists of a required tag key and an
+associated tag value, both of which you define. A tag key is a general label that acts as
+a category for more specific tag values. A tag value acts as a descriptor within a tag key.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource that you want to add one or more tags to.
-- `Tags`: A list of the tags that you want to add to the resource. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource that you want to add one or
+  more tags to.
+- `Tags`: A list of the tags that you want to add to the resource. A tag consists of a
+  required tag key (Key) and an associated tag value (Value). The maximum length of a tag key
+  is 128 characters. The maximum length of a tag value is 256 characters.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("POST", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
@@ -988,10 +1379,13 @@ tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 """
     TestRenderEmailTemplate()
 
-Creates a preview of the MIME content of an email when provided with a template and a set of replacement data. You can execute this operation no more than once per second.
+Creates a preview of the MIME content of an email when provided with a template and a set
+of replacement data. You can execute this operation no more than once per second.
 
 # Required Parameters
-- `TemplateData`: A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
+- `TemplateData`: A list of replacement values to apply to the template. This parameter is
+  a JSON object, typically consisting of key-value pairs in which the keys correspond to
+  replacement tags in the email template.
 - `TemplateName`: The name of the template that you want to render.
 
 """
@@ -1004,8 +1398,13 @@ test_render_email_template(TemplateData, TemplateName, args::AbstractDict{String
 Remove one or more tags (keys and values) from a specified resource.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
-- `TagKeys`: The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v2/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2 
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource that you want to remove one
+  or more tags from.
+- `TagKeys`: The tags (tag keys) that you want to remove from the resource. When you
+  specify a tag key, the action removes both that key and its associated tag value. To remove
+  more than one tag from the resource, append the TagKeys parameter and argument for each
+  additional tag to remove, separated by an ampersand. For example:
+  /v2/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("DELETE", "/v2/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
@@ -1014,10 +1413,15 @@ untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateConfigurationSetEventDestination()
 
-Update the configuration of an event destination for a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+Update the configuration of an event destination for a configuration set.  Events include
+message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are
+places that you can send information about these events to. For example, you can send event
+data to Amazon SNS to receive notifications when you receive bounces or complaints, or you
+can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
 
 # Required Parameters
-- `ConfigurationSetName`: The name of the configuration set that contains the event destination that you want to modify.
+- `ConfigurationSetName`: The name of the configuration set that contains the event
+  destination that you want to modify.
 - `EventDestination`: An object that defines the event destination.
 - `EventDestinationName`: The name of the event destination that you want to modify.
 
@@ -1028,7 +1432,8 @@ update_configuration_set_event_destination(ConfigurationSetName, EventDestinatio
 """
     UpdateContact()
 
-Updates a contact's preferences for a list. It is not necessary to specify all existing topic preferences in the TopicPreferences object, just the ones that need updating.
+Updates a contact's preferences for a list. It is not necessary to specify all existing
+topic preferences in the TopicPreferences object, just the ones that need updating.
 
 # Required Parameters
 - `ContactListName`: The name of the contact list.
@@ -1036,8 +1441,10 @@ Updates a contact's preferences for a list. It is not necessary to specify all e
 
 # Optional Parameters
 - `AttributesData`: The attribute data attached to a contact.
-- `TopicPreferences`: The contact's preference for being opted-in to or opted-out of a topic.
-- `UnsubscribeAll`: A boolean value status noting if the contact is unsubscribed from all contact list topics.
+- `TopicPreferences`: The contact's preference for being opted-in to or opted-out of a
+  topic.
+- `UnsubscribeAll`: A boolean value status noting if the contact is unsubscribed from all
+  contact list topics.
 """
 update_contact(ContactListName, EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)"; aws_config=aws_config)
 update_contact(ContactListName, EmailAddress, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)/contacts/$(EmailAddress)", args; aws_config=aws_config)
@@ -1052,7 +1459,8 @@ Updates contact list metadata. This operation does a complete replacement.
 
 # Optional Parameters
 - `Description`: A description of what the contact list is about.
-- `Topics`: An interest group, theme, or label within a list. A contact list can have multiple topics.
+- `Topics`: An interest group, theme, or label within a list. A contact list can have
+  multiple topics.
 """
 update_contact_list(ContactListName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)"; aws_config=aws_config)
 update_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/contact-lists/$(ContactListName)", args; aws_config=aws_config)
@@ -1060,14 +1468,22 @@ update_contact_list(ContactListName, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateCustomVerificationEmailTemplate()
 
-Updates an existing custom verification email template. For more information about custom verification email templates, see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Updates an existing custom verification email template. For more information about custom
+verification email templates, see Using Custom Verification Email Templates in the Amazon
+SES Developer Guide. You can execute this operation no more than once per second.
 
 # Required Parameters
-- `FailureRedirectionURL`: The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
+- `FailureRedirectionURL`: The URL that the recipient of the verification email is sent to
+  if his or her address is not successfully verified.
 - `FromEmailAddress`: The email address that the custom verification email is sent from.
-- `SuccessRedirectionURL`: The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
-- `TemplateContent`: The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom Verification Email Frequently Asked Questions in the Amazon SES Developer Guide.
-- `TemplateName`: The name of the custom verification email template that you want to update.
+- `SuccessRedirectionURL`: The URL that the recipient of the verification email is sent to
+  if his or her address is successfully verified.
+- `TemplateContent`: The content of the custom verification email. The total size of the
+  email must be less than 10 MB. The message body may contain HTML, with some limitations.
+  For more information, see Custom Verification Email Frequently Asked Questions in the
+  Amazon SES Developer Guide.
+- `TemplateName`: The name of the custom verification email template that you want to
+  update.
 - `TemplateSubject`: The subject line of the custom verification email.
 
 """
@@ -1077,12 +1493,21 @@ update_custom_verification_email_template(FailureRedirectionURL, FromEmailAddres
 """
     UpdateEmailIdentityPolicy()
 
-Updates the specified sending authorization policy for the given identity (an email address or a domain). This API returns successfully even if a policy with the specified name does not exist.  This API is for the identity owner only. If you have not verified the identity, this API will return an error.  Sending authorization is a feature that enables an identity owner to authorize other senders to use its identities. For information about using sending authorization, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Updates the specified sending authorization policy for the given identity (an email address
+or a domain). This API returns successfully even if a policy with the specified name does
+not exist.  This API is for the identity owner only. If you have not verified the identity,
+this API will return an error.  Sending authorization is a feature that enables an identity
+owner to authorize other senders to use its identities. For information about using sending
+authorization, see the Amazon SES Developer Guide. You can execute this operation no more
+than once per second.
 
 # Required Parameters
 - `EmailIdentity`: The email identity for which you want to update policy.
-- `Policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB.  For information about the syntax of sending authorization policies, see the Amazon SES Developer Guide.
-- `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can only include alphanumeric characters, dashes, and underscores.
+- `Policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB.  For
+  information about the syntax of sending authorization policies, see the Amazon SES
+  Developer Guide.
+- `PolicyName`: The name of the policy. The policy name cannot exceed 64 characters and can
+  only include alphanumeric characters, dashes, and underscores.
 
 """
 update_email_identity_policy(EmailIdentity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/policies/$(PolicyName)", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
@@ -1091,10 +1516,13 @@ update_email_identity_policy(EmailIdentity, Policy, PolicyName, args::AbstractDi
 """
     UpdateEmailTemplate()
 
-Updates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Updates an email template. Email templates enable you to send personalized email to one or
+more destinations in a single API operation. For more information, see the Amazon SES
+Developer Guide. You can execute this operation no more than once per second.
 
 # Required Parameters
-- `TemplateContent`: The content of the email template, composed of a subject line, an HTML part, and a text-only part.
+- `TemplateContent`: The content of the email template, composed of a subject line, an HTML
+  part, and a text-only part.
 - `TemplateName`: The name of the template you want to update.
 
 """

@@ -10,14 +10,19 @@ using AWS.UUIDs
 Creates a Savings Plan.
 
 # Required Parameters
-- `commitment`: The hourly commitment, in USD. This is a value between 0.001 and 1 million. You cannot specify more than three digits after the decimal point.
+- `commitment`: The hourly commitment, in USD. This is a value between 0.001 and 1 million.
+  You cannot specify more than three digits after the decimal point.
 - `savingsPlanOfferingId`: The ID of the offering.
 
 # Optional Parameters
-- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
-- `purchaseTime`: The time at which to purchase the Savings Plan, in UTC format (YYYY-MM-DDTHH:MM:SSZ).
+- `clientToken`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `purchaseTime`: The time at which to purchase the Savings Plan, in UTC format
+  (YYYY-MM-DDTHH:MM:SSZ).
 - `tags`: One or more tags.
-- `upfrontPaymentAmount`: The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is supported only if the payment option is Partial Upfront.
+- `upfrontPaymentAmount`: The up-front payment amount. This is a whole number between 50
+  and 99 percent of the total value of the Savings Plan. This parameter is supported only if
+  the payment option is Partial Upfront.
 """
 create_savings_plan(commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "clientToken"=>string(uuid4())); aws_config=aws_config)
 create_savings_plan(commitment, savingsPlanOfferingId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/CreateSavingsPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitment"=>commitment, "savingsPlanOfferingId"=>savingsPlanOfferingId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
@@ -44,7 +49,8 @@ Describes the specified Savings Plans rates.
 
 # Optional Parameters
 - `filters`: The filters.
-- `maxResults`: The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve
+  additional results, make another call with the returned token value.
 - `nextToken`: The token for the next page of results.
 """
 describe_savings_plan_rates(savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlanRates", Dict{String, Any}("savingsPlanId"=>savingsPlanId); aws_config=aws_config)
@@ -57,7 +63,8 @@ Describes the specified Savings Plans.
 
 # Optional Parameters
 - `filters`: The filters.
-- `maxResults`: The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve
+  additional results, make another call with the returned token value.
 - `nextToken`: The token for the next page of results.
 - `savingsPlanArns`: The Amazon Resource Names (ARN) of the Savings Plans.
 - `savingsPlanIds`: The IDs of the Savings Plans.
@@ -73,7 +80,8 @@ Describes the specified Savings Plans offering rates.
 
 # Optional Parameters
 - `filters`: The filters.
-- `maxResults`: The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve
+  additional results, make another call with the returned token value.
 - `nextToken`: The token for the next page of results.
 - `operations`: The specific AWS operation for the line item in the billing report.
 - `products`: The AWS products.
@@ -96,7 +104,8 @@ Describes the specified Savings Plans offerings.
 - `descriptions`: The descriptions.
 - `durations`: The durations, in seconds.
 - `filters`: The filters.
-- `maxResults`: The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
+- `maxResults`: The maximum number of results to return with a single call. To retrieve
+  additional results, make another call with the returned token value.
 - `nextToken`: The token for the next page of results.
 - `offeringIds`: The IDs of the offerings.
 - `operations`: The specific AWS operation for the line item in the billing report.
@@ -128,7 +137,8 @@ Adds the specified tags to the specified resource.
 
 # Required Parameters
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
-- `tags`: One or more tags. For example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+- `tags`: One or more tags. For example, { \"tags\": {\"key1\":\"value1\",
+  \"key2\":\"value2\"} }.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)

@@ -35,7 +35,8 @@ associate_member_to_group(GroupId, MemberId, OrganizationId, args::AbstractDict{
 """
     CancelMailboxExportJob()
 
-Cancels a mailbox export job.  If the mailbox export job is near completion, it might not be possible to cancel it. 
+Cancels a mailbox export job.  If the mailbox export job is near completion, it might not
+be possible to cancel it.
 
 # Required Parameters
 - `ClientToken`: The idempotency token for the client request.
@@ -63,7 +64,8 @@ create_alias(Alias, EntityId, OrganizationId, args::AbstractDict{String, <:Any};
 """
     CreateGroup()
 
-Creates a group that can be used in Amazon WorkMail by calling the RegisterToWorkMail operation.
+Creates a group that can be used in Amazon WorkMail by calling the RegisterToWorkMail
+operation.
 
 # Required Parameters
 - `Name`: The name of the group.
@@ -76,7 +78,18 @@ create_group(Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config
 """
     CreateOrganization()
 
-Creates a new Amazon WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new Amazon WorkMail directory for you. For more information, see Adding an organization in the Amazon WorkMail Administrator Guide. You can associate multiple email domains with an organization, then set your default email domain from the Amazon WorkMail console. You can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For more information, see Adding a domain and Choosing the default domain in the Amazon WorkMail Administrator Guide. Optionally, you can use a customer managed master key from AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, Amazon WorkMail creates a default AWS managed master key for you.
+Creates a new Amazon WorkMail organization. Optionally, you can choose to associate an
+existing AWS Directory Service directory with your organization. If an AWS Directory
+Service directory ID is specified, the organization alias must match the directory alias.
+If you choose not to associate an existing directory with your organization, then we create
+a new Amazon WorkMail directory for you. For more information, see Adding an organization
+in the Amazon WorkMail Administrator Guide. You can associate multiple email domains with
+an organization, then set your default email domain from the Amazon WorkMail console. You
+can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For
+more information, see Adding a domain and Choosing the default domain in the Amazon
+WorkMail Administrator Guide. Optionally, you can use a customer managed master key from
+AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't
+associate an AWS KMS key, Amazon WorkMail creates a default AWS managed master key for you.
 
 # Required Parameters
 - `Alias`: The organization alias.
@@ -85,7 +98,9 @@ Creates a new Amazon WorkMail organization. Optionally, you can choose to associ
 - `ClientToken`: The idempotency token associated with the request.
 - `DirectoryId`: The AWS Directory Service directory ID.
 - `Domains`: The email domains to associate with the organization.
-- `EnableInteroperability`: When true, allows organization interoperability between Amazon WorkMail and Microsoft Exchange. Can only be set to true if an AD Connector directory ID is included in the request.
+- `EnableInteroperability`: When true, allows organization interoperability between Amazon
+  WorkMail and Microsoft Exchange. Can only be set to true if an AD Connector directory ID is
+  included in the request.
 - `KmsKeyArn`: The Amazon Resource Name (ARN) of a customer managed master key from AWS KMS.
 """
 create_organization(Alias; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("CreateOrganization", Dict{String, Any}("Alias"=>Alias, "ClientToken"=>string(uuid4())); aws_config=aws_config)
@@ -94,11 +109,12 @@ create_organization(Alias, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     CreateResource()
 
-Creates a new Amazon WorkMail resource. 
+Creates a new Amazon WorkMail resource.
 
 # Required Parameters
 - `Name`: The name of the new resource.
-- `OrganizationId`: The identifier associated with the organization for which the resource is created.
+- `OrganizationId`: The identifier associated with the organization for which the resource
+  is created.
 - `Type`: The type of the new resource. The available types are equipment and room.
 
 """
@@ -108,11 +124,13 @@ create_resource(Name, OrganizationId, Type, args::AbstractDict{String, <:Any}; a
 """
     CreateUser()
 
-Creates a user who can be used in Amazon WorkMail by calling the RegisterToWorkMail operation.
+Creates a user who can be used in Amazon WorkMail by calling the RegisterToWorkMail
+operation.
 
 # Required Parameters
 - `DisplayName`: The display name for the new user.
-- `Name`: The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20.
+- `Name`: The name for the new user. WorkMail directory user names have a maximum length of
+  64. All others have a maximum length of 20.
 - `OrganizationId`: The identifier of the organization for which the user is created.
 - `Password`: The password for the new user.
 
@@ -139,8 +157,10 @@ delete_access_control_rule(Name, OrganizationId, args::AbstractDict{String, <:An
 Remove one or more specified aliases from a set of aliases for a given user.
 
 # Required Parameters
-- `Alias`: The aliases to be removed from the user's set of aliases. Duplicate entries in the list are collapsed into single entries (the list is transformed into a set).
-- `EntityId`: The identifier for the member (user or group) from which to have the aliases removed.
+- `Alias`: The aliases to be removed from the user's set of aliases. Duplicate entries in
+  the list are collapsed into single entries (the list is transformed into a set).
+- `EntityId`: The identifier for the member (user or group) from which to have the aliases
+  removed.
 - `OrganizationId`: The identifier for the organization under which the user exists.
 
 """
@@ -167,8 +187,10 @@ Deletes permissions granted to a member (user or group).
 
 # Required Parameters
 - `EntityId`: The identifier of the member (user or group) that owns the mailbox.
-- `GranteeId`: The identifier of the member (user or group) for which to delete granted permissions.
-- `OrganizationId`: The identifier of the organization under which the member (user or group) exists.
+- `GranteeId`: The identifier of the member (user or group) for which to delete granted
+  permissions.
+- `OrganizationId`: The identifier of the organization under which the member (user or
+  group) exists.
 
 """
 delete_mailbox_permissions(EntityId, GranteeId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
@@ -177,10 +199,14 @@ delete_mailbox_permissions(EntityId, GranteeId, OrganizationId, args::AbstractDi
 """
     DeleteOrganization()
 
-Deletes an Amazon WorkMail organization and all underlying AWS resources managed by Amazon WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the Amazon WorkMail Administrator Guide.
+Deletes an Amazon WorkMail organization and all underlying AWS resources managed by Amazon
+WorkMail as part of the organization. You can choose whether to delete the associated
+directory. For more information, see Removing an organization in the Amazon WorkMail
+Administrator Guide.
 
 # Required Parameters
-- `DeleteDirectory`: If true, deletes the AWS Directory Service directory associated with the organization.
+- `DeleteDirectory`: If true, deletes the AWS Directory Service directory associated with
+  the organization.
 - `OrganizationId`: The organization ID.
 
 # Optional Parameters
@@ -192,10 +218,11 @@ delete_organization(DeleteDirectory, OrganizationId, args::AbstractDict{String, 
 """
     DeleteResource()
 
-Deletes the specified resource. 
+Deletes the specified resource.
 
 # Required Parameters
-- `OrganizationId`: The identifier associated with the organization from which the resource is deleted.
+- `OrganizationId`: The identifier associated with the organization from which the resource
+  is deleted.
 - `ResourceId`: The identifier of the resource to be deleted.
 
 """
@@ -218,7 +245,10 @@ delete_retention_policy(Id, OrganizationId, args::AbstractDict{String, <:Any}; a
 """
     DeleteUser()
 
-Deletes a user from Amazon WorkMail and all subsequent systems. Before you can delete a user, the user state must be DISABLED. Use the DescribeUser action to confirm the user state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30 days before they are permanently removed.
+Deletes a user from Amazon WorkMail and all subsequent systems. Before you can delete a
+user, the user state must be DISABLED. Use the DescribeUser action to confirm the user
+state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes
+for 30 days before they are permanently removed.
 
 # Required Parameters
 - `OrganizationId`: The organization that contains the user to be deleted.
@@ -231,11 +261,14 @@ delete_user(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_confi
 """
     DeregisterFromWorkMail()
 
-Mark a user, group, or resource as no longer used in Amazon WorkMail. This action disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
+Mark a user, group, or resource as no longer used in Amazon WorkMail. This action
+disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30
+days before they are permanently removed. The functionality in the console is Disable.
 
 # Required Parameters
 - `EntityId`: The identifier for the member (user or group) to be updated.
-- `OrganizationId`: The identifier for the organization under which the Amazon WorkMail entity exists.
+- `OrganizationId`: The identifier for the organization under which the Amazon WorkMail
+  entity exists.
 
 """
 deregister_from_work_mail(EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("DeregisterFromWorkMail", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
@@ -285,7 +318,8 @@ describe_organization(OrganizationId, args::AbstractDict{String, <:Any}; aws_con
 Returns the data available for the resource.
 
 # Required Parameters
-- `OrganizationId`: The identifier associated with the organization for which the resource is described.
+- `OrganizationId`: The identifier associated with the organization for which the resource
+  is described.
 - `ResourceId`: The identifier of the resource to be described.
 
 """
@@ -311,9 +345,11 @@ describe_user(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_con
 Removes a member from the resource's set of delegates.
 
 # Required Parameters
-- `EntityId`: The identifier for the member (user, group) to be removed from the resource's delegates.
+- `EntityId`: The identifier for the member (user, group) to be removed from the resource's
+  delegates.
 - `OrganizationId`: The identifier for the organization under which the resource exists.
-- `ResourceId`: The identifier of the resource from which delegates' set members are removed. 
+- `ResourceId`: The identifier of the resource from which delegates' set members are
+  removed.
 
 """
 disassociate_delegate_from_resource(EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("DisassociateDelegateFromResource", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
@@ -336,10 +372,12 @@ disassociate_member_from_group(GroupId, MemberId, OrganizationId, args::Abstract
 """
     GetAccessControlEffect()
 
-Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, or user ID. 
+Gets the effects of an organization's access control rules as they apply to a specified
+IPv4 address, access protocol action, or user ID.
 
 # Required Parameters
-- `Action`: The access protocol action. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+- `Action`: The access protocol action. Valid values include ActiveSync, AutoDiscover, EWS,
+  IMAP, SMTP, WindowsOutlook, and WebMail.
 - `IpAddress`: The IPv4 address.
 - `OrganizationId`: The identifier for the organization.
 - `UserId`: The user ID.
@@ -366,7 +404,8 @@ get_default_retention_policy(OrganizationId, args::AbstractDict{String, <:Any}; 
 Requests a user's mailbox details for a specified organization and user.
 
 # Required Parameters
-- `OrganizationId`: The identifier for the organization that contains the user whose mailbox details are being requested.
+- `OrganizationId`: The identifier for the organization that contains the user whose
+  mailbox details are being requested.
 - `UserId`: The identifier for the user whose mailbox details are being requested.
 
 """
@@ -396,7 +435,8 @@ Creates a paginated call to list the aliases associated with a given entity.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return in a single call.
-- `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
+- `NextToken`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
 """
 list_aliases(EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListAliases", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_aliases(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
@@ -407,12 +447,14 @@ list_aliases(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_co
 Returns an overview of the members of a group. Users and groups can be members of a group.
 
 # Required Parameters
-- `GroupId`: The identifier for the group to which the members (users or groups) are associated.
+- `GroupId`: The identifier for the group to which the members (users or groups) are
+  associated.
 - `OrganizationId`: The identifier for the organization under which the group exists.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return in a single call.
-- `NextToken`:  The token to use to retrieve the next page of results. The first call does not contain any tokens.
+- `NextToken`:  The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
 """
 list_group_members(GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListGroupMembers", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_group_members(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListGroupMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
@@ -427,7 +469,8 @@ Returns summaries of the organization's groups.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return in a single call.
-- `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
+- `NextToken`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
 """
 list_groups(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListGroups", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_groups(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
@@ -435,7 +478,8 @@ list_groups(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     ListMailboxExportJobs()
 
-Lists the mailbox export jobs started for the specified organization within the last seven days.
+Lists the mailbox export jobs started for the specified organization within the last seven
+days.
 
 # Required Parameters
 - `OrganizationId`: The organization ID.
@@ -453,12 +497,15 @@ list_mailbox_export_jobs(OrganizationId, args::AbstractDict{String, <:Any}; aws_
 Lists the mailbox permissions associated with a user, group, or resource mailbox.
 
 # Required Parameters
-- `EntityId`: The identifier of the user, group, or resource for which to list mailbox permissions.
-- `OrganizationId`: The identifier of the organization under which the user, group, or resource exists.
+- `EntityId`: The identifier of the user, group, or resource for which to list mailbox
+  permissions.
+- `OrganizationId`: The identifier of the organization under which the user, group, or
+  resource exists.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return in a single call.
-- `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
+- `NextToken`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
 """
 list_mailbox_permissions(EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_mailbox_permissions(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
@@ -470,7 +517,8 @@ Returns summaries of the customer's organizations.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return in a single call.
-- `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
+- `NextToken`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
 """
 list_organizations(; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListOrganizations"; aws_config=aws_config)
 list_organizations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListOrganizations", args; aws_config=aws_config)
@@ -478,10 +526,12 @@ list_organizations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     ListResourceDelegates()
 
-Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
+Lists the delegates associated with a resource. Users and groups can be resource delegates
+and answer requests on behalf of the resource.
 
 # Required Parameters
-- `OrganizationId`: The identifier for the organization that contains the resource for which delegates are listed.
+- `OrganizationId`: The identifier for the organization that contains the resource for
+  which delegates are listed.
 - `ResourceId`: The identifier for the resource whose delegates are listed.
 
 # Optional Parameters
@@ -501,7 +551,8 @@ Returns summaries of the organization's resources.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return in a single call.
-- `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
+- `NextToken`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
 """
 list_resources(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListResources", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_resources(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
@@ -528,7 +579,8 @@ Returns summaries of the organization's users.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to return in a single call.
-- `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
+- `NextToken`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
 """
 list_users(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListUsers", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_users(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
@@ -536,7 +588,9 @@ list_users(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     PutAccessControlRule()
 
-Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, and user IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
+Adds a new access control rule for the specified organization. The rule allows or denies
+access to the organization for the specified IPv4 addresses, access protocol actions, and
+user IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
 
 # Required Parameters
 - `Description`: The rule description.
@@ -545,9 +599,11 @@ Adds a new access control rule for the specified organization. The rule allows o
 - `OrganizationId`: The identifier of the organization.
 
 # Optional Parameters
-- `Actions`: Access protocol actions to include in the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+- `Actions`: Access protocol actions to include in the rule. Valid values include
+  ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
 - `IpRanges`: IPv4 CIDR ranges to include in the rule.
-- `NotActions`: Access protocol actions to exclude from the rule. Valid values include ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
+- `NotActions`: Access protocol actions to exclude from the rule. Valid values include
+  ActiveSync, AutoDiscover, EWS, IMAP, SMTP, WindowsOutlook, and WebMail.
 - `NotIpRanges`: IPv4 CIDR ranges to exclude from the rule.
 - `NotUserIds`: User IDs to exclude from the rule.
 - `UserIds`: User IDs to include in the rule.
@@ -561,10 +617,18 @@ put_access_control_rule(Description, Effect, Name, OrganizationId, args::Abstrac
 Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
 
 # Required Parameters
-- `EntityId`: The identifier of the user, group, or resource for which to update mailbox permissions.
-- `GranteeId`: The identifier of the user, group, or resource to which to grant the permissions.
-- `OrganizationId`: The identifier of the organization under which the user, group, or resource exists.
-- `PermissionValues`: The permissions granted to the grantee. SEND_AS allows the grantee to send email as the owner of the mailbox (the grantee is not mentioned on these emails). SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the grantee full access to the mailbox, irrespective of other folder-level permissions set on the mailbox.
+- `EntityId`: The identifier of the user, group, or resource for which to update mailbox
+  permissions.
+- `GranteeId`: The identifier of the user, group, or resource to which to grant the
+  permissions.
+- `OrganizationId`: The identifier of the organization under which the user, group, or
+  resource exists.
+- `PermissionValues`: The permissions granted to the grantee. SEND_AS allows the grantee to
+  send email as the owner of the mailbox (the grantee is not mentioned on these emails).
+  SEND_ON_BEHALF allows the grantee to send email on behalf of the owner of the mailbox (the
+  grantee is not mentioned as the physical sender of these emails). FULL_ACCESS allows the
+  grantee full access to the mailbox, irrespective of other folder-level permissions set on
+  the mailbox.
 
 """
 put_mailbox_permissions(EntityId, GranteeId, OrganizationId, PermissionValues; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("PutMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId, "PermissionValues"=>PermissionValues); aws_config=aws_config)
@@ -590,12 +654,19 @@ put_retention_policy(FolderConfigurations, Name, OrganizationId, args::AbstractD
 """
     RegisterToWorkMail()
 
-Registers an existing and disabled user, group, or resource for Amazon WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the user, group, or resource is enabled and fails if the user, group, or resource is deleted. This operation results in the accumulation of costs. For more information, see Pricing. The equivalent console functionality for this operation is Enable.  Users can either be created by calling the CreateUser API operation or they can be synchronized from your directory. For more information, see DeregisterFromWorkMail.
+Registers an existing and disabled user, group, or resource for Amazon WorkMail use by
+associating a mailbox and calendaring capabilities. It performs no change if the user,
+group, or resource is enabled and fails if the user, group, or resource is deleted. This
+operation results in the accumulation of costs. For more information, see Pricing. The
+equivalent console functionality for this operation is Enable.  Users can either be created
+by calling the CreateUser API operation or they can be synchronized from your directory.
+For more information, see DeregisterFromWorkMail.
 
 # Required Parameters
 - `Email`: The email for the user, group, or resource to be updated.
 - `EntityId`: The identifier for the user, group, or resource to be updated.
-- `OrganizationId`: The identifier for the organization under which the user, group, or resource exists.
+- `OrganizationId`: The identifier for the organization under which the user, group, or
+  resource exists.
 
 """
 register_to_work_mail(Email, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("RegisterToWorkMail", Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
@@ -607,7 +678,8 @@ register_to_work_mail(Email, EntityId, OrganizationId, args::AbstractDict{String
 Allows the administrator to reset the password for a user.
 
 # Required Parameters
-- `OrganizationId`: The identifier of the organization that contains the user for which the password is reset.
+- `OrganizationId`: The identifier of the organization that contains the user for which the
+  password is reset.
 - `Password`: The new password for the user.
 - `UserId`: The identifier of the user for whom the password is reset.
 
@@ -618,14 +690,19 @@ reset_password(OrganizationId, Password, UserId, args::AbstractDict{String, <:An
 """
     StartMailboxExportJob()
 
-Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Exporting mailbox content in the Amazon WorkMail Administrator Guide.
+Starts a mailbox export job to export MIME-format email messages and calendar items from
+the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket.
+For more information, see Exporting mailbox content in the Amazon WorkMail Administrator
+Guide.
 
 # Required Parameters
 - `ClientToken`: The idempotency token for the client request.
 - `EntityId`: The identifier of the user or resource associated with the mailbox.
-- `KmsKeyArn`: The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content.
+- `KmsKeyArn`: The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
+  (AWS KMS) key that encrypts the exported mailbox content.
 - `OrganizationId`: The identifier associated with the organization.
-- `RoleArn`: The ARN of the AWS Identity and Access Management (IAM) role that grants write permission to the S3 bucket.
+- `RoleArn`: The ARN of the AWS Identity and Access Management (IAM) role that grants write
+  permission to the S3 bucket.
 - `S3BucketName`: The name of the S3 bucket.
 - `S3Prefix`: The S3 bucket prefix.
 
@@ -668,7 +745,8 @@ Updates a user's current mailbox quota for a specified organization and user.
 
 # Required Parameters
 - `MailboxQuota`: The updated mailbox quota, in MB, for the specified user.
-- `OrganizationId`: The identifier for the organization that contains the user for whom to update the mailbox quota.
+- `OrganizationId`: The identifier for the organization that contains the user for whom to
+  update the mailbox quota.
 - `UserId`: The identifer for the user for whom to update the mailbox quota.
 
 """
@@ -678,7 +756,9 @@ update_mailbox_quota(MailboxQuota, OrganizationId, UserId, args::AbstractDict{St
 """
     UpdatePrimaryEmailAddress()
 
-Updates the primary email for a user, group, or resource. The current email is moved into the list of aliases (or swapped between an existing alias and the current primary email), and the email provided in the input is promoted as the primary.
+Updates the primary email for a user, group, or resource. The current email is moved into
+the list of aliases (or swapped between an existing alias and the current primary email),
+and the email provided in the input is promoted as the primary.
 
 # Required Parameters
 - `Email`: The value of the email to be updated as primary.
@@ -692,10 +772,13 @@ update_primary_email_address(Email, EntityId, OrganizationId, args::AbstractDict
 """
     UpdateResource()
 
-Updates data for the resource. To have the latest information, it must be preceded by a DescribeResource call. The dataset in the request should be the one expected when performing another DescribeResource call.
+Updates data for the resource. To have the latest information, it must be preceded by a
+DescribeResource call. The dataset in the request should be the one expected when
+performing another DescribeResource call.
 
 # Required Parameters
-- `OrganizationId`: The identifier associated with the organization for which the resource is updated.
+- `OrganizationId`: The identifier associated with the organization for which the resource
+  is updated.
 - `ResourceId`: The identifier of the resource to be updated.
 
 # Optional Parameters

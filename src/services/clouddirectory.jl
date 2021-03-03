@@ -11,8 +11,10 @@ Adds a new Facet to an object. An object can have more than one facet applied on
 
 # Required Parameters
 - `ObjectReference`: A reference to the object you are adding the specified facet to.
-- `SchemaFacet`: Identifiers for the facet that you are adding to the object. See SchemaFacet for details.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+- `SchemaFacet`: Identifiers for the facet that you are adding to the object. See
+  SchemaFacet for details.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the object resides. For more information, see arns.
 
 # Optional Parameters
 - `ObjectAttributeList`: Attributes on the facet that you are adding to the object.
@@ -23,11 +25,14 @@ add_facet_to_object(ObjectReference, SchemaFacet, x_amz_data_partition, args::Ab
 """
     ApplySchema()
 
-Copies the input published schema, at the specified version, into the Directory with the same name and version as that of the published schema.
+Copies the input published schema, at the specified version, into the Directory with the
+same name and version as that of the published schema.
 
 # Required Parameters
-- `PublishedSchemaArn`: Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns.
+- `PublishedSchemaArn`: Published schema Amazon Resource Name (ARN) that needs to be
+  copied. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory into which the schema is copied. For more information, see arns.
 
 """
 apply_schema(PublishedSchemaArn, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/apply", Dict{String, Any}("PublishedSchemaArn"=>PublishedSchemaArn, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -36,13 +41,15 @@ apply_schema(PublishedSchemaArn, x_amz_data_partition, args::AbstractDict{String
 """
     AttachObject()
 
-Attaches an existing object to another object. An object can be accessed in two ways:   Using the path   Using ObjectIdentifier   
+Attaches an existing object to another object. An object can be accessed in two ways:
+Using the path   Using ObjectIdentifier
 
 # Required Parameters
 - `ChildReference`: The child object reference to be attached to the object.
 - `LinkName`: The link name with which the child object is attached to the parent.
 - `ParentReference`: The parent object reference.
-- `x-amz-data-partition`: Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
+- `x-amz-data-partition`: Amazon Resource Name (ARN) that is associated with the Directory
+  where both objects reside. For more information, see arns.
 
 """
 attach_object(ChildReference, LinkName, ParentReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/attach", Dict{String, Any}("ChildReference"=>ChildReference, "LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -51,12 +58,15 @@ attach_object(ChildReference, LinkName, ParentReference, x_amz_data_partition, a
 """
     AttachPolicy()
 
-Attaches a policy object to a regular object. An object can have a limited number of attached policies.
+Attaches a policy object to a regular object. An object can have a limited number of
+attached policies.
 
 # Required Parameters
-- `ObjectReference`: The reference that identifies the object to which the policy will be attached.
+- `ObjectReference`: The reference that identifies the object to which the policy will be
+  attached.
 - `PolicyReference`: The reference that is associated with the policy object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where both objects reside. For more information, see arns.
 
 """
 attach_policy(ObjectReference, PolicyReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/attach", Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -70,7 +80,8 @@ Attaches the specified object to the specified index.
 # Required Parameters
 - `IndexReference`: A reference to the index that you are attaching the object to.
 - `TargetReference`: A reference to the object that you are attaching to the index.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where the object and index exist.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where the object
+  and index exist.
 
 """
 attach_to_index(IndexReference, TargetReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/attach", Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -79,14 +90,16 @@ attach_to_index(IndexReference, TargetReference, x_amz_data_partition, args::Abs
 """
     AttachTypedLink()
 
-Attaches a typed link to a specified source and target object. For more information, see Typed Links.
+Attaches a typed link to a specified source and target object. For more information, see
+Typed Links.
 
 # Required Parameters
 - `Attributes`: A set of attributes that are associated with the typed link.
 - `SourceObjectReference`: Identifies the source object that the typed link will attach to.
 - `TargetObjectReference`: Identifies the target object that the typed link will attach to.
 - `TypedLinkFacet`: Identifies the typed link facet that is associated with the typed link.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to attach the typed link.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to
+  attach the typed link.
 
 """
 attach_typed_link(Attributes, SourceObjectReference, TargetObjectReference, TypedLinkFacet, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/attach", Dict{String, Any}("Attributes"=>Attributes, "SourceObjectReference"=>SourceObjectReference, "TargetObjectReference"=>TargetObjectReference, "TypedLinkFacet"=>TypedLinkFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -95,14 +108,16 @@ attach_typed_link(Attributes, SourceObjectReference, TargetObjectReference, Type
 """
     BatchRead()
 
-Performs all the read operations in a batch. 
+Performs all the read operations in a batch.
 
 # Required Parameters
 - `Operations`: A list of operations that are part of the batch.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory. For more information, see arns.
 
 # Optional Parameters
-- `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+- `x-amz-consistency-level`: Represents the manner and timing in which the successful write
+  or update of an object is reflected in a subsequent read operation of that same object.
 """
 batch_read(Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread", Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 batch_read(Operations, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -114,7 +129,8 @@ Performs all the write operations in a batch. Either all the operations succeed 
 
 # Required Parameters
 - `Operations`: A list of operations that are part of the batch.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory. For more information, see arns.
 
 """
 batch_write(Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/batchwrite", Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -123,11 +139,15 @@ batch_write(Operations, x_amz_data_partition, args::AbstractDict{String, <:Any};
 """
     CreateDirectory()
 
-Creates a Directory by copying the published schema into the directory. A directory cannot be created without a schema. You can also quickly create a directory using a managed schema, called the QuickStartSchema. For more information, see Managed Schema in the Amazon Cloud Directory Developer Guide.
+Creates a Directory by copying the published schema into the directory. A directory cannot
+be created without a schema. You can also quickly create a directory using a managed
+schema, called the QuickStartSchema. For more information, see Managed Schema in the Amazon
+Cloud Directory Developer Guide.
 
 # Required Parameters
 - `Name`: The name of the Directory. Should be unique per account, per region.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the published schema that will be copied into the data Directory. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the published schema that will
+  be copied into the data Directory. For more information, see arns.
 
 """
 create_directory(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/create", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -136,16 +156,24 @@ create_directory(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; 
 """
     CreateFacet()
 
-Creates a new Facet in a schema. Facet creation is allowed only in development or applied schemas.
+Creates a new Facet in a schema. Facet creation is allowed only in development or applied
+schemas.
 
 # Required Parameters
 - `Name`: The name of the Facet, which is unique for a given schema.
-- `x-amz-data-partition`: The schema ARN in which the new Facet will be created. For more information, see arns.
+- `x-amz-data-partition`: The schema ARN in which the new Facet will be created. For more
+  information, see arns.
 
 # Optional Parameters
 - `Attributes`: The attributes that are associated with the Facet.
-- `FacetStyle`: There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
-- `ObjectType`: Specifies whether a given object created from this facet is of type node, leaf node, policy or index.   Node: Can have multiple children but one parent.     Leaf node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  
+- `FacetStyle`: There are two different styles that you can define on any given facet,
+  Static and Dynamic. For static facets, all attributes must be defined in the schema. For
+  dynamic facets, attributes can be defined during data plane operations.
+- `ObjectType`: Specifies whether a given object created from this facet is of type node,
+  leaf node, policy or index.   Node: Can have multiple children but one parent.     Leaf
+  node: Cannot have children but can have multiple parents.     Policy: Allows you to store a
+  policy document and policy type. For more information, see Policies.     Index: Can be
+  created with the Index API.
 """
 create_facet(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 create_facet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -156,8 +184,10 @@ create_facet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_
 Creates an index object. See Indexing and search for more information.
 
 # Required Parameters
-- `IsUnique`: Indicates whether the attribute that is being indexed has unique values or not.
-- `OrderedIndexedAttributeList`: Specifies the attributes that should be indexed on. Currently only a single attribute is supported.
+- `IsUnique`: Indicates whether the attribute that is being indexed has unique values or
+  not.
+- `OrderedIndexedAttributeList`: Specifies the attributes that should be indexed on.
+  Currently only a single attribute is supported.
 - `x-amz-data-partition`: The ARN of the directory where the index should be created.
 
 # Optional Parameters
@@ -170,16 +200,23 @@ create_index(IsUnique, OrderedIndexedAttributeList, x_amz_data_partition, args::
 """
     CreateObject()
 
-Creates an object in a Directory. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of Facet attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet. 
+Creates an object in a Directory. Additionally attaches the object to a parent, if a parent
+reference and LinkName is specified. An object is simply a collection of Facet attributes.
+You can also use this API call to create a policy object, if the facet from which you
+create the object is a policy facet.
 
 # Required Parameters
-- `SchemaFacets`: A list of schema facets to be associated with the object. Do not provide minor version components. See SchemaFacet for details.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory in which the object will be created. For more information, see arns.
+- `SchemaFacets`: A list of schema facets to be associated with the object. Do not provide
+  minor version components. See SchemaFacet for details.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory in which the object will be created. For more information, see arns.
 
 # Optional Parameters
 - `LinkName`: The name of link that is used to attach this object to a parent.
-- `ObjectAttributeList`: The attribute map whose attribute ARN contains the key and attribute value as the map value.
-- `ParentReference`: If specified, the parent reference to which this object will be attached.
+- `ObjectAttributeList`: The attribute map whose attribute ARN contains the key and
+  attribute value as the map value.
+- `ParentReference`: If specified, the parent reference to which this object will be
+  attached.
 """
 create_object(SchemaFacets, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object", Dict{String, Any}("SchemaFacets"=>SchemaFacets, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 create_object(SchemaFacets, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaFacets"=>SchemaFacets, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -187,10 +224,17 @@ create_object(SchemaFacets, x_amz_data_partition, args::AbstractDict{String, <:A
 """
     CreateSchema()
 
-Creates a new schema in a development state. A schema can exist in three phases:    Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published.    Published: Published schemas are immutable and have a version associated with them.    Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.   
+Creates a new schema in a development state. A schema can exist in three phases:
+Development: This is a mutable phase of the schema. All new schemas are in the development
+phase. Once the schema is finalized, it can be published.    Published: Published schemas
+are immutable and have a version associated with them.    Applied: Applied schemas are
+mutable in a way that allows you to add new schema facets. You can also add new,
+nonrequired attributes to existing schema facets. You can apply only published schemas to
+directories.
 
 # Required Parameters
-- `Name`: The name that is associated with the schema. This is unique to each account and in each region.
+- `Name`: The name that is associated with the schema. This is unique to each account and
+  in each region.
 
 """
 create_schema(Name; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/create", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
@@ -203,7 +247,8 @@ Creates a TypedLinkFacet. For more information, see Typed Links.
 
 # Required Parameters
 - `Facet`:  Facet structure that is associated with the typed link facet.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  schema. For more information, see arns.
 
 """
 create_typed_link_facet(Facet, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/create", Dict{String, Any}("Facet"=>Facet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -212,7 +257,8 @@ create_typed_link_facet(Facet, x_amz_data_partition, args::AbstractDict{String, 
 """
     DeleteDirectory()
 
-Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot be undone. Exercise extreme caution when deleting directories.
+Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot
+be undone. Exercise extreme caution when deleting directories.
 
 # Required Parameters
 - `x-amz-data-partition`: The ARN of the directory to delete.
@@ -224,11 +270,13 @@ delete_directory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_co
 """
     DeleteFacet()
 
-Deletes a given Facet. All attributes and Rules that are associated with the facet will be deleted. Only development schema facets are allowed deletion.
+Deletes a given Facet. All attributes and Rules that are associated with the facet will be
+deleted. Only development schema facets are allowed deletion.
 
 # Required Parameters
 - `Name`: The name of the facet to delete.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Facet.
+  For more information, see arns.
 
 """
 delete_facet(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/delete", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -237,11 +285,14 @@ delete_facet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_
 """
     DeleteObject()
 
-Deletes an object and its associated attributes. Only objects with no children and no parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits.
+Deletes an object and its associated attributes. Only objects with no children and no
+parents can be deleted. The maximum number of attributes that can be deleted during an
+object deletion is 30. For more information, see Amazon Cloud Directory Limits.
 
 # Required Parameters
 - `ObjectReference`: A reference that identifies the object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the object resides. For more information, see arns.
 
 """
 delete_object(ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/delete", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -250,10 +301,11 @@ delete_object(ObjectReference, x_amz_data_partition, args::AbstractDict{String, 
 """
     DeleteSchema()
 
-Deletes a given schema. Schemas in a development and published state can only be deleted. 
+Deletes a given schema. Schemas in a development and published state can only be deleted.
 
 # Required Parameters
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For
+  more information, see arns.
 
 """
 delete_schema(x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -266,7 +318,8 @@ Deletes a TypedLinkFacet. For more information, see Typed Links.
 
 # Required Parameters
 - `Name`: The unique name of the typed link facet.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  schema. For more information, see arns.
 
 """
 delete_typed_link_facet(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -280,7 +333,8 @@ Detaches the specified object from the specified index.
 # Required Parameters
 - `IndexReference`: A reference to the index object.
 - `TargetReference`: A reference to the object being detached from the index.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory the index and object exist in.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory the index and
+  object exist in.
 
 """
 detach_from_index(IndexReference, TargetReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/detach", Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -289,12 +343,15 @@ detach_from_index(IndexReference, TargetReference, x_amz_data_partition, args::A
 """
     DetachObject()
 
-Detaches a given object from the parent object. The object that is to be detached from the parent is specified by the link name.
+Detaches a given object from the parent object. The object that is to be detached from the
+parent is specified by the link name.
 
 # Required Parameters
 - `LinkName`: The link name associated with the object that needs to be detached.
-- `ParentReference`: The parent reference from which the object with the specified link name is detached.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
+- `ParentReference`: The parent reference from which the object with the specified link
+  name is detached.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where objects reside. For more information, see arns.
 
 """
 detach_object(LinkName, ParentReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/detach", Dict{String, Any}("LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -306,9 +363,11 @@ detach_object(LinkName, ParentReference, x_amz_data_partition, args::AbstractDic
 Detaches a policy from an object.
 
 # Required Parameters
-- `ObjectReference`: Reference that identifies the object whose policy object will be detached.
+- `ObjectReference`: Reference that identifies the object whose policy object will be
+  detached.
 - `PolicyReference`: Reference that identifies the policy object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where both objects reside. For more information, see arns.
 
 """
 detach_policy(ObjectReference, PolicyReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/detach", Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -317,11 +376,13 @@ detach_policy(ObjectReference, PolicyReference, x_amz_data_partition, args::Abst
 """
     DetachTypedLink()
 
-Detaches a typed link from a specified source and target object. For more information, see Typed Links.
+Detaches a typed link from a specified source and target object. For more information, see
+Typed Links.
 
 # Required Parameters
 - `TypedLinkSpecifier`: Used to accept a typed link specifier as input.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to
+  detach the typed link.
 
 """
 detach_typed_link(TypedLinkSpecifier, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/detach", Dict{String, Any}("TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -330,7 +391,8 @@ detach_typed_link(TypedLinkSpecifier, x_amz_data_partition, args::AbstractDict{S
 """
     DisableDirectory()
 
-Disables the specified directory. Disabled directories cannot be read or written to. Only enabled directories can be disabled. Disabled directories may be reenabled.
+Disables the specified directory. Disabled directories cannot be read or written to. Only
+enabled directories can be disabled. Disabled directories may be reenabled.
 
 # Required Parameters
 - `x-amz-data-partition`: The ARN of the directory to disable.
@@ -342,7 +404,8 @@ disable_directory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_c
 """
     EnableDirectory()
 
-Enables the specified directory. Only disabled directories can be enabled. Once enabled, the directory can then be read and written to.
+Enables the specified directory. Only disabled directories can be enabled. Once enabled,
+the directory can then be read and written to.
 
 # Required Parameters
 - `x-amz-data-partition`: The ARN of the directory to enable.
@@ -378,11 +441,13 @@ get_directory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_confi
 """
     GetFacet()
 
-Gets details of the Facet, such as facet name, attributes, Rules, or ObjectType. You can call this on all kinds of schema facets -- published, development, or applied.
+Gets details of the Facet, such as facet name, attributes, Rules, or ObjectType. You can
+call this on all kinds of schema facets -- published, development, or applied.
 
 # Required Parameters
 - `Name`: The name of the facet to retrieve.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Facet.
+  For more information, see arns.
 
 """
 get_facet(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -396,10 +461,12 @@ Retrieves attributes that are associated with a typed link.
 # Required Parameters
 - `AttributeNames`: A list of attribute names whose values will be retrieved.
 - `TypedLinkSpecifier`: Allows a typed link specifier to be accepted as input.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the typed link resides. For more information, see arns or Typed Links.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the typed link resides. For more information, see arns or Typed Links.
 
 # Optional Parameters
-- `ConsistencyLevel`: The consistency level at which to retrieve the attributes on a typed link.
+- `ConsistencyLevel`: The consistency level at which to retrieve the attributes on a typed
+  link.
 """
 get_link_attributes(AttributeNames, TypedLinkSpecifier, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", Dict{String, Any}("AttributeNames"=>AttributeNames, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 get_link_attributes(AttributeNames, TypedLinkSpecifier, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeNames"=>AttributeNames, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -411,12 +478,16 @@ Retrieves attributes within a facet that are associated with an object.
 
 # Required Parameters
 - `AttributeNames`: List of attribute names whose values will be retrieved.
-- `ObjectReference`: Reference that identifies the object whose attributes will be retrieved.
-- `SchemaFacet`: Identifier for the facet whose attributes will be retrieved. See SchemaFacet for details.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides.
+- `ObjectReference`: Reference that identifies the object whose attributes will be
+  retrieved.
+- `SchemaFacet`: Identifier for the facet whose attributes will be retrieved. See
+  SchemaFacet for details.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the object resides.
 
 # Optional Parameters
-- `x-amz-consistency-level`: The consistency level at which to retrieve the attributes on an object.
+- `x-amz-consistency-level`: The consistency level at which to retrieve the attributes on
+  an object.
 """
 get_object_attributes(AttributeNames, ObjectReference, SchemaFacet, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get", Dict{String, Any}("AttributeNames"=>AttributeNames, "ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 get_object_attributes(AttributeNames, ObjectReference, SchemaFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeNames"=>AttributeNames, "ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -431,7 +502,8 @@ Retrieves metadata about an object.
 - `x-amz-data-partition`: The ARN of the directory being retrieved.
 
 # Optional Parameters
-- `x-amz-consistency-level`: The consistency level at which to retrieve the object information.
+- `x-amz-consistency-level`: The consistency level at which to retrieve the object
+  information.
 """
 get_object_information(ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 get_object_information(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -451,11 +523,13 @@ get_schema_as_json(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_
 """
     GetTypedLinkFacetInformation()
 
-Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed Links.
+Returns the identity attribute order for a specific TypedLinkFacet. For more information,
+see Typed Links.
 
 # Required Parameters
 - `Name`: The unique name of the typed link facet.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  schema. For more information, see arns.
 
 """
 get_typed_link_facet_information(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/get", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -464,7 +538,8 @@ get_typed_link_facet_information(Name, x_amz_data_partition, args::AbstractDict{
 """
     ListAppliedSchemaArns()
 
-Lists schema major versions applied to a directory. If SchemaArn is provided, lists the minor version.
+Lists schema major versions applied to a directory. If SchemaArn is provided, lists the
+minor version.
 
 # Required Parameters
 - `DirectoryArn`: The ARN of the directory you are listing.
@@ -472,7 +547,8 @@ Lists schema major versions applied to a directory. If SchemaArn is provided, li
 # Optional Parameters
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
-- `SchemaArn`: The response for ListAppliedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
+- `SchemaArn`: The response for ListAppliedSchemaArns when this parameter is used will list
+  all minor version ARNs for a major version.
 """
 list_applied_schema_arns(DirectoryArn; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied", Dict{String, Any}("DirectoryArn"=>DirectoryArn); aws_config=aws_config)
 list_applied_schema_arns(DirectoryArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryArn"=>DirectoryArn), args)); aws_config=aws_config)
@@ -514,7 +590,8 @@ Lists directories created within an account.
 # Optional Parameters
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
-- `state`: The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
+- `state`: The state of the directories in the list. Can be either Enabled, Disabled, or
+  Deleted.
 """
 list_directories(; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list"; aws_config=aws_config)
 list_directories(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list", args; aws_config=aws_config)
@@ -553,16 +630,22 @@ list_facet_names(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_co
 """
     ListIncomingTypedLinks()
 
-Returns a paginated list of all the incoming TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
+Returns a paginated list of all the incoming TypedLinkSpecifier information for an object.
+It also supports filtering by typed link facet and identity attributes. For more
+information, see Typed Links.
 
 # Required Parameters
 - `ObjectReference`: Reference that identifies the object whose attributes will be listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to
+  list the typed links.
 
 # Optional Parameters
 - `ConsistencyLevel`: The consistency level to execute the request at.
-- `FilterAttributeRanges`: Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
-- `FilterTypedLink`: Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls.
+- `FilterAttributeRanges`: Provides range filters for multiple attributes. When providing
+  ranges to typed link selection, any inexact ranges must be specified at the end. Any
+  attributes that do not have a range specified are presumed to match the entire range.
+- `FilterTypedLink`: Filters are interpreted in the order of the attributes on the typed
+  link facet, not the order in which they are supplied to any API calls.
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
@@ -579,7 +662,8 @@ Lists objects attached to the specified index.
 - `x-amz-data-partition`: The ARN of the directory that the index exists in.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of objects in a single page to retrieve from the index during a request. For more information, see Amazon Cloud Directory Limits.
+- `MaxResults`: The maximum number of objects in a single page to retrieve from the index
+  during a request. For more information, see Amazon Cloud Directory Limits.
 - `NextToken`: The pagination token.
 - `RangesOnIndexedValues`: Specifies the ranges of indexed values that you want to query.
 - `x-amz-consistency-level`: The consistency level to execute the request at.
@@ -590,12 +674,14 @@ list_index(IndexReference, x_amz_data_partition, args::AbstractDict{String, <:An
 """
     ListManagedSchemaArns()
 
-Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
+Lists the major version families of each managed schema. If a major version ARN is provided
+as SchemaArn, the minor version revisions in that family are listed instead.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
-- `SchemaArn`: The response for ListManagedSchemaArns. When this parameter is used, all minor version ARNs for a major version are listed.
+- `SchemaArn`: The response for ListManagedSchemaArns. When this parameter is used, all
+  minor version ARNs for a major version are listed.
 """
 list_managed_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed"; aws_config=aws_config)
 list_managed_schema_arns(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed", args; aws_config=aws_config)
@@ -603,17 +689,22 @@ list_managed_schema_arns(args::AbstractDict{String, Any}; aws_config::AbstractAW
 """
     ListObjectAttributes()
 
-Lists all attributes that are associated with an object. 
+Lists all attributes that are associated with an object.
 
 # Required Parameters
-- `ObjectReference`: The reference that identifies the object whose attributes will be listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+- `ObjectReference`: The reference that identifies the object whose attributes will be
+  listed.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the object resides. For more information, see arns.
 
 # Optional Parameters
-- `FacetFilter`: Used to filter the list of object attributes that are associated with a certain facet.
-- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
+- `FacetFilter`: Used to filter the list of object attributes that are associated with a
+  certain facet.
+- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an
+  approximate number.
 - `NextToken`: The pagination token.
-- `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+- `x-amz-consistency-level`: Represents the manner and timing in which the successful write
+  or update of an object is reflected in a subsequent read operation of that same object.
 """
 list_object_attributes(ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 list_object_attributes(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -624,13 +715,17 @@ list_object_attributes(ObjectReference, x_amz_data_partition, args::AbstractDict
 Returns a paginated list of child objects that are associated with a given object.
 
 # Required Parameters
-- `ObjectReference`: The reference that identifies the object for which child objects are being listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+- `ObjectReference`: The reference that identifies the object for which child objects are
+  being listed.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the object resides. For more information, see arns.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
+- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an
+  approximate number.
 - `NextToken`: The pagination token.
-- `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+- `x-amz-consistency-level`: Represents the manner and timing in which the successful write
+  or update of an object is reflected in a subsequent read operation of that same object.
 """
 list_object_children(ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 list_object_children(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -638,14 +733,22 @@ list_object_children(ObjectReference, x_amz_data_partition, args::AbstractDict{S
 """
     ListObjectParentPaths()
 
-Retrieves all available parent paths for any object type such as node, leaf node, policy node, and index node objects. For more information about objects, see Directory Structure. Use this API to evaluate all parents for an object. The call returns all objects from the root of the directory up to the requested object. The API returns the number of paths based on user-defined MaxResults, in case there are multiple paths to the parent. The order of the paths and nodes returned is consistent among multiple API calls unless the objects are deleted or moved. Paths not leading to the directory root are ignored from the target object.
+Retrieves all available parent paths for any object type such as node, leaf node, policy
+node, and index node objects. For more information about objects, see Directory Structure.
+Use this API to evaluate all parents for an object. The call returns all objects from the
+root of the directory up to the requested object. The API returns the number of paths based
+on user-defined MaxResults, in case there are multiple paths to the parent. The order of
+the paths and nodes returned is consistent among multiple API calls unless the objects are
+deleted or moved. Paths not leading to the directory root are ignored from the target
+object.
 
 # Required Parameters
 - `ObjectReference`: The reference that identifies the object whose parent paths are listed.
 - `x-amz-data-partition`: The ARN of the directory to which the parent path applies.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
+- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an
+  approximate number.
 - `NextToken`: The pagination token.
 """
 list_object_parent_paths(ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parentpaths", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -657,14 +760,20 @@ list_object_parent_paths(ObjectReference, x_amz_data_partition, args::AbstractDi
 Lists parent objects that are associated with a given object in pagination fashion.
 
 # Required Parameters
-- `ObjectReference`: The reference that identifies the object for which parent objects are being listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+- `ObjectReference`: The reference that identifies the object for which parent objects are
+  being listed.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the object resides. For more information, see arns.
 
 # Optional Parameters
-- `IncludeAllLinksToEachParent`: When set to True, returns all ListObjectParentsResponseParentLinks. There could be multiple links between a parent-child pair.
-- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
+- `IncludeAllLinksToEachParent`: When set to True, returns all
+  ListObjectParentsResponseParentLinks. There could be multiple links between a parent-child
+  pair.
+- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an
+  approximate number.
 - `NextToken`: The pagination token.
-- `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+- `x-amz-consistency-level`: Represents the manner and timing in which the successful write
+  or update of an object is reflected in a subsequent read operation of that same object.
 """
 list_object_parents(ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 list_object_parents(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -676,12 +785,15 @@ Returns policies attached to an object in pagination fashion.
 
 # Required Parameters
 - `ObjectReference`: Reference that identifies the object for which policies will be listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where objects reside. For more information, see arns.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
+- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an
+  approximate number.
 - `NextToken`: The pagination token.
-- `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+- `x-amz-consistency-level`: Represents the manner and timing in which the successful write
+  or update of an object is reflected in a subsequent read operation of that same object.
 """
 list_object_policies(ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 list_object_policies(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -689,16 +801,22 @@ list_object_policies(ObjectReference, x_amz_data_partition, args::AbstractDict{S
 """
     ListOutgoingTypedLinks()
 
-Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object. It also supports filtering by typed link facet and identity attributes. For more information, see Typed Links.
+Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object.
+It also supports filtering by typed link facet and identity attributes. For more
+information, see Typed Links.
 
 # Required Parameters
 - `ObjectReference`: A reference that identifies the object whose attributes will be listed.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to list the typed links.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to
+  list the typed links.
 
 # Optional Parameters
 - `ConsistencyLevel`: The consistency level to execute the request at.
-- `FilterAttributeRanges`: Provides range filters for multiple attributes. When providing ranges to typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range.
-- `FilterTypedLink`: Filters are interpreted in the order of the attributes defined on the typed link facet, not the order they are supplied to any API calls.
+- `FilterAttributeRanges`: Provides range filters for multiple attributes. When providing
+  ranges to typed link selection, any inexact ranges must be specified at the end. Any
+  attributes that do not have a range specified are presumed to match the entire range.
+- `FilterTypedLink`: Filters are interpreted in the order of the attributes defined on the
+  typed link facet, not the order they are supplied to any API calls.
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
@@ -712,12 +830,15 @@ Returns all of the ObjectIdentifiers to which a given policy is attached.
 
 # Required Parameters
 - `PolicyReference`: The reference that identifies the policy object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where objects reside. For more information, see arns.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
+- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an
+  approximate number.
 - `NextToken`: The pagination token.
-- `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
+- `x-amz-consistency-level`: Represents the manner and timing in which the successful write
+  or update of an object is reflected in a subsequent read operation of that same object.
 """
 list_policy_attachments(PolicyReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment", Dict{String, Any}("PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 list_policy_attachments(PolicyReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -725,12 +846,14 @@ list_policy_attachments(PolicyReference, x_amz_data_partition, args::AbstractDic
 """
     ListPublishedSchemaArns()
 
-Lists the major version families of each published schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
+Lists the major version families of each published schema. If a major version ARN is
+provided as SchemaArn, the minor version revisions in that family are listed instead.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
-- `SchemaArn`: The response for ListPublishedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
+- `SchemaArn`: The response for ListPublishedSchemaArns when this parameter is used will
+  list all minor version ARNs for a major version.
 """
 list_published_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published"; aws_config=aws_config)
 list_published_schema_arns(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published", args; aws_config=aws_config)
@@ -738,14 +861,19 @@ list_published_schema_arns(args::AbstractDict{String, Any}; aws_config::Abstract
 """
     ListTagsForResource()
 
-Returns tags for a resource. Tagging is currently supported only for directories with a limit of 50 tags per directory. All 50 tags are returned for a given directory with this API call.
+Returns tags for a resource. Tagging is currently supported only for directories with a
+limit of 50 tags per directory. All 50 tags are returned for a given directory with this
+API call.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource. Tagging is only supported
+  for directories.
 
 # Optional Parameters
-- `MaxResults`: The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
-- `NextToken`: The pagination token. This is for future use. Currently pagination is not supported for tagging.
+- `MaxResults`: The MaxResults parameter sets the maximum number of results returned in a
+  single page. This is for future use and is not supported currently.
+- `NextToken`: The pagination token. This is for future use. Currently pagination is not
+  supported for tagging.
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
 list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
@@ -753,11 +881,13 @@ list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     ListTypedLinkFacetAttributes()
 
-Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
+Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For
+more information, see Typed Links.
 
 # Required Parameters
 - `Name`: The unique name of the typed link facet.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  schema. For more information, see arns.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to retrieve.
@@ -769,10 +899,12 @@ list_typed_link_facet_attributes(Name, x_amz_data_partition, args::AbstractDict{
 """
     ListTypedLinkFacetNames()
 
-Returns a paginated list of TypedLink facet names for a particular schema. For more information, see Typed Links.
+Returns a paginated list of TypedLink facet names for a particular schema. For more
+information, see Typed Links.
 
 # Required Parameters
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  schema. For more information, see arns.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to retrieve.
@@ -784,14 +916,21 @@ list_typed_link_facet_names(x_amz_data_partition, args::AbstractDict{String, <:A
 """
     LookupPolicy()
 
-Lists all policies from the root of the Directory to the object specified. If there are no policies present, an empty list is returned. If policies are present, and if some objects don't have the policies attached, it returns the ObjectIdentifier for such objects. If policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that don't lead to the root from the target object are ignored. For more information, see Policies.
+Lists all policies from the root of the Directory to the object specified. If there are no
+policies present, an empty list is returned. If policies are present, and if some objects
+don't have the policies attached, it returns the ObjectIdentifier for such objects. If
+policies are present, it returns ObjectIdentifier, policyId, and policyType. Paths that
+don't lead to the root from the target object are ignored. For more information, see
+Policies.
 
 # Required Parameters
 - `ObjectReference`: Reference that identifies the object whose policies will be looked up.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory. For more information, see arns.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
+- `MaxResults`: The maximum number of items to be retrieved in a single call. This is an
+  approximate number.
 - `NextToken`: The token to request the next page of results.
 """
 lookup_policy(ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/lookup", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -803,12 +942,16 @@ lookup_policy(ObjectReference, x_amz_data_partition, args::AbstractDict{String, 
 Publishes a development schema with a major version and a recommended minor version.
 
 # Required Parameters
-- `Version`: The major version under which the schema will be published. Schemas have both a major and minor version associated with them.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the development schema. For more information, see arns.
+- `Version`: The major version under which the schema will be published. Schemas have both
+  a major and minor version associated with them.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  development schema. For more information, see arns.
 
 # Optional Parameters
-- `MinorVersion`: The minor version under which the schema will be published. This parameter is recommended. Schemas have both a major and minor version associated with them.
-- `Name`: The new name under which the schema will be published. If this is not provided, the development schema is considered.
+- `MinorVersion`: The minor version under which the schema will be published. This
+  parameter is recommended. Schemas have both a major and minor version associated with them.
+- `Name`: The new name under which the schema will be published. If this is not provided,
+  the development schema is considered.
 """
 publish_schema(Version, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish", Dict{String, Any}("Version"=>Version, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 publish_schema(Version, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Version"=>Version, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -816,7 +959,8 @@ publish_schema(Version, x_amz_data_partition, args::AbstractDict{String, <:Any};
 """
     PutSchemaFromJson()
 
-Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
+Allows a schema to be updated using JSON upload. Only available for development schemas.
+See JSON Schema Format for more information.
 
 # Required Parameters
 - `Document`: The replacement JSON schema.
@@ -846,7 +990,8 @@ remove_facet_from_object(ObjectReference, SchemaFacet, x_amz_data_partition, arg
 An API operation for adding tags to a resource.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource. Tagging is only supported
+  for directories.
 - `Tags`: A list of tag key-value pairs.
 
 """
@@ -859,7 +1004,8 @@ tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 An API operation for removing tags from a resource.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) of the resource. Tagging is only supported for directories.
+- `ResourceArn`: The Amazon Resource Name (ARN) of the resource. Tagging is only supported
+  for directories.
 - `TagKeys`: Keys of the tag that need to be removed from the resource.
 
 """
@@ -869,15 +1015,20 @@ untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateFacet()
 
-Does the following:   Adds new Attributes, Rules, or ObjectTypes.   Updates existing Attributes, Rules, or ObjectTypes.   Deletes existing Attributes, Rules, or ObjectTypes.  
+Does the following:   Adds new Attributes, Rules, or ObjectTypes.   Updates existing
+Attributes, Rules, or ObjectTypes.   Deletes existing Attributes, Rules, or ObjectTypes.
 
 # Required Parameters
 - `Name`: The name of the facet.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Facet.
+  For more information, see arns.
 
 # Optional Parameters
-- `AttributeUpdates`: List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
-- `ObjectType`: The object type that is associated with the facet. See CreateFacetRequestObjectType for more details.
+- `AttributeUpdates`: List of attributes that need to be updated in a given schema Facet.
+  Each attribute is followed by AttributeAction, which specifies the type of update operation
+  to perform.
+- `ObjectType`: The object type that is associated with the facet. See
+  CreateFacetRequestObjectType for more details.
 """
 update_facet(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
 update_facet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws_config=aws_config)
@@ -885,12 +1036,15 @@ update_facet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws_
 """
     UpdateLinkAttributes()
 
-Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its IdentityAttributeOrder.
+Updates a given typed link’s attributes. Attributes to be updated must not contribute to
+the typed link’s identity, as defined by its IdentityAttributeOrder.
 
 # Required Parameters
 - `AttributeUpdates`: The attributes update structure.
 - `TypedLinkSpecifier`: Allows a typed link specifier to be accepted as input.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the updated typed link resides. For more information, see arns or Typed Links.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the updated typed link resides. For more information, see arns or Typed
+  Links.
 
 """
 update_link_attributes(AttributeUpdates, TypedLinkSpecifier, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -904,7 +1058,8 @@ Updates a given object's attributes.
 # Required Parameters
 - `AttributeUpdates`: The attributes update structure.
 - `ObjectReference`: The reference that identifies the object.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  Directory where the object resides. For more information, see arns.
 
 """
 update_object_attributes(AttributeUpdates, ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/update", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -917,7 +1072,8 @@ Updates the schema name with a new name. Only development schema names can be up
 
 # Required Parameters
 - `Name`: The name of the schema.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For
+  more information, see arns.
 
 """
 update_schema(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/update", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -930,9 +1086,16 @@ Updates a TypedLinkFacet. For more information, see Typed Links.
 
 # Required Parameters
 - `AttributeUpdates`: Attributes update structure.
-- `IdentityAttributeOrder`: The order of identity attributes for the facet, from most significant to least significant. The ability to filter typed links considers the order that the attributes are defined on the typed link facet. When providing ranges to a typed link selection, any inexact ranges must be specified at the end. Any attributes that do not have a range specified are presumed to match the entire range. Filters are interpreted in the order of the attributes on the typed link facet, not the order in which they are supplied to any API calls. For more information about identity attributes, see Typed Links.
+- `IdentityAttributeOrder`: The order of identity attributes for the facet, from most
+  significant to least significant. The ability to filter typed links considers the order
+  that the attributes are defined on the typed link facet. When providing ranges to a typed
+  link selection, any inexact ranges must be specified at the end. Any attributes that do not
+  have a range specified are presumed to match the entire range. Filters are interpreted in
+  the order of the attributes on the typed link facet, not the order in which they are
+  supplied to any API calls. For more information about identity attributes, see Typed Links.
 - `Name`: The unique name of the typed link facet.
-- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
+- `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
+  schema. For more information, see arns.
 
 """
 update_typed_link_facet(AttributeUpdates, IdentityAttributeOrder, Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "IdentityAttributeOrder"=>IdentityAttributeOrder, "Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws_config=aws_config)
@@ -941,14 +1104,20 @@ update_typed_link_facet(AttributeUpdates, IdentityAttributeOrder, Name, x_amz_da
 """
     UpgradeAppliedSchema()
 
-Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
+Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found
+in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available
+for readers on all objects in the directory. Note: This is a synchronous API call and
+upgrades only one schema on a given directory per call. To upgrade multiple directories
+from one schema, you would need to call this API on each directory.
 
 # Required Parameters
 - `DirectoryArn`: The ARN for the directory to which the upgraded schema will be applied.
 - `PublishedSchemaArn`: The revision of the published schema to upgrade the directory to.
 
 # Optional Parameters
-- `DryRun`: Used for testing whether the major version schemas are backward compatible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
+- `DryRun`: Used for testing whether the major version schemas are backward compatible or
+  not. If schema compatibility fails, an exception would be thrown else the call would
+  succeed but no changes will be saved. This parameter is optional.
 """
 upgrade_applied_schema(DirectoryArn, PublishedSchemaArn; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", Dict{String, Any}("DirectoryArn"=>DirectoryArn, "PublishedSchemaArn"=>PublishedSchemaArn); aws_config=aws_config)
 upgrade_applied_schema(DirectoryArn, PublishedSchemaArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryArn"=>DirectoryArn, "PublishedSchemaArn"=>PublishedSchemaArn), args)); aws_config=aws_config)
@@ -956,15 +1125,21 @@ upgrade_applied_schema(DirectoryArn, PublishedSchemaArn, args::AbstractDict{Stri
 """
     UpgradePublishedSchema()
 
-Upgrades a published schema under a new minor version revision using the current contents of DevelopmentSchemaArn.
+Upgrades a published schema under a new minor version revision using the current contents
+of DevelopmentSchemaArn.
 
 # Required Parameters
-- `DevelopmentSchemaArn`: The ARN of the development schema with the changes used for the upgrade.
-- `MinorVersion`: Identifies the minor version of the published schema that will be created. This parameter is NOT optional.
+- `DevelopmentSchemaArn`: The ARN of the development schema with the changes used for the
+  upgrade.
+- `MinorVersion`: Identifies the minor version of the published schema that will be
+  created. This parameter is NOT optional.
 - `PublishedSchemaArn`: The ARN of the published schema to be upgraded.
 
 # Optional Parameters
-- `DryRun`: Used for testing whether the Development schema provided is backwards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is optional and defaults to false.
+- `DryRun`: Used for testing whether the Development schema provided is backwards
+  compatible, or not, with the publish schema provided by the user to be upgraded. If schema
+  compatibility fails, an exception would be thrown else the call would succeed. This
+  parameter is optional and defaults to false.
 """
 upgrade_published_schema(DevelopmentSchemaArn, MinorVersion, PublishedSchemaArn; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished", Dict{String, Any}("DevelopmentSchemaArn"=>DevelopmentSchemaArn, "MinorVersion"=>MinorVersion, "PublishedSchemaArn"=>PublishedSchemaArn); aws_config=aws_config)
 upgrade_published_schema(DevelopmentSchemaArn, MinorVersion, PublishedSchemaArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevelopmentSchemaArn"=>DevelopmentSchemaArn, "MinorVersion"=>MinorVersion, "PublishedSchemaArn"=>PublishedSchemaArn), args)); aws_config=aws_config)

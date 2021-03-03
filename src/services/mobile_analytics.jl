@@ -7,11 +7,14 @@ using AWS.UUIDs
 """
     PutEvents()
 
-The PutEvents operation records one or more events. You can have up to 1,500 unique custom events per app, any combination of up to 40 attributes and metrics per custom event, and any number of attribute or metric values.
+The PutEvents operation records one or more events. You can have up to 1,500 unique custom
+events per app, any combination of up to 40 attributes and metrics per custom event, and
+any number of attribute or metric values.
 
 # Required Parameters
 - `events`: An array of Event JSON objects
-- `x-amz-Client-Context`: The client context including the client ID, app title, app version and package name.
+- `x-amz-Client-Context`: The client context including the client ID, app title, app
+  version and package name.
 
 # Optional Parameters
 - `x-amz-Client-Context-Encoding`: The encoding used for the client context.

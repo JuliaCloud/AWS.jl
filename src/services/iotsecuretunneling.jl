@@ -7,7 +7,9 @@ using AWS.UUIDs
 """
     CloseTunnel()
 
-Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted.
+Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received,
+we close the WebSocket connections between the client and proxy server so no data can be
+transmitted.
 
 # Required Parameters
 - `tunnelId`: The ID of the tunnel to close.
@@ -45,7 +47,8 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     ListTunnels()
 
-List all tunnels for an AWS account. Tunnels are listed by creation time in descending order, newer tunnels will be listed before older tunnels.
+List all tunnels for an AWS account. Tunnels are listed by creation time in descending
+order, newer tunnels will be listed before older tunnels.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return at once.
@@ -58,10 +61,11 @@ list_tunnels(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=gl
 """
     OpenTunnel()
 
-Creates a new tunnel, and returns two client access tokens for clients to use to connect to the AWS IoT Secure Tunneling proxy server.
+Creates a new tunnel, and returns two client access tokens for clients to use to connect to
+the AWS IoT Secure Tunneling proxy server.
 
 # Optional Parameters
-- `description`: A short text description of the tunnel. 
+- `description`: A short text description of the tunnel.
 - `destinationConfig`: The destination configuration for the OpenTunnel request.
 - `tags`: A collection of tag metadata.
 - `timeoutConfig`: Timeout configuration for a tunnel.

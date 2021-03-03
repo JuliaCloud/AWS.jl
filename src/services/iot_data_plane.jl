@@ -7,7 +7,8 @@ using AWS.UUIDs
 """
     DeleteThingShadow()
 
-Deletes the shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
+Deletes the shadow for the specified thing. For more information, see DeleteThingShadow in
+the AWS IoT Developer Guide.
 
 # Required Parameters
 - `thingName`: The name of the thing.
@@ -21,7 +22,8 @@ delete_thing_shadow(thingName, args::AbstractDict{String, <:Any}; aws_config::Ab
 """
     GetThingShadow()
 
-Gets the shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
+Gets the shadow for the specified thing. For more information, see GetThingShadow in the
+AWS IoT Developer Guide.
 
 # Required Parameters
 - `thingName`: The name of the thing.
@@ -50,7 +52,8 @@ list_named_shadows_for_thing(thingName, args::AbstractDict{String, <:Any}; aws_c
 """
     Publish()
 
-Publishes state information. For more information, see HTTP Protocol in the AWS IoT Developer Guide.
+Publishes state information. For more information, see HTTP Protocol in the AWS IoT
+Developer Guide.
 
 # Required Parameters
 - `topic`: The name of the MQTT topic.
@@ -65,7 +68,8 @@ publish(topic, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=
 """
     UpdateThingShadow()
 
-Updates the shadow for the specified thing. For more information, see UpdateThingShadow in the AWS IoT Developer Guide.
+Updates the shadow for the specified thing. For more information, see UpdateThingShadow in
+the AWS IoT Developer Guide.
 
 # Required Parameters
 - `payload`: The state information, in JSON format.

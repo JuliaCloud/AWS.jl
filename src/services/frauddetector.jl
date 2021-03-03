@@ -41,9 +41,16 @@ Creates a detector version. The detector version starts in a DRAFT status.
 
 # Optional Parameters
 - `description`: The description of the detector version.
-- `externalModelEndpoints`: The Amazon Sagemaker model endpoints to include in the detector version.
+- `externalModelEndpoints`: The Amazon Sagemaker model endpoints to include in the detector
+  version.
 - `modelVersions`: The model versions to include in the detector version.
-- `ruleExecutionMode`: The rule execution mode for the rules included in the detector version. You can define and edit the rule mode at the detector version level, when it is in draft status. If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule. If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules.  The default behavior is FIRST_MATCHED.
+- `ruleExecutionMode`: The rule execution mode for the rules included in the detector
+  version. You can define and edit the rule mode at the detector version level, when it is in
+  draft status. If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules
+  sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector
+  then provides the outcomes for that single rule. If you specifiy ALL_MATCHED, Amazon Fraud
+  Detector evaluates all rules and returns the outcomes for all matched rules.  The default
+  behavior is FIRST_MATCHED.
 - `tags`: A collection of key and value pairs.
 """
 create_detector_version(detectorId, rules; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateDetectorVersion", Dict{String, Any}("detectorId"=>detectorId, "rules"=>rules); aws_config=aws_config)
@@ -57,10 +64,10 @@ Creates a model using the specified model type.
 # Required Parameters
 - `eventTypeName`: The name of the event type.
 - `modelId`: The model ID.
-- `modelType`: The model type. 
+- `modelType`: The model type.
 
 # Optional Parameters
-- `description`: The model description. 
+- `description`: The model description.
 - `tags`: A collection of key and value pairs.
 """
 create_model(eventTypeName, modelId, modelType; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateModel", Dict{String, Any}("eventTypeName"=>eventTypeName, "modelId"=>modelId, "modelType"=>modelType); aws_config=aws_config)
@@ -69,16 +76,17 @@ create_model(eventTypeName, modelId, modelType, args::AbstractDict{String, <:Any
 """
     CreateModelVersion()
 
-Creates a version of the model using the specified model type and model id. 
+Creates a version of the model using the specified model type and model id.
 
 # Required Parameters
-- `modelId`: The model ID. 
+- `modelId`: The model ID.
 - `modelType`: The model type.
 - `trainingDataSchema`: The training data schema.
-- `trainingDataSource`: The training data source location in Amazon S3. 
+- `trainingDataSource`: The training data source location in Amazon S3.
 
 # Optional Parameters
-- `externalEventsDetail`: Details for the external events data used for model version training. Required if trainingDataSource is EXTERNAL_EVENTS.
+- `externalEventsDetail`: Details for the external events data used for model version
+  training. Required if trainingDataSource is EXTERNAL_EVENTS.
 - `tags`: A collection of key and value pairs.
 """
 create_model_version(modelId, modelType, trainingDataSchema, trainingDataSource; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateModelVersion", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "trainingDataSchema"=>trainingDataSchema, "trainingDataSource"=>trainingDataSource); aws_config=aws_config)
@@ -87,7 +95,7 @@ create_model_version(modelId, modelType, trainingDataSchema, trainingDataSource,
 """
     CreateRule()
 
-Creates a rule for use with the specified detector. 
+Creates a rule for use with the specified detector.
 
 # Required Parameters
 - `detectorId`: The detector ID for the rule's parent detector.
@@ -117,7 +125,13 @@ Creates a variable.
 # Optional Parameters
 - `description`: The description.
 - `tags`: A collection of key and value pairs.
-- `variableType`: The variable type. For more information see Variable types.  Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT 
+- `variableType`: The variable type. For more information see Variable types.  Valid
+  Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY |
+  BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN |
+  CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT |
+  IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY |
+  SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY |
+  SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT
 """
 create_variable(dataSource, dataType, defaultValue, name; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateVariable", Dict{String, Any}("dataSource"=>dataSource, "dataType"=>dataType, "defaultValue"=>defaultValue, "name"=>name); aws_config=aws_config)
 create_variable(dataSource, dataType, defaultValue, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "dataType"=>dataType, "defaultValue"=>defaultValue, "name"=>name), args)); aws_config=aws_config)
@@ -125,7 +139,10 @@ create_variable(dataSource, dataType, defaultValue, name, args::AbstractDict{Str
 """
     DeleteDetector()
 
-Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector. When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
+Deletes the detector. Before deleting a detector, you must first delete all detector
+versions and rule versions associated with the detector. When you delete a detector, Amazon
+Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon
+Fraud Detector.
 
 # Required Parameters
 - `detectorId`: The ID of the detector to delete.
@@ -137,7 +154,9 @@ delete_detector(detectorId, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     DeleteDetectorVersion()
 
-Deletes the detector version. You cannot delete detector versions that are in ACTIVE status. When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
+Deletes the detector version. You cannot delete detector versions that are in ACTIVE
+status. When you delete a detector version, Amazon Fraud Detector permanently deletes the
+detector and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `detectorId`: The ID of the parent detector for the detector version to delete.
@@ -150,7 +169,9 @@ delete_detector_version(detectorId, detectorVersionId, args::AbstractDict{String
 """
     DeleteEntityType()
 
-Deletes an entity type. You cannot delete an entity type that is included in an event type. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
+Deletes an entity type. You cannot delete an entity type that is included in an event type.
+When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type
+and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the entity type to delete.
@@ -162,7 +183,8 @@ delete_entity_type(name, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     DeleteEvent()
 
-Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector.
+Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently
+deletes that event and the event data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `eventId`: The ID of the event to delete.
@@ -175,7 +197,9 @@ delete_event(eventId, eventTypeName, args::AbstractDict{String, <:Any}; aws_conf
 """
     DeleteEventType()
 
-Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
+Deletes an event type. You cannot delete an event type that is used in a detector or a
+model. When you delete an entity type, Amazon Fraud Detector permanently deletes that
+entity type and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the event type to delete.
@@ -187,7 +211,9 @@ delete_event_type(name, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     DeleteExternalModel()
 
-Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
+Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker
+model if it is not associated with a detector version. Removing a SageMaker model
+disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
 
 # Required Parameters
 - `modelEndpoint`: The endpoint of the Amazon Sagemaker model to delete.
@@ -199,7 +225,10 @@ delete_external_model(modelEndpoint, args::AbstractDict{String, <:Any}; aws_conf
 """
     DeleteLabel()
 
-Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
+Deletes a label. You cannot delete labels that are included in an event type in Amazon
+Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete
+the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes
+that label and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the label to delete.
@@ -211,7 +240,10 @@ delete_label(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     DeleteModel()
 
-Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.  When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
+Deletes a model. You can delete models and model versions in Amazon Fraud Detector,
+provided that they are not associated with a detector version.  When you delete a model,
+Amazon Fraud Detector permanently deletes that model and the data is no longer stored in
+Amazon Fraud Detector.
 
 # Required Parameters
 - `modelId`: The model ID of the model to delete.
@@ -224,7 +256,10 @@ delete_model(modelId, modelType, args::AbstractDict{String, <:Any}; aws_config::
 """
     DeleteModelVersion()
 
-Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version.  When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
+Deletes a model version. You can delete models and model versions in Amazon Fraud Detector,
+provided that they are not associated with a detector version.  When you delete a model
+version, Amazon Fraud Detector permanently deletes that model version and the data is no
+longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `modelId`: The model ID of the model version to delete.
@@ -238,7 +273,9 @@ delete_model_version(modelId, modelType, modelVersionNumber, args::AbstractDict{
 """
     DeleteOutcome()
 
-Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
+Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you
+delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is
+no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the outcome to delete.
@@ -250,10 +287,12 @@ delete_outcome(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSC
 """
     DeleteRule()
 
-Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
+Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector
+version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and
+the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
-- `rule`: 
+- `rule`:
 
 """
 delete_rule(rule; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("DeleteRule", Dict{String, Any}("rule"=>rule); aws_config=aws_config)
@@ -262,7 +301,11 @@ delete_rule(rule, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
 """
     DeleteVariable()
 
-Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
+Deletes a variable. You can't delete variables that are included in an event type in Amazon
+Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and
+SageMaker model output variables when you delete the model. You can't delete these
+variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes
+that variable and the data is no longer stored in Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The name of the variable to delete.
@@ -289,7 +332,8 @@ describe_detector(detectorId, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     DescribeModelVersions()
 
-Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version. 
+Gets all of the model versions for the specified model type or for the specified model type
+and model ID. You can also get details for a single, specified model version.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return.
@@ -304,7 +348,7 @@ describe_model_versions(args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     GetDetectorVersion()
 
-Gets a particular detector version. 
+Gets a particular detector version.
 
 # Required Parameters
 - `detectorId`: The detector ID.
@@ -317,7 +361,11 @@ get_detector_version(detectorId, detectorVersionId, args::AbstractDict{String, <
 """
     GetDetectors()
 
-Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning. 
+Gets all detectors or a single detector if a detectorId is specified. This is a paginated
+API. If you provide a null maxResults, this action retrieves a maximum of 10 records per
+page. If you provide a maxResults, the value must be between 5 and 10. To get the next page
+results, provide the pagination token from the GetDetectorsResponse as part of your
+request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
 - `detectorId`: The detector ID.
@@ -330,7 +378,11 @@ get_detectors(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=g
 """
     GetEntityTypes()
 
-Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning. 
+Gets all entity types or a specific entity type if a name is specified. This is a paginated
+API. If you provide a null maxResults, this action retrieves a maximum of 10 records per
+page. If you provide a maxResults, the value must be between 5 and 10. To get the next page
+results, provide the pagination token from the GetEntityTypesResponse as part of your
+request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
 - `maxResults`: The maximum number of objects to return for the request.
@@ -343,15 +395,20 @@ get_entity_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfi
 """
     GetEventPrediction()
 
-Evaluates an event against a detector version. If a version ID is not provided, the detector’s (ACTIVE) version is used.
+Evaluates an event against a detector version. If a version ID is not provided, the
+detector’s (ACTIVE) version is used.
 
 # Required Parameters
 - `detectorId`: The detector ID.
-- `entities`: The entity type (associated with the detector's event type) and specific entity ID representing who performed the event. If an entity id is not available, use \"UNKNOWN.\"
+- `entities`: The entity type (associated with the detector's event type) and specific
+  entity ID representing who performed the event. If an entity id is not available, use
+  \"UNKNOWN.\"
 - `eventId`: The unique ID used to identify the event.
 - `eventTimestamp`: Timestamp that defines when the event under evaluation occurred.
 - `eventTypeName`: The event type associated with the detector specified for the prediction.
-- `eventVariables`: Names of the event type's variables you defined in Amazon Fraud Detector to represent data elements and their corresponding values for the event you are sending for evaluation.
+- `eventVariables`: Names of the event type's variables you defined in Amazon Fraud
+  Detector to represent data elements and their corresponding values for the event you are
+  sending for evaluation.
 
 # Optional Parameters
 - `detectorVersionId`: The detector version ID.
@@ -363,7 +420,11 @@ get_event_prediction(detectorId, entities, eventId, eventTimestamp, eventTypeNam
 """
     GetEventTypes()
 
-Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning. 
+Gets all event types or a specific event type if name is provided. This is a paginated API.
+If you provide a null maxResults, this action retrieves a maximum of 10 records per page.
+If you provide a maxResults, the value must be between 5 and 10. To get the next page
+results, provide the pagination token from the GetEventTypesResponse as part of your
+request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
 - `maxResults`: The maximum number of objects to return for the request.
@@ -376,7 +437,12 @@ get_event_types(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig
 """
     GetExternalModels()
 
-Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning. 
+Gets the details for one or more Amazon SageMaker models that have been imported into the
+service. This is a paginated API. If you provide a null maxResults, this actions retrieves
+a maximum of 10 records per page. If you provide a maxResults, the value must be between 5
+and 10. To get the next page results, provide the pagination token from the
+GetExternalModelsResult as part of your request. A null pagination token fetches the
+records from the beginning.
 
 # Optional Parameters
 - `maxResults`: The maximum number of objects to return for the request.
@@ -389,7 +455,8 @@ get_external_models(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 """
     GetKMSEncryptionKey()
 
-Gets the encryption key if a Key Management Service (KMS) customer master key (CMK) has been specified to be used to encrypt content in Amazon Fraud Detector.
+Gets the encryption key if a Key Management Service (KMS) customer master key (CMK) has
+been specified to be used to encrypt content in Amazon Fraud Detector.
 
 """
 get_kmsencryption_key(; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("GetKMSEncryptionKey"; aws_config=aws_config)
@@ -398,7 +465,11 @@ get_kmsencryption_key(args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     GetLabels()
 
-Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning. 
+Gets all labels or a specific label if name is provided. This is a paginated API. If you
+provide a null maxResults, this action retrieves a maximum of 50 records per page. If you
+provide a maxResults, the value must be between 10 and 50. To get the next page results,
+provide the pagination token from the GetGetLabelsResponse as part of your request. A null
+pagination token fetches the records from the beginning.
 
 # Optional Parameters
 - `maxResults`: The maximum number of objects to return for the request.
@@ -425,10 +496,17 @@ get_model_version(modelId, modelType, modelVersionNumber, args::AbstractDict{Str
 """
     GetModels()
 
-Gets one or more models. Gets all models for the AWS account if no model type and no model id provided. Gets all models for the AWS account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified.  This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
+Gets one or more models. Gets all models for the AWS account if no model type and no model
+id provided. Gets all models for the AWS account and model type, if the model type is
+specified but model id is not provided. Gets a specific model if (model type, model id)
+tuple is specified.  This is a paginated API. If you provide a null maxResults, this action
+retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be
+between 1 and 10. To get the next page results, provide the pagination token from the
+response as part of your request. A null pagination token fetches the records from the
+beginning.
 
 # Optional Parameters
-- `maxResults`: The maximum number of objects to return for the request. 
+- `maxResults`: The maximum number of objects to return for the request.
 - `modelId`: The model ID.
 - `modelType`: The model type.
 - `nextToken`: The next token for the subsequent request.
@@ -439,12 +517,16 @@ get_models(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=glob
 """
     GetOutcomes()
 
-Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning. 
+Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this
+actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value
+must be between 50 and 100. To get the next page results, provide the pagination token from
+the GetOutcomesResult as part of your request. A null pagination token fetches the records
+from the beginning.
 
 # Optional Parameters
-- `maxResults`: The maximum number of objects to return for the request. 
+- `maxResults`: The maximum number of objects to return for the request.
 - `name`: The name of the outcome or outcomes to get.
-- `nextToken`: The next page token for the request. 
+- `nextToken`: The next page token for the request.
 """
 get_outcomes(; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("GetOutcomes"; aws_config=aws_config)
 get_outcomes(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("GetOutcomes", args; aws_config=aws_config)
@@ -452,7 +534,13 @@ get_outcomes(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=gl
 """
     GetRules()
 
-Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
+Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets
+all rules for the detector and the ruleId if present (paginated). Gets a specific rule if
+both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null
+maxResults results in retrieving maximum of 100 records per page. If you provide maxResults
+the value must be between 50 and 100. To get the next page result, a provide a pagination
+token from GetRulesResult as part of your request. Null pagination token fetches the
+records from the beginning.
 
 # Required Parameters
 - `detectorId`: The detector ID.
@@ -469,12 +557,16 @@ get_rules(detectorId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     GetVariables()
 
-Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning. 
+Gets all of the variables or the specific variable. This is a paginated API. Providing null
+maxSizePerPage results in retrieving maximum of 100 records per page. If you provide
+maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide
+a pagination token from GetVariablesResult as part of your request. Null pagination token
+fetches the records from the beginning.
 
 # Optional Parameters
-- `maxResults`: The max size per page determined for the get variable request. 
-- `name`: The name of the variable. 
-- `nextToken`: The next page token of the get variable request. 
+- `maxResults`: The max size per page determined for the get variable request.
+- `name`: The name of the variable.
+- `nextToken`: The next page token of the get variable request.
 """
 get_variables(; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("GetVariables"; aws_config=aws_config)
 get_variables(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("GetVariables", args; aws_config=aws_config)
@@ -482,13 +574,15 @@ get_variables(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=g
 """
     ListTagsForResource()
 
-Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning. 
+Lists all tags associated with the resource. This is a paginated API. To get the next page
+results, provide the pagination token from the response as part of your request. A null
+pagination token fetches the records from the beginning.
 
 # Required Parameters
 - `resourceARN`: The ARN that specifies the resource whose tags you want to list.
 
 # Optional Parameters
-- `maxResults`: The maximum number of objects to return for the request. 
+- `maxResults`: The maximum number of objects to return for the request.
 - `nextToken`: The next token from the previous results.
 """
 list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("ListTagsForResource", Dict{String, Any}("resourceARN"=>resourceARN); aws_config=aws_config)
@@ -497,10 +591,10 @@ list_tags_for_resource(resourceARN, args::AbstractDict{String, <:Any}; aws_confi
 """
     PutDetector()
 
-Creates or updates a detector. 
+Creates or updates a detector.
 
 # Required Parameters
-- `detectorId`: The detector ID. 
+- `detectorId`: The detector ID.
 - `eventTypeName`: The name of the event type.
 
 # Optional Parameters
@@ -513,7 +607,10 @@ put_detector(detectorId, eventTypeName, args::AbstractDict{String, <:Any}; aws_c
 """
     PutEntityType()
 
-Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
+Creates or updates an entity type. An entity represents who is performing the event. As
+part of a fraud prediction, you pass the entity ID to indicate the specific entity who
+performed the event. An entity type classifies the entity. Example classifications include
+customer, merchant, or account.
 
 # Required Parameters
 - `name`: The name of the entity type.
@@ -528,10 +625,16 @@ put_entity_type(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 """
     PutEventType()
 
-Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
+Creates or updates an event type. An event is a business activity that is evaluated for
+fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event
+type defines the structure for an event sent to Amazon Fraud Detector. This includes the
+variables sent as part of the event, the entity performing the event (such as a customer),
+and the labels that classify the event. Example event types include online payment
+transactions, account registrations, and authentications.
 
 # Required Parameters
-- `entityTypes`: The entity type for the event type. Example entity types: customer, merchant, account.
+- `entityTypes`: The entity type for the event type. Example entity types: customer,
+  merchant, account.
 - `eventVariables`: The event type variables.
 - `name`: The name.
 
@@ -546,7 +649,9 @@ put_event_type(entityTypes, eventVariables, name, args::AbstractDict{String, <:A
 """
     PutExternalModel()
 
-Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables. 
+Creates or updates an Amazon SageMaker model endpoint. You can also use this action to
+update the configuration of the model endpoint, including the IAM role and/or the mapped
+variables.
 
 # Required Parameters
 - `inputConfiguration`: The model endpoint input configuration.
@@ -565,7 +670,8 @@ put_external_model(inputConfiguration, invokeModelEndpointRoleArn, modelEndpoint
 """
     PutKMSEncryptionKey()
 
-Specifies the Key Management Service (KMS) customer master key (CMK) to be used to encrypt content in Amazon Fraud Detector.
+Specifies the Key Management Service (KMS) customer master key (CMK) to be used to encrypt
+content in Amazon Fraud Detector.
 
 # Required Parameters
 - `kmsEncryptionKeyArn`: The KMS encryption key ARN.
@@ -577,14 +683,16 @@ put_kmsencryption_key(kmsEncryptionKeyArn, args::AbstractDict{String, <:Any}; aw
 """
     PutLabel()
 
-Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector. 
+Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels
+are associated with event types and used to train supervised machine learning models in
+Amazon Fraud Detector.
 
 # Required Parameters
 - `name`: The label name.
 
 # Optional Parameters
 - `description`: The label description.
-- `tags`: 
+- `tags`:
 """
 put_label(name; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("PutLabel", Dict{String, Any}("name"=>name); aws_config=aws_config)
 put_label(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("PutLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
@@ -592,7 +700,7 @@ put_label(name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig
 """
     PutOutcome()
 
-Creates or updates an outcome. 
+Creates or updates an outcome.
 
 # Required Parameters
 - `name`: The name of the outcome.
@@ -633,18 +741,26 @@ untag_resource(resourceARN, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateDetectorVersion()
 
- Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a DRAFT detector version.
+ Updates a detector version. The detector version attributes that you can update include
+models, external model endpoints, rules, rule execution mode, and description. You can only
+update a DRAFT detector version.
 
 # Required Parameters
 - `detectorId`: The parent detector ID for the detector version you want to update.
-- `detectorVersionId`: The detector version ID. 
-- `externalModelEndpoints`: The Amazon SageMaker model endpoints to include in the detector version.
+- `detectorVersionId`: The detector version ID.
+- `externalModelEndpoints`: The Amazon SageMaker model endpoints to include in the detector
+  version.
 - `rules`: The rules to include in the detector version.
 
 # Optional Parameters
-- `description`: The detector version description. 
+- `description`: The detector version description.
 - `modelVersions`: The model versions to include in the detector version.
-- `ruleExecutionMode`: The rule execution mode to add to the detector. If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector then provides the outcomes for that single rule. If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and returns the outcomes for all matched rules. You can define and edit the rule mode at the detector version level, when it is in draft status. The default behavior is FIRST_MATCHED.
+- `ruleExecutionMode`: The rule execution mode to add to the detector. If you specify
+  FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping
+  at the first matched rule. Amazon Fraud dectector then provides the outcomes for that
+  single rule. If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and
+  returns the outcomes for all matched rules. You can define and edit the rule mode at the
+  detector version level, when it is in draft status. The default behavior is FIRST_MATCHED.
 """
 update_detector_version(detectorId, detectorVersionId, externalModelEndpoints, rules; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("UpdateDetectorVersion", Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "externalModelEndpoints"=>externalModelEndpoints, "rules"=>rules); aws_config=aws_config)
 update_detector_version(detectorId, detectorVersionId, externalModelEndpoints, rules, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("UpdateDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "externalModelEndpoints"=>externalModelEndpoints, "rules"=>rules), args)); aws_config=aws_config)
@@ -652,12 +768,13 @@ update_detector_version(detectorId, detectorVersionId, externalModelEndpoints, r
 """
     UpdateDetectorVersionMetadata()
 
-Updates the detector version's description. You can update the metadata for any detector version (DRAFT, ACTIVE, or INACTIVE). 
+Updates the detector version's description. You can update the metadata for any detector
+version (DRAFT, ACTIVE, or INACTIVE).
 
 # Required Parameters
 - `description`: The description.
 - `detectorId`: The detector ID.
-- `detectorVersionId`: The detector version ID. 
+- `detectorVersionId`: The detector version ID.
 
 """
 update_detector_version_metadata(description, detectorId, detectorVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("UpdateDetectorVersionMetadata", Dict{String, Any}("description"=>description, "detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId); aws_config=aws_config)
@@ -666,11 +783,13 @@ update_detector_version_metadata(description, detectorId, detectorVersionId, arg
 """
     UpdateDetectorVersionStatus()
 
-Updates the detector version’s status. You can perform the following promotions or demotions using UpdateDetectorVersionStatus: DRAFT to ACTIVE, ACTIVE to INACTIVE, and INACTIVE to ACTIVE.
+Updates the detector version’s status. You can perform the following promotions or
+demotions using UpdateDetectorVersionStatus: DRAFT to ACTIVE, ACTIVE to INACTIVE, and
+INACTIVE to ACTIVE.
 
 # Required Parameters
-- `detectorId`: The detector ID. 
-- `detectorVersionId`: The detector version ID. 
+- `detectorId`: The detector ID.
+- `detectorVersionId`: The detector version ID.
 - `status`: The new status.
 
 """
@@ -695,7 +814,10 @@ update_model(modelId, modelType, args::AbstractDict{String, <:Any}; aws_config::
 """
     UpdateModelVersion()
 
-Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
+Updates a model version. Updating a model version retrains an existing model version using
+updated training data and produces a new minor version of the model. You can update the
+training data set location and data access role attributes using this action. This action
+creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
 
 # Required Parameters
 - `majorVersionNumber`: The major version number.
@@ -712,7 +834,8 @@ update_model_version(majorVersionNumber, modelId, modelType, args::AbstractDict{
 """
     UpdateModelVersionStatus()
 
-Updates the status of a model version. You can perform the following status updates:   Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVEto INACTIVE.  
+Updates the status of a model version. You can perform the following status updates:
+Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVEto INACTIVE.
 
 # Required Parameters
 - `modelId`: The model ID of the model version to update.
@@ -740,7 +863,8 @@ update_rule_metadata(description, rule, args::AbstractDict{String, <:Any}; aws_c
 """
     UpdateRuleVersion()
 
-Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...). 
+Updates a rule version resulting in a new rule version. Updates a rule version resulting in
+a new rule version (version 1, 2, 3 ...).
 
 # Required Parameters
 - `expression`: The rule expression.

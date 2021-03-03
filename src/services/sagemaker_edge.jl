@@ -28,7 +28,8 @@ Use to get the current status of devices registered on SageMaker Edge Manager.
 - `DeviceName`: The unique name of the device.
 
 # Optional Parameters
-- `AgentMetrics`: For internal use. Returns a list of SageMaker Edge Manager agent operating metrics.
+- `AgentMetrics`: For internal use. Returns a list of SageMaker Edge Manager agent
+  operating metrics.
 - `Models`: Returns a list of models deployed on the the device.
 """
 send_heartbeat(AgentVersion, DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_edge("POST", "/SendHeartbeat", Dict{String, Any}("AgentVersion"=>AgentVersion, "DeviceFleetName"=>DeviceFleetName, "DeviceName"=>DeviceName); aws_config=aws_config)

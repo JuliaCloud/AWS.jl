@@ -21,7 +21,8 @@ clone_backend(appId, backendEnvironmentName, targetEnvironmentName, args::Abstra
 """
     CreateBackend()
 
-This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
+This operation creates a backend for an Amplify app. Backends are automatically created at
+the time of app creation.
 
 # Required Parameters
 - `appId`: The app ID.
@@ -115,7 +116,8 @@ Deletes an existing backend API resource.
 - `resourceName`: The name of this resource.
 
 # Optional Parameters
-- `resourceConfig`: Defines the resource configuration for the data model in your Amplify project.
+- `resourceConfig`: Defines the resource configuration for the data model in your Amplify
+  project.
 """
 delete_backend_api(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)/remove", Dict{String, Any}("resourceName"=>resourceName); aws_config=aws_config)
 delete_backend_api(appId, backendEnvironmentName, resourceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)/remove", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), args)); aws_config=aws_config)
@@ -186,7 +188,8 @@ Gets the details for a backend API.
 - `resourceName`: The name of this resource.
 
 # Optional Parameters
-- `resourceConfig`: Defines the resource configuration for the data model in your Amplify project.
+- `resourceConfig`: Defines the resource configuration for the data model in your Amplify
+  project.
 """
 get_backend_api(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)/details", Dict{String, Any}("resourceName"=>resourceName); aws_config=aws_config)
 get_backend_api(appId, backendEnvironmentName, resourceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)/details", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), args)); aws_config=aws_config)
@@ -259,8 +262,10 @@ Lists the jobs for the backend of an Amplify app.
 - `jobId`: The ID for the job.
 - `maxResults`: The maximum number of results that you want in the response.
 - `nextToken`: The token for the next set of results.
-- `operation`: Filters the list of response objects to include only those with the specified operation name.
-- `status`: Filters the list of response objects to include only those with the specified status.
+- `operation`: Filters the list of response objects to include only those with the
+  specified operation name.
+- `status`: Filters the list of response objects to include only those with the specified
+  status.
 """
 list_backend_jobs(appId, backendEnvironmentName; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)"; aws_config=aws_config)
 list_backend_jobs(appId, backendEnvironmentName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)", args; aws_config=aws_config)
@@ -302,7 +307,8 @@ Updates an existing backend API resource.
 - `resourceName`: The name of this resource.
 
 # Optional Parameters
-- `resourceConfig`: Defines the resource configuration for the data model in your Amplify project.
+- `resourceConfig`: Defines the resource configuration for the data model in your Amplify
+  project.
 """
 update_backend_api(appId, backendEnvironmentName, resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)", Dict{String, Any}("resourceName"=>resourceName); aws_config=aws_config)
 update_backend_api(appId, backendEnvironmentName, resourceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/api/$(backendEnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName), args)); aws_config=aws_config)
@@ -347,8 +353,10 @@ Updates a specific job.
 - `jobId`: The ID for the job.
 
 # Optional Parameters
-- `operation`: Filters the list of response objects to include only those with the specified operation name.
-- `status`: Filters the list of response objects to include only those with the specified status.
+- `operation`: Filters the list of response objects to include only those with the
+  specified operation name.
+- `status`: Filters the list of response objects to include only those with the specified
+  status.
 """
 update_backend_job(appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)"; aws_config=aws_config)
 update_backend_job(appId, backendEnvironmentName, jobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)", args; aws_config=aws_config)

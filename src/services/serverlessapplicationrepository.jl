@@ -7,31 +7,51 @@ using AWS.UUIDs
 """
     CreateApplication()
 
-Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
+Creates an application, optionally including an AWS SAM file to create the first
+application version in the same call.
 
 # Required Parameters
-- `author`: The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
+- `author`: The name of the author publishing the app.Minimum length=1. Maximum
+  length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
 - `description`: The description of the application.Minimum length=1. Maximum length=256
-- `name`: The name of the application that you want to publish.Minimum length=1. Maximum length=140Pattern: \"[a-zA-Z0-9-]+\";
+- `name`: The name of the application that you want to publish.Minimum length=1. Maximum
+  length=140Pattern: \"[a-zA-Z0-9-]+\";
 
 # Optional Parameters
-- `homePageUrl`: A URL with more information about the application, for example the location of your GitHub repository for the application.
-- `labels`: Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
-- `licenseBody`: A local text file that contains the license of the app that matches the spdxLicenseID value of your application.
- The file has the format file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of licenseBody and licenseUrl; otherwise, an error results.
-- `licenseUrl`: A link to the S3 object that contains the license of the app that matches the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only one of licenseBody and licenseUrl; otherwise, an error results.
-- `readmeBody`: A local text readme file in Markdown language that contains a more detailed description of the application and how it works.
- The file has the format file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of readmeBody and readmeUrl; otherwise, an error results.
-- `readmeUrl`: A link to the S3 object in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MBYou can specify only one of readmeBody and readmeUrl; otherwise, an error results.
+- `homePageUrl`: A URL with more information about the application, for example the
+  location of your GitHub repository for the application.
+- `labels`: Labels to improve discovery of apps in search results.Minimum length=1. Maximum
+  length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
+- `licenseBody`: A local text file that contains the license of the app that matches the
+  spdxLicenseID value of your application.
+ The file has the format
+  file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of licenseBody and
+  licenseUrl; otherwise, an error results.
+- `licenseUrl`: A link to the S3 object that contains the license of the app that matches
+  the spdxLicenseID value of your application.Maximum size 5 MBYou can specify only one of
+  licenseBody and licenseUrl; otherwise, an error results.
+- `readmeBody`: A local text readme file in Markdown language that contains a more detailed
+  description of the application and how it works.
+ The file has the format
+  file://&lt;path>/&lt;filename>.Maximum size 5 MBYou can specify only one of readmeBody and
+  readmeUrl; otherwise, an error results.
+- `readmeUrl`: A link to the S3 object in Markdown language that contains a more detailed
+  description of the application and how it works.Maximum size 5 MBYou can specify only one
+  of readmeBody and readmeUrl; otherwise, an error results.
 - `semanticVersion`: The semantic version of the application:
  https://semver.org/
- 
-- `sourceCodeArchiveUrl`: A link to the S3 object that contains the ZIP archive of the source code for this version of your application.Maximum size 50 MB
-- `sourceCodeUrl`: A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
+- `sourceCodeArchiveUrl`: A link to the S3 object that contains the ZIP archive of the
+  source code for this version of your application.Maximum size 50 MB
+- `sourceCodeUrl`: A link to a public repository for the source code of your application,
+  for example the URL of a specific GitHub commit.
 - `spdxLicenseId`: A valid identifier from https://spdx.org/licenses/.
 - `templateBody`: The local raw packaged AWS SAM template file of your application.
- The file has the format file://&lt;path>/&lt;filename>.You can specify only one of templateBody and templateUrl; otherwise an error results.
-- `templateUrl`: A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results.
+ The
+  file has the format file://&lt;path>/&lt;filename>.You can specify only one of templateBody
+  and templateUrl; otherwise an error results.
+- `templateUrl`: A link to the S3 object containing the packaged AWS SAM template of your
+  application.You can specify only one of templateBody and templateUrl; otherwise an error
+  results.
 """
 create_application(author, description, name; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}("author"=>author, "description"=>description, "name"=>name); aws_config=aws_config)
 create_application(author, description, name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("author"=>author, "description"=>description, "name"=>name), args)); aws_config=aws_config)
@@ -46,8 +66,10 @@ Creates an application version.
 - `semanticVersion`: The semantic version of the new version.
 
 # Optional Parameters
-- `sourceCodeArchiveUrl`: A link to the S3 object that contains the ZIP archive of the source code for this version of your application.Maximum size 50 MB
-- `sourceCodeUrl`: A link to a public repository for the source code of your application, for example the URL of a specific GitHub commit.
+- `sourceCodeArchiveUrl`: A link to the S3 object that contains the ZIP archive of the
+  source code for this version of your application.Maximum size 50 MB
+- `sourceCodeUrl`: A link to a public repository for the source code of your application,
+  for example the URL of a specific GitHub commit.
 - `templateBody`: The raw packaged AWS SAM template of your application.
 - `templateUrl`: A link to the packaged AWS SAM template of your application.
 """
@@ -61,52 +83,73 @@ Creates an AWS CloudFormation change set for the given application.
 
 # Required Parameters
 - `applicationId`: The Amazon Resource Name (ARN) of the application.
-- `stackName`: This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+- `stackName`: This property corresponds to the parameter of the same name for the AWS
+  CloudFormation CreateChangeSet
   API.
 
 # Optional Parameters
-- `capabilities`: A list of values that you must specify before you can deploy certain applications.
- Some applications might include resources that can affect permissions in your AWS
- account, for example, by creating new AWS Identity and Access Management (IAM) users.
+- `capabilities`: A list of values that you must specify before you can deploy certain
+  applications.
+ Some applications might include resources that can affect permissions in
+  your AWS
+ account, for example, by creating new AWS Identity and Access Management (IAM)
+  users.
  For those applications, you must explicitly acknowledge their capabilities by
- specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
- CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.The following resources require you to specify CAPABILITY_IAM or
+  specifying this parameter.The only valid values are CAPABILITY_IAM, CAPABILITY_NAMED_IAM,
+  CAPABILITY_RESOURCE_POLICY, and CAPABILITY_AUTO_EXPAND.The following resources require you
+  to specify CAPABILITY_IAM or
  CAPABILITY_NAMED_IAM:
  AWS::IAM::Group,
- AWS::IAM::InstanceProfile,
+  AWS::IAM::InstanceProfile,
  AWS::IAM::Policy, and
  AWS::IAM::Role.
- If the application contains IAM resources, you can specify either CAPABILITY_IAM
- or CAPABILITY_NAMED_IAM. If the application contains IAM resources
- with custom names, you must specify CAPABILITY_NAMED_IAM.The following resources require you to specify CAPABILITY_RESOURCE_POLICY:
+ If the application
+  contains IAM resources, you can specify either CAPABILITY_IAM
+ or CAPABILITY_NAMED_IAM. If
+  the application contains IAM resources
+ with custom names, you must specify
+  CAPABILITY_NAMED_IAM.The following resources require you to specify
+  CAPABILITY_RESOURCE_POLICY:
  AWS::Lambda::Permission,
  AWS::IAM:Policy,
- AWS::ApplicationAutoScaling::ScalingPolicy,
+  AWS::ApplicationAutoScaling::ScalingPolicy,
  AWS::S3::BucketPolicy,
- AWS::SQS::QueuePolicy, and
- AWS::SNS:TopicPolicy.Applications that contain one or more nested applications require you to specify
- CAPABILITY_AUTO_EXPAND.If your application template contains any of the above resources, we recommend that you review
- all permissions associated with the application before deploying. If you don't specify
- this parameter for an application that requires capabilities, the call will fail.
-- `changeSetName`: This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+ AWS::SQS::QueuePolicy,
+  and
+ AWS::SNS:TopicPolicy.Applications that contain one or more nested applications require
+  you to specify
+ CAPABILITY_AUTO_EXPAND.If your application template contains any of the
+  above resources, we recommend that you review
+ all permissions associated with the
+  application before deploying. If you don't specify
+ this parameter for an application that
+  requires capabilities, the call will fail.
+- `changeSetName`: This property corresponds to the parameter of the same name for the AWS
+  CloudFormation CreateChangeSet
   API.
-- `clientToken`: This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+- `clientToken`: This property corresponds to the parameter of the same name for the AWS
+  CloudFormation CreateChangeSet
   API.
-- `description`: This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+- `description`: This property corresponds to the parameter of the same name for the AWS
+  CloudFormation CreateChangeSet
   API.
-- `notificationArns`: This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+- `notificationArns`: This property corresponds to the parameter of the same name for the
+  AWS CloudFormation CreateChangeSet
   API.
 - `parameterOverrides`: A list of parameter values for the parameters of the application.
-- `resourceTypes`: This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+- `resourceTypes`: This property corresponds to the parameter of the same name for the AWS
+  CloudFormation CreateChangeSet
   API.
-- `rollbackConfiguration`: This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+- `rollbackConfiguration`: This property corresponds to the parameter of the same name for
+  the AWS CloudFormation CreateChangeSet
   API.
 - `semanticVersion`: The semantic version of the application:
  https://semver.org/
- 
-- `tags`: This property corresponds to the parameter of the same name for the AWS CloudFormation CreateChangeSet
+- `tags`: This property corresponds to the parameter of the same name for the AWS
+  CloudFormation CreateChangeSet
   API.
-- `templateId`: The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+- `templateId`: The UUID returned by CreateCloudFormationTemplate.Pattern:
+  [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 """
 create_cloud_formation_change_set(applicationId, stackName; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}("stackName"=>stackName); aws_config=aws_config)
 create_cloud_formation_change_set(applicationId, stackName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stackName"=>stackName), args)); aws_config=aws_config)
@@ -122,7 +165,6 @@ Creates an AWS CloudFormation template.
 # Optional Parameters
 - `semanticVersion`: The semantic version of the application:
  https://semver.org/
- 
 """
 create_cloud_formation_template(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates"; aws_config=aws_config)
 create_cloud_formation_template(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates", args; aws_config=aws_config)
@@ -172,7 +214,8 @@ Gets the specified AWS CloudFormation template.
 
 # Required Parameters
 - `applicationId`: The Amazon Resource Name (ARN) of the application.
-- `templateId`: The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
+- `templateId`: The UUID returned by CreateCloudFormationTemplate.Pattern:
+  [0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}
 
 """
 get_cloud_formation_template(applicationId, templateId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)"; aws_config=aws_config)
@@ -224,7 +267,8 @@ list_applications(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig
 """
     PutApplicationPolicy()
 
-Sets the permission policy for an application. For the list of actions supported for this operation, see
+Sets the permission policy for an application. For the list of actions supported for this
+operation, see
  Application 
  Permissions
  .
@@ -240,7 +284,8 @@ put_application_policy(applicationId, statements, args::AbstractDict{String, <:A
 """
     UnshareApplication()
 
-Unshares an application from an AWS Organization.This operation can be called only from the organization's master account.
+Unshares an application from an AWS Organization.This operation can be called only from the
+organization's master account.
 
 # Required Parameters
 - `applicationId`: The Amazon Resource Name (ARN) of the application.
@@ -259,12 +304,17 @@ Updates the specified application.
 - `applicationId`: The Amazon Resource Name (ARN) of the application.
 
 # Optional Parameters
-- `author`: The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
+- `author`: The name of the author publishing the app.Minimum length=1. Maximum
+  length=127.Pattern \"^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?\";
 - `description`: The description of the application.Minimum length=1. Maximum length=256
-- `homePageUrl`: A URL with more information about the application, for example the location of your GitHub repository for the application.
-- `labels`: Labels to improve discovery of apps in search results.Minimum length=1. Maximum length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
-- `readmeBody`: A text readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
-- `readmeUrl`: A link to the readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB
+- `homePageUrl`: A URL with more information about the application, for example the
+  location of your GitHub repository for the application.
+- `labels`: Labels to improve discovery of apps in search results.Minimum length=1. Maximum
+  length=127. Maximum number of labels: 10Pattern: \"^[a-zA-Z0-9+-_:/@]+\";
+- `readmeBody`: A text readme file in Markdown language that contains a more detailed
+  description of the application and how it works.Maximum size 5 MB
+- `readmeUrl`: A link to the readme file in Markdown language that contains a more detailed
+  description of the application and how it works.Maximum size 5 MB
 """
 update_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)"; aws_config=aws_config)
 update_application(applicationId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)", args; aws_config=aws_config)

@@ -10,7 +10,8 @@ using AWS.UUIDs
 Specifies a domain to be associated to Amazon WorkLink.
 
 # Required Parameters
-- `AcmCertificateArn`: The ARN of an issued ACM certificate that is valid for the domain being associated.
+- `AcmCertificateArn`: The ARN of an issued ACM certificate that is valid for the domain
+  being associated.
 - `DomainName`: The fully qualified domain name (FQDN).
 - `FleetArn`: The Amazon Resource Name (ARN) of the fleet.
 
@@ -23,14 +24,16 @@ associate_domain(AcmCertificateArn, DomainName, FleetArn, args::AbstractDict{Str
 """
     AssociateWebsiteAuthorizationProvider()
 
-Associates a website authorization provider with a specified fleet. This is used to authorize users against associated websites in the company network.
+Associates a website authorization provider with a specified fleet. This is used to
+authorize users against associated websites in the company network.
 
 # Required Parameters
 - `AuthorizationProviderType`: The authorization provider type.
 - `FleetArn`: The ARN of the fleet.
 
 # Optional Parameters
-- `DomainName`: The domain name of the authorization provider. This applies only to SAML-based authorization providers.
+- `DomainName`: The domain name of the authorization provider. This applies only to
+  SAML-based authorization providers.
 """
 associate_website_authorization_provider(AuthorizationProviderType, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateWebsiteAuthorizationProvider", Dict{String, Any}("AuthorizationProviderType"=>AuthorizationProviderType, "FleetArn"=>FleetArn); aws_config=aws_config)
 associate_website_authorization_provider(AuthorizationProviderType, FleetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateWebsiteAuthorizationProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationProviderType"=>AuthorizationProviderType, "FleetArn"=>FleetArn), args)); aws_config=aws_config)
@@ -38,7 +41,8 @@ associate_website_authorization_provider(AuthorizationProviderType, FleetArn, ar
 """
     AssociateWebsiteCertificateAuthority()
 
-Imports the root certificate of a certificate authority (CA) used to obtain TLS certificates used by associated websites within the company network.
+Imports the root certificate of a certificate authority (CA) used to obtain TLS
+certificates used by associated websites within the company network.
 
 # Required Parameters
 - `Certificate`: The root certificate of the CA.
@@ -53,14 +57,16 @@ associate_website_certificate_authority(Certificate, FleetArn, args::AbstractDic
 """
     CreateFleet()
 
-Creates a fleet. A fleet consists of resources and the configuration that delivers associated websites to authorized users who download and set up the Amazon WorkLink app.
+Creates a fleet. A fleet consists of resources and the configuration that delivers
+associated websites to authorized users who download and set up the Amazon WorkLink app.
 
 # Required Parameters
 - `FleetName`: A unique name for the fleet.
 
 # Optional Parameters
 - `DisplayName`: The fleet name to display.
-- `OptimizeForEndUserLocation`: The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
+- `OptimizeForEndUserLocation`: The option to optimize for better performance by routing
+  traffic through the closest AWS Region to users, which may be outside of your home Region.
 - `Tags`:  The tags to add to the resource. A tag is a key-value pair.
 """
 create_fleet(FleetName; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/createFleet", Dict{String, Any}("FleetName"=>FleetName); aws_config=aws_config)
@@ -69,7 +75,7 @@ create_fleet(FleetName, args::AbstractDict{String, <:Any}; aws_config::AbstractA
 """
     DeleteFleet()
 
-Deletes a fleet. Prevents users from accessing previously associated websites. 
+Deletes a fleet. Prevents users from accessing previously associated websites.
 
 # Required Parameters
 - `FleetArn`: The ARN of the fleet.
@@ -93,7 +99,8 @@ describe_audit_stream_configuration(FleetArn, args::AbstractDict{String, <:Any};
 """
     DescribeCompanyNetworkConfiguration()
 
-Describes the networking configuration to access the internal websites associated with the specified fleet.
+Describes the networking configuration to access the internal websites associated with the
+specified fleet.
 
 # Required Parameters
 - `FleetArn`: The ARN of the fleet.
@@ -143,7 +150,8 @@ describe_domain(DomainName, FleetArn, args::AbstractDict{String, <:Any}; aws_con
 """
     DescribeFleetMetadata()
 
-Provides basic information for the specified fleet, excluding identity provider, networking, and device configuration details.
+Provides basic information for the specified fleet, excluding identity provider,
+networking, and device configuration details.
 
 # Required Parameters
 - `FleetArn`: The Amazon Resource Name (ARN) of the fleet.
@@ -180,7 +188,8 @@ describe_website_certificate_authority(FleetArn, WebsiteCaId, args::AbstractDict
 """
     DisassociateDomain()
 
-Disassociates a domain from Amazon WorkLink. End users lose the ability to access the domain with Amazon WorkLink. 
+Disassociates a domain from Amazon WorkLink. End users lose the ability to access the
+domain with Amazon WorkLink.
 
 # Required Parameters
 - `DomainName`: The name of the domain.
@@ -193,7 +202,9 @@ disassociate_domain(DomainName, FleetArn, args::AbstractDict{String, <:Any}; aws
 """
     DisassociateWebsiteAuthorizationProvider()
 
-Disassociates a website authorization provider from a specified fleet. After the disassociation, users can't load any associated websites that require this authorization provider.
+Disassociates a website authorization provider from a specified fleet. After the
+disassociation, users can't load any associated websites that require this authorization
+provider.
 
 # Required Parameters
 - `AuthorizationProviderId`: A unique identifier for the authorization provider.
@@ -226,7 +237,8 @@ Retrieves a list of devices registered with the specified fleet.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to be included in the next page.
-- `NextToken`: The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+- `NextToken`: The pagination token used to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
 """
 list_devices(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDevices", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
 list_devices(FleetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), args)); aws_config=aws_config)
@@ -241,7 +253,8 @@ Retrieves a list of domains associated to a specified fleet.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to be included in the next page.
-- `NextToken`: The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+- `NextToken`: The pagination token used to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
 """
 list_domains(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDomains", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
 list_domains(FleetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), args)); aws_config=aws_config)
@@ -253,7 +266,8 @@ Retrieves a list of fleets for the current account and Region.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to be included in the next page.
-- `NextToken`: The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+- `NextToken`: The pagination token used to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
 """
 list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listFleets"; aws_config=aws_config)
 list_fleets(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listFleets", args; aws_config=aws_config)
@@ -280,7 +294,8 @@ Retrieves a list of website authorization providers associated with a specified 
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to be included in the next page.
-- `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+- `NextToken`: The pagination token to use to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
 """
 list_website_authorization_providers(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteAuthorizationProviders", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
 list_website_authorization_providers(FleetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteAuthorizationProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), args)); aws_config=aws_config)
@@ -295,7 +310,8 @@ Retrieves a list of certificate authorities added for the current account and Re
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results to be included in the next page.
-- `NextToken`: The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
+- `NextToken`: The pagination token used to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
 """
 list_website_certificate_authorities(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteCertificateAuthorities", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
 list_website_certificate_authorities(FleetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteCertificateAuthorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), args)); aws_config=aws_config)
@@ -329,7 +345,8 @@ revoke_domain_access(DomainName, FleetArn, args::AbstractDict{String, <:Any}; aw
 """
     SignOutUser()
 
-Signs the user out from all of their devices. The user can sign in again if they have valid credentials.
+Signs the user out from all of their devices. The user can sign in again if they have valid
+credentials.
 
 # Required Parameters
 - `FleetArn`: The ARN of the fleet.
@@ -342,7 +359,9 @@ sign_out_user(FleetArn, Username, args::AbstractDict{String, <:Any}; aws_config:
 """
     TagResource()
 
-Adds or overwrites one or more tags for the specified resource, such as a fleet. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, this operation updates its value.
+Adds or overwrites one or more tags for the specified resource, such as a fleet. Each tag
+consists of a key and an optional value. If a resource already has a tag with the same key,
+this operation updates its value.
 
 # Required Parameters
 - `ResourceArn`: The Amazon Resource Name (ARN) of the fleet.
@@ -374,7 +393,8 @@ Updates the audit stream configuration for the fleet.
 - `FleetArn`: The ARN of the fleet.
 
 # Optional Parameters
-- `AuditStreamArn`: The ARN of the Amazon Kinesis data stream that receives the audit events.
+- `AuditStreamArn`: The ARN of the Amazon Kinesis data stream that receives the audit
+  events.
 """
 update_audit_stream_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateAuditStreamConfiguration", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
 update_audit_stream_configuration(FleetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateAuditStreamConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), args)); aws_config=aws_config)
@@ -387,7 +407,8 @@ Updates the company network configuration for the fleet.
 # Required Parameters
 - `FleetArn`: The ARN of the fleet.
 - `SecurityGroupIds`: The security groups associated with access to the provided subnets.
-- `SubnetIds`: The subnets used for X-ENI connections from Amazon WorkLink rendering containers.
+- `SubnetIds`: The subnets used for X-ENI connections from Amazon WorkLink rendering
+  containers.
 - `VpcId`: The VPC with connectivity to associated websites.
 
 """
@@ -403,7 +424,8 @@ Updates the device policy configuration for the fleet.
 - `FleetArn`: The ARN of the fleet.
 
 # Optional Parameters
-- `DeviceCaCertificate`: The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
+- `DeviceCaCertificate`: The certificate chain, including intermediate certificates and the
+  root certificate authority certificate used to issue device certificates.
 """
 update_device_policy_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateDevicePolicyConfiguration", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
 update_device_policy_configuration(FleetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateDevicePolicyConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), args)); aws_config=aws_config)
@@ -432,8 +454,10 @@ Updates fleet metadata, such as DisplayName.
 - `FleetArn`: The ARN of the fleet.
 
 # Optional Parameters
-- `DisplayName`: The fleet name to display. The existing DisplayName is unset if null is passed.
-- `OptimizeForEndUserLocation`: The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region.
+- `DisplayName`: The fleet name to display. The existing DisplayName is unset if null is
+  passed.
+- `OptimizeForEndUserLocation`: The option to optimize for better performance by routing
+  traffic through the closest AWS Region to users, which may be outside of your home Region.
 """
 update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/UpdateFleetMetadata", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
 update_fleet_metadata(FleetArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/UpdateFleetMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), args)); aws_config=aws_config)
@@ -448,7 +472,8 @@ Updates the identity provider configuration for the fleet.
 - `IdentityProviderType`: The type of identity provider.
 
 # Optional Parameters
-- `IdentityProviderSamlMetadata`: The SAML metadata document provided by the customer’s identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.
+- `IdentityProviderSamlMetadata`: The SAML metadata document provided by the customer’s
+  identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.
 """
 update_identity_provider_configuration(FleetArn, IdentityProviderType; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateIdentityProviderConfiguration", Dict{String, Any}("FleetArn"=>FleetArn, "IdentityProviderType"=>IdentityProviderType); aws_config=aws_config)
 update_identity_provider_configuration(FleetArn, IdentityProviderType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateIdentityProviderConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "IdentityProviderType"=>IdentityProviderType), args)); aws_config=aws_config)

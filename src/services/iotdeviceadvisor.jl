@@ -10,7 +10,8 @@ using AWS.UUIDs
 Creates a Device Advisor test suite.
 
 # Optional Parameters
-- `suiteDefinitionConfiguration`: Creates a Device Advisor test suite with suite definition configuration.
+- `suiteDefinitionConfiguration`: Creates a Device Advisor test suite with suite definition
+  configuration.
 - `tags`: The tags to be attached to the suite definition.
 """
 create_suite_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions"; aws_config=aws_config)
@@ -48,8 +49,10 @@ get_suite_definition(suiteDefinitionId, args::AbstractDict{String, <:Any}; aws_c
 Gets information about a Device Advisor test suite run.
 
 # Required Parameters
-- `suiteDefinitionId`: Requests the information about Device Advisor test suite run based on suite definition Id.
-- `suiteRunId`: Requests the information about Device Advisor test suite run based on suite run Id.
+- `suiteDefinitionId`: Requests the information about Device Advisor test suite run based
+  on suite definition Id.
+- `suiteRunId`: Requests the information about Device Advisor test suite run based on suite
+  run Id.
 
 """
 get_suite_run(suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)"; aws_config=aws_config)
@@ -83,13 +86,16 @@ list_suite_definitions(args::AbstractDict{String, Any}; aws_config::AbstractAWSC
 """
     ListSuiteRuns()
 
-Lists the runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite.
+Lists the runs of the specified Device Advisor test suite. You can list all runs of the
+test suite, or the runs of a specific version of the test suite.
 
 # Optional Parameters
 - `maxResults`: MaxResults for list suite run API request.
 - `nextToken`: Next pagination token for list suite run request.
-- `suiteDefinitionId`: Lists the runs of the specified Device Advisor test suite based on suite definition Id.
-- `suiteDefinitionVersion`: Lists the runs of the specified Device Advisor test suite based on suite definition version.
+- `suiteDefinitionId`: Lists the runs of the specified Device Advisor test suite based on
+  suite definition Id.
+- `suiteDefinitionVersion`: Lists the runs of the specified Device Advisor test suite based
+  on suite definition version.
 """
 list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns"; aws_config=aws_config)
 list_suite_runs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns", args; aws_config=aws_config)
@@ -170,7 +176,8 @@ Updates a Device Advisor test suite.
 - `suiteDefinitionId`: Updates a Device Advisor test suite with suite definition id.
 
 # Optional Parameters
-- `suiteDefinitionConfiguration`: Updates a Device Advisor test suite with suite definition configuration.
+- `suiteDefinitionConfiguration`: Updates a Device Advisor test suite with suite definition
+  configuration.
 """
 update_suite_definition(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("PATCH", "/suiteDefinitions/$(suiteDefinitionId)"; aws_config=aws_config)
 update_suite_definition(suiteDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("PATCH", "/suiteDefinitions/$(suiteDefinitionId)", args; aws_config=aws_config)

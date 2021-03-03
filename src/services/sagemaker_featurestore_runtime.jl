@@ -7,12 +7,16 @@ using AWS.UUIDs
 """
     DeleteRecord()
 
-Deletes a Record from a FeatureGroup. A new record will show up in the OfflineStore when the DeleteRecord API is called. This record will have a value of True in the is_deleted column.
+Deletes a Record from a FeatureGroup. A new record will show up in the OfflineStore when
+the DeleteRecord API is called. This record will have a value of True in the is_deleted
+column.
 
 # Required Parameters
-- `EventTime`: Timestamp indicating when the deletion event occurred. EventTime can be used to query data at a certain point in time.
-- `FeatureGroupName`: The name of the feature group to delete the record from. 
-- `RecordIdentifierValueAsString`: The value for the RecordIdentifier that uniquely identifies the record, in string format. 
+- `EventTime`: Timestamp indicating when the deletion event occurred. EventTime can be used
+  to query data at a certain point in time.
+- `FeatureGroupName`: The name of the feature group to delete the record from.
+- `RecordIdentifierValueAsString`: The value for the RecordIdentifier that uniquely
+  identifies the record, in string format.
 
 """
 delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config)
@@ -21,14 +25,18 @@ delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString, args::
 """
     GetRecord()
 
-Use for OnlineStore serving from a FeatureStore. Only the latest records stored in the OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an empty result is returned. 
+Use for OnlineStore serving from a FeatureStore. Only the latest records stored in the
+OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an
+empty result is returned.
 
 # Required Parameters
 - `FeatureGroupName`: The name of the feature group in which you want to put the records.
-- `RecordIdentifierValueAsString`: The value that corresponds to RecordIdentifier type and uniquely identifies the record in the FeatureGroup. 
+- `RecordIdentifierValueAsString`: The value that corresponds to RecordIdentifier type and
+  uniquely identifies the record in the FeatureGroup.
 
 # Optional Parameters
-- `FeatureName`: List of names of Features to be retrieved. If not specified, the latest value for all the Features are returned.
+- `FeatureName`: List of names of Features to be retrieved. If not specified, the latest
+  value for all the Features are returned.
 """
 get_record(FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config)
 get_record(FeatureGroupName, RecordIdentifierValueAsString, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), args)); aws_config=aws_config)
@@ -36,11 +44,17 @@ get_record(FeatureGroupName, RecordIdentifierValueAsString, args::AbstractDict{S
 """
     PutRecord()
 
-Used for data ingestion into the FeatureStore. The PutRecord API writes to both the OnlineStore and OfflineStore. If the record is the latest record for the recordIdentifier, the record is written to both the OnlineStore and OfflineStore. If the record is a historic record, it is written only to the OfflineStore.
+Used for data ingestion into the FeatureStore. The PutRecord API writes to both the
+OnlineStore and OfflineStore. If the record is the latest record for the recordIdentifier,
+the record is written to both the OnlineStore and OfflineStore. If the record is a historic
+record, it is written only to the OfflineStore.
 
 # Required Parameters
 - `FeatureGroupName`: The name of the feature group that you want to insert the record into.
-- `Record`: List of FeatureValues to be inserted. This will be a full over-write. If you only want to update few of the feature values, do the following:   Use GetRecord to retrieve the latest record.   Update the record returned from GetRecord.    Use PutRecord to update feature values.  
+- `Record`: List of FeatureValues to be inserted. This will be a full over-write. If you
+  only want to update few of the feature values, do the following:   Use GetRecord to
+  retrieve the latest record.   Update the record returned from GetRecord.    Use PutRecord
+  to update feature values.
 
 """
 put_record(FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("Record"=>Record); aws_config=aws_config)

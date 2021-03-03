@@ -177,7 +177,7 @@ describe_schema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws
 # Required Parameters
 - `registryName`: The name of the registry.
 - `schemaName`: The name of the schema.
-- `type`: 
+- `type`:
 
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
@@ -207,7 +207,9 @@ get_code_binding_source(language, registryName, schemaName, args::AbstractDict{S
 Get the discovered schema that was generated based on sampled events.
 
 # Required Parameters
-- `Events`: An array of strings where each string is a JSON event. These are the events that were used to generate the schema. The array includes a single type of event and has a maximum size of 10 events.
+- `Events`: An array of strings where each string is a JSON event. These are the events
+  that were used to generate the schema. The array includes a single type of event and has a
+  maximum size of 10 events.
 - `Type`: The type of event.
 
 """
@@ -231,10 +233,14 @@ get_resource_policy(args::AbstractDict{String, Any}; aws_config::AbstractAWSConf
 List the discoverers.
 
 # Optional Parameters
-- `discovererIdPrefix`: Specifying this limits the results to only those discoverer IDs that start with the specified prefix.
-- `limit`: 
-- `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
-- `sourceArnPrefix`: Specifying this limits the results to only those ARNs that start with the specified prefix.
+- `discovererIdPrefix`: Specifying this limits the results to only those discoverer IDs
+  that start with the specified prefix.
+- `limit`:
+- `nextToken`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
+- `sourceArnPrefix`: Specifying this limits the results to only those ARNs that start with
+  the specified prefix.
 """
 list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers"; aws_config=aws_config)
 list_discoverers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers", args; aws_config=aws_config)
@@ -245,10 +251,14 @@ list_discoverers(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=
 List the registries.
 
 # Optional Parameters
-- `limit`: 
-- `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
-- `registryNamePrefix`: Specifying this limits the results to only those registry names that start with the specified prefix.
-- `scope`: Can be set to Local or AWS to limit responses to your custom registries, or the ones provided by AWS.
+- `limit`:
+- `nextToken`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
+- `registryNamePrefix`: Specifying this limits the results to only those registry names
+  that start with the specified prefix.
+- `scope`: Can be set to Local or AWS to limit responses to your custom registries, or the
+  ones provided by AWS.
 """
 list_registries(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries"; aws_config=aws_config)
 list_registries(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries", args; aws_config=aws_config)
@@ -263,8 +273,10 @@ Provides a list of the schema versions and related information.
 - `schemaName`: The name of the schema.
 
 # Optional Parameters
-- `limit`: 
-- `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
+- `limit`:
+- `nextToken`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 """
 list_schema_versions(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions"; aws_config=aws_config)
 list_schema_versions(registryName, schemaName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions", args; aws_config=aws_config)
@@ -278,9 +290,12 @@ List the schemas.
 - `registryName`: The name of the registry.
 
 # Optional Parameters
-- `limit`: 
-- `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
-- `schemaNamePrefix`: Specifying this limits the results to only those schema names that start with the specified prefix.
+- `limit`:
+- `nextToken`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
+- `schemaNamePrefix`: Specifying this limits the results to only those schema names that
+  start with the specified prefix.
 """
 list_schemas(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas"; aws_config=aws_config)
 list_schemas(registryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas", args; aws_config=aws_config)
@@ -334,12 +349,15 @@ put_resource_policy(Policy, args::AbstractDict{String, <:Any}; aws_config::Abstr
 Search the schemas
 
 # Required Parameters
-- `keywords`: Specifying this limits the results to only schemas that include the provided keywords.
+- `keywords`: Specifying this limits the results to only schemas that include the provided
+  keywords.
 - `registryName`: The name of the registry.
 
 # Optional Parameters
-- `limit`: 
-- `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
+- `limit`:
+- `nextToken`: The token that specifies the next page of results to return. To request the
+  first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared
+  with other accounts.
 """
 search_schemas(keywords, registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}("keywords"=>keywords); aws_config=aws_config)
 search_schemas(keywords, registryName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keywords"=>keywords), args)); aws_config=aws_config)

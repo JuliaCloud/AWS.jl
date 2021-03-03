@@ -7,11 +7,17 @@ using AWS.UUIDs
 """
     AssociateResolverEndpointIpAddress()
 
-Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP address. To remove an IP address from an endpoint, see DisassociateResolverEndpointIpAddress. 
+Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more
+than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP
+address. To remove an IP address from an endpoint, see
+DisassociateResolverEndpointIpAddress.
 
 # Required Parameters
-- `IpAddress`: Either the IPv4 address that you want to add to a Resolver endpoint or a subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the available IPs in the specified subnet.
-- `ResolverEndpointId`: The ID of the Resolver endpoint that you want to associate IP addresses with.
+- `IpAddress`: Either the IPv4 address that you want to add to a Resolver endpoint or a
+  subnet ID. If you specify a subnet ID, Resolver chooses an IP address for you from the
+  available IPs in the specified subnet.
+- `ResolverEndpointId`: The ID of the Resolver endpoint that you want to associate IP
+  addresses with.
 
 """
 associate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
@@ -20,11 +26,19 @@ associate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId, args::Abst
 """
     AssociateResolverQueryLogConfig()
 
-Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver logs DNS queries that originate in all of the Amazon VPCs that are associated with a specified query logging configuration. To associate more than one VPC with a configuration, submit one AssociateResolverQueryLogConfig request for each VPC.  The VPCs that you associate with a query logging configuration must be in the same Region as the configuration.  To remove a VPC from a query logging configuration, see DisassociateResolverQueryLogConfig. 
+Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver
+logs DNS queries that originate in all of the Amazon VPCs that are associated with a
+specified query logging configuration. To associate more than one VPC with a configuration,
+submit one AssociateResolverQueryLogConfig request for each VPC.  The VPCs that you
+associate with a query logging configuration must be in the same Region as the
+configuration.  To remove a VPC from a query logging configuration, see
+DisassociateResolverQueryLogConfig.
 
 # Required Parameters
-- `ResolverQueryLogConfigId`: The ID of the query logging configuration that you want to associate a VPC with.
-- `ResourceId`: The ID of an Amazon VPC that you want this query logging configuration to log queries for.  The VPCs and the query logging configuration must be in the same Region. 
+- `ResolverQueryLogConfigId`: The ID of the query logging configuration that you want to
+  associate a VPC with.
+- `ResourceId`: The ID of an Amazon VPC that you want this query logging configuration to
+  log queries for.  The VPCs and the query logging configuration must be in the same Region.
 
 """
 associate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverQueryLogConfig", Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId); aws_config=aws_config)
@@ -33,10 +47,14 @@ associate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId, args::
 """
     AssociateResolverRule()
 
-Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver forwards all DNS queries for the domain name that is specified in the rule and that originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see CreateResolverRule. 
+Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver
+forwards all DNS queries for the domain name that is specified in the rule and that
+originate in the VPC. The queries are forwarded to the IP addresses for the DNS resolvers
+that are specified in the rule. For more information about rules, see CreateResolverRule.
 
 # Required Parameters
-- `ResolverRuleId`: The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use ListResolverRules.
+- `ResolverRuleId`: The ID of the Resolver rule that you want to associate with the VPC. To
+  list the existing Resolver rules, use ListResolverRules.
 - `VPCId`: The ID of the VPC that you want to associate the Resolver rule with.
 
 # Optional Parameters
@@ -48,16 +66,30 @@ associate_resolver_rule(ResolverRuleId, VPCId, args::AbstractDict{String, <:Any}
 """
     CreateResolverEndpoint()
 
-Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and outbound:   An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC from your network.   An outbound Resolver endpoint forwards DNS queries from the DNS service for a VPC to your network.  
+Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and
+outbound:   An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC
+from your network.   An outbound Resolver endpoint forwards DNS queries from the DNS
+service for a VPC to your network.
 
 # Required Parameters
-- `CreatorRequestId`: A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
-- `Direction`: Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network  
-- `IpAddresses`: The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC. 
-- `SecurityGroupIds`: The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
+- `CreatorRequestId`: A unique string that identifies the request and that allows failed
+  requests to be retried without the risk of executing the operation twice. CreatorRequestId
+  can be any unique string, for example, a date/time stamp.
+- `Direction`: Specify the applicable value:    INBOUND: Resolver forwards DNS queries to
+  the DNS service for a VPC from your network    OUTBOUND: Resolver forwards DNS queries from
+  the DNS service for a VPC to your network
+- `IpAddresses`: The subnets and IP addresses in your VPC that DNS queries originate from
+  (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The
+  subnet ID uniquely identifies a VPC.
+- `SecurityGroupIds`: The ID of one or more security groups that you want to use to control
+  access to this VPC. The security group that you specify must include one or more inbound
+  rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints).
+  Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53.
+  For outbound access, open the port that you're using for DNS queries on your network.
 
 # Optional Parameters
-- `Name`: A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
+- `Name`: A friendly name that lets you easily find a configuration in the Resolver
+  dashboard in the Route 53 console.
 - `Tags`: A list of the tag keys and values that you want to associate with the endpoint.
 """
 create_resolver_endpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverEndpoint", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds); aws_config=aws_config)
@@ -66,15 +98,33 @@ create_resolver_endpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroup
 """
     CreateResolverQueryLogConfig()
 
-Creates a Resolver query logging configuration, which defines where you want Resolver to save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs that are in the same Region as the query logging configuration. To specify which VPCs you want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see AssociateResolverQueryLogConfig.  You can optionally use AWS Resource Access Manager (AWS RAM) to share a query logging configuration with other AWS accounts. The other accounts can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all VPCs that are associated with the configuration.
+Creates a Resolver query logging configuration, which defines where you want Resolver to
+save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs
+that are in the same Region as the query logging configuration. To specify which VPCs you
+want to log queries for, you use AssociateResolverQueryLogConfig. For more information, see
+AssociateResolverQueryLogConfig.  You can optionally use AWS Resource Access Manager (AWS
+RAM) to share a query logging configuration with other AWS accounts. The other accounts can
+then associate VPCs with the configuration. The query logs that Resolver creates for a
+configuration include all DNS queries that originate in all VPCs that are associated with
+the configuration.
 
 # Required Parameters
-- `CreatorRequestId`: A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
-- `DestinationArn`: The ARN of the resource that you want Resolver to send query logs. You can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data Firehose delivery stream. Examples of valid values include the following:    S3 bucket:   arn:aws:s3:::examplebucket  You can optionally append a file prefix to the end of the ARN.  arn:aws:s3:::examplebucket/development/     CloudWatch Logs log group:   arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*     Kinesis Data Firehose delivery stream:  arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name   
+- `CreatorRequestId`: A unique string that identifies the request and that allows failed
+  requests to be retried without the risk of executing the operation twice. CreatorRequestId
+  can be any unique string, for example, a date/time stamp.
+- `DestinationArn`: The ARN of the resource that you want Resolver to send query logs. You
+  can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data
+  Firehose delivery stream. Examples of valid values include the following:    S3 bucket:
+  arn:aws:s3:::examplebucket  You can optionally append a file prefix to the end of the ARN.
+  arn:aws:s3:::examplebucket/development/     CloudWatch Logs log group:
+  arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*     Kinesis
+  Data Firehose delivery stream:  arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name
+  
 - `Name`: The name that you want to give the query logging configuration
 
 # Optional Parameters
-- `Tags`: A list of the tag keys and values that you want to associate with the query logging configuration.
+- `Tags`: A list of the tag keys and values that you want to associate with the query
+  logging configuration.
 """
 create_resolver_query_log_config(CreatorRequestId, DestinationArn, Name; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverQueryLogConfig", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DestinationArn"=>DestinationArn, "Name"=>Name); aws_config=aws_config)
 create_resolver_query_log_config(CreatorRequestId, DestinationArn, Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DestinationArn"=>DestinationArn, "Name"=>Name), args)); aws_config=aws_config)
@@ -82,18 +132,36 @@ create_resolver_query_log_config(CreatorRequestId, DestinationArn, Name, args::A
 """
     CreateResolverRule()
 
-For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through, one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
+For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries
+pass through, one domain name that you want to forward to your network, and the IP
+addresses of the DNS resolvers in your network.
 
 # Required Parameters
-- `CreatorRequestId`: A unique string that identifies the request and that allows failed requests to be retried without the risk of executing the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp. 
-- `DomainName`: DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains the most specific domain name (www.example.com).
-- `RuleType`: When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for a subdomain of that domain, specify SYSTEM. For example, to forward DNS queries for example.com to resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for RuleType.
+- `CreatorRequestId`: A unique string that identifies the request and that allows failed
+  requests to be retried without the risk of executing the operation twice. CreatorRequestId
+  can be any unique string, for example, a date/time stamp.
+- `DomainName`: DNS queries for this domain name are forwarded to the IP addresses that you
+  specify in TargetIps. If a query matches multiple Resolver rules (example.com and
+  www.example.com), outbound DNS queries are routed using the Resolver rule that contains the
+  most specific domain name (www.example.com).
+- `RuleType`: When you want to forward DNS queries for specified domain name to resolvers
+  on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries
+  for a domain to your network and you want Resolver to process queries for a subdomain of
+  that domain, specify SYSTEM. For example, to forward DNS queries for example.com to
+  resolvers on your network, you create a rule and specify FORWARD for RuleType. To then have
+  Resolver process queries for apex.example.com, you create a rule and specify SYSTEM for
+  RuleType. Currently, only Resolver can create rules that have a value of RECURSIVE for
+  RuleType.
 
 # Optional Parameters
-- `Name`: A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
-- `ResolverEndpointId`: The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in TargetIps.
+- `Name`: A friendly name that lets you easily find a rule in the Resolver dashboard in the
+  Route 53 console.
+- `ResolverEndpointId`: The ID of the outbound Resolver endpoint that you want to use to
+  route DNS queries to the IP addresses that you specify in TargetIps.
 - `Tags`: A list of the tag keys and values that you want to associate with the endpoint.
-- `TargetIps`: The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a comma.  TargetIps is available only when the value of Rule type is FORWARD.
+- `TargetIps`: The IPs that you want Resolver to forward DNS queries to. You can specify
+  only IPv4 addresses. Separate IP addresses with a comma.  TargetIps is available only when
+  the value of Rule type is FORWARD.
 """
 create_resolver_rule(CreatorRequestId, DomainName, RuleType; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType); aws_config=aws_config)
 create_resolver_rule(CreatorRequestId, DomainName, RuleType, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType), args)); aws_config=aws_config)
@@ -101,7 +169,10 @@ create_resolver_rule(CreatorRequestId, DomainName, RuleType, args::AbstractDict{
 """
     DeleteResolverEndpoint()
 
-Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether it's an inbound or an outbound Resolver endpoint:    Inbound: DNS queries from your network are no longer routed to the DNS service for the specified VPC.    Outbound: DNS queries from a VPC are no longer routed to your network.  
+Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether
+it's an inbound or an outbound Resolver endpoint:    Inbound: DNS queries from your network
+are no longer routed to the DNS service for the specified VPC.    Outbound: DNS queries
+from a VPC are no longer routed to your network.
 
 # Required Parameters
 - `ResolverEndpointId`: The ID of the Resolver endpoint that you want to delete.
@@ -113,10 +184,21 @@ delete_resolver_endpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; 
 """
     DeleteResolverQueryLogConfig()
 
-Deletes a query logging configuration. When you delete a configuration, Resolver stops logging DNS queries for all of the Amazon VPCs that are associated with the configuration. This also applies if the query logging configuration is shared with other AWS accounts, and the other accounts have associated VPCs with the shared configuration. Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. See DisassociateResolverQueryLogConfig. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, you must stop sharing the configuration before you can delete a configuration. The accounts that you shared the configuration with can first disassociate VPCs that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically disassociated from the configuration.
+Deletes a query logging configuration. When you delete a configuration, Resolver stops
+logging DNS queries for all of the Amazon VPCs that are associated with the configuration.
+This also applies if the query logging configuration is shared with other AWS accounts, and
+the other accounts have associated VPCs with the shared configuration. Before you can
+delete a query logging configuration, you must first disassociate all VPCs from the
+configuration. See DisassociateResolverQueryLogConfig. If you used Resource Access Manager
+(RAM) to share a query logging configuration with other accounts, you must stop sharing the
+configuration before you can delete a configuration. The accounts that you shared the
+configuration with can first disassociate VPCs that they associated with the configuration,
+but that's not necessary. If you stop sharing the configuration, those VPCs are
+automatically disassociated from the configuration.
 
 # Required Parameters
-- `ResolverQueryLogConfigId`: The ID of the query logging configuration that you want to delete.
+- `ResolverQueryLogConfigId`: The ID of the query logging configuration that you want to
+  delete.
 
 """
 delete_resolver_query_log_config(ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverQueryLogConfig", Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId); aws_config=aws_config)
@@ -125,7 +207,9 @@ delete_resolver_query_log_config(ResolverQueryLogConfigId, args::AbstractDict{St
 """
     DeleteResolverRule()
 
-Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it from all the VPCs that you associated the Resolver rule with. For more information, see DisassociateResolverRule.
+Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it
+from all the VPCs that you associated the Resolver rule with. For more information, see
+DisassociateResolverRule.
 
 # Required Parameters
 - `ResolverRuleId`: The ID of the Resolver rule that you want to delete.
@@ -137,11 +221,15 @@ delete_resolver_rule(ResolverRuleId, args::AbstractDict{String, <:Any}; aws_conf
 """
     DisassociateResolverEndpointIpAddress()
 
-Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request for each IP address. To add an IP address to an endpoint, see AssociateResolverEndpointIpAddress. 
+Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to
+remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request
+for each IP address. To add an IP address to an endpoint, see
+AssociateResolverEndpointIpAddress.
 
 # Required Parameters
 - `IpAddress`: The IPv4 address that you want to remove from a Resolver endpoint.
-- `ResolverEndpointId`: The ID of the Resolver endpoint that you want to disassociate an IP address from.
+- `ResolverEndpointId`: The ID of the Resolver endpoint that you want to disassociate an IP
+  address from.
 
 """
 disassociate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
@@ -150,11 +238,18 @@ disassociate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId, args::A
 """
     DisassociateResolverQueryLogConfig()
 
-Disassociates a VPC from a query logging configuration.  Before you can delete a query logging configuration, you must first disassociate all VPCs from the configuration. If you used Resource Access Manager (RAM) to share a query logging configuration with other accounts, VPCs can be disassociated from the configuration in the following ways:   The accounts that you shared the configuration with can disassociate VPCs from the configuration.   You can stop sharing the configuration.   
+Disassociates a VPC from a query logging configuration.  Before you can delete a query
+logging configuration, you must first disassociate all VPCs from the configuration. If you
+used Resource Access Manager (RAM) to share a query logging configuration with other
+accounts, VPCs can be disassociated from the configuration in the following ways:   The
+accounts that you shared the configuration with can disassociate VPCs from the
+configuration.   You can stop sharing the configuration.
 
 # Required Parameters
-- `ResolverQueryLogConfigId`: The ID of the query logging configuration that you want to disassociate a specified VPC from.
-- `ResourceId`: The ID of the Amazon VPC that you want to disassociate from a specified query logging configuration.
+- `ResolverQueryLogConfigId`: The ID of the query logging configuration that you want to
+  disassociate a specified VPC from.
+- `ResourceId`: The ID of the Amazon VPC that you want to disassociate from a specified
+  query logging configuration.
 
 """
 disassociate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverQueryLogConfig", Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId); aws_config=aws_config)
@@ -163,10 +258,13 @@ disassociate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId, arg
 """
     DisassociateResolverRule()
 
-Removes the association between a specified Resolver rule and a specified VPC.  If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the domain name that you specified in the Resolver rule.  
+Removes the association between a specified Resolver rule and a specified VPC.  If you
+disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
+domain name that you specified in the Resolver rule.
 
 # Required Parameters
-- `ResolverRuleId`: The ID of the Resolver rule that you want to disassociate from the specified VPC.
+- `ResolverRuleId`: The ID of the Resolver rule that you want to disassociate from the
+  specified VPC.
 - `VPCId`: The ID of the VPC that you want to disassociate the Resolver rule from.
 
 """
@@ -188,10 +286,12 @@ get_resolver_dnssec_config(ResourceId, args::AbstractDict{String, <:Any}; aws_co
 """
     GetResolverEndpoint()
 
-Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the current status of the endpoint.
+Gets information about a specified Resolver endpoint, such as whether it's an inbound or an
+outbound Resolver endpoint, and the current status of the endpoint.
 
 # Required Parameters
-- `ResolverEndpointId`: The ID of the Resolver endpoint that you want to get information about.
+- `ResolverEndpointId`: The ID of the Resolver endpoint that you want to get information
+  about.
 
 """
 get_resolver_endpoint(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
@@ -200,10 +300,13 @@ get_resolver_endpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws
 """
     GetResolverQueryLogConfig()
 
-Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration is logging queries for and the location that logs are sent to. 
+Gets information about a specified Resolver query logging configuration, such as the number
+of VPCs that the configuration is logging queries for and the location that logs are sent
+to.
 
 # Required Parameters
-- `ResolverQueryLogConfigId`: The ID of the Resolver query logging configuration that you want to get information about.
+- `ResolverQueryLogConfigId`: The ID of the Resolver query logging configuration that you
+  want to get information about.
 
 """
 get_resolver_query_log_config(ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfig", Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId); aws_config=aws_config)
@@ -212,10 +315,13 @@ get_resolver_query_log_config(ResolverQueryLogConfigId, args::AbstractDict{Strin
 """
     GetResolverQueryLogConfigAssociation()
 
-Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
+Gets information about a specified association between a Resolver query logging
+configuration and an Amazon VPC. When you associate a VPC with a query logging
+configuration, Resolver logs DNS queries that originate in that VPC.
 
 # Required Parameters
-- `ResolverQueryLogConfigAssociationId`: The ID of the Resolver query logging configuration association that you want to get information about.
+- `ResolverQueryLogConfigAssociationId`: The ID of the Resolver query logging configuration
+  association that you want to get information about.
 
 """
 get_resolver_query_log_config_association(ResolverQueryLogConfigAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfigAssociation", Dict{String, Any}("ResolverQueryLogConfigAssociationId"=>ResolverQueryLogConfigAssociationId); aws_config=aws_config)
@@ -224,10 +330,13 @@ get_resolver_query_log_config_association(ResolverQueryLogConfigAssociationId, a
 """
     GetResolverQueryLogConfigPolicy()
 
-Gets information about a query logging policy. A query logging policy specifies the Resolver query logging operations and resources that you want to allow another AWS account to be able to use.
+Gets information about a query logging policy. A query logging policy specifies the
+Resolver query logging operations and resources that you want to allow another AWS account
+to be able to use.
 
 # Required Parameters
-- `Arn`: The ARN of the query logging configuration that you want to get the query logging policy for.
+- `Arn`: The ARN of the query logging configuration that you want to get the query logging
+  policy for.
 
 """
 get_resolver_query_log_config_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfigPolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
@@ -236,7 +345,9 @@ get_resolver_query_log_config_policy(Arn, args::AbstractDict{String, <:Any}; aws
 """
     GetResolverRule()
 
-Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the outbound Resolver endpoint that the rule is associated with.
+Gets information about a specified Resolver rule, such as the domain name that the rule
+forwards DNS queries for and the ID of the outbound Resolver endpoint that the rule is
+associated with.
 
 # Required Parameters
 - `ResolverRuleId`: The ID of the Resolver rule that you want to get information about.
@@ -248,10 +359,12 @@ get_resolver_rule(ResolverRuleId, args::AbstractDict{String, <:Any}; aws_config:
 """
     GetResolverRuleAssociation()
 
-Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using AssociateResolverRule. 
+Gets information about an association between a specified Resolver rule and a VPC. You
+associate a Resolver rule and a VPC using AssociateResolverRule.
 
 # Required Parameters
-- `ResolverRuleAssociationId`: The ID of the Resolver rule association that you want to get information about.
+- `ResolverRuleAssociationId`: The ID of the Resolver rule association that you want to get
+  information about.
 
 """
 get_resolver_rule_association(ResolverRuleAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRuleAssociation", Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId); aws_config=aws_config)
@@ -260,7 +373,10 @@ get_resolver_rule_association(ResolverRuleAssociationId, args::AbstractDict{Stri
 """
     GetResolverRulePolicy()
 
-Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use. 
+Gets information about the Resolver rule policy for a specified rule. A Resolver rule
+policy includes the rule that you want to share with another account, the account that you
+want to share the rule with, and the Resolver operations that you want to allow the account
+to use.
 
 # Required Parameters
 - `Arn`: The ID of the Resolver rule that you want to get the Resolver rule policy for.
@@ -272,12 +388,19 @@ get_resolver_rule_policy(Arn, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     ListResolverDnssecConfigs()
 
-Lists the configurations for DNSSEC validation that are associated with the current AWS account.
+Lists the configurations for DNSSEC validation that are associated with the current AWS
+account.
 
 # Optional Parameters
 - `Filters`: An optional specification to return a subset of objects.
-- `MaxResults`:  Optional: An integer that specifies the maximum number of DNSSEC configuration results that you want Amazon Route 53 to return. If you don't specify a value for MaxResults, Route 53 returns up to 100 configuration per page.
-- `NextToken`: (Optional) If the current AWS account has more than MaxResults DNSSEC configurations, use NextToken to get the second and subsequent pages of results. For the first ListResolverDnssecConfigs request, omit this value. For the second and subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request.
+- `MaxResults`:  Optional: An integer that specifies the maximum number of DNSSEC
+  configuration results that you want Amazon Route 53 to return. If you don't specify a value
+  for MaxResults, Route 53 returns up to 100 configuration per page.
+- `NextToken`: (Optional) If the current AWS account has more than MaxResults DNSSEC
+  configurations, use NextToken to get the second and subsequent pages of results. For the
+  first ListResolverDnssecConfigs request, omit this value. For the second and subsequent
+  requests, get the value of NextToken from the previous response and specify that value for
+  NextToken in the request.
 """
 list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverDnssecConfigs"; aws_config=aws_config)
 list_resolver_dnssec_configs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverDnssecConfigs", args; aws_config=aws_config)
@@ -288,11 +411,17 @@ list_resolver_dnssec_configs(args::AbstractDict{String, <:Any}; aws_config::Abst
 Gets the IP addresses for a specified Resolver endpoint.
 
 # Required Parameters
-- `ResolverEndpointId`: The ID of the Resolver endpoint that you want to get IP addresses for.
+- `ResolverEndpointId`: The ID of the Resolver endpoint that you want to get IP addresses
+  for.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of IP addresses that you want to return in the response to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults, Resolver returns up to 100 IP addresses. 
-- `NextToken`: For the first ListResolverEndpointIpAddresses request, omit this value. If the specified Resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
+- `MaxResults`: The maximum number of IP addresses that you want to return in the response
+  to a ListResolverEndpointIpAddresses request. If you don't specify a value for MaxResults,
+  Resolver returns up to 100 IP addresses.
+- `NextToken`: For the first ListResolverEndpointIpAddresses request, omit this value. If
+  the specified Resolver endpoint has more than MaxResults IP addresses, you can submit
+  another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In
+  the next request, specify the value of NextToken from the previous response.
 """
 list_resolver_endpoint_ip_addresses(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
 list_resolver_endpoint_ip_addresses(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
@@ -303,9 +432,17 @@ list_resolver_endpoint_ip_addresses(ResolverEndpointId, args::AbstractDict{Strin
 Lists all the Resolver endpoints that were created using the current AWS account.
 
 # Optional Parameters
-- `Filters`: An optional specification to return a subset of Resolver endpoints, such as all inbound Resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
-- `MaxResults`: The maximum number of Resolver endpoints that you want to return in the response to a ListResolverEndpoints request. If you don't specify a value for MaxResults, Resolver returns up to 100 Resolver endpoints. 
-- `NextToken`: For the first ListResolverEndpoints request, omit this value. If you have more than MaxResults Resolver endpoints, you can submit another ListResolverEndpoints request to get the next group of Resolver endpoints. In the next request, specify the value of NextToken from the previous response. 
+- `Filters`: An optional specification to return a subset of Resolver endpoints, such as
+  all inbound Resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints
+  request and specify the NextToken parameter, you must use the same values for Filters, if
+  any, as in the previous request.
+- `MaxResults`: The maximum number of Resolver endpoints that you want to return in the
+  response to a ListResolverEndpoints request. If you don't specify a value for MaxResults,
+  Resolver returns up to 100 Resolver endpoints.
+- `NextToken`: For the first ListResolverEndpoints request, omit this value. If you have
+  more than MaxResults Resolver endpoints, you can submit another ListResolverEndpoints
+  request to get the next group of Resolver endpoints. In the next request, specify the value
+  of NextToken from the previous response.
 """
 list_resolver_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpoints"; aws_config=aws_config)
 list_resolver_endpoints(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpoints", args; aws_config=aws_config)
@@ -316,11 +453,41 @@ list_resolver_endpoints(args::AbstractDict{String, <:Any}; aws_config::AbstractA
 Lists information about associations between Amazon VPCs and query logging configurations.
 
 # Optional Parameters
-- `Filters`: An optional specification to return a subset of query logging associations.  If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
-- `MaxResults`: The maximum number of query logging associations that you want to return in the response to a ListResolverQueryLogConfigAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 query logging associations. 
-- `NextToken`: For the first ListResolverQueryLogConfigAssociations request, omit this value. If there are more than MaxResults query logging associations that match the values that you specify for Filters, you can submit another ListResolverQueryLogConfigAssociations request to get the next group of associations. In the next request, specify the value of NextToken from the previous response. 
-- `SortBy`: The element that you want Resolver to sort query logging associations by.   If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken parameter, you must use the same value for SortBy, if any, as in the previous request.  Valid values include the following elements:    CreationTime: The ID of the query logging association.    Error: If the value of Status is FAILED, the value of Error indicates the cause:     DESTINATION_NOT_FOUND: The specified destination (for example, an Amazon S3 bucket) was deleted.    ACCESS_DENIED: Permissions don't allow sending logs to the destination.   If Status is a value other than FAILED, ERROR is null.    Id: The ID of the query logging association    ResolverQueryLogConfigId: The ID of the query logging configuration    ResourceId: The ID of the VPC that is associated with the query logging configuration    Status: The current status of the configuration. Valid values include the following:    CREATING: Resolver is creating an association between an Amazon VPC and a query logging configuration.    CREATED: The association between an Amazon VPC and a query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.    DELETING: Resolver is deleting this query logging association.    FAILED: Resolver either couldn't create or couldn't delete the query logging association. Here are two common causes:   The specified destination (for example, an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the destination.      
-- `SortOrder`: If you specified a value for SortBy, the order that you want query logging associations to be listed in, ASCENDING or DESCENDING.  If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken parameter, you must use the same value for SortOrder, if any, as in the previous request. 
+- `Filters`: An optional specification to return a subset of query logging associations.
+  If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and
+  specify the NextToken parameter, you must use the same values for Filters, if any, as in
+  the previous request.
+- `MaxResults`: The maximum number of query logging associations that you want to return in
+  the response to a ListResolverQueryLogConfigAssociations request. If you don't specify a
+  value for MaxResults, Resolver returns up to 100 query logging associations.
+- `NextToken`: For the first ListResolverQueryLogConfigAssociations request, omit this
+  value. If there are more than MaxResults query logging associations that match the values
+  that you specify for Filters, you can submit another ListResolverQueryLogConfigAssociations
+  request to get the next group of associations. In the next request, specify the value of
+  NextToken from the previous response.
+- `SortBy`: The element that you want Resolver to sort query logging associations by.   If
+  you submit a second or subsequent ListResolverQueryLogConfigAssociations request and
+  specify the NextToken parameter, you must use the same value for SortBy, if any, as in the
+  previous request.  Valid values include the following elements:    CreationTime: The ID of
+  the query logging association.    Error: If the value of Status is FAILED, the value of
+  Error indicates the cause:     DESTINATION_NOT_FOUND: The specified destination (for
+  example, an Amazon S3 bucket) was deleted.    ACCESS_DENIED: Permissions don't allow
+  sending logs to the destination.   If Status is a value other than FAILED, ERROR is null.
+   Id: The ID of the query logging association    ResolverQueryLogConfigId: The ID of the
+  query logging configuration    ResourceId: The ID of the VPC that is associated with the
+  query logging configuration    Status: The current status of the configuration. Valid
+  values include the following:    CREATING: Resolver is creating an association between an
+  Amazon VPC and a query logging configuration.    CREATED: The association between an Amazon
+  VPC and a query logging configuration was successfully created. Resolver is logging queries
+  that originate in the specified VPC.    DELETING: Resolver is deleting this query logging
+  association.    FAILED: Resolver either couldn't create or couldn't delete the query
+  logging association. Here are two common causes:   The specified destination (for example,
+  an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the
+  destination.
+- `SortOrder`: If you specified a value for SortBy, the order that you want query logging
+  associations to be listed in, ASCENDING or DESCENDING.  If you submit a second or
+  subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken
+  parameter, you must use the same value for SortOrder, if any, as in the previous request.
 """
 list_resolver_query_log_config_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigAssociations"; aws_config=aws_config)
 list_resolver_query_log_config_associations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigAssociations", args; aws_config=aws_config)
@@ -328,14 +495,47 @@ list_resolver_query_log_config_associations(args::AbstractDict{String, <:Any}; a
 """
     ListResolverQueryLogConfigs()
 
-Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save DNS query logs and specifies the VPCs that you want to log queries for.
+Lists information about the specified query logging configurations. Each configuration
+defines where you want Resolver to save DNS query logs and specifies the VPCs that you want
+to log queries for.
 
 # Optional Parameters
-- `Filters`: An optional specification to return a subset of query logging configurations.  If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
-- `MaxResults`: The maximum number of query logging configurations that you want to return in the response to a ListResolverQueryLogConfigs request. If you don't specify a value for MaxResults, Resolver returns up to 100 query logging configurations. 
-- `NextToken`: For the first ListResolverQueryLogConfigs request, omit this value. If there are more than MaxResults query logging configurations that match the values that you specify for Filters, you can submit another ListResolverQueryLogConfigs request to get the next group of configurations. In the next request, specify the value of NextToken from the previous response. 
-- `SortBy`: The element that you want Resolver to sort query logging configurations by.   If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you must use the same value for SortBy, if any, as in the previous request.  Valid values include the following elements:    Arn: The ARN of the query logging configuration    AssociationCount: The number of VPCs that are associated with the specified configuration     CreationTime: The date and time that Resolver returned when the configuration was created    CreatorRequestId: The value that was specified for CreatorRequestId when the configuration was created    DestinationArn: The location that logs are sent to    Id: The ID of the configuration    Name: The name of the configuration    OwnerId: The AWS account number of the account that created the configuration    ShareStatus: Whether the configuration is shared with other AWS accounts or shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM).    Status: The current status of the configuration. Valid values include the following:    CREATING: Resolver is creating the query logging configuration.    CREATED: The query logging configuration was successfully created. Resolver is logging queries that originate in the specified VPC.    DELETING: Resolver is deleting this query logging configuration.    FAILED: Resolver either couldn't create or couldn't delete the query logging configuration. Here are two common causes:   The specified destination (for example, an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the destination.      
-- `SortOrder`: If you specified a value for SortBy, the order that you want query logging configurations to be listed in, ASCENDING or DESCENDING.  If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you must use the same value for SortOrder, if any, as in the previous request. 
+- `Filters`: An optional specification to return a subset of query logging configurations.
+  If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the
+  NextToken parameter, you must use the same values for Filters, if any, as in the previous
+  request.
+- `MaxResults`: The maximum number of query logging configurations that you want to return
+  in the response to a ListResolverQueryLogConfigs request. If you don't specify a value for
+  MaxResults, Resolver returns up to 100 query logging configurations.
+- `NextToken`: For the first ListResolverQueryLogConfigs request, omit this value. If there
+  are more than MaxResults query logging configurations that match the values that you
+  specify for Filters, you can submit another ListResolverQueryLogConfigs request to get the
+  next group of configurations. In the next request, specify the value of NextToken from the
+  previous response.
+- `SortBy`: The element that you want Resolver to sort query logging configurations by.
+  If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the
+  NextToken parameter, you must use the same value for SortBy, if any, as in the previous
+  request.  Valid values include the following elements:    Arn: The ARN of the query logging
+  configuration    AssociationCount: The number of VPCs that are associated with the
+  specified configuration     CreationTime: The date and time that Resolver returned when the
+  configuration was created    CreatorRequestId: The value that was specified for
+  CreatorRequestId when the configuration was created    DestinationArn: The location that
+  logs are sent to    Id: The ID of the configuration    Name: The name of the configuration
+    OwnerId: The AWS account number of the account that created the configuration
+  ShareStatus: Whether the configuration is shared with other AWS accounts or shared with the
+  current account by another AWS account. Sharing is configured through AWS Resource Access
+  Manager (AWS RAM).    Status: The current status of the configuration. Valid values include
+  the following:    CREATING: Resolver is creating the query logging configuration.
+  CREATED: The query logging configuration was successfully created. Resolver is logging
+  queries that originate in the specified VPC.    DELETING: Resolver is deleting this query
+  logging configuration.    FAILED: Resolver either couldn't create or couldn't delete the
+  query logging configuration. Here are two common causes:   The specified destination (for
+  example, an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the
+  destination.
+- `SortOrder`: If you specified a value for SortBy, the order that you want query logging
+  configurations to be listed in, ASCENDING or DESCENDING.  If you submit a second or
+  subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you
+  must use the same value for SortOrder, if any, as in the previous request.
 """
 list_resolver_query_log_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigs"; aws_config=aws_config)
 list_resolver_query_log_configs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigs", args; aws_config=aws_config)
@@ -343,12 +543,21 @@ list_resolver_query_log_configs(args::AbstractDict{String, <:Any}; aws_config::A
 """
     ListResolverRuleAssociations()
 
-Lists the associations that were created between Resolver rules and VPCs using the current AWS account.
+Lists the associations that were created between Resolver rules and VPCs using the current
+AWS account.
 
 # Optional Parameters
-- `Filters`: An optional specification to return a subset of Resolver rules, such as Resolver rules that are associated with the same VPC ID.  If you submit a second or subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
-- `MaxResults`: The maximum number of rule associations that you want to return in the response to a ListResolverRuleAssociations request. If you don't specify a value for MaxResults, Resolver returns up to 100 rule associations. 
-- `NextToken`: For the first ListResolverRuleAssociation request, omit this value. If you have more than MaxResults rule associations, you can submit another ListResolverRuleAssociation request to get the next group of rule associations. In the next request, specify the value of NextToken from the previous response. 
+- `Filters`: An optional specification to return a subset of Resolver rules, such as
+  Resolver rules that are associated with the same VPC ID.  If you submit a second or
+  subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you
+  must use the same values for Filters, if any, as in the previous request.
+- `MaxResults`: The maximum number of rule associations that you want to return in the
+  response to a ListResolverRuleAssociations request. If you don't specify a value for
+  MaxResults, Resolver returns up to 100 rule associations.
+- `NextToken`: For the first ListResolverRuleAssociation request, omit this value. If you
+  have more than MaxResults rule associations, you can submit another
+  ListResolverRuleAssociation request to get the next group of rule associations. In the next
+  request, specify the value of NextToken from the previous response.
 """
 list_resolver_rule_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRuleAssociations"; aws_config=aws_config)
 list_resolver_rule_associations(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRuleAssociations", args; aws_config=aws_config)
@@ -359,9 +568,17 @@ list_resolver_rule_associations(args::AbstractDict{String, <:Any}; aws_config::A
 Lists the Resolver rules that were created using the current AWS account.
 
 # Optional Parameters
-- `Filters`: An optional specification to return a subset of Resolver rules, such as all Resolver rules that are associated with the same Resolver endpoint.  If you submit a second or subsequent ListResolverRules request and specify the NextToken parameter, you must use the same values for Filters, if any, as in the previous request. 
-- `MaxResults`: The maximum number of Resolver rules that you want to return in the response to a ListResolverRules request. If you don't specify a value for MaxResults, Resolver returns up to 100 Resolver rules.
-- `NextToken`: For the first ListResolverRules request, omit this value. If you have more than MaxResults Resolver rules, you can submit another ListResolverRules request to get the next group of Resolver rules. In the next request, specify the value of NextToken from the previous response. 
+- `Filters`: An optional specification to return a subset of Resolver rules, such as all
+  Resolver rules that are associated with the same Resolver endpoint.  If you submit a second
+  or subsequent ListResolverRules request and specify the NextToken parameter, you must use
+  the same values for Filters, if any, as in the previous request.
+- `MaxResults`: The maximum number of Resolver rules that you want to return in the
+  response to a ListResolverRules request. If you don't specify a value for MaxResults,
+  Resolver returns up to 100 Resolver rules.
+- `NextToken`: For the first ListResolverRules request, omit this value. If you have more
+  than MaxResults Resolver rules, you can submit another ListResolverRules request to get the
+  next group of Resolver rules. In the next request, specify the value of NextToken from the
+  previous response.
 """
 list_resolver_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRules"; aws_config=aws_config)
 list_resolver_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRules", args; aws_config=aws_config)
@@ -372,11 +589,17 @@ list_resolver_rules(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 Lists the tags that you associated with the specified resource.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) for the resource that you want to list tags for.
+- `ResourceArn`: The Amazon Resource Name (ARN) for the resource that you want to list tags
+  for.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of tags that you want to return in the response to a ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns up to 100 tags.
-- `NextToken`: For the first ListTagsForResource request, omit this value. If you have more than MaxResults tags, you can submit another ListTagsForResource request to get the next group of tags for the resource. In the next request, specify the value of NextToken from the previous response. 
+- `MaxResults`: The maximum number of tags that you want to return in the response to a
+  ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns
+  up to 100 tags.
+- `NextToken`: For the first ListTagsForResource request, omit this value. If you have more
+  than MaxResults tags, you can submit another ListTagsForResource request to get the next
+  group of tags for the resource. In the next request, specify the value of NextToken from
+  the previous response.
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
 list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
@@ -384,11 +607,22 @@ list_tags_for_resource(ResourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     PutResolverQueryLogConfigPolicy()
 
-Specifies an AWS account that you want to share a query logging configuration with, the query logging configuration that you want to share, and the operations that you want the account to be able to perform on the configuration.
+Specifies an AWS account that you want to share a query logging configuration with, the
+query logging configuration that you want to share, and the operations that you want the
+account to be able to perform on the configuration.
 
 # Required Parameters
 - `Arn`: The Amazon Resource Name (ARN) of the account that you want to share rules with.
-- `ResolverQueryLogConfigPolicy`: An AWS Identity and Access Management policy statement that lists the query logging configurations that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Actions section of the statement:    route53resolver:AssociateResolverQueryLogConfig     route53resolver:DisassociateResolverQueryLogConfig     route53resolver:ListResolverQueryLogConfigAssociations     route53resolver:ListResolverQueryLogConfigs    In the Resource section of the statement, you specify the ARNs for the query logging configurations that you want to share with the account that you specified in Arn. 
+- `ResolverQueryLogConfigPolicy`: An AWS Identity and Access Management policy statement
+  that lists the query logging configurations that you want to share with another AWS account
+  and the operations that you want the account to be able to perform. You can specify the
+  following operations in the Actions section of the statement:
+  route53resolver:AssociateResolverQueryLogConfig
+  route53resolver:DisassociateResolverQueryLogConfig
+  route53resolver:ListResolverQueryLogConfigAssociations
+  route53resolver:ListResolverQueryLogConfigs    In the Resource section of the statement,
+  you specify the ARNs for the query logging configurations that you want to share with the
+  account that you specified in Arn.
 
 """
 put_resolver_query_log_config_policy(Arn, ResolverQueryLogConfigPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutResolverQueryLogConfigPolicy", Dict{String, Any}("Arn"=>Arn, "ResolverQueryLogConfigPolicy"=>ResolverQueryLogConfigPolicy); aws_config=aws_config)
@@ -397,11 +631,21 @@ put_resolver_query_log_config_policy(Arn, ResolverQueryLogConfigPolicy, args::Ab
 """
     PutResolverRulePolicy()
 
-Specifies an AWS rule that you want to share with another account, the account that you want to share the rule with, and the operations that you want the account to be able to perform on the rule.
+Specifies an AWS rule that you want to share with another account, the account that you
+want to share the rule with, and the operations that you want the account to be able to
+perform on the rule.
 
 # Required Parameters
-- `Arn`: The Amazon Resource Name (ARN) of the rule that you want to share with another account.
-- `ResolverRulePolicy`: An AWS Identity and Access Management policy statement that lists the rules that you want to share with another AWS account and the operations that you want the account to be able to perform. You can specify the following operations in the Action section of the statement:    route53resolver:GetResolverRule     route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule     route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In the Resource section of the statement, specify the ARN for the rule that you want to share with another account. Specify the same ARN that you specified in Arn.
+- `Arn`: The Amazon Resource Name (ARN) of the rule that you want to share with another
+  account.
+- `ResolverRulePolicy`: An AWS Identity and Access Management policy statement that lists
+  the rules that you want to share with another AWS account and the operations that you want
+  the account to be able to perform. You can specify the following operations in the Action
+  section of the statement:    route53resolver:GetResolverRule
+  route53resolver:AssociateResolverRule     route53resolver:DisassociateResolverRule
+  route53resolver:ListResolverRules     route53resolver:ListResolverRuleAssociations    In
+  the Resource section of the statement, specify the ARN for the rule that you want to share
+  with another account. Specify the same ARN that you specified in Arn.
 
 """
 put_resolver_rule_policy(Arn, ResolverRulePolicy; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutResolverRulePolicy", Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy); aws_config=aws_config)
@@ -413,7 +657,10 @@ put_resolver_rule_policy(Arn, ResolverRulePolicy, args::AbstractDict{String, <:A
 Adds one or more tags to a specified resource.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) for the resource that you want to add tags to. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
+- `ResourceArn`: The Amazon Resource Name (ARN) for the resource that you want to add tags
+  to. To get the ARN for a resource, use the applicable Get or List command:
+  GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation
+  ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules
 - `Tags`: The tags that you want to add to the specified resource.
 
 """
@@ -426,7 +673,10 @@ tag_resource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::A
 Removes one or more tags from a specified resource.
 
 # Required Parameters
-- `ResourceArn`: The Amazon Resource Name (ARN) for the resource that you want to remove tags from. To get the ARN for a resource, use the applicable Get or List command:     GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation     ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules   
+- `ResourceArn`: The Amazon Resource Name (ARN) for the resource that you want to remove
+  tags from. To get the ARN for a resource, use the applicable Get or List command:
+  GetResolverEndpoint     GetResolverRule     GetResolverRuleAssociation
+  ListResolverEndpoints     ListResolverRuleAssociations     ListResolverRules
 - `TagKeys`: The tags that you want to remove to the specified resource.
 
 """
@@ -436,11 +686,15 @@ untag_resource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateResolverDnssecConfig()
 
-Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
+Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC
+validation configuration, one is created.
 
 # Required Parameters
-- `ResourceId`: The ID of the virtual private cloud (VPC) that you're updating the DNSSEC validation status for.
-- `Validation`: The new value that you are specifying for DNSSEC validation for the VPC. The value can be ENABLE or DISABLE. Be aware that it can take time for a validation status change to be completed.
+- `ResourceId`: The ID of the virtual private cloud (VPC) that you're updating the DNSSEC
+  validation status for.
+- `Validation`: The new value that you are specifying for DNSSEC validation for the VPC.
+  The value can be ENABLE or DISABLE. Be aware that it can take time for a validation status
+  change to be completed.
 
 """
 update_resolver_dnssec_config(ResourceId, Validation; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverDnssecConfig", Dict{String, Any}("ResourceId"=>ResourceId, "Validation"=>Validation); aws_config=aws_config)
@@ -449,7 +703,7 @@ update_resolver_dnssec_config(ResourceId, Validation, args::AbstractDict{String,
 """
     UpdateResolverEndpoint()
 
-Updates the name of an inbound or an outbound Resolver endpoint. 
+Updates the name of an inbound or an outbound Resolver endpoint.
 
 # Required Parameters
 - `ResolverEndpointId`: The ID of the Resolver endpoint that you want to update.
@@ -463,7 +717,8 @@ update_resolver_endpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; 
 """
     UpdateResolverRule()
 
-Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other parameters are optional. If you don't specify a parameter, it retains its current value.
+Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other
+parameters are optional. If you don't specify a parameter, it retains its current value.
 
 # Required Parameters
 - `Config`: The new settings for the Resolver rule.

@@ -27,7 +27,8 @@ Creates a quantum task.
 - `clientToken`: The client token associated with the request.
 - `deviceArn`: The ARN of the device to run the task on.
 - `outputS3Bucket`: The S3 bucket to store task result files in.
-- `outputS3KeyPrefix`: The key prefix for the location in the S3 bucket to store task results in.
+- `outputS3KeyPrefix`: The key prefix for the location in the S3 bucket to store task
+  results in.
 - `shots`: The number of shots to use for the task.
 
 # Optional Parameters
@@ -83,7 +84,8 @@ Searches for devices using the specified filters.
 
 # Optional Parameters
 - `maxResults`: The maximum number of results to return in the response.
-- `nextToken`: A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
+- `nextToken`: A token used for pagination of results returned in the response. Use the
+  token returned from the previous request continue results where the previous request ended.
 """
 search_devices(filters; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/devices", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
 search_devices(filters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), args)); aws_config=aws_config)
@@ -98,7 +100,8 @@ Searches for tasks that match the specified filter values.
 
 # Optional Parameters
 - `maxResults`: Maximum number of results to return in the response.
-- `nextToken`: A token used for pagination of results returned in the response. Use the token returned from the previous request continue results where the previous request ended.
+- `nextToken`: A token used for pagination of results returned in the response. Use the
+  token returned from the previous request continue results where the previous request ended.
 """
 search_quantum_tasks(filters; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
 search_quantum_tasks(filters, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), args)); aws_config=aws_config)

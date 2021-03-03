@@ -7,11 +7,14 @@ using AWS.UUIDs
 """
     CreateLifecyclePolicy()
 
-Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.
+Creates a policy to manage the lifecycle of the specified AWS resources. You can create up
+to 100 lifecycle policies.
 
 # Required Parameters
-- `Description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+ are supported.
-- `ExecutionRoleArn`: The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
+- `Description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+ are
+  supported.
+- `ExecutionRoleArn`: The Amazon Resource Name (ARN) of the IAM role used to run the
+  operations specified by the lifecycle policy.
 - `PolicyDetails`: The configuration details of the lifecycle policy.
 - `State`: The desired activation state of the lifecycle policy after creation.
 
@@ -24,7 +27,8 @@ create_lifecycle_policy(Description, ExecutionRoleArn, PolicyDetails, State, arg
 """
     DeleteLifecyclePolicy()
 
-Deletes the specified lifecycle policy and halts the automated operations that the policy specified.
+Deletes the specified lifecycle policy and halts the automated operations that the policy
+specified.
 
 # Required Parameters
 - `policyId`: The identifier of the lifecycle policy.
@@ -36,13 +40,16 @@ delete_lifecycle_policy(policyId, args::AbstractDict{String, <:Any}; aws_config:
 """
     GetLifecyclePolicies()
 
-Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use GetLifecyclePolicy.
+Gets summary information about all or the specified data lifecycle policies. To get
+complete information about a policy, use GetLifecyclePolicy.
 
 # Optional Parameters
 - `policyIds`: The identifiers of the data lifecycle policies.
 - `resourceTypes`: The resource type.
 - `state`: The activation state.
-- `tagsToAdd`: The tags to add to objects created by the policy. Tags are strings in the format key=value. These user-defined tags are added in addition to the AWS-added lifecycle tags.
+- `tagsToAdd`: The tags to add to objects created by the policy. Tags are strings in the
+  format key=value. These user-defined tags are added in addition to the AWS-added lifecycle
+  tags.
 - `targetTags`: The target tag for a policy. Tags are strings in the format key=value.
 """
 get_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies"; aws_config=aws_config)
@@ -108,8 +115,10 @@ Updates the specified lifecycle policy.
 
 # Optional Parameters
 - `Description`: A description of the lifecycle policy.
-- `ExecutionRoleArn`: The Amazon Resource Name (ARN) of the IAM role used to run the operations specified by the lifecycle policy.
-- `PolicyDetails`: The configuration of the lifecycle policy. You cannot update the policy type or the resource type.
+- `ExecutionRoleArn`: The Amazon Resource Name (ARN) of the IAM role used to run the
+  operations specified by the lifecycle policy.
+- `PolicyDetails`: The configuration of the lifecycle policy. You cannot update the policy
+  type or the resource type.
 - `State`: The desired activation state of the lifecycle policy after creation.
 """
 update_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("PATCH", "/policies/$(policyId)"; aws_config=aws_config)

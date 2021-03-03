@@ -7,15 +7,34 @@ using AWS.UUIDs
 """
     CreateDataset()
 
-Creates a new dataset in an Amazon Lookout for Vision project. CreateDataset can create a training or a test dataset from a valid dataset source (DatasetSource). If you want a single dataset project, specify train for the value of DatasetType. To have a project with separate training and test datasets, call CreateDataset twice. On the first call, specify train for the value of DatasetType. On the second call, specify test for the value of DatasetType. of dataset with 
+Creates a new dataset in an Amazon Lookout for Vision project. CreateDataset can create a
+training or a test dataset from a valid dataset source (DatasetSource). If you want a
+single dataset project, specify train for the value of DatasetType. To have a project with
+separate training and test datasets, call CreateDataset twice. On the first call, specify
+train for the value of DatasetType. On the second call, specify test for the value of
+DatasetType.  This operation requires permissions to perform the
+lookoutvision:CreateDataset operation.
 
 # Required Parameters
-- `DatasetType`: The type of the dataset. Specify train for a training dataset. Specify test for a test dataset.
+- `DatasetType`: The type of the dataset. Specify train for a training dataset. Specify
+  test for a test dataset.
 - `projectName`: The name of the project in which you want to create a dataset.
 
 # Optional Parameters
-- `DatasetSource`: The location of the manifest file that Amazon Lookout for Vision uses to create the dataset. If you don't specify DatasetSource, an empty dataset is created and the operation synchronously returns. Later, you can add JSON Lines by calling UpdateDatasetEntries.  If you specify a value for DataSource, the manifest at the S3 location is validated and used to create the dataset. The call to CreateDataset is asynchronous and might take a while to complete. To find out the current status, Check the value of Status returned in a call to DescribeDataset.
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to CreateDataset completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from CreateDataset. In this case, safely retry your call to CreateDataset by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to CreateDataset. An idempotency token is active for 8 hours. 
+- `DatasetSource`: The location of the manifest file that Amazon Lookout for Vision uses to
+  create the dataset. If you don't specify DatasetSource, an empty dataset is created and the
+  operation synchronously returns. Later, you can add JSON Lines by calling
+  UpdateDatasetEntries.  If you specify a value for DataSource, the manifest at the S3
+  location is validated and used to create the dataset. The call to CreateDataset is
+  asynchronous and might take a while to complete. To find out the current status, Check the
+  value of Status returned in a call to DescribeDataset.
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  CreateDataset completes only once. You choose the value to pass. For example, An issue,
+  such as an network outage, might prevent you from getting a response from CreateDataset. In
+  this case, safely retry your call to CreateDataset by using the same ClientToken parameter
+  value. An error occurs if the other input parameters are not the same as in the first
+  request. Using a different value for ClientToken is considered a new call to CreateDataset.
+  An idempotency token is active for 8 hours.
 """
 create_dataset(DatasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 create_dataset(DatasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
@@ -23,7 +42,16 @@ create_dataset(DatasetType, projectName, args::AbstractDict{String, <:Any}; aws_
 """
     CreateModel()
 
-Creates a new version of a model within an an Amazon Lookout for Vision project. CreateModel is an asynchronous operation in which Amazon Lookout for Vision trains, tests, and evaluates a new version of a model.  To get the current status, check the Status field returned in the response from DescribeModel. If the project has a single dataset, Amazon Lookout for Vision internally splits the dataset to create a training and a test dataset. If the project has a training and a test dataset, Lookout for Vision uses the respective datasets to train and test the model.  After training completes, the evaluation metrics are stored at the location specified in OutputConfig. 
+Creates a new version of a model within an an Amazon Lookout for Vision project.
+CreateModel is an asynchronous operation in which Amazon Lookout for Vision trains, tests,
+and evaluates a new version of a model.  To get the current status, check the Status field
+returned in the response from DescribeModel. If the project has a single dataset, Amazon
+Lookout for Vision internally splits the dataset to create a training and a test dataset.
+If the project has a training and a test dataset, Lookout for Vision uses the respective
+datasets to train and test the model.  After training completes, the evaluation metrics are
+stored at the location specified in OutputConfig.  This operation requires permissions to
+perform the lookoutvision:CreateModel operation. If you want to tag your model, you also
+require permission to the lookoutvision:TagResource operation.
 
 # Required Parameters
 - `OutputConfig`: The location where Amazon Lookout for Vision saves the training results.
@@ -31,8 +59,18 @@ Creates a new version of a model within an an Amazon Lookout for Vision project.
 
 # Optional Parameters
 - `Description`: A description for the version of the model.
-- `KmsKeyId`: The identifier of the AWS Key Management Service (AWS KMS) customer master key (CMK) to use for encypting the model. If this parameter is not specified, the model is encrypted by a key that AWS owns and manages.
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to CreateModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from CreateModel. In this case, safely retry your call to CreateModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to CreateModel. An idempotency token is active for 8 hours.
+- `KmsKeyId`: The identifier for your AWS Key Management Service (AWS KMS) customer master
+  key (CMK). The key is used to encrypt training and test images copied into the service for
+  model training. Your source images are unaffected. If this parameter is not specified, the
+  copied images are encrypted by a key that AWS owns and manages.
+- `Tags`: A set of tags (key-value pairs) that you want to attach to the model.
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  CreateModel completes only once. You choose the value to pass. For example, An issue, such
+  as an network outage, might prevent you from getting a response from CreateModel. In this
+  case, safely retry your call to CreateModel by using the same ClientToken parameter value.
+  An error occurs if the other input parameters are not the same as in the first request.
+  Using a different value for ClientToken is considered a new call to CreateModel. An
+  idempotency token is active for 8 hours.
 """
 create_model(OutputConfig, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 create_model(OutputConfig, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
@@ -40,13 +78,21 @@ create_model(OutputConfig, projectName, args::AbstractDict{String, <:Any}; aws_c
 """
     CreateProject()
 
-Creates an empty Amazon Lookout for Vision project. After you create the project, add a dataset by calling CreateDataset.
+Creates an empty Amazon Lookout for Vision project. After you create the project, add a
+dataset by calling CreateDataset. This operation requires permissions to perform the
+lookoutvision:CreateProject operation.
 
 # Required Parameters
-- `ProjectName`: S nsme for the project.
+- `ProjectName`: The name for the project.
 
 # Optional Parameters
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to CreateProject completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from CreateProject. In this case, safely retry your call to CreateProject by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to CreateProject. An idempotency token is active for 8 hours.
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  CreateProject completes only once. You choose the value to pass. For example, An issue,
+  such as an network outage, might prevent you from getting a response from CreateProject. In
+  this case, safely retry your call to CreateProject by using the same ClientToken parameter
+  value. An error occurs if the other input parameters are not the same as in the first
+  request. Using a different value for ClientToken is considered a new call to CreateProject.
+  An idempotency token is active for 8 hours.
 """
 create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 create_project(ProjectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
@@ -54,14 +100,29 @@ create_project(ProjectName, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     DeleteDataset()
 
-Deletes an existing Amazon Lookout for Vision dataset.  If your the project has a single dataset, you must create a new dataset before you can create a model. If you project has a training dataset and a test dataset consider the following.    If you delete the test dataset, your project reverts to a single dataset project. If you then train the model, Amazon Lookout for Vision internally splits the remaining dataset into a training and test dataset.   If you delete the training dataset, you must create a training dataset before you can create a model.   It might take a while to delete the dataset. To check the current status, check the Status field in the response from a call to DescribeDataset. 
+Deletes an existing Amazon Lookout for Vision dataset.  If your the project has a single
+dataset, you must create a new dataset before you can create a model. If you project has a
+training dataset and a test dataset consider the following.    If you delete the test
+dataset, your project reverts to a single dataset project. If you then train the model,
+Amazon Lookout for Vision internally splits the remaining dataset into a training and test
+dataset.   If you delete the training dataset, you must create a training dataset before
+you can create a model.   This operation requires permissions to perform the
+lookoutvision:DeleteDataset operation.
 
 # Required Parameters
-- `datasetType`: The type of the dataset to delete. Specify train to delete the training dataset. Specify test to delete the test dataset. To delete the dataset in a single dataset project, specify train.
+- `datasetType`: The type of the dataset to delete. Specify train to delete the training
+  dataset. Specify test to delete the test dataset. To delete the dataset in a single dataset
+  project, specify train.
 - `projectName`: The name of the project that contains the dataset that you want to delete.
 
 # Optional Parameters
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to DeleteDataset completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from DeleteDataset. In this case, safely retry your call to DeleteDataset by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to DeleteDataset. An idempotency token is active for 8 hours.
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  DeleteDataset completes only once. You choose the value to pass. For example, An issue,
+  such as an network outage, might prevent you from getting a response from DeleteDataset. In
+  this case, safely retry your call to DeleteDataset by using the same ClientToken parameter
+  value. An error occurs if the other input parameters are not the same as in the first
+  request. Using a different value for ClientToken is considered a new call to DeleteDataset.
+  An idempotency token is active for 8 hours.
 """
 delete_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 delete_dataset(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
@@ -69,14 +130,24 @@ delete_dataset(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_
 """
     DeleteModel()
 
-Deletes an Amazon Lookout for Vision model. You can't delete a running model. To stop a running model, use the StopModel operation.
+Deletes an Amazon Lookout for Vision model. You can't delete a running model. To stop a
+running model, use the StopModel operation. It might take a few seconds to delete a model.
+To determine if a model has been deleted, call ListProjects and check if the version of the
+model (ModelVersion) is in the Models array.  This operation requires permissions to
+perform the lookoutvision:DeleteModel operation.
 
 # Required Parameters
 - `modelVersion`: The version of the model that you want to delete.
 - `projectName`: The name of the project that contains the model that you want to delete.
 
 # Optional Parameters
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to DeleteModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  DeleteModel completes only once. You choose the value to pass. For example, An issue, such
+  as an network outage, might prevent you from getting a response from DeleteModel. In this
+  case, safely retry your call to DeleteModel by using the same ClientToken parameter value.
+  An error occurs if the other input parameters are not the same as in the first request.
+  Using a different value for ClientToken is considered a new call to DeleteModel. An
+  idempotency token is active for 8 hours.
 """
 delete_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 delete_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
@@ -84,13 +155,24 @@ delete_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_c
 """
     DeleteProject()
 
-Deletes an Amazon Lookout for Vision project. To delete a project, you must first delete each version of the model associated with the project. To delete a model use the DeleteModel operation. The training and test datasets are deleted automatically for you. The images referenced by the training and test datasets aren't deleted. 
+Deletes an Amazon Lookout for Vision project. To delete a project, you must first delete
+each version of the model associated with the project. To delete a model use the
+DeleteModel operation. You also have to delete the dataset(s) associated with the model.
+For more information, see DeleteDataset. The images referenced by the training and test
+datasets aren't deleted.  This operation requires permissions to perform the
+lookoutvision:DeleteProject operation.
 
 # Required Parameters
 - `projectName`: The name of the project to delete.
 
 # Optional Parameters
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to DeleteProject completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from DeleteProject. In this case, safely retry your call to DeleteProject by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to DeleteProject. An idempotency token is active for 8 hours.
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  DeleteProject completes only once. You choose the value to pass. For example, An issue,
+  such as an network outage, might prevent you from getting a response from DeleteProject. In
+  this case, safely retry your call to DeleteProject by using the same ClientToken parameter
+  value. An error occurs if the other input parameters are not the same as in the first
+  request. Using a different value for ClientToken is considered a new call to DeleteProject.
+  An idempotency token is active for 8 hours.
 """
 delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 delete_project(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
@@ -98,11 +180,15 @@ delete_project(projectName, args::AbstractDict{String, <:Any}; aws_config::Abstr
 """
     DescribeDataset()
 
-Describe an Amazon Lookout for Vision dataset.
+Describe an Amazon Lookout for Vision dataset. This operation requires permissions to
+perform the lookoutvision:DescribeDataset operation.
 
 # Required Parameters
-- `datasetType`: The type of the dataset to describe. Specify train to describe the training dataset. Specify test to describe the test dataset. If you have a single dataset project, specify train 
-- `projectName`: The name of the project that contains the dataset that you want to describe.
+- `datasetType`: The type of the dataset to describe. Specify train to describe the
+  training dataset. Specify test to describe the test dataset. If you have a single dataset
+  project, specify train
+- `projectName`: The name of the project that contains the dataset that you want to
+  describe.
 
 """
 describe_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)"; aws_config=aws_config)
@@ -111,7 +197,8 @@ describe_dataset(datasetType, projectName, args::AbstractDict{String, <:Any}; aw
 """
     DescribeModel()
 
-Describes a version of an Amazon Lookout for Vision model.
+Describes a version of an Amazon Lookout for Vision model. This operation requires
+permissions to perform the lookoutvision:DescribeModel operation.
 
 # Required Parameters
 - `modelVersion`: The version of the model that you want to describe.
@@ -124,7 +211,8 @@ describe_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws
 """
     DescribeProject()
 
-Describes an Amazon Lookout for Vision project.
+Describes an Amazon Lookout for Vision project. This operation requires permissions to
+perform the lookoutvision:DescribeProject operation.
 
 # Required Parameters
 - `projectName`: The name of the project that you want to describe.
@@ -136,35 +224,59 @@ describe_project(projectName, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     DetectAnomalies()
 
-Detects anomalies in an image that you supply.  The response from DetectAnomalies includes a boolean prediction that the image contains one or more anomalies and a confidence value for the prediction.  Before calling DetectAnomalies, you must first start your model with the StartModel operation. You are charged for the amount of time, in minutes, that a model runs and for the number of anomaly detection units that your model uses. If you are not using a model, use the StopModel operation to stop your model.  
+Detects anomalies in an image that you supply.  The response from DetectAnomalies includes
+a boolean prediction that the image contains one or more anomalies and a confidence value
+for the prediction.  Before calling DetectAnomalies, you must first start your model with
+the StartModel operation. You are charged for the amount of time, in minutes, that a model
+runs and for the number of anomaly detection units that your model uses. If you are not
+using a model, use the StopModel operation to stop your model.   This operation requires
+permissions to perform the lookoutvision:DetectAnomalies operation.
 
 # Required Parameters
-- `Body`: The unencrypted image bytes that you want to analyze. 
-- `content-type`: The type of the image passed in Body. Valid values are image/png (PNG format images) and image/jpeg (JPG format images). 
+- `Body`: The unencrypted image bytes that you want to analyze.
+- `Content-Type`: The type of the image passed in Body. Valid values are image/png (PNG
+  format images) and image/jpeg (JPG format images).
 - `modelVersion`: The version of the model that you want to use.
-- `projectName`: The name of the project that contains the model version that you want to use.
+- `projectName`: The name of the project that contains the model version that you want to
+  use.
 
 """
-detect_anomalies(Body, content_type, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("content-type"=>content_type)); aws_config=aws_config)
-detect_anomalies(Body, content_type, modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("content-type"=>content_type)), args)); aws_config=aws_config)
+detect_anomalies(Body, Content_Type, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
+detect_anomalies(Body, Content_Type, modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws_config=aws_config)
 
 """
     ListDatasetEntries()
 
-Lists the JSON Lines within a dataset. An Amazon Lookout for Vision JSON Line contains the anomaly information for a single image, including the image location and the assigned label.
+Lists the JSON Lines within a dataset. An Amazon Lookout for Vision JSON Line contains the
+anomaly information for a single image, including the image location and the assigned
+label. This operation requires permissions to perform the lookoutvision:ListDatasetEntries
+operation.
 
 # Required Parameters
-- `datasetType`: The type of the dataset that you want to list. Specify train to list the training dataset. Specify test to list the test dataset. If you have a single dataset project, specify train.
+- `datasetType`: The type of the dataset that you want to list. Specify train to list the
+  training dataset. Specify test to list the test dataset. If you have a single dataset
+  project, specify train.
 - `projectName`: The name of the project that contains the dataset that you want to list.
 
 # Optional Parameters
-- `anomalyClass`: Specify normal to include only normal images. Specify anomaly to only include anomalous entries. If you don't specify a value, Amazon Lookout for Vision returns normal and anomalous images.
-- `createdAfter`: Only includes entries after the specified date in the response. For example, 2020-06-23T00:00:00.
-- `createdBefore`: Only includes entries before the specified date in the response. For example, 2020-06-23T00:00:00.
-- `labeled`: Specify true to include labeled entries, otherwise specify false. If you don't specify a value, Lookout for Vision returns all entries.
-- `maxResults`: The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
-- `nextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of dataset entries.
-- `sourceRefContains`: Perform a \"contains\" search on the values of the source-ref key within the dataset. For example a value of \"IMG_17\" returns all JSON Lines where the source-ref key value matches *IMG_17*.
+- `anomalyClass`: Specify normal to include only normal images. Specify anomaly to only
+  include anomalous entries. If you don't specify a value, Amazon Lookout for Vision returns
+  normal and anomalous images.
+- `createdAfter`: Only includes entries after the specified date in the response. For
+  example, 2020-06-23T00:00:00.
+- `createdBefore`: Only includes entries before the specified date in the response. For
+  example, 2020-06-23T00:00:00.
+- `labeled`: Specify true to include labeled entries, otherwise specify false. If you don't
+  specify a value, Lookout for Vision returns all entries.
+- `maxResults`: The maximum number of results to return per paginated call. The largest
+  value you can specify is 100. If you specify a value greater than 100, a
+  ValidationException error occurs. The default value is 100.
+- `nextToken`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
+  use this pagination token to retrieve the next set of dataset entries.
+- `sourceRefContains`: Perform a \"contains\" search on the values of the source-ref key
+  within the dataset. For example a value of \"IMG_17\" returns all JSON Lines where the
+  source-ref key value matches *IMG_17*.
 """
 list_dataset_entries(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries"; aws_config=aws_config)
 list_dataset_entries(datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", args; aws_config=aws_config)
@@ -172,14 +284,20 @@ list_dataset_entries(datasetType, projectName, args::AbstractDict{String, <:Any}
 """
     ListModels()
 
-Lists the versions of a model in an Amazon Lookout for Vision project.
+Lists the versions of a model in an Amazon Lookout for Vision project. This operation
+requires permissions to perform the lookoutvision:ListModels operation.
 
 # Required Parameters
-- `projectName`: The name of the project that contains the model versions that you want to list.
+- `projectName`: The name of the project that contains the model versions that you want to
+  list.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
-- `nextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of models.
+- `maxResults`: The maximum number of results to return per paginated call. The largest
+  value you can specify is 100. If you specify a value greater than 100, a
+  ValidationException error occurs. The default value is 100.
+- `nextToken`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
+  use this pagination token to retrieve the next set of models.
 """
 list_models(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models"; aws_config=aws_config)
 list_models(projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models", args; aws_config=aws_config)
@@ -187,27 +305,60 @@ list_models(projectName, args::AbstractDict{String, <:Any}; aws_config::Abstract
 """
     ListProjects()
 
-Lists the Amazon Lookout for Vision projects in your AWS account.
+Lists the Amazon Lookout for Vision projects in your AWS account. This operation requires
+permissions to perform the lookoutvision:ListProjects operation.
 
 # Optional Parameters
-- `maxResults`: The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
-- `nextToken`: If the previous response was incomplete (because there is more data to retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can use this pagination token to retrieve the next set of projects.
+- `maxResults`: The maximum number of results to return per paginated call. The largest
+  value you can specify is 100. If you specify a value greater than 100, a
+  ValidationException error occurs. The default value is 100.
+- `nextToken`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
+  use this pagination token to retrieve the next set of projects.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects"; aws_config=aws_config)
 list_projects(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects", args; aws_config=aws_config)
 
 """
-    StartModel()
+    ListTagsForResource()
 
-Starts the running of the version of an Amazon Lookout for Vision model. Starting a model takes a while to complete. To check the current state of the model, use DescribeModel. Once the model is running, you can detect custom labels in new images by calling DetectAnomalies.  You are charged for the amount of time that the model is running. To stop a running model, call StopModel. 
+Returns a list of tags attached to the specified Amazon Lookout for Vision model. This
+operation requires permissions to perform the lookoutvision:ListTagsForResource operation.
 
 # Required Parameters
-- `MinInferenceUnits`: The minimum number of inference units to use. A single inference unit represents 1 hour of processing and can support up to 5 Transaction Pers Second (TPS). Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. 
+- `resourceArn`: The Amazon Resource Name (ARN) of the model for which you want to list
+  tags.
+
+"""
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/tags/$(resourceArn)"; aws_config=aws_config)
+list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/tags/$(resourceArn)", args; aws_config=aws_config)
+
+"""
+    StartModel()
+
+Starts the running of the version of an Amazon Lookout for Vision model. Starting a model
+takes a while to complete. To check the current state of the model, use DescribeModel. A
+model is ready to use when its status is HOSTED. Once the model is running, you can detect
+custom labels in new images by calling DetectAnomalies.  You are charged for the amount of
+time that the model is running. To stop a running model, call StopModel.  This operation
+requires permissions to perform the lookoutvision:StartModel operation.
+
+# Required Parameters
+- `MinInferenceUnits`: The minimum number of inference units to use. A single inference
+  unit represents 1 hour of processing and can support up to 5 Transaction Pers Second (TPS).
+  Use a higher number to increase the TPS throughput of your model. You are charged for the
+  number of inference units that you use.
 - `modelVersion`: The version of the model that you want to start.
 - `projectName`: The name of the project that contains the model that you want to start.
 
 # Optional Parameters
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to StartModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours. 
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  StartModel completes only once. You choose the value to pass. For example, An issue, such
+  as an network outage, might prevent you from getting a response from StartModel. In this
+  case, safely retry your call to StartModel by using the same ClientToken parameter value.
+  An error occurs if the other input parameters are not the same as in the first request.
+  Using a different value for ClientToken is considered a new call to StartModel. An
+  idempotency token is active for 8 hours.
 """
 start_model(MinInferenceUnits, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 start_model(MinInferenceUnits, modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
@@ -215,30 +366,82 @@ start_model(MinInferenceUnits, modelVersion, projectName, args::AbstractDict{Str
 """
     StopModel()
 
-Stops a running model. The operation might take a while to complete. To check the current status, call DescribeModel. 
+Stops the hosting of a running model. The operation might take a while to complete. To
+check the current status, call DescribeModel.  After the model hosting stops, the Status of
+the model is TRAINED. This operation requires permissions to perform the
+lookoutvision:StopModel operation.
 
 # Required Parameters
 - `modelVersion`: The version of the model that you want to stop.
 - `projectName`: The name of the project that contains the model that you want to stop.
 
 # Optional Parameters
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to StopModel completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from StopModel. In this case, safely retry your call to StopModel by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to StopModel. An idempotency token is active for 8 hours. 
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  StopModel completes only once. You choose the value to pass. For example, An issue, such as
+  an network outage, might prevent you from getting a response from StopModel. In this case,
+  safely retry your call to StopModel by using the same ClientToken parameter value. An error
+  occurs if the other input parameters are not the same as in the first request. Using a
+  different value for ClientToken is considered a new call to StopModel. An idempotency token
+  is active for 8 hours.
 """
 stop_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 stop_model(modelVersion, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
+    TagResource()
+
+Adds one or more key-value tags to an Amazon Lookout for Vision model. For more
+information, see Tagging a model in the Amazon Lookout for Vision Developer Guide.  This
+operation requires permissions to perform the lookoutvision:TagResource operation.
+
+# Required Parameters
+- `Tags`: The key-value tags to assign to the model.
+- `resourceArn`: The Amazon Resource Name (ARN) of the model to assign the tags.
+
+"""
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+
+"""
+    UntagResource()
+
+Removes one or more tags from an Amazon Lookout for Vision model. For more information, see
+Tagging a model in the Amazon Lookout for Vision Developer Guide.  This operation requires
+permissions to perform the lookoutvision:UntagResource operation.
+
+# Required Parameters
+- `resourceArn`: The Amazon Resource Name (ARN) of the model from which you want to remove
+  tags.
+- `tagKeys`: A list of the keys of the tags that you want to remove.
+
+"""
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+
+"""
     UpdateDatasetEntries()
 
-Adds one or more JSON Line entries to a dataset. A JSON Line includes information about an image used for training or testing an Amazon Lookout for Vision model. The following is an example JSON Line. Updating a dataset might take a while to complete. To check the current status, call DescribeDataset and check the Status field in the response.
+Adds one or more JSON Line entries to a dataset. A JSON Line includes information about an
+image used for training or testing an Amazon Lookout for Vision model. The following is an
+example JSON Line. Updating a dataset might take a while to complete. To check the current
+status, call DescribeDataset and check the Status field in the response. This operation
+requires permissions to perform the lookoutvision:UpdateDatasetEntries operation.
 
 # Required Parameters
 - `Changes`: The entries to add to the dataset.
-- `datasetType`: The type of the dataset that you want to update. Specify train to update the training dataset. Specify test to update the test dataset. If you have a single dataset project, specify train.
+- `datasetType`: The type of the dataset that you want to update. Specify train to update
+  the training dataset. Specify test to update the test dataset. If you have a single dataset
+  project, specify train.
 - `projectName`: The name of the project that contains the dataset that you want to update.
 
 # Optional Parameters
-- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to UpdateDatasetEntries completes only once. You choose the value to pass. For example, An issue, such as an network outage, might prevent you from getting a response from UpdateDatasetEntries. In this case, safely retry your call to UpdateDatasetEntries by using the same ClientToken parameter value. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to UpdateDatasetEntries. An idempotency token is active for 8 hours. 
+- `X-Amzn-Client-Token`: ClientToken is an idempotency token that ensures a call to
+  UpdateDatasetEntries completes only once. You choose the value to pass. For example, An
+  issue, such as an network outage, might prevent you from getting a response from
+  UpdateDatasetEntries. In this case, safely retry your call to UpdateDatasetEntries by using
+  the same ClientToken parameter value. An error occurs if the other input parameters are not
+  the same as in the first request. Using a different value for ClientToken is considered a
+  new call to UpdateDatasetEntries. An idempotency token is active for 8 hours.
 """
 update_dataset_entries(Changes, datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
 update_dataset_entries(Changes, datasetType, projectName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())), args)); aws_config=aws_config)

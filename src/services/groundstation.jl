@@ -19,7 +19,8 @@ cancel_contact(contactId, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     CreateConfig()
 
-Creates a Config with the specified configData parameters. Only one type of configData can be specified.
+Creates a Config with the specified configData parameters. Only one type of configData can
+be specified.
 
 # Required Parameters
 - `configData`: Parameters of a Config.
@@ -34,7 +35,10 @@ create_config(configData, name, args::AbstractDict{String, <:Any}; aws_config::A
 """
     CreateDataflowEndpointGroup()
 
-Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects.
+The name field in each endpoint is used in your mission profile DataflowEndpointConfig to
+specify which endpoints to use during a contact. When a contact uses multiple
+DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
 
 # Required Parameters
 - `endpointDetails`: Endpoint details of each endpoint in the dataflow endpoint group.
@@ -48,17 +52,23 @@ create_dataflow_endpoint_group(endpointDetails, args::AbstractDict{String, <:Any
 """
     CreateMissionProfile()
 
-Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
+Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level
+list of strings has two elements: a from ARN and a to ARN.
 
 # Required Parameters
-- `dataflowEdges`: A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
-- `minimumViableContactDurationSeconds`: Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+- `dataflowEdges`: A list of lists of ARNs. Each list of ARNs is an edge, with a from
+  Config and a to Config.
+- `minimumViableContactDurationSeconds`: Smallest amount of time in seconds that you’d
+  like to see for an available contact. AWS Ground Station will not present you with contacts
+  shorter than this duration.
 - `name`: Name of a mission profile.
 - `trackingConfigArn`: ARN of a tracking Config.
 
 # Optional Parameters
-- `contactPostPassDurationSeconds`: Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-- `contactPrePassDurationSeconds`: Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
+- `contactPostPassDurationSeconds`: Amount of time after a contact ends that you’d like
+  to receive a CloudWatch event indicating the pass has finished.
+- `contactPrePassDurationSeconds`: Amount of time prior to contact start you’d like to
+  receive a CloudWatch event indicating an upcoming pass.
 - `tags`: Tags assigned to a mission profile.
 """
 create_mission_profile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/missionprofile", Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn); aws_config=aws_config)
@@ -182,7 +192,8 @@ Returns a list of Config objects.
 
 # Optional Parameters
 - `maxResults`: Maximum number of Configs returned.
-- `nextToken`: Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
+- `nextToken`: Next token returned in the request of a previous ListConfigs call. Used to
+  get the next page of results.
 """
 list_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config"; aws_config=aws_config)
 list_configs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config", args; aws_config=aws_config)
@@ -190,7 +201,8 @@ list_configs(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glob
 """
     ListContacts()
 
-Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn. 
+Returns a list of contacts. If statusList contains AVAILABLE, the request must include
+groundStation, missionprofileArn, and satelliteArn.
 
 # Required Parameters
 - `endTime`: End time of a contact.
@@ -201,7 +213,8 @@ Returns a list of contacts. If statusList contains AVAILABLE, the request must i
 - `groundStation`: Name of a ground station.
 - `maxResults`: Maximum number of contacts returned.
 - `missionProfileArn`: ARN of a mission profile.
-- `nextToken`: Next token returned in the request of a previous ListContacts call. Used to get the next page of results.
+- `nextToken`: Next token returned in the request of a previous ListContacts call. Used to
+  get the next page of results.
 - `satelliteArn`: ARN of a satellite.
 """
 list_contacts(endTime, startTime, statusList; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("POST", "/contacts", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList); aws_config=aws_config)
@@ -214,7 +227,8 @@ Returns a list of DataflowEndpoint groups.
 
 # Optional Parameters
 - `maxResults`: Maximum number of dataflow endpoint groups returned.
-- `nextToken`: Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
+- `nextToken`: Next token returned in the request of a previous ListDataflowEndpointGroups
+  call. Used to get the next page of results.
 """
 list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup"; aws_config=aws_config)
 list_dataflow_endpoint_groups(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup", args; aws_config=aws_config)
@@ -222,11 +236,12 @@ list_dataflow_endpoint_groups(args::AbstractDict{String, Any}; aws_config::Abstr
 """
     ListGroundStations()
 
-Returns a list of ground stations. 
+Returns a list of ground stations.
 
 # Optional Parameters
 - `maxResults`: Maximum number of ground stations returned.
-- `nextToken`: Next token that can be supplied in the next call to get the next page of ground stations.
+- `nextToken`: Next token that can be supplied in the next call to get the next page of
+  ground stations.
 - `satelliteId`: Satellite ID to retrieve on-boarded ground stations.
 """
 list_ground_stations(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/groundstation"; aws_config=aws_config)
@@ -239,7 +254,8 @@ Returns a list of mission profiles.
 
 # Optional Parameters
 - `maxResults`: Maximum number of mission profiles returned.
-- `nextToken`: Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
+- `nextToken`: Next token returned in the request of a previous ListMissionProfiles call.
+  Used to get the next page of results.
 """
 list_mission_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile"; aws_config=aws_config)
 list_mission_profiles(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile", args; aws_config=aws_config)
@@ -251,7 +267,8 @@ Returns a list of satellites.
 
 # Optional Parameters
 - `maxResults`: Maximum number of satellites returned.
-- `nextToken`: Next token that can be supplied in the next call to get the next page of satellites.
+- `nextToken`: Next token that can be supplied in the next call to get the next page of
+  satellites.
 """
 list_satellites(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite"; aws_config=aws_config)
 list_satellites(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite", args; aws_config=aws_config)
@@ -315,7 +332,8 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateConfig()
 
-Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
+Updates the Config used when scheduling contacts. Updating a Config will not update the
+execution parameters for existing future contacts scheduled with this Config.
 
 # Required Parameters
 - `configData`: Parameters of a Config.
@@ -330,16 +348,22 @@ update_config(configData, configId, configType, name, args::AbstractDict{String,
 """
     UpdateMissionProfile()
 
-Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
+Updates a mission profile. Updating a mission profile will not update the execution
+parameters for existing future contacts.
 
 # Required Parameters
 - `missionProfileId`: UUID of a mission profile.
 
 # Optional Parameters
-- `contactPostPassDurationSeconds`: Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-- `contactPrePassDurationSeconds`: Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
-- `dataflowEdges`: A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
-- `minimumViableContactDurationSeconds`: Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+- `contactPostPassDurationSeconds`: Amount of time after a contact ends that you’d like
+  to receive a CloudWatch event indicating the pass has finished.
+- `contactPrePassDurationSeconds`: Amount of time after a contact ends that you’d like to
+  receive a CloudWatch event indicating the pass has finished.
+- `dataflowEdges`: A list of lists of ARNs. Each list of ARNs is an edge, with a from
+  Config and a to Config.
+- `minimumViableContactDurationSeconds`: Smallest amount of time in seconds that you’d
+  like to see for an available contact. AWS Ground Station will not present you with contacts
+  shorter than this duration.
 - `name`: Name of a mission profile.
 - `trackingConfigArn`: ARN of a tracking Config.
 """

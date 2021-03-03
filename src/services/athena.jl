@@ -7,7 +7,14 @@ using AWS.UUIDs
 """
     BatchGetNamedQuery()
 
-Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under UnprocessedNamedQueryId. Named queries differ from executed queries. Use BatchGetQueryExecutionInput to get details about each unique query execution, and ListQueryExecutionsInput to get a list of query execution IDs.
+Returns the details of a single named query or a list of up to 50 queries, which you
+provide as an array of query ID strings. Requires you to have access to the workgroup in
+which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs
+in the specified workgroup. If information could not be retrieved for a submitted query ID,
+information about the query ID submitted is listed under UnprocessedNamedQueryId. Named
+queries differ from executed queries. Use BatchGetQueryExecutionInput to get details about
+each unique query execution, and ListQueryExecutionsInput to get a list of query execution
+IDs.
 
 # Required Parameters
 - `NamedQueryIds`: An array of query IDs.
@@ -19,7 +26,11 @@ batch_get_named_query(NamedQueryIds, args::AbstractDict{String, <:Any}; aws_conf
 """
     BatchGetQueryExecution()
 
-Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use ListQueryExecutionsInputWorkGroup. Query executions differ from named (saved) queries. Use BatchGetNamedQueryInput to get details about named queries.
+Returns the details of a single query execution or a list of up to 50 query executions,
+which you provide as an array of query execution ID strings. Requires you to have access to
+the workgroup in which the queries ran. To get a list of query execution IDs, use
+ListQueryExecutionsInputWorkGroup. Query executions differ from named (saved) queries. Use
+BatchGetNamedQueryInput to get details about named queries.
 
 # Required Parameters
 - `QueryExecutionIds`: An array of query execution IDs.
@@ -31,15 +42,31 @@ batch_get_query_execution(QueryExecutionIds, args::AbstractDict{String, <:Any}; 
 """
     CreateDataCatalog()
 
-Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same AWS account.
+Creates (registers) a data catalog with the specified name and properties. Catalogs created
+are visible to all users of the same AWS account.
 
 # Required Parameters
-- `Name`: The name of the data catalog to create. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
-- `Type`: The type of data catalog to create: LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
+- `Name`: The name of the data catalog to create. The catalog name must be unique for the
+  AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen
+  characters.
+- `Type`: The type of data catalog to create: LAMBDA for a federated catalog or HIVE for an
+  external hive metastore.  Do not use the GLUE type. This refers to the AwsDataCatalog that
+  already exists in your account, of which you can have only one. Specifying the GLUE type
+  will result in an INVALID_INPUT error.
 
 # Optional Parameters
 - `Description`: A description of the data catalog to be created.
-- `Parameters`: Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  
+- `Parameters`: Specifies the Lambda function or functions to use for creating the data
+  catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data
+  catalog type, use the following syntax. The metadata-function parameter is required. The
+  sdk-version parameter is optional and defaults to the currently supported version.
+  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog
+  type, use one of the following sets of required parameters, but not both.   If you have one
+  Lambda function that processes metadata and another for reading the actual data, use the
+  following syntax. Both parameters are required.  metadata-function=lambda_arn,
+  record-function=lambda_arn      If you have a composite Lambda function that processes both
+  metadata and data, use the following syntax to specify your Lambda function.
+  function=lambda_arn
 - `Tags`: A list of comma separated tags to add to the data catalog that is created.
 """
 create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config)
@@ -48,7 +75,9 @@ create_data_catalog(Name, Type, args::AbstractDict{String, <:Any}; aws_config::A
 """
     CreateNamedQuery()
 
-Creates a named query in the specified workgroup. Requires that you have access to the workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+Creates a named query in the specified workgroup. Requires that you have access to the
+workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in
+the Amazon Athena User Guide.
 
 # Required Parameters
 - `Database`: The database to which the query belongs.
@@ -56,7 +85,13 @@ Creates a named query in the specified workgroup. Requires that you have access 
 - `QueryString`: The contents of the query with all query statements.
 
 # Optional Parameters
-- `ClientRequestToken`: A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
+- `ClientRequestToken`: A unique case-sensitive string used to ensure the request to create
+  the query is idempotent (executes only once). If another CreateNamedQuery request is
+  received, the same response is returned and another query is not created. If a parameter
+  has changed, for example, the QueryString, an error is returned.  This token is listed as
+  not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token
+  for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or
+  the action will fail.
 - `Description`: The query description.
 - `WorkGroup`: The name of the workgroup in which the named query is being created.
 """
@@ -72,7 +107,13 @@ Creates a workgroup with the specified name.
 - `Name`: The workgroup name.
 
 # Optional Parameters
-- `Configuration`: The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfigurationEnforceWorkGroupConfiguration.
+- `Configuration`: The configuration for the workgroup, which includes the location in
+  Amazon S3 where query results are stored, the encryption configuration, if any, used for
+  encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the
+  workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is
+  specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration)
+  in the WorkGroupConfiguration override client-side settings. See
+  WorkGroupConfigurationEnforceWorkGroupConfiguration.
 - `Description`: The workgroup description.
 - `Tags`: A list of comma separated tags to add to the workgroup that is created.
 """
@@ -94,7 +135,9 @@ delete_data_catalog(Name, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 """
     DeleteNamedQuery()
 
-Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+Deletes the named query if you have access to the workgroup in which the query was saved.
+For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon
+Athena User Guide.
 
 # Required Parameters
 - `NamedQueryId`: The unique ID of the query to delete.
@@ -112,7 +155,8 @@ Deletes the workgroup with the specified name. The primary workgroup cannot be d
 - `WorkGroup`: The unique name of the workgroup to delete.
 
 # Optional Parameters
-- `RecursiveDeleteOption`: The option to delete the workgroup and its contents even if the workgroup contains any named queries.
+- `RecursiveDeleteOption`: The option to delete the workgroup and its contents even if the
+  workgroup contains any named queries or query executions.
 """
 delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
 delete_work_group(WorkGroup, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), args)); aws_config=aws_config)
@@ -132,7 +176,7 @@ get_data_catalog(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 """
     GetDatabase()
 
-Returns a database object for the specfied database and data catalog.
+Returns a database object for the specified database and data catalog.
 
 # Required Parameters
 - `CatalogName`: The name of the data catalog that contains the database to return.
@@ -145,7 +189,8 @@ get_database(CatalogName, DatabaseName, args::AbstractDict{String, <:Any}; aws_c
 """
     GetNamedQuery()
 
-Returns information about a single query. Requires that you have access to the workgroup in which the query was saved.
+Returns information about a single query. Requires that you have access to the workgroup in
+which the query was saved.
 
 # Required Parameters
 - `NamedQueryId`: The unique ID of the query. Use ListNamedQueries to get query IDs.
@@ -157,7 +202,9 @@ get_named_query(NamedQueryId, args::AbstractDict{String, <:Any}; aws_config::Abs
 """
     GetQueryExecution()
 
-Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
+Returns information about a single execution of a query if you have access to the workgroup
+in which the query ran. Each time a query executes, information about the query execution
+is saved with a unique ID.
 
 # Required Parameters
 - `QueryExecutionId`: The unique ID of the query execution.
@@ -169,14 +216,25 @@ get_query_execution(QueryExecutionId, args::AbstractDict{String, <:Any}; aws_con
 """
     GetQueryResults()
 
-Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Query Results in the Amazon Athena User Guide. This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location.  IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied. 
+Streams the results of a single query execution specified by QueryExecutionId from the
+Athena query results location in Amazon S3. For more information, see Query Results in the
+Amazon Athena User Guide. This request does not execute the query but returns results. Use
+StartQueryExecution to run a query. To stream query results successfully, the IAM principal
+with permission to call GetQueryResults also must have permissions to the Amazon S3
+GetObject action for the Athena query results location.  IAM principals with permission to
+the Amazon S3 GetObject action for the query results location are able to retrieve query
+results from Amazon S3 even if permission to the GetQueryResults action is denied. To
+restrict user or role access, ensure that Amazon S3 permissions to the Athena query
+location are denied.
 
 # Required Parameters
 - `QueryExecutionId`: The unique ID of the query execution.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of results (rows) to return in this request.
-- `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+- `NextToken`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
 """
 get_query_results(QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetQueryResults", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config)
 get_query_results(QueryExecutionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), args)); aws_config=aws_config)
@@ -187,7 +245,8 @@ get_query_results(QueryExecutionId, args::AbstractDict{String, <:Any}; aws_confi
 Returns table metadata for the specified catalog, database, and table.
 
 # Required Parameters
-- `CatalogName`: The name of the data catalog that contains the database and table metadata to return.
+- `CatalogName`: The name of the data catalog that contains the database and table metadata
+  to return.
 - `DatabaseName`: The name of the database that contains the table metadata to return.
 - `TableName`: The name of the table for which metadata is returned.
 
@@ -214,7 +273,9 @@ Lists the data catalogs in the current AWS account.
 
 # Optional Parameters
 - `MaxResults`: Specifies the maximum number of data catalogs to return.
-- `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+- `NextToken`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
 """
 list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListDataCatalogs"; aws_config=aws_config)
 list_data_catalogs(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListDataCatalogs", args; aws_config=aws_config)
@@ -229,20 +290,43 @@ Lists the databases in the specified data catalog.
 
 # Optional Parameters
 - `MaxResults`: Specifies the maximum number of results to return.
-- `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+- `NextToken`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
 """
 list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListDatabases", Dict{String, Any}("CatalogName"=>CatalogName); aws_config=aws_config)
 list_databases(CatalogName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName), args)); aws_config=aws_config)
 
 """
+    ListEngineVersions()
+
+Returns a list of engine versions that are available to choose from, including the Auto
+option.
+
+# Optional Parameters
+- `MaxResults`: The maximum number of engine versions to return in this request.
+- `NextToken`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
+"""
+list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListEngineVersions"; aws_config=aws_config)
+list_engine_versions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListEngineVersions", args; aws_config=aws_config)
+
+"""
     ListNamedQueries()
 
-Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+Provides a list of available query IDs only for queries saved in the specified workgroup.
+Requires that you have access to the specified workgroup. If a workgroup is not specified,
+lists the saved queries for the primary workgroup. For code samples using the AWS SDK for
+Java, see Examples and Code Samples in the Amazon Athena User Guide.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of queries to return in this request.
-- `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
-- `WorkGroup`: The name of the workgroup from which the named queries are being returned. If a workgroup is not specified, the saved queries for the primary workgroup are returned.
+- `NextToken`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
+- `WorkGroup`: The name of the workgroup from which the named queries are being returned.
+  If a workgroup is not specified, the saved queries for the primary workgroup are returned.
 """
 list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListNamedQueries"; aws_config=aws_config)
 list_named_queries(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListNamedQueries", args; aws_config=aws_config)
@@ -250,12 +334,20 @@ list_named_queries(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
 """
     ListQueryExecutions()
 
-Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+Provides a list of available query execution IDs for the queries in the specified
+workgroup. If a workgroup is not specified, returns a list of query execution IDs for the
+primary workgroup. Requires you to have access to the workgroup in which the queries ran.
+For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon
+Athena User Guide.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of query executions to return in this request.
-- `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
-- `WorkGroup`: The name of the workgroup from which queries are being returned. If a workgroup is not specified, a list of available query execution IDs for the queries in the primary workgroup is returned.
+- `NextToken`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
+- `WorkGroup`: The name of the workgroup from which queries are being returned. If a
+  workgroup is not specified, a list of available query execution IDs for the queries in the
+  primary workgroup is returned.
 """
 list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListQueryExecutions"; aws_config=aws_config)
 list_query_executions(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListQueryExecutions", args; aws_config=aws_config)
@@ -270,9 +362,12 @@ Lists the metadata for the tables in the specified data catalog database.
 - `DatabaseName`: The name of the database for which table metadata should be returned.
 
 # Optional Parameters
-- `Expression`: A regex filter that pattern-matches table names. If no expression is supplied, metadata for all tables are listed.
+- `Expression`: A regex filter that pattern-matches table names. If no expression is
+  supplied, metadata for all tables are listed.
 - `MaxResults`: Specifies the maximum number of results to return.
-- `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+- `NextToken`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
 """
 list_table_metadata(CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws_config=aws_config)
 list_table_metadata(CatalogName, DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
@@ -286,8 +381,11 @@ Lists the tags associated with an Athena workgroup or data catalog resource.
 - `ResourceARN`: Lists the tags for the resource with the specified ARN.
 
 # Optional Parameters
-- `MaxResults`: The maximum number of results to be returned per request that lists the tags for the resource.
-- `NextToken`: The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the resource with the specified ARN.
+- `MaxResults`: The maximum number of results to be returned per request that lists the
+  tags for the resource.
+- `NextToken`: The token for the next set of results, or null if there are no additional
+  results for this request, where the request lists the tags for the resource with the
+  specified ARN.
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
 list_tags_for_resource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
@@ -299,7 +397,9 @@ Lists available workgroups for the account.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of workgroups to return in this request.
-- `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
+- `NextToken`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
 """
 list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListWorkGroups"; aws_config=aws_config)
 list_work_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListWorkGroups", args; aws_config=aws_config)
@@ -307,15 +407,28 @@ list_work_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfi
 """
     StartQueryExecution()
 
-Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires GetDataCatalog permission to the catalog. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+Runs the SQL query statements contained in the Query. Requires you to have access to the
+workgroup in which the query ran. Running queries against an external catalog requires
+GetDataCatalog permission to the catalog. For code samples using the AWS SDK for Java, see
+Examples and Code Samples in the Amazon Athena User Guide.
 
 # Required Parameters
 - `QueryString`: The SQL query statements to be executed.
 
 # Optional Parameters
-- `ClientRequestToken`: A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. 
+- `ClientRequestToken`: A unique case-sensitive string used to ensure the request to create
+  the query is idempotent (executes only once). If another StartQueryExecution request is
+  received, the same response is returned and another query is not created. If a parameter
+  has changed, for example, the QueryString, an error is returned.  This token is listed as
+  not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token
+  for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or
+  the action will fail.
 - `QueryExecutionContext`: The database within which the query executes.
-- `ResultConfiguration`: Specifies information about where and how to save the results of the query execution. If the query runs in a workgroup, then workgroup's settings may override query settings. This affects the query results location. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfigurationEnforceWorkGroupConfiguration.
+- `ResultConfiguration`: Specifies information about where and how to save the results of
+  the query execution. If the query runs in a workgroup, then workgroup's settings may
+  override query settings. This affects the query results location. The workgroup settings
+  override is specified in EnforceWorkGroupConfiguration (true/false) in the
+  WorkGroupConfiguration. See WorkGroupConfigurationEnforceWorkGroupConfiguration.
 - `WorkGroup`: The name of the workgroup in which the query is being started.
 """
 start_query_execution(QueryString; aws_config::AbstractAWSConfig=global_aws_config()) = athena("StartQueryExecution", Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
@@ -324,7 +437,9 @@ start_query_execution(QueryString, args::AbstractDict{String, <:Any}; aws_config
 """
     StopQueryExecution()
 
-Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+Stops a query execution. Requires you to have access to the workgroup in which the query
+ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the
+Amazon Athena User Guide.
 
 # Required Parameters
 - `QueryExecutionId`: The unique ID of the query execution to stop.
@@ -336,11 +451,22 @@ stop_query_execution(QueryExecutionId, args::AbstractDict{String, <:Any}; aws_co
 """
     TagResource()
 
-Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
+Adds one or more tags to an Athena resource. A tag is a label that you assign to a
+resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a
+key and an optional value, both of which you define. For example, you can use tags to
+categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a
+consistent set of tag keys to make it easier to search and filter workgroups or data
+catalogs in your account. For best practices, see Tagging Best Practices. Tag keys can be
+from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode
+characters. Tags can use letters and numbers representable in UTF-8, and the following
+characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be
+unique per resource. If you specify more than one tag, separate them by commas.
 
 # Required Parameters
-- `ResourceARN`: Specifies the ARN of the Athena resource (workgroup or data catalog) to which tags are to be added.
-- `Tags`: A collection of one or more tags, separated by commas, to be added to an Athena workgroup or data catalog resource.
+- `ResourceARN`: Specifies the ARN of the Athena resource (workgroup or data catalog) to
+  which tags are to be added.
+- `Tags`: A collection of one or more tags, separated by commas, to be added to an Athena
+  workgroup or data catalog resource.
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = athena("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
@@ -353,7 +479,8 @@ Removes one or more tags from a data catalog or workgroup resource.
 
 # Required Parameters
 - `ResourceARN`: Specifies the ARN of the resource from which tags are to be removed.
-- `TagKeys`: A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource.
+- `TagKeys`: A comma-separated list of one or more tag keys whose tags are to be removed
+  from the specified resource.
 
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
@@ -365,12 +492,27 @@ untag_resource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_conf
 Updates the data catalog that has the specified name.
 
 # Required Parameters
-- `Name`: The name of the data catalog to update. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
-- `Type`: Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
+- `Name`: The name of the data catalog to update. The catalog name must be unique for the
+  AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen
+  characters.
+- `Type`: Specifies the type of data catalog to update. Specify LAMBDA for a federated
+  catalog or HIVE for an external hive metastore.  Do not use the GLUE type. This refers to
+  the AwsDataCatalog that already exists in your account, of which you can have only one.
+  Specifying the GLUE type will result in an INVALID_INPUT error.
 
 # Optional Parameters
 - `Description`: New or modified text that describes the data catalog.
-- `Parameters`: Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  
+- `Parameters`: Specifies the Lambda function or functions to use for updating the data
+  catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data
+  catalog type, use the following syntax. The metadata-function parameter is required. The
+  sdk-version parameter is optional and defaults to the currently supported version.
+  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog
+  type, use one of the following sets of required parameters, but not both.   If you have one
+  Lambda function that processes metadata and another for reading the actual data, use the
+  following syntax. Both parameters are required.  metadata-function=lambda_arn,
+  record-function=lambda_arn      If you have a composite Lambda function that processes both
+  metadata and data, use the following syntax to specify your Lambda function.
+  function=lambda_arn
 """
 update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config)
 update_data_catalog(Name, Type, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), args)); aws_config=aws_config)
@@ -384,7 +526,8 @@ Updates the workgroup with the specified name. The workgroup's name cannot be ch
 - `WorkGroup`: The specified workgroup that will be updated.
 
 # Optional Parameters
-- `ConfigurationUpdates`: The workgroup configuration that will be updated for the given workgroup.
+- `ConfigurationUpdates`: The workgroup configuration that will be updated for the given
+  workgroup.
 - `Description`: The workgroup description.
 - `State`: The workgroup state that will be updated for the given workgroup.
 """

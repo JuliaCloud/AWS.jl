@@ -10,13 +10,13 @@ using AWS.UUIDs
 Creates an Outpost.
 
 # Required Parameters
-- `Name`: 
-- `SiteId`: 
+- `Name`:
+- `SiteId`:
 
 # Optional Parameters
-- `AvailabilityZone`: 
-- `AvailabilityZoneId`: 
-- `Description`: 
+- `AvailabilityZone`:
+- `AvailabilityZoneId`:
+- `Description`:
 - `Tags`: The tags to apply to the Outpost.
 """
 create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId); aws_config=aws_config)
@@ -28,7 +28,7 @@ create_outpost(Name, SiteId, args::AbstractDict{String, <:Any}; aws_config::Abst
 Deletes the Outpost.
 
 # Required Parameters
-- `OutpostId`: 
+- `OutpostId`:
 
 """
 delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/outposts/$(OutpostId)"; aws_config=aws_config)
@@ -40,7 +40,7 @@ delete_outpost(OutpostId, args::AbstractDict{String, <:Any}; aws_config::Abstrac
 Deletes the site.
 
 # Required Parameters
-- `SiteId`: 
+- `SiteId`:
 
 """
 delete_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/sites/$(SiteId)"; aws_config=aws_config)
@@ -52,7 +52,7 @@ delete_site(SiteId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 Gets information about the specified Outpost.
 
 # Required Parameters
-- `OutpostId`: 
+- `OutpostId`:
 
 """
 get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)"; aws_config=aws_config)
@@ -64,11 +64,11 @@ get_outpost(OutpostId, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 Lists the instance types for the specified Outpost.
 
 # Required Parameters
-- `OutpostId`: 
+- `OutpostId`:
 
 # Optional Parameters
-- `MaxResults`: 
-- `NextToken`: 
+- `MaxResults`:
+- `NextToken`:
 """
 get_outpost_instance_types(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes"; aws_config=aws_config)
 get_outpost_instance_types(OutpostId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes", args; aws_config=aws_config)
@@ -79,8 +79,8 @@ get_outpost_instance_types(OutpostId, args::AbstractDict{String, <:Any}; aws_con
 List the Outposts for your AWS account.
 
 # Optional Parameters
-- `MaxResults`: 
-- `NextToken`: 
+- `MaxResults`:
+- `NextToken`:
 """
 list_outposts(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts"; aws_config=aws_config)
 list_outposts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts", args; aws_config=aws_config)
@@ -91,8 +91,8 @@ list_outposts(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=glo
 Lists the sites for the specified AWS account.
 
 # Optional Parameters
-- `MaxResults`: 
-- `NextToken`: 
+- `MaxResults`:
+- `NextToken`:
 """
 list_sites(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites"; aws_config=aws_config)
 list_sites(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites", args; aws_config=aws_config)

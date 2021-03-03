@@ -7,10 +7,18 @@ using AWS.UUIDs
 """
     AssociateCustomerGateway()
 
-Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate customer gateways that are connected to a VPN attachment on a transit gateway. The transit gateway must be registered in your global network. When you register a transit gateway, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link. 
+Associates a customer gateway with a device and optionally, with a link. If you specify a
+link, it must be associated with the specified device.  You can only associate customer
+gateways that are connected to a VPN attachment on a transit gateway. The transit gateway
+must be registered in your global network. When you register a transit gateway, customer
+gateways that are connected to the transit gateway are automatically included in the global
+network. To list customer gateways that are connected to a transit gateway, use the
+DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a
+customer gateway with more than one device and link.
 
 # Required Parameters
-- `CustomerGatewayArn`: The Amazon Resource Name (ARN) of the customer gateway. For more information, see Resources Defined by Amazon EC2.
+- `CustomerGatewayArn`: The Amazon Resource Name (ARN) of the customer gateway. For more
+  information, see Resources Defined by Amazon EC2.
 - `DeviceId`: The ID of the device.
 - `globalNetworkId`: The ID of the global network.
 
@@ -23,7 +31,9 @@ associate_customer_gateway(CustomerGatewayArn, DeviceId, globalNetworkId, args::
 """
     AssociateLink()
 
-Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
+Associates a link to a device. A device can be associated to multiple links and a link can
+be associated to multiple devices. The device and link must be in the same global network
+and the same site.
 
 # Required Parameters
 - `DeviceId`: The ID of the device.
@@ -37,7 +47,11 @@ associate_link(DeviceId, LinkId, globalNetworkId, args::AbstractDict{String, <:A
 """
     AssociateTransitGatewayConnectPeer()
 
-Associates a transit gateway Connect peer with a device, and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link. 
+Associates a transit gateway Connect peer with a device, and optionally, with a link. If
+you specify a link, it must be associated with the specified device.  You can only
+associate transit gateway Connect peers that have been created on a transit gateway that's
+registered in your global network. You cannot associate a transit gateway Connect peer with
+more than one device and link.
 
 # Required Parameters
 - `DeviceId`: The ID of the device.
@@ -53,7 +67,9 @@ associate_transit_gateway_connect_peer(DeviceId, TransitGatewayConnectPeerArn, g
 """
     CreateConnection()
 
-Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
+Creates a connection between two devices. The devices can be a physical or virtual
+appliance that connects to a third-party appliance in a VPC, or a physical appliance that
+connects to another physical appliance in an on-premises network.
 
 # Required Parameters
 - `ConnectedDeviceId`: The ID of the second device in the connection.
@@ -62,7 +78,8 @@ Creates a connection between two devices. The devices can be a physical or virtu
 
 # Optional Parameters
 - `ConnectedLinkId`: The ID of the link for the second device.
-- `Description`: A description of the connection. Length Constraints: Maximum length of 256 characters.
+- `Description`: A description of the connection. Length Constraints: Maximum length of 256
+  characters.
 - `LinkId`: The ID of the link for the first device.
 - `Tags`: The tags to apply to the resource during creation.
 """
@@ -72,17 +89,20 @@ create_connection(ConnectedDeviceId, DeviceId, globalNetworkId, args::AbstractDi
 """
     CreateDevice()
 
-Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console.
+Creates a new device in a global network. If you specify both a site ID and a location, the
+location of the site is used for visualization in the Network Manager console.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
 
 # Optional Parameters
 - `AWSLocation`: The AWS location of the device.
-- `Description`: A description of the device. Length Constraints: Maximum length of 256 characters.
+- `Description`: A description of the device. Length Constraints: Maximum length of 256
+  characters.
 - `Location`: The location of the device.
 - `Model`: The model of the device. Length Constraints: Maximum length of 128 characters.
-- `SerialNumber`: The serial number of the device. Length Constraints: Maximum length of 128 characters.
+- `SerialNumber`: The serial number of the device. Length Constraints: Maximum length of
+  128 characters.
 - `SiteId`: The ID of the site.
 - `Tags`: The tags to apply to the resource during creation.
 - `Type`: The type of the device.
@@ -97,7 +117,8 @@ create_device(globalNetworkId, args::AbstractDict{String, <:Any}; aws_config::Ab
 Creates a new, empty global network.
 
 # Optional Parameters
-- `Description`: A description of the global network. Length Constraints: Maximum length of 256 characters.
+- `Description`: A description of the global network. Length Constraints: Maximum length of
+  256 characters.
 - `Tags`: The tags to apply to the resource during creation.
 """
 create_global_network(; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("POST", "/global-networks"; aws_config=aws_config)
@@ -109,15 +130,18 @@ create_global_network(args::AbstractDict{String, Any}; aws_config::AbstractAWSCo
 Creates a new link for a specified site.
 
 # Required Parameters
-- `Bandwidth`:  The upload speed and download speed in Mbps. 
+- `Bandwidth`:  The upload speed and download speed in Mbps.
 - `SiteId`: The ID of the site.
 - `globalNetworkId`: The ID of the global network.
 
 # Optional Parameters
-- `Description`: A description of the link. Length Constraints: Maximum length of 256 characters.
-- `Provider`: The provider of the link. Constraints: Cannot include the following characters: |  ^ Length Constraints: Maximum length of 128 characters.
+- `Description`: A description of the link. Length Constraints: Maximum length of 256
+  characters.
+- `Provider`: The provider of the link. Constraints: Cannot include the following
+  characters: |  ^ Length Constraints: Maximum length of 128 characters.
 - `Tags`: The tags to apply to the resource during creation.
-- `Type`: The type of the link. Constraints: Cannot include the following characters: |  ^ Length Constraints: Maximum length of 128 characters.
+- `Type`: The type of the link. Constraints: Cannot include the following characters: |  ^
+  Length Constraints: Maximum length of 128 characters.
 """
 create_link(Bandwidth, SiteId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId); aws_config=aws_config)
 create_link(Bandwidth, SiteId, globalNetworkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId), args)); aws_config=aws_config)
@@ -131,8 +155,12 @@ Creates a new site in a global network.
 - `globalNetworkId`: The ID of the global network.
 
 # Optional Parameters
-- `Description`: A description of your site. Length Constraints: Maximum length of 256 characters.
-- `Location`: The site location. This information is used for visualization in the Network Manager console. If you specify the address, the latitude and longitude are automatically calculated.    Address: The physical address of the site.    Latitude: The latitude of the site.     Longitude: The longitude of the site.  
+- `Description`: A description of your site. Length Constraints: Maximum length of 256
+  characters.
+- `Location`: The site location. This information is used for visualization in the Network
+  Manager console. If you specify the address, the latitude and longitude are automatically
+  calculated.    Address: The physical address of the site.    Latitude: The latitude of the
+  site.     Longitude: The longitude of the site.
 - `Tags`: The tags to apply to the resource during creation.
 """
 create_site(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites"; aws_config=aws_config)
@@ -154,7 +182,8 @@ delete_connection(connectionId, globalNetworkId, args::AbstractDict{String, <:An
 """
     DeleteDevice()
 
-Deletes an existing device. You must first disassociate the device from any links and customer gateways.
+Deletes an existing device. You must first disassociate the device from any links and
+customer gateways.
 
 # Required Parameters
 - `deviceId`: The ID of the device.
@@ -167,7 +196,8 @@ delete_device(deviceId, globalNetworkId, args::AbstractDict{String, <:Any}; aws_
 """
     DeleteGlobalNetwork()
 
-Deletes an existing global network. You must first delete all global network objects (devices, links, and sites) and deregister all transit gateways.
+Deletes an existing global network. You must first delete all global network objects
+(devices, links, and sites) and deregister all transit gateways.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
@@ -179,7 +209,8 @@ delete_global_network(globalNetworkId, args::AbstractDict{String, <:Any}; aws_co
 """
     DeleteLink()
 
-Deletes an existing link. You must first disassociate the link from any devices and customer gateways.
+Deletes an existing link. You must first disassociate the link from any devices and
+customer gateways.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
@@ -205,7 +236,9 @@ delete_site(globalNetworkId, siteId, args::AbstractDict{String, <:Any}; aws_conf
 """
     DeregisterTransitGateway()
 
-Deregisters a transit gateway from your global network. This action does not delete your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
+Deregisters a transit gateway from your global network. This action does not delete your
+transit gateway, or modify any of its attachments. This action removes any customer gateway
+associations.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
@@ -218,7 +251,10 @@ deregister_transit_gateway(globalNetworkId, transitGatewayArn, args::AbstractDic
 """
     DescribeGlobalNetworks()
 
-Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations.
+Describes one or more global networks. By default, all global networks are described. To
+describe the objects in your global network, you must use the appropriate Get* action. For
+example, to list the transit gateways in your global network, use
+GetTransitGatewayRegistrations.
 
 # Optional Parameters
 - `globalNetworkIds`: The IDs of one or more global networks. The maximum is 10.
@@ -234,7 +270,8 @@ describe_global_networks(args::AbstractDict{String, Any}; aws_config::AbstractAW
 Disassociates a customer gateway from a device and a link.
 
 # Required Parameters
-- `customerGatewayArn`: The Amazon Resource Name (ARN) of the customer gateway. For more information, see Resources Defined by Amazon EC2.
+- `customerGatewayArn`: The Amazon Resource Name (ARN) of the customer gateway. For more
+  information, see Resources Defined by Amazon EC2.
 - `globalNetworkId`: The ID of the global network.
 
 """
@@ -244,7 +281,8 @@ disassociate_customer_gateway(customerGatewayArn, globalNetworkId, args::Abstrac
 """
     DisassociateLink()
 
-Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link.
+Disassociates an existing device from a link. You must first disassociate any customer
+gateways that are associated with the link.
 
 # Required Parameters
 - `deviceId`: The ID of the device.
@@ -262,7 +300,8 @@ Disassociates a transit gateway Connect peer from a device and link.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
-- `transitGatewayConnectPeerArn`: The Amazon Resource Name (ARN) of the transit gateway Connect peer.
+- `transitGatewayConnectPeerArn`: The Amazon Resource Name (ARN) of the transit gateway
+  Connect peer.
 
 """
 disassociate_transit_gateway_connect_peer(globalNetworkId, transitGatewayConnectPeerArn; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations/$(transitGatewayConnectPeerArn)"; aws_config=aws_config)
@@ -288,13 +327,15 @@ get_connections(globalNetworkId, args::AbstractDict{String, <:Any}; aws_config::
 """
     GetCustomerGatewayAssociations()
 
-Gets the association information for customer gateways that are associated with devices and links in your global network.
+Gets the association information for customer gateways that are associated with devices and
+links in your global network.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
 
 # Optional Parameters
-- `customerGatewayArns`: One or more customer gateway Amazon Resource Names (ARNs). For more information, see Resources Defined by Amazon EC2. The maximum is 10.
+- `customerGatewayArns`: One or more customer gateway Amazon Resource Names (ARNs). For
+  more information, see Resources Defined by Amazon EC2. The maximum is 10.
 - `maxResults`: The maximum number of results to return.
 - `nextToken`: The token for the next page of results.
 """
@@ -321,7 +362,8 @@ get_devices(globalNetworkId, args::AbstractDict{String, <:Any}; aws_config::Abst
 """
     GetLinkAssociations()
 
-Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
+Gets the link associations for a device or a link. Either the device ID or the link ID must
+be specified.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
@@ -338,7 +380,9 @@ get_link_associations(globalNetworkId, args::AbstractDict{String, <:Any}; aws_co
 """
     GetLinks()
 
-Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
+Gets information about one or more links in a specified global network. If you specify the
+site ID, you cannot specify the type or provider in the same request. You can specify the
+type and provider in the same request.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
@@ -373,7 +417,8 @@ get_sites(globalNetworkId, args::AbstractDict{String, <:Any}; aws_config::Abstra
 """
     GetTransitGatewayConnectPeerAssociations()
 
-Gets information about one or more of your transit gateway Connect peer associations in a global network.
+Gets information about one or more of your transit gateway Connect peer associations in a
+global network.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
@@ -381,7 +426,8 @@ Gets information about one or more of your transit gateway Connect peer associat
 # Optional Parameters
 - `maxResults`: The maximum number of results to return.
 - `nextToken`: The token for the next page of results.
-- `transitGatewayConnectPeerArns`: One or more transit gateway Connect peer Amazon Resource Names (ARNs).
+- `transitGatewayConnectPeerArns`: One or more transit gateway Connect peer Amazon Resource
+  Names (ARNs).
 """
 get_transit_gateway_connect_peer_associations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations"; aws_config=aws_config)
 get_transit_gateway_connect_peer_associations(globalNetworkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-connect-peer-associations", args; aws_config=aws_config)
@@ -397,7 +443,8 @@ Gets information about the transit gateway registrations in a specified global n
 # Optional Parameters
 - `maxResults`: The maximum number of results to return.
 - `nextToken`: The token for the next page of results.
-- `transitGatewayArns`: The Amazon Resource Names (ARNs) of one or more transit gateways. The maximum is 10.
+- `transitGatewayArns`: The Amazon Resource Names (ARNs) of one or more transit gateways.
+  The maximum is 10.
 """
 get_transit_gateway_registrations(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations"; aws_config=aws_config)
 get_transit_gateway_registrations(globalNetworkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", args; aws_config=aws_config)
@@ -417,10 +464,13 @@ list_tags_for_resource(resourceArn, args::AbstractDict{String, <:Any}; aws_confi
 """
     RegisterTransitGateway()
 
-Registers a transit gateway in your global network. The transit gateway can be in any AWS Region, but it must be owned by the same AWS account that owns the global network. You cannot register a transit gateway in more than one global network.
+Registers a transit gateway in your global network. The transit gateway can be in any AWS
+Region, but it must be owned by the same AWS account that owns the global network. You
+cannot register a transit gateway in more than one global network.
 
 # Required Parameters
-- `TransitGatewayArn`: The Amazon Resource Name (ARN) of the transit gateway. For more information, see Resources Defined by Amazon EC2.
+- `TransitGatewayArn`: The Amazon Resource Name (ARN) of the transit gateway. For more
+  information, see Resources Defined by Amazon EC2.
 - `globalNetworkId`: The ID of the global network.
 
 """
@@ -456,7 +506,8 @@ untag_resource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateConnection()
 
-Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string.
+Updates the information for an existing connection. To remove information for any of the
+parameters, specify an empty string.
 
 # Required Parameters
 - `connectionId`: The ID of the connection.
@@ -464,7 +515,8 @@ Updates the information for an existing connection. To remove information for an
 
 # Optional Parameters
 - `ConnectedLinkId`: The ID of the link for the second device in the connection.
-- `Description`: A description of the connection. Length Constraints: Maximum length of 256 characters.
+- `Description`: A description of the connection. Length Constraints: Maximum length of 256
+  characters.
 - `LinkId`: The ID of the link for the first device in the connection.
 """
 update_connection(connectionId, globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/connections/$(connectionId)"; aws_config=aws_config)
@@ -473,7 +525,8 @@ update_connection(connectionId, globalNetworkId, args::AbstractDict{String, <:An
 """
     UpdateDevice()
 
-Updates the details for an existing device. To remove information for any of the parameters, specify an empty string.
+Updates the details for an existing device. To remove information for any of the
+parameters, specify an empty string.
 
 # Required Parameters
 - `deviceId`: The ID of the device.
@@ -481,10 +534,12 @@ Updates the details for an existing device. To remove information for any of the
 
 # Optional Parameters
 - `AWSLocation`: The AWS location of the device.
-- `Description`: A description of the device. Length Constraints: Maximum length of 256 characters.
-- `Location`: 
+- `Description`: A description of the device. Length Constraints: Maximum length of 256
+  characters.
+- `Location`:
 - `Model`: The model of the device. Length Constraints: Maximum length of 128 characters.
-- `SerialNumber`: The serial number of the device. Length Constraints: Maximum length of 128 characters.
+- `SerialNumber`: The serial number of the device. Length Constraints: Maximum length of
+  128 characters.
 - `SiteId`: The ID of the site.
 - `Type`: The type of the device.
 - `Vendor`: The vendor of the device. Length Constraints: Maximum length of 128 characters.
@@ -495,13 +550,15 @@ update_device(deviceId, globalNetworkId, args::AbstractDict{String, <:Any}; aws_
 """
     UpdateGlobalNetwork()
 
-Updates an existing global network. To remove information for any of the parameters, specify an empty string.
+Updates an existing global network. To remove information for any of the parameters,
+specify an empty string.
 
 # Required Parameters
 - `globalNetworkId`: The ID of your global network.
 
 # Optional Parameters
-- `Description`: A description of the global network. Length Constraints: Maximum length of 256 characters.
+- `Description`: A description of the global network. Length Constraints: Maximum length of
+  256 characters.
 """
 update_global_network(globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)"; aws_config=aws_config)
 update_global_network(globalNetworkId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)", args; aws_config=aws_config)
@@ -509,16 +566,19 @@ update_global_network(globalNetworkId, args::AbstractDict{String, <:Any}; aws_co
 """
     UpdateLink()
 
-Updates the details for an existing link. To remove information for any of the parameters, specify an empty string.
+Updates the details for an existing link. To remove information for any of the parameters,
+specify an empty string.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
 - `linkId`: The ID of the link.
 
 # Optional Parameters
-- `Bandwidth`: The upload and download speed in Mbps. 
-- `Description`: A description of the link. Length Constraints: Maximum length of 256 characters.
-- `Provider`: The provider of the link. Length Constraints: Maximum length of 128 characters.
+- `Bandwidth`: The upload and download speed in Mbps.
+- `Description`: A description of the link. Length Constraints: Maximum length of 256
+  characters.
+- `Provider`: The provider of the link. Length Constraints: Maximum length of 128
+  characters.
 - `Type`: The type of the link. Length Constraints: Maximum length of 128 characters.
 """
 update_link(globalNetworkId, linkId; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)"; aws_config=aws_config)
@@ -527,15 +587,18 @@ update_link(globalNetworkId, linkId, args::AbstractDict{String, <:Any}; aws_conf
 """
     UpdateSite()
 
-Updates the information for an existing site. To remove information for any of the parameters, specify an empty string.
+Updates the information for an existing site. To remove information for any of the
+parameters, specify an empty string.
 
 # Required Parameters
 - `globalNetworkId`: The ID of the global network.
 - `siteId`: The ID of your site.
 
 # Optional Parameters
-- `Description`: A description of your site. Length Constraints: Maximum length of 256 characters.
-- `Location`: The site location:    Address: The physical address of the site.    Latitude: The latitude of the site.     Longitude: The longitude of the site.  
+- `Description`: A description of your site. Length Constraints: Maximum length of 256
+  characters.
+- `Location`: The site location:    Address: The physical address of the site.    Latitude:
+  The latitude of the site.     Longitude: The longitude of the site.
 """
 update_site(globalNetworkId, siteId; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)"; aws_config=aws_config)
 update_site(globalNetworkId, siteId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)", args; aws_config=aws_config)

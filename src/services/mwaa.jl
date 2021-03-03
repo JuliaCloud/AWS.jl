@@ -22,26 +22,56 @@ create_cli_token(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAW
 JSON blob that describes the environment to create.
 
 # Required Parameters
-- `DagS3Path`: The relative path to the DAG folder on your Amazon S3 storage bucket. For example, dags. For more information, see Importing DAGs on Amazon MWAA.
-- `ExecutionRoleArn`: The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an AWS Identity and Access Management (IAM) role that grants MWAA permission to access AWS services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Managing access to Amazon Managed Workflows for Apache Airflow.
+- `DagS3Path`: The relative path to the DAG folder on your Amazon S3 storage bucket. For
+  example, dags. For more information, see Importing DAGs on Amazon MWAA.
+- `ExecutionRoleArn`: The Amazon Resource Name (ARN) of the execution role for your
+  environment. An execution role is an AWS Identity and Access Management (IAM) role that
+  grants MWAA permission to access AWS services and resources used by your environment. For
+  example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Managing
+  access to Amazon Managed Workflows for Apache Airflow.
 - `Name`: The name of your MWAA environment.
-- `NetworkConfiguration`: The VPC networking components you want to use for your environment. At least two private subnet identifiers and one VPC security group identifier are required to create an environment. For more information, see Creating the VPC network for a MWAA environment.
-- `SourceBucketArn`: The Amazon Resource Name (ARN) of your Amazon S3 storage bucket. For example, arn:aws:s3:::airflow-mybucketname.
+- `NetworkConfiguration`: The VPC networking components you want to use for your
+  environment. At least two private subnet identifiers and one VPC security group identifier
+  are required to create an environment. For more information, see Creating the VPC network
+  for a MWAA environment.
+- `SourceBucketArn`: The Amazon Resource Name (ARN) of your Amazon S3 storage bucket. For
+  example, arn:aws:s3:::airflow-mybucketname.
 
 # Optional Parameters
-- `AirflowConfigurationOptions`: The Apache Airflow configuration setting you want to override in your environment. For more information, see Environment configuration.
+- `AirflowConfigurationOptions`: The Apache Airflow configuration setting you want to
+  override in your environment. For more information, see Environment configuration.
 - `AirflowVersion`: The Apache Airflow version you want to use for your environment.
-- `EnvironmentClass`: The environment class you want to use for your environment. The environment class determines the size of the containers and database used for your Apache Airflow services.
-- `KmsKey`: The AWS Key Management Service (KMS) key to encrypt and decrypt the data in your environment. You can use an AWS KMS key managed by MWAA, or a custom KMS key (advanced). For more information, see Customer master keys (CMKs) in the AWS KMS developer guide.
-- `LoggingConfiguration`: The Apache Airflow logs you want to send to Amazon CloudWatch Logs.
-- `MaxWorkers`: The maximum number of workers that you want to run in your environment. MWAA scales the number of Apache Airflow workers and the Fargate containers that run your tasks up to the number you specify in this field. When there are no more tasks running, and no more in the queue, MWAA disposes of the extra containers leaving the one worker that is included with your environment.
+- `EnvironmentClass`: The environment class you want to use for your environment. The
+  environment class determines the size of the containers and database used for your Apache
+  Airflow services.
+- `KmsKey`: The AWS Key Management Service (KMS) key to encrypt and decrypt the data in
+  your environment. You can use an AWS KMS key managed by MWAA, or a custom KMS key
+  (advanced). For more information, see Customer master keys (CMKs) in the AWS KMS developer
+  guide.
+- `LoggingConfiguration`: The Apache Airflow logs you want to send to Amazon CloudWatch
+  Logs.
+- `MaxWorkers`: The maximum number of workers that you want to run in your environment.
+  MWAA scales the number of Apache Airflow workers and the Fargate containers that run your
+  tasks up to the number you specify in this field. When there are no more tasks running, and
+  no more in the queue, MWAA disposes of the extra containers leaving the one worker that is
+  included with your environment.
 - `PluginsS3ObjectVersion`: The plugins.zip file version you want to use.
-- `PluginsS3Path`: The relative path to the plugins.zip file on your Amazon S3 storage bucket. For example, plugins.zip. If a relative path is provided in the request, then PluginsS3ObjectVersion is required. For more information, see Importing DAGs on Amazon MWAA.
+- `PluginsS3Path`: The relative path to the plugins.zip file on your Amazon S3 storage
+  bucket. For example, plugins.zip. If a relative path is provided in the request, then
+  PluginsS3ObjectVersion is required. For more information, see Importing DAGs on Amazon MWAA.
 - `RequirementsS3ObjectVersion`: The requirements.txt file version you want to use.
-- `RequirementsS3Path`: The relative path to the requirements.txt file on your Amazon S3 storage bucket. For example, requirements.txt. If a relative path is provided in the request, then RequirementsS3ObjectVersion is required. For more information, see Importing DAGs on Amazon MWAA.
-- `Tags`: The metadata tags you want to attach to your environment. For more information, see Tagging AWS resources.
-- `WebserverAccessMode`: The networking access of your Apache Airflow web server. A public network allows your Airflow UI to be accessed over the Internet by users granted access in your IAM policy. A private network limits access of your Airflow UI to users within your VPC. For more information, see Creating the VPC network for a MWAA environment.
-- `WeeklyMaintenanceWindowStart`: The day and time you want MWAA to start weekly maintenance updates on your environment.
+- `RequirementsS3Path`: The relative path to the requirements.txt file on your Amazon S3
+  storage bucket. For example, requirements.txt. If a relative path is provided in the
+  request, then RequirementsS3ObjectVersion is required. For more information, see Importing
+  DAGs on Amazon MWAA.
+- `Tags`: The metadata tags you want to attach to your environment. For more information,
+  see Tagging AWS resources.
+- `WebserverAccessMode`: The networking access of your Apache Airflow web server. A public
+  network allows your Airflow UI to be accessed over the Internet by users granted access in
+  your IAM policy. A private network limits access of your Airflow UI to users within your
+  VPC. For more information, see Creating the VPC network for a MWAA environment.
+- `WeeklyMaintenanceWindowStart`: The day and time you want MWAA to start weekly
+  maintenance updates on your environment.
 """
 create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn); aws_config=aws_config)
 create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn), args)); aws_config=aws_config)
@@ -113,7 +143,8 @@ An operation for publishing metrics from the customers to the Ops plane.
 
 # Required Parameters
 - `EnvironmentName`: Publishes environment metric data to Amazon CloudWatch.
-- `MetricData`: Publishes metric data points to Amazon CloudWatch. CloudWatch associates the data points with the specified metrica.
+- `MetricData`: Publishes metric data points to Amazon CloudWatch. CloudWatch associates
+  the data points with the specified metrica.
 
 """
 publish_metrics(EnvironmentName, MetricData; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}("MetricData"=>MetricData); aws_config=aws_config)
@@ -154,21 +185,29 @@ Update an MWAA environment.
 - `Name`: The name of your Amazon MWAA environment that you wish to update.
 
 # Optional Parameters
-- `AirflowConfigurationOptions`: The Airflow Configuration Options to update of your Amazon MWAA environment.
+- `AirflowConfigurationOptions`: The Airflow Configuration Options to update of your Amazon
+  MWAA environment.
 - `AirflowVersion`: The Airflow Version to update of your Amazon MWAA environment.
 - `DagS3Path`: The Dags folder S3 Path to update of your Amazon MWAA environment.
 - `EnvironmentClass`: The Environment Class to update of your Amazon MWAA environment.
 - `ExecutionRoleArn`: The Executio Role ARN to update of your Amazon MWAA environment.
-- `LoggingConfiguration`: The Logging Configuration to update of your Amazon MWAA environment.
+- `LoggingConfiguration`: The Logging Configuration to update of your Amazon MWAA
+  environment.
 - `MaxWorkers`: The Maximum Workers to update of your Amazon MWAA environment.
-- `NetworkConfiguration`: The Network Configuration to update of your Amazon MWAA environment.
-- `PluginsS3ObjectVersion`: The Plugins.zip S3 Object Version to update of your Amazon MWAA environment.
+- `NetworkConfiguration`: The Network Configuration to update of your Amazon MWAA
+  environment.
+- `PluginsS3ObjectVersion`: The Plugins.zip S3 Object Version to update of your Amazon MWAA
+  environment.
 - `PluginsS3Path`: The Plugins.zip S3 Path to update of your Amazon MWAA environment.
-- `RequirementsS3ObjectVersion`: The Requirements.txt S3 ObjectV ersion to update of your Amazon MWAA environment.
-- `RequirementsS3Path`: The Requirements.txt S3 Path to update of your Amazon MWAA environment.
+- `RequirementsS3ObjectVersion`: The Requirements.txt S3 ObjectV ersion to update of your
+  Amazon MWAA environment.
+- `RequirementsS3Path`: The Requirements.txt S3 Path to update of your Amazon MWAA
+  environment.
 - `SourceBucketArn`: The S3 Source Bucket ARN to update of your Amazon MWAA environment.
-- `WebserverAccessMode`: The Webserver Access Mode to update of your Amazon MWAA environment.
-- `WeeklyMaintenanceWindowStart`: The Weekly Maintenance Window Start to update of your Amazon MWAA environment.
+- `WebserverAccessMode`: The Webserver Access Mode to update of your Amazon MWAA
+  environment.
+- `WeeklyMaintenanceWindowStart`: The Weekly Maintenance Window Start to update of your
+  Amazon MWAA environment.
 """
 update_environment(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)"; aws_config=aws_config)
 update_environment(Name, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)", args; aws_config=aws_config)
