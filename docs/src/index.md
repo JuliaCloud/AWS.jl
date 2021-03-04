@@ -1,6 +1,7 @@
 ## AWS.jl
 
 [![CI](https://github.com/JuliaCloud/AWS.jl/workflows/CI/badge.svg)](https://github.com/JuliaCloud/AWS.jl/actions?query=workflow%3ACI)
+[![Bors: enabled](https://bors.tech/images/badge_small.svg)](https://app.bors.tech/repositories/6778)
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 [![ColPrac: Contributor's Guide on Collaborative Practices for Community Packages](https://img.shields.io/badge/ColPrac-Contributor's%20Guide-blueviolet)](https://github.com/SciML/ColPrac)
 
