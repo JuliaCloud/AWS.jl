@@ -58,6 +58,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tasks up to the number you specify in this field. When there are no more tasks running, and
   no more in the queue, MWAA disposes of the extra containers leaving the one worker that is
   included with your environment.
+- `"MinWorkers"`: The minimum number of workers that you want to run in your environment.
+  MWAA scales the number of Apache Airflow workers and the Fargate containers that run your
+  tasks up to the number you specify in the MaxWorkers field. When there are no more tasks
+  running, and no more in the queue, MWAA disposes of the extra containers leaving the worker
+  count you specify in the MinWorkers field.
 - `"PluginsS3ObjectVersion"`: The plugins.zip file version you want to use.
 - `"PluginsS3Path"`: The relative path to the plugins.zip file on your Amazon S3 storage
   bucket. For example, plugins.zip. If a relative path is provided in the request, then
@@ -207,7 +212,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExecutionRoleArn"`: The Executio Role ARN to update of your Amazon MWAA environment.
 - `"LoggingConfiguration"`: The Logging Configuration to update of your Amazon MWAA
   environment.
-- `"MaxWorkers"`: The Maximum Workers to update of your Amazon MWAA environment.
+- `"MaxWorkers"`: The maximum number of workers to update of your Amazon MWAA environment.
+- `"MinWorkers"`: The minimum number of workers to update of your Amazon MWAA environment.
 - `"NetworkConfiguration"`: The Network Configuration to update of your Amazon MWAA
   environment.
 - `"PluginsS3ObjectVersion"`: The Plugins.zip S3 Object Version to update of your Amazon

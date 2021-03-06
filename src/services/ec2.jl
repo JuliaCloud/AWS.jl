@@ -5374,9 +5374,9 @@ Describes the specified attribute of the specified AMI. You can specify only one
 at a time.
 
 # Arguments
-- `attribute`: The AMI attribute.  Note: Depending on your account privileges, the
-  blockDeviceMapping attribute may return a Client.AuthFailure error. If this happens, use
-  DescribeImages to get information about the block device mapping for the AMI.
+- `attribute`: The AMI attribute.  Note: The blockDeviceMapping attribute is deprecated.
+  Using this attribute returns the Client.AuthFailure error. To get information about the
+  block device mappings for an AMI, use the DescribeImages action.
 - `image_id`: The ID of the AMI.
 
 # Optional Parameters

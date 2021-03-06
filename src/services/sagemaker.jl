@@ -2841,7 +2841,11 @@ describe_subscribed_workteam(WorkteamArn, params::AbstractDict{String, <:Any}; a
     describe_training_job(training_job_name)
     describe_training_job(training_job_name, params::Dict{String,<:Any})
 
-Returns information about a training job.
+Returns information about a training job.  Some of the attributes below only appear if the
+training job successfully starts. If the training job fails, TrainingJobStatus is Failed
+and, depending on the FailureReason, attributes like TrainingStartTime,
+TrainingTimeInSeconds, TrainingEndTime, and BillableTimeInSeconds may not be present in the
+response.
 
 # Arguments
 - `training_job_name`: The name of the training job.

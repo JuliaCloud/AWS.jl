@@ -125,6 +125,9 @@ Resources.
   arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address:
   arn:aws:ec2:region:account-id:eip-allocation/allocation-id
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: One or more tag key-value pairs for the Protection object that is created.
 """
 create_protection(Name, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtection", Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn); aws_config=aws_config)
 create_protection(Name, ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
@@ -162,6 +165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources of this type are included in the protection group. Newly protected resources of
   this type are automatically added to the group. You must set this when you set Pattern to
   BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
+- `"Tags"`: One or more tag key-value pairs for the protection group.
 """
 create_protection_group(Aggregation, Pattern, ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtectionGroup", Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
 create_protection_group(Aggregation, Pattern, ProtectionGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config)
@@ -491,6 +495,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_resources_in_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListResourcesInProtectionGroup", Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
 list_resources_in_protection_group(ProtectionGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListResourcesInProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config)
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS Shield.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to get tags for.
+
+"""
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Adds or updates tags for a resource in AWS Shield.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to add or
+  update tags for.
+- `tags`: The tags that you want to modify or add to the resource.
+
+"""
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = shield("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes tags from a resource in AWS Shield.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
+  tags from.
+- `tag_keys`: The tag key for each tag that you want to remove from the resource.
+
+"""
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_emergency_contact_settings()

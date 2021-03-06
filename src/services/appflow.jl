@@ -158,8 +158,6 @@ DescribeConnectors API operation to retrieve the next page.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"connectorTypes"`:  The type of connector, such as Salesforce, Amplitude, and so on.
-  Locke refers to a new destination known as Amazon Connect Customer Profiles. At this time,
-  we recommend that you do not use this destination.
 - `"nextToken"`:  The pagination token for the next page of data.
 """
 describe_connectors(; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/describe-connectors"; aws_config=aws_config)

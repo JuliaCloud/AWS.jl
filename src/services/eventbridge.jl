@@ -32,6 +32,29 @@ cancel_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config()) = e
 cancel_replay(ReplayName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CancelReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplayName"=>ReplayName), params)); aws_config=aws_config)
 
 """
+    create_api_destination(connection_arn, http_method, invocation_endpoint, name)
+    create_api_destination(connection_arn, http_method, invocation_endpoint, name, params::Dict{String,<:Any})
+
+Creates an API destination, which is an HTTP invocation endpoint configured as a target for
+events.
+
+# Arguments
+- `connection_arn`: The ARN of the connection to use for the API destination. The
+  destination endpoint must support the authorization type specified for the connection.
+- `http_method`: The method to use for the request to the HTTP invocation endpoint.
+- `invocation_endpoint`: The URL to the HTTP invocation endpoint for the API destination.
+- `name`: The name for the API destination to create.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description for the API destination to create.
+- `"InvocationRateLimitPerSecond"`: The maximum number of requests per second to send to
+  the HTTP invocation endpoint.
+"""
+create_api_destination(ConnectionArn, HttpMethod, InvocationEndpoint, Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateApiDestination", Dict{String, Any}("ConnectionArn"=>ConnectionArn, "HttpMethod"=>HttpMethod, "InvocationEndpoint"=>InvocationEndpoint, "Name"=>Name); aws_config=aws_config)
+create_api_destination(ConnectionArn, HttpMethod, InvocationEndpoint, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn, "HttpMethod"=>HttpMethod, "InvocationEndpoint"=>InvocationEndpoint, "Name"=>Name), params)); aws_config=aws_config)
+
+"""
     create_archive(archive_name, event_source_arn)
     create_archive(archive_name, event_source_arn, params::Dict{String,<:Any})
 
@@ -54,6 +77,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_archive(ArchiveName, EventSourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateArchive", Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn); aws_config=aws_config)
 create_archive(ArchiveName, EventSourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn), params)); aws_config=aws_config)
+
+"""
+    create_connection(auth_parameters, authorization_type, name)
+    create_connection(auth_parameters, authorization_type, name, params::Dict{String,<:Any})
+
+Creates a connection. A connection defines the authorization type and credentials to use
+for authorization with an API destination HTTP endpoint.
+
+# Arguments
+- `auth_parameters`: A CreateConnectionAuthRequestParameters object that contains the
+  authorization parameters to use to authorize with the endpoint.
+- `authorization_type`: The type of authorization to use for the connection.
+- `name`: The name for the connection to create.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description for the connection to create.
+"""
+create_connection(AuthParameters, AuthorizationType, Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateConnection", Dict{String, Any}("AuthParameters"=>AuthParameters, "AuthorizationType"=>AuthorizationType, "Name"=>Name); aws_config=aws_config)
+create_connection(AuthParameters, AuthorizationType, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthParameters"=>AuthParameters, "AuthorizationType"=>AuthorizationType, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_event_bus(name)
@@ -127,6 +170,33 @@ deactivate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config())
 deactivate_event_source(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
+    deauthorize_connection(name)
+    deauthorize_connection(name, params::Dict{String,<:Any})
+
+Removes all authorization parameters from the connection. This lets you remove the secret
+from the connection so you can reuse it without having to create a new connection.
+
+# Arguments
+- `name`: The name of the connection to remove authorization from.
+
+"""
+deauthorize_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeauthorizeConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+deauthorize_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeauthorizeConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+
+"""
+    delete_api_destination(name)
+    delete_api_destination(name, params::Dict{String,<:Any})
+
+Deletes the specified API destination.
+
+# Arguments
+- `name`: The name of the destination to delete.
+
+"""
+delete_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteApiDestination", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_api_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+
+"""
     delete_archive(archive_name)
     delete_archive(archive_name, params::Dict{String,<:Any})
 
@@ -138,6 +208,19 @@ Deletes the specified archive.
 """
 delete_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
 delete_archive(ArchiveName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
+
+"""
+    delete_connection(name)
+    delete_connection(name, params::Dict{String,<:Any})
+
+Deletes a connection.
+
+# Arguments
+- `name`: The name of the connection to delete.
+
+"""
+delete_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_event_bus(name)
@@ -197,6 +280,19 @@ delete_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbrid
 delete_rule(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
+    describe_api_destination(name)
+    describe_api_destination(name, params::Dict{String,<:Any})
+
+Retrieves details about an API destination.
+
+# Arguments
+- `name`: The name of the API destination to retrieve.
+
+"""
+describe_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeApiDestination", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+describe_api_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+
+"""
     describe_archive(archive_name)
     describe_archive(archive_name, params::Dict{String,<:Any})
 
@@ -208,6 +304,19 @@ Retrieves details about an archive.
 """
 describe_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
 describe_archive(ArchiveName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
+
+"""
+    describe_connection(name)
+    describe_connection(name, params::Dict{String,<:Any})
+
+Retrieves details about a connection.
+
+# Arguments
+- `name`: The name of the connection to retrieve.
+
+"""
+describe_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+describe_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_event_bus()
@@ -333,6 +442,23 @@ enable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbrid
 enable_rule(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
+    list_api_destinations()
+    list_api_destinations(params::Dict{String,<:Any})
+
+Retrieves a list of API destination in the account in the current Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConnectionArn"`: The ARN of the connection specified for the API destination.
+- `"Limit"`: The maximum number of API destinations to include in the response.
+- `"NamePrefix"`: A name prefix to filter results returned. Only API destinations with a
+  name that starts with the prefix are returned.
+- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+"""
+list_api_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListApiDestinations"; aws_config=aws_config)
+list_api_destinations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListApiDestinations", params; aws_config=aws_config)
+
+"""
     list_archives()
     list_archives(params::Dict{String,<:Any})
 
@@ -350,6 +476,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_archives(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListArchives"; aws_config=aws_config)
 list_archives(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListArchives", params; aws_config=aws_config)
+
+"""
+    list_connections()
+    list_connections(params::Dict{String,<:Any})
+
+Retrieves a list of connections from the account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConnectionState"`: The state of the connection.
+- `"Limit"`: The maximum number of connections to return.
+- `"NamePrefix"`: A name prefix to filter results returned. Only connections with a name
+  that starts with the prefix are returned.
+- `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
+"""
+list_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListConnections"; aws_config=aws_config)
+list_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListConnections", params; aws_config=aws_config)
 
 """
     list_event_buses()
@@ -670,49 +813,50 @@ Streams   Data delivery streams in Amazon Kinesis Data Firehose   Amazon ECS tas
 Step Functions state machines   AWS Batch jobs   AWS CodeBuild projects   Pipelines in AWS
 CodePipeline   Amazon Inspector assessment templates   Amazon SNS topics   Amazon SQS
 queues, including FIFO queues   The default event bus of another AWS account   Amazon API
-Gateway REST APIs   Redshift Clusters to invoke Data API ExecuteStatement on   Creating
-rules with built-in targets is supported only in the AWS Management Console. The built-in
-targets are EC2 CreateSnapshot API call, EC2 RebootInstances API call, EC2 StopInstances
-API call, and EC2 TerminateInstances API call.  For some target types, PutTargets provides
-target-specific parameters. If the target is a Kinesis data stream, you can optionally
-specify which shard the event goes to by using the KinesisParameters argument. To invoke a
-command on multiple EC2 instances with one rule, you can use the RunCommandParameters
-field. To be able to make API calls against the resources that you own, Amazon EventBridge
-(CloudWatch Events) needs the appropriate permissions. For AWS Lambda and Amazon SNS
-resources, EventBridge relies on resource-based policies. For EC2 instances, Kinesis data
-streams, AWS Step Functions state machines and API Gateway REST APIs, EventBridge relies on
-IAM roles that you specify in the RoleARN argument in PutTargets. For more information, see
-Authentication and Access Control in the Amazon EventBridge User Guide. If another AWS
-account is in the same region and has granted you permission (using PutPermission), you can
-send events to that account. Set that account's event bus as a target of the rules in your
-account. To send the matched events to the other account, specify that account's event bus
-as the Arn value when you run PutTargets. If your account sends events to another account,
-your account is charged for each sent event. Each event sent to another account is charged
-as a custom event. The account receiving the event is not charged. For more information,
-see Amazon EventBridge (CloudWatch Events) Pricing.   Input, InputPath, and
-InputTransformer are not available with PutTarget if the target is an event bus of a
-different AWS account.  If you are setting the event bus of another account as the target,
-and that account granted permission to your account through an organization instead of
-directly by the account ID, then you must specify a RoleArn with proper permissions in the
-Target structure. For more information, see Sending and Receiving Events Between AWS
-Accounts in the Amazon EventBridge User Guide. For more information about enabling
-cross-account events, see PutPermission.  Input, InputPath, and InputTransformer are
-mutually exclusive and optional parameters of a target. When a rule is triggered due to a
-matched event:   If none of the following arguments are specified for a target, then the
-entire event is passed to the target in JSON format (unless the target is Amazon EC2 Run
-Command or Amazon ECS task, in which case nothing from the event is passed to the target).
- If Input is specified in the form of valid JSON, then the matched event is overridden with
-this constant.   If InputPath is specified in the form of JSONPath (for example, .detail),
-then only the part of the event specified in the path is passed to the target (for example,
-only the detail part of the event is passed).   If InputTransformer is specified, then one
-or more specified JSONPaths are extracted from the event and used as values in a template
-that you specify as the input to the target.   When you specify InputPath or
-InputTransformer, you must use JSON dot notation, not bracket notation. When you add
-targets to a rule and the associated rule triggers soon after, new or updated targets might
-not be immediately invoked. Allow a short period of time for changes to take effect. This
-action can partially fail if too many requests are made at the same time. If that happens,
-FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the
-ID of the failed target and the error code.
+Gateway REST APIs   Redshift Clusters to invoke Data API ExecuteStatement on   Custom/SaaS
+HTTPS APIs via EventBridge API Destinations   Creating rules with built-in targets is
+supported only in the AWS Management Console. The built-in targets are EC2 CreateSnapshot
+API call, EC2 RebootInstances API call, EC2 StopInstances API call, and EC2
+TerminateInstances API call.  For some target types, PutTargets provides target-specific
+parameters. If the target is a Kinesis data stream, you can optionally specify which shard
+the event goes to by using the KinesisParameters argument. To invoke a command on multiple
+EC2 instances with one rule, you can use the RunCommandParameters field. To be able to make
+API calls against the resources that you own, Amazon EventBridge (CloudWatch Events) needs
+the appropriate permissions. For AWS Lambda and Amazon SNS resources, EventBridge relies on
+resource-based policies. For EC2 instances, Kinesis data streams, AWS Step Functions state
+machines and API Gateway REST APIs, EventBridge relies on IAM roles that you specify in the
+RoleARN argument in PutTargets. For more information, see Authentication and Access Control
+in the Amazon EventBridge User Guide. If another AWS account is in the same region and has
+granted you permission (using PutPermission), you can send events to that account. Set that
+account's event bus as a target of the rules in your account. To send the matched events to
+the other account, specify that account's event bus as the Arn value when you run
+PutTargets. If your account sends events to another account, your account is charged for
+each sent event. Each event sent to another account is charged as a custom event. The
+account receiving the event is not charged. For more information, see Amazon EventBridge
+(CloudWatch Events) Pricing.   Input, InputPath, and InputTransformer are not available
+with PutTarget if the target is an event bus of a different AWS account.  If you are
+setting the event bus of another account as the target, and that account granted permission
+to your account through an organization instead of directly by the account ID, then you
+must specify a RoleArn with proper permissions in the Target structure. For more
+information, see Sending and Receiving Events Between AWS Accounts in the Amazon
+EventBridge User Guide. For more information about enabling cross-account events, see
+PutPermission.  Input, InputPath, and InputTransformer are mutually exclusive and optional
+parameters of a target. When a rule is triggered due to a matched event:   If none of the
+following arguments are specified for a target, then the entire event is passed to the
+target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in
+which case nothing from the event is passed to the target).   If Input is specified in the
+form of valid JSON, then the matched event is overridden with this constant.   If InputPath
+is specified in the form of JSONPath (for example, .detail), then only the part of the
+event specified in the path is passed to the target (for example, only the detail part of
+the event is passed).   If InputTransformer is specified, then one or more specified
+JSONPaths are extracted from the event and used as values in a template that you specify as
+the input to the target.   When you specify InputPath or InputTransformer, you must use
+JSON dot notation, not bracket notation. When you add targets to a rule and the associated
+rule triggers soon after, new or updated targets might not be immediately invoked. Allow a
+short period of time for changes to take effect. This action can partially fail if too many
+requests are made at the same time. If that happens, FailedEntryCount is non-zero in the
+response and each entry in FailedEntries provides the ID of the failed target and the error
+code.
 
 # Arguments
 - `rule`: The name of the rule.
@@ -863,6 +1007,27 @@ untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_co
 untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
+    update_api_destination(name)
+    update_api_destination(name, params::Dict{String,<:Any})
+
+Updates an API destination.
+
+# Arguments
+- `name`: The name of the API destination to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConnectionArn"`: The ARN of the connection to use for the API destination.
+- `"Description"`: The name of the API destination to update.
+- `"HttpMethod"`: The method to use for the API destination.
+- `"InvocationEndpoint"`: The URL to the endpoint to use for the API destination.
+- `"InvocationRateLimitPerSecond"`: The maximum number of invocations per second to send to
+  the API destination.
+"""
+update_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateApiDestination", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_api_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+
+"""
     update_archive(archive_name)
     update_archive(archive_name, params::Dict{String,<:Any})
 
@@ -879,3 +1044,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
 update_archive(ArchiveName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
+
+"""
+    update_connection(name)
+    update_connection(name, params::Dict{String,<:Any})
+
+Updates settings for a connection.
+
+# Arguments
+- `name`: The name of the connection to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthParameters"`: The authorization parameters to use for the connection.
+- `"AuthorizationType"`: The type of authorization to use for the connection.
+- `"Description"`: A description for the connection.
+"""
+update_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)

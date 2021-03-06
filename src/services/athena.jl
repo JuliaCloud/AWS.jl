@@ -105,6 +105,24 @@ create_named_query(Database, Name, QueryString; aws_config::AbstractAWSConfig=gl
 create_named_query(Database, Name, QueryString, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
+    create_prepared_statement(query_statement, statement_name, work_group)
+    create_prepared_statement(query_statement, statement_name, work_group, params::Dict{String,<:Any})
+
+Creates a prepared statement for use with SQL queries in Athena.
+
+# Arguments
+- `query_statement`: The query string for the prepared statement.
+- `statement_name`: The name of the prepared statement.
+- `work_group`: The name of the workgroup to which the prepared statement belongs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the prepared statement.
+"""
+create_prepared_statement(QueryStatement, StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreatePreparedStatement", Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config)
+create_prepared_statement(QueryStatement, StatementName, WorkGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreatePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+
+"""
     create_work_group(name)
     create_work_group(name, params::Dict{String,<:Any})
 
@@ -155,6 +173,20 @@ Athena User Guide.
 """
 delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws_config=aws_config)
 delete_named_query(NamedQueryId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), params)); aws_config=aws_config)
+
+"""
+    delete_prepared_statement(statement_name, work_group)
+    delete_prepared_statement(statement_name, work_group, params::Dict{String,<:Any})
+
+Deletes the prepared statement with the specified name from the specified workgroup.
+
+# Arguments
+- `statement_name`: The name of the prepared statement to delete.
+- `work_group`: The workgroup to which the statement to be deleted belongs.
+
+"""
+delete_prepared_statement(StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeletePreparedStatement", Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config)
+delete_prepared_statement(StatementName, WorkGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeletePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
 
 """
     delete_work_group(work_group)
@@ -213,6 +245,20 @@ which the query was saved.
 """
 get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws_config=aws_config)
 get_named_query(NamedQueryId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), params)); aws_config=aws_config)
+
+"""
+    get_prepared_statement(statement_name, work_group)
+    get_prepared_statement(statement_name, work_group, params::Dict{String,<:Any})
+
+Retrieves the prepared statement with the specified name from the specified workgroup.
+
+# Arguments
+- `statement_name`: The name of the prepared statement to retrieve.
+- `work_group`: The workgroup to which the statement to be retrieved belongs.
+
+"""
+get_prepared_statement(StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetPreparedStatement", Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config)
+get_prepared_statement(StatementName, WorkGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetPreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
 
 """
     get_query_execution(query_execution_id)
@@ -358,6 +404,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListNamedQueries"; aws_config=aws_config)
 list_named_queries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListNamedQueries", params; aws_config=aws_config)
+
+"""
+    list_prepared_statements(work_group)
+    list_prepared_statements(work_group, params::Dict{String,<:Any})
+
+Lists the prepared statements in the specfied workgroup.
+
+# Arguments
+- `work_group`: The workgroup to list the prepared statements for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in this request.
+- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated. To obtain the next set of pages, pass in
+  the NextToken from the response object of the previous page call.
+"""
+list_prepared_statements(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListPreparedStatements", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
+list_prepared_statements(WorkGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListPreparedStatements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
 
 """
     list_query_executions()
@@ -559,6 +624,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config)
 update_data_catalog(Name, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
+
+"""
+    update_prepared_statement(query_statement, statement_name, work_group)
+    update_prepared_statement(query_statement, statement_name, work_group, params::Dict{String,<:Any})
+
+Updates a prepared statement.
+
+# Arguments
+- `query_statement`: The query string for the prepared statement.
+- `statement_name`: The name of the prepared statement.
+- `work_group`: The workgroup for the prepared statement.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the prepared statement.
+"""
+update_prepared_statement(QueryStatement, StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdatePreparedStatement", Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config)
+update_prepared_statement(QueryStatement, StatementName, WorkGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdatePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
 
 """
     update_work_group(work_group)

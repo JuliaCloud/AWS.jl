@@ -104,7 +104,10 @@ the same service, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
   the name with an underscore (_), such as _exampleservice    End the name with ._protocol,
   such as ._tcp    When you register an instance, AWS Cloud Map creates an SRV record and
   assigns a name to the record by concatenating the service name and the namespace name, for
-  example:  _exampleservice._tcp.example.com
+  example:  _exampleservice._tcp.example.com   For a single DNS namespace, you cannot create
+  two services with names that differ only by case (such as EXAMPLE and example). Otherwise,
+  these services will have the same DNS name. However, you can create multiple HTTP services
+  with names that differ only by case because HTTP services are case sensitive.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -128,6 +131,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to add to the service. Each tag consists of a key and an optional
   value, both of which you define. Tag keys can have a maximum character length of 128
   characters, and tag values can have a maximum length of 256 characters.
+- `"Type"`: If present, specifies that the service instances are only discoverable using
+  the DiscoverInstances API operation. No DNS records will be registered for the service
+  instances. The only valid value is HTTP.
 """
 create_service(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateService", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
 create_service(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)

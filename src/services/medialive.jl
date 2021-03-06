@@ -758,6 +758,7 @@ other account must accept or reject the transfer.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"targetCustomerId"`: The AWS account ID (12 digits) for the recipient of the device
   transfer.
+- `"targetRegion"`: The target AWS region to transfer the device.
 - `"transferMessage"`: An optional message for the recipient. Maximum 280 characters.
 """
 transfer_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputDevices/$(inputDeviceId)/transfer"; aws_config=aws_config)
