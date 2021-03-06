@@ -36,6 +36,7 @@ end
 http_message(e::HTTP.StatusError) = String(copy(e.response.body))
 http_status(e::HTTP.StatusError) = e.status
 content_type(e::HTTP.StatusError) = HTTP.header(e.response, "Content-Type")
+is_valid_xml_string(str) = startswith(str, '<')
 
 function AWSException(e::HTTP.StatusError)
     code = string(http_status(e))
@@ -57,7 +58,7 @@ function AWSException(e::HTTP.StatusError)
 
     # Extract API error code from XML error message...
     error_content_types = ["", "application/xml", "text/xml"]
-    if content_type(e) in error_content_types && length(http_message(e)) > 0 && !isa(e, HTTP.StatusError)
+    if content_type(e) in error_content_types && is_valid_xml_string(http_message(e))
         info = parse_xml(http_message(e))
     end
 
