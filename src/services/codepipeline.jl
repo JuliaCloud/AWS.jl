@@ -722,19 +722,19 @@ untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_co
 untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codepipeline("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
-    update_action_type()
-    update_action_type(params::Dict{String,<:Any})
+    update_action_type(action_type)
+    update_action_type(action_type, params::Dict{String,<:Any})
 
 Updates an action type that was created with any supported integration model, where the
 action type is to be used by customers of the action type provider. Use a JSON file with
 the action definition and UpdateActionType to provide the full structure.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"actionType"`: The action type definition for the action type to be updated.
+# Arguments
+- `action_type`: The action type definition for the action type to be updated.
+
 """
-update_action_type(; aws_config::AbstractAWSConfig=global_aws_config()) = codepipeline("UpdateActionType"; aws_config=aws_config)
-update_action_type(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codepipeline("UpdateActionType", params; aws_config=aws_config)
+update_action_type(actionType; aws_config::AbstractAWSConfig=global_aws_config()) = codepipeline("UpdateActionType", Dict{String, Any}("actionType"=>actionType); aws_config=aws_config)
+update_action_type(actionType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codepipeline("UpdateActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionType"=>actionType), params)); aws_config=aws_config)
 
 """
     update_pipeline(pipeline)
