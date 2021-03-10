@@ -49,6 +49,19 @@
         @test ex.info["RequestId"] == expected["requestId"]
     end
 
+    @testset "XMLRequest - Invalid XML" begin
+        expected = Dict(
+            "body"=>"InvalidXML",
+            "headers"=>["Content-Type" => "application/xml"],
+            "status_code"=>404,
+        )
+        req = HTTP.Request("GET", "https://amazon.ca", expected["headers"], expected["body"])
+        resp = HTTP.Response(expected["status_code"], expected["headers"]; body=expected["body"], request=req)
+        ex = AWSException(HTTP.StatusError(expected["status_code"], resp))
+
+        @test ex.code == "404"
+    end
+
     @testset "JSON Request -- $msg" for msg in ["message", "Message"]
         expected = Dict(
             "code" => "InvalidSignatureException",
