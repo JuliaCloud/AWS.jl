@@ -28,9 +28,9 @@ struct AWSException <: Exception
     info::Union{XMLDictElement, Dict, String, Nothing}
     cause::HTTP.StatusError
 end
-function show(io::IO, e::AWSException)
+function Base.show(io::IO, e::AWSException)
     message = isempty(e.message) ? "" : (" -- " * e.message)
-    println(io, string(e.code, message, "\n", e.cause))
+    println(io, "AWSException: ", string(e.code, message, "\n", e.cause))
 end
 
 http_message(e::HTTP.StatusError) = String(copy(e.response.body))
