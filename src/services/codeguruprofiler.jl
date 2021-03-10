@@ -57,8 +57,8 @@ batch_get_frame_metric_data(profilingGroupName, params::AbstractDict{String, <:A
     configure_agent(profiling_group_name, params::Dict{String,<:Any})
 
  Used by profiler agents to report their current state and to receive remote configuration
-updates. For example, ConfigureAgent can be used to tell and agent whether to profile or
-not and for how long to return profiling data.
+updates. For example, ConfigureAgent can be used to tell an agent whether to profile or not
+and for how long to return profiling data.
 
 # Arguments
 - `profiling_group_name`:  The name of the profiling group for which the configured agent

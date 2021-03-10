@@ -1305,6 +1305,34 @@ create_dbproxy(Auth, DBProxyName, EngineFamily, RoleArn, VpcSubnetIds; aws_confi
 create_dbproxy(Auth, DBProxyName, EngineFamily, RoleArn, VpcSubnetIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Auth"=>Auth, "DBProxyName"=>DBProxyName, "EngineFamily"=>EngineFamily, "RoleArn"=>RoleArn, "VpcSubnetIds"=>VpcSubnetIds), params)); aws_config=aws_config)
 
 """
+    create_dbproxy_endpoint(dbproxy_endpoint_name, dbproxy_name, vpc_subnet_ids)
+    create_dbproxy_endpoint(dbproxy_endpoint_name, dbproxy_name, vpc_subnet_ids, params::Dict{String,<:Any})
+
+ Creates a DBProxyEndpoint. Only applies to proxies that are associated with Aurora DB
+clusters. You can use DB proxy endpoints to specify read/write or read-only access to the
+DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different
+VPC than the proxy's default VPC.
+
+# Arguments
+- `dbproxy_endpoint_name`: The name of the DB proxy endpoint to create.
+- `dbproxy_name`: The name of the DB proxy associated with the DB proxy endpoint that you
+  create.
+- `vpc_subnet_ids`: The VPC subnet IDs for the DB proxy endpoint that you create. You can
+  specify a different set of subnet IDs than for the original DB proxy.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:
+- `"TargetRole"`: A value that indicates whether the DB proxy endpoint can be used for
+  read/write or read-only operations. The default is READ_WRITE.
+- `"VpcSecurityGroupIds"`: The VPC security group IDs for the DB proxy endpoint that you
+  create. You can specify a different set of security group IDs than for the original DB
+  proxy. The default is the default security group for the VPC.
+"""
+create_dbproxy_endpoint(DBProxyEndpointName, DBProxyName, VpcSubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxyEndpoint", Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName, "DBProxyName"=>DBProxyName, "VpcSubnetIds"=>VpcSubnetIds); aws_config=aws_config)
+create_dbproxy_endpoint(DBProxyEndpointName, DBProxyName, VpcSubnetIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName, "DBProxyName"=>DBProxyName, "VpcSubnetIds"=>VpcSubnetIds), params)); aws_config=aws_config)
+
+"""
     create_dbsecurity_group(dbsecurity_group_description, dbsecurity_group_name)
     create_dbsecurity_group(dbsecurity_group_description, dbsecurity_group_name, params::Dict{String,<:Any})
 
@@ -1663,7 +1691,7 @@ delete_dbparameter_group(DBParameterGroupName, params::AbstractDict{String, <:An
     delete_dbproxy(dbproxy_name)
     delete_dbproxy(dbproxy_name, params::Dict{String,<:Any})
 
-Deletes an existing proxy.
+Deletes an existing DB proxy.
 
 # Arguments
 - `dbproxy_name`: The name of the DB proxy to delete.
@@ -1671,6 +1699,22 @@ Deletes an existing proxy.
 """
 delete_dbproxy(DBProxyName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxy", Dict{String, Any}("DBProxyName"=>DBProxyName); aws_config=aws_config)
 delete_dbproxy(DBProxyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
+
+"""
+    delete_dbproxy_endpoint(dbproxy_endpoint_name)
+    delete_dbproxy_endpoint(dbproxy_endpoint_name, params::Dict{String,<:Any})
+
+Deletes a DBProxyEndpoint. Doing so removes the ability to access the DB proxy using the
+endpoint that you defined. The endpoint that you delete might have provided capabilities
+such as read/write or read-only operations, or using a different VPC than the DB proxy's
+default VPC.
+
+# Arguments
+- `dbproxy_endpoint_name`: The name of the DB proxy endpoint to delete.
+
+"""
+delete_dbproxy_endpoint(DBProxyEndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxyEndpoint", Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName); aws_config=aws_config)
+delete_dbproxy_endpoint(DBProxyEndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName), params)); aws_config=aws_config)
 
 """
     delete_dbsecurity_group(dbsecurity_group_name)
@@ -2294,7 +2338,8 @@ Returns information about DB proxies.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DBProxyName"`: The name of the DB proxy.
+- `"DBProxyName"`: The name of the DB proxy. If you omit this parameter, the output
+  includes information about all DB proxies owned by your AWS account ID.
 - `"Filters"`: This parameter is not currently supported.
 - `"Marker"`:  An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the marker, up to the
@@ -2306,6 +2351,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_dbproxies(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxies"; aws_config=aws_config)
 describe_dbproxies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxies", params; aws_config=aws_config)
+
+"""
+    describe_dbproxy_endpoints()
+    describe_dbproxy_endpoints(params::Dict{String,<:Any})
+
+Returns information about DB proxy endpoints.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DBProxyEndpointName"`: The name of a DB proxy endpoint to describe. If you omit this
+  parameter, the output includes information about all DB proxy endpoints associated with the
+  specified proxy.
+- `"DBProxyName"`: The name of the DB proxy whose endpoints you want to describe. If you
+  omit this parameter, the output includes information about all DB proxy endpoints
+  associated with all your DB proxies.
+- `"Filters"`: This parameter is not currently supported.
+- `"Marker"`:  An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the marker, up to the
+  value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved.  Default: 100 Constraints:
+  Minimum 20, maximum 100.
+"""
+describe_dbproxy_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyEndpoints"; aws_config=aws_config)
+describe_dbproxy_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyEndpoints", params; aws_config=aws_config)
 
 """
     describe_dbproxy_target_groups(dbproxy_name)
@@ -3741,6 +3812,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 modify_dbproxy(DBProxyName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxy", Dict{String, Any}("DBProxyName"=>DBProxyName); aws_config=aws_config)
 modify_dbproxy(DBProxyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
+
+"""
+    modify_dbproxy_endpoint(dbproxy_endpoint_name)
+    modify_dbproxy_endpoint(dbproxy_endpoint_name, params::Dict{String,<:Any})
+
+Changes the settings for an existing DB proxy endpoint.
+
+# Arguments
+- `dbproxy_endpoint_name`: The name of the DB proxy sociated with the DB proxy endpoint
+  that you want to modify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NewDBProxyEndpointName"`: The new identifier for the DBProxyEndpoint. An identifier
+  must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't
+  end with a hyphen or contain two consecutive hyphens.
+- `"VpcSecurityGroupIds"`: The VPC security group IDs for the DB proxy endpoint. When the
+  DB proxy endpoint uses a different VPC than the original proxy, you also specify a
+  different set of security group IDs than for the original proxy.
+"""
+modify_dbproxy_endpoint(DBProxyEndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxyEndpoint", Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName); aws_config=aws_config)
+modify_dbproxy_endpoint(DBProxyEndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName), params)); aws_config=aws_config)
 
 """
     modify_dbproxy_target_group(dbproxy_name, target_group_name)
