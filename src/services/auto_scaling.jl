@@ -92,9 +92,7 @@ batch_delete_scheduled_action(AutoScalingGroupName, ScheduledActionNames, params
     batch_put_scheduled_update_group_action(auto_scaling_group_name, scheduled_update_group_actions)
     batch_put_scheduled_update_group_action(auto_scaling_group_name, scheduled_update_group_actions, params::Dict{String,<:Any})
 
-Creates or updates one or more scheduled scaling actions for an Auto Scaling group. If you
-leave a parameter unspecified when updating a scheduled scaling action, the corresponding
-value remains unchanged.
+Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -238,11 +236,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to or greater than 86,400 seconds (1 day). For more information, see Replacing Auto Scaling
   instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
 - `"MixedInstancesPolicy"`: An embedded object that specifies a mixed instances policy. The
-  required parameters must be specified. If optional parameters are unspecified, their
-  default values are used. The policy includes parameters that not only define the
+  required properties must be specified. If optional properties are unspecified, their
+  default values are used. The policy includes properties that not only define the
   distribution of On-Demand Instances and Spot Instances, the maximum price to pay for Spot
   Instances, and how the Auto Scaling group allocates instance types to fulfill On-Demand and
-  Spot capacities, but also the parameters that specify the instance configuration
+  Spot capacities, but also the properties that specify the instance configuration
   information—the launch template and instance types. The policy can also include a weight
   for each instance type and different launch templates for individual instance types. For
   more information, see Auto Scaling groups with multiple instance types and purchase options
@@ -1186,10 +1184,8 @@ put_scaling_policy(AutoScalingGroupName, PolicyName, params::AbstractDict{String
     put_scheduled_update_group_action(auto_scaling_group_name, scheduled_action_name)
     put_scheduled_update_group_action(auto_scaling_group_name, scheduled_action_name, params::Dict{String,<:Any})
 
-Creates or updates a scheduled scaling action for an Auto Scaling group. If you leave a
-parameter unspecified when updating a scheduled scaling action, the corresponding value
-remains unchanged. For more information, see Scheduled scaling in the Amazon EC2 Auto
-Scaling User Guide.
+Creates or updates a scheduled scaling action for an Auto Scaling group. For more
+information, see Scheduled scaling in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1200,22 +1196,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DesiredCapacity"`: The desired capacity is the initial capacity of the Auto Scaling
   group after the scheduled action runs and the capacity it attempts to maintain. It can
   scale beyond this capacity if you add more scaling conditions.
-- `"EndTime"`: The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling
-  does not perform the action after this time.
+- `"EndTime"`: The date and time for the recurring schedule to end, in UTC.
 - `"MaxSize"`: The maximum size of the Auto Scaling group.
 - `"MinSize"`: The minimum size of the Auto Scaling group.
-- `"Recurrence"`: The recurring schedule for this action, in Unix cron syntax format. This
-  format consists of five fields separated by white spaces: [Minute] [Hour] [Day_of_Month]
-  [Month_of_Year] [Day_of_Week]. The value must be in quotes (for example, \"30 0 1 1,6,12
-  *\"). For more information about this format, see Crontab. When StartTime and EndTime are
-  specified with Recurrence, they form the boundaries of when the recurring action starts and
-  stops.
+- `"Recurrence"`: The recurring schedule for this action. This format consists of five
+  fields separated by white spaces: [Minute] [Hour] [Day_of_Month] [Month_of_Year]
+  [Day_of_Week]. The value must be in quotes (for example, \"30 0 1 1,6,12 *\"). For more
+  information about this format, see Crontab. When StartTime and EndTime are specified with
+  Recurrence, they form the boundaries of when the recurring action starts and stops. Cron
+  expressions use Universal Coordinated Time (UTC) by default.
 - `"StartTime"`: The date and time for this action to start, in YYYY-MM-DDThh:mm:ssZ format
   in UTC/GMT only and in quotes (for example, \"2019-06-01T00:00:00Z\"). If you specify
   Recurrence and StartTime, Amazon EC2 Auto Scaling performs the action at this time, and
   then performs the action based on the specified recurrence. If you try to schedule your
   action in the past, Amazon EC2 Auto Scaling returns an error message.
 - `"Time"`: This parameter is no longer used.
+- `"TimeZone"`: Specifies the time zone for a cron expression. If a time zone is not
+  provided, UTC is used by default.  Valid values are the canonical names of the IANA time
+  zones, derived from the IANA Time Zone Database (such as Etc/GMT+9 or Pacific/Tahiti). For
+  more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones.
 """
 put_scheduled_update_group_action(AutoScalingGroupName, ScheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScheduledUpdateGroupAction", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName); aws_config=aws_config)
 put_scheduled_update_group_action(AutoScalingGroupName, ScheduledActionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScheduledUpdateGroupAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName), params)); aws_config=aws_config)
@@ -1495,7 +1494,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance contributes to the desired capacity of the group).
 - `"MinSize"`: The minimum size of the Auto Scaling group.
 - `"MixedInstancesPolicy"`: An embedded object that specifies a mixed instances policy.
-  When you make changes to an existing policy, all optional parameters are left unchanged if
+  When you make changes to an existing policy, all optional properties are left unchanged if
   not specified. For more information, see Auto Scaling groups with multiple instance types
   and purchase options in the Amazon EC2 Auto Scaling User Guide.
 - `"NewInstancesProtectedFromScaleIn"`: Indicates whether newly launched instances are

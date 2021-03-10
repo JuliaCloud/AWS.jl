@@ -586,7 +586,7 @@ using ClusterID.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"StepConcurrencyLevel"`: The number of steps that can be executed concurrently. You can
-  specify a maximum of 256 steps.
+  specify a minimum of 1 step and a maximum of 256 steps.
 """
 modify_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 modify_cluster(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)

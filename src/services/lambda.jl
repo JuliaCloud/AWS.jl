@@ -852,8 +852,10 @@ list_function_event_invoke_configs(FunctionName, params::AbstractDict{String, <:
 
 Returns a list of Lambda functions, with the version-specific configuration of each. Lambda
 returns up to 50 functions per call. Set FunctionVersion to ALL to include all published
-versions of each function in addition to the unpublished version. To get more information
-about a function or version, use GetFunction.
+versions of each function in addition to the unpublished version.   The ListFunctions
+action returns a subset of the FunctionConfiguration fields. To get the additional fields
+(State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason,
+LastUpdateStatusReasonCode) for a function or version, use GetFunction.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -865,7 +867,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, us-east-1 filters the list of functions to only include Lambda@Edge functions
   replicated from a master function in US East (N. Virginia). If specified, you must set
   FunctionVersion to ALL.
-- `"MaxItems"`: The maximum number of functions to return.
+- `"MaxItems"`: The maximum number of functions to return in the response. Note that
+  ListFunctions returns a maximum of 50 items in each response, even if you set the number
+  higher.
 """
 list_functions(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/"; aws_config=aws_config)
 list_functions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/", params; aws_config=aws_config)

@@ -67,10 +67,10 @@ streaming session to be used for accessing content in a stream using the MPEG-DA
 protocol. GetDASHStreamingSessionURL returns an authenticated URL (that includes an
 encrypted session token) for the session's MPEG-DASH manifest (the root resource needed for
 streaming with MPEG-DASH).  Don't share or store this token where an unauthorized entity
-could access it. The token provides access to the content of the stream. Safeguard the
-token with the same measures that you would use with your AWS credentials.  The media that
-is made available through the manifest consists only of the requested stream, time range,
-and format. No other media data (such as frames outside the requested window or alternate
+can access it. The token provides access to the content of the stream. Safeguard the token
+with the same measures that you use with your AWS credentials.  The media that is made
+available through the manifest consists only of the requested stream, time range, and
+format. No other media data (such as frames outside the requested window or alternate
 bitrates) is made available.   Provide the URL (containing the encrypted session token) for
 the MPEG-DASH manifest to a media player that supports the MPEG-DASH protocol. Kinesis
 Video Streams makes the initialization fragment and media fragments available through the
@@ -94,16 +94,8 @@ error to be returned when those different media fragments are loaded. Therefore,
 private data should not change between fragments in a session. This also means that the
 session fails if the fragments in a stream change from having only video to having both
 audio and video.  Data retrieved with this action is billable. See Pricing for details.
- The following restrictions apply to MPEG-DASH sessions:   A streaming session URL should
-not be shared between players. The service might throttle a session if multiple media
-players are sharing it. For connection limits, see Kinesis Video Streams Limits.   A
-Kinesis video stream can have a maximum of ten active MPEG-DASH streaming sessions. If a
-new session is created when the maximum number of sessions is already active, the oldest
-(earliest created) session is closed. The number of active GetMedia connections on a
-Kinesis video stream does not count against this limit, and the number of active MPEG-DASH
-sessions does not count against the active GetMedia connection limit.  The maximum limits
-for active HLS and MPEG-DASH streaming sessions are independent of each other.      You can
-monitor the amount of data that the media player consumes by monitoring the
+ For restrictions that apply to MPEG-DASH sessions, see Kinesis Video Streams Limits.  You
+can monitor the amount of data that the media player consumes by monitoring the
 GetMP4MediaFragment.OutgoingBytes Amazon CloudWatch metric. For information about using
 CloudWatch to monitor Kinesis Video Streams, see Monitoring Kinesis Video Streams. For
 pricing information, see Amazon Kinesis Video Streams Pricing and AWS Pricing. Charges for
@@ -181,7 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as of the time of the session creation. This mode is also useful to stream previously
   archived media without being limited by the 1,000 fragment limit in the ON_DEMAND mode.
    ON_DEMAND : For sessions of this type, the MPEG-DASH manifest contains all the fragments
-  for the session, up to the number that is specified in MaxMediaPlaylistFragmentResults. The
+  for the session, up to the number that is specified in MaxManifestFragmentResults. The
   manifest must be retrieved only once for each session. When this type of session is played
   in a media player, the user interface typically displays a scrubber control for choosing
   the position in the playback window to display.   In all playback modes, if
@@ -266,30 +258,24 @@ Pricing for details.    GetTSFragment: Retrieves MPEG TS fragments containing bo
 initialization and media data for all tracks in the stream.  If the ContainerFormat is
 MPEG_TS, this API is used instead of GetMP4InitFragment and GetMP4MediaFragment to retrieve
 stream media.  Data retrieved with this action is billable. For more information, see
-Kinesis Video Streams pricing.      The following restrictions apply to HLS sessions:   A
-streaming session URL should not be shared between players. The service might throttle a
-session if multiple media players are sharing it. For connection limits, see Kinesis Video
-Streams Limits.   A Kinesis video stream can have a maximum of ten active HLS streaming
-sessions. If a new session is created when the maximum number of sessions is already
-active, the oldest (earliest created) session is closed. The number of active GetMedia
-connections on a Kinesis video stream does not count against this limit, and the number of
-active HLS sessions does not count against the active GetMedia connection limit.  The
-maximum limits for active HLS and MPEG-DASH streaming sessions are independent of each
-other.     You can monitor the amount of data that the media player consumes by monitoring
-the GetMP4MediaFragment.OutgoingBytes Amazon CloudWatch metric. For information about using
-CloudWatch to monitor Kinesis Video Streams, see Monitoring Kinesis Video Streams. For
-pricing information, see Amazon Kinesis Video Streams Pricing and AWS Pricing. Charges for
-both HLS sessions and outgoing AWS data apply. For more information about HLS, see HTTP
-Live Streaming on the Apple Developer site.  If an error is thrown after invoking a Kinesis
-Video Streams archived media API, in addition to the HTTP status code and the response
-body, it includes the following pieces of information:     x-amz-ErrorType HTTP header –
-contains a more specific error type in addition to what the HTTP status code provides.
-x-amz-RequestId HTTP header – if you want to report an issue to AWS, the support team can
-better diagnose the problem if given the Request Id.   Both the HTTP status code and the
-ErrorType header can be utilized to make programmatic decisions about whether errors are
-retry-able and under what conditions, as well as provide information on what actions the
-client programmer might need to take in order to successfully try again. For more
-information, see the Errors section at the bottom of this topic, as well as Common Errors.
+Kinesis Video Streams pricing.     A streaming session URL must not be shared between
+players. The service might throttle a session if multiple media players are sharing it. For
+connection limits, see Kinesis Video Streams Limits. You can monitor the amount of data
+that the media player consumes by monitoring the GetMP4MediaFragment.OutgoingBytes Amazon
+CloudWatch metric. For information about using CloudWatch to monitor Kinesis Video Streams,
+see Monitoring Kinesis Video Streams. For pricing information, see Amazon Kinesis Video
+Streams Pricing and AWS Pricing. Charges for both HLS sessions and outgoing AWS data apply.
+For more information about HLS, see HTTP Live Streaming on the Apple Developer site.  If an
+error is thrown after invoking a Kinesis Video Streams archived media API, in addition to
+the HTTP status code and the response body, it includes the following pieces of
+information:     x-amz-ErrorType HTTP header – contains a more specific error type in
+addition to what the HTTP status code provides.     x-amz-RequestId HTTP header – if you
+want to report an issue to AWS, the support team can better diagnose the problem if given
+the Request Id.   Both the HTTP status code and the ErrorType header can be utilized to
+make programmatic decisions about whether errors are retry-able and under what conditions,
+as well as provide information on what actions the client programmer might need to take in
+order to successfully try again. For more information, see the Errors section at the bottom
+of this topic, as well as Common Errors.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -346,8 +332,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that rebuffering will occur during playback. We recommend that a live HLS media playlist
   have a minimum of 3 fragments and a maximum of 10 fragments. The default is 5 fragments if
   PlaybackMode is LIVE or LIVE_REPLAY, and 1,000 if PlaybackMode is ON_DEMAND.  The maximum
-  value of 1,000 fragments corresponds to more than 16 minutes of video on streams with
-  1-second fragments, and more than 2 1/2 hours of video on streams with 10-second fragments.
+  value of 5,000 fragments corresponds to more than 80 minutes of video on streams with
+  1-second fragments, and more than 13 hours of video on streams with 10-second fragments.
 - `"PlaybackMode"`: Whether to retrieve live, live replay, or archived, on-demand data.
   Features of the three types of sessions include the following:     LIVE : For sessions of
   this type, the HLS media playlist is continually updated with the latest fragments as they
@@ -375,11 +361,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When this type of session is played in a media player, the user interface typically
   displays a scrubber control for choosing the position in the playback window to display.
   In all playback modes, if FragmentSelectorType is PRODUCER_TIMESTAMP, and if there are
-  multiple fragments with the same start timestamp, the fragment that has the larger fragment
-  number (that is, the newer fragment) is included in the HLS media playlist. The other
-  fragments are not included. Fragments that have different timestamps but have overlapping
-  durations are still included in the HLS media playlist. This can lead to unexpected
-  behavior in the media player. The default is LIVE.
+  multiple fragments with the same start timestamp, the fragment that has the largest
+  fragment number (that is, the newest fragment) is included in the HLS media playlist. The
+  other fragments are not included. Fragments that have different timestamps but have
+  overlapping durations are still included in the HLS media playlist. This can lead to
+  unexpected behavior in the media player. The default is LIVE.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the HLS
   master playlist URL. You must specify either the StreamName or the StreamARN.
 - `"StreamName"`: The name of the stream for which to retrieve the HLS master playlist URL.
@@ -395,20 +381,17 @@ get_hlsstreaming_session_url(params::AbstractDict{String, Any}; aws_config::Abst
 Gets media for a list of fragments (specified by fragment number) from the archived data in
 an Amazon Kinesis video stream.  You must first call the GetDataEndpoint API to get an
 endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the
---endpoint-url parameter.   The following limits apply when using the
-GetMediaForFragmentList API:   A client can call GetMediaForFragmentList up to five times
-per second per stream.    Kinesis Video Streams sends media data at a rate of up to 25
-megabytes per second (or 200 megabits per second) during a GetMediaForFragmentList session.
-    If an error is thrown after invoking a Kinesis Video Streams archived media API, in
-addition to the HTTP status code and the response body, it includes the following pieces of
-information:     x-amz-ErrorType HTTP header – contains a more specific error type in
-addition to what the HTTP status code provides.     x-amz-RequestId HTTP header – if you
-want to report an issue to AWS, the support team can better diagnose the problem if given
-the Request Id.   Both the HTTP status code and the ErrorType header can be utilized to
-make programmatic decisions about whether errors are retry-able and under what conditions,
-as well as provide information on what actions the client programmer might need to take in
-order to successfully try again. For more information, see the Errors section at the bottom
-of this topic, as well as Common Errors.
+--endpoint-url parameter.   For limits, see Kinesis Video Streams Limits.  If an error is
+thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP
+status code and the response body, it includes the following pieces of information:
+x-amz-ErrorType HTTP header – contains a more specific error type in addition to what the
+HTTP status code provides.     x-amz-RequestId HTTP header – if you want to report an
+issue to AWS, the support team can better diagnose the problem if given the Request Id.
+Both the HTTP status code and the ErrorType header can be utilized to make programmatic
+decisions about whether errors are retry-able and under what conditions, as well as provide
+information on what actions the client programmer might need to take in order to
+successfully try again. For more information, see the Errors section at the bottom of this
+topic, as well as Common Errors.
 
 # Arguments
 - `fragments`: A list of the numbers of fragments for which to retrieve media. You retrieve
