@@ -203,33 +203,33 @@ end
     end
 end
 
-@testset "_format_function_name" begin
+@testset "_format_name" begin
     @testset "single captial" begin
         function_name = "Testfunctionname"
         expected = "testfunctionname"
 
-        @test _format_function_name(function_name) == expected
+        @test _format_name(function_name) == expected
     end
 
     @testset "all capitals" begin
         function_name = "TESTFUNCTIONNAME"
         expected = "testfunctionname"
 
-        @test _format_function_name(function_name) == expected
+        @test _format_name(function_name) == expected
     end
 
     @testset "subsequent capitals" begin
         function_name = "TestFUNCTIONName"
         expected = "test_functionname"
 
-        @test _format_function_name(function_name) == expected
+        @test _format_name(function_name) == expected
     end
 
     @testset "normal" begin
         function_name = "TestFunctionName"
         expected = "test_function_name"
 
-        @test _format_function_name(function_name) == expected
+        @test _format_name(function_name) == expected
     end
 end
 
@@ -286,23 +286,25 @@ end
     service_name = "sample_service"
     protocol = "rest-xml"
     operations = JSON.parsefile(joinpath(@__DIR__, "resources/operations.json"))
-    shapes = shapes = JSON.parsefile(joinpath(@__DIR__, "resources/shapes.json"))
+    shapes = JSON.parsefile(joinpath(@__DIR__, "resources/shapes.json"))
 
     expected_result = """
     \"\"\"
-        SampleOperation()
+        sample_operation(required_param1, required_param2)
+        sample_operation(required_param1, required_param2, params::Dict{String,<:Any})
 
     The documentation for this operation.
 
-    # Required Parameters
-    - `RequiredParam1`: Required param 1
-    - `RequiredParam2`: Required param 2
+    # Arguments
+    - `required_param1`: Required param 1
+    - `required_param2`: Required param 2
 
     # Optional Parameters
-    - `OptionalParam`: Optional param
+    Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+    - `"OptionalParam"`: Optional param
     \"\"\"
     sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2); aws_config=aws_config)
-    sample_operation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), args)); aws_config=aws_config)
+    sample_operation(RequiredParam1, RequiredParam2, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), params)); aws_config=aws_config)
     """
 
     result = _generate_high_level_definitions(
@@ -335,18 +337,20 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                $name()
+                function_name(required_param)
+                function_name(required_param, params::Dict{String,<:Any})
 
-            Documentation for $name.
+            Documentation for FunctionName.
 
-            # Required Parameters
-            - `RequiredParam`: This parameter is required.
+            # Arguments
+            - `required_param`: This parameter is required.
 
             # Optional Parameters
-            - `OptionalParam`: This parameter is optional.
+            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+            - `"OptionalParam"`: This parameter is optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
-            function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws_config=aws_config)
+            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
+            function_name(RequiredParam, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config)
             """
 
             result = _generate_high_level_definition(
@@ -370,18 +374,20 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                $name()
+                function_name(required_param)
+                function_name(required_param, params::Dict{String,<:Any})
 
-            Documentation for $name.
+            Documentation for FunctionName.
 
-            # Required Parameters
-            - `RequiredParam`: This parameter is required.
+            # Arguments
+            - `required_param`: This parameter is required.
 
             # Optional Parameters
-            - `OptionalParam`: This parameter is optional.
+            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+            - `"OptionalParam"`: This parameter is optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
-            function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws_config=aws_config)
+            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config)
+            function_name(RequiredParam, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config)
             """
 
             result = _generate_high_level_definition(
@@ -410,18 +416,20 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                $name()
+                function_name(required_param)
+                function_name(required_param, params::Dict{String,<:Any})
 
-            Documentation for $name.
+            Documentation for FunctionName.
 
-            # Required Parameters
-            - `RequiredParam`: This parameter is required.
+            # Arguments
+            - `required_param`: This parameter   is required.
 
             # Optional Parameters
-            - `OptionalParam`: This parameter is optional.
+            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+            - `"OptionalParam"`: This parameter i  s optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws_config=aws_config)
-            function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name("$method", "$request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), args)); aws_config=aws_config)
+            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws_config=aws_config)
+            function_name(RequiredParam, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), params)); aws_config=aws_config)
             """
             result = _generate_high_level_definition(
                 service_name,
@@ -444,18 +452,20 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                $name()
+                function_name(required_param)
+                function_name(required_param, params::Dict{String,<:Any})
 
-            Documentation for $name.
+            Documentation for FunctionName.
 
-            # Required Parameters
-            - `RequiredParam`: This parameter is required.
+            # Arguments
+            - `required_param`: This parameter   is required.
 
             # Optional Parameters
-            - `OptionalParam`: This parameter is optional.
+            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+            - `"OptionalParam"`: This parameter i  s optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws_config=aws_config)
-            function_name(RequiredParam, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name("$name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), args)); aws_config=aws_config)
+            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws_config=aws_config)
+            function_name(RequiredParam, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), params)); aws_config=aws_config)
             """
 
             result = _generate_high_level_definition(
@@ -473,6 +483,133 @@ end
             result = _clean_high_level_definition(result)
 
             @test result == expected_result
+        end
+    end
+end
+
+@testset "string wrapping functionality" begin
+    @testset "_validindex" begin
+        str = "jμΛIα"  # μ, Λ, α have 2 codeunits.
+        @test _validindex(str, 1) == 1 # j
+        @test _validindex(str, 2) == 2 # μ
+        @test _validindex(str, 3) == 2 # μ still
+        @test _validindex(str, 4) == 4 # Λ
+        @test_throws BoundsError _validindex(str, 0)
+        @test_throws BoundsError _validindex(str, 10)
+    end
+
+    @testset "_splitline" begin
+        str = "This is a short sentence."
+
+        @testset "limit < 1" begin
+            @test_throws DomainError _splitline(str, 0)
+            @test_throws DomainError _splitline(str, -1)
+        end
+
+        @testset "limit == 1" begin
+            result = _splitline(str, 1)
+            @test result isa Tuple{String,String}
+            line1, line2 = result
+            @test line1 == string(first(str)) == "T"
+            @test line2 == str[2:end] == "his is a short sentence."
+        end
+
+        @testset "limit >= ncodeunits" begin
+            for limit in (ncodeunits(str), ncodeunits(str) + 1)
+                result = _splitline(str, limit)
+                @test result isa Tuple{String,String}
+                line1, line2 = result
+                @test line1 == str
+                @test line2 == ""
+            end
+        end
+
+        @testset "split on whitespace when possible" begin
+            abc = "Aa Bb Cc"
+            @test _splitline(abc, 1) == ("A", "a Bb Cc")  # No preceding whitespace to split on
+            @test _splitline(abc, 2) == ("Aa", " Bb Cc")
+            @test _splitline(abc, 3) == ("Aa ", "Bb Cc")
+            @test _splitline(abc, 4) == ("Aa ", "Bb Cc")  # 4 == `B`, split on preceding whitespace
+            @test _splitline(abc, 5) == ("Aa ", "Bb Cc")  # 5 == 'b', split on preceding whitespace
+            @test _splitline(abc, 6) == ("Aa Bb ", "Cc")
+            @test _splitline(abc, ncodeunits(abc) - 1) == ("Aa Bb ", "Cc")
+        end
+
+        @testset "does not try to split mid-character" begin
+            str = "jμΛIα"  # 'μ' starts at str[2], 'Λ' starts at str[4]
+            @test _splitline(str, 2) == ("jμ", "ΛIα")
+            @test _splitline(str, 3) == ("jμ", "ΛIα") # should not try to split mid-'μ'
+            @test _splitline(str, 4) == ("jμΛ", "Iα")
+        end
+
+        @testset "does not split on punctuation" begin
+            str = "\"arn:aws:health:us-west-1::event/EBS/AWS\""
+            result = _splitline(str, ncodeunits(str) - 1)
+            # don't split escaped closing quote `\"` into `\` and `"`
+            @test result == ("\"arn:aws:health:us-west-1::event/EBS/AWS", "\"")
+        end
+    end
+
+    @testset "_wraplines" begin
+        str = "This sentence contains exactly `η = 50` codeunits"
+
+        @testset "limit < 1" begin
+            @test_throws DomainError _wraplines(str, 0)
+            @test_throws DomainError _wraplines(str, -1)
+        end
+
+        @testset "limit == 1" begin
+            wrapped = _wraplines(str, 1)
+            @test wrapped isa String
+            @test startswith(wrapped, "T\nh\ni\ns\n\ns\ne")
+        end
+
+        @testset "limit >= ncodeunits" begin
+            for limit in (50, 99)
+                wrapped = _wraplines(str, limit)
+                @test wrapped isa String
+                @test wrapped == str
+            end
+        end
+
+        @testset "1 < limit < ncodeunits" begin
+            @test _wraplines(str, 20) == """
+                This sentence
+                contains exactly
+                `η = 50` codeunits"""
+            @test _wraplines(str, 25) == """
+                This sentence contains
+                exactly `η = 50`
+                codeunits"""
+            @test _wraplines(str, 30) == """
+                This sentence contains
+                exactly `η = 50` codeunits"""
+        end
+
+        @testset "trailing whitespace is stripped" begin
+            str = "16charactersthen    fourspaces "
+            @test _wraplines(str, 16) == "16charactersthen\n    fourspaces"
+            @test _wraplines(str, 17) == "16charactersthen\n   fourspaces"
+            @test _wraplines(str, 18) == "16charactersthen\n  fourspaces"
+        end
+
+        @testset "has default `limit=92` argument" begin
+            str = string(
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            )
+            @test _wraplines(str) == _wraplines(str, 92)
+        end
+
+        @testset "optional `delim` keyword" begin
+            str = string(
+                "- Lorem ipsum dolor sit amet, consectetur adipiscing elit, ",
+                "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            )
+            @test _wraplines(str, 50; delim="\n  ") == """
+                - Lorem ipsum dolor sit amet, consectetur
+                  adipiscing elit, sed do eiusmod tempor incididunt
+                  ut labore et dolore magna aliqua."""
         end
     end
 end

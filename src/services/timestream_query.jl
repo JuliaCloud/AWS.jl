@@ -5,38 +5,66 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    CancelQuery()
+    cancel_query(query_id)
+    cancel_query(query_id, params::Dict{String,<:Any})
 
- Cancels a query that has been issued. Cancellation is guaranteed only if the query has not completed execution before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a CancellationMessage, indicating that the query has already been canceled. 
+ Cancels a query that has been issued. Cancellation is guaranteed only if the query has not
+completed execution before the cancellation request was issued. Because cancellation is an
+idempotent operation, subsequent cancellation requests will return a CancellationMessage,
+indicating that the query has already been canceled.
 
-# Required Parameters
-- `QueryId`:  The id of the query that needs to be cancelled. QueryID is returned as part of QueryResult. 
+# Arguments
+- `query_id`:  The id of the query that needs to be cancelled. QueryID is returned as part
+  of QueryResult.
 
 """
 cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}("QueryId"=>QueryId); aws_config=aws_config)
-cancel_query(QueryId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), args)); aws_config=aws_config)
+cancel_query(QueryId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config)
 
 """
-    DescribeEndpoints()
+    describe_endpoints()
+    describe_endpoints(params::Dict{String,<:Any})
 
-DescribeEndpoints returns a list of available endpoints to make Timestream API calls against. This API is available through both Write and Query. Because Timestream’s SDKs are designed to transparently work with the service’s architecture, including the management and mapping of the service endpoints, it is not recommended that you use this API unless:   Your application uses a programming language that does not yet have SDK support   You require better control over the client-side implementation   For detailed information on how to use DescribeEndpoints, see The Endpoint Discovery Pattern and REST APIs.
+DescribeEndpoints returns a list of available endpoints to make Timestream API calls
+against. This API is available through both Write and Query. Because Timestream’s SDKs
+are designed to transparently work with the service’s architecture, including the
+management and mapping of the service endpoints, it is not recommended that you use this
+API unless:   Your application uses a programming language that does not yet have SDK
+support   You require better control over the client-side implementation   For detailed
+information on how to use DescribeEndpoints, see The Endpoint Discovery Pattern and REST
+APIs.
 
 """
 describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints"; aws_config=aws_config)
-describe_endpoints(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints", args; aws_config=aws_config)
+describe_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints", params; aws_config=aws_config)
 
 """
-    Query()
+    query(query_string)
+    query(query_string, params::Dict{String,<:Any})
 
- Query is a synchronous operation that enables you to execute a query. Query will timeout after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. The result set will be truncated to 1MB. Service quotas apply. For more information, see Quotas in the Timestream Developer Guide. 
+ Query is a synchronous operation that enables you to execute a query. Query will timeout
+after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60
+seconds. The result set will be truncated to 1MB. Service quotas apply. For more
+information, see Quotas in the Timestream Developer Guide.
 
-# Required Parameters
-- `QueryString`:  The query to be executed by Timestream. 
+# Arguments
+- `query_string`:  The query to be executed by Timestream.
 
 # Optional Parameters
-- `ClientToken`:  Unique, case-sensitive string of up to 64 ASCII characters that you specify when you make a Query request. Providing a ClientToken makes the call to Query idempotent, meaning that multiple identical calls have the same effect as one single call.  Your query request will fail in the following cases:    If you submit a request with the same client token outside the 5-minute idepotency window.     If you submit a request with the same client token but a change in other parameters within the 5-minute idempotency window.     After 4 hours, any request with the same client token is treated as a new request. 
-- `MaxRows`:  The total number of rows to return in the output. If the total number of rows available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. 
-- `NextToken`:  A pagination token passed to get a set of results. 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`:  Unique, case-sensitive string of up to 64 ASCII characters that you
+  specify when you make a Query request. Providing a ClientToken makes the call to Query
+  idempotent, meaning that multiple identical calls have the same effect as one single call.
+  Your query request will fail in the following cases:    If you submit a request with the
+  same client token outside the 5-minute idepotency window.     If you submit a request with
+  the same client token but a change in other parameters within the 5-minute idempotency
+  window.     After 4 hours, any request with the same client token is treated as a new
+  request.
+- `"MaxRows"`:  The total number of rows to return in the output. If the total number of
+  rows available is more than the value specified, a NextToken is provided in the command's
+  output. To resume pagination, provide the NextToken value in the starting-token argument of
+  a subsequent command.
+- `"NextToken"`:  A pagination token passed to get a set of results.
 """
 query(QueryString; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-query(QueryString, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())), args)); aws_config=aws_config)
+query(QueryString, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)

@@ -227,7 +227,7 @@ function _clean_uri(uri::String)
 end
 
 """
-    _format_function_name(function_name::String)
+    _format_name(function_name::String)
 
 Convert a function name from CamelCase to snake_case
 
@@ -237,7 +237,7 @@ Convert a function name from CamelCase to snake_case
 # Returns:
 - `String`: snake_case version of the function_name
 """
-function _format_function_name(function_name::String)
+function _format_name(function_name::String)
     # Replace a string of uppercase characters with themselves prefaced by an underscore
     # [A-Z](?![A-Z]) => Match a single uppercase character that is not followed by another uppercase character
     # |(A-Z]{1,})    => Match 1-Infinite amounts of uppercase characters
@@ -247,9 +247,11 @@ function _format_function_name(function_name::String)
     function_name = lowercase(function_name)
 
     # Chop off the leading underscore
-    function_name = chop(function_name, head=1, tail=0)
-
-    return function_name
+    return if startswith(function_name, "_")
+        chop(function_name, head=1, tail=0)
+    else
+        function_name
+    end
 end
 
 """
@@ -472,32 +474,32 @@ function _generate_high_level_definition(
         headers_str = headers ? "\"headers\"=>Dict{String, Any}($(join(header_kv, ", ")))" : ""
         params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
 
-        formatted_function_name = _format_function_name(function_name)
+        formatted_function_name = _format_name(function_name)
 
         if required_keys && (idempotent || headers)
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config)
                 """
         elseif !required_keys && (idempotent || headers)
             return """
                 $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws_config=aws_config)
+                $formatted_function_name(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, params)); aws_config=aws_config)
                 """
         elseif required_keys && !isempty(req_kv)
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), params)); aws_config=aws_config)
                 """
         elseif required_keys
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config)
                 """
         else
             return """
                 $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\"; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", args; aws_config=aws_config)
+                $formatted_function_name(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$method\", \"$request_uri\", params; aws_config=aws_config)
                 """
         end
     end
@@ -527,27 +529,27 @@ function _generate_high_level_definition(
         required = !isempty(req_kv)
         idempotent = !isempty(idempotent_kv)
 
-        formatted_function_name = _format_function_name(function_name)
+        formatted_function_name = _format_name(function_name)
 
         if required && idempotent
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), params)); aws_config=aws_config)
                 """
         elseif required
             return """
                 $formatted_function_name($(join(req_keys, ", ")); aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name($(join(req_keys, ", ")), params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), params)); aws_config=aws_config)
                 """
         elseif idempotent
             return """
                 $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws_config=aws_config)
+                $formatted_function_name(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), params)); aws_config=aws_config)
                 """
         else
             return """
                 $formatted_function_name(; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\"; aws_config=aws_config)
-                $formatted_function_name(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", args; aws_config=aws_config)
+                $formatted_function_name(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = $service_name(\"$function_name\", params; aws_config=aws_config)
                 """
         end
     end
@@ -567,19 +569,25 @@ function _generate_high_level_definition(
     - `String`: Docstring for the function
     """
     function _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
+        function_name = _format_name(function_name)
+        args = join((_format_name(key) for (key, val) in required_parameters), ", ")
+        maybejoin = isempty(args) ? "" : ", "
         operation_definition = """
             $(repeat('"', 3))
-                $function_name()
+                $function_name($(args))
+                $function_name($(args)$(maybejoin)params::Dict{String,<:Any})
 
-            $documentation\n
+            $(_wraplines(documentation))\n
             """
 
         # Add in the required parameters if applicable
         if !isempty(required_parameters)
-            operation_definition *= "# Required Parameters\n"
+            operation_definition *= "# Arguments\n"
 
             for (required_key, required_value) in required_parameters
-                operation_definition *= "- `$required_key`: $(required_value["documentation"])\n"
+                key = _format_name(required_key)
+                operation_definition *= _wraplines("- `$key`: $(required_value["documentation"])"; delim="\n  ")
+                operation_definition *= "\n"
             end
 
             operation_definition *= "\n"
@@ -587,10 +595,14 @@ function _generate_high_level_definition(
 
         # Add in the optional parameters if applicable
         if !isempty(optional_parameters)
-            operation_definition *= "# Optional Parameters\n"
+            operation_definition *= """
+                # Optional Parameters
+                Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+                """
 
             for (optional_key, optional_value) in optional_parameters
-                operation_definition *= "- `$optional_key`: $(optional_value["documentation"])\n"
+                operation_definition *= _wraplines("- `\"$optional_key\"`: $(optional_value["documentation"])"; delim="\n  ")
+                operation_definition *= "\n"
             end
         end
 
@@ -609,4 +621,63 @@ function _generate_high_level_definition(
 
     return string(doc_string, '\n', function_string)
 end
+
+"""
+    _wraplines(str, limit=92) -> String
+
+Return a string with line breaks added such that lines are wrapped at or before the limit.
+"""
+function _wraplines(str, limit=92; delim="\n")
+    lines = String[]
+
+    while !isempty(str)
+        line, str = _splitline(str, limit)
+        push!(lines, rstrip(line))  # strip trailing whitespace
+    end
+
+    return join(lines, delim)
+end
+
+"""
+    _splitline(str, limit) -> Tuple{String,String}
+
+Split the string `str` at or before `limit`.
+
+Prefers splitting the string on whitespace rather than mid-word, when possible.
+`limit` is measured in codeunits, which is an upper-bound on the number of characters.
+"""
+function _splitline(str, limit)
+    limit >= 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
+    ncodeunits(str) <= limit && return (str, "")
+    limit = _validindex(str, limit)
+    first_line = str[1:limit]
+    # split on whitespace if possible, else just split when we hit the limit.
+    split_point = something(findlast(==(' '), first_line), limit)
+    stop = _validindex(first_line, split_point)
+
+    while ispunct(first_line[stop])  # avoid splitting escaped characters.
+        stop = prevind(first_line, stop)
+    end
+
+    restart = nextind(first_line, stop)
+
+    return (str[1:stop], str[restart:end])
+end
+
+"""
+    _validindex(str, i)
+
+Return a valid index into the string `str`, rounding towards the first index of `str` if
+`i` is not itself a valid index into `str`.
+
+`i` must be within the bounds of `string`. `_validindex(str, i)` only protects against a
+`StringIndexError`, not a `BoundsError`.
+"""
+function _validindex(str, limit)
+    prev = max(firstindex(str), prevind(str, limit))
+    next = nextind(str, prev)
+
+    return next == limit ? limit : prev
+end
+
 end  # Module

@@ -5,1893 +5,4683 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    AddClientIDToOpenIDConnectProvider()
+    add_client_idto_open_idconnect_provider(client_id, open_idconnect_provider_arn)
+    add_client_idto_open_idconnect_provider(client_id, open_idconnect_provider_arn, params::Dict{String,<:Any})
 
-Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
+Adds a new client ID (also known as audience) to the list of client IDs already registered
+for the specified IAM OpenID Connect (OIDC) provider resource. This operation is
+idempotent; it does not fail or return an error if you add an existing client ID to the
+provider.
 
-# Required Parameters
-- `ClientID`: The client ID (also known as audience) to add to the IAM OpenID Connect provider resource.
-- `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation.
+# Arguments
+- `client_id`: The client ID (also known as audience) to add to the IAM OpenID Connect
+  provider resource.
+- `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect
+  (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs
+  by using the ListOpenIDConnectProviders operation.
 
 """
 add_client_idto_open_idconnect_provider(ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-add_client_idto_open_idconnect_provider(ClientID, OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws_config=aws_config)
+add_client_idto_open_idconnect_provider(ClientID, OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
-    AddRoleToInstanceProfile()
+    add_role_to_instance_profile(instance_profile_name, role_name)
+    add_role_to_instance_profile(instance_profile_name, role_name, params::Dict{String,<:Any})
 
-Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role. (The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.) You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of AWS because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this API must be granted the PassRole permission on the IAM role by a permissions policy.  For more information about roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
+Adds the specified IAM role to the specified instance profile. An instance profile can
+contain only one role, and this quota cannot be increased. You can remove the existing role
+and then add a different role to an instance profile. You must then wait for the change to
+appear across all of AWS because of eventual consistency. To force the change, you must
+disassociate the instance profile and then associate the instance profile, or you can stop
+your instance and then restart it.  The caller of this operation must be granted the
+PassRole permission on the IAM role by a permissions policy.  For more information about
+roles, see Working with roles. For more information about instance profiles, see About
+instance profiles.
 
-# Required Parameters
-- `InstanceProfileName`: The name of the instance profile to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `RoleName`: The name of the role to add. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `instance_profile_name`: The name of the instance profile to update. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+- `role_name`: The name of the role to add. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 add_role_to_instance_profile(InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddRoleToInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName); aws_config=aws_config)
-add_role_to_instance_profile(InstanceProfileName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddRoleToInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), args)); aws_config=aws_config)
+add_role_to_instance_profile(InstanceProfileName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddRoleToInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    AddUserToGroup()
+    add_user_to_group(group_name, user_name)
+    add_user_to_group(group_name, user_name, params::Dict{String,<:Any})
 
 Adds the specified user to the specified group.
 
-# Required Parameters
-- `GroupName`: The name of the group to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `UserName`: The name of the user to add. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name of the group to update. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
+- `user_name`: The name of the user to add. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 add_user_to_group(GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddUserToGroup", Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName); aws_config=aws_config)
-add_user_to_group(GroupName, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), args)); aws_config=aws_config)
+add_user_to_group(GroupName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    AttachGroupPolicy()
+    attach_group_policy(group_name, policy_arn)
+    attach_group_policy(group_name, policy_arn, params::Dict{String,<:Any})
 
-Attaches the specified managed policy to the specified IAM group. You use this API to attach a managed policy to a group. To embed an inline policy in a group, use PutGroupPolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Attaches the specified managed policy to the specified IAM group. You use this operation to
+attach a managed policy to a group. To embed an inline policy in a group, use
+PutGroupPolicy. For more information about policies, see Managed policies and inline
+policies in the IAM User Guide.
 
-# Required Parameters
-- `GroupName`: The name (friendly name, not ARN) of the group to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `group_name`: The name (friendly name, not ARN) of the group to attach the policy to.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 attach_group_policy(GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn); aws_config=aws_config)
-attach_group_policy(GroupName, PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
+attach_group_policy(GroupName, PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
-    AttachRolePolicy()
+    attach_role_policy(policy_arn, role_name)
+    attach_role_policy(policy_arn, role_name, params::Dict{String,<:Any})
 
-Attaches the specified managed policy to the specified IAM role. When you attach a managed policy to a role, the managed policy becomes part of the role's permission (access) policy.  You cannot use a managed policy as the role's trust policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy.  Use this API to attach a managed policy to a role. To embed an inline policy in a role, use PutRolePolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Attaches the specified managed policy to the specified IAM role. When you attach a managed
+policy to a role, the managed policy becomes part of the role's permission (access) policy.
+ You cannot use a managed policy as the role's trust policy. The role's trust policy is
+created at the same time as the role, using CreateRole. You can update a role's trust
+policy using UpdateAssumeRolePolicy.  Use this operation to attach a managed policy to a
+role. To embed an inline policy in a role, use PutRolePolicy. For more information about
+policies, see Managed policies and inline policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `RoleName`: The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+- `role_name`: The name (friendly name, not ARN) of the role to attach the policy to. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 attach_role_policy(PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachRolePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName); aws_config=aws_config)
-attach_role_policy(PolicyArn, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), args)); aws_config=aws_config)
+attach_role_policy(PolicyArn, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    AttachUserPolicy()
+    attach_user_policy(policy_arn, user_name)
+    attach_user_policy(policy_arn, user_name, params::Dict{String,<:Any})
 
-Attaches the specified managed policy to the specified user. You use this API to attach a managed policy to a user. To embed an inline policy in a user, use PutUserPolicy. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Attaches the specified managed policy to the specified user. You use this operation to
+attach a managed policy to a user. To embed an inline policy in a user, use PutUserPolicy.
+For more information about policies, see Managed policies and inline policies in the IAM
+User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `UserName`: The name (friendly name, not ARN) of the IAM user to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+- `user_name`: The name (friendly name, not ARN) of the IAM user to attach the policy to.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
 
 """
 attach_user_policy(PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachUserPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName); aws_config=aws_config)
-attach_user_policy(PolicyArn, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), args)); aws_config=aws_config)
+attach_user_policy(PolicyArn, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    ChangePassword()
+    change_password(new_password, old_password)
+    change_password(new_password, old_password, params::Dict{String,<:Any})
 
-Changes the password of the IAM user who is calling this operation. The AWS account root user password is not affected by this operation. To change the password for a different user, see UpdateLoginProfile. For more information about modifying passwords, see Managing Passwords in the IAM User Guide.
+Changes the password of the IAM user who is calling this operation. This operation can be
+performed using the AWS CLI, the AWS API, or the My Security Credentials page in the AWS
+Management Console. The AWS account root user password is not affected by this operation.
+Use UpdateLoginProfile to use the AWS CLI, the AWS API, or the Users page in the IAM
+console to change the password for any IAM user. For more information about modifying
+passwords, see Managing passwords in the IAM User Guide.
 
-# Required Parameters
-- `NewPassword`: The new password. The new password must conform to the AWS account's password policy, if one exists. The regex pattern that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Any of these characters are valid in a password. However, many tools, such as the AWS Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
-- `OldPassword`: The IAM user's current password.
+# Arguments
+- `new_password`: The new password. The new password must conform to the AWS account's
+  password policy, if one exists. The regex pattern that is used to validate this parameter
+  is a string of characters. That string can include almost any printable ASCII character
+  from the space (u0020) through the end of the ASCII character range (u00FF). You can also
+  include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Any of
+  these characters are valid in a password. However, many tools, such as the AWS Management
+  Console, might restrict the ability to type certain characters because they have special
+  meaning within that tool.
+- `old_password`: The IAM user's current password.
 
 """
 change_password(NewPassword, OldPassword; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ChangePassword", Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword); aws_config=aws_config)
-change_password(NewPassword, OldPassword, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword), args)); aws_config=aws_config)
+change_password(NewPassword, OldPassword, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword), params)); aws_config=aws_config)
 
 """
-    CreateAccessKey()
+    create_access_key()
+    create_access_key(params::Dict{String,<:Any})
 
- Creates a new AWS secret access key and corresponding AWS access key ID for the specified user. The default status for new keys is Active. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. This operation works for access keys under the AWS account. Consequently, you can use this operation to manage AWS account root user credentials. This is true even if the AWS account has no associated users. The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.  To ensure the security of your AWS account, the secret access key is accessible only during key and user creation. You must save the key (for example, in a text file) if you want to be able to access it again. If a secret key is lost, you can delete the access keys for the associated user and then create new keys. 
+ Creates a new AWS secret access key and corresponding AWS access key ID for the specified
+user. The default status for new keys is Active. If you do not specify a user name, IAM
+determines the user name implicitly based on the AWS access key ID signing the request.
+This operation works for access keys under the AWS account. Consequently, you can use this
+operation to manage AWS account root user credentials. This is true even if the AWS account
+has no associated users.  For information about quotas on the number of keys you can
+create, see IAM and STS quotas in the IAM User Guide.  To ensure the security of your AWS
+account, the secret access key is accessible only during key and user creation. You must
+save the key (for example, in a text file) if you want to be able to access it again. If a
+secret key is lost, you can delete the access keys for the associated user and then create
+new keys.
 
 # Optional Parameters
-- `UserName`: The name of the IAM user that the new key will belong to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the IAM user that the new key will belong to. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 """
 create_access_key(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccessKey"; aws_config=aws_config)
-create_access_key(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccessKey", args; aws_config=aws_config)
+create_access_key(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccessKey", params; aws_config=aws_config)
 
 """
-    CreateAccountAlias()
+    create_account_alias(account_alias)
+    create_account_alias(account_alias, params::Dict{String,<:Any})
 
-Creates an alias for your AWS account. For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide.
+Creates an alias for your AWS account. For information about using an AWS account alias,
+see Using an alias for your AWS account ID in the IAM User Guide.
 
-# Required Parameters
-- `AccountAlias`: The account alias to create. This parameter allows (through its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
+# Arguments
+- `account_alias`: The account alias to create. This parameter allows (through its regex
+  pattern) a string of characters consisting of lowercase letters, digits, and dashes. You
+  cannot start or finish with a dash, nor can you have two dashes in a row.
 
 """
 create_account_alias(AccountAlias; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccountAlias", Dict{String, Any}("AccountAlias"=>AccountAlias); aws_config=aws_config)
-create_account_alias(AccountAlias, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), args)); aws_config=aws_config)
+create_account_alias(AccountAlias, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config)
 
 """
-    CreateGroup()
+    create_group(group_name)
+    create_group(group_name, params::Dict{String,<:Any})
 
-Creates a new group. The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.
+Creates a new group.  For information about the number of groups you can create, see IAM
+and STS quotas in the IAM User Guide.
 
-# Required Parameters
-- `GroupName`: The name of the group to create. Do not include the path in this value. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both \"MyResource\" and \"myresource\".
+# Arguments
+- `group_name`: The name of the group to create. Do not include the path in this value. IAM
+  user, group, role, and policy names must be unique within the account. Names are not
+  distinguished by case. For example, you cannot create resources named both \"MyResource\"
+  and \"myresource\".
 
 # Optional Parameters
-- `Path`:  The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Path"`:  The path to the group. For more information about paths, see IAM identifiers
+  in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a
+  slash (/). This parameter allows (through its regex pattern) a string of characters
+  consisting of either a forward slash (/) by itself or a string that must begin and end with
+  forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
+  the DEL character (u007F), including most punctuation characters, digits, and upper and
+  lowercased letters.
 """
 create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-create_group(GroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
+create_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
-    CreateInstanceProfile()
+    create_instance_profile(instance_profile_name)
+    create_instance_profile(instance_profile_name, params::Dict{String,<:Any})
 
- Creates a new instance profile. For information about instance profiles, go to About Instance Profiles. The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.
+ Creates a new instance profile. For information about instance profiles, see About
+instance profiles.  For information about the number of instance profiles you can create,
+see IAM object quotas in the IAM User Guide.
 
-# Required Parameters
-- `InstanceProfileName`: The name of the instance profile to create. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `instance_profile_name`: The name of the instance profile to create. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 # Optional Parameters
-- `Path`:  The path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Path"`:  The path to the instance profile. For more information about paths, see IAM
+  Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it
+  defaults to a slash (/). This parameter allows (through its regex pattern) a string of
+  characters consisting of either a forward slash (/) by itself or a string that must begin
+  and end with forward slashes. In addition, it can contain any ASCII character from the !
+  (u0021) through the DEL character (u007F), including most punctuation characters, digits,
+  and upper and lowercased letters.
+- `"Tags"`: A list of tags that you want to attach to the newly created IAM instance
+  profile. Each tag consists of a key name and an associated value. For more information
+  about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
+  invalid or if you exceed the allowed maximum number of tags, then the entire request fails
+  and the resource is not created.
 """
 create_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
-create_instance_profile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws_config=aws_config)
+create_instance_profile(InstanceProfileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
 
 """
-    CreateLoginProfile()
+    create_login_profile(password, user_name)
+    create_login_profile(password, user_name, params::Dict{String,<:Any})
 
- Creates a password for the specified user, giving the user the ability to access AWS services through the AWS Management Console. For more information about managing passwords, see Managing Passwords in the IAM User Guide.
+Creates a password for the specified IAM user. A password allows an IAM user to access AWS
+services through the AWS Management Console. You can use the AWS CLI, the AWS API, or the
+Users page in the IAM console to create a password for any IAM user. Use ChangePassword to
+update your own existing password in the My Security Credentials page in the AWS Management
+Console. For more information about managing passwords, see Managing passwords in the IAM
+User Guide.
 
-# Required Parameters
-- `Password`: The new password for the user. The regex pattern that is used to validate this parameter is a string of characters. That string can include almost any printable ASCII character from the space (u0020) through the end of the ASCII character range (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return (u000D) characters. Any of these characters are valid in a password. However, many tools, such as the AWS Management Console, might restrict the ability to type certain characters because they have special meaning within that tool.
-- `UserName`: The name of the IAM user to create a password for. The user must already exist. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `password`: The new password for the user. The regex pattern that is used to validate
+  this parameter is a string of characters. That string can include almost any printable
+  ASCII character from the space (u0020) through the end of the ASCII character range
+  (u00FF). You can also include the tab (u0009), line feed (u000A), and carriage return
+  (u000D) characters. Any of these characters are valid in a password. However, many tools,
+  such as the AWS Management Console, might restrict the ability to type certain characters
+  because they have special meaning within that tool.
+- `user_name`: The name of the IAM user to create a password for. The user must already
+  exist. This parameter allows (through its regex pattern) a string of characters consisting
+  of upper and lowercase alphanumeric characters with no spaces. You can also include any of
+  the following characters: _+=,.@-
 
 # Optional Parameters
-- `PasswordResetRequired`: Specifies whether the user is required to set a new password on next sign-in.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PasswordResetRequired"`: Specifies whether the user is required to set a new password
+  on next sign-in.
 """
 create_login_profile(Password, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateLoginProfile", Dict{String, Any}("Password"=>Password, "UserName"=>UserName); aws_config=aws_config)
-create_login_profile(Password, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserName"=>UserName), args)); aws_config=aws_config)
+create_login_profile(Password, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    CreateOpenIDConnectProvider()
+    create_open_idconnect_provider(thumbprint_list, url)
+    create_open_idconnect_provider(thumbprint_list, url, params::Dict{String,<:Any})
 
-Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect (OIDC). The OIDC provider that you create with this operation can be used as a principal in a role's trust policy. Such a policy establishes a trust relationship between AWS and the OIDC provider. When you create the IAM OIDC provider, you specify the following:   The URL of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as audiences) that identify the application or applications that are allowed to authenticate using the OIDC provider   A list of thumbprints of one or more server certificates that the IdP uses   You get all of this information from the OIDC IdP that you want to use to access AWS.  The trust for the OIDC provider is derived from the IAM provider that this operation creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged users. 
+Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect
+(OIDC). The OIDC provider that you create with this operation can be used as a principal in
+a role's trust policy. Such a policy establishes a trust relationship between AWS and the
+OIDC provider. When you create the IAM OIDC provider, you specify the following:   The URL
+of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as
+audiences) that identify the application or applications that are allowed to authenticate
+using the OIDC provider   A list of thumbprints of one or more server certificates that the
+IdP uses   You get all of this information from the OIDC IdP that you want to use to access
+AWS.  The trust for the OIDC provider is derived from the IAM provider that this operation
+creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation
+to highly privileged users.
 
-# Required Parameters
-- `ThumbprintList`: A list of server certificate thumbprints for the OpenID Connect (OIDC) identity provider's server certificates. Typically this list includes only one entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you maintain multiple thumbprints if the identity provider is rotating certificates. The server certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by the domain where the OpenID Connect provider makes its keys available. It is always a 40-character string. You must provide at least one thumbprint when creating an IAM OIDC provider. For example, assume that the OIDC provider is server.example.com and the provider stores its keys at https://keys.server.example.com/openid-connect. In that case, the thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by https://keys.server.example.com. For more information about obtaining the OIDC provider's thumbprint, see Obtaining the Thumbprint for an OpenID Connect Provider in the IAM User Guide.
-- `Url`: The URL of the identity provider. The URL must begin with https:// and should correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC standard, path components are allowed but query parameters are not. Typically the URL consists of only a hostname, like https://server.example.org or https://example.com. You cannot register the same provider multiple times in a single AWS account. If you try to submit a URL that has already been used for an OpenID Connect provider in the AWS account, you will get an error.
+# Arguments
+- `thumbprint_list`: A list of server certificate thumbprints for the OpenID Connect (OIDC)
+  identity provider's server certificates. Typically this list includes only one entry.
+  However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you
+  maintain multiple thumbprints if the identity provider is rotating certificates. The server
+  certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by
+  the domain where the OpenID Connect provider makes its keys available. It is always a
+  40-character string. You must provide at least one thumbprint when creating an IAM OIDC
+  provider. For example, assume that the OIDC provider is server.example.com and the provider
+  stores its keys at https://keys.server.example.com/openid-connect. In that case, the
+  thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by
+  https://keys.server.example.com. For more information about obtaining the OIDC provider's
+  thumbprint, see Obtaining the thumbprint for an OpenID Connect provider in the IAM User
+  Guide.
+- `url`: The URL of the identity provider. The URL must begin with https:// and should
+  correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC
+  standard, path components are allowed but query parameters are not. Typically the URL
+  consists of only a hostname, like https://server.example.org or https://example.com. You
+  cannot register the same provider multiple times in a single AWS account. If you try to
+  submit a URL that has already been used for an OpenID Connect provider in the AWS account,
+  you will get an error.
 
 # Optional Parameters
-- `ClientIDList`: A list of client IDs (also known as audiences). When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. (This is the value that's sent as the client_id parameter on OAuth requests.) You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientIDList"`: A list of client IDs (also known as audiences). When a mobile or web
+  app registers with an OpenID Connect provider, they establish a value that identifies the
+  application. (This is the value that's sent as the client_id parameter on OAuth requests.)
+  You can register multiple client IDs with the same provider. For example, you might have
+  multiple applications that use the same OIDC provider. You cannot register more than 100
+  client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The
+  CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
+- `"Tags"`: A list of tags that you want to attach to the new IAM OpenID Connect (OIDC)
+  provider. Each tag consists of a key name and an associated value. For more information
+  about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
+  invalid or if you exceed the allowed maximum number of tags, then the entire request fails
+  and the resource is not created.
 """
 create_open_idconnect_provider(ThumbprintList, Url; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateOpenIDConnectProvider", Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url); aws_config=aws_config)
-create_open_idconnect_provider(ThumbprintList, Url, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url), args)); aws_config=aws_config)
+create_open_idconnect_provider(ThumbprintList, Url, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url), params)); aws_config=aws_config)
 
 """
-    CreatePolicy()
+    create_policy(policy_document, policy_name)
+    create_policy(policy_document, policy_name, params::Dict{String,<:Any})
 
-Creates a new managed policy for your AWS account. This operation creates a policy version with a version identifier of v1 and sets v1 as the policy's default version. For more information about policy versions, see Versioning for Managed Policies in the IAM User Guide. For more information about managed policies in general, see Managed Policies and Inline Policies in the IAM User Guide.
+Creates a new managed policy for your AWS account. This operation creates a policy version
+with a version identifier of v1 and sets v1 as the policy's default version. For more
+information about policy versions, see Versioning for managed policies in the IAM User
+Guide. For more information about managed policies in general, see Managed policies and
+inline policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyDocument`: The JSON policy document that you want to use as the content for the new policy. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `PolicyName`: The friendly name of the policy. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both \"MyResource\" and \"myresource\".
+# Arguments
+- `policy_document`: The JSON policy document that you want to use as the content for the
+  new policy. You must provide policies in JSON format in IAM. However, for AWS
+  CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML
+  format. AWS CloudFormation always converts a YAML policy to JSON format before submitting
+  it to IAM. The regex pattern used to validate this parameter is a string of characters
+  consisting of the following:   Any printable ASCII character ranging from the space
+  character (u0020) through the end of the ASCII character range   The printable characters
+  in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special
+  characters tab (u0009), line feed (u000A), and carriage return (u000D)
+- `policy_name`: The friendly name of the policy. IAM user, group, role, and policy names
+  must be unique within the account. Names are not distinguished by case. For example, you
+  cannot create resources named both \"MyResource\" and \"myresource\".
 
 # Optional Parameters
-- `Description`: A friendly description of the policy. Typically used to store information about the permissions defined in the policy. For example, \"Grants access to production DynamoDB tables.\" The policy description is immutable. After a value is assigned, it cannot be changed.
-- `Path`: The path for the policy. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A friendly description of the policy. Typically used to store
+  information about the permissions defined in the policy. For example, \"Grants access to
+  production DynamoDB tables.\" The policy description is immutable. After a value is
+  assigned, it cannot be changed.
+- `"Path"`: The path for the policy. For more information about paths, see IAM identifiers
+  in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a
+  slash (/). This parameter allows (through its regex pattern) a string of characters
+  consisting of either a forward slash (/) by itself or a string that must begin and end with
+  forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
+  the DEL character (u007F), including most punctuation characters, digits, and upper and
+  lowercased letters.
+- `"Tags"`: A list of tags that you want to attach to the new IAM customer managed policy.
+  Each tag consists of a key name and an associated value. For more information about
+  tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
+  invalid or if you exceed the allowed maximum number of tags, then the entire request fails
+  and the resource is not created.
 """
 create_policy(PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName); aws_config=aws_config)
-create_policy(PolicyDocument, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
+create_policy(PolicyDocument, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    CreatePolicyVersion()
+    create_policy_version(policy_arn, policy_document)
+    create_policy_version(policy_arn, policy_document, params::Dict{String,<:Any})
 
-Creates a new version of the specified managed policy. To update a managed policy, you create a new policy version. A managed policy can have up to five versions. If the policy has five versions, you must delete an existing version using DeletePolicyVersion before you create a new version. Optionally, you can set the new version as the policy's default version. The default version is the version that is in effect for the IAM users, groups, and roles to which the policy is attached. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
+Creates a new version of the specified managed policy. To update a managed policy, you
+create a new policy version. A managed policy can have up to five versions. If the policy
+has five versions, you must delete an existing version using DeletePolicyVersion before you
+create a new version. Optionally, you can set the new version as the policy's default
+version. The default version is the version that is in effect for the IAM users, groups,
+and roles to which the policy is attached. For more information about managed policy
+versions, see Versioning for managed policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy to which you want to add a new version. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `PolicyDocument`: The JSON policy document that you want to use as the content for this new version of the policy. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy to which you want to add a
+  new version. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS
+  General Reference.
+- `policy_document`: The JSON policy document that you want to use as the content for this
+  new version of the policy. You must provide policies in JSON format in IAM. However, for
+  AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML
+  format. AWS CloudFormation always converts a YAML policy to JSON format before submitting
+  it to IAM. The regex pattern used to validate this parameter is a string of characters
+  consisting of the following:   Any printable ASCII character ranging from the space
+  character (u0020) through the end of the ASCII character range   The printable characters
+  in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special
+  characters tab (u0009), line feed (u000A), and carriage return (u000D)
 
 # Optional Parameters
-- `SetAsDefault`: Specifies whether to set this version as the policy's default version. When this parameter is true, the new policy version becomes the operative version. That is, it becomes the version that is in effect for the IAM users, groups, and roles that the policy is attached to. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SetAsDefault"`: Specifies whether to set this version as the policy's default version.
+  When this parameter is true, the new policy version becomes the operative version. That is,
+  it becomes the version that is in effect for the IAM users, groups, and roles that the
+  policy is attached to. For more information about managed policy versions, see Versioning
+  for managed policies in the IAM User Guide.
 """
 create_policy_version(PolicyArn, PolicyDocument; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument); aws_config=aws_config)
-create_policy_version(PolicyArn, PolicyDocument, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument), args)); aws_config=aws_config)
+create_policy_version(PolicyArn, PolicyDocument, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument), params)); aws_config=aws_config)
 
 """
-    CreateRole()
+    create_role(assume_role_policy_document, role_name)
+    create_role(assume_role_policy_document, role_name, params::Dict{String,<:Any})
 
-Creates a new role for your AWS account. For more information about roles, go to IAM Roles. The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.
+Creates a new role for your AWS account. For more information about roles, see IAM roles.
+For information about quotas for role names and the number of roles you can create, see IAM
+and STS quotas in the IAM User Guide.
 
-# Required Parameters
-- `AssumeRolePolicyDocument`: The trust relationship policy document that grants an entity permission to assume the role. In IAM, you must provide a JSON policy that has been converted to a string. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)    Upon success, the response includes the same trust policy in JSON format.
-- `RoleName`: The name of the role to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both \"MyResource\" and \"myresource\".
+# Arguments
+- `assume_role_policy_document`: The trust relationship policy document that grants an
+  entity permission to assume the role. In IAM, you must provide a JSON policy that has been
+  converted to a string. However, for AWS CloudFormation templates formatted in YAML, you can
+  provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy
+  to JSON format before submitting it to IAM. The regex pattern used to validate this
+  parameter is a string of characters consisting of the following:   Any printable ASCII
+  character ranging from the space character (u0020) through the end of the ASCII character
+  range   The printable characters in the Basic Latin and Latin-1 Supplement character set
+  (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage
+  return (u000D)    Upon success, the response includes the same trust policy in JSON format.
+- `role_name`: The name of the role to create. IAM user, group, role, and policy names must
+  be unique within the account. Names are not distinguished by case. For example, you cannot
+  create resources named both \"MyResource\" and \"myresource\".
 
 # Optional Parameters
-- `Description`: A description of the role.
-- `MaxSessionDuration`: The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM Roles in the IAM User Guide.
-- `Path`:  The path to the role. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
-- `PermissionsBoundary`: The ARN of the policy that is used to set the permissions boundary for the role.
-- `Tags`: A list of tags that you want to attach to the newly created role. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags per role, then the entire request fails and the role is not created. 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the role.
+- `"MaxSessionDuration"`: The maximum session duration (in seconds) that you want to set
+  for the specified role. If you do not specify a value for this setting, the default maximum
+  of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who
+  assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the
+  duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting
+  determines the maximum duration that can be requested using the DurationSeconds parameter.
+  If users don't specify a value for the DurationSeconds parameter, their security
+  credentials are valid for one hour by default. This applies when you use the AssumeRole*
+  API operations or the assume-role* CLI operations but does not apply when you use those
+  operations to create a console URL. For more information, see Using IAM roles in the IAM
+  User Guide.
+- `"Path"`:  The path to the role. For more information about paths, see IAM Identifiers in
+  the IAM User Guide. This parameter is optional. If it is not included, it defaults to a
+  slash (/). This parameter allows (through its regex pattern) a string of characters
+  consisting of either a forward slash (/) by itself or a string that must begin and end with
+  forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
+  the DEL character (u007F), including most punctuation characters, digits, and upper and
+  lowercased letters.
+- `"PermissionsBoundary"`: The ARN of the policy that is used to set the permissions
+  boundary for the role.
+- `"Tags"`: A list of tags that you want to attach to the new role. Each tag consists of a
+  key name and an associated value. For more information about tagging, see Tagging IAM
+  resources in the IAM User Guide.  If any one of the tags is invalid or if you exceed the
+  allowed maximum number of tags, then the entire request fails and the resource is not
+  created.
 """
 create_role(AssumeRolePolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateRole", Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName); aws_config=aws_config)
-create_role(AssumeRolePolicyDocument, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName), args)); aws_config=aws_config)
+create_role(AssumeRolePolicyDocument, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    CreateSAMLProvider()
+    create_samlprovider(name, samlmetadata_document)
+    create_samlprovider(name, samlmetadata_document, params::Dict{String,<:Any})
 
-Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the AWS Management Console or one that supports API access to AWS. When you create the SAML provider resource, you upload a SAML metadata document that you get from your IdP. That document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP.   This operation requires Signature Version 4.   For more information, see Enabling SAML 2.0 Federated Users to Access the AWS Management Console and About SAML 2.0-based Federation in the IAM User Guide.
+Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0.
+The SAML provider resource that you create with this operation can be used as a principal
+in an IAM role's trust policy. Such a policy can enable federated users who sign in using
+the SAML IdP to assume the role. You can create an IAM role that supports Web-based single
+sign-on (SSO) to the AWS Management Console or one that supports API access to AWS. When
+you create the SAML provider resource, you upload a SAML metadata document that you get
+from your IdP. That document includes the issuer's name, expiration information, and keys
+that can be used to validate the SAML authentication response (assertions) that the IdP
+sends. You must generate the metadata document using the identity management software that
+is used as your organization's IdP.   This operation requires Signature Version 4.   For
+more information, see Enabling SAML 2.0 federated users to access the AWS Management
+Console and About SAML 2.0-based federation in the IAM User Guide.
 
-# Required Parameters
-- `Name`: The name of the provider to create. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `SAMLMetadataDocument`: An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP. For more information, see About SAML 2.0-based Federation in the IAM User Guide 
-
-"""
-create_samlprovider(Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument); aws_config=aws_config)
-create_samlprovider(Name, SAMLMetadataDocument, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument), args)); aws_config=aws_config)
-
-"""
-    CreateServiceLinkedRole()
-
-Creates an IAM role that is linked to a specific AWS service. The service controls the attached policies and when the role can be deleted. This helps ensure that the service is not broken by an unexpectedly changed or deleted role, which could put your AWS resources into an unknown state. Allowing the service to control the role helps improve service stability and proper cleanup when a service and its role are no longer needed. For more information, see Using Service-Linked Roles in the IAM User Guide.  To attach a policy to this service-linked role, you must make the request using the AWS service that depends on this role.
-
-# Required Parameters
-- `AWSServiceName`: The service principal for the AWS service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com.  Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see AWS Services That Work with IAM in the IAM User Guide. Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service.
+# Arguments
+- `name`: The name of the provider to create. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
+- `samlmetadata_document`: An XML document generated by an identity provider (IdP) that
+  supports SAML 2.0. The document includes the issuer's name, expiration information, and
+  keys that can be used to validate the SAML authentication response (assertions) that are
+  received from the IdP. You must generate the metadata document using the identity
+  management software that is used as your organization's IdP. For more information, see
+  About SAML 2.0-based federation in the IAM User Guide
 
 # Optional Parameters
-- `CustomSuffix`:  A string that you provide, which is combined with the service-provided prefix to form the complete role name. If you make multiple requests for the same service, then you must supply a different CustomSuffix for each request. Otherwise the request fails with a duplicate role name error. For example, you could add -1 or -debug to the suffix. Some services do not support the CustomSuffix parameter. If you provide an optional suffix and the operation fails, try the operation again without the suffix.
-- `Description`: The description of the role.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of tags that you want to attach to the new IAM SAML provider. Each tag
+  consists of a key name and an associated value. For more information about tagging, see
+  Tagging IAM resources in the IAM User Guide.  If any one of the tags is invalid or if you
+  exceed the allowed maximum number of tags, then the entire request fails and the resource
+  is not created.
+"""
+create_samlprovider(Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument); aws_config=aws_config)
+create_samlprovider(Name, SAMLMetadataDocument, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument), params)); aws_config=aws_config)
+
+"""
+    create_service_linked_role(awsservice_name)
+    create_service_linked_role(awsservice_name, params::Dict{String,<:Any})
+
+Creates an IAM role that is linked to a specific AWS service. The service controls the
+attached policies and when the role can be deleted. This helps ensure that the service is
+not broken by an unexpectedly changed or deleted role, which could put your AWS resources
+into an unknown state. Allowing the service to control the role helps improve service
+stability and proper cleanup when a service and its role are no longer needed. For more
+information, see Using service-linked roles in the IAM User Guide.  To attach a policy to
+this service-linked role, you must make the request using the AWS service that depends on
+this role.
+
+# Arguments
+- `awsservice_name`: The service principal for the AWS service to which this role is
+  attached. You use a string similar to a URL but without the http:// in front. For example:
+  elasticbeanstalk.amazonaws.com.  Service principals are unique and case-sensitive. To find
+  the exact service principal for your service-linked role, see AWS services that work with
+  IAM in the IAM User Guide. Look for the services that have Yes in the Service-Linked Role
+  column. Choose the Yes link to view the service-linked role documentation for that service.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomSuffix"`:  A string that you provide, which is combined with the service-provided
+  prefix to form the complete role name. If you make multiple requests for the same service,
+  then you must supply a different CustomSuffix for each request. Otherwise the request fails
+  with a duplicate role name error. For example, you could add -1 or -debug to the suffix.
+  Some services do not support the CustomSuffix parameter. If you provide an optional suffix
+  and the operation fails, try the operation again without the suffix.
+- `"Description"`: The description of the role.
 """
 create_service_linked_role(AWSServiceName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceLinkedRole", Dict{String, Any}("AWSServiceName"=>AWSServiceName); aws_config=aws_config)
-create_service_linked_role(AWSServiceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSServiceName"=>AWSServiceName), args)); aws_config=aws_config)
+create_service_linked_role(AWSServiceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSServiceName"=>AWSServiceName), params)); aws_config=aws_config)
 
 """
-    CreateServiceSpecificCredential()
+    create_service_specific_credential(service_name, user_name)
+    create_service_specific_credential(service_name, user_name, params::Dict{String,<:Any})
 
-Generates a set of credentials consisting of a user name and password that can be used to access the service specified in the request. These credentials are generated by IAM, and can be used only for the specified service.  You can have a maximum of two sets of service-specific credentials for each supported service per user. The only supported service at this time is AWS CodeCommit. You can reset the password to a new service-generated value by calling ResetServiceSpecificCredential. For more information about service-specific credentials, see Using IAM with AWS CodeCommit: Git Credentials, SSH Keys, and AWS Access Keys in the IAM User Guide.
+Generates a set of credentials consisting of a user name and password that can be used to
+access the service specified in the request. These credentials are generated by IAM, and
+can be used only for the specified service.  You can have a maximum of two sets of
+service-specific credentials for each supported service per user. You can create
+service-specific credentials for AWS CodeCommit and Amazon Keyspaces (for Apache
+Cassandra). You can reset the password to a new service-generated value by calling
+ResetServiceSpecificCredential. For more information about service-specific credentials,
+see Using IAM with AWS CodeCommit: Git credentials, SSH keys, and AWS access keys in the
+IAM User Guide.
 
-# Required Parameters
-- `ServiceName`: The name of the AWS service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
-- `UserName`: The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `service_name`: The name of the AWS service that is to be associated with the
+  credentials. The service you specify here is the only service that can be accessed using
+  these credentials.
+- `user_name`: The name of the IAM user that is to be associated with the credentials. The
+  new service-specific credentials have the same permissions as the associated user except
+  that they can be used only to access the specified service. This parameter allows (through
+  its regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 create_service_specific_credential(ServiceName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceSpecificCredential", Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName); aws_config=aws_config)
-create_service_specific_credential(ServiceName, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName), args)); aws_config=aws_config)
+create_service_specific_credential(ServiceName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    CreateUser()
+    create_user(user_name)
+    create_user(user_name, params::Dict{String,<:Any})
 
-Creates a new IAM user for your AWS account. The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.
+Creates a new IAM user for your AWS account.  For information about quotas for the number
+of IAM users you can create, see IAM and STS quotas in the IAM User Guide.
 
-# Required Parameters
-- `UserName`: The name of the user to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both \"MyResource\" and \"myresource\".
+# Arguments
+- `user_name`: The name of the user to create. IAM user, group, role, and policy names must
+  be unique within the account. Names are not distinguished by case. For example, you cannot
+  create resources named both \"MyResource\" and \"myresource\".
 
 # Optional Parameters
-- `Path`:  The path for the user name. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
-- `PermissionsBoundary`: The ARN of the policy that is used to set the permissions boundary for the user.
-- `Tags`: A list of tags that you want to attach to the newly created user. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags per user, then the entire request fails and the user is not created. 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Path"`:  The path for the user name. For more information about paths, see IAM
+  identifiers in the IAM User Guide. This parameter is optional. If it is not included, it
+  defaults to a slash (/). This parameter allows (through its regex pattern) a string of
+  characters consisting of either a forward slash (/) by itself or a string that must begin
+  and end with forward slashes. In addition, it can contain any ASCII character from the !
+  (u0021) through the DEL character (u007F), including most punctuation characters, digits,
+  and upper and lowercased letters.
+- `"PermissionsBoundary"`: The ARN of the policy that is used to set the permissions
+  boundary for the user.
+- `"Tags"`: A list of tags that you want to attach to the new user. Each tag consists of a
+  key name and an associated value. For more information about tagging, see Tagging IAM
+  resources in the IAM User Guide.  If any one of the tags is invalid or if you exceed the
+  allowed maximum number of tags, then the entire request fails and the resource is not
+  created.
 """
 create_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-create_user(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+create_user(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    CreateVirtualMFADevice()
+    create_virtual_mfadevice(virtual_mfadevice_name)
+    create_virtual_mfadevice(virtual_mfadevice_name, params::Dict{String,<:Any})
 
-Creates a new virtual MFA device for the AWS account. After creating the virtual MFA, use EnableMFADevice to attach the MFA device to an IAM user. For more information about creating and working with virtual MFA devices, go to Using a Virtual MFA Device in the IAM User Guide. The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.  The seed information contained in the QR code and the Base32 string should be treated like any other secret access information. In other words, protect the seed information as you would your AWS access keys or your passwords. After you provision your virtual device, you should ensure that the information is destroyed following secure procedures. 
+Creates a new virtual MFA device for the AWS account. After creating the virtual MFA, use
+EnableMFADevice to attach the MFA device to an IAM user. For more information about
+creating and working with virtual MFA devices, see Using a virtual MFA device in the IAM
+User Guide. For information about the maximum number of MFA devices you can create, see IAM
+and STS quotas in the IAM User Guide.  The seed information contained in the QR code and
+the Base32 string should be treated like any other secret access information. In other
+words, protect the seed information as you would your AWS access keys or your passwords.
+After you provision your virtual device, you should ensure that the information is
+destroyed following secure procedures.
 
-# Required Parameters
-- `VirtualMFADeviceName`: The name of the virtual MFA device. Use with path to uniquely identify a virtual MFA device. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `virtual_mfadevice_name`: The name of the virtual MFA device. Use with path to uniquely
+  identify a virtual MFA device. This parameter allows (through its regex pattern) a string
+  of characters consisting of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
-- `Path`:  The path for the virtual MFA device. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Path"`:  The path for the virtual MFA device. For more information about paths, see IAM
+  identifiers in the IAM User Guide. This parameter is optional. If it is not included, it
+  defaults to a slash (/). This parameter allows (through its regex pattern) a string of
+  characters consisting of either a forward slash (/) by itself or a string that must begin
+  and end with forward slashes. In addition, it can contain any ASCII character from the !
+  (u0021) through the DEL character (u007F), including most punctuation characters, digits,
+  and upper and lowercased letters.
+- `"Tags"`: A list of tags that you want to attach to the new IAM virtual MFA device. Each
+  tag consists of a key name and an associated value. For more information about tagging, see
+  Tagging IAM resources in the IAM User Guide.  If any one of the tags is invalid or if you
+  exceed the allowed maximum number of tags, then the entire request fails and the resource
+  is not created.
 """
 create_virtual_mfadevice(VirtualMFADeviceName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateVirtualMFADevice", Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName); aws_config=aws_config)
-create_virtual_mfadevice(VirtualMFADeviceName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName), args)); aws_config=aws_config)
+create_virtual_mfadevice(VirtualMFADeviceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName), params)); aws_config=aws_config)
 
 """
-    DeactivateMFADevice()
+    deactivate_mfadevice(serial_number, user_name)
+    deactivate_mfadevice(serial_number, user_name, params::Dict{String,<:Any})
 
-Deactivates the specified MFA device and removes it from association with the user name for which it was originally enabled. For more information about creating and working with virtual MFA devices, go to Enabling a Virtual Multi-factor Authentication (MFA) Device in the IAM User Guide.
+Deactivates the specified MFA device and removes it from association with the user name for
+which it was originally enabled. For more information about creating and working with
+virtual MFA devices, see Enabling a virtual multi-factor authentication (MFA) device in the
+IAM User Guide.
 
-# Required Parameters
-- `SerialNumber`: The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
-- `UserName`: The name of the user whose MFA device you want to deactivate. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `serial_number`: The serial number that uniquely identifies the MFA device. For virtual
+  MFA devices, the serial number is the device ARN. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: =,.@:/-
+- `user_name`: The name of the user whose MFA device you want to deactivate. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 deactivate_mfadevice(SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeactivateMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
-deactivate_mfadevice(SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeactivateMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws_config=aws_config)
+deactivate_mfadevice(SerialNumber, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeactivateMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    DeleteAccessKey()
+    delete_access_key(access_key_id)
+    delete_access_key(access_key_id, params::Dict{String,<:Any})
 
-Deletes the access key pair associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. This operation works for access keys under the AWS account. Consequently, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
+Deletes the access key pair associated with the specified IAM user. If you do not specify a
+user name, IAM determines the user name implicitly based on the AWS access key ID signing
+the request. This operation works for access keys under the AWS account. Consequently, you
+can use this operation to manage AWS account root user credentials even if the AWS account
+has no associated users.
 
-# Required Parameters
-- `AccessKeyId`: The access key ID for the access key ID and secret access key you want to delete. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+# Arguments
+- `access_key_id`: The access key ID for the access key ID and secret access key you want
+  to delete. This parameter allows (through its regex pattern) a string of characters that
+  can consist of any upper or lowercased letter or digit.
 
 # Optional Parameters
-- `UserName`: The name of the user whose access key pair you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the user whose access key pair you want to delete. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 """
 delete_access_key(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccessKey", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
-delete_access_key(AccessKeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws_config=aws_config)
+delete_access_key(AccessKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config)
 
 """
-    DeleteAccountAlias()
+    delete_account_alias(account_alias)
+    delete_account_alias(account_alias, params::Dict{String,<:Any})
 
- Deletes the specified AWS account alias. For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide.
+ Deletes the specified AWS account alias. For information about using an AWS account alias,
+see Using an alias for your AWS account ID in the IAM User Guide.
 
-# Required Parameters
-- `AccountAlias`: The name of the account alias to delete. This parameter allows (through its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
+# Arguments
+- `account_alias`: The name of the account alias to delete. This parameter allows (through
+  its regex pattern) a string of characters consisting of lowercase letters, digits, and
+  dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
 
 """
 delete_account_alias(AccountAlias; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountAlias", Dict{String, Any}("AccountAlias"=>AccountAlias); aws_config=aws_config)
-delete_account_alias(AccountAlias, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), args)); aws_config=aws_config)
+delete_account_alias(AccountAlias, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config)
 
 """
-    DeleteAccountPasswordPolicy()
+    delete_account_password_policy()
+    delete_account_password_policy(params::Dict{String,<:Any})
 
 Deletes the password policy for the AWS account. There are no parameters.
 
 """
 delete_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountPasswordPolicy"; aws_config=aws_config)
-delete_account_password_policy(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountPasswordPolicy", args; aws_config=aws_config)
+delete_account_password_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountPasswordPolicy", params; aws_config=aws_config)
 
 """
-    DeleteGroup()
+    delete_group(group_name)
+    delete_group(group_name, params::Dict{String,<:Any})
 
-Deletes the specified IAM group. The group must not contain any users or have any attached policies.
+Deletes the specified IAM group. The group must not contain any users or have any attached
+policies.
 
-# Required Parameters
-- `GroupName`: The name of the IAM group to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name of the IAM group to delete. This parameter allows (through its
+  regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 delete_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-delete_group(GroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
+delete_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
-    DeleteGroupPolicy()
+    delete_group_policy(group_name, policy_name)
+    delete_group_policy(group_name, policy_name, params::Dict{String,<:Any})
 
-Deletes the specified inline policy that is embedded in the specified IAM group. A group can also have managed policies attached to it. To detach a managed policy from a group, use DetachGroupPolicy. For more information about policies, refer to Managed Policies and Inline Policies in the IAM User Guide.
+Deletes the specified inline policy that is embedded in the specified IAM group. A group
+can also have managed policies attached to it. To detach a managed policy from a group, use
+DetachGroupPolicy. For more information about policies, refer to Managed policies and
+inline policies in the IAM User Guide.
 
-# Required Parameters
-- `GroupName`: The name (friendly name, not ARN) identifying the group that the policy is embedded in. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `PolicyName`: The name identifying the policy document to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name (friendly name, not ARN) identifying the group that the policy is
+  embedded in. This parameter allows (through its regex pattern) a string of characters
+  consisting of upper and lowercase alphanumeric characters with no spaces. You can also
+  include any of the following characters: _+=,.@-
+- `policy_name`: The name identifying the policy document to delete. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 delete_group_policy(GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName); aws_config=aws_config)
-delete_group_policy(GroupName, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
+delete_group_policy(GroupName, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    DeleteInstanceProfile()
+    delete_instance_profile(instance_profile_name)
+    delete_instance_profile(instance_profile_name, params::Dict{String,<:Any})
 
-Deletes the specified instance profile. The instance profile must not have an associated role.  Make sure that you do not have any Amazon EC2 instances running with the instance profile you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance.  For more information about instance profiles, go to About Instance Profiles.
+Deletes the specified instance profile. The instance profile must not have an associated
+role.  Make sure that you do not have any Amazon EC2 instances running with the instance
+profile you are about to delete. Deleting a role or instance profile that is associated
+with a running instance will break any applications running on the instance.  For more
+information about instance profiles, see About instance profiles.
 
-# Required Parameters
-- `InstanceProfileName`: The name of the instance profile to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `instance_profile_name`: The name of the instance profile to delete. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 delete_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
-delete_instance_profile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws_config=aws_config)
+delete_instance_profile(InstanceProfileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
 
 """
-    DeleteLoginProfile()
+    delete_login_profile(user_name)
+    delete_login_profile(user_name, params::Dict{String,<:Any})
 
-Deletes the password for the specified IAM user, which terminates the user's ability to access AWS services through the AWS Management Console.   Deleting a user's password does not prevent a user from accessing AWS through the command line interface or the API. To prevent all user access, you must also either make any access keys inactive or delete them. For more information about making keys inactive or deleting them, see UpdateAccessKey and DeleteAccessKey.  
+Deletes the password for the specified IAM user, which terminates the user's ability to
+access AWS services through the AWS Management Console. You can use the AWS CLI, the AWS
+API, or the Users page in the IAM console to delete a password for any IAM user. You can
+use ChangePassword to update, but not delete, your own password in the My Security
+Credentials page in the AWS Management Console.   Deleting a user's password does not
+prevent a user from accessing AWS through the command line interface or the API. To prevent
+all user access, you must also either make any access keys inactive or delete them. For
+more information about making keys inactive or deleting them, see UpdateAccessKey and
+DeleteAccessKey.
 
-# Required Parameters
-- `UserName`: The name of the user whose password you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `user_name`: The name of the user whose password you want to delete. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 delete_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-delete_login_profile(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+delete_login_profile(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    DeleteOpenIDConnectProvider()
+    delete_open_idconnect_provider(open_idconnect_provider_arn)
+    delete_open_idconnect_provider(open_idconnect_provider_arn, params::Dict{String,<:Any})
 
-Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting an IAM OIDC provider resource does not update any roles that reference the provider as a principal in their trust policies. Any attempt to assume a role that references a deleted provider fails. This operation is idempotent; it does not fail or return an error if you call the operation for a provider that does not exist.
+Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleting an IAM
+OIDC provider resource does not update any roles that reference the provider as a principal
+in their trust policies. Any attempt to assume a role that references a deleted provider
+fails. This operation is idempotent; it does not fail or return an error if you call the
+operation for a provider that does not exist.
 
-# Required Parameters
-- `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders operation.
+# Arguments
+- `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect
+  provider resource object to delete. You can get a list of OpenID Connect provider resource
+  ARNs by using the ListOpenIDConnectProviders operation.
 
 """
 delete_open_idconnect_provider(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-delete_open_idconnect_provider(OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws_config=aws_config)
+delete_open_idconnect_provider(OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
-    DeletePolicy()
+    delete_policy(policy_arn)
+    delete_policy(policy_arn, params::Dict{String,<:Any})
 
-Deletes the specified managed policy. Before you can delete a managed policy, you must first detach the policy from all users, groups, and roles that it is attached to. In addition, you must delete all the policy's versions. The following steps describe the process for deleting a managed policy:   Detach the policy from all users, groups, and roles that the policy is attached to, using the DetachUserPolicy, DetachGroupPolicy, or DetachRolePolicy API operations. To list all the users, groups, and roles that a policy is attached to, use ListEntitiesForPolicy.   Delete all versions of the policy using DeletePolicyVersion. To list the policy's versions, use ListPolicyVersions. You cannot use DeletePolicyVersion to delete the version that is marked as the default version. You delete the policy's default version in the next step of the process.   Delete the policy (this automatically deletes the policy's default version) using this API.   For information about managed policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Deletes the specified managed policy. Before you can delete a managed policy, you must
+first detach the policy from all users, groups, and roles that it is attached to. In
+addition, you must delete all the policy's versions. The following steps describe the
+process for deleting a managed policy:   Detach the policy from all users, groups, and
+roles that the policy is attached to, using DetachUserPolicy, DetachGroupPolicy, or
+DetachRolePolicy. To list all the users, groups, and roles that a policy is attached to,
+use ListEntitiesForPolicy.   Delete all versions of the policy using DeletePolicyVersion.
+To list the policy's versions, use ListPolicyVersions. You cannot use DeletePolicyVersion
+to delete the version that is marked as the default version. You delete the policy's
+default version in the next step of the process.   Delete the policy (this automatically
+deletes the policy's default version) using this operation.   For information about managed
+policies, see Managed policies and inline policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to delete. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 delete_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-delete_policy(PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
+delete_policy(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
-    DeletePolicyVersion()
+    delete_policy_version(policy_arn, version_id)
+    delete_policy_version(policy_arn, version_id, params::Dict{String,<:Any})
 
-Deletes the specified version from the specified managed policy. You cannot delete the default version from a policy using this API. To delete the default version from a policy, use DeletePolicy. To find out which version of a policy is marked as the default version, use ListPolicyVersions. For information about versions for managed policies, see Versioning for Managed Policies in the IAM User Guide.
+Deletes the specified version from the specified managed policy. You cannot delete the
+default version from a policy using this operation. To delete the default version from a
+policy, use DeletePolicy. To find out which version of a policy is marked as the default
+version, use ListPolicyVersions. For information about versions for managed policies, see
+Versioning for managed policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy from which you want to delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `VersionId`: The policy version to delete. This parameter allows (through its regex pattern) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy from which you want to
+  delete a version. For more information about ARNs, see Amazon Resource Names (ARNs) in the
+  AWS General Reference.
+- `version_id`: The policy version to delete. This parameter allows (through its regex
+  pattern) a string of characters that consists of the lowercase letter 'v' followed by one
+  or two digits, and optionally followed by a period '.' and a string of letters and digits.
+  For more information about managed policy versions, see Versioning for managed policies in
+  the IAM User Guide.
 
 """
 delete_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
-delete_policy_version(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws_config=aws_config)
+delete_policy_version(PolicyArn, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
 
 """
-    DeleteRole()
+    delete_role(role_name)
+    delete_role(role_name, params::Dict{String,<:Any})
 
-Deletes the specified role. The role must not have any policies attached. For more information about roles, go to Working with Roles.  Make sure that you do not have any Amazon EC2 instances running with the role you are about to delete. Deleting a role or instance profile that is associated with a running instance will break any applications running on the instance. 
+Deletes the specified role. The role must not have any policies attached. For more
+information about roles, see Working with roles.  Make sure that you do not have any Amazon
+EC2 instances running with the role you are about to delete. Deleting a role or instance
+profile that is associated with a running instance will break any applications running on
+the instance.
 
-# Required Parameters
-- `RoleName`: The name of the role to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `role_name`: The name of the role to delete. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 delete_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-delete_role(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+delete_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    DeleteRolePermissionsBoundary()
+    delete_role_permissions_boundary(role_name)
+    delete_role_permissions_boundary(role_name, params::Dict{String,<:Any})
 
-Deletes the permissions boundary for the specified IAM role.   Deleting the permissions boundary for a role might increase its permissions. For example, it might allow anyone who assumes the role to perform all the actions granted in its permissions policies.  
+Deletes the permissions boundary for the specified IAM role.   Deleting the permissions
+boundary for a role might increase its permissions. For example, it might allow anyone who
+assumes the role to perform all the actions granted in its permissions policies.
 
-# Required Parameters
-- `RoleName`: The name (friendly name, not ARN) of the IAM role from which you want to remove the permissions boundary.
+# Arguments
+- `role_name`: The name (friendly name, not ARN) of the IAM role from which you want to
+  remove the permissions boundary.
 
 """
 delete_role_permissions_boundary(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-delete_role_permissions_boundary(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+delete_role_permissions_boundary(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    DeleteRolePolicy()
+    delete_role_policy(policy_name, role_name)
+    delete_role_policy(policy_name, role_name, params::Dict{String,<:Any})
 
-Deletes the specified inline policy that is embedded in the specified IAM role. A role can also have managed policies attached to it. To detach a managed policy from a role, use DetachRolePolicy. For more information about policies, refer to Managed Policies and Inline Policies in the IAM User Guide.
+Deletes the specified inline policy that is embedded in the specified IAM role. A role can
+also have managed policies attached to it. To detach a managed policy from a role, use
+DetachRolePolicy. For more information about policies, refer to Managed policies and inline
+policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyName`: The name of the inline policy to delete from the specified IAM role. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `RoleName`: The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_name`: The name of the inline policy to delete from the specified IAM role. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+- `role_name`: The name (friendly name, not ARN) identifying the role that the policy is
+  embedded in. This parameter allows (through its regex pattern) a string of characters
+  consisting of upper and lowercase alphanumeric characters with no spaces. You can also
+  include any of the following characters: _+=,.@-
 
 """
 delete_role_policy(PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePolicy", Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
-delete_role_policy(PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws_config=aws_config)
+delete_role_policy(PolicyName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    DeleteSAMLProvider()
+    delete_samlprovider(samlprovider_arn)
+    delete_samlprovider(samlprovider_arn, params::Dict{String,<:Any})
 
-Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not update any roles that reference the SAML provider resource's ARN as a principal in their trust policies. Any attempt to assume a role that references a non-existent provider resource ARN fails.   This operation requires Signature Version 4. 
+Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM does not
+update any roles that reference the SAML provider resource's ARN as a principal in their
+trust policies. Any attempt to assume a role that references a non-existent provider
+resource ARN fails.   This operation requires Signature Version 4.
 
-# Required Parameters
-- `SAMLProviderArn`: The Amazon Resource Name (ARN) of the SAML provider to delete.
+# Arguments
+- `samlprovider_arn`: The Amazon Resource Name (ARN) of the SAML provider to delete.
 
 """
 delete_samlprovider(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
-delete_samlprovider(SAMLProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), args)); aws_config=aws_config)
+delete_samlprovider(SAMLProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
 
 """
-    DeleteSSHPublicKey()
+    delete_server_certificate(server_certificate_name)
+    delete_server_certificate(server_certificate_name, params::Dict{String,<:Any})
 
-Deletes the specified SSH public key. The SSH public key deleted by this operation is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide.
+Deletes the specified server certificate. For more information about working with server
+certificates, see Working with server certificates in the IAM User Guide. This topic also
+includes a list of AWS services that can use the server certificates that you manage with
+IAM.   If you are using a server certificate with Elastic Load Balancing, deleting the
+certificate could have implications for your application. If Elastic Load Balancing doesn't
+detect the deletion of bound certificates, it may continue to use the certificates. This
+could cause Elastic Load Balancing to stop accepting traffic. We recommend that you remove
+the reference to the certificate from Elastic Load Balancing before using this command to
+delete the certificate. For more information, see DeleteLoadBalancerListeners in the
+Elastic Load Balancing API Reference.
 
-# Required Parameters
-- `SSHPublicKeyId`: The unique identifier for the SSH public key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-- `UserName`: The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-
-"""
-delete_sshpublic_key(SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
-delete_sshpublic_key(SSHPublicKeyId, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), args)); aws_config=aws_config)
-
-"""
-    DeleteServerCertificate()
-
-Deletes the specified server certificate. For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide. This topic also includes a list of AWS services that can use the server certificates that you manage with IAM.   If you are using a server certificate with Elastic Load Balancing, deleting the certificate could have implications for your application. If Elastic Load Balancing doesn't detect the deletion of bound certificates, it may continue to use the certificates. This could cause Elastic Load Balancing to stop accepting traffic. We recommend that you remove the reference to the certificate from Elastic Load Balancing before using this command to delete the certificate. For more information, go to DeleteLoadBalancerListeners in the Elastic Load Balancing API Reference. 
-
-# Required Parameters
-- `ServerCertificateName`: The name of the server certificate you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `server_certificate_name`: The name of the server certificate you want to delete. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 delete_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-delete_server_certificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws_config=aws_config)
+delete_server_certificate(ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
 
 """
-    DeleteServiceLinkedRole()
+    delete_service_linked_role(role_name)
+    delete_service_linked_role(role_name, params::Dict{String,<:Any})
 
-Submits a service-linked role deletion request and returns a DeletionTaskId, which you can use to check the status of the deletion. Before you call this operation, confirm that the role has no active sessions and that any resources used by the role in the linked service are deleted. If you call this operation more than once for the same service-linked role and an earlier deletion task is not complete, then the DeletionTaskId of the earlier request is returned. If you submit a deletion request for a service-linked role whose linked service is still accessing a resource, then the deletion task fails. If it fails, the GetServiceLinkedRoleDeletionStatus API operation returns the reason for the failure, usually including the resources that must be deleted. To delete the service-linked role, you must first remove those resources from the linked service and then submit the deletion request again. Resources are specific to the service that is linked to the role. For more information about removing resources from a service, see the AWS documentation for your service. For more information about service-linked roles, see Roles Terms and Concepts: AWS Service-Linked Role in the IAM User Guide.
+Submits a service-linked role deletion request and returns a DeletionTaskId, which you can
+use to check the status of the deletion. Before you call this operation, confirm that the
+role has no active sessions and that any resources used by the role in the linked service
+are deleted. If you call this operation more than once for the same service-linked role and
+an earlier deletion task is not complete, then the DeletionTaskId of the earlier request is
+returned. If you submit a deletion request for a service-linked role whose linked service
+is still accessing a resource, then the deletion task fails. If it fails, the
+GetServiceLinkedRoleDeletionStatus operation returns the reason for the failure, usually
+including the resources that must be deleted. To delete the service-linked role, you must
+first remove those resources from the linked service and then submit the deletion request
+again. Resources are specific to the service that is linked to the role. For more
+information about removing resources from a service, see the AWS documentation for your
+service. For more information about service-linked roles, see Roles terms and concepts: AWS
+service-linked role in the IAM User Guide.
 
-# Required Parameters
-- `RoleName`: The name of the service-linked role to be deleted.
+# Arguments
+- `role_name`: The name of the service-linked role to be deleted.
 
 """
 delete_service_linked_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceLinkedRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-delete_service_linked_role(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+delete_service_linked_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    DeleteServiceSpecificCredential()
+    delete_service_specific_credential(service_specific_credential_id)
+    delete_service_specific_credential(service_specific_credential_id, params::Dict{String,<:Any})
 
 Deletes the specified service-specific credential.
 
-# Required Parameters
-- `ServiceSpecificCredentialId`: The unique identifier of the service-specific credential. You can get this value by calling ListServiceSpecificCredentials. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+# Arguments
+- `service_specific_credential_id`: The unique identifier of the service-specific
+  credential. You can get this value by calling ListServiceSpecificCredentials. This
+  parameter allows (through its regex pattern) a string of characters that can consist of any
+  upper or lowercased letter or digit.
 
 # Optional Parameters
-- `UserName`: The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the IAM user associated with the service-specific credential.
+  If this value is not specified, then the operation assumes the user whose credentials are
+  used to call the operation. This parameter allows (through its regex pattern) a string of
+  characters consisting of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: _+=,.@-
 """
 delete_service_specific_credential(ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId); aws_config=aws_config)
-delete_service_specific_credential(ServiceSpecificCredentialId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), args)); aws_config=aws_config)
+delete_service_specific_credential(ServiceSpecificCredentialId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config)
 
 """
-    DeleteSigningCertificate()
+    delete_signing_certificate(certificate_id)
+    delete_signing_certificate(certificate_id, params::Dict{String,<:Any})
 
-Deletes a signing certificate associated with the specified IAM user. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request. This operation works for access keys under the AWS account. Consequently, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated IAM users.
+Deletes a signing certificate associated with the specified IAM user. If you do not specify
+a user name, IAM determines the user name implicitly based on the AWS access key ID signing
+the request. This operation works for access keys under the AWS account. Consequently, you
+can use this operation to manage AWS account root user credentials even if the AWS account
+has no associated IAM users.
 
-# Required Parameters
-- `CertificateId`: The ID of the signing certificate to delete. The format of this parameter, as described by its regex pattern, is a string of characters that can be upper- or lower-cased letters or digits.
+# Arguments
+- `certificate_id`: The ID of the signing certificate to delete. The format of this
+  parameter, as described by its regex pattern, is a string of characters that can be upper-
+  or lower-cased letters or digits.
 
 # Optional Parameters
-- `UserName`: The name of the user the signing certificate belongs to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the user the signing certificate belongs to. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 """
 delete_signing_certificate(CertificateId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId); aws_config=aws_config)
-delete_signing_certificate(CertificateId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), args)); aws_config=aws_config)
+delete_signing_certificate(CertificateId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), params)); aws_config=aws_config)
 
 """
-    DeleteUser()
+    delete_sshpublic_key(sshpublic_key_id, user_name)
+    delete_sshpublic_key(sshpublic_key_id, user_name, params::Dict{String,<:Any})
 
-Deletes the specified IAM user. Unlike the AWS Management Console, when you delete a user programmatically, you must delete the items attached to the user manually, or the deletion fails. For more information, see Deleting an IAM User. Before attempting to delete a user, remove the following items:   Password (DeleteLoginProfile)   Access keys (DeleteAccessKey)   Signing certificate (DeleteSigningCertificate)   SSH public key (DeleteSSHPublicKey)   Git credentials (DeleteServiceSpecificCredential)   Multi-factor authentication (MFA) device (DeactivateMFADevice, DeleteVirtualMFADevice)   Inline policies (DeleteUserPolicy)   Attached managed policies (DetachUserPolicy)   Group memberships (RemoveUserFromGroup)  
+Deletes the specified SSH public key. The SSH public key deleted by this operation is used
+only for authenticating the associated IAM user to an AWS CodeCommit repository. For more
+information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set
+up AWS CodeCommit for SSH connections in the AWS CodeCommit User Guide.
 
-# Required Parameters
-- `UserName`: The name of the user to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `sshpublic_key_id`: The unique identifier for the SSH public key. This parameter allows
+  (through its regex pattern) a string of characters that can consist of any upper or
+  lowercased letter or digit.
+- `user_name`: The name of the IAM user associated with the SSH public key. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+
+"""
+delete_sshpublic_key(SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
+delete_sshpublic_key(SSHPublicKeyId, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config)
+
+"""
+    delete_user(user_name)
+    delete_user(user_name, params::Dict{String,<:Any})
+
+Deletes the specified IAM user. Unlike the AWS Management Console, when you delete a user
+programmatically, you must delete the items attached to the user manually, or the deletion
+fails. For more information, see Deleting an IAM user. Before attempting to delete a user,
+remove the following items:   Password (DeleteLoginProfile)   Access keys (DeleteAccessKey)
+  Signing certificate (DeleteSigningCertificate)   SSH public key (DeleteSSHPublicKey)
+Git credentials (DeleteServiceSpecificCredential)   Multi-factor authentication (MFA)
+device (DeactivateMFADevice, DeleteVirtualMFADevice)   Inline policies (DeleteUserPolicy)
+Attached managed policies (DetachUserPolicy)   Group memberships (RemoveUserFromGroup)
+
+# Arguments
+- `user_name`: The name of the user to delete. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 delete_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-delete_user(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+delete_user(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    DeleteUserPermissionsBoundary()
+    delete_user_permissions_boundary(user_name)
+    delete_user_permissions_boundary(user_name, params::Dict{String,<:Any})
 
-Deletes the permissions boundary for the specified IAM user.  Deleting the permissions boundary for a user might increase its permissions by allowing the user to perform all the actions granted in its permissions policies.  
+Deletes the permissions boundary for the specified IAM user.  Deleting the permissions
+boundary for a user might increase its permissions by allowing the user to perform all the
+actions granted in its permissions policies.
 
-# Required Parameters
-- `UserName`: The name (friendly name, not ARN) of the IAM user from which you want to remove the permissions boundary.
+# Arguments
+- `user_name`: The name (friendly name, not ARN) of the IAM user from which you want to
+  remove the permissions boundary.
 
 """
 delete_user_permissions_boundary(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-delete_user_permissions_boundary(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+delete_user_permissions_boundary(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    DeleteUserPolicy()
+    delete_user_policy(policy_name, user_name)
+    delete_user_policy(policy_name, user_name, params::Dict{String,<:Any})
 
-Deletes the specified inline policy that is embedded in the specified IAM user. A user can also have managed policies attached to it. To detach a managed policy from a user, use DetachUserPolicy. For more information about policies, refer to Managed Policies and Inline Policies in the IAM User Guide.
+Deletes the specified inline policy that is embedded in the specified IAM user. A user can
+also have managed policies attached to it. To detach a managed policy from a user, use
+DetachUserPolicy. For more information about policies, refer to Managed policies and inline
+policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyName`: The name identifying the policy document to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `UserName`: The name (friendly name, not ARN) identifying the user that the policy is embedded in. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_name`: The name identifying the policy document to delete. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+- `user_name`: The name (friendly name, not ARN) identifying the user that the policy is
+  embedded in. This parameter allows (through its regex pattern) a string of characters
+  consisting of upper and lowercase alphanumeric characters with no spaces. You can also
+  include any of the following characters: _+=,.@-
 
 """
 delete_user_policy(PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
-delete_user_policy(PolicyName, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws_config=aws_config)
+delete_user_policy(PolicyName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    DeleteVirtualMFADevice()
+    delete_virtual_mfadevice(serial_number)
+    delete_virtual_mfadevice(serial_number, params::Dict{String,<:Any})
 
-Deletes a virtual MFA device.   You must deactivate a user's virtual MFA device before you can delete it. For information about deactivating MFA devices, see DeactivateMFADevice.  
+Deletes a virtual MFA device.   You must deactivate a user's virtual MFA device before you
+can delete it. For information about deactivating MFA devices, see DeactivateMFADevice.
 
-# Required Parameters
-- `SerialNumber`: The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
+# Arguments
+- `serial_number`: The serial number that uniquely identifies the MFA device. For virtual
+  MFA devices, the serial number is the same as the ARN. This parameter allows (through its
+  regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: =,.@:/-
 
 """
 delete_virtual_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteVirtualMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber); aws_config=aws_config)
-delete_virtual_mfadevice(SerialNumber, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), args)); aws_config=aws_config)
+delete_virtual_mfadevice(SerialNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config)
 
 """
-    DetachGroupPolicy()
+    detach_group_policy(group_name, policy_arn)
+    detach_group_policy(group_name, policy_arn, params::Dict{String,<:Any})
 
-Removes the specified managed policy from the specified IAM group. A group can also have inline policies embedded with it. To delete an inline policy, use the DeleteGroupPolicy API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Removes the specified managed policy from the specified IAM group. A group can also have
+inline policies embedded with it. To delete an inline policy, use DeleteGroupPolicy. For
+information about policies, see Managed policies and inline policies in the IAM User Guide.
 
-# Required Parameters
-- `GroupName`: The name (friendly name, not ARN) of the IAM group to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `group_name`: The name (friendly name, not ARN) of the IAM group to detach the policy
+  from. This parameter allows (through its regex pattern) a string of characters consisting
+  of upper and lowercase alphanumeric characters with no spaces. You can also include any of
+  the following characters: _+=,.@-
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to detach. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 detach_group_policy(GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn); aws_config=aws_config)
-detach_group_policy(GroupName, PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
+detach_group_policy(GroupName, PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
-    DetachRolePolicy()
+    detach_role_policy(policy_arn, role_name)
+    detach_role_policy(policy_arn, role_name, params::Dict{String,<:Any})
 
-Removes the specified managed policy from the specified role. A role can also have inline policies embedded with it. To delete an inline policy, use the DeleteRolePolicy API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Removes the specified managed policy from the specified role. A role can also have inline
+policies embedded with it. To delete an inline policy, use DeleteRolePolicy. For
+information about policies, see Managed policies and inline policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `RoleName`: The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to detach. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+- `role_name`: The name (friendly name, not ARN) of the IAM role to detach the policy from.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
 
 """
 detach_role_policy(PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachRolePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName); aws_config=aws_config)
-detach_role_policy(PolicyArn, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), args)); aws_config=aws_config)
+detach_role_policy(PolicyArn, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    DetachUserPolicy()
+    detach_user_policy(policy_arn, user_name)
+    detach_user_policy(policy_arn, user_name, params::Dict{String,<:Any})
 
-Removes the specified managed policy from the specified user. A user can also have inline policies embedded with it. To delete an inline policy, use the DeleteUserPolicy API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Removes the specified managed policy from the specified user. A user can also have inline
+policies embedded with it. To delete an inline policy, use DeleteUserPolicy. For
+information about policies, see Managed policies and inline policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `UserName`: The name (friendly name, not ARN) of the IAM user to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to detach. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+- `user_name`: The name (friendly name, not ARN) of the IAM user to detach the policy from.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
 
 """
 detach_user_policy(PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachUserPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName); aws_config=aws_config)
-detach_user_policy(PolicyArn, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), args)); aws_config=aws_config)
+detach_user_policy(PolicyArn, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    EnableMFADevice()
+    enable_mfadevice(authentication_code1, authentication_code2, serial_number, user_name)
+    enable_mfadevice(authentication_code1, authentication_code2, serial_number, user_name, params::Dict{String,<:Any})
 
-Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
+Enables the specified MFA device and associates it with the specified IAM user. When
+enabled, the MFA device is required for every subsequent login by the IAM user associated
+with the device.
 
-# Required Parameters
-- `AuthenticationCode1`: An authentication code emitted by the device.  The format for this parameter is a string of six digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
-- `AuthenticationCode2`: A subsequent authentication code emitted by the device. The format for this parameter is a string of six digits.  Submit your request immediately after generating the authentication codes. If you generate the codes and then wait too long to submit the request, the MFA device successfully associates with the user but the MFA device becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after a short period of time. If this happens, you can resync the device. 
-- `SerialNumber`: The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the device ARN. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
-- `UserName`: The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `authentication_code1`: An authentication code emitted by the device.  The format for
+  this parameter is a string of six digits.  Submit your request immediately after generating
+  the authentication codes. If you generate the codes and then wait too long to submit the
+  request, the MFA device successfully associates with the user but the MFA device becomes
+  out of sync. This happens because time-based one-time passwords (TOTP) expire after a short
+  period of time. If this happens, you can resync the device.
+- `authentication_code2`: A subsequent authentication code emitted by the device. The
+  format for this parameter is a string of six digits.  Submit your request immediately after
+  generating the authentication codes. If you generate the codes and then wait too long to
+  submit the request, the MFA device successfully associates with the user but the MFA device
+  becomes out of sync. This happens because time-based one-time passwords (TOTP) expire after
+  a short period of time. If this happens, you can resync the device.
+- `serial_number`: The serial number that uniquely identifies the MFA device. For virtual
+  MFA devices, the serial number is the device ARN. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: =,.@:/-
+- `user_name`: The name of the IAM user for whom you want to enable the MFA device. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 enable_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("EnableMFADevice", Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
-enable_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("EnableMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws_config=aws_config)
+enable_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("EnableMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    GenerateCredentialReport()
+    generate_credential_report()
+    generate_credential_report(params::Dict{String,<:Any})
 
- Generates a credential report for the AWS account. For more information about the credential report, see Getting Credential Reports in the IAM User Guide.
+ Generates a credential report for the AWS account. For more information about the
+credential report, see Getting credential reports in the IAM User Guide.
 
 """
 generate_credential_report(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateCredentialReport"; aws_config=aws_config)
-generate_credential_report(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateCredentialReport", args; aws_config=aws_config)
+generate_credential_report(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateCredentialReport", params; aws_config=aws_config)
 
 """
-    GenerateOrganizationsAccessReport()
+    generate_organizations_access_report(entity_path)
+    generate_organizations_access_report(entity_path, params::Dict{String,<:Any})
 
-Generates a report for service last accessed data for AWS Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your AWS Organizations master account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and AWS Organizations permissions. For more information, see Refining Permissions Using Service Last Accessed Data in the IAM User Guide. You can generate a service last accessed data report for entities by specifying only the entity's path. This data includes a list of services that are allowed by any service control policies (SCPs) that apply to the entity. You can generate a service last accessed data report for a policy by specifying an entity's path and an optional AWS Organizations policy ID. This data includes a list of services that are allowed by the specified SCP. For each service in both report types, the data includes the most recent account activity that the policy allows to account principals in the entity or the entity's children. For important information about the data, reporting period, permissions required, troubleshooting, and supported Regions see Reducing Permissions Using Service Last Accessed Data in the IAM User Guide.  The data includes all attempts to access AWS, not just the successful ones. This includes all attempts that were made using the AWS Management Console, the AWS API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that an account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM Events with CloudTrail in the IAM User Guide.  This operation returns a JobId. Use this parameter in the  GetOrganizationsAccessReport  operation to check the status of the report generation. To check the status of this request, use the JobId parameter in the  GetOrganizationsAccessReport  operation and test the JobStatus response parameter. When the job is complete, you can retrieve the report. To generate a service last accessed data report for entities, specify an entity path without specifying the optional AWS Organizations policy ID. The type of entity that you specify determines the data returned in the report.    Root – When you specify the organizations root as the entity, the resulting report lists all of the services allowed by SCPs that are attached to your root. For each service, the report includes data for all accounts in your organization except the master account, because the master account is not limited by SCPs.    OU – When you specify an organizational unit (OU) as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the OU and its parents. For each service, the report includes data for all accounts in the OU or its children. This data excludes the master account, because the master account is not limited by SCPs.    Master account – When you specify the master account, the resulting report lists all AWS services, because the master account is not limited by SCPs. For each service, the report includes data for only the master account.    Account – When you specify another account as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the account and its parents. For each service, the report includes data for only the specified account.   To generate a service last accessed data report for policies, specify an entity path and the optional AWS Organizations policy ID. The type of entity that you specify determines the data returned for each service.    Root – When you specify the root entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in your organization to which the SCP applies. This data excludes the master account, because the master account is not limited by SCPs. If the SCP is not attached to any entities in the organization, then the report will return a list of services with no data.    OU – When you specify an OU entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in the OU or its children to which the SCP applies. This means that other accounts outside the OU that are affected by the SCP might not be included in the data. This data excludes the master account, because the master account is not limited by SCPs. If the SCP is not attached to the OU or one of its children, the report will return a list of services with no data.    Master account – When you specify the master account, the resulting report lists all AWS services, because the master account is not limited by SCPs. If you specify a policy ID in the CLI or API, the policy is ignored. For each service, the report includes data for only the master account.    Account – When you specify another account entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for only the specified account. This means that other accounts in the organization that are affected by the SCP might not be included in the data. If the SCP is not attached to the account, the report will return a list of services with no data.    Service last accessed data does not use other policy types when determining whether a principal could access a service. These other policy types include identity-based policies, resource-based policies, access control lists, IAM permissions boundaries, and STS assume role policies. It only applies SCP logic. For more about the evaluation of policy types, see Evaluating Policies in the IAM User Guide.  For more information about service last accessed data, see Reducing Policy Scope by Viewing User Activity in the IAM User Guide.
+Generates a report for service last accessed data for AWS Organizations. You can generate a
+report for any entities (organization root, organizational unit, or account) or policies in
+your organization. To call this operation, you must be signed in using your AWS
+Organizations management account credentials. You can use your long-term IAM user or root
+user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled
+for your organization root. You must have the required IAM and AWS Organizations
+permissions. For more information, see Refining permissions using service last accessed
+data in the IAM User Guide. You can generate a service last accessed data report for
+entities by specifying only the entity's path. This data includes a list of services that
+are allowed by any service control policies (SCPs) that apply to the entity. You can
+generate a service last accessed data report for a policy by specifying an entity's path
+and an optional AWS Organizations policy ID. This data includes a list of services that are
+allowed by the specified SCP. For each service in both report types, the data includes the
+most recent account activity that the policy allows to account principals in the entity or
+the entity's children. For important information about the data, reporting period,
+permissions required, troubleshooting, and supported Regions see Reducing permissions using
+service last accessed data in the IAM User Guide.  The data includes all attempts to
+access AWS, not just the successful ones. This includes all attempts that were made using
+the AWS Management Console, the AWS API through any of the SDKs, or any of the command line
+tools. An unexpected entry in the service last accessed data does not mean that an account
+has been compromised, because the request might have been denied. Refer to your CloudTrail
+logs as the authoritative source for information about all API calls and whether they were
+successful or denied access. For more information, see Logging IAM events with CloudTrail
+in the IAM User Guide.  This operation returns a JobId. Use this parameter in the
+GetOrganizationsAccessReport  operation to check the status of the report generation. To
+check the status of this request, use the JobId parameter in the
+GetOrganizationsAccessReport  operation and test the JobStatus response parameter. When the
+job is complete, you can retrieve the report. To generate a service last accessed data
+report for entities, specify an entity path without specifying the optional AWS
+Organizations policy ID. The type of entity that you specify determines the data returned
+in the report.    Root – When you specify the organizations root as the entity, the
+resulting report lists all of the services allowed by SCPs that are attached to your root.
+For each service, the report includes data for all accounts in your organization except the
+management account, because the management account is not limited by SCPs.    OU – When
+you specify an organizational unit (OU) as the entity, the resulting report lists all of
+the services allowed by SCPs that are attached to the OU and its parents. For each service,
+the report includes data for all accounts in the OU or its children. This data excludes the
+management account, because the management account is not limited by SCPs.    management
+account – When you specify the management account, the resulting report lists all AWS
+services, because the management account is not limited by SCPs. For each service, the
+report includes data for only the management account.    Account – When you specify
+another account as the entity, the resulting report lists all of the services allowed by
+SCPs that are attached to the account and its parents. For each service, the report
+includes data for only the specified account.   To generate a service last accessed data
+report for policies, specify an entity path and the optional AWS Organizations policy ID.
+The type of entity that you specify determines the data returned for each service.    Root
+– When you specify the root entity and a policy ID, the resulting report lists all of the
+services that are allowed by the specified SCP. For each service, the report includes data
+for all accounts in your organization to which the SCP applies. This data excludes the
+management account, because the management account is not limited by SCPs. If the SCP is
+not attached to any entities in the organization, then the report will return a list of
+services with no data.    OU – When you specify an OU entity and a policy ID, the
+resulting report lists all of the services that are allowed by the specified SCP. For each
+service, the report includes data for all accounts in the OU or its children to which the
+SCP applies. This means that other accounts outside the OU that are affected by the SCP
+might not be included in the data. This data excludes the management account, because the
+management account is not limited by SCPs. If the SCP is not attached to the OU or one of
+its children, the report will return a list of services with no data.    management account
+– When you specify the management account, the resulting report lists all AWS services,
+because the management account is not limited by SCPs. If you specify a policy ID in the
+CLI or API, the policy is ignored. For each service, the report includes data for only the
+management account.    Account – When you specify another account entity and a policy ID,
+the resulting report lists all of the services that are allowed by the specified SCP. For
+each service, the report includes data for only the specified account. This means that
+other accounts in the organization that are affected by the SCP might not be included in
+the data. If the SCP is not attached to the account, the report will return a list of
+services with no data.    Service last accessed data does not use other policy types when
+determining whether a principal could access a service. These other policy types include
+identity-based policies, resource-based policies, access control lists, IAM permissions
+boundaries, and STS assume role policies. It only applies SCP logic. For more about the
+evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more
+information about service last accessed data, see Reducing policy scope by viewing user
+activity in the IAM User Guide.
 
-# Required Parameters
-- `EntityPath`: The path of the AWS Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde. The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5. Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012.
+# Arguments
+- `entity_path`: The path of the AWS Organizations entity (root, OU, or account). You can
+  build an entity path using the known structure of your organization. For example, assume
+  that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde. The
+  organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5. Your
+  entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012.
 
 # Optional Parameters
-- `OrganizationsPolicyId`: The identifier of the AWS Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account principal that is limited by the SCP attempted to access an AWS service.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OrganizationsPolicyId"`: The identifier of the AWS Organizations service control policy
+  (SCP). This parameter is optional. This ID is used to generate information about when an
+  account principal that is limited by the SCP attempted to access an AWS service.
 """
 generate_organizations_access_report(EntityPath; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}("EntityPath"=>EntityPath); aws_config=aws_config)
-generate_organizations_access_report(EntityPath, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityPath"=>EntityPath), args)); aws_config=aws_config)
+generate_organizations_access_report(EntityPath, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityPath"=>EntityPath), params)); aws_config=aws_config)
 
 """
-    GenerateServiceLastAccessedDetails()
+    generate_service_last_accessed_details(arn)
+    generate_service_last_accessed_details(arn, params::Dict{String,<:Any})
 
-Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access AWS services. Recent activity usually appears within four hours. IAM reports activity for the last 365 days, or less if your Region began supporting this feature within the last year. For more information, see Regions Where Data Is Tracked.  The service last accessed data includes all attempts to access an AWS API, not just the successful ones. This includes all attempts that were made using the AWS Management Console, the AWS API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that your account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM Events with CloudTrail in the IAM User Guide.  The GenerateServiceLastAccessedDetails operation returns a JobId. Use this parameter in the following operations to retrieve the following details from your report:     GetServiceLastAccessedDetails – Use this operation for users, groups, roles, or policies to list every AWS service that the resource could access using permissions policies. For each service, the response includes information about the most recent access attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.    GetServiceLastAccessedDetailsWithEntities – Use this operation for groups and policies to list information about the associated entities (users or roles) that attempted to access a specific AWS service.    To check the status of the GenerateServiceLastAccessedDetails request, use the JobId parameter in the same operations and test the JobStatus response parameter. For additional information about the permissions policies that allow an identity (user, group, or role) to access specific services, use the ListPoliciesGrantingServiceAccess operation.  Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, AWS Organizations policies, IAM permissions boundaries, and AWS STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating Policies in the IAM User Guide.  For more information about service and action last accessed data, see Reducing Permissions Using Service Last Accessed Data in the IAM User Guide.
+Generates a report that includes details about when an IAM resource (user, group, role, or
+policy) was last used in an attempt to access AWS services. Recent activity usually appears
+within four hours. IAM reports activity for the last 365 days, or less if your Region began
+supporting this feature within the last year. For more information, see Regions where data
+is tracked.  The service last accessed data includes all attempts to access an AWS API,
+not just the successful ones. This includes all attempts that were made using the AWS
+Management Console, the AWS API through any of the SDKs, or any of the command line tools.
+An unexpected entry in the service last accessed data does not mean that your account has
+been compromised, because the request might have been denied. Refer to your CloudTrail logs
+as the authoritative source for information about all API calls and whether they were
+successful or denied access. For more information, see Logging IAM events with CloudTrail
+in the IAM User Guide.  The GenerateServiceLastAccessedDetails operation returns a JobId.
+Use this parameter in the following operations to retrieve the following details from your
+report:     GetServiceLastAccessedDetails – Use this operation for users, groups, roles,
+or policies to list every AWS service that the resource could access using permissions
+policies. For each service, the response includes information about the most recent access
+attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same
+role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
+  GetServiceLastAccessedDetailsWithEntities – Use this operation for groups and policies
+to list information about the associated entities (users or roles) that attempted to access
+a specific AWS service.    To check the status of the GenerateServiceLastAccessedDetails
+request, use the JobId parameter in the same operations and test the JobStatus response
+parameter. For additional information about the permissions policies that allow an identity
+(user, group, or role) to access specific services, use the
+ListPoliciesGrantingServiceAccess operation.  Service last accessed data does not use other
+policy types when determining whether a resource could access a service. These other policy
+types include resource-based policies, access control lists, AWS Organizations policies,
+IAM permissions boundaries, and AWS STS assume role policies. It only applies permissions
+policy logic. For more about the evaluation of policy types, see Evaluating policies in the
+IAM User Guide.  For more information about service and action last accessed data, see
+Reducing permissions using service last accessed data in the IAM User Guide.
 
-# Required Parameters
-- `Arn`: The ARN of the IAM resource (user, group, role, or managed policy) used to generate information about when the resource was last used in an attempt to access an AWS service.
+# Arguments
+- `arn`: The ARN of the IAM resource (user, group, role, or managed policy) used to
+  generate information about when the resource was last used in an attempt to access an AWS
+  service.
 
 # Optional Parameters
-- `Granularity`: The level of detail that you want to generate. You can specify whether you want to generate information about the last attempt to access services or actions. If you specify service-level granularity, this operation generates only service data. If you specify action-level granularity, it generates service and action data. If you don't include this optional parameter, the operation generates service data.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Granularity"`: The level of detail that you want to generate. You can specify whether
+  you want to generate information about the last attempt to access services or actions. If
+  you specify service-level granularity, this operation generates only service data. If you
+  specify action-level granularity, it generates service and action data. If you don't
+  include this optional parameter, the operation generates service data.
 """
 generate_service_last_accessed_details(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-generate_service_last_accessed_details(Arn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
+generate_service_last_accessed_details(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
 
 """
-    GetAccessKeyLastUsed()
+    get_access_key_last_used(access_key_id)
+    get_access_key_last_used(access_key_id, params::Dict{String,<:Any})
 
-Retrieves information about when the specified access key was last used. The information includes the date and time of last use, along with the AWS service and Region that were specified in the last request made with that key.
+Retrieves information about when the specified access key was last used. The information
+includes the date and time of last use, along with the AWS service and Region that were
+specified in the last request made with that key.
 
-# Required Parameters
-- `AccessKeyId`: The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+# Arguments
+- `access_key_id`: The identifier of an access key. This parameter allows (through its
+  regex pattern) a string of characters that can consist of any upper or lowercased letter or
+  digit.
 
 """
 get_access_key_last_used(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccessKeyLastUsed", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
-get_access_key_last_used(AccessKeyId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccessKeyLastUsed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws_config=aws_config)
+get_access_key_last_used(AccessKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccessKeyLastUsed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config)
 
 """
-    GetAccountAuthorizationDetails()
+    get_account_authorization_details()
+    get_account_authorization_details(params::Dict{String,<:Any})
 
-Retrieves information about all IAM users, groups, roles, and policies in your AWS account, including their relationships to one another. Use this API to obtain a snapshot of the configuration of IAM permissions (users, groups, roles, and policies) in your account.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  You can optionally filter the results using the Filter parameter. You can paginate the results using the MaxItems and Marker parameters.
+Retrieves information about all IAM users, groups, roles, and policies in your AWS account,
+including their relationships to one another. Use this operation to obtain a snapshot of
+the configuration of IAM permissions (users, groups, roles, and policies) in your account.
+Policies returned by this operation are URL-encoded compliant with RFC 3986. You can use a
+URL decoding method to convert the policy back to plain JSON text. For example, if you use
+Java, you can use the decode method of the java.net.URLDecoder utility class in the Java
+SDK. Other languages and SDKs provide similar functionality.  You can optionally filter the
+results using the Filter parameter. You can paginate the results using the MaxItems and
+Marker parameters.
 
 # Optional Parameters
-- `Filter`: A list of entity types used to filter the results. Only the entities that match the types you specify are included in the output. Use the value LocalManagedPolicy to include customer managed policies. The format for this parameter is a comma-separated (if more than one) list of strings. Each string value in the list must be one of the valid values listed below.
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: A list of entity types used to filter the results. Only the entities that
+  match the types you specify are included in the output. Use the value LocalManagedPolicy to
+  include customer managed policies. The format for this parameter is a comma-separated (if
+  more than one) list of strings. Each string value in the list must be one of the valid
+  values listed below.
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 get_account_authorization_details(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountAuthorizationDetails"; aws_config=aws_config)
-get_account_authorization_details(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountAuthorizationDetails", args; aws_config=aws_config)
+get_account_authorization_details(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountAuthorizationDetails", params; aws_config=aws_config)
 
 """
-    GetAccountPasswordPolicy()
+    get_account_password_policy()
+    get_account_password_policy(params::Dict{String,<:Any})
 
-Retrieves the password policy for the AWS account. For more information about using a password policy, go to Managing an IAM Password Policy.
+Retrieves the password policy for the AWS account. This tells you the complexity
+requirements and mandatory rotation periods for the IAM user passwords in your account. For
+more information about using a password policy, see Managing an IAM password policy.
 
 """
 get_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountPasswordPolicy"; aws_config=aws_config)
-get_account_password_policy(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountPasswordPolicy", args; aws_config=aws_config)
+get_account_password_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountPasswordPolicy", params; aws_config=aws_config)
 
 """
-    GetAccountSummary()
+    get_account_summary()
+    get_account_summary(params::Dict{String,<:Any})
 
-Retrieves information about IAM entity usage and IAM quotas in the AWS account. The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.
+Retrieves information about IAM entity usage and IAM quotas in the AWS account.  For
+information about IAM quotas, see IAM and STS quotas in the IAM User Guide.
 
 """
 get_account_summary(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountSummary"; aws_config=aws_config)
-get_account_summary(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountSummary", args; aws_config=aws_config)
+get_account_summary(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountSummary", params; aws_config=aws_config)
 
 """
-    GetContextKeysForCustomPolicy()
+    get_context_keys_for_custom_policy(policy_input_list)
+    get_context_keys_for_custom_policy(policy_input_list, params::Dict{String,<:Any})
 
-Gets a list of all of the context keys referenced in the input policies. The policies are supplied as a list of one or more strings. To get the context keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy. Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value specified in an IAM policy. Use GetContextKeysForCustomPolicy to understand what key names and values you must supply when you call SimulateCustomPolicy. Note that all parameters are shown in unencoded form here for clarity but must be URL encoded to be included as a part of a real HTML request.
+Gets a list of all of the context keys referenced in the input policies. The policies are
+supplied as a list of one or more strings. To get the context keys from policies associated
+with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy. Context keys are
+variables maintained by AWS and its services that provide details about the context of an
+API query request. Context keys can be evaluated by testing against a value specified in an
+IAM policy. Use GetContextKeysForCustomPolicy to understand what key names and values you
+must supply when you call SimulateCustomPolicy. Note that all parameters are shown in
+unencoded form here for clarity but must be URL encoded to be included as a part of a real
+HTML request.
 
-# Required Parameters
-- `PolicyInputList`: A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
+# Arguments
+- `policy_input_list`: A list of policies for which you want the list of context keys
+  referenced in those policies. Each document is specified as a string containing the
+  complete, valid JSON text of an IAM policy. The regex pattern used to validate this
+  parameter is a string of characters consisting of the following:   Any printable ASCII
+  character ranging from the space character (u0020) through the end of the ASCII character
+  range   The printable characters in the Basic Latin and Latin-1 Supplement character set
+  (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage
+  return (u000D)
 
 """
 get_context_keys_for_custom_policy(PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}("PolicyInputList"=>PolicyInputList); aws_config=aws_config)
-get_context_keys_for_custom_policy(PolicyInputList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInputList"=>PolicyInputList), args)); aws_config=aws_config)
+get_context_keys_for_custom_policy(PolicyInputList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config)
 
 """
-    GetContextKeysForPrincipalPolicy()
+    get_context_keys_for_principal_policy(policy_source_arn)
+    get_context_keys_for_principal_policy(policy_source_arn, params::Dict{String,<:Any})
 
-Gets a list of all of the context keys referenced in all the IAM policies that are attached to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify a user, then the request also includes all of the policies attached to groups that the user is a member of. You can optionally include a list of one or more additional policies, specified as strings. If you want to include only a list of policies by string, use GetContextKeysForCustomPolicy instead.  Note: This API discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use GetContextKeysForCustomPolicy instead. Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. Context keys can be evaluated by testing against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names and values you must supply when you call SimulatePrincipalPolicy.
+Gets a list of all of the context keys referenced in all the IAM policies that are attached
+to the specified IAM entity. The entity can be an IAM user, group, or role. If you specify
+a user, then the request also includes all of the policies attached to groups that the user
+is a member of. You can optionally include a list of one or more additional policies,
+specified as strings. If you want to include only a list of policies by string, use
+GetContextKeysForCustomPolicy instead.  Note: This operation discloses information about
+the permissions granted to other users. If you do not want users to see other user's
+permissions, then consider allowing them to use GetContextKeysForCustomPolicy instead.
+Context keys are variables maintained by AWS and its services that provide details about
+the context of an API query request. Context keys can be evaluated by testing against a
+value in an IAM policy. Use GetContextKeysForPrincipalPolicy to understand what key names
+and values you must supply when you call SimulatePrincipalPolicy.
 
-# Required Parameters
-- `PolicySourceArn`: The ARN of a user, group, or role whose policies contain the context keys that you want listed. If you specify a user, the list includes context keys that are found in all policies that are attached to the user. The list also includes all groups that the user is a member of. If you pick a group or a role, then it includes only those context keys that are found in policies attached to that entity. Note that all parameters are shown in unencoded form here for clarity, but must be URL encoded to be included as a part of a real HTML request. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `policy_source_arn`: The ARN of a user, group, or role whose policies contain the context
+  keys that you want listed. If you specify a user, the list includes context keys that are
+  found in all policies that are attached to the user. The list also includes all groups that
+  the user is a member of. If you pick a group or a role, then it includes only those context
+  keys that are found in policies attached to that entity. Note that all parameters are shown
+  in unencoded form here for clarity, but must be URL encoded to be included as a part of a
+  real HTML request. For more information about ARNs, see Amazon Resource Names (ARNs) in the
+  AWS General Reference.
 
 # Optional Parameters
-- `PolicyInputList`: An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyInputList"`: An optional list of additional policies for which you want the list
+  of context keys that are referenced. The regex pattern used to validate this parameter is a
+  string of characters consisting of the following:   Any printable ASCII character ranging
+  from the space character (u0020) through the end of the ASCII character range   The
+  printable characters in the Basic Latin and Latin-1 Supplement character set (through
+  u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)
+  
 """
 get_context_keys_for_principal_policy(PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}("PolicySourceArn"=>PolicySourceArn); aws_config=aws_config)
-get_context_keys_for_principal_policy(PolicySourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicySourceArn"=>PolicySourceArn), args)); aws_config=aws_config)
+get_context_keys_for_principal_policy(PolicySourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config)
 
 """
-    GetCredentialReport()
+    get_credential_report()
+    get_credential_report(params::Dict{String,<:Any})
 
- Retrieves a credential report for the AWS account. For more information about the credential report, see Getting Credential Reports in the IAM User Guide.
+ Retrieves a credential report for the AWS account. For more information about the
+credential report, see Getting credential reports in the IAM User Guide.
 
 """
 get_credential_report(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetCredentialReport"; aws_config=aws_config)
-get_credential_report(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetCredentialReport", args; aws_config=aws_config)
+get_credential_report(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetCredentialReport", params; aws_config=aws_config)
 
 """
-    GetGroup()
+    get_group(group_name)
+    get_group(group_name, params::Dict{String,<:Any})
 
- Returns a list of IAM users that are in the specified IAM group. You can paginate the results using the MaxItems and Marker parameters.
+ Returns a list of IAM users that are in the specified IAM group. You can paginate the
+results using the MaxItems and Marker parameters.
 
-# Required Parameters
-- `GroupName`: The name of the group. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name of the group. This parameter allows (through its regex pattern) a
+  string of characters consisting of upper and lowercase alphanumeric characters with no
+  spaces. You can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 get_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-get_group(GroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
+get_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
-    GetGroupPolicy()
+    get_group_policy(group_name, policy_name)
+    get_group_policy(group_name, policy_name, params::Dict{String,<:Any})
 
-Retrieves the specified inline policy document that is embedded in the specified IAM group.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  An IAM group can also have managed policies attached to it. To retrieve a managed policy document that is attached to a group, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Retrieves the specified inline policy document that is embedded in the specified IAM group.
+ Policies returned by this operation are URL-encoded compliant with RFC 3986. You can use a
+URL decoding method to convert the policy back to plain JSON text. For example, if you use
+Java, you can use the decode method of the java.net.URLDecoder utility class in the Java
+SDK. Other languages and SDKs provide similar functionality.  An IAM group can also have
+managed policies attached to it. To retrieve a managed policy document that is attached to
+a group, use GetPolicy to determine the policy's default version, then use GetPolicyVersion
+to retrieve the policy document. For more information about policies, see Managed policies
+and inline policies in the IAM User Guide.
 
-# Required Parameters
-- `GroupName`: The name of the group the policy is associated with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `PolicyName`: The name of the policy document to get. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name of the group the policy is associated with. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+- `policy_name`: The name of the policy document to get. This parameter allows (through its
+  regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 get_group_policy(GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName); aws_config=aws_config)
-get_group_policy(GroupName, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
+get_group_policy(GroupName, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    GetInstanceProfile()
+    get_instance_profile(instance_profile_name)
+    get_instance_profile(instance_profile_name, params::Dict{String,<:Any})
 
- Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see About Instance Profiles in the IAM User Guide.
+ Retrieves information about the specified instance profile, including the instance
+profile's path, GUID, ARN, and role. For more information about instance profiles, see
+About instance profiles in the IAM User Guide.
 
-# Required Parameters
-- `InstanceProfileName`: The name of the instance profile to get information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `instance_profile_name`: The name of the instance profile to get information about. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 get_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
-get_instance_profile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws_config=aws_config)
+get_instance_profile(InstanceProfileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
 
 """
-    GetLoginProfile()
+    get_login_profile(user_name)
+    get_login_profile(user_name, params::Dict{String,<:Any})
 
-Retrieves the user name and password-creation date for the specified IAM user. If the user has not been assigned a password, the operation returns a 404 (NoSuchEntity) error.
+Retrieves the user name and password creation date for the specified IAM user. If the user
+has not been assigned a password, the operation returns a 404 (NoSuchEntity) error.
 
-# Required Parameters
-- `UserName`: The name of the user whose login profile you want to retrieve. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `user_name`: The name of the user whose login profile you want to retrieve. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 get_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-get_login_profile(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+get_login_profile(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    GetOpenIDConnectProvider()
+    get_open_idconnect_provider(open_idconnect_provider_arn)
+    get_open_idconnect_provider(open_idconnect_provider_arn, params::Dict{String,<:Any})
 
-Returns information about the specified OpenID Connect (OIDC) provider resource object in IAM.
+Returns information about the specified OpenID Connect (OIDC) provider resource object in
+IAM.
 
-# Required Parameters
-- `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the OIDC provider
+  resource object in IAM to get information for. You can get a list of OIDC provider resource
+  ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs,
+  see Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 get_open_idconnect_provider(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-get_open_idconnect_provider(OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws_config=aws_config)
+get_open_idconnect_provider(OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
-    GetOrganizationsAccessReport()
+    get_organizations_access_report(job_id)
+    get_organizations_access_report(job_id, params::Dict{String,<:Any})
 
-Retrieves the service last accessed data report for AWS Organizations that was previously generated using the  GenerateOrganizationsAccessReport  operation. This operation retrieves the status of your report job and the report contents. Depending on the parameters that you passed when you generated the report, the data returned could include different information. For details, see GenerateOrganizationsAccessReport. To call this operation, you must be signed in to the master account in your organization. SCPs must be enabled for your organization root. You must have permissions to perform this operation. For more information, see Refining Permissions Using Service Last Accessed Data in the IAM User Guide. For each service that principals in an account (root users, IAM users, or IAM roles) could access using SCPs, the operation returns details about the most recent access attempt. If there was no attempt, the service is listed without details about the most recent attempt to access the service. If the operation fails, it returns the reason that it failed. By default, the list is sorted by service namespace.
+Retrieves the service last accessed data report for AWS Organizations that was previously
+generated using the  GenerateOrganizationsAccessReport  operation. This operation retrieves
+the status of your report job and the report contents. Depending on the parameters that you
+passed when you generated the report, the data returned could include different
+information. For details, see GenerateOrganizationsAccessReport. To call this operation,
+you must be signed in to the management account in your organization. SCPs must be enabled
+for your organization root. You must have permissions to perform this operation. For more
+information, see Refining permissions using service last accessed data in the IAM User
+Guide. For each service that principals in an account (root users, IAM users, or IAM roles)
+could access using SCPs, the operation returns details about the most recent access
+attempt. If there was no attempt, the service is listed without details about the most
+recent attempt to access the service. If the operation fails, it returns the reason that it
+failed. By default, the list is sorted by service namespace.
 
-# Required Parameters
-- `JobId`: The identifier of the request generated by the GenerateOrganizationsAccessReport operation.
+# Arguments
+- `job_id`: The identifier of the request generated by the
+  GenerateOrganizationsAccessReport operation.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `SortKey`: The key that is used to sort the results. If you choose the namespace key, the results are returned in alphabetical order. If you choose the time key, the results are sorted numerically by the date and time.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"SortKey"`: The key that is used to sort the results. If you choose the namespace key,
+  the results are returned in alphabetical order. If you choose the time key, the results are
+  sorted numerically by the date and time.
 """
 get_organizations_access_report(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOrganizationsAccessReport", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_organizations_access_report(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_organizations_access_report(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
-    GetPolicy()
+    get_policy(policy_arn)
+    get_policy(policy_arn, params::Dict{String,<:Any})
 
-Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the specific users, groups, and roles that the policy is attached to, use the ListEntitiesForPolicy API. This API returns metadata about the policy. To retrieve the actual policy document for a specific version of the policy, use GetPolicyVersion. This API retrieves information about managed policies. To retrieve information about an inline policy that is embedded with an IAM user, group, or role, use the GetUserPolicy, GetGroupPolicy, or GetRolePolicy API. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Retrieves information about the specified managed policy, including the policy's default
+version and the total number of IAM users, groups, and roles to which the policy is
+attached. To retrieve the list of the specific users, groups, and roles that the policy is
+attached to, use ListEntitiesForPolicy. This operation returns metadata about the policy.
+To retrieve the actual policy document for a specific version of the policy, use
+GetPolicyVersion. This operation retrieves information about managed policies. To retrieve
+information about an inline policy that is embedded with an IAM user, group, or role, use
+GetUserPolicy, GetGroupPolicy, or GetRolePolicy. For more information about policies, see
+Managed policies and inline policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the managed policy that you want
+  information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the
+  AWS General Reference.
 
 """
 get_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-get_policy(PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
+get_policy(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
-    GetPolicyVersion()
+    get_policy_version(policy_arn, version_id)
+    get_policy_version(policy_arn, version_id, params::Dict{String,<:Any})
 
-Retrieves information about the specified version of the specified managed policy, including the policy document.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  To list the available versions for a policy, use ListPolicyVersions. This API retrieves information about managed policies. To retrieve information about an inline policy that is embedded in a user, group, or role, use the GetUserPolicy, GetGroupPolicy, or GetRolePolicy API. For more information about the types of policies, see Managed Policies and Inline Policies in the IAM User Guide. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
+Retrieves information about the specified version of the specified managed policy,
+including the policy document.  Policies returned by this operation are URL-encoded
+compliant with RFC 3986. You can use a URL decoding method to convert the policy back to
+plain JSON text. For example, if you use Java, you can use the decode method of the
+java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar
+functionality.  To list the available versions for a policy, use ListPolicyVersions. This
+operation retrieves information about managed policies. To retrieve information about an
+inline policy that is embedded in a user, group, or role, use GetUserPolicy,
+GetGroupPolicy, or GetRolePolicy. For more information about the types of policies, see
+Managed policies and inline policies in the IAM User Guide. For more information about
+managed policy versions, see Versioning for managed policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `VersionId`: Identifies the policy version to retrieve. This parameter allows (through its regex pattern) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits.
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the managed policy that you want
+  information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the
+  AWS General Reference.
+- `version_id`: Identifies the policy version to retrieve. This parameter allows (through
+  its regex pattern) a string of characters that consists of the lowercase letter 'v'
+  followed by one or two digits, and optionally followed by a period '.' and a string of
+  letters and digits.
 
 """
 get_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
-get_policy_version(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws_config=aws_config)
+get_policy_version(PolicyArn, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
 
 """
-    GetRole()
+    get_role(role_name)
+    get_role(role_name, params::Dict{String,<:Any})
 
-Retrieves information about the specified role, including the role's path, GUID, ARN, and the role's trust policy that grants permission to assume the role. For more information about roles, see Working with Roles.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality. 
+Retrieves information about the specified role, including the role's path, GUID, ARN, and
+the role's trust policy that grants permission to assume the role. For more information
+about roles, see Working with roles.  Policies returned by this operation are URL-encoded
+compliant with RFC 3986. You can use a URL decoding method to convert the policy back to
+plain JSON text. For example, if you use Java, you can use the decode method of the
+java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar
+functionality.
 
-# Required Parameters
-- `RoleName`: The name of the IAM role to get information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `role_name`: The name of the IAM role to get information about. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 get_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-get_role(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+get_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    GetRolePolicy()
+    get_role_policy(policy_name, role_name)
+    get_role_policy(policy_name, role_name, params::Dict{String,<:Any})
 
-Retrieves the specified inline policy document that is embedded with the specified IAM role.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  An IAM role can also have managed policies attached to it. To retrieve a managed policy document that is attached to a role, use GetPolicy to determine the policy's default version, then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide. For more information about roles, see Using Roles to Delegate Permissions and Federate Identities.
+Retrieves the specified inline policy document that is embedded with the specified IAM
+role.  Policies returned by this operation are URL-encoded compliant with RFC 3986. You can
+use a URL decoding method to convert the policy back to plain JSON text. For example, if
+you use Java, you can use the decode method of the java.net.URLDecoder utility class in the
+Java SDK. Other languages and SDKs provide similar functionality.  An IAM role can also
+have managed policies attached to it. To retrieve a managed policy document that is
+attached to a role, use GetPolicy to determine the policy's default version, then use
+GetPolicyVersion to retrieve the policy document. For more information about policies, see
+Managed policies and inline policies in the IAM User Guide. For more information about
+roles, see Using roles to delegate permissions and federate identities.
 
-# Required Parameters
-- `PolicyName`: The name of the policy document to get. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `RoleName`: The name of the role associated with the policy. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_name`: The name of the policy document to get. This parameter allows (through its
+  regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
+- `role_name`: The name of the role associated with the policy. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 get_role_policy(PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRolePolicy", Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
-get_role_policy(PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws_config=aws_config)
+get_role_policy(PolicyName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    GetSAMLProvider()
+    get_samlprovider(samlprovider_arn)
+    get_samlprovider(samlprovider_arn, params::Dict{String,<:Any})
 
-Returns the SAML provider metadocument that was uploaded when the IAM SAML provider resource object was created or updated.  This operation requires Signature Version 4. 
+Returns the SAML provider metadocument that was uploaded when the IAM SAML provider
+resource object was created or updated.  This operation requires Signature Version 4.
 
-# Required Parameters
-- `SAMLProviderArn`: The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `samlprovider_arn`: The Amazon Resource Name (ARN) of the SAML provider resource object
+  in IAM to get information about. For more information about ARNs, see Amazon Resource Names
+  (ARNs) in the AWS General Reference.
 
 """
 get_samlprovider(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
-get_samlprovider(SAMLProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), args)); aws_config=aws_config)
+get_samlprovider(SAMLProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
 
 """
-    GetSSHPublicKey()
+    get_server_certificate(server_certificate_name)
+    get_server_certificate(server_certificate_name, params::Dict{String,<:Any})
 
-Retrieves the specified SSH public key, including metadata about the key. The SSH public key retrieved by this operation is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide.
+Retrieves information about the specified server certificate stored in IAM. For more
+information about working with server certificates, see Working with server certificates in
+the IAM User Guide. This topic includes a list of AWS services that can use the server
+certificates that you manage with IAM.
 
-# Required Parameters
-- `Encoding`: Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM.
-- `SSHPublicKeyId`: The unique identifier for the SSH public key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-- `UserName`: The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-
-"""
-get_sshpublic_key(Encoding, SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
-get_sshpublic_key(Encoding, SSHPublicKeyId, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), args)); aws_config=aws_config)
-
-"""
-    GetServerCertificate()
-
-Retrieves information about the specified server certificate stored in IAM. For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide. This topic includes a list of AWS services that can use the server certificates that you manage with IAM.
-
-# Required Parameters
-- `ServerCertificateName`: The name of the server certificate you want to retrieve information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `server_certificate_name`: The name of the server certificate you want to retrieve
+  information about. This parameter allows (through its regex pattern) a string of characters
+  consisting of upper and lowercase alphanumeric characters with no spaces. You can also
+  include any of the following characters: _+=,.@-
 
 """
 get_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-get_server_certificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws_config=aws_config)
+get_server_certificate(ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
 
 """
-    GetServiceLastAccessedDetails()
+    get_service_last_accessed_details(job_id)
+    get_service_last_accessed_details(job_id, params::Dict{String,<:Any})
 
-Retrieves a service last accessed report that was created using the GenerateServiceLastAccessedDetails operation. You can use the JobId parameter in GetServiceLastAccessedDetails to retrieve the status of your report job. When the report is complete, you can retrieve the generated report. The report includes a list of AWS services that the resource (user, group, role, or managed policy) can access.  Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, AWS Organizations policies, IAM permissions boundaries, and AWS STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating Policies in the IAM User Guide.  For each service that the resource could access using permissions policies, the operation returns details about the most recent access attempt. If there was no attempt, the service is listed without details about the most recent attempt to access the service. If the operation fails, the GetServiceLastAccessedDetails operation returns the reason that it failed. The GetServiceLastAccessedDetails operation returns a list of services. This list includes the number of entities that have attempted to access the service and the date and time of the last attempt. It also returns the ARN of the following entity, depending on the resource ARN that you used to generate the report:    User – Returns the user ARN that you used to generate the report    Group – Returns the ARN of the group member (user) that last attempted to access the service    Role – Returns the role ARN that you used to generate the report    Policy – Returns the ARN of the user or role that last used the policy to attempt to access the service   By default, the list is sorted by service namespace. If you specified ACTION_LEVEL granularity when you generated the report, this operation returns service and action last accessed data. This includes the most recent access attempt for each tracked action within a service. Otherwise, this operation returns only service data. For more information about service and action last accessed data, see Reducing Permissions Using Service Last Accessed Data in the IAM User Guide.
+Retrieves a service last accessed report that was created using the
+GenerateServiceLastAccessedDetails operation. You can use the JobId parameter in
+GetServiceLastAccessedDetails to retrieve the status of your report job. When the report is
+complete, you can retrieve the generated report. The report includes a list of AWS services
+that the resource (user, group, role, or managed policy) can access.  Service last accessed
+data does not use other policy types when determining whether a resource could access a
+service. These other policy types include resource-based policies, access control lists,
+AWS Organizations policies, IAM permissions boundaries, and AWS STS assume role policies.
+It only applies permissions policy logic. For more about the evaluation of policy types,
+see Evaluating policies in the IAM User Guide.  For each service that the resource could
+access using permissions policies, the operation returns details about the most recent
+access attempt. If there was no attempt, the service is listed without details about the
+most recent attempt to access the service. If the operation fails, the
+GetServiceLastAccessedDetails operation returns the reason that it failed. The
+GetServiceLastAccessedDetails operation returns a list of services. This list includes the
+number of entities that have attempted to access the service and the date and time of the
+last attempt. It also returns the ARN of the following entity, depending on the resource
+ARN that you used to generate the report:    User – Returns the user ARN that you used to
+generate the report    Group – Returns the ARN of the group member (user) that last
+attempted to access the service    Role – Returns the role ARN that you used to generate
+the report    Policy – Returns the ARN of the user or role that last used the policy to
+attempt to access the service   By default, the list is sorted by service namespace. If you
+specified ACTION_LEVEL granularity when you generated the report, this operation returns
+service and action last accessed data. This includes the most recent access attempt for
+each tracked action within a service. Otherwise, this operation returns only service data.
+For more information about service and action last accessed data, see Reducing permissions
+using service last accessed data in the IAM User Guide.
 
-# Required Parameters
-- `JobId`: The ID of the request generated by the GenerateServiceLastAccessedDetails operation. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
+# Arguments
+- `job_id`: The ID of the request generated by the GenerateServiceLastAccessedDetails
+  operation. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same
+  role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 get_service_last_accessed_details(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetails", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_service_last_accessed_details(JobId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+get_service_last_accessed_details(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
-    GetServiceLastAccessedDetailsWithEntities()
+    get_service_last_accessed_details_with_entities(job_id, service_namespace)
+    get_service_last_accessed_details_with_entities(job_id, service_namespace, params::Dict{String,<:Any})
 
-After you generate a group or policy report using the GenerateServiceLastAccessedDetails operation, you can use the JobId parameter in GetServiceLastAccessedDetailsWithEntities. This operation retrieves the status of your report job and a list of entities that could have used group or policy permissions to access the specified service.    Group – For a group report, this operation returns a list of users in the group that could have used the group’s policies in an attempt to access the service.    Policy – For a policy report, this operation returns a list of entities (users or roles) that could have used the policy in an attempt to access the service.   You can also use this operation for user or role reports to retrieve details about those entities. If the operation fails, the GetServiceLastAccessedDetailsWithEntities operation returns the reason that it failed. By default, the list of associated entities is sorted by date, with the most recent access listed first.
+After you generate a group or policy report using the GenerateServiceLastAccessedDetails
+operation, you can use the JobId parameter in GetServiceLastAccessedDetailsWithEntities.
+This operation retrieves the status of your report job and a list of entities that could
+have used group or policy permissions to access the specified service.    Group – For a
+group report, this operation returns a list of users in the group that could have used the
+group’s policies in an attempt to access the service.    Policy – For a policy report,
+this operation returns a list of entities (users or roles) that could have used the policy
+in an attempt to access the service.   You can also use this operation for user or role
+reports to retrieve details about those entities. If the operation fails, the
+GetServiceLastAccessedDetailsWithEntities operation returns the reason that it failed. By
+default, the list of associated entities is sorted by date, with the most recent access
+listed first.
 
-# Required Parameters
-- `JobId`: The ID of the request generated by the GenerateServiceLastAccessedDetails operation.
-- `ServiceNamespace`: The service namespace for an AWS service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `job_id`: The ID of the request generated by the GenerateServiceLastAccessedDetails
+  operation.
+- `service_namespace`: The service namespace for an AWS service. Provide the service
+  namespace to learn when the IAM entity last attempted to access the specified service. To
+  learn the service namespace for a service, see Actions, resources, and condition keys for
+  AWS services in the IAM User Guide. Choose the name of the service to view details for that
+  service. In the first paragraph, find the service prefix. For example, (service prefix:
+  a4b). For more information about service namespaces, see AWS service namespaces in the AWS
+  General Reference.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 get_service_last_accessed_details_with_entities(JobId, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-get_service_last_accessed_details_with_entities(JobId, ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
+get_service_last_accessed_details_with_entities(JobId, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
-    GetServiceLinkedRoleDeletionStatus()
+    get_service_linked_role_deletion_status(deletion_task_id)
+    get_service_linked_role_deletion_status(deletion_task_id, params::Dict{String,<:Any})
 
-Retrieves the status of your service-linked role deletion. After you use the DeleteServiceLinkedRole API operation to submit a service-linked role for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the deletion. If the deletion fails, this operation returns the reason that it failed, if that information is returned by the service.
+Retrieves the status of your service-linked role deletion. After you use
+DeleteServiceLinkedRole to submit a service-linked role for deletion, you can use the
+DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus to check the status of the
+deletion. If the deletion fails, this operation returns the reason that it failed, if that
+information is returned by the service.
 
-# Required Parameters
-- `DeletionTaskId`: The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;.
+# Arguments
+- `deletion_task_id`: The deletion task identifier. This identifier is returned by the
+  DeleteServiceLinkedRole operation in the format
+  task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;.
 
 """
 get_service_linked_role_deletion_status(DeletionTaskId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}("DeletionTaskId"=>DeletionTaskId); aws_config=aws_config)
-get_service_linked_role_deletion_status(DeletionTaskId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeletionTaskId"=>DeletionTaskId), args)); aws_config=aws_config)
+get_service_linked_role_deletion_status(DeletionTaskId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeletionTaskId"=>DeletionTaskId), params)); aws_config=aws_config)
 
 """
-    GetUser()
+    get_sshpublic_key(encoding, sshpublic_key_id, user_name)
+    get_sshpublic_key(encoding, sshpublic_key_id, user_name, params::Dict{String,<:Any})
 
-Retrieves information about the specified IAM user, including the user's creation date, path, unique ID, and ARN. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID used to sign the request to this API.
+Retrieves the specified SSH public key, including metadata about the key. The SSH public
+key retrieved by this operation is used only for authenticating the associated IAM user to
+an AWS CodeCommit repository. For more information about using SSH keys to authenticate to
+an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH connections in the AWS
+CodeCommit User Guide.
+
+# Arguments
+- `encoding`: Specifies the public key encoding format to use in the response. To retrieve
+  the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use
+  PEM.
+- `sshpublic_key_id`: The unique identifier for the SSH public key. This parameter allows
+  (through its regex pattern) a string of characters that can consist of any upper or
+  lowercased letter or digit.
+- `user_name`: The name of the IAM user associated with the SSH public key. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+
+"""
+get_sshpublic_key(Encoding, SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
+get_sshpublic_key(Encoding, SSHPublicKeyId, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config)
+
+"""
+    get_user()
+    get_user(params::Dict{String,<:Any})
+
+Retrieves information about the specified IAM user, including the user's creation date,
+path, unique ID, and ARN. If you do not specify a user name, IAM determines the user name
+implicitly based on the AWS access key ID used to sign the request to this operation.
 
 # Optional Parameters
-- `UserName`: The name of the user to get information about. This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the user to get information about. This parameter is optional.
+  If it is not included, it defaults to the user making the request. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 """
 get_user(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUser"; aws_config=aws_config)
-get_user(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUser", args; aws_config=aws_config)
+get_user(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUser", params; aws_config=aws_config)
 
 """
-    GetUserPolicy()
+    get_user_policy(policy_name, user_name)
+    get_user_policy(policy_name, user_name, params::Dict{String,<:Any})
 
-Retrieves the specified inline policy document that is embedded in the specified IAM user.  Policies returned by this API are URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.  An IAM user can also have managed policies attached to it. To retrieve a managed policy document that is attached to a user, use GetPolicy to determine the policy's default version. Then use GetPolicyVersion to retrieve the policy document. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Retrieves the specified inline policy document that is embedded in the specified IAM user.
+Policies returned by this operation are URL-encoded compliant with RFC 3986. You can use a
+URL decoding method to convert the policy back to plain JSON text. For example, if you use
+Java, you can use the decode method of the java.net.URLDecoder utility class in the Java
+SDK. Other languages and SDKs provide similar functionality.  An IAM user can also have
+managed policies attached to it. To retrieve a managed policy document that is attached to
+a user, use GetPolicy to determine the policy's default version. Then use GetPolicyVersion
+to retrieve the policy document. For more information about policies, see Managed policies
+and inline policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyName`: The name of the policy document to get. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `UserName`: The name of the user who the policy is associated with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_name`: The name of the policy document to get. This parameter allows (through its
+  regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
+- `user_name`: The name of the user who the policy is associated with. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 get_user_policy(PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUserPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
-get_user_policy(PolicyName, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws_config=aws_config)
+get_user_policy(PolicyName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    ListAccessKeys()
+    list_access_keys()
+    list_access_keys(params::Dict{String,<:Any})
 
-Returns information about the access key IDs associated with the specified IAM user. If there is none, the operation returns an empty list. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters. If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request. This operation works for access keys under the AWS account. Consequently, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.  To ensure the security of your AWS account, the secret access key is accessible only during key and user creation. 
+Returns information about the access key IDs associated with the specified IAM user. If
+there is none, the operation returns an empty list. Although each user is limited to a
+small number of keys, you can still paginate the results using the MaxItems and Marker
+parameters. If the UserName field is not specified, the user name is determined implicitly
+based on the AWS access key ID used to sign the request. This operation works for access
+keys under the AWS account. Consequently, you can use this operation to manage AWS account
+root user credentials even if the AWS account has no associated users.  To ensure the
+security of your AWS account, the secret access key is accessible only during key and user
+creation.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `UserName`: The name of the user. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"UserName"`: The name of the user. This parameter allows (through its regex pattern) a
+  string of characters consisting of upper and lowercase alphanumeric characters with no
+  spaces. You can also include any of the following characters: _+=,.@-
 """
 list_access_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccessKeys"; aws_config=aws_config)
-list_access_keys(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccessKeys", args; aws_config=aws_config)
+list_access_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccessKeys", params; aws_config=aws_config)
 
 """
-    ListAccountAliases()
+    list_account_aliases()
+    list_account_aliases(params::Dict{String,<:Any})
 
-Lists the account alias associated with the AWS account (Note: you can have only one). For information about using an AWS account alias, see Using an Alias for Your AWS Account ID in the IAM User Guide.
+Lists the account alias associated with the AWS account (Note: you can have only one). For
+information about using an AWS account alias, see Using an alias for your AWS account ID in
+the IAM User Guide.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_account_aliases(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccountAliases"; aws_config=aws_config)
-list_account_aliases(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccountAliases", args; aws_config=aws_config)
+list_account_aliases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccountAliases", params; aws_config=aws_config)
 
 """
-    ListAttachedGroupPolicies()
+    list_attached_group_policies(group_name)
+    list_attached_group_policies(group_name, params::Dict{String,<:Any})
 
-Lists all managed policies that are attached to the specified IAM group. An IAM group can also have inline policies embedded with it. To list the inline policies for a group, use the ListGroupPolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the operation returns an empty list.
+Lists all managed policies that are attached to the specified IAM group. An IAM group can
+also have inline policies embedded with it. To list the inline policies for a group, use
+ListGroupPolicies. For information about policies, see Managed policies and inline policies
+in the IAM User Guide. You can paginate the results using the MaxItems and Marker
+parameters. You can use the PathPrefix parameter to limit the list of policies to only
+those matching the specified path prefix. If there are no policies attached to the
+specified group (or none that match the specified path prefix), the operation returns an
+empty list.
 
-# Required Parameters
-- `GroupName`: The name (friendly name, not ARN) of the group to list attached policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name (friendly name, not ARN) of the group to list attached policies
+  for. This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all policies. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
 """
 list_attached_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedGroupPolicies", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-list_attached_group_policies(GroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
+list_attached_group_policies(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
-    ListAttachedRolePolicies()
+    list_attached_role_policies(role_name)
+    list_attached_role_policies(role_name, params::Dict{String,<:Any})
 
-Lists all managed policies that are attached to the specified IAM role. An IAM role can also have inline policies embedded with it. To list the inline policies for a role, use the ListRolePolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified role (or none that match the specified path prefix), the operation returns an empty list.
+Lists all managed policies that are attached to the specified IAM role. An IAM role can
+also have inline policies embedded with it. To list the inline policies for a role, use
+ListRolePolicies. For information about policies, see Managed policies and inline policies
+in the IAM User Guide. You can paginate the results using the MaxItems and Marker
+parameters. You can use the PathPrefix parameter to limit the list of policies to only
+those matching the specified path prefix. If there are no policies attached to the
+specified role (or none that match the specified path prefix), the operation returns an
+empty list.
 
-# Required Parameters
-- `RoleName`: The name (friendly name, not ARN) of the role to list attached policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `role_name`: The name (friendly name, not ARN) of the role to list attached policies for.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all policies. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
 """
 list_attached_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedRolePolicies", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-list_attached_role_policies(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+list_attached_role_policies(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    ListAttachedUserPolicies()
+    list_attached_user_policies(user_name)
+    list_attached_user_policies(user_name, params::Dict{String,<:Any})
 
-Lists all managed policies that are attached to the specified IAM user. An IAM user can also have inline policies embedded with it. To list the inline policies for a user, use the ListUserPolicies API. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. You can use the PathPrefix parameter to limit the list of policies to only those matching the specified path prefix. If there are no policies attached to the specified group (or none that match the specified path prefix), the operation returns an empty list.
+Lists all managed policies that are attached to the specified IAM user. An IAM user can
+also have inline policies embedded with it. To list the inline policies for a user, use
+ListUserPolicies. For information about policies, see Managed policies and inline policies
+in the IAM User Guide. You can paginate the results using the MaxItems and Marker
+parameters. You can use the PathPrefix parameter to limit the list of policies to only
+those matching the specified path prefix. If there are no policies attached to the
+specified group (or none that match the specified path prefix), the operation returns an
+empty list.
 
-# Required Parameters
-- `UserName`: The name (friendly name, not ARN) of the user to list attached policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `user_name`: The name (friendly name, not ARN) of the user to list attached policies for.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all policies. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
 """
 list_attached_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedUserPolicies", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-list_attached_user_policies(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+list_attached_user_policies(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    ListEntitiesForPolicy()
+    list_entities_for_policy(policy_arn)
+    list_entities_for_policy(policy_arn, params::Dict{String,<:Any})
 
-Lists all IAM users, groups, and roles that the specified managed policy is attached to. You can use the optional EntityFilter parameter to limit the results to a particular type of entity (users, groups, or roles). For example, to list only the roles that are attached to the specified policy, set EntityFilter to Role. You can paginate the results using the MaxItems and Marker parameters.
+Lists all IAM users, groups, and roles that the specified managed policy is attached to.
+You can use the optional EntityFilter parameter to limit the results to a particular type
+of entity (users, groups, or roles). For example, to list only the roles that are attached
+to the specified policy, set EntityFilter to Role. You can paginate the results using the
+MaxItems and Marker parameters.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy for which you want the
+  versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS
+  General Reference.
 
 # Optional Parameters
-- `EntityFilter`: The entity type to use for filtering the results. For example, when EntityFilter is Role, only the roles that are attached to the specified policy are returned. This parameter is optional. If it is not included, all attached entities (users, groups, and roles) are returned. The argument for this parameter must be one of the valid values listed below.
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all entities. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
-- `PolicyUsageFilter`: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned. 
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EntityFilter"`: The entity type to use for filtering the results. For example, when
+  EntityFilter is Role, only the roles that are attached to the specified policy are
+  returned. This parameter is optional. If it is not included, all attached entities (users,
+  groups, and roles) are returned. The argument for this parameter must be one of the valid
+  values listed below.
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all entities. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
+- `"PolicyUsageFilter"`: The policy usage method to use for filtering the results. To list
+  only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the
+  policies used to set permissions boundaries, set the value to PermissionsBoundary. This
+  parameter is optional. If it is not included, all policies are returned.
 """
 list_entities_for_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListEntitiesForPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-list_entities_for_policy(PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListEntitiesForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
+list_entities_for_policy(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListEntitiesForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
-    ListGroupPolicies()
+    list_group_policies(group_name)
+    list_group_policies(group_name, params::Dict{String,<:Any})
 
-Lists the names of the inline policies that are embedded in the specified IAM group. An IAM group can also have managed policies attached to it. To list the managed policies that are attached to a group, use ListAttachedGroupPolicies. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified group, the operation returns an empty list.
+Lists the names of the inline policies that are embedded in the specified IAM group. An IAM
+group can also have managed policies attached to it. To list the managed policies that are
+attached to a group, use ListAttachedGroupPolicies. For more information about policies,
+see Managed policies and inline policies in the IAM User Guide. You can paginate the
+results using the MaxItems and Marker parameters. If there are no inline policies embedded
+with the specified group, the operation returns an empty list.
 
-# Required Parameters
-- `GroupName`: The name of the group to list policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name of the group to list policies for. This parameter allows (through
+  its regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupPolicies", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-list_group_policies(GroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
+list_group_policies(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
-    ListGroups()
+    list_groups()
+    list_groups(params::Dict{String,<:Any})
 
-Lists the IAM groups that have the specified path prefix.  You can paginate the results using the MaxItems and Marker parameters.
+Lists the IAM groups that have the specified path prefix.  You can paginate the results
+using the MaxItems and Marker parameters.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`:  The path prefix for filtering the results. For example, the prefix /division_abc/subdivision_xyz/ gets all groups whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all groups. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`:  The path prefix for filtering the results. For example, the prefix
+  /division_abc/subdivision_xyz/ gets all groups whose path starts with
+  /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it
+  defaults to a slash (/), listing all groups. This parameter allows (through its regex
+  pattern) a string of characters consisting of either a forward slash (/) by itself or a
+  string that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (u0021) through the DEL character (u007F), including most punctuation
+  characters, digits, and upper and lowercased letters.
 """
 list_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroups"; aws_config=aws_config)
-list_groups(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroups", args; aws_config=aws_config)
+list_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroups", params; aws_config=aws_config)
 
 """
-    ListGroupsForUser()
+    list_groups_for_user(user_name)
+    list_groups_for_user(user_name, params::Dict{String,<:Any})
 
-Lists the IAM groups that the specified IAM user belongs to. You can paginate the results using the MaxItems and Marker parameters.
+Lists the IAM groups that the specified IAM user belongs to. You can paginate the results
+using the MaxItems and Marker parameters.
 
-# Required Parameters
-- `UserName`: The name of the user to list groups for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `user_name`: The name of the user to list groups for. This parameter allows (through its
+  regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_groups_for_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupsForUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-list_groups_for_user(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+list_groups_for_user(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    ListInstanceProfiles()
+    list_instance_profile_tags(instance_profile_name)
+    list_instance_profile_tags(instance_profile_name, params::Dict{String,<:Any})
 
-Lists the instance profiles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about instance profiles, go to About Instance Profiles. You can paginate the results using the MaxItems and Marker parameters.
+Lists the tags that are attached to the specified IAM instance profile. The returned list
+of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources
+in the IAM User Guide.
+
+# Arguments
+- `instance_profile_name`: The name of the IAM instance profile whose tags you want to see.
+  This parameter accepts (through its regex pattern) a string of characters that consist of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: =,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`:  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all instance profiles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all instance profiles. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: (Optional) Use this only when paginating results to indicate the maximum
+  number of items that you want in the response. If additional items exist beyond the maximum
+  that you specify, the IsTruncated response element is true. If you do not include this
+  parameter, it defaults to 100. Note that IAM might return fewer results, even when more
+  results are available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+"""
+list_instance_profile_tags(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfileTags", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
+list_instance_profile_tags(InstanceProfileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfileTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
+
+"""
+    list_instance_profiles()
+    list_instance_profiles(params::Dict{String,<:Any})
+
+Lists the instance profiles that have the specified path prefix. If there are none, the
+operation returns an empty list. For more information about instance profiles, see About
+instance profiles.  IAM resource-listing operations return a subset of the available
+attributes for the resource. For example, this operation does not return tags, even though
+they are an attribute of the returned object. To view all of the information for an
+instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems
+and Marker parameters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`:  The path prefix for filtering the results. For example, the prefix
+  /application_abc/component_xyz/ gets all instance profiles whose path starts with
+  /application_abc/component_xyz/. This parameter is optional. If it is not included, it
+  defaults to a slash (/), listing all instance profiles. This parameter allows (through its
+  regex pattern) a string of characters consisting of either a forward slash (/) by itself or
+  a string that must begin and end with forward slashes. In addition, it can contain any
+  ASCII character from the ! (u0021) through the DEL character (u007F), including most
+  punctuation characters, digits, and upper and lowercased letters.
 """
 list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfiles"; aws_config=aws_config)
-list_instance_profiles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfiles", args; aws_config=aws_config)
+list_instance_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfiles", params; aws_config=aws_config)
 
 """
-    ListInstanceProfilesForRole()
+    list_instance_profiles_for_role(role_name)
+    list_instance_profiles_for_role(role_name, params::Dict{String,<:Any})
 
-Lists the instance profiles that have the specified associated IAM role. If there are none, the operation returns an empty list. For more information about instance profiles, go to About Instance Profiles. You can paginate the results using the MaxItems and Marker parameters.
+Lists the instance profiles that have the specified associated IAM role. If there are none,
+the operation returns an empty list. For more information about instance profiles, go to
+About instance profiles. You can paginate the results using the MaxItems and Marker
+parameters.
 
-# Required Parameters
-- `RoleName`: The name of the role to list instance profiles for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `role_name`: The name of the role to list instance profiles for. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_instance_profiles_for_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfilesForRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-list_instance_profiles_for_role(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfilesForRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+list_instance_profiles_for_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfilesForRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    ListMFADevices()
+    list_mfadevice_tags(serial_number)
+    list_mfadevice_tags(serial_number, params::Dict{String,<:Any})
 
-Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this operation lists all the MFA devices associated with the specified user. If you do not specify a user name, IAM determines the user name implicitly based on the AWS access key ID signing the request for this API. You can paginate the results using the MaxItems and Marker parameters.
+Lists the tags that are attached to the specified IAM virtual multi-factor authentication
+(MFA) device. The returned list of tags is sorted by tag key. For more information about
+tagging, see Tagging IAM resources in the IAM User Guide.
+
+# Arguments
+- `serial_number`: The unique identifier for the IAM virtual MFA device whose tags you want
+  to see. For virtual MFA devices, the serial number is the same as the ARN. This parameter
+  accepts (through its regex pattern) a string of characters that consist of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: =,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `UserName`: The name of the user whose MFA devices you want to list. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: (Optional) Use this only when paginating results to indicate the maximum
+  number of items that you want in the response. If additional items exist beyond the maximum
+  that you specify, the IsTruncated response element is true. If you do not include this
+  parameter, it defaults to 100. Note that IAM might return fewer results, even when more
+  results are available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+"""
+list_mfadevice_tags(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADeviceTags", Dict{String, Any}("SerialNumber"=>SerialNumber); aws_config=aws_config)
+list_mfadevice_tags(SerialNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADeviceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config)
+
+"""
+    list_mfadevices()
+    list_mfadevices(params::Dict{String,<:Any})
+
+Lists the MFA devices for an IAM user. If the request includes a IAM user name, then this
+operation lists all the MFA devices associated with the specified user. If you do not
+specify a user name, IAM determines the user name implicitly based on the AWS access key ID
+signing the request for this operation. You can paginate the results using the MaxItems and
+Marker parameters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"UserName"`: The name of the user whose MFA devices you want to list. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 """
 list_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADevices"; aws_config=aws_config)
-list_mfadevices(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADevices", args; aws_config=aws_config)
+list_mfadevices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADevices", params; aws_config=aws_config)
 
 """
-    ListOpenIDConnectProviders()
+    list_open_idconnect_provider_tags(open_idconnect_provider_arn)
+    list_open_idconnect_provider_tags(open_idconnect_provider_arn, params::Dict{String,<:Any})
 
-Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the AWS account.
+Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatible identity
+provider. The returned list of tags is sorted by tag key. For more information, see About
+web identity federation. For more information about tagging, see Tagging IAM resources in
+the IAM User Guide.
+
+# Arguments
+- `open_idconnect_provider_arn`: The ARN of the OpenID Connect (OIDC) identity provider
+  whose tags you want to see. This parameter accepts (through its regex pattern) a string of
+  characters that consist of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: =,.@-
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: (Optional) Use this only when paginating results to indicate the maximum
+  number of items that you want in the response. If additional items exist beyond the maximum
+  that you specify, the IsTruncated response element is true. If you do not include this
+  parameter, it defaults to 100. Note that IAM might return fewer results, even when more
+  results are available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+"""
+list_open_idconnect_provider_tags(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviderTags", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
+list_open_idconnect_provider_tags(OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
+
+"""
+    list_open_idconnect_providers()
+    list_open_idconnect_providers(params::Dict{String,<:Any})
+
+Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in
+the AWS account.  IAM resource-listing operations return a subset of the available
+attributes for the resource. For example, this operation does not return tags, even though
+they are an attribute of the returned object. To view all of the information for an OIDC
+provider, see GetOpenIDConnectProvider.
 
 """
 list_open_idconnect_providers(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviders"; aws_config=aws_config)
-list_open_idconnect_providers(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviders", args; aws_config=aws_config)
+list_open_idconnect_providers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviders", params; aws_config=aws_config)
 
 """
-    ListPolicies()
+    list_policies()
+    list_policies(params::Dict{String,<:Any})
 
-Lists all the managed policies that are available in your AWS account, including your own customer-defined managed policies and all AWS managed policies. You can filter the list of policies that is returned using the optional OnlyAttached, Scope, and PathPrefix parameters. For example, to list only the customer managed policies in your AWS account, set Scope to Local. To list only AWS managed policies, set Scope to AWS. You can paginate the results using the MaxItems and Marker parameters. For more information about managed policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Lists all the managed policies that are available in your AWS account, including your own
+customer-defined managed policies and all AWS managed policies. You can filter the list of
+policies that is returned using the optional OnlyAttached, Scope, and PathPrefix
+parameters. For example, to list only the customer managed policies in your AWS account,
+set Scope to Local. To list only AWS managed policies, set Scope to AWS. You can paginate
+the results using the MaxItems and Marker parameters. For more information about managed
+policies, see Managed policies and inline policies in the IAM User Guide.  IAM
+resource-listing operations return a subset of the available attributes for the resource.
+For example, this operation does not return tags, even though they are an attribute of the
+returned object. To view all of the information for a customer manged policy, see
+GetPolicy.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `OnlyAttached`: A flag to filter the results to only the attached policies. When OnlyAttached is true, the returned list contains only the policies that are attached to an IAM user, group, or role. When OnlyAttached is false, or when the parameter is not included, all policies are returned.
-- `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
-- `PolicyUsageFilter`: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned. 
-- `Scope`: The scope to use for filtering the results. To list only AWS managed policies, set Scope to AWS. To list only the customer managed policies in your AWS account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"OnlyAttached"`: A flag to filter the results to only the attached policies. When
+  OnlyAttached is true, the returned list contains only the policies that are attached to an
+  IAM user, group, or role. When OnlyAttached is false, or when the parameter is not
+  included, all policies are returned.
+- `"PathPrefix"`: The path prefix for filtering the results. This parameter is optional. If
+  it is not included, it defaults to a slash (/), listing all policies. This parameter allows
+  (through its regex pattern) a string of characters consisting of either a forward slash (/)
+  by itself or a string that must begin and end with forward slashes. In addition, it can
+  contain any ASCII character from the ! (u0021) through the DEL character (u007F), including
+  most punctuation characters, digits, and upper and lowercased letters.
+- `"PolicyUsageFilter"`: The policy usage method to use for filtering the results. To list
+  only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the
+  policies used to set permissions boundaries, set the value to PermissionsBoundary. This
+  parameter is optional. If it is not included, all policies are returned.
+- `"Scope"`: The scope to use for filtering the results. To list only AWS managed policies,
+  set Scope to AWS. To list only the customer managed policies in your AWS account, set Scope
+  to Local. This parameter is optional. If it is not included, or if it is set to All, all
+  policies are returned.
 """
 list_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicies"; aws_config=aws_config)
-list_policies(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicies", args; aws_config=aws_config)
+list_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicies", params; aws_config=aws_config)
 
 """
-    ListPoliciesGrantingServiceAccess()
+    list_policies_granting_service_access(arn, service_namespaces)
+    list_policies_granting_service_access(arn, service_namespaces, params::Dict{String,<:Any})
 
-Retrieves a list of policies that the IAM identity (user, group, or role) can use to access each specified service.  This operation does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, AWS Organizations policies, IAM permissions boundaries, and AWS STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating Policies in the IAM User Guide.  The list of policies returned by the operation depends on the ARN of the identity that you provide.    User – The list of policies includes the managed and inline policies that are attached to the user directly. The list also includes any additional managed and inline policies that are attached to the group to which the user belongs.     Group – The list of policies includes only the managed and inline policies that are attached to the group directly. Policies that are attached to the group’s user are not included.    Role – The list of policies includes only the managed and inline policies that are attached to the role.   For each managed policy, this operation returns the ARN and policy name. For each inline policy, it returns the policy name and the entity to which it is attached. Inline policies do not have an ARN. For more information about these policy types, see Managed Policies and Inline Policies in the IAM User Guide. Policies that are attached to users and roles as permissions boundaries are not returned. To view which managed policy is currently used to set the permissions boundary for a user or role, use the GetUser or GetRole operations.
+Retrieves a list of policies that the IAM identity (user, group, or role) can use to access
+each specified service.  This operation does not use other policy types when determining
+whether a resource could access a service. These other policy types include resource-based
+policies, access control lists, AWS Organizations policies, IAM permissions boundaries, and
+AWS STS assume role policies. It only applies permissions policy logic. For more about the
+evaluation of policy types, see Evaluating policies in the IAM User Guide.  The list of
+policies returned by the operation depends on the ARN of the identity that you provide.
+User – The list of policies includes the managed and inline policies that are attached to
+the user directly. The list also includes any additional managed and inline policies that
+are attached to the group to which the user belongs.     Group – The list of policies
+includes only the managed and inline policies that are attached to the group directly.
+Policies that are attached to the group’s user are not included.    Role – The list of
+policies includes only the managed and inline policies that are attached to the role.   For
+each managed policy, this operation returns the ARN and policy name. For each inline
+policy, it returns the policy name and the entity to which it is attached. Inline policies
+do not have an ARN. For more information about these policy types, see Managed policies and
+inline policies in the IAM User Guide. Policies that are attached to users and roles as
+permissions boundaries are not returned. To view which managed policy is currently used to
+set the permissions boundary for a user or role, use the GetUser or GetRole operations.
 
-# Required Parameters
-- `Arn`: The ARN of the IAM identity (user, group, or role) whose policies you want to list.
-- `ServiceNamespaces`: The service namespace for the AWS services whose policies you want to list. To learn the service namespace for a service, go to Actions, Resources, and Condition Keys for AWS Services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `arn`: The ARN of the IAM identity (user, group, or role) whose policies you want to list.
+- `service_namespaces`: The service namespace for the AWS services whose policies you want
+  to list. To learn the service namespace for a service, see Actions, resources, and
+  condition keys for AWS services in the IAM User Guide. Choose the name of the service to
+  view details for that service. In the first paragraph, find the service prefix. For
+  example, (service prefix: a4b). For more information about service namespaces, see AWS
+  service namespaces in the AWS General Reference.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
 """
 list_policies_granting_service_access(Arn, ServiceNamespaces; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces); aws_config=aws_config)
-list_policies_granting_service_access(Arn, ServiceNamespaces, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces), args)); aws_config=aws_config)
+list_policies_granting_service_access(Arn, ServiceNamespaces, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces), params)); aws_config=aws_config)
 
 """
-    ListPolicyVersions()
+    list_policy_tags(policy_arn)
+    list_policy_tags(policy_arn, params::Dict{String,<:Any})
 
-Lists information about the versions of the specified managed policy, including the version that is currently set as the policy's default version. For more information about managed policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Lists the tags that are attached to the specified IAM customer managed policy. The returned
+list of tags is sorted by tag key. For more information about tagging, see Tagging IAM
+resources in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `policy_arn`: The ARN of the IAM customer managed policy whose tags you want to see. This
+  parameter accepts (through its regex pattern) a string of characters that consist of upper
+  and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: =,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: (Optional) Use this only when paginating results to indicate the maximum
+  number of items that you want in the response. If additional items exist beyond the maximum
+  that you specify, the IsTruncated response element is true. If you do not include this
+  parameter, it defaults to 100. Note that IAM might return fewer results, even when more
+  results are available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+"""
+list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyTags", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
+list_policy_tags(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
+
+"""
+    list_policy_versions(policy_arn)
+    list_policy_versions(policy_arn, params::Dict{String,<:Any})
+
+Lists information about the versions of the specified managed policy, including the version
+that is currently set as the policy's default version. For more information about managed
+policies, see Managed policies and inline policies in the IAM User Guide.
+
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy for which you want the
+  versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS
+  General Reference.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyVersions", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-list_policy_versions(PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
+list_policy_versions(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
-    ListRolePolicies()
+    list_role_policies(role_name)
+    list_role_policies(role_name, params::Dict{String,<:Any})
 
-Lists the names of the inline policies that are embedded in the specified IAM role. An IAM role can also have managed policies attached to it. To list the managed policies that are attached to a role, use ListAttachedRolePolicies. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified role, the operation returns an empty list.
+Lists the names of the inline policies that are embedded in the specified IAM role. An IAM
+role can also have managed policies attached to it. To list the managed policies that are
+attached to a role, use ListAttachedRolePolicies. For more information about policies, see
+Managed policies and inline policies in the IAM User Guide. You can paginate the results
+using the MaxItems and Marker parameters. If there are no inline policies embedded with the
+specified role, the operation returns an empty list.
 
-# Required Parameters
-- `RoleName`: The name of the role to list policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `role_name`: The name of the role to list policies for. This parameter allows (through
+  its regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRolePolicies", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-list_role_policies(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+list_role_policies(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    ListRoleTags()
+    list_role_tags(role_name)
+    list_role_tags(role_name, params::Dict{String,<:Any})
 
-Lists the tags that are attached to the specified role. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
+Lists the tags that are attached to the specified role. The returned list of tags is sorted
+by tag key. For more information about tagging, see Tagging IAM resources in the IAM User
+Guide.
 
-# Required Parameters
-- `RoleName`: The name of the IAM role for which you want to see the list of tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `role_name`: The name of the IAM role for which you want to see the list of tags. This
+  parameter accepts (through its regex pattern) a string of characters that consist of upper
+  and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: (Optional) Use this only when paginating results to indicate the maximum
+  number of items that you want in the response. If additional items exist beyond the maximum
+  that you specify, the IsTruncated response element is true. If you do not include this
+  parameter, it defaults to 100. Note that IAM might return fewer results, even when more
+  results are available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_role_tags(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoleTags", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-list_role_tags(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoleTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+list_role_tags(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoleTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    ListRoles()
+    list_roles()
+    list_roles(params::Dict{String,<:Any})
 
-Lists the IAM roles that have the specified path prefix. If there are none, the operation returns an empty list. For more information about roles, go to Working with Roles. You can paginate the results using the MaxItems and Marker parameters.
+Lists the IAM roles that have the specified path prefix. If there are none, the operation
+returns an empty list. For more information about roles, see Working with roles.  IAM
+resource-listing operations return a subset of the available attributes for the resource.
+For example, this operation does not return tags, even though they are an attribute of the
+returned object. To view all of the information for a role, see GetRole.  You can paginate
+the results using the MaxItems and Marker parameters.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`:  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all roles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all roles. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`:  The path prefix for filtering the results. For example, the prefix
+  /application_abc/component_xyz/ gets all roles whose path starts with
+  /application_abc/component_xyz/. This parameter is optional. If it is not included, it
+  defaults to a slash (/), listing all roles. This parameter allows (through its regex
+  pattern) a string of characters consisting of either a forward slash (/) by itself or a
+  string that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (u0021) through the DEL character (u007F), including most punctuation
+  characters, digits, and upper and lowercased letters.
 """
 list_roles(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoles"; aws_config=aws_config)
-list_roles(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoles", args; aws_config=aws_config)
+list_roles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoles", params; aws_config=aws_config)
 
 """
-    ListSAMLProviders()
+    list_samlprovider_tags(samlprovider_arn)
+    list_samlprovider_tags(samlprovider_arn, params::Dict{String,<:Any})
 
-Lists the SAML provider resource objects defined in IAM in the account.   This operation requires Signature Version 4. 
+Lists the tags that are attached to the specified Security Assertion Markup Language (SAML)
+identity provider. The returned list of tags is sorted by tag key. For more information,
+see About SAML 2.0-based federation. For more information about tagging, see Tagging IAM
+resources in the IAM User Guide.
+
+# Arguments
+- `samlprovider_arn`: The ARN of the Security Assertion Markup Language (SAML) identity
+  provider whose tags you want to see. This parameter accepts (through its regex pattern) a
+  string of characters that consist of upper and lowercase alphanumeric characters with no
+  spaces. You can also include any of the following characters: =,.@-
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: (Optional) Use this only when paginating results to indicate the maximum
+  number of items that you want in the response. If additional items exist beyond the maximum
+  that you specify, the IsTruncated response element is true. If you do not include this
+  parameter, it defaults to 100. Note that IAM might return fewer results, even when more
+  results are available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+"""
+list_samlprovider_tags(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviderTags", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
+list_samlprovider_tags(SAMLProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
+
+"""
+    list_samlproviders()
+    list_samlproviders(params::Dict{String,<:Any})
+
+Lists the SAML provider resource objects defined in IAM in the account. IAM
+resource-listing operations return a subset of the available attributes for the resource.
+For example, this operation does not return tags, even though they are an attribute of the
+returned object. To view all of the information for a SAML provider, see GetSAMLProvider.
+This operation requires Signature Version 4.
 
 """
 list_samlproviders(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviders"; aws_config=aws_config)
-list_samlproviders(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviders", args; aws_config=aws_config)
+list_samlproviders(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviders", params; aws_config=aws_config)
 
 """
-    ListSSHPublicKeys()
+    list_server_certificate_tags(server_certificate_name)
+    list_server_certificate_tags(server_certificate_name, params::Dict{String,<:Any})
 
-Returns information about the SSH public keys associated with the specified IAM user. If none exists, the operation returns an empty list. The SSH public keys returned by this operation are used only for authenticating the IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide. Although each user is limited to a small number of keys, you can still paginate the results using the MaxItems and Marker parameters.
+Lists the tags that are attached to the specified IAM server certificate. The returned list
+of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources
+in the IAM User Guide.  For certificates in a Region supported by AWS Certificate Manager
+(ACM), we recommend that you don't use IAM server certificates. Instead, use ACM to
+provision, manage, and deploy your server certificates. For more information about IAM
+server certificates, Working with server certificates in the IAM User Guide.
+
+# Arguments
+- `server_certificate_name`: The name of the IAM server certificate whose tags you want to
+  see. This parameter accepts (through its regex pattern) a string of characters that consist
+  of upper and lowercase alphanumeric characters with no spaces. You can also include any of
+  the following characters: =,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `UserName`: The name of the IAM user to list SSH public keys for. If none is specified, the UserName field is determined implicitly based on the AWS access key used to sign the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: (Optional) Use this only when paginating results to indicate the maximum
+  number of items that you want in the response. If additional items exist beyond the maximum
+  that you specify, the IsTruncated response element is true. If you do not include this
+  parameter, it defaults to 100. Note that IAM might return fewer results, even when more
+  results are available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
-list_sshpublic_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSSHPublicKeys"; aws_config=aws_config)
-list_sshpublic_keys(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSSHPublicKeys", args; aws_config=aws_config)
+list_server_certificate_tags(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificateTags", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
+list_server_certificate_tags(ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
 
 """
-    ListServerCertificates()
+    list_server_certificates()
+    list_server_certificates(params::Dict{String,<:Any})
 
-Lists the server certificates stored in IAM that have the specified path prefix. If none exist, the operation returns an empty list.  You can paginate the results using the MaxItems and Marker parameters. For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide. This topic also includes a list of AWS services that can use the server certificates that you manage with IAM.
+Lists the server certificates stored in IAM that have the specified path prefix. If none
+exist, the operation returns an empty list.  You can paginate the results using the
+MaxItems and Marker parameters. For more information about working with server
+certificates, see Working with server certificates in the IAM User Guide. This topic also
+includes a list of AWS services that can use the server certificates that you manage with
+IAM.  IAM resource-listing operations return a subset of the available attributes for the
+resource. For example, this operation does not return tags, even though they are an
+attribute of the returned object. To view all of the information for a servercertificate,
+see GetServerCertificate.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`:  The path prefix for filtering the results. For example: /company/servercerts would get all server certificates for which the path starts with /company/servercerts. This parameter is optional. If it is not included, it defaults to a slash (/), listing all server certificates. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`:  The path prefix for filtering the results. For example:
+  /company/servercerts would get all server certificates for which the path starts with
+  /company/servercerts. This parameter is optional. If it is not included, it defaults to a
+  slash (/), listing all server certificates. This parameter allows (through its regex
+  pattern) a string of characters consisting of either a forward slash (/) by itself or a
+  string that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (u0021) through the DEL character (u007F), including most punctuation
+  characters, digits, and upper and lowercased letters.
 """
 list_server_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificates"; aws_config=aws_config)
-list_server_certificates(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificates", args; aws_config=aws_config)
+list_server_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificates", params; aws_config=aws_config)
 
 """
-    ListServiceSpecificCredentials()
+    list_service_specific_credentials()
+    list_service_specific_credentials(params::Dict{String,<:Any})
 
-Returns information about the service-specific credentials associated with the specified IAM user. If none exists, the operation returns an empty list. The service-specific credentials returned by this operation are used only for authenticating the IAM user to a specific service. For more information about using service-specific credentials to authenticate to an AWS service, see Set Up service-specific credentials in the AWS CodeCommit User Guide.
+Returns information about the service-specific credentials associated with the specified
+IAM user. If none exists, the operation returns an empty list. The service-specific
+credentials returned by this operation are used only for authenticating the IAM user to a
+specific service. For more information about using service-specific credentials to
+authenticate to an AWS service, see Set up service-specific credentials in the AWS
+CodeCommit User Guide.
 
 # Optional Parameters
-- `ServiceName`: Filters the returned results to only those for the specified AWS service. If not specified, then AWS returns service-specific credentials for all services.
-- `UserName`: The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ServiceName"`: Filters the returned results to only those for the specified AWS
+  service. If not specified, then AWS returns service-specific credentials for all services.
+- `"UserName"`: The name of the user whose service-specific credentials you want
+  information about. If this value is not specified, then the operation assumes the user
+  whose credentials are used to call the operation. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
 """
 list_service_specific_credentials(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServiceSpecificCredentials"; aws_config=aws_config)
-list_service_specific_credentials(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServiceSpecificCredentials", args; aws_config=aws_config)
+list_service_specific_credentials(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServiceSpecificCredentials", params; aws_config=aws_config)
 
 """
-    ListSigningCertificates()
+    list_signing_certificates()
+    list_signing_certificates(params::Dict{String,<:Any})
 
-Returns information about the signing certificates associated with the specified IAM user. If none exists, the operation returns an empty list. Although each user is limited to a small number of signing certificates, you can still paginate the results using the MaxItems and Marker parameters. If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request for this API. This operation works for access keys under the AWS account. Consequently, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
+Returns information about the signing certificates associated with the specified IAM user.
+If none exists, the operation returns an empty list. Although each user is limited to a
+small number of signing certificates, you can still paginate the results using the MaxItems
+and Marker parameters. If the UserName field is not specified, the user name is determined
+implicitly based on the AWS access key ID used to sign the request for this operation. This
+operation works for access keys under the AWS account. Consequently, you can use this
+operation to manage AWS account root user credentials even if the AWS account has no
+associated users.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `UserName`: The name of the IAM user whose signing certificates you want to examine. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"UserName"`: The name of the IAM user whose signing certificates you want to examine.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
 """
 list_signing_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSigningCertificates"; aws_config=aws_config)
-list_signing_certificates(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSigningCertificates", args; aws_config=aws_config)
+list_signing_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSigningCertificates", params; aws_config=aws_config)
 
 """
-    ListUserPolicies()
+    list_sshpublic_keys()
+    list_sshpublic_keys(params::Dict{String,<:Any})
 
-Lists the names of the inline policies embedded in the specified IAM user. An IAM user can also have managed policies attached to it. To list the managed policies that are attached to a user, use ListAttachedUserPolicies. For more information about policies, see Managed Policies and Inline Policies in the IAM User Guide. You can paginate the results using the MaxItems and Marker parameters. If there are no inline policies embedded with the specified user, the operation returns an empty list.
-
-# Required Parameters
-- `UserName`: The name of the user to list policies for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Returns information about the SSH public keys associated with the specified IAM user. If
+none exists, the operation returns an empty list. The SSH public keys returned by this
+operation are used only for authenticating the IAM user to an AWS CodeCommit repository.
+For more information about using SSH keys to authenticate to an AWS CodeCommit repository,
+see Set up AWS CodeCommit for SSH connections in the AWS CodeCommit User Guide. Although
+each user is limited to a small number of keys, you can still paginate the results using
+the MaxItems and Marker parameters.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"UserName"`: The name of the IAM user to list SSH public keys for. If none is specified,
+  the UserName field is determined implicitly based on the AWS access key used to sign the
+  request. This parameter allows (through its regex pattern) a string of characters
+  consisting of upper and lowercase alphanumeric characters with no spaces. You can also
+  include any of the following characters: _+=,.@-
+"""
+list_sshpublic_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSSHPublicKeys"; aws_config=aws_config)
+list_sshpublic_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSSHPublicKeys", params; aws_config=aws_config)
+
+"""
+    list_user_policies(user_name)
+    list_user_policies(user_name, params::Dict{String,<:Any})
+
+Lists the names of the inline policies embedded in the specified IAM user. An IAM user can
+also have managed policies attached to it. To list the managed policies that are attached
+to a user, use ListAttachedUserPolicies. For more information about policies, see Managed
+policies and inline policies in the IAM User Guide. You can paginate the results using the
+MaxItems and Marker parameters. If there are no inline policies embedded with the specified
+user, the operation returns an empty list.
+
+# Arguments
+- `user_name`: The name of the user to list policies for. This parameter allows (through
+  its regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserPolicies", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-list_user_policies(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+list_user_policies(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    ListUserTags()
+    list_user_tags(user_name)
+    list_user_tags(user_name, params::Dict{String,<:Any})
 
-Lists the tags that are attached to the specified user. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
+Lists the tags that are attached to the specified IAM user. The returned list of tags is
+sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM
+User Guide.
 
-# Required Parameters
-- `UserName`: The name of the IAM user whose tags you want to see. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+# Arguments
+- `user_name`: The name of the IAM user whose tags you want to see. This parameter accepts
+  (through its regex pattern) a string of characters that consist of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: =,.@-
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: (Optional) Use this only when paginating results to indicate the maximum
+  number of items that you want in the response. If additional items exist beyond the maximum
+  that you specify, the IsTruncated response element is true. If you do not include this
+  parameter, it defaults to 100. Note that IAM might return fewer results, even when more
+  results are available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_user_tags(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserTags", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-list_user_tags(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+list_user_tags(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    ListUsers()
+    list_users()
+    list_users(params::Dict{String,<:Any})
 
-Lists the IAM users that have the specified path prefix. If no path prefix is specified, the operation returns all users in the AWS account. If there are none, the operation returns an empty list. You can paginate the results using the MaxItems and Marker parameters.
+Lists the IAM users that have the specified path prefix. If no path prefix is specified,
+the operation returns all users in the AWS account. If there are none, the operation
+returns an empty list.  IAM resource-listing operations return a subset of the available
+attributes for the resource. For example, this operation does not return tags, even though
+they are an attribute of the returned object. To view all of the information for a user,
+see GetUser.  You can paginate the results using the MaxItems and Marker parameters.
 
 # Optional Parameters
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PathPrefix`:  The path prefix for filtering the results. For example: /division_abc/subdivision_xyz/, which would get all user names whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all user names. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PathPrefix"`:  The path prefix for filtering the results. For example:
+  /division_abc/subdivision_xyz/, which would get all user names whose path starts with
+  /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it
+  defaults to a slash (/), listing all user names. This parameter allows (through its regex
+  pattern) a string of characters consisting of either a forward slash (/) by itself or a
+  string that must begin and end with forward slashes. In addition, it can contain any ASCII
+  character from the ! (u0021) through the DEL character (u007F), including most punctuation
+  characters, digits, and upper and lowercased letters.
 """
 list_users(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUsers"; aws_config=aws_config)
-list_users(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUsers", args; aws_config=aws_config)
+list_users(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUsers", params; aws_config=aws_config)
 
 """
-    ListVirtualMFADevices()
+    list_virtual_mfadevices()
+    list_virtual_mfadevices(params::Dict{String,<:Any})
 
-Lists the virtual MFA devices defined in the AWS account by assignment status. If you do not specify an assignment status, the operation returns a list of all virtual MFA devices. Assignment status can be Assigned, Unassigned, or Any. You can paginate the results using the MaxItems and Marker parameters.
+Lists the virtual MFA devices defined in the AWS account by assignment status. If you do
+not specify an assignment status, the operation returns a list of all virtual MFA devices.
+Assignment status can be Assigned, Unassigned, or Any.  IAM resource-listing operations
+return a subset of the available attributes for the resource. For example, this operation
+does not return tags, even though they are an attribute of the returned object. To view all
+of the information for a virtual MFA device, see ListVirtualMFADevices.  You can paginate
+the results using the MaxItems and Marker parameters.
 
 # Optional Parameters
-- `AssignmentStatus`:  The status (Unassigned or Assigned) of the devices to list. If you do not specify an AssignmentStatus, the operation defaults to Any, which lists both assigned and unassigned virtual MFA devices.,
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AssignmentStatus"`:  The status (Unassigned or Assigned) of the devices to list. If you
+  do not specify an AssignmentStatus, the operation defaults to Any, which lists both
+  assigned and unassigned virtual MFA devices.,
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
 """
 list_virtual_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListVirtualMFADevices"; aws_config=aws_config)
-list_virtual_mfadevices(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListVirtualMFADevices", args; aws_config=aws_config)
+list_virtual_mfadevices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListVirtualMFADevices", params; aws_config=aws_config)
 
 """
-    PutGroupPolicy()
+    put_group_policy(group_name, policy_document, policy_name)
+    put_group_policy(group_name, policy_document, policy_name, params::Dict{String,<:Any})
 
-Adds or updates an inline policy document that is embedded in the specified IAM group. A user can also have managed policies attached to it. To attach a managed policy to a group, use AttachGroupPolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. For information about limits on the number of inline policies that you can embed in a group, see Limitations on IAM Entities in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutGroupPolicy. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 
+Adds or updates an inline policy document that is embedded in the specified IAM group. A
+user can also have managed policies attached to it. To attach a managed policy to a group,
+use AttachGroupPolicy. To create a new managed policy, use CreatePolicy. For information
+about policies, see Managed policies and inline policies in the IAM User Guide. For
+information about the maximum number of inline policies that you can embed in a group, see
+IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you
+should use POST rather than GET when calling PutGroupPolicy. For general information about
+using the Query API with IAM, see Making query requests in the IAM User Guide.
 
-# Required Parameters
-- `GroupName`: The name of the group to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-.
-- `PolicyDocument`: The policy document. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `PolicyName`: The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name of the group to associate the policy with. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-.
+- `policy_document`: The policy document. You must provide policies in JSON format in IAM.
+  However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in
+  JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before
+  submitting it to IAM. The regex pattern used to validate this parameter is a string of
+  characters consisting of the following:   Any printable ASCII character ranging from the
+  space character (u0020) through the end of the ASCII character range   The printable
+  characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
+  special characters tab (u0009), line feed (u000A), and carriage return (u000D)
+- `policy_name`: The name of the policy document. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 put_group_policy(GroupName, PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName); aws_config=aws_config)
-put_group_policy(GroupName, PolicyDocument, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
+put_group_policy(GroupName, PolicyDocument, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
-    PutRolePermissionsBoundary()
+    put_role_permissions_boundary(permissions_boundary, role_name)
+    put_role_permissions_boundary(permissions_boundary, role_name, params::Dict{String,<:Any})
 
-Adds or updates the policy that is specified as the IAM role's permissions boundary. You can use an AWS managed policy or a customer managed policy to set the boundary for a role. Use the boundary to control the maximum permissions that the role can have. Setting a permissions boundary is an advanced feature that can affect the permissions for the role. You cannot set the boundary for a service-linked role.   Policies used as permissions boundaries do not provide permissions. You must also attach a permissions policy to the role. To learn how the effective permissions for a role are evaluated, see IAM JSON Policy Evaluation Logic in the IAM User Guide.  
+Adds or updates the policy that is specified as the IAM role's permissions boundary. You
+can use an AWS managed policy or a customer managed policy to set the boundary for a role.
+Use the boundary to control the maximum permissions that the role can have. Setting a
+permissions boundary is an advanced feature that can affect the permissions for the role.
+You cannot set the boundary for a service-linked role.   Policies used as permissions
+boundaries do not provide permissions. You must also attach a permissions policy to the
+role. To learn how the effective permissions for a role are evaluated, see IAM JSON policy
+evaluation logic in the IAM User Guide.
 
-# Required Parameters
-- `PermissionsBoundary`: The ARN of the policy that is used to set the permissions boundary for the role.
-- `RoleName`: The name (friendly name, not ARN) of the IAM role for which you want to set the permissions boundary.
+# Arguments
+- `permissions_boundary`: The ARN of the policy that is used to set the permissions
+  boundary for the role.
+- `role_name`: The name (friendly name, not ARN) of the IAM role for which you want to set
+  the permissions boundary.
 
 """
 put_role_permissions_boundary(PermissionsBoundary, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePermissionsBoundary", Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName); aws_config=aws_config)
-put_role_permissions_boundary(PermissionsBoundary, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName), args)); aws_config=aws_config)
+put_role_permissions_boundary(PermissionsBoundary, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    PutRolePolicy()
+    put_role_policy(policy_document, policy_name, role_name)
+    put_role_policy(policy_document, policy_name, role_name, params::Dict{String,<:Any})
 
-Adds or updates an inline policy document that is embedded in the specified IAM role. When you embed an inline policy in a role, the inline policy is used as part of the role's access (permissions) policy. The role's trust policy is created at the same time as the role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy. For more information about IAM roles, go to Using Roles to Delegate Permissions and Federate Identities. A role can also have a managed policy attached to it. To attach a managed policy to a role, use AttachRolePolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. For information about limits on the number of inline policies that you can embed with a role, see Limitations on IAM Entities in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutRolePolicy. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 
+Adds or updates an inline policy document that is embedded in the specified IAM role. When
+you embed an inline policy in a role, the inline policy is used as part of the role's
+access (permissions) policy. The role's trust policy is created at the same time as the
+role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy.
+For more information about IAM roles, see Using roles to delegate permissions and federate
+identities. A role can also have a managed policy attached to it. To attach a managed
+policy to a role, use AttachRolePolicy. To create a new managed policy, use CreatePolicy.
+For information about policies, see Managed policies and inline policies in the IAM User
+Guide. For information about the maximum number of inline policies that you can embed with
+a role, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be
+large, you should use POST rather than GET when calling PutRolePolicy. For general
+information about using the Query API with IAM, see Making query requests in the IAM User
+Guide.
 
-# Required Parameters
-- `PolicyDocument`: The policy document. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `PolicyName`: The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `RoleName`: The name of the role to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_document`: The policy document. You must provide policies in JSON format in IAM.
+  However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in
+  JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before
+  submitting it to IAM. The regex pattern used to validate this parameter is a string of
+  characters consisting of the following:   Any printable ASCII character ranging from the
+  space character (u0020) through the end of the ASCII character range   The printable
+  characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
+  special characters tab (u0009), line feed (u000A), and carriage return (u000D)
+- `policy_name`: The name of the policy document. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
+- `role_name`: The name of the role to associate the policy with. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 put_role_policy(PolicyDocument, PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
-put_role_policy(PolicyDocument, PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws_config=aws_config)
+put_role_policy(PolicyDocument, PolicyName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    PutUserPermissionsBoundary()
+    put_user_permissions_boundary(permissions_boundary, user_name)
+    put_user_permissions_boundary(permissions_boundary, user_name, params::Dict{String,<:Any})
 
-Adds or updates the policy that is specified as the IAM user's permissions boundary. You can use an AWS managed policy or a customer managed policy to set the boundary for a user. Use the boundary to control the maximum permissions that the user can have. Setting a permissions boundary is an advanced feature that can affect the permissions for the user.  Policies that are used as permissions boundaries do not provide permissions. You must also attach a permissions policy to the user. To learn how the effective permissions for a user are evaluated, see IAM JSON Policy Evaluation Logic in the IAM User Guide.  
+Adds or updates the policy that is specified as the IAM user's permissions boundary. You
+can use an AWS managed policy or a customer managed policy to set the boundary for a user.
+Use the boundary to control the maximum permissions that the user can have. Setting a
+permissions boundary is an advanced feature that can affect the permissions for the user.
+Policies that are used as permissions boundaries do not provide permissions. You must also
+attach a permissions policy to the user. To learn how the effective permissions for a user
+are evaluated, see IAM JSON policy evaluation logic in the IAM User Guide.
 
-# Required Parameters
-- `PermissionsBoundary`: The ARN of the policy that is used to set the permissions boundary for the user.
-- `UserName`: The name (friendly name, not ARN) of the IAM user for which you want to set the permissions boundary.
+# Arguments
+- `permissions_boundary`: The ARN of the policy that is used to set the permissions
+  boundary for the user.
+- `user_name`: The name (friendly name, not ARN) of the IAM user for which you want to set
+  the permissions boundary.
 
 """
 put_user_permissions_boundary(PermissionsBoundary, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPermissionsBoundary", Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName); aws_config=aws_config)
-put_user_permissions_boundary(PermissionsBoundary, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName), args)); aws_config=aws_config)
+put_user_permissions_boundary(PermissionsBoundary, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    PutUserPolicy()
+    put_user_policy(policy_document, policy_name, user_name)
+    put_user_policy(policy_document, policy_name, user_name, params::Dict{String,<:Any})
 
-Adds or updates an inline policy document that is embedded in the specified IAM user. An IAM user can also have a managed policy attached to it. To attach a managed policy to a user, use AttachUserPolicy. To create a new managed policy, use CreatePolicy. For information about policies, see Managed Policies and Inline Policies in the IAM User Guide. For information about limits on the number of inline policies that you can embed in a user, see Limitations on IAM Entities in the IAM User Guide.  Because policy documents can be large, you should use POST rather than GET when calling PutUserPolicy. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 
+Adds or updates an inline policy document that is embedded in the specified IAM user. An
+IAM user can also have a managed policy attached to it. To attach a managed policy to a
+user, use AttachUserPolicy. To create a new managed policy, use CreatePolicy. For
+information about policies, see Managed policies and inline policies in the IAM User Guide.
+For information about the maximum number of inline policies that you can embed in a user,
+see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you
+should use POST rather than GET when calling PutUserPolicy. For general information about
+using the Query API with IAM, see Making query requests in the IAM User Guide.
 
-# Required Parameters
-- `PolicyDocument`: The policy document. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `PolicyName`: The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `UserName`: The name of the user to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_document`: The policy document. You must provide policies in JSON format in IAM.
+  However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in
+  JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before
+  submitting it to IAM. The regex pattern used to validate this parameter is a string of
+  characters consisting of the following:   Any printable ASCII character ranging from the
+  space character (u0020) through the end of the ASCII character range   The printable
+  characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
+  special characters tab (u0009), line feed (u000A), and carriage return (u000D)
+- `policy_name`: The name of the policy document. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
+- `user_name`: The name of the user to associate the policy with. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 put_user_policy(PolicyDocument, PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
-put_user_policy(PolicyDocument, PolicyName, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws_config=aws_config)
+put_user_policy(PolicyDocument, PolicyName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    RemoveClientIDFromOpenIDConnectProvider()
+    remove_client_idfrom_open_idconnect_provider(client_id, open_idconnect_provider_arn)
+    remove_client_idfrom_open_idconnect_provider(client_id, open_idconnect_provider_arn, params::Dict{String,<:Any})
 
-Removes the specified client ID (also known as audience) from the list of client IDs registered for the specified IAM OpenID Connect (OIDC) provider resource object. This operation is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist.
+Removes the specified client ID (also known as audience) from the list of client IDs
+registered for the specified IAM OpenID Connect (OIDC) provider resource object. This
+operation is idempotent; it does not fail or return an error if you try to remove a client
+ID that does not exist.
 
-# Required Parameters
-- `ClientID`: The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see CreateOpenIDConnectProvider.
-- `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `client_id`: The client ID (also known as audience) to remove from the IAM OIDC provider
+  resource. For more information about client IDs, see CreateOpenIDConnectProvider.
+- `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OIDC provider
+  resource to remove the client ID from. You can get a list of OIDC provider ARNs by using
+  the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon
+  Resource Names (ARNs) in the AWS General Reference.
 
 """
 remove_client_idfrom_open_idconnect_provider(ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-remove_client_idfrom_open_idconnect_provider(ClientID, OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws_config=aws_config)
+remove_client_idfrom_open_idconnect_provider(ClientID, OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
-    RemoveRoleFromInstanceProfile()
+    remove_role_from_instance_profile(instance_profile_name, role_name)
+    remove_role_from_instance_profile(instance_profile_name, role_name, params::Dict{String,<:Any})
 
-Removes the specified IAM role from the specified EC2 instance profile.  Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance.   For more information about IAM roles, go to Working with Roles. For more information about instance profiles, go to About Instance Profiles.
+Removes the specified IAM role from the specified EC2 instance profile.  Make sure that you
+do not have any Amazon EC2 instances running with the role you are about to remove from the
+instance profile. Removing a role from an instance profile that is associated with a
+running instance might break any applications running on the instance.   For more
+information about IAM roles, see Working with roles. For more information about instance
+profiles, see About instance profiles.
 
-# Required Parameters
-- `InstanceProfileName`: The name of the instance profile to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `RoleName`: The name of the role to remove. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `instance_profile_name`: The name of the instance profile to update. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+- `role_name`: The name of the role to remove. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 remove_role_from_instance_profile(InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName); aws_config=aws_config)
-remove_role_from_instance_profile(InstanceProfileName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), args)); aws_config=aws_config)
+remove_role_from_instance_profile(InstanceProfileName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    RemoveUserFromGroup()
+    remove_user_from_group(group_name, user_name)
+    remove_user_from_group(group_name, user_name, params::Dict{String,<:Any})
 
 Removes the specified user from the specified group.
 
-# Required Parameters
-- `GroupName`: The name of the group to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `UserName`: The name of the user to remove. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: The name of the group to update. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
+- `user_name`: The name of the user to remove. This parameter allows (through its regex
+  pattern) a string of characters consisting of upper and lowercase alphanumeric characters
+  with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
 remove_user_from_group(GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveUserFromGroup", Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName); aws_config=aws_config)
-remove_user_from_group(GroupName, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), args)); aws_config=aws_config)
+remove_user_from_group(GroupName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    ResetServiceSpecificCredential()
+    reset_service_specific_credential(service_specific_credential_id)
+    reset_service_specific_credential(service_specific_credential_id, params::Dict{String,<:Any})
 
-Resets the password for a service-specific credential. The new password is AWS generated and cryptographically strong. It cannot be configured by the user. Resetting the password immediately invalidates the previous password associated with this user.
+Resets the password for a service-specific credential. The new password is AWS generated
+and cryptographically strong. It cannot be configured by the user. Resetting the password
+immediately invalidates the previous password associated with this user.
 
-# Required Parameters
-- `ServiceSpecificCredentialId`: The unique identifier of the service-specific credential. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
+# Arguments
+- `service_specific_credential_id`: The unique identifier of the service-specific
+  credential. This parameter allows (through its regex pattern) a string of characters that
+  can consist of any upper or lowercased letter or digit.
 
 # Optional Parameters
-- `UserName`: The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the IAM user associated with the service-specific credential.
+  If this value is not specified, then the operation assumes the user whose credentials are
+  used to call the operation. This parameter allows (through its regex pattern) a string of
+  characters consisting of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: _+=,.@-
 """
 reset_service_specific_credential(ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResetServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId); aws_config=aws_config)
-reset_service_specific_credential(ServiceSpecificCredentialId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResetServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), args)); aws_config=aws_config)
+reset_service_specific_credential(ServiceSpecificCredentialId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResetServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config)
 
 """
-    ResyncMFADevice()
+    resync_mfadevice(authentication_code1, authentication_code2, serial_number, user_name)
+    resync_mfadevice(authentication_code1, authentication_code2, serial_number, user_name, params::Dict{String,<:Any})
 
-Synchronizes the specified MFA device with its IAM resource object on the AWS servers. For more information about creating and working with virtual MFA devices, go to Using a Virtual MFA Device in the IAM User Guide.
+Synchronizes the specified MFA device with its IAM resource object on the AWS servers. For
+more information about creating and working with virtual MFA devices, see Using a virtual
+MFA device in the IAM User Guide.
 
-# Required Parameters
-- `AuthenticationCode1`: An authentication code emitted by the device. The format for this parameter is a sequence of six digits.
-- `AuthenticationCode2`: A subsequent authentication code emitted by the device. The format for this parameter is a sequence of six digits.
-- `SerialNumber`: Serial number that uniquely identifies the MFA device. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `UserName`: The name of the user whose MFA device you want to resynchronize. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `authentication_code1`: An authentication code emitted by the device. The format for this
+  parameter is a sequence of six digits.
+- `authentication_code2`: A subsequent authentication code emitted by the device. The
+  format for this parameter is a sequence of six digits.
+- `serial_number`: Serial number that uniquely identifies the MFA device. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+- `user_name`: The name of the user whose MFA device you want to resynchronize. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 resync_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResyncMFADevice", Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
-resync_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResyncMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws_config=aws_config)
+resync_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResyncMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    SetDefaultPolicyVersion()
+    set_default_policy_version(policy_arn, version_id)
+    set_default_policy_version(policy_arn, version_id, params::Dict{String,<:Any})
 
-Sets the specified version of the specified policy as the policy's default (operative) version. This operation affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use the ListEntitiesForPolicy API. For information about managed policies, see Managed Policies and Inline Policies in the IAM User Guide.
+Sets the specified version of the specified policy as the policy's default (operative)
+version. This operation affects all users, groups, and roles that the policy is attached
+to. To list the users, groups, and roles that the policy is attached to, use
+ListEntitiesForPolicy. For information about managed policies, see Managed policies and
+inline policies in the IAM User Guide.
 
-# Required Parameters
-- `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy whose default version you want to set. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `VersionId`: The version of the policy to set as the default (operative) version. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
+# Arguments
+- `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy whose default version you
+  want to set. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS
+  General Reference.
+- `version_id`: The version of the policy to set as the default (operative) version. For
+  more information about managed policy versions, see Versioning for managed policies in the
+  IAM User Guide.
 
 """
 set_default_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetDefaultPolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
-set_default_policy_version(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetDefaultPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws_config=aws_config)
+set_default_policy_version(PolicyArn, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetDefaultPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
 
 """
-    SetSecurityTokenServicePreferences()
+    set_security_token_service_preferences(global_endpoint_token_version)
+    set_security_token_service_preferences(global_endpoint_token_version, params::Dict{String,<:Any})
 
-Sets the specified version of the global endpoint token as the token version used for the AWS account. By default, AWS Security Token Service (STS) is available as a global service, and all STS requests go to a single endpoint at https://sts.amazonaws.com. AWS recommends using Regional STS endpoints to reduce latency, build in redundancy, and increase session token availability. For information about Regional endpoints for STS, see AWS Regions and Endpoints in the AWS General Reference. If you make an STS call to the global endpoint, the resulting session tokens might be valid in some Regions but not others. It depends on the version that is set in this operation. Version 1 tokens are valid only in AWS Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and Deactivating STS in an AWS Region in the IAM User Guide. To view the current session token version, see the GlobalEndpointTokenVersion entry in the response of the GetAccountSummary operation.
+Sets the specified version of the global endpoint token as the token version used for the
+AWS account. By default, AWS Security Token Service (STS) is available as a global service,
+and all STS requests go to a single endpoint at https://sts.amazonaws.com. AWS recommends
+using Regional STS endpoints to reduce latency, build in redundancy, and increase session
+token availability. For information about Regional endpoints for STS, see AWS AWS Security
+Token Service endpoints and quotas in the AWS General Reference. If you make an STS call to
+the global endpoint, the resulting session tokens might be valid in some Regions but not
+others. It depends on the version that is set in this operation. Version 1 tokens are valid
+only in AWS Regions that are available by default. These tokens do not work in manually
+enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all
+Regions. However, version 2 tokens are longer and might affect systems where you
+temporarily store tokens. For information, see Activating and deactivating STS in an AWS
+region in the IAM User Guide. To view the current session token version, see the
+GlobalEndpointTokenVersion entry in the response of the GetAccountSummary operation.
 
-# Required Parameters
-- `GlobalEndpointTokenVersion`: The version of the global endpoint token. Version 1 tokens are valid only in AWS Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and Deactivating STS in an AWS Region in the IAM User Guide.
+# Arguments
+- `global_endpoint_token_version`: The version of the global endpoint token. Version 1
+  tokens are valid only in AWS Regions that are available by default. These tokens do not
+  work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are
+  valid in all Regions. However, version 2 tokens are longer and might affect systems where
+  you temporarily store tokens. For information, see Activating and deactivating STS in an
+  AWS region in the IAM User Guide.
 
 """
 set_security_token_service_preferences(GlobalEndpointTokenVersion; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion); aws_config=aws_config)
-set_security_token_service_preferences(GlobalEndpointTokenVersion, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion), args)); aws_config=aws_config)
+set_security_token_service_preferences(GlobalEndpointTokenVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion), params)); aws_config=aws_config)
 
 """
-    SimulateCustomPolicy()
+    simulate_custom_policy(action_names, policy_input_list)
+    simulate_custom_policy(action_names, policy_input_list, params::Dict{String,<:Any})
 
-Simulate how a set of IAM policies and optionally a resource-based policy works with a list of API operations and AWS resources to determine the policies' effective permissions. The policies are provided as strings. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations. If you want to simulate existing policies that are attached to an IAM user, group, or role, use SimulatePrincipalPolicy instead. Context keys are variables that are maintained by AWS and its services and which provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker parameters to paginate the results.
+Simulate how a set of IAM policies and optionally a resource-based policy works with a list
+of API operations and AWS resources to determine the policies' effective permissions. The
+policies are provided as strings. The simulation does not perform the API operations; it
+only checks the authorization to determine if the simulated policies allow or deny the
+operations. You can simulate resources that don't exist in your account. If you want to
+simulate existing policies that are attached to an IAM user, group, or role, use
+SimulatePrincipalPolicy instead. Context keys are variables that are maintained by AWS and
+its services and which provide details about the context of an API query request. You can
+use the Condition element of an IAM policy to evaluate context keys. To get the list of
+context keys that the policies require for correct simulation, use
+GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker
+parameters to paginate the results. For more information about using the policy simulator,
+see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
 
-# Required Parameters
-- `ActionNames`: A list of names of API operations to evaluate in the simulation. Each operation is evaluated against each resource. Each operation must include the service identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in an action name.
-- `PolicyInputList`: A list of policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. Do not include any resource-based policies in this parameter. Any resource-based policy must be submitted with the ResourcePolicy parameter. The policies cannot be \"scope-down\" policies, such as you could include in a call to GetFederationToken or one of the AssumeRole API operations. In other words, do not use policies designed to restrict what a user can do while using the temporary credentials. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
+# Arguments
+- `action_names`: A list of names of API operations to evaluate in the simulation. Each
+  operation is evaluated against each resource. Each operation must include the service
+  identifier, such as iam:CreateUser. This operation does not support using wildcards (*) in
+  an action name.
+- `policy_input_list`: A list of policy documents to include in the simulation. Each
+  document is specified as a string containing the complete, valid JSON text of an IAM
+  policy. Do not include any resource-based policies in this parameter. Any resource-based
+  policy must be submitted with the ResourcePolicy parameter. The policies cannot be
+  \"scope-down\" policies, such as you could include in a call to GetFederationToken or one
+  of the AssumeRole API operations. In other words, do not use policies designed to restrict
+  what a user can do while using the temporary credentials. The regex pattern used to
+  validate this parameter is a string of characters consisting of the following:   Any
+  printable ASCII character ranging from the space character (u0020) through the end of the
+  ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement
+  character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and
+  carriage return (u000D)
 
 # Optional Parameters
-- `CallerArn`: The ARN of the IAM user that you want to use as the simulated caller of the API operations. CallerArn is required if you include a ResourcePolicy so that the policy's Principal element has a value to use in evaluating the policy. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.
-- `ContextEntries`: A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PermissionsBoundaryPolicyInputList`: The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that an IAM entity can have. You can input only one permissions boundary when you pass a policy to this operation. For more information about permissions boundaries, see Permissions Boundaries for IAM Entities in the IAM User Guide. The policy input is specified as a string that contains the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `ResourceArns`: A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `ResourceHandlingOption`: Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security-group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network-interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported Platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance, image, security-group    EC2-Classic-EBS  instance, image, security-group, volume    EC2-VPC-InstanceStore  instance, image, security-group, network-interface    EC2-VPC-InstanceStore-Subnet  instance, image, security-group, network-interface, subnet    EC2-VPC-EBS  instance, image, security-group, network-interface, volume    EC2-VPC-EBS-Subnet  instance, image, security-group, network-interface, subnet, volume  
-- `ResourceOwner`: An ARN representing the AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn. The ARN for an account uses the following syntax: arn:aws:iam::AWS-account-ID:root. For example, to represent the account with the 112233445566 ID, use the following ARN: arn:aws:iam::112233445566-ID:root. 
-- `ResourcePolicy`: A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CallerArn"`: The ARN of the IAM user that you want to use as the simulated caller of
+  the API operations. CallerArn is required if you include a ResourcePolicy so that the
+  policy's Principal element has a value to use in evaluating the policy. You can specify
+  only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user,
+  or a service principal.
+- `"ContextEntries"`: A list of context keys and corresponding values for the simulation to
+  use. Whenever a context key is evaluated in one of the simulated IAM permissions policies,
+  the corresponding value is supplied.
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PermissionsBoundaryPolicyInputList"`: The IAM permissions boundary policy to simulate.
+  The permissions boundary sets the maximum permissions that an IAM entity can have. You can
+  input only one permissions boundary when you pass a policy to this operation. For more
+  information about permissions boundaries, see Permissions boundaries for IAM entities in
+  the IAM User Guide. The policy input is specified as a string that contains the complete,
+  valid JSON text of a permissions boundary policy. The regex pattern used to validate this
+  parameter is a string of characters consisting of the following:   Any printable ASCII
+  character ranging from the space character (u0020) through the end of the ASCII character
+  range   The printable characters in the Basic Latin and Latin-1 Supplement character set
+  (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage
+  return (u000D)
+- `"ResourceArns"`: A list of ARNs of AWS resources to include in the simulation. If this
+  parameter is not provided, then the value defaults to * (all resources). Each API in the
+  ActionNames parameter is evaluated for each resource in this list. The simulation
+  determines the access result (allowed or denied) of each combination and reports it in the
+  response. You can simulate resources that don't exist in your account. The simulation does
+  not automatically retrieve policies for the specified resources. If you want to include a
+  resource policy in the simulation, then you must include the policy as a string in the
+  ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to
+  all of the resources included in the simulation or you receive an invalid input error. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+- `"ResourceHandlingOption"`: Specifies the type of simulation to run. Different API
+  operations that support resource-based policies require different combinations of
+  resources. By specifying the type of simulation to run, you enable the policy simulator to
+  enforce the presence of the required resources to ensure reliable simulation results. If
+  your simulation does not match one of the following scenarios, then you can omit this
+  parameter. The following list shows each of the supported scenario values and the resources
+  that you must define to run the simulation. Each of the EC2 scenarios requires that you
+  specify instance, image, and security-group resources. If your scenario includes an EBS
+  volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC,
+  then you must supply the network-interface resource. If it includes an IP subnet, then you
+  must specify the subnet resource. For more information on the EC2 scenario options, see
+  Supported platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance,
+  image, security-group    EC2-Classic-EBS  instance, image, security-group, volume
+  EC2-VPC-InstanceStore  instance, image, security-group, network-interface
+  EC2-VPC-InstanceStore-Subnet  instance, image, security-group, network-interface, subnet
+  EC2-VPC-EBS  instance, image, security-group, network-interface, volume
+  EC2-VPC-EBS-Subnet  instance, image, security-group, network-interface, subnet, volume
+- `"ResourceOwner"`: An ARN representing the AWS account ID that specifies the owner of any
+  simulated resource that does not identify its owner in the resource ARN. Examples of
+  resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also
+  used as the account owner of any ResourcePolicy included in the simulation. If the
+  ResourceOwner parameter is not specified, then the owner of the resources and the resource
+  policy defaults to the account of the identity provided in CallerArn. This parameter is
+  required only if you specify a resource-based policy and account that owns the resource is
+  different from the account that owns the simulated calling user CallerArn. The ARN for an
+  account uses the following syntax: arn:aws:iam::AWS-account-ID:root. For example, to
+  represent the account with the 112233445566 ID, use the following ARN:
+  arn:aws:iam::112233445566-ID:root.
+- `"ResourcePolicy"`: A resource-based policy to include in the simulation provided as a
+  string. Each resource in the simulation is treated as if it had this policy attached. You
+  can include only one resource-based policy in a simulation. The regex pattern used to
+  validate this parameter is a string of characters consisting of the following:   Any
+  printable ASCII character ranging from the space character (u0020) through the end of the
+  ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement
+  character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and
+  carriage return (u000D)
 """
 simulate_custom_policy(ActionNames, PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulateCustomPolicy", Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList); aws_config=aws_config)
-simulate_custom_policy(ActionNames, PolicyInputList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulateCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList), args)); aws_config=aws_config)
+simulate_custom_policy(ActionNames, PolicyInputList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulateCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config)
 
 """
-    SimulatePrincipalPolicy()
+    simulate_principal_policy(action_names, policy_source_arn)
+    simulate_principal_policy(action_names, policy_source_arn, params::Dict{String,<:Any})
 
-Simulate how a set of IAM policies attached to an IAM entity works with a list of API operations and AWS resources to determine the policies' effective permissions. The entity can be an IAM user, group, or role. If you specify a user, then the simulation also includes all of the policies that are attached to groups that the user belongs to. You can optionally include a list of one or more additional policies specified as strings to include in the simulation. If you want to simulate only policies specified as strings, use SimulateCustomPolicy instead. You can also optionally include one resource-based policy to be evaluated with each of the resources included in the simulation. The simulation does not perform the API operations; it only checks the authorization to determine if the simulated policies allow or deny the operations.  Note: This API discloses information about the permissions granted to other users. If you do not want users to see other user's permissions, then consider allowing them to use SimulateCustomPolicy instead. Context keys are variables maintained by AWS and its services that provide details about the context of an API query request. You can use the Condition element of an IAM policy to evaluate context keys. To get the list of context keys that the policies require for correct simulation, use GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and Marker parameters to paginate the results.
+Simulate how a set of IAM policies attached to an IAM entity works with a list of API
+operations and AWS resources to determine the policies' effective permissions. The entity
+can be an IAM user, group, or role. If you specify a user, then the simulation also
+includes all of the policies that are attached to groups that the user belongs to. You can
+simulate resources that don't exist in your account. You can optionally include a list of
+one or more additional policies specified as strings to include in the simulation. If you
+want to simulate only policies specified as strings, use SimulateCustomPolicy instead. You
+can also optionally include one resource-based policy to be evaluated with each of the
+resources included in the simulation. The simulation does not perform the API operations;
+it only checks the authorization to determine if the simulated policies allow or deny the
+operations.  Note: This operation discloses information about the permissions granted to
+other users. If you do not want users to see other user's permissions, then consider
+allowing them to use SimulateCustomPolicy instead. Context keys are variables maintained by
+AWS and its services that provide details about the context of an API query request. You
+can use the Condition element of an IAM policy to evaluate context keys. To get the list of
+context keys that the policies require for correct simulation, use
+GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and
+Marker parameters to paginate the results. For more information about using the policy
+simulator, see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
 
-# Required Parameters
-- `ActionNames`: A list of names of API operations to evaluate in the simulation. Each operation is evaluated for each resource. Each operation must include the service identifier, such as iam:CreateUser.
-- `PolicySourceArn`: The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `action_names`: A list of names of API operations to evaluate in the simulation. Each
+  operation is evaluated for each resource. Each operation must include the service
+  identifier, such as iam:CreateUser.
+- `policy_source_arn`: The Amazon Resource Name (ARN) of a user, group, or role whose
+  policies you want to include in the simulation. If you specify a user, group, or role, the
+  simulation includes all policies that are associated with that entity. If you specify a
+  user, the simulation also includes all policies that are attached to any groups the user
+  belongs to. For more information about ARNs, see Amazon Resource Names (ARNs) in the AWS
+  General Reference.
 
 # Optional Parameters
-- `CallerArn`: The ARN of the IAM user that you want to specify as the simulated caller of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the user that you specify in PolicySourceArn, if you specified a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an IAM user. You cannot specify the ARN of an assumed role, federated user, or a service principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn is not the ARN for an IAM user. This is required so that the resource-based policy's Principal element has a value to use in evaluating the policy. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `ContextEntries`: A list of context keys and corresponding values for the simulation to use. Whenever a context key is evaluated in one of the simulated IAM permissions policies, the corresponding value is supplied.
-- `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
-- `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
-- `PermissionsBoundaryPolicyInputList`: The IAM permissions boundary policy to simulate. The permissions boundary sets the maximum permissions that the entity can have. You can input only one permissions boundary when you pass a policy to this operation. An IAM entity can only have one permissions boundary in effect at a time. For example, if a permissions boundary is attached to an entity and you pass in a different permissions boundary policy using this parameter, then the new permissions boundary policy is used for the simulation. For more information about permissions boundaries, see Permissions Boundaries for IAM Entities in the IAM User Guide. The policy input is specified as a string containing the complete, valid JSON text of a permissions boundary policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `PolicyInputList`: An optional list of additional policy documents to include in the simulation. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `ResourceArns`: A list of ARNs of AWS resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `ResourceHandlingOption`: Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see Supported Platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance, image, security group    EC2-Classic-EBS  instance, image, security group, volume    EC2-VPC-InstanceStore  instance, image, security group, network interface    EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet    EC2-VPC-EBS  instance, image, security group, network interface, volume    EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume  
-- `ResourceOwner`: An AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn.
-- `ResourcePolicy`: A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CallerArn"`: The ARN of the IAM user that you want to specify as the simulated caller
+  of the API operations. If you do not specify a CallerArn, it defaults to the ARN of the
+  user that you specify in PolicySourceArn, if you specified a user. If you include both a
+  PolicySourceArn (for example, arn:aws:iam::123456789012:user/David) and a CallerArn (for
+  example, arn:aws:iam::123456789012:user/Bob), the result is that you simulate calling the
+  API operations as Bob, as if Bob had David's policies. You can specify only the ARN of an
+  IAM user. You cannot specify the ARN of an assumed role, federated user, or a service
+  principal.  CallerArn is required if you include a ResourcePolicy and the PolicySourceArn
+  is not the ARN for an IAM user. This is required so that the resource-based policy's
+  Principal element has a value to use in evaluating the policy. For more information about
+  ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+- `"ContextEntries"`: A list of context keys and corresponding values for the simulation to
+  use. Whenever a context key is evaluated in one of the simulated IAM permissions policies,
+  the corresponding value is supplied.
+- `"Marker"`: Use this parameter only when paginating results and only after you receive a
+  response indicating that the results are truncated. Set it to the value of the Marker
+  element in the response that you received to indicate where the next call should start.
+- `"MaxItems"`: Use this only when paginating results to indicate the maximum number of
+  items you want in the response. If additional items exist beyond the maximum you specify,
+  the IsTruncated response element is true. If you do not include this parameter, the number
+  of items defaults to 100. Note that IAM might return fewer results, even when there are
+  more results available. In that case, the IsTruncated response element returns true, and
+  Marker contains a value to include in the subsequent call that tells the service where to
+  continue from.
+- `"PermissionsBoundaryPolicyInputList"`: The IAM permissions boundary policy to simulate.
+  The permissions boundary sets the maximum permissions that the entity can have. You can
+  input only one permissions boundary when you pass a policy to this operation. An IAM entity
+  can only have one permissions boundary in effect at a time. For example, if a permissions
+  boundary is attached to an entity and you pass in a different permissions boundary policy
+  using this parameter, then the new permissions boundary policy is used for the simulation.
+  For more information about permissions boundaries, see Permissions boundaries for IAM
+  entities in the IAM User Guide. The policy input is specified as a string containing the
+  complete, valid JSON text of a permissions boundary policy. The regex pattern used to
+  validate this parameter is a string of characters consisting of the following:   Any
+  printable ASCII character ranging from the space character (u0020) through the end of the
+  ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement
+  character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and
+  carriage return (u000D)
+- `"PolicyInputList"`: An optional list of additional policy documents to include in the
+  simulation. Each document is specified as a string containing the complete, valid JSON text
+  of an IAM policy. The regex pattern used to validate this parameter is a string of
+  characters consisting of the following:   Any printable ASCII character ranging from the
+  space character (u0020) through the end of the ASCII character range   The printable
+  characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
+  special characters tab (u0009), line feed (u000A), and carriage return (u000D)
+- `"ResourceArns"`: A list of ARNs of AWS resources to include in the simulation. If this
+  parameter is not provided, then the value defaults to * (all resources). Each API in the
+  ActionNames parameter is evaluated for each resource in this list. The simulation
+  determines the access result (allowed or denied) of each combination and reports it in the
+  response. You can simulate resources that don't exist in your account. The simulation does
+  not automatically retrieve policies for the specified resources. If you want to include a
+  resource policy in the simulation, then you must include the policy as a string in the
+  ResourcePolicy parameter. For more information about ARNs, see Amazon Resource Names (ARNs)
+  in the AWS General Reference.
+- `"ResourceHandlingOption"`: Specifies the type of simulation to run. Different API
+  operations that support resource-based policies require different combinations of
+  resources. By specifying the type of simulation to run, you enable the policy simulator to
+  enforce the presence of the required resources to ensure reliable simulation results. If
+  your simulation does not match one of the following scenarios, then you can omit this
+  parameter. The following list shows each of the supported scenario values and the resources
+  that you must define to run the simulation. Each of the EC2 scenarios requires that you
+  specify instance, image, and security group resources. If your scenario includes an EBS
+  volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC,
+  then you must supply the network interface resource. If it includes an IP subnet, then you
+  must specify the subnet resource. For more information on the EC2 scenario options, see
+  Supported platforms in the Amazon EC2 User Guide.    EC2-Classic-InstanceStore  instance,
+  image, security group    EC2-Classic-EBS  instance, image, security group, volume
+  EC2-VPC-InstanceStore  instance, image, security group, network interface
+  EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet
+  EC2-VPC-EBS  instance, image, security group, network interface, volume
+  EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume
+- `"ResourceOwner"`: An AWS account ID that specifies the owner of any simulated resource
+  that does not identify its owner in the resource ARN. Examples of resource ARNs include an
+  S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of
+  any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not
+  specified, then the owner of the resources and the resource policy defaults to the account
+  of the identity provided in CallerArn. This parameter is required only if you specify a
+  resource-based policy and account that owns the resource is different from the account that
+  owns the simulated calling user CallerArn.
+- `"ResourcePolicy"`: A resource-based policy to include in the simulation provided as a
+  string. Each resource in the simulation is treated as if it had this policy attached. You
+  can include only one resource-based policy in a simulation. The regex pattern used to
+  validate this parameter is a string of characters consisting of the following:   Any
+  printable ASCII character ranging from the space character (u0020) through the end of the
+  ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement
+  character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and
+  carriage return (u000D)
 """
 simulate_principal_policy(ActionNames, PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulatePrincipalPolicy", Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn); aws_config=aws_config)
-simulate_principal_policy(ActionNames, PolicySourceArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulatePrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn), args)); aws_config=aws_config)
+simulate_principal_policy(ActionNames, PolicySourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulatePrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config)
 
 """
-    TagRole()
+    tag_instance_profile(instance_profile_name, tags)
+    tag_instance_profile(instance_profile_name, tags, params::Dict{String,<:Any})
 
-Adds one or more tags to an IAM role. The role can be a regular role or a service-linked role. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:    Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.     Access control - Reference tags in IAM user-based and resource-based policies. You can use tags to restrict access to only an IAM user or role that has a specified tag attached. You can also restrict access to only those resources that have a certain tag attached. For examples of policies that show how to use tags to control access, see Control Access Using IAM Tags in the IAM User Guide.    Cost allocation - Use tags to help track which individuals and teams are using which AWS resources.      Make sure that you have no invalid tags and that you do not exceed the allowed number of tags per role. In either case, the entire request fails and no tags are added to the role.   AWS always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.    For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
+Adds one or more tags to an IAM instance profile. If a tag with the same key name already
+exists, then that tag is overwritten with the new value. Each tag consists of a key name
+and an associated value. By assigning tags to your resources, you can do the following:
+Administrative grouping and discovery - Attach tags to resources to aid in organization and
+search. For example, you could search for all resources with the key name Project and the
+value MyImportantProject. Or search for all resources with the key name Cost Center and the
+value 41200.     Access control - Include tags in IAM user-based and resource-based
+policies. You can use tags to restrict access to only an IAM instance profile that has a
+specified tag attached. For examples of policies that show how to use tags to control
+access, see Control access using IAM tags in the IAM User Guide.      If any one of the
+tags is invalid or if you exceed the allowed maximum number of tags, then the entire
+request fails and the resource is not created. For more information about tagging, see
+Tagging IAM resources in the IAM User Guide.   AWS always interprets the tag Value as a
+single string. If you need to store an array, you can store comma-separated values in the
+string. However, you must interpret the value in your code.
 
-# Required Parameters
-- `RoleName`: The name of the role that you want to add tags to. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `Tags`: The list of tags that you want to attach to the role. Each tag consists of a key name and an associated value. You can specify this with a JSON string.
+# Arguments
+- `instance_profile_name`: The name of the IAM instance profile to which you want to add
+  tags. This parameter accepts (through its regex pattern) a string of characters that
+  consist of upper and lowercase alphanumeric characters with no spaces. You can also include
+  any of the following characters: =,.@-
+- `tags`: The list of tags that you want to attach to the IAM instance profile. Each tag
+  consists of a key name and an associated value.
+
+"""
+tag_instance_profile(InstanceProfileName, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "Tags"=>Tags); aws_config=aws_config)
+tag_instance_profile(InstanceProfileName, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    tag_mfadevice(serial_number, tags)
+    tag_mfadevice(serial_number, tags, params::Dict{String,<:Any})
+
+Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device. If a tag
+with the same key name already exists, then that tag is overwritten with the new value. A
+tag consists of a key name and an associated value. By assigning tags to your resources,
+you can do the following:    Administrative grouping and discovery - Attach tags to
+resources to aid in organization and search. For example, you could search for all
+resources with the key name Project and the value MyImportantProject. Or search for all
+resources with the key name Cost Center and the value 41200.     Access control - Include
+tags in IAM user-based and resource-based policies. You can use tags to restrict access to
+only an IAM virtual MFA device that has a specified tag attached. For examples of policies
+that show how to use tags to control access, see Control access using IAM tags in the IAM
+User Guide.      If any one of the tags is invalid or if you exceed the allowed maximum
+number of tags, then the entire request fails and the resource is not created. For more
+information about tagging, see Tagging IAM resources in the IAM User Guide.   AWS always
+interprets the tag Value as a single string. If you need to store an array, you can store
+comma-separated values in the string. However, you must interpret the value in your code.
+
+# Arguments
+- `serial_number`: The unique identifier for the IAM virtual MFA device to which you want
+  to add tags. For virtual MFA devices, the serial number is the same as the ARN. This
+  parameter accepts (through its regex pattern) a string of characters that consist of upper
+  and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: =,.@-
+- `tags`: The list of tags that you want to attach to the IAM virtual MFA device. Each tag
+  consists of a key name and an associated value.
+
+"""
+tag_mfadevice(SerialNumber, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber, "Tags"=>Tags); aws_config=aws_config)
+tag_mfadevice(SerialNumber, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    tag_open_idconnect_provider(open_idconnect_provider_arn, tags)
+    tag_open_idconnect_provider(open_idconnect_provider_arn, tags, params::Dict{String,<:Any})
+
+Adds one or more tags to an OpenID Connect (OIDC)-compatible identity provider. For more
+information about these providers, see About web identity federation. If a tag with the
+same key name already exists, then that tag is overwritten with the new value. A tag
+consists of a key name and an associated value. By assigning tags to your resources, you
+can do the following:    Administrative grouping and discovery - Attach tags to resources
+to aid in organization and search. For example, you could search for all resources with the
+key name Project and the value MyImportantProject. Or search for all resources with the key
+name Cost Center and the value 41200.     Access control - Include tags in IAM user-based
+and resource-based policies. You can use tags to restrict access to only an OIDC provider
+that has a specified tag attached. For examples of policies that show how to use tags to
+control access, see Control access using IAM tags in the IAM User Guide.      If any one of
+the tags is invalid or if you exceed the allowed maximum number of tags, then the entire
+request fails and the resource is not created. For more information about tagging, see
+Tagging IAM resources in the IAM User Guide.   AWS always interprets the tag Value as a
+single string. If you need to store an array, you can store comma-separated values in the
+string. However, you must interpret the value in your code.
+
+# Arguments
+- `open_idconnect_provider_arn`: The ARN of the OIDC identity provider in IAM to which you
+  want to add tags. This parameter accepts (through its regex pattern) a string of characters
+  that consist of upper and lowercase alphanumeric characters with no spaces. You can also
+  include any of the following characters: =,.@-
+- `tags`: The list of tags that you want to attach to the OIDC identity provider in IAM.
+  Each tag consists of a key name and an associated value.
+
+"""
+tag_open_idconnect_provider(OpenIDConnectProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "Tags"=>Tags); aws_config=aws_config)
+tag_open_idconnect_provider(OpenIDConnectProviderArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    tag_policy(policy_arn, tags)
+    tag_policy(policy_arn, tags, params::Dict{String,<:Any})
+
+Adds one or more tags to an IAM customer managed policy. If a tag with the same key name
+already exists, then that tag is overwritten with the new value. A tag consists of a key
+name and an associated value. By assigning tags to your resources, you can do the
+following:    Administrative grouping and discovery - Attach tags to resources to aid in
+organization and search. For example, you could search for all resources with the key name
+Project and the value MyImportantProject. Or search for all resources with the key name
+Cost Center and the value 41200.     Access control - Include tags in IAM user-based and
+resource-based policies. You can use tags to restrict access to only an IAM customer
+managed policy that has a specified tag attached. For examples of policies that show how to
+use tags to control access, see Control access using IAM tags in the IAM User Guide.
+If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then
+the entire request fails and the resource is not created. For more information about
+tagging, see Tagging IAM resources in the IAM User Guide.   AWS always interprets the tag
+Value as a single string. If you need to store an array, you can store comma-separated
+values in the string. However, you must interpret the value in your code.
+
+# Arguments
+- `policy_arn`: The ARN of the IAM customer managed policy to which you want to add tags.
+  This parameter accepts (through its regex pattern) a string of characters that consist of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: =,.@-
+- `tags`: The list of tags that you want to attach to the IAM customer managed policy. Each
+  tag consists of a key name and an associated value.
+
+"""
+tag_policy(PolicyArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "Tags"=>Tags); aws_config=aws_config)
+tag_policy(PolicyArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    tag_role(role_name, tags)
+    tag_role(role_name, tags, params::Dict{String,<:Any})
+
+Adds one or more tags to an IAM role. The role can be a regular role or a service-linked
+role. If a tag with the same key name already exists, then that tag is overwritten with the
+new value. A tag consists of a key name and an associated value. By assigning tags to your
+resources, you can do the following:    Administrative grouping and discovery - Attach tags
+to resources to aid in organization and search. For example, you could search for all
+resources with the key name Project and the value MyImportantProject. Or search for all
+resources with the key name Cost Center and the value 41200.     Access control - Include
+tags in IAM user-based and resource-based policies. You can use tags to restrict access to
+only an IAM role that has a specified tag attached. You can also restrict access to only
+those resources that have a certain tag attached. For examples of policies that show how to
+use tags to control access, see Control access using IAM tags in the IAM User Guide.
+Cost allocation - Use tags to help track which individuals and teams are using which AWS
+resources.      If any one of the tags is invalid or if you exceed the allowed maximum
+number of tags, then the entire request fails and the resource is not created. For more
+information about tagging, see Tagging IAM resources in the IAM User Guide.   AWS always
+interprets the tag Value as a single string. If you need to store an array, you can store
+comma-separated values in the string. However, you must interpret the value in your code.
+ For more information about tagging, see Tagging IAM identities in the IAM User Guide.
+
+# Arguments
+- `role_name`: The name of the IAM role to which you want to add tags. This parameter
+  accepts (through its regex pattern) a string of characters that consist of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+- `tags`: The list of tags that you want to attach to the IAM role. Each tag consists of a
+  key name and an associated value.
 
 """
 tag_role(RoleName, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagRole", Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags); aws_config=aws_config)
-tag_role(RoleName, Tags, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags), args)); aws_config=aws_config)
+tag_role(RoleName, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
-    TagUser()
+    tag_samlprovider(samlprovider_arn, tags)
+    tag_samlprovider(samlprovider_arn, tags, params::Dict{String,<:Any})
 
-Adds one or more tags to an IAM user. If a tag with the same key name already exists, then that tag is overwritten with the new value. A tag consists of a key name and an associated value. By assigning tags to your resources, you can do the following:    Administrative grouping and discovery - Attach tags to resources to aid in organization and search. For example, you could search for all resources with the key name Project and the value MyImportantProject. Or search for all resources with the key name Cost Center and the value 41200.     Access control - Reference tags in IAM user-based and resource-based policies. You can use tags to restrict access to only an IAM requesting user or to a role that has a specified tag attached. You can also restrict access to only those resources that have a certain tag attached. For examples of policies that show how to use tags to control access, see Control Access Using IAM Tags in the IAM User Guide.    Cost allocation - Use tags to help track which individuals and teams are using which AWS resources.      Make sure that you have no invalid tags and that you do not exceed the allowed number of tags per role. In either case, the entire request fails and no tags are added to the role.   AWS always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.    For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
+Adds one or more tags to a Security Assertion Markup Language (SAML) identity provider. For
+more information about these providers, see About SAML 2.0-based federation . If a tag with
+the same key name already exists, then that tag is overwritten with the new value. A tag
+consists of a key name and an associated value. By assigning tags to your resources, you
+can do the following:    Administrative grouping and discovery - Attach tags to resources
+to aid in organization and search. For example, you could search for all resources with the
+key name Project and the value MyImportantProject. Or search for all resources with the key
+name Cost Center and the value 41200.     Access control - Include tags in IAM user-based
+and resource-based policies. You can use tags to restrict access to only a SAML identity
+provider that has a specified tag attached. For examples of policies that show how to use
+tags to control access, see Control access using IAM tags in the IAM User Guide.      If
+any one of the tags is invalid or if you exceed the allowed maximum number of tags, then
+the entire request fails and the resource is not created. For more information about
+tagging, see Tagging IAM resources in the IAM User Guide.   AWS always interprets the tag
+Value as a single string. If you need to store an array, you can store comma-separated
+values in the string. However, you must interpret the value in your code.
 
-# Required Parameters
-- `Tags`: The list of tags that you want to attach to the user. Each tag consists of a key name and an associated value.
-- `UserName`: The name of the user that you want to add tags to. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+# Arguments
+- `samlprovider_arn`: The ARN of the SAML identity provider in IAM to which you want to add
+  tags. This parameter accepts (through its regex pattern) a string of characters that
+  consist of upper and lowercase alphanumeric characters with no spaces. You can also include
+  any of the following characters: =,.@-
+- `tags`: The list of tags that you want to attach to the SAML identity provider in IAM.
+  Each tag consists of a key name and an associated value.
+
+"""
+tag_samlprovider(SAMLProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "Tags"=>Tags); aws_config=aws_config)
+tag_samlprovider(SAMLProviderArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    tag_server_certificate(server_certificate_name, tags)
+    tag_server_certificate(server_certificate_name, tags, params::Dict{String,<:Any})
+
+Adds one or more tags to an IAM server certificate. If a tag with the same key name already
+exists, then that tag is overwritten with the new value.  For certificates in a Region
+supported by AWS Certificate Manager (ACM), we recommend that you don't use IAM server
+certificates. Instead, use ACM to provision, manage, and deploy your server certificates.
+For more information about IAM server certificates, Working with server certificates in the
+IAM User Guide.  A tag consists of a key name and an associated value. By assigning tags to
+your resources, you can do the following:    Administrative grouping and discovery - Attach
+tags to resources to aid in organization and search. For example, you could search for all
+resources with the key name Project and the value MyImportantProject. Or search for all
+resources with the key name Cost Center and the value 41200.     Access control - Include
+tags in IAM user-based and resource-based policies. You can use tags to restrict access to
+only a server certificate that has a specified tag attached. For examples of policies that
+show how to use tags to control access, see Control access using IAM tags in the IAM User
+Guide.    Cost allocation - Use tags to help track which individuals and teams are using
+which AWS resources.      If any one of the tags is invalid or if you exceed the allowed
+maximum number of tags, then the entire request fails and the resource is not created. For
+more information about tagging, see Tagging IAM resources in the IAM User Guide.   AWS
+always interprets the tag Value as a single string. If you need to store an array, you can
+store comma-separated values in the string. However, you must interpret the value in your
+code.
+
+# Arguments
+- `server_certificate_name`: The name of the IAM server certificate to which you want to
+  add tags. This parameter accepts (through its regex pattern) a string of characters that
+  consist of upper and lowercase alphanumeric characters with no spaces. You can also include
+  any of the following characters: =,.@-
+- `tags`: The list of tags that you want to attach to the IAM server certificate. Each tag
+  consists of a key name and an associated value.
+
+"""
+tag_server_certificate(ServerCertificateName, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "Tags"=>Tags); aws_config=aws_config)
+tag_server_certificate(ServerCertificateName, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    tag_user(tags, user_name)
+    tag_user(tags, user_name, params::Dict{String,<:Any})
+
+Adds one or more tags to an IAM user. If a tag with the same key name already exists, then
+that tag is overwritten with the new value. A tag consists of a key name and an associated
+value. By assigning tags to your resources, you can do the following:    Administrative
+grouping and discovery - Attach tags to resources to aid in organization and search. For
+example, you could search for all resources with the key name Project and the value
+MyImportantProject. Or search for all resources with the key name Cost Center and the value
+41200.     Access control - Include tags in IAM user-based and resource-based policies. You
+can use tags to restrict access to only an IAM requesting user that has a specified tag
+attached. You can also restrict access to only those resources that have a certain tag
+attached. For examples of policies that show how to use tags to control access, see Control
+access using IAM tags in the IAM User Guide.    Cost allocation - Use tags to help track
+which individuals and teams are using which AWS resources.      If any one of the tags is
+invalid or if you exceed the allowed maximum number of tags, then the entire request fails
+and the resource is not created. For more information about tagging, see Tagging IAM
+resources in the IAM User Guide.   AWS always interprets the tag Value as a single string.
+If you need to store an array, you can store comma-separated values in the string. However,
+you must interpret the value in your code.    For more information about tagging, see
+Tagging IAM identities in the IAM User Guide.
+
+# Arguments
+- `tags`: The list of tags that you want to attach to the IAM user. Each tag consists of a
+  key name and an associated value.
+- `user_name`: The name of the IAM user to which you want to add tags. This parameter
+  accepts (through its regex pattern) a string of characters that consist of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: =,.@-
 
 """
 tag_user(Tags, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagUser", Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName); aws_config=aws_config)
-tag_user(Tags, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName), args)); aws_config=aws_config)
+tag_user(Tags, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    UntagRole()
+    untag_instance_profile(instance_profile_name, tag_keys)
+    untag_instance_profile(instance_profile_name, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified tags from the role. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
+Removes the specified tags from the IAM instance profile. For more information about
+tagging, see Tagging IAM resources in the IAM User Guide.
 
-# Required Parameters
-- `RoleName`: The name of the IAM role from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-- `TagKeys`: A list of key names as a simple array of strings. The tags with matching keys are removed from the specified role.
+# Arguments
+- `instance_profile_name`: The name of the IAM instance profile from which you want to
+  remove tags. This parameter accepts (through its regex pattern) a string of characters that
+  consist of upper and lowercase alphanumeric characters with no spaces. You can also include
+  any of the following characters: =,.@-
+- `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
+  are removed from the specified instance profile.
+
+"""
+untag_instance_profile(InstanceProfileName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_instance_profile(InstanceProfileName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    untag_mfadevice(serial_number, tag_keys)
+    untag_mfadevice(serial_number, tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tags from the IAM virtual multi-factor authentication (MFA) device.
+For more information about tagging, see Tagging IAM resources in the IAM User Guide.
+
+# Arguments
+- `serial_number`: The unique identifier for the IAM virtual MFA device from which you want
+  to remove tags. For virtual MFA devices, the serial number is the same as the ARN. This
+  parameter accepts (through its regex pattern) a string of characters that consist of upper
+  and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: =,.@-
+- `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
+  are removed from the specified instance profile.
+
+"""
+untag_mfadevice(SerialNumber, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_mfadevice(SerialNumber, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    untag_open_idconnect_provider(open_idconnect_provider_arn, tag_keys)
+    untag_open_idconnect_provider(open_idconnect_provider_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tags from the specified OpenID Connect (OIDC)-compatible identity
+provider in IAM. For more information about OIDC providers, see About web identity
+federation. For more information about tagging, see Tagging IAM resources in the IAM User
+Guide.
+
+# Arguments
+- `open_idconnect_provider_arn`: The ARN of the OIDC provider in IAM from which you want to
+  remove tags. This parameter accepts (through its regex pattern) a string of characters that
+  consist of upper and lowercase alphanumeric characters with no spaces. You can also include
+  any of the following characters: =,.@-
+- `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
+  are removed from the specified OIDC provider.
+
+"""
+untag_open_idconnect_provider(OpenIDConnectProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_open_idconnect_provider(OpenIDConnectProviderArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    untag_policy(policy_arn, tag_keys)
+    untag_policy(policy_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tags from the customer managed policy. For more information about
+tagging, see Tagging IAM resources in the IAM User Guide.
+
+# Arguments
+- `policy_arn`: The ARN of the IAM customer managed policy from which you want to remove
+  tags. This parameter accepts (through its regex pattern) a string of characters that
+  consist of upper and lowercase alphanumeric characters with no spaces. You can also include
+  any of the following characters: =,.@-
+- `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
+  are removed from the specified policy.
+
+"""
+untag_policy(PolicyArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_policy(PolicyArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    untag_role(role_name, tag_keys)
+    untag_role(role_name, tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tags from the role. For more information about tagging, see Tagging
+IAM resources in the IAM User Guide.
+
+# Arguments
+- `role_name`: The name of the IAM role from which you want to remove tags. This parameter
+  accepts (through its regex pattern) a string of characters that consist of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+- `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
+  are removed from the specified role.
 
 """
 untag_role(RoleName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagRole", Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_role(RoleName, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+untag_role(RoleName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    UntagUser()
+    untag_samlprovider(samlprovider_arn, tag_keys)
+    untag_samlprovider(samlprovider_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified tags from the user. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.
+Removes the specified tags from the specified Security Assertion Markup Language (SAML)
+identity provider in IAM. For more information about these providers, see About web
+identity federation. For more information about tagging, see Tagging IAM resources in the
+IAM User Guide.
 
-# Required Parameters
-- `TagKeys`: A list of key names as a simple array of strings. The tags with matching keys are removed from the specified user.
-- `UserName`: The name of the IAM user from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
+# Arguments
+- `samlprovider_arn`: The ARN of the SAML identity provider in IAM from which you want to
+  remove tags. This parameter accepts (through its regex pattern) a string of characters that
+  consist of upper and lowercase alphanumeric characters with no spaces. You can also include
+  any of the following characters: =,.@-
+- `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
+  are removed from the specified SAML identity provider.
+
+"""
+untag_samlprovider(SAMLProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_samlprovider(SAMLProviderArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    untag_server_certificate(server_certificate_name, tag_keys)
+    untag_server_certificate(server_certificate_name, tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tags from the IAM server certificate. For more information about
+tagging, see Tagging IAM resources in the IAM User Guide.  For certificates in a Region
+supported by AWS Certificate Manager (ACM), we recommend that you don't use IAM server
+certificates. Instead, use ACM to provision, manage, and deploy your server certificates.
+For more information about IAM server certificates, Working with server certificates in the
+IAM User Guide.
+
+# Arguments
+- `server_certificate_name`: The name of the IAM server certificate from which you want to
+  remove tags. This parameter accepts (through its regex pattern) a string of characters that
+  consist of upper and lowercase alphanumeric characters with no spaces. You can also include
+  any of the following characters: =,.@-
+- `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
+  are removed from the specified IAM server certificate.
+
+"""
+untag_server_certificate(ServerCertificateName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_server_certificate(ServerCertificateName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    untag_user(tag_keys, user_name)
+    untag_user(tag_keys, user_name, params::Dict{String,<:Any})
+
+Removes the specified tags from the user. For more information about tagging, see Tagging
+IAM resources in the IAM User Guide.
+
+# Arguments
+- `tag_keys`: A list of key names as a simple array of strings. The tags with matching keys
+  are removed from the specified user.
+- `user_name`: The name of the IAM user from which you want to remove tags. This parameter
+  accepts (through its regex pattern) a string of characters that consist of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: =,.@-
 
 """
 untag_user(TagKeys, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagUser", Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName); aws_config=aws_config)
-untag_user(TagKeys, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName), args)); aws_config=aws_config)
+untag_user(TagKeys, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    UpdateAccessKey()
+    update_access_key(access_key_id, status)
+    update_access_key(access_key_id, status, params::Dict{String,<:Any})
 
-Changes the status of the specified access key from Active to Inactive, or vice versa. This operation can be used to disable a user's key as part of a key rotation workflow. If the UserName is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request. This operation works for access keys under the AWS account. Consequently, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users. For information about rotating keys, see Managing Keys and Certificates in the IAM User Guide.
+Changes the status of the specified access key from Active to Inactive, or vice versa. This
+operation can be used to disable a user's key as part of a key rotation workflow. If the
+UserName is not specified, the user name is determined implicitly based on the AWS access
+key ID used to sign the request. This operation works for access keys under the AWS
+account. Consequently, you can use this operation to manage AWS account root user
+credentials even if the AWS account has no associated users. For information about rotating
+keys, see Managing keys and certificates in the IAM User Guide.
 
-# Required Parameters
-- `AccessKeyId`: The access key ID of the secret access key you want to update. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-- `Status`:  The status you want to assign to the secret access key. Active means that the key can be used for API calls to AWS, while Inactive means that the key cannot be used.
+# Arguments
+- `access_key_id`: The access key ID of the secret access key you want to update. This
+  parameter allows (through its regex pattern) a string of characters that can consist of any
+  upper or lowercased letter or digit.
+- `status`:  The status you want to assign to the secret access key. Active means that the
+  key can be used for programmatic calls to AWS, while Inactive means that the key cannot be
+  used.
 
 # Optional Parameters
-- `UserName`: The name of the user whose key you want to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the user whose key you want to update. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 """
 update_access_key(AccessKeyId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccessKey", Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status); aws_config=aws_config)
-update_access_key(AccessKeyId, Status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status), args)); aws_config=aws_config)
+update_access_key(AccessKeyId, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status), params)); aws_config=aws_config)
 
 """
-    UpdateAccountPasswordPolicy()
+    update_account_password_policy()
+    update_account_password_policy(params::Dict{String,<:Any})
 
-Updates the password policy settings for the AWS account.    This operation does not support partial updates. No parameters are required, but if you do not specify a parameter, that parameter's value reverts to its default value. See the Request Parameters section for each parameter's default value. Also note that some parameters do not allow the default parameter to be explicitly set. Instead, to invoke the default value, do not include that parameter when you invoke the operation.     For more information about using a password policy, see Managing an IAM Password Policy in the IAM User Guide.
+Updates the password policy settings for the AWS account.    This operation does not
+support partial updates. No parameters are required, but if you do not specify a parameter,
+that parameter's value reverts to its default value. See the Request Parameters section for
+each parameter's default value. Also note that some parameters do not allow the default
+parameter to be explicitly set. Instead, to invoke the default value, do not include that
+parameter when you invoke the operation.     For more information about using a password
+policy, see Managing an IAM password policy in the IAM User Guide.
 
 # Optional Parameters
-- `AllowUsersToChangePassword`:  Allows all IAM users in your account to use the AWS Management Console to change their own passwords. For more information, see Letting IAM Users Change Their Own Passwords in the IAM User Guide. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users in the account do not automatically have permissions to change their own password.
-- `HardExpiry`: Prevents IAM users from setting a new password after their password has expired. The IAM user cannot be accessed until an administrator resets the password. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users can change their passwords after they expire and continue to sign in as the user.
-- `MaxPasswordAge`: The number of days that an IAM user password is valid. If you do not specify a value for this parameter, then the operation uses the default value of 0. The result is that IAM user passwords never expire.
-- `MinimumPasswordLength`: The minimum number of characters allowed in an IAM user password. If you do not specify a value for this parameter, then the operation uses the default value of 6.
-- `PasswordReusePrevention`: Specifies the number of previous passwords that IAM users are prevented from reusing. If you do not specify a value for this parameter, then the operation uses the default value of 0. The result is that IAM users are not prevented from reusing previous passwords.
-- `RequireLowercaseCharacters`: Specifies whether IAM user passwords must contain at least one lowercase character from the ISO basic Latin alphabet (a to z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one lowercase character.
-- `RequireNumbers`: Specifies whether IAM user passwords must contain at least one numeric character (0 to 9). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one numeric character.
-- `RequireSymbols`: Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters: ! @ #  % ^ &amp; * ( ) _ + - = [ ] { } | ' If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one symbol character.
-- `RequireUppercaseCharacters`: Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one uppercase character.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowUsersToChangePassword"`:  Allows all IAM users in your account to use the AWS
+  Management Console to change their own passwords. For more information, see Letting IAM
+  users change their own passwords in the IAM User Guide. If you do not specify a value for
+  this parameter, then the operation uses the default value of false. The result is that IAM
+  users in the account do not automatically have permissions to change their own password.
+- `"HardExpiry"`: Prevents IAM users from setting a new password after their password has
+  expired. The IAM user cannot be accessed until an administrator resets the password. If you
+  do not specify a value for this parameter, then the operation uses the default value of
+  false. The result is that IAM users can change their passwords after they expire and
+  continue to sign in as the user.
+- `"MaxPasswordAge"`: The number of days that an IAM user password is valid. If you do not
+  specify a value for this parameter, then the operation uses the default value of 0. The
+  result is that IAM user passwords never expire.
+- `"MinimumPasswordLength"`: The minimum number of characters allowed in an IAM user
+  password. If you do not specify a value for this parameter, then the operation uses the
+  default value of 6.
+- `"PasswordReusePrevention"`: Specifies the number of previous passwords that IAM users
+  are prevented from reusing. If you do not specify a value for this parameter, then the
+  operation uses the default value of 0. The result is that IAM users are not prevented from
+  reusing previous passwords.
+- `"RequireLowercaseCharacters"`: Specifies whether IAM user passwords must contain at
+  least one lowercase character from the ISO basic Latin alphabet (a to z). If you do not
+  specify a value for this parameter, then the operation uses the default value of false. The
+  result is that passwords do not require at least one lowercase character.
+- `"RequireNumbers"`: Specifies whether IAM user passwords must contain at least one
+  numeric character (0 to 9). If you do not specify a value for this parameter, then the
+  operation uses the default value of false. The result is that passwords do not require at
+  least one numeric character.
+- `"RequireSymbols"`: Specifies whether IAM user passwords must contain at least one of the
+  following non-alphanumeric characters: ! @ #  % ^ &amp; * ( ) _ + - = [ ] { } | ' If you do
+  not specify a value for this parameter, then the operation uses the default value of false.
+  The result is that passwords do not require at least one symbol character.
+- `"RequireUppercaseCharacters"`: Specifies whether IAM user passwords must contain at
+  least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not
+  specify a value for this parameter, then the operation uses the default value of false. The
+  result is that passwords do not require at least one uppercase character.
 """
 update_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccountPasswordPolicy"; aws_config=aws_config)
-update_account_password_policy(args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccountPasswordPolicy", args; aws_config=aws_config)
+update_account_password_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccountPasswordPolicy", params; aws_config=aws_config)
 
 """
-    UpdateAssumeRolePolicy()
+    update_assume_role_policy(policy_document, role_name)
+    update_assume_role_policy(policy_document, role_name, params::Dict{String,<:Any})
 
-Updates the policy that grants an IAM entity permission to assume a role. This is typically referred to as the \"role trust policy\". For more information about roles, go to Using Roles to Delegate Permissions and Federate Identities.
+Updates the policy that grants an IAM entity permission to assume a role. This is typically
+referred to as the \"role trust policy\". For more information about roles, see Using roles
+to delegate permissions and federate identities.
 
-# Required Parameters
-- `PolicyDocument`: The policy that grants an entity permission to assume the role. You must provide policies in JSON format in IAM. However, for AWS CloudFormation templates formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `RoleName`: The name of the role to update with the new policy. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `policy_document`: The policy that grants an entity permission to assume the role. You
+  must provide policies in JSON format in IAM. However, for AWS CloudFormation templates
+  formatted in YAML, you can provide the policy in JSON or YAML format. AWS CloudFormation
+  always converts a YAML policy to JSON format before submitting it to IAM. The regex pattern
+  used to validate this parameter is a string of characters consisting of the following:
+  Any printable ASCII character ranging from the space character (u0020) through the end of
+  the ASCII character range   The printable characters in the Basic Latin and Latin-1
+  Supplement character set (through u00FF)   The special characters tab (u0009), line feed
+  (u000A), and carriage return (u000D)
+- `role_name`: The name of the role to update with the new policy. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 update_assume_role_policy(PolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAssumeRolePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName); aws_config=aws_config)
-update_assume_role_policy(PolicyDocument, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAssumeRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName), args)); aws_config=aws_config)
+update_assume_role_policy(PolicyDocument, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAssumeRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    UpdateGroup()
+    update_group(group_name)
+    update_group(group_name, params::Dict{String,<:Any})
 
-Updates the name and/or the path of the specified IAM group.   You should understand the implications of changing a group's path or name. For more information, see Renaming Users and Groups in the IAM User Guide.   The person making the request (the principal), must have permission to change the role group with the old name and the new name. For example, to change the group named Managers to MGRs, the principal must have a policy that allows them to update both groups. If the principal has permission to update the Managers group, but not the MGRs group, then the update fails. For more information about permissions, see Access Management.  
+Updates the name and/or the path of the specified IAM group.   You should understand the
+implications of changing a group's path or name. For more information, see Renaming users
+and groups in the IAM User Guide.   The person making the request (the principal), must
+have permission to change the role group with the old name and the new name. For example,
+to change the group named Managers to MGRs, the principal must have a policy that allows
+them to update both groups. If the principal has permission to update the Managers group,
+but not the MGRs group, then the update fails. For more information about permissions, see
+Access management.
 
-# Required Parameters
-- `GroupName`: Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `group_name`: Name of the IAM group to update. If you're changing the name of the group,
+  this is the original name. This parameter allows (through its regex pattern) a string of
+  characters consisting of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
-- `NewGroupName`: New name for the IAM group. Only include this if changing the group's name. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both \"MyResource\" and \"myresource\".
-- `NewPath`: New path for the IAM group. Only include this if changing the group's path. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NewGroupName"`: New name for the IAM group. Only include this if changing the group's
+  name. IAM user, group, role, and policy names must be unique within the account. Names are
+  not distinguished by case. For example, you cannot create resources named both
+  \"MyResource\" and \"myresource\".
+- `"NewPath"`: New path for the IAM group. Only include this if changing the group's path.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  either a forward slash (/) by itself or a string that must begin and end with forward
+  slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL
+  character (u007F), including most punctuation characters, digits, and upper and lowercased
+  letters.
 """
 update_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-update_group(GroupName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
+update_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
-    UpdateLoginProfile()
+    update_login_profile(user_name)
+    update_login_profile(user_name, params::Dict{String,<:Any})
 
-Changes the password for the specified IAM user. IAM users can change their own passwords by calling ChangePassword. For more information about modifying passwords, see Managing Passwords in the IAM User Guide.
+Changes the password for the specified IAM user. You can use the AWS CLI, the AWS API, or
+the Users page in the IAM console to change the password for any IAM user. Use
+ChangePassword to change your own password in the My Security Credentials page in the AWS
+Management Console. For more information about modifying passwords, see Managing passwords
+in the IAM User Guide.
 
-# Required Parameters
-- `UserName`: The name of the user whose password you want to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `user_name`: The name of the user whose password you want to update. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 # Optional Parameters
-- `Password`: The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)   However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
-- `PasswordResetRequired`: Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Password"`: The new password for the specified IAM user. The regex pattern used to
+  validate this parameter is a string of characters consisting of the following:   Any
+  printable ASCII character ranging from the space character (u0020) through the end of the
+  ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement
+  character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and
+  carriage return (u000D)   However, the format can be further restricted by the account
+  administrator by setting a password policy on the AWS account. For more information, see
+  UpdateAccountPasswordPolicy.
+- `"PasswordResetRequired"`: Allows this new password to be used only once by requiring the
+  specified IAM user to set a new password on next sign-in.
 """
 update_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-update_login_profile(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+update_login_profile(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    UpdateOpenIDConnectProviderThumbprint()
+    update_open_idconnect_provider_thumbprint(open_idconnect_provider_arn, thumbprint_list)
+    update_open_idconnect_provider_thumbprint(open_idconnect_provider_arn, thumbprint_list, params::Dict{String,<:Any})
 
-Replaces the existing list of server certificate thumbprints associated with an OpenID Connect (OIDC) provider resource object with a new list of thumbprints. The list that you pass with this operation completely replaces the existing list of thumbprints. (The lists are not merged.) Typically, you need to update a thumbprint only when the identity provider's certificate changes, which occurs rarely. However, if the provider's certificate does change, any attempt to assume an IAM role that specifies the OIDC provider as a principal fails until the certificate thumbprint is updated.  Trust for the OIDC provider is derived from the provider's certificate and is validated by the thumbprint. Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly privileged users. 
+Replaces the existing list of server certificate thumbprints associated with an OpenID
+Connect (OIDC) provider resource object with a new list of thumbprints. The list that you
+pass with this operation completely replaces the existing list of thumbprints. (The lists
+are not merged.) Typically, you need to update a thumbprint only when the identity
+provider's certificate changes, which occurs rarely. However, if the provider's certificate
+does change, any attempt to assume an IAM role that specifies the OIDC provider as a
+principal fails until the certificate thumbprint is updated.  Trust for the OIDC provider
+is derived from the provider's certificate and is validated by the thumbprint. Therefore,
+it is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly
+privileged users.
 
-# Required Parameters
-- `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
-- `ThumbprintList`: A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider. 
+# Arguments
+- `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OIDC provider
+  resource object for which you want to update the thumbprint. You can get a list of OIDC
+  provider ARNs by using the ListOpenIDConnectProviders operation. For more information about
+  ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
+- `thumbprint_list`: A list of certificate thumbprints that are associated with the
+  specified IAM OpenID Connect provider. For more information, see
+  CreateOpenIDConnectProvider.
 
 """
 update_open_idconnect_provider_thumbprint(OpenIDConnectProviderArn, ThumbprintList; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList); aws_config=aws_config)
-update_open_idconnect_provider_thumbprint(OpenIDConnectProviderArn, ThumbprintList, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList), args)); aws_config=aws_config)
+update_open_idconnect_provider_thumbprint(OpenIDConnectProviderArn, ThumbprintList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList), params)); aws_config=aws_config)
 
 """
-    UpdateRole()
+    update_role(role_name)
+    update_role(role_name, params::Dict{String,<:Any})
 
 Updates the description or maximum session duration setting of a role.
 
-# Required Parameters
-- `RoleName`: The name of the role that you want to modify.
+# Arguments
+- `role_name`: The name of the role that you want to modify.
 
 # Optional Parameters
-- `Description`: The new description that you want to apply to the specified role.
-- `MaxSessionDuration`: The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM Roles in the IAM User Guide.
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The new description that you want to apply to the specified role.
+- `"MaxSessionDuration"`: The maximum session duration (in seconds) that you want to set
+  for the specified role. If you do not specify a value for this setting, the default maximum
+  of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who
+  assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the
+  duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting
+  determines the maximum duration that can be requested using the DurationSeconds parameter.
+  If users don't specify a value for the DurationSeconds parameter, their security
+  credentials are valid for one hour by default. This applies when you use the AssumeRole*
+  API operations or the assume-role* CLI operations but does not apply when you use those
+  operations to create a console URL. For more information, see Using IAM roles in the IAM
+  User Guide.
 """
 update_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-update_role(RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
+update_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    UpdateRoleDescription()
+    update_role_description(description, role_name)
+    update_role_description(description, role_name, params::Dict{String,<:Any})
 
-Use UpdateRole instead. Modifies only the description of a role. This operation performs the same function as the Description parameter in the UpdateRole operation.
+Use UpdateRole instead. Modifies only the description of a role. This operation performs
+the same function as the Description parameter in the UpdateRole operation.
 
-# Required Parameters
-- `Description`: The new description that you want to apply to the specified role.
-- `RoleName`: The name of the role that you want to modify.
+# Arguments
+- `description`: The new description that you want to apply to the specified role.
+- `role_name`: The name of the role that you want to modify.
 
 """
 update_role_description(Description, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRoleDescription", Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName); aws_config=aws_config)
-update_role_description(Description, RoleName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRoleDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName), args)); aws_config=aws_config)
+update_role_description(Description, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRoleDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
-    UpdateSAMLProvider()
+    update_samlprovider(samlmetadata_document, samlprovider_arn)
+    update_samlprovider(samlmetadata_document, samlprovider_arn, params::Dict{String,<:Any})
 
-Updates the metadata document for an existing SAML provider resource object.  This operation requires Signature Version 4. 
+Updates the metadata document for an existing SAML provider resource object.  This
+operation requires Signature Version 4.
 
-# Required Parameters
-- `SAMLMetadataDocument`: An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
-- `SAMLProviderArn`: The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
+# Arguments
+- `samlmetadata_document`: An XML document generated by an identity provider (IdP) that
+  supports SAML 2.0. The document includes the issuer's name, expiration information, and
+  keys that can be used to validate the SAML authentication response (assertions) that are
+  received from the IdP. You must generate the metadata document using the identity
+  management software that is used as your organization's IdP.
+- `samlprovider_arn`: The Amazon Resource Name (ARN) of the SAML provider to update. For
+  more information about ARNs, see Amazon Resource Names (ARNs) in the AWS General Reference.
 
 """
 update_samlprovider(SAMLMetadataDocument, SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSAMLProvider", Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
-update_samlprovider(SAMLMetadataDocument, SAMLProviderArn, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn), args)); aws_config=aws_config)
+update_samlprovider(SAMLMetadataDocument, SAMLProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
 
 """
-    UpdateSSHPublicKey()
+    update_server_certificate(server_certificate_name)
+    update_server_certificate(server_certificate_name, params::Dict{String,<:Any})
 
-Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that are inactive cannot be used for authentication. This operation can be used to disable a user's SSH public key as part of a key rotation work flow. The SSH public key affected by this operation is used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide.
+Updates the name and/or the path of the specified server certificate stored in IAM. For
+more information about working with server certificates, see Working with server
+certificates in the IAM User Guide. This topic also includes a list of AWS services that
+can use the server certificates that you manage with IAM.  You should understand the
+implications of changing a server certificate's path or name. For more information, see
+Renaming a server certificate in the IAM User Guide.   The person making the request (the
+principal), must have permission to change the server certificate with the old name and the
+new name. For example, to change the certificate named ProductionCert to ProdCert, the
+principal must have a policy that allows them to update both certificates. If the principal
+has permission to update the ProductionCert group, but not the ProdCert certificate, then
+the update fails. For more information about permissions, see Access management in the IAM
+User Guide.
 
-# Required Parameters
-- `SSHPublicKeyId`: The unique identifier for the SSH public key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-- `Status`: The status to assign to the SSH public key. Active means that the key can be used for authentication with an AWS CodeCommit repository. Inactive means that the key cannot be used.
-- `UserName`: The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `server_certificate_name`: The name of the server certificate that you want to update.
+  This parameter allows (through its regex pattern) a string of characters consisting of
+  upper and lowercase alphanumeric characters with no spaces. You can also include any of the
+  following characters: _+=,.@-
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NewPath"`: The new path for the server certificate. Include this only if you are
+  updating the server certificate's path. This parameter allows (through its regex pattern) a
+  string of characters consisting of either a forward slash (/) by itself or a string that
+  must begin and end with forward slashes. In addition, it can contain any ASCII character
+  from the ! (u0021) through the DEL character (u007F), including most punctuation
+  characters, digits, and upper and lowercased letters.
+- `"NewServerCertificateName"`: The new name for the server certificate. Include this only
+  if you are updating the server certificate's name. The name of the certificate cannot
+  contain any spaces. This parameter allows (through its regex pattern) a string of
+  characters consisting of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: _+=,.@-
+"""
+update_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
+update_server_certificate(ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
+
+"""
+    update_service_specific_credential(service_specific_credential_id, status)
+    update_service_specific_credential(service_specific_credential_id, status, params::Dict{String,<:Any})
+
+Sets the status of a service-specific credential to Active or Inactive. Service-specific
+credentials that are inactive cannot be used for authentication to the service. This
+operation can be used to disable a user's service-specific credential as part of a
+credential rotation work flow.
+
+# Arguments
+- `service_specific_credential_id`: The unique identifier of the service-specific
+  credential. This parameter allows (through its regex pattern) a string of characters that
+  can consist of any upper or lowercased letter or digit.
+- `status`: The status to be assigned to the service-specific credential.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the IAM user associated with the service-specific credential.
+  If you do not specify this value, then the operation assumes the user whose credentials are
+  used to call the operation. This parameter allows (through its regex pattern) a string of
+  characters consisting of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: _+=,.@-
+"""
+update_service_specific_credential(ServiceSpecificCredentialId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status); aws_config=aws_config)
+update_service_specific_credential(ServiceSpecificCredentialId, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status), params)); aws_config=aws_config)
+
+"""
+    update_signing_certificate(certificate_id, status)
+    update_signing_certificate(certificate_id, status, params::Dict{String,<:Any})
+
+Changes the status of the specified user signing certificate from active to disabled, or
+vice versa. This operation can be used to disable an IAM user's signing certificate as part
+of a certificate rotation work flow. If the UserName field is not specified, the user name
+is determined implicitly based on the AWS access key ID used to sign the request. This
+operation works for access keys under the AWS account. Consequently, you can use this
+operation to manage AWS account root user credentials even if the AWS account has no
+associated users.
+
+# Arguments
+- `certificate_id`: The ID of the signing certificate you want to update. This parameter
+  allows (through its regex pattern) a string of characters that can consist of any upper or
+  lowercased letter or digit.
+- `status`:  The status you want to assign to the certificate. Active means that the
+  certificate can be used for programmatic calls to AWS Inactive means that the certificate
+  cannot be used.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the IAM user the signing certificate belongs to. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+"""
+update_signing_certificate(CertificateId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status); aws_config=aws_config)
+update_signing_certificate(CertificateId, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status), params)); aws_config=aws_config)
+
+"""
+    update_sshpublic_key(sshpublic_key_id, status, user_name)
+    update_sshpublic_key(sshpublic_key_id, status, user_name, params::Dict{String,<:Any})
+
+Sets the status of an IAM user's SSH public key to active or inactive. SSH public keys that
+are inactive cannot be used for authentication. This operation can be used to disable a
+user's SSH public key as part of a key rotation work flow. The SSH public key affected by
+this operation is used only for authenticating the associated IAM user to an AWS CodeCommit
+repository. For more information about using SSH keys to authenticate to an AWS CodeCommit
+repository, see Set up AWS CodeCommit for SSH connections in the AWS CodeCommit User Guide.
+
+# Arguments
+- `sshpublic_key_id`: The unique identifier for the SSH public key. This parameter allows
+  (through its regex pattern) a string of characters that can consist of any upper or
+  lowercased letter or digit.
+- `status`: The status to assign to the SSH public key. Active means that the key can be
+  used for authentication with an AWS CodeCommit repository. Inactive means that the key
+  cannot be used.
+- `user_name`: The name of the IAM user associated with the SSH public key. This parameter
+  allows (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 update_sshpublic_key(SSHPublicKeyId, Status, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName); aws_config=aws_config)
-update_sshpublic_key(SSHPublicKeyId, Status, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName), args)); aws_config=aws_config)
+update_sshpublic_key(SSHPublicKeyId, Status, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    UpdateServerCertificate()
+    update_user(user_name)
+    update_user(user_name, params::Dict{String,<:Any})
 
-Updates the name and/or the path of the specified server certificate stored in IAM. For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide. This topic also includes a list of AWS services that can use the server certificates that you manage with IAM.  You should understand the implications of changing a server certificate's path or name. For more information, see Renaming a Server Certificate in the IAM User Guide.   The person making the request (the principal), must have permission to change the server certificate with the old name and the new name. For example, to change the certificate named ProductionCert to ProdCert, the principal must have a policy that allows them to update both certificates. If the principal has permission to update the ProductionCert group, but not the ProdCert certificate, then the update fails. For more information about permissions, see Access Management in the IAM User Guide. 
+Updates the name and/or the path of the specified IAM user.   You should understand the
+implications of changing an IAM user's path or name. For more information, see Renaming an
+IAM user and Renaming an IAM group in the IAM User Guide.    To change a user name, the
+requester must have appropriate permissions on both the source object and the target
+object. For example, to change Bob to Robert, the entity making the request must have
+permission on Bob and Robert, or must have permission on all (*). For more information
+about permissions, see Permissions and policies.
 
-# Required Parameters
-- `ServerCertificateName`: The name of the server certificate that you want to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `user_name`: Name of the user to update. If you're changing the name of the user, this is
+  the original user name. This parameter allows (through its regex pattern) a string of
+  characters consisting of upper and lowercase alphanumeric characters with no spaces. You
+  can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
-- `NewPath`: The new path for the server certificate. Include this only if you are updating the server certificate's path. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
-- `NewServerCertificateName`: The new name for the server certificate. Include this only if you are updating the server certificate's name. The name of the certificate cannot contain any spaces. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-"""
-update_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-update_server_certificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws_config=aws_config)
-
-"""
-    UpdateServiceSpecificCredential()
-
-Sets the status of a service-specific credential to Active or Inactive. Service-specific credentials that are inactive cannot be used for authentication to the service. This operation can be used to disable a user's service-specific credential as part of a credential rotation work flow.
-
-# Required Parameters
-- `ServiceSpecificCredentialId`: The unique identifier of the service-specific credential. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-- `Status`: The status to be assigned to the service-specific credential.
-
-# Optional Parameters
-- `UserName`: The name of the IAM user associated with the service-specific credential. If you do not specify this value, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-"""
-update_service_specific_credential(ServiceSpecificCredentialId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status); aws_config=aws_config)
-update_service_specific_credential(ServiceSpecificCredentialId, Status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status), args)); aws_config=aws_config)
-
-"""
-    UpdateSigningCertificate()
-
-Changes the status of the specified user signing certificate from active to disabled, or vice versa. This operation can be used to disable an IAM user's signing certificate as part of a certificate rotation work flow. If the UserName field is not specified, the user name is determined implicitly based on the AWS access key ID used to sign the request. This operation works for access keys under the AWS account. Consequently, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.
-
-# Required Parameters
-- `CertificateId`: The ID of the signing certificate you want to update. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
-- `Status`:  The status you want to assign to the certificate. Active means that the certificate can be used for API calls to AWS Inactive means that the certificate cannot be used.
-
-# Optional Parameters
-- `UserName`: The name of the IAM user the signing certificate belongs to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-"""
-update_signing_certificate(CertificateId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status); aws_config=aws_config)
-update_signing_certificate(CertificateId, Status, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status), args)); aws_config=aws_config)
-
-"""
-    UpdateUser()
-
-Updates the name and/or the path of the specified IAM user.   You should understand the implications of changing an IAM user's path or name. For more information, see Renaming an IAM User and Renaming an IAM Group in the IAM User Guide.    To change a user name, the requester must have appropriate permissions on both the source object and the target object. For example, to change Bob to Robert, the entity making the request must have permission on Bob and Robert, or must have permission on all (*). For more information about permissions, see Permissions and Policies.  
-
-# Required Parameters
-- `UserName`: Name of the user to update. If you're changing the name of the user, this is the original user name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-
-# Optional Parameters
-- `NewPath`: New path for the IAM user. Include this parameter only if you're changing the user's path. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.
-- `NewUserName`: New name for the user. Include this parameter only if you're changing the user's name. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both \"MyResource\" and \"myresource\".
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NewPath"`: New path for the IAM user. Include this parameter only if you're changing
+  the user's path. This parameter allows (through its regex pattern) a string of characters
+  consisting of either a forward slash (/) by itself or a string that must begin and end with
+  forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
+  the DEL character (u007F), including most punctuation characters, digits, and upper and
+  lowercased letters.
+- `"NewUserName"`: New name for the user. Include this parameter only if you're changing
+  the user's name. IAM user, group, role, and policy names must be unique within the account.
+  Names are not distinguished by case. For example, you cannot create resources named both
+  \"MyResource\" and \"myresource\".
 """
 update_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-update_user(UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
+update_user(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
-    UploadSSHPublicKey()
+    upload_server_certificate(certificate_body, private_key, server_certificate_name)
+    upload_server_certificate(certificate_body, private_key, server_certificate_name, params::Dict{String,<:Any})
 
-Uploads an SSH public key and associates it with the specified IAM user. The SSH public key uploaded by this operation can be used only for authenticating the associated IAM user to an AWS CodeCommit repository. For more information about using SSH keys to authenticate to an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH Connections in the AWS CodeCommit User Guide.
+Uploads a server certificate entity for the AWS account. The server certificate entity
+includes a public key certificate, a private key, and an optional certificate chain, which
+should all be PEM-encoded. We recommend that you use AWS Certificate Manager to provision,
+manage, and deploy your server certificates. With ACM you can request a certificate, deploy
+it to AWS resources, and let ACM handle certificate renewals for you. Certificates provided
+by ACM are free. For more information about using ACM, see the AWS Certificate Manager User
+Guide. For more information about working with server certificates, see Working with server
+certificates in the IAM User Guide. This topic includes a list of AWS services that can use
+the server certificates that you manage with IAM. For information about the number of
+server certificates you can upload, see IAM and STS quotas in the IAM User Guide.  Because
+the body of the public key certificate, private key, and the certificate chain can be
+large, you should use POST rather than GET when calling UploadServerCertificate. For
+information about setting up signatures and authorization through the API, see Signing AWS
+API requests in the AWS General Reference. For general information about using the Query
+API with IAM, see Calling the API by making HTTP query requests in the IAM User Guide.
 
-# Required Parameters
-- `SSHPublicKeyBody`: The SSH public key. The public key must be encoded in ssh-rsa format or PEM format. The minimum bit-length of the public key is 2048 bits. For example, you can generate a 2048-bit key, and the resulting PEM file is 1679 bytes long. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `UserName`: The name of the IAM user to associate the SSH public key with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
+# Arguments
+- `certificate_body`: The contents of the public key certificate in PEM-encoded format. The
+  regex pattern used to validate this parameter is a string of characters consisting of the
+  following:   Any printable ASCII character ranging from the space character (u0020) through
+  the end of the ASCII character range   The printable characters in the Basic Latin and
+  Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line
+  feed (u000A), and carriage return (u000D)
+- `private_key`: The contents of the private key in PEM-encoded format. The regex pattern
+  used to validate this parameter is a string of characters consisting of the following:
+  Any printable ASCII character ranging from the space character (u0020) through the end of
+  the ASCII character range   The printable characters in the Basic Latin and Latin-1
+  Supplement character set (through u00FF)   The special characters tab (u0009), line feed
+  (u000A), and carriage return (u000D)
+- `server_certificate_name`: The name for the server certificate. Do not include the path
+  in this value. The name of the certificate cannot contain any spaces. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CertificateChain"`: The contents of the certificate chain. This is typically a
+  concatenation of the PEM-encoded public key certificates of the chain. The regex pattern
+  used to validate this parameter is a string of characters consisting of the following:
+  Any printable ASCII character ranging from the space character (u0020) through the end of
+  the ASCII character range   The printable characters in the Basic Latin and Latin-1
+  Supplement character set (through u00FF)   The special characters tab (u0009), line feed
+  (u000A), and carriage return (u000D)
+- `"Path"`: The path for the server certificate. For more information about paths, see IAM
+  identifiers in the IAM User Guide. This parameter is optional. If it is not included, it
+  defaults to a slash (/). This parameter allows (through its regex pattern) a string of
+  characters consisting of either a forward slash (/) by itself or a string that must begin
+  and end with forward slashes. In addition, it can contain any ASCII character from the !
+  (u0021) through the DEL character (u007F), including most punctuation characters, digits,
+  and upper and lowercased letters.   If you are uploading a server certificate specifically
+  for use with Amazon CloudFront distributions, you must specify a path using the path
+  parameter. The path must begin with /cloudfront and must include a trailing slash (for
+  example, /cloudfront/test/).
+- `"Tags"`: A list of tags that you want to attach to the new IAM server certificate
+  resource. Each tag consists of a key name and an associated value. For more information
+  about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
+  invalid or if you exceed the allowed maximum number of tags, then the entire request fails
+  and the resource is not created.
+"""
+upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
+upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
+
+"""
+    upload_signing_certificate(certificate_body)
+    upload_signing_certificate(certificate_body, params::Dict{String,<:Any})
+
+Uploads an X.509 signing certificate and associates it with the specified IAM user. Some
+AWS services require you to use certificates to validate requests that are signed with a
+corresponding private key. When you upload the certificate, its default status is Active.
+For information about when you would use an X.509 signing certificate, see Managing server
+certificates in IAM in the IAM User Guide. If the UserName is not specified, the IAM user
+name is determined implicitly based on the AWS access key ID used to sign the request. This
+operation works for access keys under the AWS account. Consequently, you can use this
+operation to manage AWS account root user credentials even if the AWS account has no
+associated users.  Because the body of an X.509 certificate can be large, you should use
+POST rather than GET when calling UploadSigningCertificate. For information about setting
+up signatures and authorization through the API, see Signing AWS API requests in the AWS
+General Reference. For general information about using the Query API with IAM, see Making
+query requests in the IAM User Guide.
+
+# Arguments
+- `certificate_body`: The contents of the signing certificate. The regex pattern used to
+  validate this parameter is a string of characters consisting of the following:   Any
+  printable ASCII character ranging from the space character (u0020) through the end of the
+  ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement
+  character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and
+  carriage return (u000D)
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The name of the user the signing certificate is for. This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
+"""
+upload_signing_certificate(CertificateBody; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody); aws_config=aws_config)
+upload_signing_certificate(CertificateBody, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody), params)); aws_config=aws_config)
+
+"""
+    upload_sshpublic_key(sshpublic_key_body, user_name)
+    upload_sshpublic_key(sshpublic_key_body, user_name, params::Dict{String,<:Any})
+
+Uploads an SSH public key and associates it with the specified IAM user. The SSH public key
+uploaded by this operation can be used only for authenticating the associated IAM user to
+an AWS CodeCommit repository. For more information about using SSH keys to authenticate to
+an AWS CodeCommit repository, see Set up AWS CodeCommit for SSH connections in the AWS
+CodeCommit User Guide.
+
+# Arguments
+- `sshpublic_key_body`: The SSH public key. The public key must be encoded in ssh-rsa
+  format or PEM format. The minimum bit-length of the public key is 2048 bits. For example,
+  you can generate a 2048-bit key, and the resulting PEM file is 1679 bytes long. The regex
+  pattern used to validate this parameter is a string of characters consisting of the
+  following:   Any printable ASCII character ranging from the space character (u0020) through
+  the end of the ASCII character range   The printable characters in the Basic Latin and
+  Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line
+  feed (u000A), and carriage return (u000D)
+- `user_name`: The name of the IAM user to associate the SSH public key with. This
+  parameter allows (through its regex pattern) a string of characters consisting of upper and
+  lowercase alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 """
 upload_sshpublic_key(SSHPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSSHPublicKey", Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName); aws_config=aws_config)
-upload_sshpublic_key(SSHPublicKeyBody, UserName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName), args)); aws_config=aws_config)
-
-"""
-    UploadServerCertificate()
-
-Uploads a server certificate entity for the AWS account. The server certificate entity includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded. We recommend that you use AWS Certificate Manager to provision, manage, and deploy your server certificates. With ACM you can request a certificate, deploy it to AWS resources, and let ACM handle certificate renewals for you. Certificates provided by ACM are free. For more information about using ACM, see the AWS Certificate Manager User Guide. For more information about working with server certificates, see Working with Server Certificates in the IAM User Guide. This topic includes a list of AWS services that can use the server certificates that you manage with IAM. For information about the number of server certificates you can upload, see Limitations on IAM Entities and Objects in the IAM User Guide.  Because the body of the public key certificate, private key, and the certificate chain can be large, you should use POST rather than GET when calling UploadServerCertificate. For information about setting up signatures and authorization through the API, go to Signing AWS API Requests in the AWS General Reference. For general information about using the Query API with IAM, go to Calling the API by Making HTTP Query Requests in the IAM User Guide. 
-
-# Required Parameters
-- `CertificateBody`: The contents of the public key certificate in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `PrivateKey`: The contents of the private key in PEM-encoded format. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `ServerCertificateName`: The name for the server certificate. Do not include the path in this value. The name of the certificate cannot contain any spaces. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-
-# Optional Parameters
-- `CertificateChain`: The contents of the certificate chain. This is typically a concatenation of the PEM-encoded public key certificates of the chain. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-- `Path`: The path for the server certificate. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through the DEL character (u007F), including most punctuation characters, digits, and upper and lowercased letters.   If you are uploading a server certificate specifically for use with Amazon CloudFront distributions, you must specify a path using the path parameter. The path must begin with /cloudfront and must include a trailing slash (for example, /cloudfront/test/). 
-"""
-upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName), args)); aws_config=aws_config)
-
-"""
-    UploadSigningCertificate()
-
-Uploads an X.509 signing certificate and associates it with the specified IAM user. Some AWS services use X.509 signing certificates to validate requests that are signed with a corresponding private key. When you upload the certificate, its default status is Active. If the UserName is not specified, the IAM user name is determined implicitly based on the AWS access key ID used to sign the request. This operation works for access keys under the AWS account. Consequently, you can use this operation to manage AWS account root user credentials even if the AWS account has no associated users.  Because the body of an X.509 certificate can be large, you should use POST rather than GET when calling UploadSigningCertificate. For information about setting up signatures and authorization through the API, go to Signing AWS API Requests in the AWS General Reference. For general information about using the Query API with IAM, go to Making Query Requests in the IAM User Guide. 
-
-# Required Parameters
-- `CertificateBody`: The contents of the signing certificate. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character (u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The special characters tab (u0009), line feed (u000A), and carriage return (u000D)  
-
-# Optional Parameters
-- `UserName`: The name of the user the signing certificate is for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
-"""
-upload_signing_certificate(CertificateBody; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody); aws_config=aws_config)
-upload_signing_certificate(CertificateBody, args::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody), args)); aws_config=aws_config)
+upload_sshpublic_key(SSHPublicKeyBody, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config)
