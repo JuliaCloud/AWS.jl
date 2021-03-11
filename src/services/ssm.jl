@@ -26,10 +26,14 @@ EC2 User Guide.
 # Arguments
 - `resource_id`: The resource ID you want to tag. Use the ID of the resource. Here are some
   examples: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline:
-  pb-012345abcde For the Document and Parameter values, use the name of the resource.  The
-  ManagedInstance type for this API action is only for on-premises managed instances. You
-  must specify the name of the managed instance in the following format: mi-ID_number. For
-  example, mi-1a2b3c4d5e6f.
+  pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon
+  Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings
+  that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an
+  ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a
+  ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the
+  Document and Parameter values, use the name of the resource.  The ManagedInstance type for
+  this API action is only for on-premises managed instances. You must specify the name of the
+  managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 - `resource_type`: Specifies the type of resource you are tagging.  The ManagedInstance
   type for this API action is for on-premises managed instances. You must specify the name of
   the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
@@ -408,6 +412,12 @@ action to specify information about the new application, including the applicati
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Metadata"`: Metadata for a new Application Manager application.
+- `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
+  five tags for an OpsMetadata object. Tags enable you to categorize a resource in different
+  ways, such as by purpose, owner, or environment. For example, you might want to tag an
+  OpsMetadata object to identify an environment or target AWS Region. In this case, you could
+  specify the following key-value pairs:    Key=Environment,Value=Production
+  Key=Region,Value=us-east-2
 """
 create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
 create_ops_metadata(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
@@ -1488,9 +1498,11 @@ Returns detailed information about command execution for an invocation or plugin
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PluginName"`: (Optional) The name of the plugin for which you want detailed results. If
-  the document contains only one plugin, the name can be omitted and the details will be
-  returned. Plugin names are also referred to as step names in Systems Manager documents.
+- `"PluginName"`: The name of the plugin for which you want detailed results. If the
+  document contains only one plugin, you can omit the name and details for that plugin are
+  returned. If the document contains more than one plugin, you must specify the name of the
+  plugin for which you want to view details. Plugin names are also referred to as step names
+  in Systems Manager documents. For example, aws:RunShellScript is a plugin.
 """
 get_command_invocation(CommandId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCommandInvocation", Dict{String, Any}("CommandId"=>CommandId, "InstanceId"=>InstanceId); aws_config=aws_config)
 get_command_invocation(CommandId, InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCommandInvocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CommandId"=>CommandId, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
@@ -2590,10 +2602,14 @@ Removes tag keys from the specified resource.
 # Arguments
 - `resource_id`: The ID of the resource from which you want to remove tags. For example:
   ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline:
-  pb-012345abcde For the Document and Parameter values, use the name of the resource.  The
-  ManagedInstance type for this API action is only for on-premises managed instances. Specify
-  the name of the managed instance in the following format: mi-ID_number. For example,
-  mi-1a2b3c4d5e6f.
+  pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon
+  Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings
+  that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an
+  ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a
+  ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the
+  Document and Parameter values, use the name of the resource.  The ManagedInstance type for
+  this API action is only for on-premises managed instances. Specify the name of the managed
+  instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 - `resource_type`: The type of resource from which you want to remove a tag.  The
   ManagedInstance type for this API action is only for on-premises managed instances. Specify
   the name of the managed instance in the following format: mi-ID_number. For example,
