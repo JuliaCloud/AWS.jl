@@ -36,6 +36,12 @@ S3.put_object("anewbucket","foo/baz",Dict("body"=>"a secondnested object"))
 objs = S3.list_objects_v2("anewbucket")
 @test length(objs["Contents"]) == 4
 
+# Test api version 2 of list-objects
+objs_truncated = S3.list_objects_v2("anewbucket", Dict("max-keys"=>2))
+@test length(objs_truncated["Contents"]) == 2
+@test objs_truncated["IsTruncated"]
+@test haskey(objs_truncated,"NextContinuationToken")
+
 # Test listing with prefixes
 objs_prefix = S3.list_objects_v2("anewbucket", Dict("prefix"=>"", "delimiter"=>"/"))
 @test length(objs_prefix["Contents"]) == 2

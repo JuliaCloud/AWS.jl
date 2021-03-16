@@ -11,6 +11,7 @@ using Retry
 using Sockets
 using UUIDs: UUIDs
 using XMLDict
+import URIs
 
 export @service
 export _merge, AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
@@ -576,7 +577,9 @@ function (service::RestXMLService)(
     return_headers = _return_headers(args)
 
     if request.service == "s3"
-        request_uri = _clean_s3_uri(request_uri)
+        u = URIs.URI(request_uri)
+        cleaned_uri = URIs.URI(u;path=_clean_s3_uri(u.path))
+        request_uri = string(cleaned_uri)
     end
     request.resource = _generate_rest_resource(request_uri, args)
     query_str = HTTP.escapeuri(args)
