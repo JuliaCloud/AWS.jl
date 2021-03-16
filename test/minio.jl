@@ -39,7 +39,7 @@ objs = S3.list_objects_v2("anewbucket")
 # Test api version 2 of list-objects
 objs_truncated = S3.list_objects_v2("anewbucket", Dict("max-keys"=>2))
 @test length(objs_truncated["Contents"]) == 2
-@test objs_truncated["IsTruncated"]
+@test objs_truncated["IsTruncated"] == "true"
 @test haskey(objs_truncated,"NextContinuationToken")
 
 # Test listing with prefixes
