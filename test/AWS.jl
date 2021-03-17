@@ -461,7 +461,6 @@ end
     uri = "/test-bucket/*)=('! +.txt?list-objects=v2"
     expected_uri = "/test-bucket/%2A%29%3D%28%27%21%20%2B.txt?list-objects=v2"
     @test AWS._clean_s3_uri(uri) == expected_uri
-    @test URIs.unescapeuri(expected_uri) == uri
 
     # make sure that other parts of the uri aren't changed by `_clean_s3_uri`
     for uri in ("https://julialang.org",
