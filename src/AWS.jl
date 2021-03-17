@@ -11,6 +11,7 @@ using Retry
 using Sockets
 using UUIDs: UUIDs
 using XMLDict
+import URIs
 
 export @service
 export _merge, AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
@@ -502,6 +503,39 @@ function _flatten_query!(result::Vector{Pair{String, String}}, service::String, 
 end
 
 """
+    _clean_s3_uri(uri::AbstractString)
+
+Escape special AWS S3 characters in the path of the uri properly.
+
+AWS S3 allows for various special characters in file names, these characters are not being
+properly escaped before we make the requests.
+
+We cannot call `HTTP.escapeuri(request.uri)` because this will escape `/` characters which
+are used in the filepathing for sub-directories.
+
+# Arguments
+- `uri::AbstractString`: URI to to cleaned
+
+# Returns
+- `String`: URI with characters escaped
+"""
+function _clean_s3_uri(uri::AbstractString)
+    chars_to_clean = (
+        ' ' => "%20",
+        '!' => "%21",
+        ''' => "%27",
+        '(' => "%28",
+        ')' => "%29",
+        '*' => "%2A",
+        '+' => "%2B",
+        '=' => "%3D",
+    )
+    parsed_uri = URIs.URI(uri)
+    cleaned_path = reduce(replace, chars_to_clean, init=parsed_uri.path)
+    return string(URIs.URI(parsed_uri; path=cleaned_path))
+end
+
+"""
     (service::RestXMLService)(
         request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
         aws::AbstractAWSConfig=aws_config
@@ -524,36 +558,6 @@ function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    """
-        _clean_s3_uri(uri::AbstractString)
-
-    Escape special AWS S3 characters properly.
-
-    AWS S3 allows for various special characters in file names, these characters are not being
-    properly escaped before we make the requests.
-
-    We cannot call `HTTP.escapeuri(request.uri)` because this will escape `/` characters which
-    are used in the filepathing for sub-directories.
-
-    # Arguments
-    - `uri::AbstractString`: URI to to cleaned
-
-    # Returns
-    - `String`: URI with characters escaped
-    """
-    function _clean_s3_uri(uri::AbstractString)
-        chars_to_clean = (
-            ' ' => "%20",
-            '!' => "%21",
-            ''' => "%27",
-            '(' => "%28",
-            ')' => "%29",
-            '*' => "%2A",
-            '+' => "%2B",
-            '=' => "%3D",
-        )
-        return reduce(replace, chars_to_clean, init=uri)
-    end
 
     request = Request(
         service=service.name,
