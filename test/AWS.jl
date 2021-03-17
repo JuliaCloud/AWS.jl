@@ -463,12 +463,14 @@ end
     @test AWS._clean_s3_uri(uri) == expected_uri
 
     # make sure that other parts of the uri aren't changed by `_clean_s3_uri`
-    for uri in ("https://julialang.org",
+    for uri in (
+            "https://julialang.org",
             "http://julialang.org",
             "http://julialang.org:8080",
             "/onlypath",
             "/path?query=  +99",
-            "/anchor?query=yes#anchor1")
+            "/anchor?query=yes#anchor1"
+    )
         @test AWS._clean_s3_uri(uri) == uri
     end
 end
