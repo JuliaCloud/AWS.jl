@@ -15,7 +15,7 @@ To see an overview of the architecture see the [design document](https://github.
 
 ## Installation
 You will need some form of AWS credentials to use this package.
-The most simple way is to setup [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
+The most simple way is to set up [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
 
 ```julia
 julia> Pkg.add("AWS")
