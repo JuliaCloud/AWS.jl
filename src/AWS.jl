@@ -162,7 +162,7 @@ Base.@kwdef mutable struct Request
     url::String=""
 
     return_stream::Bool=false
-    response_stream::Union{Base.BufferStream, Nothing}=nothing
+    response_stream::Union{<:IO, Nothing}=nothing
     http_options::Array{String}=[]
     return_raw::Bool=false
     response_dict_type::Type{<:AbstractDict}=LittleDict
@@ -575,8 +575,10 @@ function (service::RestXMLService)(
         request.response_dict_type = pop!(args, "response_dict_type")
     end
 
-    delete!(args, "headers")
-    delete!(args, "body")
+    for key in ("headers", "body", "response_stream", "return_stream", "return_raw")
+        delete!(args, key)
+    end
+
     return_headers = _return_headers(args)
 
     if request.service == "s3"
