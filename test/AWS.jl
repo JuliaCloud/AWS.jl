@@ -745,6 +745,12 @@ end
             max_keys = 1
             result = S3.list_objects(bucket_name, Dict("max_keys" => max_keys))
             @test length([result["Contents"]]) == max_keys
+
+            # GET with an IO target
+            mktemp() do f, io
+                S3.get_object(bucket_name, file_name, Dict("response_stream" => io))
+                @test read(f, String) == body
+            end
         finally
             # DELETE with parameters operation
             S3.delete_object(bucket_name, file_name)

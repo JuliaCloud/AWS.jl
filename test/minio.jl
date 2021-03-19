@@ -30,18 +30,13 @@ S3.put_object("anewbucket","foo/bar",Dict("body"=>"a nested object"))
 S3.put_object("anewbucket","foo/baz",Dict("body"=>"a secondnested object"))
 
 # Test retrieving an object
-@test S3.get_object("anewbucket","myobject") |> String == "Hi from Minio"
+@test S3.get_object("anewbucket", "myobject") |> String == "Hi from Minio"
 
-# Fix: BufferStream can be generalized to IO
-# v1.29.1: ERROR: MethodError: Cannot `convert` an object of type IOStream to an object of type Base.BufferStream
+# Test retrieving an object into a stream target
 mktemp() do f, io
-    S3.get_object("anewbucket","myobject", Dict("response_stream"=>io))
+    S3.get_object("anewbucket", "myobject", Dict("response_stream"=>io))
     @test read(f, String) == "Hi from Minio"
 end
-
-# Bug: `response_stream` is pushed into the query part...
-# v1.29.1: ERROR: MethodError: no method matching iterate(::Base.BufferStream)
-S3.get_object("anewbucket","myobject", Dict("response_stream"=>Base.BufferStream(), "return_stream"=>true))
 
 # Test listing
 objs = S3.list_objects_v2("anewbucket")

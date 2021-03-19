@@ -563,21 +563,14 @@ function (service::RestXMLService)(
         service=service.name,
         api_version=service.api_version,
         request_method=request_method,
-        content=get(args, "body", ""),
-        headers=LittleDict{String, String}(get(args, "headers", [])),
-        return_stream=get(args, "return_stream", false),
-        http_options=get(args, "http_options", []),
-        response_stream=get(args, "response_stream", nothing),
-        return_raw=get(args, "return_raw", false),
+        content=pop!(args, "body", ""),
+        headers=LittleDict{String, String}(pop!(args, "headers", [])),
+        return_stream=pop!(args, "return_stream", false),
+        http_options=pop!(args, "http_options", []),
+        response_stream=pop!(args, "response_stream", nothing),
+        return_raw=pop!(args, "return_raw", false),
+        response_dict_type=pop!(args, "response_dict_type", LittleDict),
     )
-
-    if haskey(args, "response_dict_type")
-        request.response_dict_type = pop!(args, "response_dict_type")
-    end
-
-    for key in ("headers", "body", "response_stream", "return_stream", "return_raw")
-        delete!(args, key)
-    end
 
     return_headers = _return_headers(args)
 
