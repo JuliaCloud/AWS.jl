@@ -214,7 +214,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
   are disabled, you can still create manual snapshots when you want with
-  CreateClusterSnapshot.  Default: 1  Constraints: Must be a value from 0 to 35.
+  CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the
+  automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0
+  to 35.
 - `"AvailabilityZone"`: The EC2 Availability Zone (AZ) in which you want Amazon Redshift to
   provision the cluster. For example, if you have several EC2 instances running in a specific
   Availability Zone, then you might want the cluster to be provisioned in the same zone in
@@ -2043,8 +2045,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are disabled, you can still create manual snapshots when you want with
   CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its
   current value, existing automated snapshots that fall outside of the new retention period
-  will be immediately deleted. Default: Uses existing setting. Constraints: Must be a value
-  from 0 to 35.
+  will be immediately deleted. You can't disable automated snapshots for RA3 node types. Set
+  the automated retention period from 1-35 days. Default: Uses existing setting. Constraints:
+  Must be a value from 0 to 35.
 - `"AvailabilityZone"`: The option to initiate relocation for an Amazon Redshift cluster to
   the target Availability Zone.
 - `"AvailabilityZoneRelocation"`: The option to enable relocation for an Amazon Redshift
@@ -2570,8 +2573,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
   are disabled, you can still create manual snapshots when you want with
-  CreateClusterSnapshot.  Default: The value selected for the cluster from which the snapshot
-  was taken. Constraints: Must be a value from 0 to 35.
+  CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the
+  automated retention period from 1-35 days. Default: The value selected for the cluster from
+  which the snapshot was taken. Constraints: Must be a value from 0 to 35.
 - `"AvailabilityZone"`: The Amazon EC2 Availability Zone in which to restore the cluster.
   Default: A random, system-chosen Availability Zone. Example: us-east-2a
 - `"AvailabilityZoneRelocation"`: The option to enable relocation for an Amazon Redshift
