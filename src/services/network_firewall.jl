@@ -199,16 +199,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your resources.
 - `"RuleGroup"`: An object that defines the rule group rules.   You must provide either
   this rule group setting or a Rules setting, but not both.
-- `"Rules"`: The name of a file containing stateful rule group rules specifications in
-  Suricata flat format, with one rule per line. Use this to import your existing Suricata
-  compatible rule groups.   You must provide either this rules setting or a populated
-  RuleGroup setting, but not both.   You can provide your rule group specification in a file
-  through this setting when you create or update your rule group. The call response returns a
-  RuleGroup object that Network Firewall has populated from your file. Network Firewall uses
-  the file contents to populate the rule group rules, but does not maintain a reference to
-  the file or use the file in any way after performing the create or update. If you call
-  DescribeRuleGroup to retrieve the rule group, Network Firewall returns rules settings
-  inside a RuleGroup object.
+- `"Rules"`: A string containing stateful rule group rules specifications in Suricata flat
+  format, with one rule per line. Use this to import your existing Suricata compatible rule
+  groups.   You must provide either this rules setting or a populated RuleGroup setting, but
+  not both.   You can provide your rule group specification in Suricata flat format through
+  this setting when you create or update your rule group. The call response returns a
+  RuleGroup object that Network Firewall has populated from your string.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
 create_rule_group(Capacity, RuleGroupName, Type; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateRuleGroup", Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type); aws_config=aws_config)
@@ -781,16 +777,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
   rule group after you create it. You must specify the ARN or the name, and you can specify
   both.
-- `"Rules"`: The name of a file containing stateful rule group rules specifications in
-  Suricata flat format, with one rule per line. Use this to import your existing Suricata
-  compatible rule groups.   You must provide either this rules setting or a populated
-  RuleGroup setting, but not both.   You can provide your rule group specification in a file
-  through this setting when you create or update your rule group. The call response returns a
-  RuleGroup object that Network Firewall has populated from your file. Network Firewall uses
-  the file contents to populate the rule group rules, but does not maintain a reference to
-  the file or use the file in any way after performing the create or update. If you call
-  DescribeRuleGroup to retrieve the rule group, Network Firewall returns rules settings
-  inside a RuleGroup object.
+- `"Rules"`: A string containing stateful rule group rules specifications in Suricata flat
+  format, with one rule per line. Use this to import your existing Suricata compatible rule
+  groups.   You must provide either this rules setting or a populated RuleGroup setting, but
+  not both.   You can provide your rule group specification in Suricata flat format through
+  this setting when you create or update your rule group. The call response returns a
+  RuleGroup object that Network Firewall has populated from your string.
 - `"Type"`: Indicates whether the rule group is stateless or stateful. If the rule group is
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.

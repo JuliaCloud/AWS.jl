@@ -130,9 +130,8 @@ Creates a new Amazon EMR Studio.
 # Arguments
 - `auth_mode`: Specifies whether the Studio authenticates users using single sign-on (SSO)
   or IAM. Amazon EMR Studio currently only supports SSO authentication.
-- `default_s3_location`: The default Amazon S3 location to back up Amazon EMR Studio
-  Workspaces and notebook files. A Studio user can select an alternative Amazon S3 location
-  when creating a Workspace.
+- `default_s3_location`: The Amazon S3 location to back up Amazon EMR Studio Workspaces and
+  notebook files.
 - `engine_security_group_id`: The ID of the Amazon EMR Studio Engine security group. The
   Engine security group allows inbound network traffic from the Workspace security group, and
   it must be in the same VPC specified by VpcId.
@@ -992,9 +991,8 @@ and subnets.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DefaultS3Location"`: A default Amazon S3 location to back up Workspaces and notebook
-  files for the Amazon EMR Studio. A Studio user can select an alternative Amazon S3 location
-  when creating a Workspace.
+- `"DefaultS3Location"`: The Amazon S3 location to back up Workspaces and notebook files
+  for the Amazon EMR Studio.
 - `"Description"`: A detailed description to assign to the Amazon EMR Studio.
 - `"Name"`: A descriptive name for the Amazon EMR Studio.
 - `"SubnetIds"`: A list of subnet IDs to associate with the Amazon EMR Studio. The list can

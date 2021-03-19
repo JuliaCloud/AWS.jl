@@ -55,32 +55,27 @@ Amazon Elastic Container Service Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"capacityProviders"`: The short name of one or more capacity providers to associate with
-  the cluster. If specifying a capacity provider that uses an Auto Scaling group, the
-  capacity provider must already be created and not already associated with another cluster.
-  New capacity providers can be created with the CreateCapacityProvider API operation. To use
-  a AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity
-  providers. The AWS Fargate capacity providers are available to all accounts and only need
-  to be associated with a cluster to be used. The PutClusterCapacityProviders API operation
-  is used to update the list of available capacity providers for a cluster after the cluster
-  is created.
+  the cluster. A capacity provider must be associated with a cluster before it can be
+  included as part of the default capacity provider strategy of the cluster or used in a
+  capacity provider strategy when calling the CreateService or RunTask actions. If specifying
+  a capacity provider that uses an Auto Scaling group, the capacity provider must already be
+  created and not already associated with another cluster. New Auto Scaling group capacity
+  providers can be created with the CreateCapacityProvider API operation. To use a AWS
+  Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers.
+  The AWS Fargate capacity providers are available to all accounts and only need to be
+  associated with a cluster to be used. The PutClusterCapacityProviders API operation is used
+  to update the list of available capacity providers for a cluster after the cluster is
+  created.
 - `"clusterName"`: The name of your cluster. If you do not specify a name for your cluster,
   you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers,
   and hyphens are allowed.
-- `"defaultCapacityProviderStrategy"`: The capacity provider strategy to use by default for
-  the cluster. When creating a service or running a task on a cluster, if no capacity
-  provider or launch type is specified then the default capacity provider strategy for the
-  cluster is used. A capacity provider strategy consists of one or more capacity providers
-  along with the base and weight to assign to them. A capacity provider must be associated
-  with the cluster to be used in a capacity provider strategy. The
-  PutClusterCapacityProviders API is used to associate a capacity provider with a cluster.
-  Only capacity providers with an ACTIVE or UPDATING status can be used. If specifying a
-  capacity provider that uses an Auto Scaling group, the capacity provider must already be
-  created. New capacity providers can be created with the CreateCapacityProvider API
-  operation. To use a AWS Fargate capacity provider, specify either the FARGATE or
-  FARGATE_SPOT capacity providers. The AWS Fargate capacity providers are available to all
-  accounts and only need to be associated with a cluster to be used. If a default capacity
-  provider strategy is not defined for a cluster during creation, it can be defined later
-  with the PutClusterCapacityProviders API operation.
+- `"configuration"`: The execute command configuration for the cluster.
+- `"defaultCapacityProviderStrategy"`: The capacity provider strategy to set as the default
+  for the cluster. When a default capacity provider strategy is set for a cluster, when
+  calling the RunTask or CreateService APIs wtih no capacity provider strategy or launch type
+  specified, the default capacity provider strategy for the cluster is used. If a default
+  capacity provider strategy is not defined for a cluster during creation, it can be defined
+  later with the PutClusterCapacityProviders API operation.
 - `"settings"`: The setting to use when creating a cluster. This parameter is used to
   enable CloudWatch Container Insights for a cluster. If this value is specified, it will
   override the containerInsights value set with PutAccountSetting or PutAccountSettingDefault.
@@ -182,21 +177,10 @@ instances with the fewest number of running tasks for this service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"capacityProviderStrategy"`: The capacity provider strategy to use for the service. A
-  capacity provider strategy consists of one or more capacity providers along with the base
-  and weight to assign to them. A capacity provider must be associated with the cluster to be
-  used in a capacity provider strategy. The PutClusterCapacityProviders API is used to
-  associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or
-  UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType
-  parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the
-  defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider
-  that uses an Auto Scaling group, the capacity provider must already be created. New
-  capacity providers can be created with the CreateCapacityProvider API operation. To use a
-  AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity
-  providers. The AWS Fargate capacity providers are available to all accounts and only need
-  to be associated with a cluster to be used. The PutClusterCapacityProviders API operation
-  is used to update the list of available capacity providers for a cluster after the cluster
-  is created.
+- `"capacityProviderStrategy"`: The capacity provider strategy to use for the service. If a
+  capacityProviderStrategy is specified, the launchType parameter must be omitted. If no
+  capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy
+  for the cluster is used.
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 32 ASCII characters are allowed.
 - `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster on which to
@@ -210,6 +194,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enableECSManagedTags"`: Specifies whether to enable Amazon ECS managed tags for the
   tasks within the service. For more information, see Tagging Your Amazon ECS Resources in
   the Amazon Elastic Container Service Developer Guide.
+- `"enableExecuteCommand"`: Whether or not the execute command functionality is enabled for
+  the service. If true, this enables execute command functionality on all containers in the
+  service tasks.
 - `"healthCheckGracePeriodSeconds"`: The period of time, in seconds, that the Amazon ECS
   service scheduler should ignore unhealthy Elastic Load Balancing target health checks after
   a task has first started. This is only used when your service is configured to use a load
@@ -219,8 +206,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   grace period of up to 2,147,483,647 seconds. During that time, the Amazon ECS service
   scheduler ignores health check status. This grace period can prevent the service scheduler
   from marking tasks as unhealthy and stopping them before they have time to come up.
-- `"launchType"`: The launch type on which to run your service. For more information, see
-  Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide. If a
+- `"launchType"`: The launch type on which to run your service. The accepted values are
+  FARGATE and EC2. For more information, see Amazon ECS launch types in the Amazon Elastic
+  Container Service Developer Guide. When a value of FARGATE is specified, your tasks are
+  launched on AWS Fargate On-Demand infrastructure. To use Fargate Spot, you must use a
+  capacity provider strategy with the FARGATE_SPOT capacity provider. When a value of EC2 is
+  specified, your tasks are launched on Amazon EC2 instances registered to your cluster. If a
   launchType is specified, the capacityProviderStrategy parameter must be omitted.
 - `"loadBalancers"`: A load balancer object representing the load balancers to use with
   your service. For more information, see Service Load Balancing in the Amazon Elastic
@@ -228,7 +219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deployment controller and using either an Application Load Balancer or Network Load
   Balancer, you must specify one or more target group ARNs to attach to the service. The
   service-linked role is required for services that make use of multiple target groups. For
-  more information, see Using Service-Linked Roles for Amazon ECS in the Amazon Elastic
+  more information, see Using service-linked roles for Amazon ECS in the Amazon Elastic
   Container Service Developer Guide. If the service is using the CODE_DEPLOY deployment
   controller, the service is required to use either an Application Load Balancer or Network
   Load Balancer. When creating an AWS CodeDeploy deployment group, you specify two target
@@ -259,7 +250,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"networkConfiguration"`: The network configuration for the service. This parameter is
   required for task definitions that use the awsvpc network mode to receive their own elastic
   network interface, and it is not supported for other network modes. For more information,
-  see Task Networking in the Amazon Elastic Container Service Developer Guide.
+  see Task networking in the Amazon Elastic Container Service Developer Guide.
 - `"placementConstraints"`: An array of placement constraint objects to use for tasks in
   your service. You can specify a maximum of 10 constraints per task (this limit includes
   constraints in the task definition and those specified at runtime).
@@ -268,7 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"platformVersion"`: The platform version that your tasks in the service are running on.
   A platform version is specified only for tasks using the Fargate launch type. If one isn't
   specified, the LATEST platform version is used by default. For more information, see AWS
-  Fargate Platform Versions in the Amazon Elastic Container Service Developer Guide.
+  Fargate platform versions in the Amazon Elastic Container Service Developer Guide.
 - `"propagateTags"`: Specifies whether to propagate the tags from the task definition or
   the service to the tasks in the service. If no value is specified, the tags are not
   propagated. Tags can only be propagated to the tasks within the service during service
@@ -282,12 +273,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a role here. The service-linked role is required if your task definition uses the
   awsvpc network mode or if the service is configured to use service discovery, an external
   deployment controller, multiple target groups, or Elastic Inference accelerators in which
-  case you should not specify a role here. For more information, see Using Service-Linked
-  Roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.  If your
+  case you should not specify a role here. For more information, see Using service-linked
+  roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.  If your
   specified role has a path other than /, then you must either specify the full role ARN
   (this is recommended) or prefix the role name with the path. For example, if a role with
   the name bar has a path of /foo/ then you would specify /foo/bar as the role name. For more
-  information, see Friendly Names and Paths in the IAM User Guide.
+  information, see Friendly names and paths in the IAM User Guide.
 - `"schedulingStrategy"`: The scheduling strategy to use for the service. For more
   information, see Services. There are two service scheduler strategies available:
   REPLICA-The replica scheduling strategy places and maintains the desired number of tasks
@@ -303,9 +294,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't
   support the DAEMON scheduling strategy.
 - `"serviceRegistries"`: The details of the service discovery registries to assign to this
-  service. For more information, see Service Discovery.  Service discovery is supported for
+  service. For more information, see Service discovery.  Service discovery is supported for
   Fargate tasks if you are using platform version v1.1.0 or later. For more information, see
-  AWS Fargate Platform Versions.
+  AWS Fargate platform versions.
 - `"tags"`: The metadata that you apply to the service to help you categorize and organize
   them. Each tag consists of a key and an optional value, both of which you define. When a
   service is deleted, the tags are deleted as well. The following basic restrictions apply to
@@ -790,6 +781,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 discover_poll_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint"; aws_config=aws_config)
 discover_poll_endpoint(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint", params; aws_config=aws_config)
+
+"""
+    execute_command(command, interactive, task)
+    execute_command(command, interactive, task, params::Dict{String,<:Any})
+
+Runs a command remotely on a container within a task.
+
+# Arguments
+- `command`: The command to run on the container.
+- `interactive`: Use this flag to run your command in interactive mode.
+- `task`: The Amazon Resource Name (ARN) or ID of the task the container is part of.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cluster"`: The Amazon Resource Name (ARN) or short name of the cluster the task is
+  running in. If you do not specify a cluster, the default cluster is assumed.
+- `"container"`: The name of the container to execute the command on. A container name only
+  needs to be specified for tasks containing multiple containers.
+"""
+execute_command(command, interactive, task; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ExecuteCommand", Dict{String, Any}("command"=>command, "interactive"=>interactive, "task"=>task); aws_config=aws_config)
+execute_command(command, interactive, task, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ExecuteCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("command"=>command, "interactive"=>interactive, "task"=>task), params)); aws_config=aws_config)
 
 """
     list_account_settings()
@@ -1335,7 +1347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Container Service Developer Guide.   For tasks that use the host IPC mode, IPC namespace
   related systemControls are not supported.   For tasks that use the task IPC mode, IPC
   namespace related systemControls will apply to all containers within a task.    This
-  parameter is not supported for Windows containers or tasks using the Fargate launch type.
+  parameter is not supported for Windows containers or tasks run on AWS Fargate.
 - `"memory"`: The amount of memory (in MiB) used by the task. It can be expressed as an
   integer using MiB, for example 1024, or as a string using GB, for example 1GB or 1 GB, in a
   task definition. String values are converted to an integer indicating the MiB when the task
@@ -1383,14 +1395,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   private namespace. For more information, see PID settings in the Docker run reference. If
   the host PID mode is used, be aware that there is a heightened risk of undesired process
   namespace expose. For more information, see Docker security.  This parameter is not
-  supported for Windows containers or tasks using the Fargate launch type.
+  supported for Windows containers or tasks run on AWS Fargate.
 - `"placementConstraints"`: An array of placement constraint objects to use for the task.
   You can specify a maximum of 10 constraints per task (this limit includes constraints in
   the task definition and those specified at runtime).
 - `"proxyConfiguration"`:
 - `"requiresCompatibilities"`: The task launch type that Amazon ECS should validate the
-  task definition against. This ensures that the task definition parameters are compatible
-  with the specified launch type. If no value is specified, it defaults to EC2.
+  task definition against. A client exception is returned if the task definition doesn't
+  validate against the compatibilities specified. If no value is specified, the parameter is
+  omitted from the response.
 - `"tags"`: The metadata that you apply to the task definition to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50
@@ -1442,21 +1455,10 @@ time.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"capacityProviderStrategy"`: The capacity provider strategy to use for the task. A
-  capacity provider strategy consists of one or more capacity providers along with the base
-  and weight to assign to them. A capacity provider must be associated with the cluster to be
-  used in a capacity provider strategy. The PutClusterCapacityProviders API is used to
-  associate a capacity provider with a cluster. Only capacity providers with an ACTIVE or
-  UPDATING status can be used. If a capacityProviderStrategy is specified, the launchType
-  parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the
-  defaultCapacityProviderStrategy for the cluster is used. If specifying a capacity provider
-  that uses an Auto Scaling group, the capacity provider must already be created. New
-  capacity providers can be created with the CreateCapacityProvider API operation. To use a
-  AWS Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity
-  providers. The AWS Fargate capacity providers are available to all accounts and only need
-  to be associated with a cluster to be used. The PutClusterCapacityProviders API operation
-  is used to update the list of available capacity providers for a cluster after the cluster
-  is created.
+- `"capacityProviderStrategy"`: The capacity provider strategy to use for the task. If a
+  capacityProviderStrategy is specified, the launchType parameter must be omitted. If no
+  capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy
+  for the cluster is used.
 - `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster on which to
   run your task. If you do not specify a cluster, the default cluster is assumed.
 - `"count"`: The number of instantiations of the specified task to place on your cluster.
@@ -1464,10 +1466,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enableECSManagedTags"`: Specifies whether to enable Amazon ECS managed tags for the
   task. For more information, see Tagging Your Amazon ECS Resources in the Amazon Elastic
   Container Service Developer Guide.
+- `"enableExecuteCommand"`: Whether or not to enable the execute command functionality for
+  the containers in this task. If true, this enables execute command functionality on all
+  containers in the task.
 - `"group"`: The name of the task group to associate with the task. The default value is
   the family name of the task definition (for example, family:my-family-name).
-- `"launchType"`: The launch type on which to run your task. For more information, see
-  Amazon ECS Launch Types in the Amazon Elastic Container Service Developer Guide. If a
+- `"launchType"`: The launch type on which to run your task. The accepted values are
+  FARGATE and EC2. For more information, see Amazon ECS Launch Types in the Amazon Elastic
+  Container Service Developer Guide. When a value of FARGATE is specified, your tasks are
+  launched on AWS Fargate On-Demand infrastructure. To use Fargate Spot, you must use a
+  capacity provider strategy with the FARGATE_SPOT capacity provider. When a value of EC2 is
+  specified, your tasks are launched on Amazon EC2 instances registered to your cluster. If a
   launchType is specified, the capacityProviderStrategy parameter must be omitted.
 - `"networkConfiguration"`: The network configuration for the task. This parameter is
   required for task definitions that use the awsvpc network mode to receive their own elastic
@@ -1541,6 +1550,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enableECSManagedTags"`: Specifies whether to enable Amazon ECS managed tags for the
   task. For more information, see Tagging Your Amazon ECS Resources in the Amazon Elastic
   Container Service Developer Guide.
+- `"enableExecuteCommand"`: Whether or not the execute command functionality is enabled for
+  the task. If true, this enables execute command functionality on all containers in the task.
 - `"group"`: The name of the task group to associate with the task. The default value is
   the family name of the task definition (for example, family:my-family-name).
 - `"networkConfiguration"`: The VPC subnet and security group configuration for tasks that
@@ -1661,6 +1672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the task.
 - `"containers"`: Any containers associated with the state change request.
 - `"executionStoppedAt"`: The Unix timestamp for when the task execution stopped.
+- `"managedAgents"`: The details for the managed agent associated with the task.
 - `"pullStartedAt"`: The Unix timestamp for when the container image pull began.
 - `"pullStoppedAt"`: The Unix timestamp for when the container image pull completed.
 - `"reason"`: The reason for the state change request.
@@ -1728,6 +1740,23 @@ Modifies the parameters for a capacity provider.
 """
 update_capacity_provider(autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
 update_capacity_provider(autoScalingGroupProvider, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config)
+
+"""
+    update_cluster(cluster)
+    update_cluster(cluster, params::Dict{String,<:Any})
+
+Updates the cluster.
+
+# Arguments
+- `cluster`: The name of the cluster to modify the settings for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"configuration"`: The execute command configuration for the cluster.
+- `"settings"`: The cluster settings for your cluster.
+"""
+update_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCluster", Dict{String, Any}("cluster"=>cluster); aws_config=aws_config)
+update_cluster(cluster, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config)
 
 """
     update_cluster_settings(cluster, settings)
@@ -1919,6 +1948,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   run during the deployment and the ordering of stopping and starting tasks.
 - `"desiredCount"`: The number of instantiations of the task to place and keep running in
   your service.
+- `"enableExecuteCommand"`: If true, this enables execute command functionality on all task
+  containers. If you do not want to override the value that was set when the service was
+  created, you can set this to null when performing this action.
 - `"forceNewDeployment"`: Whether to force a new deployment of the service. Deployments are
   not forced by default. You can use this option to trigger a new deployment with no service
   definition changes. For example, you can update a service's tasks to use a newer Docker

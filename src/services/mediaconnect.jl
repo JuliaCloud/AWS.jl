@@ -460,6 +460,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"encryption"`: The type of key used for the encryption. If no keyType is provided, the
   service will use the default setting (static-key).
 - `"maxLatency"`: The maximum latency in milliseconds for Zixi-based streams.
+- `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams
+  that use the SRT protocol, this value that you set on your MediaConnect source or output
+  represents the minimal potential latency of that connection. The latency of the stream is
+  set to the highest number between the sender’s minimum latency and the receiver’s
+  minimum latency.
 - `"port"`: The port to use when content is distributed to this output.
 - `"protocol"`: The protocol to use for the output.
 - `"remoteId"`: The remote ID for the Zixi-pull stream.
@@ -495,6 +500,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxBitrate"`: The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
 - `"maxLatency"`: The maximum latency in milliseconds. This parameter applies only to
   RIST-based and Zixi-based streams.
+- `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams
+  that use the SRT protocol, this value that you set on your MediaConnect source or output
+  represents the minimal potential latency of that connection. The latency of the stream is
+  set to the highest number between the sender’s minimum latency and the receiver’s
+  minimum latency.
 - `"protocol"`: The protocol that is used by the source.
 - `"streamId"`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi-based streams.

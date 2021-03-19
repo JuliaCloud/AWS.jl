@@ -39,7 +39,7 @@ ListMultipartUploads
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -91,7 +91,7 @@ ListMultipartUploads
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CompleteMultipartUpload"`: The container for the multipart upload request information.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -154,27 +154,26 @@ server-side encryption, Amazon S3 encrypts your data as it writes it to disks in
 centers and decrypts the data when you access it. For more information about server-side
 encryption, see Using Server-Side Encryption. If a target object uses SSE-KMS, you can
 enable an S3 Bucket Key for the object. For more information, see Amazon S3 Bucket Keys in
-the Amazon Simple Storage Service User Guide.  Access Control List (ACL)-Specific Request
-Headers  When copying an object, you can optionally use headers to grant ACL-based
-permissions. By default, all objects are private. Only the owner has full access control.
-When adding a new object, you can grant permissions to individual AWS accounts or to
-predefined groups defined by Amazon S3. These permissions are then added to the ACL on the
-object. For more information, see Access Control List (ACL) Overview and Managing ACLs
-Using the REST API.   Storage Class Options  You can use the CopyObject action to change
-the storage class of an object that is already stored in Amazon S3 using the StorageClass
-parameter. For more information, see Storage Classes in the Amazon S3 Service Developer
-Guide.  Versioning  By default, x-amz-copy-source identifies the current version of an
-object to copy. If the current version is a delete marker, Amazon S3 behaves as if the
-object was deleted. To copy a different version, use the versionId subresource. If you
-enable versioning on the target bucket, Amazon S3 generates a unique version ID for the
-object being copied. This version ID is different from the version ID of the source object.
-Amazon S3 returns the version ID of the copied object in the x-amz-version-id response
-header in the response. If you do not enable versioning or suspend it on the target bucket,
-the version ID that Amazon S3 generates is always null. If the source object's storage
-class is GLACIER, you must restore a copy of this object before you can use it as a source
-object for the copy operation. For more information, see RestoreObject. The following
-operations are related to CopyObject:    PutObject     GetObject    For more information,
-see Copying Objects.
+the Amazon S3 User Guide.  Access Control List (ACL)-Specific Request Headers  When copying
+an object, you can optionally use headers to grant ACL-based permissions. By default, all
+objects are private. Only the owner has full access control. When adding a new object, you
+can grant permissions to individual AWS accounts or to predefined groups defined by Amazon
+S3. These permissions are then added to the ACL on the object. For more information, see
+Access Control List (ACL) Overview and Managing ACLs Using the REST API.   Storage Class
+Options  You can use the CopyObject action to change the storage class of an object that is
+already stored in Amazon S3 using the StorageClass parameter. For more information, see
+Storage Classes in the Amazon S3 Service Developer Guide.  Versioning  By default,
+x-amz-copy-source identifies the current version of an object to copy. If the current
+version is a delete marker, Amazon S3 behaves as if the object was deleted. To copy a
+different version, use the versionId subresource. If you enable versioning on the target
+bucket, Amazon S3 generates a unique version ID for the object being copied. This version
+ID is different from the version ID of the source object. Amazon S3 returns the version ID
+of the copied object in the x-amz-version-id response header in the response. If you do not
+enable versioning or suspend it on the target bucket, the version ID that Amazon S3
+generates is always null. If the source object's storage class is GLACIER, you must restore
+a copy of this object before you can use it as a source object for the copy operation. For
+more information, see RestoreObject. The following operations are related to CopyObject:
+PutObject     GetObject    For more information, see Copying Objects.
 
 # Arguments
 - `bucket`: The name of the destination bucket. When using this action with an access
@@ -244,7 +243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-copy-source-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5
   digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a
   message integrity check to ensure that the encryption key was transmitted without error.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected destination bucket owner.
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected destination bucket owner.
   If the destination bucket is owned by a different account, the request will fail with an
   HTTP 403 (Access Denied) error.
 - `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
@@ -290,7 +289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
   the encryption key according to RFC 1321. Amazon S3 uses this header for a message
   integrity check to ensure that the encryption key was transmitted without error.
-- `"x-amz-source-expected-bucket-owner"`: The account id of the expected source bucket
+- `"x-amz-source-expected-bucket-owner"`: The account ID of the expected source bucket
   owner. If the source bucket is owned by a different account, the request will fail with an
   HTTP 403 (Access Denied) error.
 - `"x-amz-storage-class"`: By default, Amazon S3 uses the STANDARD Storage Class to store
@@ -495,7 +494,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Expires"`: The date and time at which the object is no longer cacheable.
 - `"x-amz-acl"`: The canned ACL to apply to the object. This action is not supported by
   Amazon S3 on Outposts.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
@@ -566,7 +565,7 @@ CreateBucket     DeleteObject
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -593,7 +592,7 @@ ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -607,15 +606,15 @@ delete_bucket_analytics_configuration(Bucket, id, params::AbstractDict{String, <
 Deletes the cors configuration information set for the bucket. To use this operation, you
 must have permission to perform the s3:PutBucketCORS action. The bucket owner has this
 permission by default and can grant this permission to others.  For information about cors,
-see Enabling Cross-Origin Resource Sharing in the Amazon Simple Storage Service User Guide.
- Related Resources:     PutBucketCors     RESTOPTIONSobject
+see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide.  Related Resources:
+    PutBucketCors     RESTOPTIONSobject
 
 # Arguments
 - `bucket`: Specifies the bucket whose cors configuration is being deleted.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -628,12 +627,12 @@ delete_bucket_cors(Bucket, params::AbstractDict{String, <:Any}; aws_config::Abst
 
 This implementation of the DELETE action removes default encryption from the bucket. For
 information about the Amazon S3 default encryption feature, see Amazon S3 Default Bucket
-Encryption in the Amazon Simple Storage Service User Guide. To use this operation, you must
-have permissions to perform the s3:PutEncryptionConfiguration action. The bucket owner has
-this permission by default. The bucket owner can grant this permission to others. For more
-information about permissions, see Permissions Related to Bucket Subresource Operations and
-Managing Access Permissions to your Amazon S3 Resources in the Amazon Simple Storage
-Service User Guide.  Related Resources     PutBucketEncryption     GetBucketEncryption
+Encryption in the Amazon S3 User Guide. To use this operation, you must have permissions to
+perform the s3:PutEncryptionConfiguration action. The bucket owner has this permission by
+default. The bucket owner can grant this permission to others. For more information about
+permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
+Permissions to your Amazon S3 Resources in the Amazon S3 User Guide.  Related Resources
+PutBucketEncryption     GetBucketEncryption
 
 # Arguments
 - `bucket`: The name of the bucket containing the server-side encryption configuration to
@@ -641,7 +640,7 @@ Service User Guide.  Related Resources     PutBucketEncryption     GetBucketEncr
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -695,7 +694,7 @@ related to DeleteBucketInventoryConfiguration include:     GetBucketInventoryCon
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -722,7 +721,7 @@ PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -751,7 +750,7 @@ with Amazon CloudWatch
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -774,7 +773,7 @@ DeleteBucketOwnershipControls:    GetBucketOwnershipControls     PutBucketOwners
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -803,7 +802,7 @@ CreateBucket     DeleteObject
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -828,7 +827,7 @@ are related to DeleteBucketReplication:    PutBucketReplication     GetBucketRep
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -849,7 +848,7 @@ DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -877,7 +876,7 @@ PutBucketWebsite
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -925,7 +924,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionId"`: VersionId used to reference a specific version of the object.
 - `"x-amz-bypass-governance-retention"`: Indicates whether S3 Object Lock should bypass
   Governance-mode restrictions to process this operation.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
@@ -966,7 +965,7 @@ DeleteBucketMetricsConfiguration:    PutObjectTagging     GetObjectTagging
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: The versionId of the object that the tag-set will be removed from.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1020,7 +1019,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-bypass-governance-retention"`: Specifies whether you want to delete this object
   even if it has a Governance-type Object Lock in place. You must have sufficient permissions
   to perform this operation.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
@@ -1047,7 +1046,7 @@ DeletePublicAccessBlock:    Using Amazon S3 Block Public Access     GetPublicAcc
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1065,20 +1064,20 @@ transfers to and from Amazon S3. To use this operation, you must have permission
 the s3:GetAccelerateConfiguration action. The bucket owner has this permission by default.
 The bucket owner can grant this permission to others. For more information about
 permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
-Permissions to your Amazon S3 Resources in the Amazon Simple Storage Service User Guide.
-You set the Transfer Acceleration state of an existing bucket to Enabled or Suspended by
-using the PutBucketAccelerateConfiguration operation.  A GET accelerate request does not
-return a state value for a bucket that has no transfer acceleration state. A bucket has no
-Transfer Acceleration state if a state has never been set on the bucket.  For more
-information about transfer acceleration, see Transfer Acceleration in the Amazon Simple
-Storage Service User Guide.  Related Resources     PutBucketAccelerateConfiguration
+Permissions to your Amazon S3 Resources in the Amazon S3 User Guide. You set the Transfer
+Acceleration state of an existing bucket to Enabled or Suspended by using the
+PutBucketAccelerateConfiguration operation.  A GET accelerate request does not return a
+state value for a bucket that has no transfer acceleration state. A bucket has no Transfer
+Acceleration state if a state has never been set on the bucket.  For more information about
+transfer acceleration, see Transfer Acceleration in the Amazon S3 User Guide.  Related
+Resources     PutBucketAccelerateConfiguration
 
 # Arguments
 - `bucket`: The name of the bucket for which the accelerate configuration is retrieved.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1100,7 +1099,7 @@ ListObjects
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1116,11 +1115,11 @@ analytics configuration ID) from the bucket. To use this operation, you must hav
 permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner has this
 permission by default. The bucket owner can grant this permission to others. For more
 information about permissions, see  Permissions Related to Bucket Subresource Operations
-and Managing Access Permissions to Your Amazon S3 Resources in the Amazon Simple Storage
-Service User Guide.  For information about Amazon S3 analytics feature, see Amazon S3
-Analytics – Storage Class Analysis in the Amazon Simple Storage Service User Guide.
-Related Resources     DeleteBucketAnalyticsConfiguration
-ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
+and Managing Access Permissions to Your Amazon S3 Resources in the Amazon S3 User Guide.
+For information about Amazon S3 analytics feature, see Amazon S3 Analytics – Storage
+Class Analysis in the Amazon S3 User Guide.  Related Resources
+DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
+PutBucketAnalyticsConfiguration
 
 # Arguments
 - `bucket`: The name of the bucket from which an analytics configuration is retrieved.
@@ -1128,7 +1127,7 @@ ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1150,7 +1149,7 @@ GetBucketCors:    PutBucketCors     DeleteBucketCors
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1178,7 +1177,7 @@ DeleteBucketEncryption
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1233,7 +1232,7 @@ PutBucketInventoryConfiguration
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1263,7 +1262,7 @@ GetBucketLifecycleConfiguration     PutBucketLifecycle     DeleteBucketLifecycle
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1296,7 +1295,7 @@ following operations are related to GetBucketLifecycleConfiguration:    GetBucke
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1317,7 +1316,7 @@ The following operations are related to GetBucketLocation:    GetObject     Crea
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1337,7 +1336,7 @@ to GetBucketLogging:    CreateBucket     PutBucketLogging
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1365,7 +1364,7 @@ Metrics with Amazon CloudWatch
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1383,7 +1382,7 @@ get_bucket_metrics_configuration(Bucket, id, params::AbstractDict{String, <:Any}
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1408,7 +1407,7 @@ following action is related to GetBucketNotification:    PutBucketNotification
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1431,7 +1430,7 @@ GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwners
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1459,7 +1458,7 @@ GetBucketPolicy:    GetObject
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1483,7 +1482,7 @@ DeletePublicAccessBlock
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1497,21 +1496,21 @@ get_bucket_policy_status(Bucket, params::AbstractDict{String, <:Any}; aws_config
 Returns the replication configuration of a bucket.   It can take a while to propagate the
 put or delete a replication configuration to all Amazon S3 systems. Therefore, a get
 request soon after put or delete can return a wrong result.    For information about
-replication configuration, see Replication in the Amazon Simple Storage Service User Guide.
-This action requires permissions for the s3:GetReplicationConfiguration action. For more
-information about permissions, see Using Bucket Policies and User Policies. If you include
-the Filter element in a replication configuration, you must also include the
-DeleteMarkerReplication and Priority elements. The response also returns those elements.
-For information about GetBucketReplication errors, see List of replication-related error
-codes  The following operations are related to GetBucketReplication:
-PutBucketReplication     DeleteBucketReplication
+replication configuration, see Replication in the Amazon S3 User Guide. This action
+requires permissions for the s3:GetReplicationConfiguration action. For more information
+about permissions, see Using Bucket Policies and User Policies. If you include the Filter
+element in a replication configuration, you must also include the DeleteMarkerReplication
+and Priority elements. The response also returns those elements. For information about
+GetBucketReplication errors, see List of replication-related error codes  The following
+operations are related to GetBucketReplication:    PutBucketReplication
+DeleteBucketReplication
 
 # Arguments
 - `bucket`: The bucket name for which to get the replication information.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1531,7 +1530,7 @@ The following operations are related to GetBucketRequestPayment:    ListObjects
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1554,7 +1553,7 @@ associated with the bucket.     The following operations are related to GetBucke
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1577,7 +1576,7 @@ operations are related to GetBucketVersioning:    GetObject     PutObject     De
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1602,7 +1601,7 @@ PutBucketWebsite
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1717,7 +1716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"response-content-type"`: Sets the Content-Type header of the response.
 - `"response-expires"`: Sets the Expires header of the response.
 - `"versionId"`: VersionId used to reference a specific version of the object.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -1759,7 +1758,7 @@ PutObject
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: VersionId used to reference a specific version of the object.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -1787,7 +1786,7 @@ action is not supported by Amazon S3 on Outposts.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: The version ID of the object whose Legal Hold status you want to retrieve.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -1814,7 +1813,7 @@ bucket. For more information, see Locking Objects.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1842,7 +1841,7 @@ action is not supported by Amazon S3 on Outposts.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: The version ID for the object whose retention settings you want to
   retrieve.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -1883,7 +1882,7 @@ to GetObjectTagging:    PutObjectTagging     DeleteObjectTagging
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: The versionId of the object for which to get the tagging information.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -1908,7 +1907,7 @@ on Outposts. The following action is related to GetObjectTorrent:    GetObject
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -1938,7 +1937,7 @@ PutPublicAccessBlock     GetPublicAccessBlock     DeletePublicAccessBlock
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -1975,7 +1974,7 @@ Permissions to Your Amazon S3 Resources.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2051,7 +2050,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
   querying about the size of the part and the number of parts in this object.
 - `"versionId"`: VersionId used to reference a specific version of the object.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -2096,7 +2095,7 @@ DeleteBucketAnalyticsConfiguration     PutBucketAnalyticsConfiguration
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"continuation-token"`: The ContinuationToken that represents a placeholder from where
   this request should begin.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2163,7 +2162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that has been truncated. Use the NextContinuationToken from a previously truncated list
   response to continue the listing. The continuation token is an opaque value that Amazon S3
   understands.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2200,7 +2199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing that has been truncated. Use the NextContinuationToken from a previously truncated
   list response to continue the listing. The continuation token is an opaque value that
   Amazon S3 understands.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2278,7 +2277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be
   included in the list only if they have an upload ID lexicographically greater than the
   specified upload-id-marker.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2320,7 +2319,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system.) You can use prefix with delimiter to roll up numerous objects into a single result
   under CommonPrefixes.
 - `"version-id-marker"`: Specifies the object version you want to start listing from.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2363,7 +2362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action returns up to 1,000 key names. The response might contain fewer keys but will never
   contain more.
 - `"prefix"`: Limits the response to keys that begin with the specified prefix.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`: Confirms that the requester knows that she or he will be charged
@@ -2421,7 +2420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"prefix"`: Limits the response to keys that begin with the specified prefix.
 - `"start-after"`: StartAfter is where you want Amazon S3 to start listing from. Amazon S3
   starts listing after this specified key. StartAfter can be any key in the bucket.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`: Confirms that the requester knows that she or he will be charged
@@ -2471,7 +2470,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-parts"`: Sets the maximum number of parts to return.
 - `"part-number-marker"`: Specifies the part after which listing should begin. Only parts
   with higher part numbers will be listed.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -2506,7 +2505,7 @@ GetBucketAccelerateConfiguration     CreateBucket
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2581,7 +2580,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transit. For more information, go to RFC 1864.  For requests made using the AWS Command
   Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `"x-amz-acl"`: The canned ACL to apply to the bucket.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
@@ -2631,7 +2630,7 @@ DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2660,14 +2659,14 @@ example, GET, PUT, HEAD, and so on) or the Access-Control-Request-Method header 
 a pre-flight OPTIONS request must be one of the AllowedMethod elements.    Every header
 specified in the Access-Control-Request-Headers request header of a pre-flight request must
 match an AllowedHeader element.     For more information about CORS, go to Enabling
-Cross-Origin Resource Sharing in the Amazon Simple Storage Service User Guide.  Related
-Resources     GetBucketCors     DeleteBucketCors     RESTOPTIONSobject
+Cross-Origin Resource Sharing in the Amazon S3 User Guide.  Related Resources
+GetBucketCors     DeleteBucketCors     RESTOPTIONSobject
 
 # Arguments
 - `bucket`: Specifies the bucket impacted by the corsconfiguration.
 - `corsconfiguration`: Describes the cross-origin access configuration for objects in an
   Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the
-  Amazon Simple Storage Service User Guide.
+  Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2675,7 +2674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, go to RFC 1864.  For requests made using the AWS Command
   Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2691,15 +2690,15 @@ Bucket Key for an existing bucket. Default encryption for a bucket can use serve
 encryption with Amazon S3-managed keys (SSE-S3) or AWS KMS customer master keys (SSE-KMS).
 If you specify default encryption using SSE-KMS, you can also configure Amazon S3 Bucket
 Key. For information about default encryption, see Amazon S3 default bucket encryption in
-the Amazon Simple Storage Service User Guide. For more information about S3 Bucket Keys,
-see Amazon S3 Bucket Keys in the Amazon Simple Storage Service User Guide.  This action
-requires AWS Signature Version 4. For more information, see  Authenticating Requests (AWS
-Signature Version 4).   To use this operation, you must have permissions to perform the
-s3:PutEncryptionConfiguration action. The bucket owner has this permission by default. The
-bucket owner can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources in the Amazon Simple Storage Service User Guide.   Related
-Resources     GetBucketEncryption     DeleteBucketEncryption
+the Amazon S3 User Guide. For more information about S3 Bucket Keys, see Amazon S3 Bucket
+Keys in the Amazon S3 User Guide.  This action requires AWS Signature Version 4. For more
+information, see  Authenticating Requests (AWS Signature Version 4).   To use this
+operation, you must have permissions to perform the s3:PutEncryptionConfiguration action.
+The bucket owner has this permission by default. The bucket owner can grant this permission
+to others. For more information about permissions, see Permissions Related to Bucket
+Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources in the
+Amazon S3 User Guide.   Related Resources     GetBucketEncryption
+DeleteBucketEncryption
 
 # Arguments
 - `bucket`: Specifies default encryption for a bucket using server-side encryption with
@@ -2713,7 +2712,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the server-side encryption
   configuration. For requests made using the AWS Command Line Interface (CLI) or AWS SDKs,
   this field is calculated automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2772,22 +2771,21 @@ bucket.  When you configure an inventory for a source bucket, you specify the de
 bucket where you want the inventory to be stored, and whether to generate the inventory
 daily or weekly. You can also configure what object metadata to include and whether to
 inventory all object versions or only current versions. For more information, see Amazon S3
-Inventory in the Amazon Simple Storage Service User Guide.  You must create a bucket policy
-on the destination bucket to grant permissions to Amazon S3 to write objects to the bucket
-in the defined location. For an example policy, see  Granting Permissions for Amazon S3
-Inventory and Storage Class Analysis.  To use this operation, you must have permissions to
-perform the s3:PutInventoryConfiguration action. The bucket owner has this permission by
-default and can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources in the Amazon Simple Storage Service User Guide.  Special Errors
-  HTTP 400 Bad Request Error     Code: InvalidArgument    Cause: Invalid Argument      HTTP
-400 Bad Request Error     Code: TooManyConfigurations    Cause: You are attempting to
-create a new configuration but have already reached the 1,000-configuration limit.
-HTTP 403 Forbidden Error     Code: AccessDenied    Cause: You are not the owner of the
-specified bucket, or you do not have the s3:PutInventoryConfiguration bucket permission to
-set the configuration on the bucket.       Related Resources
-GetBucketInventoryConfiguration     DeleteBucketInventoryConfiguration
-ListBucketInventoryConfigurations
+Inventory in the Amazon S3 User Guide.  You must create a bucket policy on the destination
+bucket to grant permissions to Amazon S3 to write objects to the bucket in the defined
+location. For an example policy, see  Granting Permissions for Amazon S3 Inventory and
+Storage Class Analysis.  To use this operation, you must have permissions to perform the
+s3:PutInventoryConfiguration action. The bucket owner has this permission by default and
+can grant this permission to others. For more information about permissions, see
+Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
+Your Amazon S3 Resources in the Amazon S3 User Guide.  Special Errors     HTTP 400 Bad
+Request Error     Code: InvalidArgument    Cause: Invalid Argument      HTTP 400 Bad
+Request Error     Code: TooManyConfigurations    Cause: You are attempting to create a new
+configuration but have already reached the 1,000-configuration limit.       HTTP 403
+Forbidden Error     Code: AccessDenied    Cause: You are not the owner of the specified
+bucket, or you do not have the s3:PutInventoryConfiguration bucket permission to set the
+configuration on the bucket.       Related Resources     GetBucketInventoryConfiguration
+ DeleteBucketInventoryConfiguration     ListBucketInventoryConfigurations
 
 # Arguments
 - `bucket`: The name of the bucket where the inventory configuration will be stored.
@@ -2796,7 +2794,7 @@ ListBucketInventoryConfigurations
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2811,26 +2809,24 @@ put_bucket_inventory_configuration(Bucket, InventoryConfiguration, id, params::A
 been deprecated. Existing lifecycle configurations will work. For new lifecycle
 configurations, use the updated API.   Creates a new lifecycle configuration for the bucket
 or replaces an existing lifecycle configuration. For information about lifecycle
-configuration, see Object Lifecycle Management in the Amazon Simple Storage Service User
-Guide.  By default, all Amazon S3 resources, including buckets, objects, and related
-subresources (for example, lifecycle configuration and website configuration) are private.
-Only the resource owner, the AWS account that created the resource, can access it. The
-resource owner can optionally grant access permissions to others by writing an access
-policy. For this operation, users must get the s3:PutLifecycleConfiguration permission. You
-can also explicitly deny permissions. Explicit denial also supersedes any other
-permissions. If you want to prevent users or accounts from removing or deleting objects
-from your bucket, you must deny them permissions for the following actions:
-s3:DeleteObject     s3:DeleteObjectVersion     s3:PutLifecycleConfiguration    For more
-information about permissions, see Managing Access Permissions to your Amazon S3 Resources
-in the Amazon Simple Storage Service User Guide. For more examples of transitioning objects
-to storage classes such as STANDARD_IA or ONEZONE_IA, see Examples of Lifecycle
-Configuration.  Related Resources     GetBucketLifecycle(Deprecated)
+configuration, see Object Lifecycle Management in the Amazon S3 User Guide.  By default,
+all Amazon S3 resources, including buckets, objects, and related subresources (for example,
+lifecycle configuration and website configuration) are private. Only the resource owner,
+the AWS account that created the resource, can access it. The resource owner can optionally
+grant access permissions to others by writing an access policy. For this operation, users
+must get the s3:PutLifecycleConfiguration permission. You can also explicitly deny
+permissions. Explicit denial also supersedes any other permissions. If you want to prevent
+users or accounts from removing or deleting objects from your bucket, you must deny them
+permissions for the following actions:     s3:DeleteObject     s3:DeleteObjectVersion
+s3:PutLifecycleConfiguration    For more information about permissions, see Managing Access
+Permissions to your Amazon S3 Resources in the Amazon S3 User Guide. For more examples of
+transitioning objects to storage classes such as STANDARD_IA or ONEZONE_IA, see Examples of
+Lifecycle Configuration.  Related Resources     GetBucketLifecycle(Deprecated)
 GetBucketLifecycleConfiguration     RestoreObject    By default, a resource owner—in this
 case, a bucket owner, which is the AWS account that created the bucket—can perform any of
 the operations. A resource owner can also grant others permission to perform the operation.
-For more information, see the following topics in the Amazon Simple Storage Service User
-Guide:     Specifying Permissions in a Policy     Managing Access Permissions to your
-Amazon S3 Resources
+For more information, see the following topics in the Amazon S3 User Guide:     Specifying
+Permissions in a Policy     Managing Access Permissions to your Amazon S3 Resources
 
 # Arguments
 - `bucket`:
@@ -2840,7 +2836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-MD5"`:  For requests made using the AWS Command Line Interface (CLI) or AWS
   SDKs, this field is calculated automatically.
 - `"LifecycleConfiguration"`:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2889,7 +2885,7 @@ GetBucketLifecycleConfiguration     DeleteBucketLifecycle
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"LifecycleConfiguration"`: Container for lifecycle rules. You can add as many as 1,000
   rules.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2936,7 +2932,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-MD5"`: The MD5 hash of the PutBucketLogging request body. For requests made
   using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
   automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2970,7 +2966,7 @@ HTTP 400 Bad Request
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -2992,7 +2988,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-MD5"`: The MD5 hash of the PutPublicAccessBlock request body. For requests made
   using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
   automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3038,7 +3034,7 @@ GetBucketNotificationConfiguration
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3066,7 +3062,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-MD5"`: The MD5 hash of the OwnershipControls request body.  For requests made
   using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
   automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3099,7 +3095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `"x-amz-confirm-remove-self-bucket-access"`: Set this parameter to true to confirm that
   you want to remove your permissions to change this bucket policy in the future.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3151,7 +3147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `"x-amz-bucket-object-lock-token"`: A token to allow Object Lock to be enabled for an
   existing bucket.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3178,7 +3174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3222,7 +3218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3260,7 +3256,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
@@ -3293,7 +3289,7 @@ Condition     HttpErrorCodeReturnedEquals     KeyPrefixEquals     Redirect     P
 HostName     ReplaceKeyPrefixWith     ReplaceKeyWith     HttpRedirectCode    Amazon S3 has
 a limitation of 50 routing rules per website configuration. If you require more than 50
 routing rules, you can use object redirect. For more information, see Configuring an Object
-Redirect in the Amazon Simple Storage Service User Guide.
+Redirect in the Amazon S3 User Guide.
 
 # Arguments
 - `bucket`: The bucket name.
@@ -3305,7 +3301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header as a message integrity check to verify that the request body was not corrupted in
   transit. For more information, see RFC 1864. For requests made using the AWS Command Line
   Interface (CLI) or AWS SDKs, this field is calculated automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3335,14 +3331,14 @@ data when you access it. You have the option to provide your own encryption key 
 managed encryption keys (SSE-S3 or SSE-KMS). For more information, see Using Server-Side
 Encryption. If you request server-side encryption using AWS Key Management Service
 (SSE-KMS), you can enable an S3 Bucket Key at the object-level. For more information, see
-Amazon S3 Bucket Keys in the Amazon Simple Storage Service User Guide.  Access Control List
-(ACL)-Specific Request Headers  You can use headers to grant ACL- based permissions. By
-default, all objects are private. Only the owner has full access control. When adding a new
-object, you can grant permissions to individual AWS accounts or to predefined groups
-defined by Amazon S3. These permissions are then added to the ACL on the object. For more
-information, see Access Control List (ACL) Overview and Managing ACLs Using the REST API.
-Storage Class Options  By default, Amazon S3 uses the STANDARD Storage Class to store newly
-created objects. The STANDARD storage class provides high durability and high availability.
+Amazon S3 Bucket Keys in the Amazon S3 User Guide.  Access Control List (ACL)-Specific
+Request Headers  You can use headers to grant ACL- based permissions. By default, all
+objects are private. Only the owner has full access control. When adding a new object, you
+can grant permissions to individual AWS accounts or to predefined groups defined by Amazon
+S3. These permissions are then added to the ACL on the object. For more information, see
+Access Control List (ACL) Overview and Managing ACLs Using the REST API.   Storage Class
+Options  By default, Amazon S3 uses the STANDARD Storage Class to store newly created
+objects. The STANDARD storage class provides high durability and high availability.
 Depending on performance needs, you can specify a different Storage Class. Amazon S3 on
 Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in
 the Amazon S3 Service Developer Guide.  Versioning  If you enable versioning for a bucket,
@@ -3396,7 +3392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.21.
 - `"x-amz-acl"`: The canned ACL to apply to the object. For more information, see Canned
   ACL. This action is not supported by Amazon S3 on Outposts.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
@@ -3468,38 +3464,37 @@ put_object(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::Abstrac
 
 Uses the acl subresource to set the access control list (ACL) permissions for a new or
 existing object in an S3 bucket. You must have WRITE_ACP permission to set the ACL of an
-object. For more information, see What permissions can I grant? in the Amazon Simple
-Storage Service User Guide. This action is not supported by Amazon S3 on Outposts.
-Depending on your application needs, you can choose to set the ACL on an object using
-either the request body or the headers. For example, if you have an existing application
-that updates a bucket ACL using the request body, you can continue to use that approach.
-For more information, see Access Control List (ACL) Overview in the Amazon S3 Developer
-Guide.  Access Permissions  You can set access permissions using one of the following
-methods:   Specify a canned ACL with the x-amz-acl request header. Amazon S3 supports a set
-of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees
-and permissions. Specify the canned ACL name as the value of x-amz-acl. If you use this
-header, you cannot use other access control-specific headers in your request. For more
-information, see Canned ACL.   Specify access permissions explicitly with the
-x-amz-grant-read, x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control
-headers. When using these headers, you specify explicit access permissions and grantees
-(AWS accounts or Amazon S3 groups) who will receive the permission. If you use these
-ACL-specific headers, you cannot use x-amz-acl header to set a canned ACL. These parameters
-map to the set of permissions that Amazon S3 supports in an ACL. For more information, see
-Access Control List (ACL) Overview. You specify each grantee as a type=value pair, where
-the type is one of the following:    id – if the value specified is the canonical user ID
-of an AWS account    uri – if you are granting permissions to a predefined group
-emailAddress – if the value specified is the email address of an AWS account  Using email
-addresses to specify a grantee is only supported in the following AWS Regions:    US East
-(N. Virginia)   US West (N. California)    US West (Oregon)    Asia Pacific (Singapore)
-Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São
-Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and
-Endpoints in the AWS General Reference.    For example, the following x-amz-grant-read
-header grants list objects permission to the two AWS accounts identified by their email
-addresses.  x-amz-grant-read: emailAddress=\"xyz@amazon.com\",
-emailAddress=\"abc@amazon.com\"     You can use either a canned ACL or specify access
-permissions explicitly. You cannot do both.  Grantee Values  You can specify the person
-(grantee) to whom you're assigning access rights (using request elements) in the following
-ways:   By the person's ID:  &lt;Grantee
+object. For more information, see What permissions can I grant? in the Amazon S3 User
+Guide. This action is not supported by Amazon S3 on Outposts. Depending on your application
+needs, you can choose to set the ACL on an object using either the request body or the
+headers. For example, if you have an existing application that updates a bucket ACL using
+the request body, you can continue to use that approach. For more information, see Access
+Control List (ACL) Overview in the Amazon S3 Developer Guide.  Access Permissions  You can
+set access permissions using one of the following methods:   Specify a canned ACL with the
+x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned
+ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the canned
+ACL name as the value of x-amz-acl. If you use this header, you cannot use other access
+control-specific headers in your request. For more information, see Canned ACL.   Specify
+access permissions explicitly with the x-amz-grant-read, x-amz-grant-read-acp,
+x-amz-grant-write-acp, and x-amz-grant-full-control headers. When using these headers, you
+specify explicit access permissions and grantees (AWS accounts or Amazon S3 groups) who
+will receive the permission. If you use these ACL-specific headers, you cannot use
+x-amz-acl header to set a canned ACL. These parameters map to the set of permissions that
+Amazon S3 supports in an ACL. For more information, see Access Control List (ACL) Overview.
+You specify each grantee as a type=value pair, where the type is one of the following:
+id – if the value specified is the canonical user ID of an AWS account    uri – if you
+are granting permissions to a predefined group    emailAddress – if the value specified
+is the email address of an AWS account  Using email addresses to specify a grantee is only
+supported in the following AWS Regions:    US East (N. Virginia)   US West (N. California)
+  US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific
+(Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3
+supported Regions and endpoints, see Regions and Endpoints in the AWS General Reference.
+For example, the following x-amz-grant-read header grants list objects permission to the
+two AWS accounts identified by their email addresses.  x-amz-grant-read:
+emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"     You can use either a
+canned ACL or specify access permissions explicitly. You cannot do both.  Grantee Values
+You can specify the person (grantee) to whom you're assigning access rights (using request
+elements) in the following ways:   By the person's ID:  &lt;Grantee
 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"CanonicalUser\"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt
 ;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt; &lt;/Grantee&gt;  DisplayName is optional
@@ -3552,7 +3547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionId"`: VersionId used to reference a specific version of the object.
 - `"x-amz-acl"`: The canned ACL to apply to the object. For more information, see Canned
   ACL.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
@@ -3594,7 +3589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LegalHold"`: Container element for the Legal Hold configuration you want to apply to
   the specified object.
 - `"versionId"`: The version ID of the object that you want to place a Legal Hold on.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -3622,7 +3617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified bucket.
 - `"x-amz-bucket-object-lock-token"`: A token to allow Object Lock to be enabled for an
   existing bucket.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -3657,7 +3652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration to.
 - `"x-amz-bypass-governance-retention"`: Indicates whether this action should bypass
   Governance-mode restrictions.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -3708,7 +3703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-MD5"`: The MD5 hash for the request body. For requests made using the AWS
   Command Line Interface (CLI) or AWS SDKs, this field is calculated automatically.
 - `"versionId"`: The versionId of the object that the tag-set will be added to.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -3745,7 +3740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-MD5"`: The MD5 hash of the PutPublicAccessBlock request body.  For requests
   made using the AWS Command Line Interface (CLI) or AWS SDKs, this field is calculated
   automatically.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 """
@@ -3763,36 +3758,34 @@ object   To use this operation, you must have permissions to perform the s3:Rest
 action. The bucket owner has this permission by default and can grant this permission to
 others. For more information about permissions, see Permissions Related to Bucket
 Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources in the
-Amazon Simple Storage Service User Guide.  Querying Archives with Select Requests  You use
-a select type of request to perform SQL queries on archived objects. The archived objects
-that are being queried by the select request must be formatted as uncompressed
-comma-separated values (CSV) files. You can run queries and custom analytics on your
-archived data without having to restore your data to a hotter Amazon S3 tier. For an
-overview about select requests, see Querying Archived Objects in the Amazon Simple Storage
-Service User Guide. When making a select request, do the following:   Define an output
-location for the select query's output. This must be an Amazon S3 bucket in the same AWS
-Region as the bucket that contains the archive object that is being queried. The AWS
-account that initiates the job must have permissions to write to the S3 bucket. You can
-specify the storage class and encryption for the output objects stored in the bucket. For
-more information about output, see Querying Archived Objects in the Amazon Simple Storage
-Service User Guide. For more information about the S3 structure in the request body, see
-the following:    PutObject     Managing Access with ACLs in the Amazon Simple Storage
-Service User Guide     Protecting Data Using Server-Side Encryption in the Amazon Simple
-Storage Service User Guide      Define the SQL expression for the SELECT type of
-restoration for your query in the request body's SelectParameters structure. You can use
-expressions like the following examples.   The following expression returns all records
-from the specified object.  SELECT * FROM Object    Assuming that you are not using any
-headers for data stored in the object, you can specify columns with positional headers.
-SELECT s._1, s._2 FROM Object s WHERE s._3 &gt; 100    If you have headers and you set the
-fileHeaderInfo in the CSV structure in the request body to USE, you can specify headers in
-the query. (If you set the fileHeaderInfo field to IGNORE, the first row is skipped for the
-query.) You cannot mix ordinal positions with header column names.   SELECT s.Id,
-s.FirstName, s.SSN FROM S3Object s      For more information about using SQL with S3
-Glacier Select restore, see SQL Reference for Amazon S3 Select and S3 Glacier Select in the
-Amazon Simple Storage Service User Guide.  When making a select request, you can also do
-the following:   To expedite your queries, specify the Expedited tier. For more information
-about tiers, see \"Restoring Archives,\" later in this topic.   Specify details about the
-data serialization format of both the input object that is being queried and the
+Amazon S3 User Guide.  Querying Archives with Select Requests  You use a select type of
+request to perform SQL queries on archived objects. The archived objects that are being
+queried by the select request must be formatted as uncompressed comma-separated values
+(CSV) files. You can run queries and custom analytics on your archived data without having
+to restore your data to a hotter Amazon S3 tier. For an overview about select requests, see
+Querying Archived Objects in the Amazon S3 User Guide. When making a select request, do the
+following:   Define an output location for the select query's output. This must be an
+Amazon S3 bucket in the same AWS Region as the bucket that contains the archive object that
+is being queried. The AWS account that initiates the job must have permissions to write to
+the S3 bucket. You can specify the storage class and encryption for the output objects
+stored in the bucket. For more information about output, see Querying Archived Objects in
+the Amazon S3 User Guide. For more information about the S3 structure in the request body,
+see the following:    PutObject     Managing Access with ACLs in the Amazon S3 User Guide
+  Protecting Data Using Server-Side Encryption in the Amazon S3 User Guide      Define the
+SQL expression for the SELECT type of restoration for your query in the request body's
+SelectParameters structure. You can use expressions like the following examples.   The
+following expression returns all records from the specified object.  SELECT * FROM Object
+ Assuming that you are not using any headers for data stored in the object, you can specify
+columns with positional headers.  SELECT s._1, s._2 FROM Object s WHERE s._3 &gt; 100    If
+you have headers and you set the fileHeaderInfo in the CSV structure in the request body to
+USE, you can specify headers in the query. (If you set the fileHeaderInfo field to IGNORE,
+the first row is skipped for the query.) You cannot mix ordinal positions with header
+column names.   SELECT s.Id, s.FirstName, s.SSN FROM S3Object s      For more information
+about using SQL with S3 Glacier Select restore, see SQL Reference for Amazon S3 Select and
+S3 Glacier Select in the Amazon S3 User Guide.  When making a select request, you can also
+do the following:   To expedite your queries, specify the Expedited tier. For more
+information about tiers, see \"Restoring Archives,\" later in this topic.   Specify details
+about the data serialization format of both the input object that is being queried and the
 serialization of the CSV-encoded query results.   The following are additional important
 facts about the select feature:   The output results are new Amazon S3 objects. Unlike
 archive retrievals, they are stored until explicitly deleted-manually or through a
@@ -3831,37 +3824,36 @@ the S3 Glacier storage class or S3 Intelligent-Tiering Archive tier. They typica
 within 48 hours for objects stored in the S3 Glacier Deep Archive storage class or S3
 Intelligent-Tiering Deep Archive tier. Bulk retrievals are free for objects stored in S3
 Intelligent-Tiering.   For more information about archive retrieval options and provisioned
-capacity for Expedited data access, see Restoring Archived Objects in the Amazon Simple
-Storage Service User Guide.  You can use Amazon S3 restore speed upgrade to change the
-restore speed to a faster speed while it is in progress. For more information, see
-Upgrading the speed of an in-progress restore in the Amazon Simple Storage Service User
-Guide.  To get the status of object restoration, you can send a HEAD request. Operations
-return the x-amz-restore header, which provides information about the restoration status,
-in the response. You can use Amazon S3 event notifications to notify you when a restore is
-initiated or completed. For more information, see Configuring Amazon S3 Event Notifications
-in the Amazon Simple Storage Service User Guide. After restoring an archived object, you
-can update the restoration period by reissuing the request with a new period. Amazon S3
-updates the restoration period relative to the current time and charges only for the
-request-there are no data transfer charges. You cannot update the restoration period when
-Amazon S3 is actively processing your current restore request for the object. If your
-bucket has a lifecycle configuration with a rule that includes an expiration action, the
-object expiration overrides the life span that you specify in a restore request. For
-example, if you restore an object copy for 10 days, but the object is scheduled to expire
-in 3 days, Amazon S3 deletes the object in 3 days. For more information about lifecycle
-configuration, see PutBucketLifecycleConfiguration and Object Lifecycle Management in
-Amazon Simple Storage Service User Guide.  Responses  A successful action returns either
-the 200 OK or 202 Accepted status code.    If the object is not previously restored, then
-Amazon S3 returns 202 Accepted in the response.    If the object is previously restored,
-Amazon S3 returns 200 OK in the response.     Special Errors       Code:
-RestoreAlreadyInProgress     Cause: Object restore is already in progress. (This error does
-not apply to SELECT type requests.)     HTTP Status Code: 409 Conflict     SOAP Fault Code
-Prefix: Client         Code: GlacierExpeditedRetrievalNotAvailable     Cause: expedited
-retrievals are currently not available. Try again later. (Returned if there is insufficient
-capacity to process the Expedited request. This error applies only to Expedited retrievals
-and not to S3 Standard or Bulk retrievals.)     HTTP Status Code: 503     SOAP Fault Code
-Prefix: N/A       Related Resources     PutBucketLifecycleConfiguration
+capacity for Expedited data access, see Restoring Archived Objects in the Amazon S3 User
+Guide.  You can use Amazon S3 restore speed upgrade to change the restore speed to a faster
+speed while it is in progress. For more information, see  Upgrading the speed of an
+in-progress restore in the Amazon S3 User Guide.  To get the status of object restoration,
+you can send a HEAD request. Operations return the x-amz-restore header, which provides
+information about the restoration status, in the response. You can use Amazon S3 event
+notifications to notify you when a restore is initiated or completed. For more information,
+see Configuring Amazon S3 Event Notifications in the Amazon S3 User Guide. After restoring
+an archived object, you can update the restoration period by reissuing the request with a
+new period. Amazon S3 updates the restoration period relative to the current time and
+charges only for the request-there are no data transfer charges. You cannot update the
+restoration period when Amazon S3 is actively processing your current restore request for
+the object. If your bucket has a lifecycle configuration with a rule that includes an
+expiration action, the object expiration overrides the life span that you specify in a
+restore request. For example, if you restore an object copy for 10 days, but the object is
+scheduled to expire in 3 days, Amazon S3 deletes the object in 3 days. For more information
+about lifecycle configuration, see PutBucketLifecycleConfiguration and Object Lifecycle
+Management in Amazon S3 User Guide.  Responses  A successful action returns either the 200
+OK or 202 Accepted status code.    If the object is not previously restored, then Amazon S3
+returns 202 Accepted in the response.    If the object is previously restored, Amazon S3
+returns 200 OK in the response.     Special Errors       Code: RestoreAlreadyInProgress
+Cause: Object restore is already in progress. (This error does not apply to SELECT type
+requests.)     HTTP Status Code: 409 Conflict     SOAP Fault Code Prefix: Client
+Code: GlacierExpeditedRetrievalNotAvailable     Cause: expedited retrievals are currently
+not available. Try again later. (Returned if there is insufficient capacity to process the
+Expedited request. This error applies only to Expedited retrievals and not to S3 Standard
+or Bulk retrievals.)     HTTP Status Code: 503     SOAP Fault Code Prefix: N/A
+Related Resources     PutBucketLifecycleConfiguration
 GetBucketNotificationConfiguration     SQL Reference for Amazon S3 Select and S3 Glacier
-Select  in the Amazon Simple Storage Service User Guide
+Select  in the Amazon S3 User Guide
 
 # Arguments
 - `bucket`: The bucket name containing the object to restore.  When using this action with
@@ -3882,7 +3874,7 @@ Select  in the Amazon Simple Storage Service User Guide
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RestoreRequest"`:
 - `"versionId"`: VersionId used to reference a specific version of the object.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -3900,29 +3892,28 @@ specify a data serialization format (JSON, CSV, or Apache Parquet) of the object
 uses this format to parse object data into records, and returns only records that match the
 specified SQL expression. You must also specify the data serialization format for the
 response. This action is not supported by Amazon S3 on Outposts. For more information about
-Amazon S3 Select, see Selecting Content from Objects in the Amazon Simple Storage Service
-User Guide. For more information about using SQL with Amazon S3 Select, see  SQL Reference
-for Amazon S3 Select and S3 Glacier Select in the Amazon Simple Storage Service User Guide.
-  Permissions  You must have s3:GetObject permission for this operation. Amazon S3 Select
-does not support anonymous access. For more information about permissions, see Specifying
-Permissions in a Policy in the Amazon Simple Storage Service User Guide.   Object Data
-Formats  You can use Amazon S3 Select to query objects that have the following format
-properties:    CSV, JSON, and Parquet - Objects must be in CSV, JSON, or Parquet format.
-UTF-8 - UTF-8 is the only encoding type Amazon S3 Select supports.    GZIP or BZIP2 - CSV
-and JSON files can be compressed using GZIP or BZIP2. GZIP and BZIP2 are the only
-compression formats that Amazon S3 Select supports for CSV and JSON files. Amazon S3 Select
-supports columnar compression for Parquet using GZIP or Snappy. Amazon S3 Select does not
-support whole-object compression for Parquet objects.    Server-side encryption - Amazon S3
-Select supports querying objects that are protected with server-side encryption. For
-objects that are encrypted with customer-provided encryption keys (SSE-C), you must use
-HTTPS, and you must use the headers that are documented in the GetObject. For more
-information about SSE-C, see Server-Side Encryption (Using Customer-Provided Encryption
-Keys) in the Amazon Simple Storage Service User Guide. For objects that are encrypted with
-Amazon S3 managed encryption keys (SSE-S3) and customer master keys (CMKs) stored in AWS
-Key Management Service (SSE-KMS), server-side encryption is handled transparently, so you
-don't need to specify anything. For more information about server-side encryption,
-including SSE-S3 and SSE-KMS, see Protecting Data Using Server-Side Encryption in the
-Amazon Simple Storage Service User Guide.    Working with the Response Body  Given the
+Amazon S3 Select, see Selecting Content from Objects in the Amazon S3 User Guide. For more
+information about using SQL with Amazon S3 Select, see  SQL Reference for Amazon S3 Select
+and S3 Glacier Select in the Amazon S3 User Guide.   Permissions  You must have
+s3:GetObject permission for this operation. Amazon S3 Select does not support anonymous
+access. For more information about permissions, see Specifying Permissions in a Policy in
+the Amazon S3 User Guide.   Object Data Formats  You can use Amazon S3 Select to query
+objects that have the following format properties:    CSV, JSON, and Parquet - Objects must
+be in CSV, JSON, or Parquet format.    UTF-8 - UTF-8 is the only encoding type Amazon S3
+Select supports.    GZIP or BZIP2 - CSV and JSON files can be compressed using GZIP or
+BZIP2. GZIP and BZIP2 are the only compression formats that Amazon S3 Select supports for
+CSV and JSON files. Amazon S3 Select supports columnar compression for Parquet using GZIP
+or Snappy. Amazon S3 Select does not support whole-object compression for Parquet objects.
+  Server-side encryption - Amazon S3 Select supports querying objects that are protected
+with server-side encryption. For objects that are encrypted with customer-provided
+encryption keys (SSE-C), you must use HTTPS, and you must use the headers that are
+documented in the GetObject. For more information about SSE-C, see Server-Side Encryption
+(Using Customer-Provided Encryption Keys) in the Amazon S3 User Guide. For objects that are
+encrypted with Amazon S3 managed encryption keys (SSE-S3) and customer master keys (CMKs)
+stored in AWS Key Management Service (SSE-KMS), server-side encryption is handled
+transparently, so you don't need to specify anything. For more information about
+server-side encryption, including SSE-S3 and SSE-KMS, see Protecting Data Using Server-Side
+Encryption in the Amazon S3 User Guide.    Working with the Response Body  Given the
 response size is unknown, Amazon S3 Select streams the response as a series of messages and
 includes a Transfer-Encoding header with chunked as its value in the response. For more
 information, see Appendix: SelectObjectContent Response .   GetObject Support  The
@@ -3932,10 +3923,9 @@ S3 Select request (see SelectObjectContentRequest - ScanRange in the request par
 you cannot specify the range of bytes of an object to return.    GLACIER, DEEP_ARCHIVE and
 REDUCED_REDUNDANCY storage classes: You cannot specify the GLACIER, DEEP_ARCHIVE, or
 REDUCED_REDUNDANCY storage classes. For more information, about storage classes see Storage
-Classes in the Amazon Simple Storage Service User Guide.     Special Errors  For a list of
-special errors for this operation, see List of SELECT Object Content Error Codes   Related
-Resources     GetObject     GetBucketLifecycleConfiguration
-PutBucketLifecycleConfiguration
+Classes in the Amazon S3 User Guide.     Special Errors  For a list of special errors for
+this operation, see List of SELECT Object Content Error Codes   Related Resources
+GetObject     GetBucketLifecycleConfiguration     PutBucketLifecycleConfiguration
 
 # Arguments
 - `bucket`: The S3 bucket.
@@ -3960,7 +3950,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the records starting after the byte 50
   &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records
   within the last 50 bytes of the file.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-server-side-encryption-customer-algorithm"`: The SSE Algorithm used to encrypt
@@ -3999,29 +3989,28 @@ and upload one or more parts, you must either complete or abort multipart upload
 to stop getting charged for storage of the uploaded parts. Only after you either complete
 or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for
 the parts storage. For more information on multipart uploads, go to Multipart Upload
-Overview in the Amazon Simple Storage Service User Guide . For information on the
-permissions required to use the multipart upload API, go to Multipart Upload and
-Permissions in the Amazon Simple Storage Service User Guide. You can optionally request
-server-side encryption where Amazon S3 encrypts your data as it writes it to disks in its
-data centers and decrypts it for you when you access it. You have the option of providing
-your own encryption key, or you can use the AWS managed encryption keys. If you choose to
-provide your own encryption key, the request headers you provide in the request must match
-the headers you used in the request to initiate the upload by using CreateMultipartUpload.
-For more information, go to Using Server-Side Encryption in the Amazon Simple Storage
-Service User Guide. Server-side encryption is supported by the S3 Multipart Upload actions.
-Unless you are using a customer-provided encryption key, you don't need to specify the
-encryption parameters in each UploadPart request. Instead, you only need to specify the
-server-side encryption parameters in the initial Initiate Multipart request. For more
-information, see CreateMultipartUpload. If you requested server-side encryption using a
-customer-provided encryption key in your initiate multipart upload request, you must
-provide identical encryption information in each part upload using the following headers.
-x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-customer-key
-  x-amz-server-side-encryption-customer-key-MD5    Special Errors       Code: NoSuchUpload
-   Cause: The specified multipart upload does not exist. The upload ID might be invalid, or
-the multipart upload might have been aborted or completed.      HTTP Status Code: 404 Not
-Found      SOAP Fault Code Prefix: Client       Related Resources     CreateMultipartUpload
-    CompleteMultipartUpload     AbortMultipartUpload     ListParts     ListMultipartUploads
-
+Overview in the Amazon S3 User Guide . For information on the permissions required to use
+the multipart upload API, go to Multipart Upload and Permissions in the Amazon S3 User
+Guide. You can optionally request server-side encryption where Amazon S3 encrypts your data
+as it writes it to disks in its data centers and decrypts it for you when you access it.
+You have the option of providing your own encryption key, or you can use the AWS managed
+encryption keys. If you choose to provide your own encryption key, the request headers you
+provide in the request must match the headers you used in the request to initiate the
+upload by using CreateMultipartUpload. For more information, go to Using Server-Side
+Encryption in the Amazon S3 User Guide. Server-side encryption is supported by the S3
+Multipart Upload actions. Unless you are using a customer-provided encryption key, you
+don't need to specify the encryption parameters in each UploadPart request. Instead, you
+only need to specify the server-side encryption parameters in the initial Initiate
+Multipart request. For more information, see CreateMultipartUpload. If you requested
+server-side encryption using a customer-provided encryption key in your initiate multipart
+upload request, you must provide identical encryption information in each part upload using
+the following headers.   x-amz-server-side-encryption-customer-algorithm
+x-amz-server-side-encryption-customer-key   x-amz-server-side-encryption-customer-key-MD5
+ Special Errors       Code: NoSuchUpload     Cause: The specified multipart upload does not
+exist. The upload ID might be invalid, or the multipart upload might have been aborted or
+completed.      HTTP Status Code: 404 Not Found      SOAP Fault Code Prefix: Client
+Related Resources     CreateMultipartUpload     CompleteMultipartUpload
+AbortMultipartUpload     ListParts     ListMultipartUploads
 
 # Arguments
 - `bucket`: The name of the bucket to which the multipart upload was initiated. When using
@@ -4050,7 +4039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the part data. This parameter
   is auto-populated when using the command from the CLI. This parameter is required if object
   lock parameters are specified.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected bucket owner. If the
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   bucket is owned by a different account, the request will fail with an HTTP 403 (Access
   Denied) error.
 - `"x-amz-request-payer"`:
@@ -4077,24 +4066,24 @@ Uploads a part by copying data from an existing object as data source. You speci
 source by adding the request header x-amz-copy-source in your request and a byte range by
 adding the request header x-amz-copy-source-range in your request.  The minimum allowable
 part size for a multipart upload is 5 MB. For more information about multipart upload
-limits, go to Quick Facts in the Amazon Simple Storage Service User Guide.   Instead of
-using an existing object as part data, you might use the UploadPart action and provide data
-in your request.  You must initiate a multipart upload before you can upload any part. In
-response to your initiate request. Amazon S3 returns a unique identifier, the upload ID,
-that you must include in your upload part request. For more information about using the
-UploadPartCopy operation, see the following:   For conceptual information about multipart
-uploads, see Uploading Objects Using Multipart Upload in the Amazon Simple Storage Service
-User Guide.   For information about permissions required to use the multipart upload API,
-see Multipart Upload and Permissions in the Amazon Simple Storage Service User Guide.   For
-information about copying objects using a single atomic action vs. the multipart upload,
-see Operations on Objects in the Amazon Simple Storage Service User Guide.   For
-information about using server-side encryption with customer-provided encryption keys with
-the UploadPartCopy operation, see CopyObject and UploadPart.   Note the following
-additional considerations about the request headers x-amz-copy-source-if-match,
-x-amz-copy-source-if-none-match, x-amz-copy-source-if-unmodified-since, and
-x-amz-copy-source-if-modified-since:      Consideration 1 - If both of the
-x-amz-copy-source-if-match and x-amz-copy-source-if-unmodified-since headers are present in
-the request as follows:  x-amz-copy-source-if-match condition evaluates to true, and;
+limits, go to Quick Facts in the Amazon S3 User Guide.   Instead of using an existing
+object as part data, you might use the UploadPart action and provide data in your request.
+You must initiate a multipart upload before you can upload any part. In response to your
+initiate request. Amazon S3 returns a unique identifier, the upload ID, that you must
+include in your upload part request. For more information about using the UploadPartCopy
+operation, see the following:   For conceptual information about multipart uploads, see
+Uploading Objects Using Multipart Upload in the Amazon S3 User Guide.   For information
+about permissions required to use the multipart upload API, see Multipart Upload and
+Permissions in the Amazon S3 User Guide.   For information about copying objects using a
+single atomic action vs. the multipart upload, see Operations on Objects in the Amazon S3
+User Guide.   For information about using server-side encryption with customer-provided
+encryption keys with the UploadPartCopy operation, see CopyObject and UploadPart.   Note
+the following additional considerations about the request headers
+x-amz-copy-source-if-match, x-amz-copy-source-if-none-match,
+x-amz-copy-source-if-unmodified-since, and x-amz-copy-source-if-modified-since:
+Consideration 1 - If both of the x-amz-copy-source-if-match and
+x-amz-copy-source-if-unmodified-since headers are present in the request as follows:
+x-amz-copy-source-if-match condition evaluates to true, and;
 x-amz-copy-source-if-unmodified-since condition evaluates to false; Amazon S3 returns 200
 OK and copies the data.     Consideration 2 - If both of the
 x-amz-copy-source-if-none-match and x-amz-copy-source-if-modified-since headers are present
@@ -4182,7 +4171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-copy-source-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5
   digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a
   message integrity check to ensure that the encryption key was transmitted without error.
-- `"x-amz-expected-bucket-owner"`: The account id of the expected destination bucket owner.
+- `"x-amz-expected-bucket-owner"`: The account ID of the expected destination bucket owner.
   If the destination bucket is owned by a different account, the request will fail with an
   HTTP 403 (Access Denied) error.
 - `"x-amz-request-payer"`:
@@ -4197,9 +4186,110 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
   the encryption key according to RFC 1321. Amazon S3 uses this header for a message
   integrity check to ensure that the encryption key was transmitted without error.
-- `"x-amz-source-expected-bucket-owner"`: The account id of the expected source bucket
+- `"x-amz-source-expected-bucket-owner"`: The account ID of the expected source bucket
   owner. If the source bucket is owned by a different account, the request will fail with an
   HTTP 403 (Access Denied) error.
 """
 upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
 upload_part_copy(Bucket, Key, partNumber, uploadId, x_amz_copy_source, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), params)); aws_config=aws_config)
+
+"""
+    write_get_object_response(x-amz-request-route, x-amz-request-token)
+    write_get_object_response(x-amz-request-route, x-amz-request-token, params::Dict{String,<:Any})
+
+Passes transformed objects to a GetObject operation when using Object Lambda Access Points.
+For information about Object Lambda Access Points, see Transforming objects with Object
+Lambda Access Points in the Amazon S3 User Guide. This operation supports metadata that can
+be returned by GetObject, in addition to RequestRoute, RequestToken, StatusCode, ErrorCode,
+and ErrorMessage. The GetObject response metadata is supported so that the
+WriteGetObjectResponse caller, typically an AWS Lambda function, can provide the same
+metadata when it internally invokes GetObject. When WriteGetObjectResponse is called by a
+customer-owned Lambda function, the metadata returned to the end user GetObject call might
+differ from what Amazon S3 would normally return.
+
+# Arguments
+- `x-amz-request-route`: Route prefix to the HTTP URL generated.
+- `x-amz-request-token`: A single use encrypted token that maps WriteGetObjectResponse to
+  the end user GetObject request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Body"`: The object data.
+- `"Content-Length"`: The size of the content body in bytes.
+- `"x-amz-fwd-error-code"`: A string that uniquely identifies an error condition. Returned
+  in the &lt;Code&gt; tag of the error XML response for a corresponding GetObject call.
+  Cannot be used with a successful StatusCode header or when the transformed object is
+  provided in the body.
+- `"x-amz-fwd-error-message"`: Contains a generic description of the error condition.
+  Returned in the &lt;Message&gt; tag of the error XML response for a corresponding GetObject
+  call. Cannot be used with a successful StatusCode header or when the transformed object is
+  provided in body.
+- `"x-amz-fwd-header-Cache-Control"`: Specifies caching behavior along the request/reply
+  chain.
+- `"x-amz-fwd-header-Content-Disposition"`: Specifies presentational information for the
+  object.
+- `"x-amz-fwd-header-Content-Encoding"`: Specifies what content encodings have been applied
+  to the object and thus what decoding mechanisms must be applied to obtain the media-type
+  referenced by the Content-Type header field.
+- `"x-amz-fwd-header-Content-Language"`: The language the content is in.
+- `"x-amz-fwd-header-Content-Range"`: The portion of the object returned in the response.
+- `"x-amz-fwd-header-Content-Type"`: A standard MIME type describing the format of the
+  object data.
+- `"x-amz-fwd-header-ETag"`: An opaque identifier assigned by a web server to a specific
+  version of a resource found at a URL.
+- `"x-amz-fwd-header-Expires"`: The date and time at which the object is no longer
+  cacheable.
+- `"x-amz-fwd-header-Last-Modified"`: The date and time that the object was last modified.
+- `"x-amz-fwd-header-accept-ranges"`: Indicates that a range of bytes was specified.
+- `"x-amz-fwd-header-x-amz-delete-marker"`: Specifies whether an object stored in Amazon S3
+  is (true) or is not (false) a delete marker.
+- `"x-amz-fwd-header-x-amz-expiration"`: If object stored in Amazon S3 expiration is
+  configured (see PUT Bucket lifecycle) it includes expiry-date and rule-id key-value pairs
+  providing object expiration information. The value of the rule-id is URL encoded.
+- `"x-amz-fwd-header-x-amz-missing-meta"`: Set to the number of metadata entries not
+  returned in x-amz-meta headers. This can happen if you create metadata using an API like
+  SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you
+  can create metadata whose values are not legal HTTP headers.
+- `"x-amz-fwd-header-x-amz-mp-parts-count"`: The count of parts this object has.
+- `"x-amz-fwd-header-x-amz-object-lock-legal-hold"`: Indicates whether an object stored in
+  Amazon S3 has an active legal hold.
+- `"x-amz-fwd-header-x-amz-object-lock-mode"`: Indicates whether an object stored in Amazon
+  S3 has Object Lock enabled. For more information about S3 Object Lock, see Object Lock.
+- `"x-amz-fwd-header-x-amz-object-lock-retain-until-date"`: The date and time when Object
+  Lock is configured to expire.
+- `"x-amz-fwd-header-x-amz-replication-status"`: Indicates if request involves bucket that
+  is either a source or destination in a Replication rule. For more information about S3
+  Replication, see Replication.
+- `"x-amz-fwd-header-x-amz-request-charged"`:
+- `"x-amz-fwd-header-x-amz-restore"`: Provides information about object restoration
+  operation and expiration time of the restored object copy.
+- `"x-amz-fwd-header-x-amz-server-side-encryption"`:  The server-side encryption algorithm
+  used when storing requested object in Amazon S3 (for example, AES256, aws:kms).
+- `"x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id"`:  If present, specifies
+  the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer
+  master key (CMK) that was used for stored in Amazon S3 object.
+- `"x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled"`:  Indicates whether
+  the object stored in Amazon S3 uses an S3 bucket key for server-side encryption with AWS
+  KMS (SSE-KMS).
+- `"x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm"`: Encryption
+  algorithm used if server-side encryption with a customer-provided encryption key was
+  specified for object stored in Amazon S3.
+- `"x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5"`:  128-bit MD5 digest
+  of customer-provided encryption key used in Amazon S3 to encrypt data stored in S3. For
+  more information, see Protecting data using server-side encryption with customer-provided
+  encryption keys (SSE-C).
+- `"x-amz-fwd-header-x-amz-storage-class"`:  The class of storage used to store object in
+  Amazon S3.
+- `"x-amz-fwd-header-x-amz-tagging-count"`: The number of tags, if any, on the object.
+- `"x-amz-fwd-header-x-amz-version-id"`: An ID used to reference a specific version of the
+  object.
+- `"x-amz-fwd-status"`: The integer status code for an HTTP response of a corresponding
+  GetObject request.  Status Codes     200 - OK     206 - Partial Content     304 - Not
+  Modified     400 - Bad Request     401 - Unauthorized     403 - Forbidden     404 - Not
+  Found     405 - Method Not Allowed     409 - Conflict     411 - Length Required     412 -
+  Precondition Failed     416 - Range Not Satisfiable     500 - Internal Server Error     503
+  - Service Unavailable
+- `"x-amz-meta-"`: A map of metadata to store with the object in S3.
+"""
+write_get_object_response(x_amz_request_route, x_amz_request_token; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/WriteGetObjectResponse", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-request-route"=>x_amz_request_route, "x-amz-request-token"=>x_amz_request_token)); aws_config=aws_config)
+write_get_object_response(x_amz_request_route, x_amz_request_token, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("POST", "/WriteGetObjectResponse", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-request-route"=>x_amz_request_route, "x-amz-request-token"=>x_amz_request_token)), params)); aws_config=aws_config)
