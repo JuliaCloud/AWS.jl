@@ -50,7 +50,7 @@ end
     end
 end
 
-@testset "issue streaming" begin
+@testset "issue 324" begin
     body = "Hello World!"
     file_name = "streaming.bin"
 
