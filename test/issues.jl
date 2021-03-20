@@ -55,6 +55,7 @@ end
     file_name = "streaming.bin"
 
     try
+        S3.create_bucket(bucket_name)
         S3.put_object(bucket_name, file_name, Dict("body" => body))
         resp = S3.get_object(bucket_name, file_name)
         @test String(resp) == body
