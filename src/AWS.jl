@@ -477,8 +477,6 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
     return request_uri
 end
 
-_return_headers(args::AbstractDict{String, <:Any}) = pop!(args, "return_headers", false)
-
 function _flatten_query(service::String, query::AbstractDict{String, <: Any})
     return _flatten_query!(Pair{String, String}[], service, query)
 end
@@ -562,7 +560,7 @@ function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return_headers = _return_headers(args)
+    return_headers = pop!(args, "return_headers", false)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -613,7 +611,7 @@ function (service::QueryService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
-    return_headers = _return_headers(args)
+    return_headers = pop!(args, "return_headers", false)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -654,7 +652,7 @@ function (service::JSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
-    return_headers = _return_headers(args)
+    return_headers = pop!(args, "return_headers", false)
 
     request = Request(;
         _extract_common_kw_args(service,args)...,
@@ -693,7 +691,7 @@ function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return_headers = _return_headers(args)
+    return_headers = pop!(args, "return_headers", false)
 
     request = Request(;
         _extract_common_kw_args(service,args)...,

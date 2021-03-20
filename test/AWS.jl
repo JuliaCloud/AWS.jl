@@ -401,24 +401,6 @@ end
     end
 end
 
-@testset "_return_headers" begin
-    @testset "key exists" begin
-        expected = true
-        dict = Dict{String, Any}("return_headers"=>true)
-        result = AWS._return_headers(dict)
-
-        @test result == expected
-        @test isempty(dict)
-    end
-
-    @testset "key dne" begin
-        expected = false
-        result = AWS._return_headers(Dict{String, Any}())
-
-        @test result == expected
-    end
-end
-
 @testset "_flatten_query" begin
     high_level_value = "high_level_value"
     entry_1 = LittleDict("low_level_key_1"=>"low_level_value_1", "low_level_key_2"=>"low_level_value_2")
