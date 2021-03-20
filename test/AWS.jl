@@ -50,7 +50,7 @@ end
 
     request = Request(
         service="s3",
-        api_version="api_verison",
+        api_version="api_version",
         request_method="GET",
         headers=LittleDict(
             "Host" => "s3.us-east-1.amazonaws.com",
@@ -116,7 +116,7 @@ end
 
         request = Request(
             service="s3",
-            api_version="api_verison",
+            api_version="api_version",
             request_method="HEAD",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
@@ -133,7 +133,7 @@ end
     @testset "return stream" begin
         request = Request(
             service="s3",
-            api_version="api_verison",
+            api_version="api_version",
             request_method="GET",
             return_stream=true,
             response_stream=Base.BufferStream(),
@@ -151,7 +151,7 @@ end
     @testset "return raw" begin
         request = Request(
             service="s3",
-            api_version="api_verison",
+            api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             return_raw=true
@@ -180,7 +180,7 @@ end
     @testset "MIME" begin
         request = Request(
             service="s3",
-            api_version="api_verison",
+            api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
@@ -239,7 +239,7 @@ end
         @testset "xml" begin
             request = Request(
                 service="s3",
-                api_version="api_verison",
+                api_version="api_version",
                 request_method="GET",
                 url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             )
@@ -313,7 +313,7 @@ end
         @testset "Text" begin
             request = Request(
                 service="s3",
-                api_version="api_verison",
+                api_version="api_version",
                 request_method="GET",
                 url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             )
