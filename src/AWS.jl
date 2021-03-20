@@ -168,6 +168,18 @@ Base.@kwdef mutable struct Request
     response_dict_type::Type{<:AbstractDict}=LittleDict
 end
 
+function _extract_common_kw_args(service, args)
+    return (
+        service=service.name,
+        api_version=service.api_version,
+        return_stream=pop!(args, "return_stream", false),
+        return_raw=pop!(args, "return_raw", false),
+        response_stream=pop!(args, "response_stream", nothing),
+        headers=LittleDict{String, String}(pop!(args, "headers", [])),
+        http_options=pop!(args, "http_options", []),
+        response_dict_type=pop!(args, "response_dict_type", LittleDict),
+    )
+end
 # Needs to be included after the definition of struct otherwise it cannot find them
 include("AWSServices.jl")
 
@@ -465,15 +477,7 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
     return request_uri
 end
 
-function _return_headers(args::AbstractDict{String, <:Any})
-    return_headers = get(args, "return_headers", false)
-
-    if return_headers
-        delete!(args, "return_headers")
-    end
-
-    return return_headers
-end
+_return_headers(args::AbstractDict{String, <:Any}) = pop!(args, "return_headers", false)
 
 function _flatten_query(service::String, query::AbstractDict{String, <: Any})
     return _flatten_query!(Pair{String, String}[], service, query)
@@ -558,21 +562,13 @@ function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
+    return_headers = _return_headers(args)
 
-    request = Request(
-        service=service.name,
-        api_version=service.api_version,
+    request = Request(;
+        _extract_common_kw_args(service, args)...,
         request_method=request_method,
         content=pop!(args, "body", ""),
-        headers=LittleDict{String, String}(pop!(args, "headers", [])),
-        return_stream=pop!(args, "return_stream", false),
-        http_options=pop!(args, "http_options", []),
-        response_stream=pop!(args, "response_stream", nothing),
-        return_raw=pop!(args, "return_raw", false),
-        response_dict_type=pop!(args, "response_dict_type", LittleDict),
     )
-
-    return_headers = _return_headers(args)
 
     if request.service == "s3"
         request_uri = _clean_s3_uri(request_uri)
@@ -619,22 +615,12 @@ function (service::QueryService)(
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
 
-    request = Request(
-        service=service.name,
-        api_version=service.api_version,
+    request = Request(;
+        _extract_common_kw_args(service, args)...,
         resource=POST_RESOURCE,
         request_method="POST",
-        headers=LittleDict{String, String}(get(args, "headers", [])),
         url=generate_service_url(aws_config, service.name, POST_RESOURCE),
-        return_stream=get(args, "return_stream", false),
-        http_options=get(args, "http_options", []),
-        response_stream=get(args, "response_stream", nothing),
-        return_raw=get(args, "return_raw", false),
     )
-
-    if haskey(args, "response_dict_type")
-        request.response_dict_type = pop!(args, "response_dict_type")
-    end
 
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
@@ -670,23 +656,13 @@ function (service::JSONService)(
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
 
-    request = Request(
-        service=service.name,
-        api_version=service.api_version,
+    request = Request(;
+        _extract_common_kw_args(service,args)...,
         resource=POST_RESOURCE,
         request_method="POST",
-        headers=LittleDict{String, String}(get(args, "headers", [])),
         content=json(args),
         url=generate_service_url(aws_config, service.name, POST_RESOURCE),
-        return_stream=get(args, "return_stream", false),
-        http_options=get(args, "http_options", []),
-        response_stream=get(args, "response_stream", nothing),
-        return_raw=get(args, "return_raw", false),
     )
-
-    if haskey(args, "response_dict_type")
-        request.response_dict_type = pop!(args, "response_dict_type")
-    end
 
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
@@ -719,21 +695,11 @@ function (service::RestJSONService)(
 )
     return_headers = _return_headers(args)
 
-    request = Request(
-        service=service.name,
-        api_version=service.api_version,
+    request = Request(;
+        _extract_common_kw_args(service,args)...,
         request_method=request_method,
-        headers=LittleDict{String, String}(get(args, "headers", [])),
         resource=_generate_rest_resource(request_uri, args),
-        return_stream=get(args, "return_stream", false),
-        http_options=get(args, "http_options", []),
-        response_stream=get(args, "response_stream", nothing),
-        return_raw=get(args, "return_raw", false),
     )
-
-    if haskey(args, "response_dict_type")
-        request.response_dict_type = pop!(args, "response_dict_type")
-    end
 
     request.url = generate_service_url(aws_config, request.service, request.resource)
 
@@ -742,7 +708,6 @@ function (service::RestJSONService)(
     end
 
     request.headers["Content-Type"] = "application/json"
-    delete!(args, "headers")
     request.content = json(args)
 
     return submit_request(aws_config, request; return_headers=return_headers)
