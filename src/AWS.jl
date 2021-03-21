@@ -168,16 +168,28 @@ Base.@kwdef mutable struct Request
     response_dict_type::Type{<:AbstractDict}=LittleDict
 end
 
+# use this until the threed arg pop! is available for LittleDict
+# https://github.com/JuliaCollections/OrderedCollections.jl/pull/59
+function _pop!(dict::AbstractDict{String, <: Any},kw,default)
+    if haskey(dict,kw)
+        val = dict[kw]
+        delete!(dict,kw)
+        return val
+    else
+        return default
+    end
+end
+
 function _extract_common_kw_args(service, args)
     return (
         service=service.name,
         api_version=service.api_version,
-        return_stream=pop!(args, "return_stream", false),
-        return_raw=pop!(args, "return_raw", false),
-        response_stream=pop!(args, "response_stream", nothing),
-        headers=LittleDict{String, String}(pop!(args, "headers", [])),
-        http_options=pop!(args, "http_options", []),
-        response_dict_type=pop!(args, "response_dict_type", LittleDict),
+        return_stream=_pop!(args, "return_stream", false),
+        return_raw=_pop!(args, "return_raw", false),
+        response_stream=_pop!(args, "response_stream", nothing),
+        headers=LittleDict{String, String}(_pop!(args, "headers", [])),
+        http_options=_pop!(args, "http_options", []),
+        response_dict_type=_pop!(args, "response_dict_type", LittleDict),
     )
 end
 # Needs to be included after the definition of struct otherwise it cannot find them
@@ -560,12 +572,12 @@ function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return_headers = pop!(args, "return_headers", false)
+    return_headers = _pop!(args, "return_headers", false)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
         request_method=request_method,
-        content=pop!(args, "body", ""),
+        content=_pop!(args, "body", ""),
     )
 
     if request.service == "s3"
@@ -611,7 +623,7 @@ function (service::QueryService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
-    return_headers = pop!(args, "return_headers", false)
+    return_headers = _pop!(args, "return_headers", false)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -652,7 +664,7 @@ function (service::JSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
-    return_headers = pop!(args, "return_headers", false)
+    return_headers = _pop!(args, "return_headers", false)
 
     request = Request(;
         _extract_common_kw_args(service,args)...,
@@ -691,7 +703,7 @@ function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return_headers = pop!(args, "return_headers", false)
+    return_headers = _pop!(args, "return_headers", false)
 
     request = Request(;
         _extract_common_kw_args(service,args)...,
