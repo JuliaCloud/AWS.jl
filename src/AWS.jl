@@ -707,7 +707,7 @@ function (service::RestJSONService)(
     return_headers = _pop!(args, "return_headers", false)
 
     request = Request(;
-        _extract_common_kw_args(service,args)...,
+        _extract_common_kw_args(service, args)...,
         request_method=request_method,
         resource=_generate_rest_resource(request_uri, args),
     )
