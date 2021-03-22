@@ -174,6 +174,7 @@ function _pop!(dict::AbstractDict{String, <: Any},kw,default)
     if haskey(dict,kw)
         val = dict[kw]
         delete!(dict,kw)
+
         return val
     else
         return default
