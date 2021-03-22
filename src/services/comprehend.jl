@@ -109,6 +109,23 @@ classify_document(EndpointArn, Text; aws_config::AbstractAWSConfig=global_aws_co
 classify_document(EndpointArn, Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ClassifyDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "Text"=>Text), params)); aws_config=aws_config)
 
 """
+    contains_pii_entities(language_code, text)
+    contains_pii_entities(language_code, text, params::Dict{String,<:Any})
+
+Analyzes input text for the presence of personally identifiable information (PII) and
+returns the labels of identified PII entity types such as name, address, bank account
+number, or phone number.
+
+# Arguments
+- `language_code`: The language of the input documents.
+- `text`: Creates a new document classification request to analyze a single document in
+  real-time, returning personally identifiable information (PII) entity labels.
+
+"""
+contains_pii_entities(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ContainsPiiEntities", Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text); aws_config=aws_config)
+contains_pii_entities(LanguageCode, Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ContainsPiiEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
+
+"""
     create_document_classifier(data_access_role_arn, document_classifier_name, input_data_config, language_code)
     create_document_classifier(data_access_role_arn, document_classifier_name, input_data_config, language_code, params::Dict{String,<:Any})
 

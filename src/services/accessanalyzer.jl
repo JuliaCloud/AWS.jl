@@ -71,7 +71,9 @@ create_analyzer(analyzerName, type, params::AbstractDict{String, <:Any}; aws_con
     create_archive_rule(analyzer_name, filter, rule_name, params::Dict{String,<:Any})
 
 Creates an archive rule for the specified analyzer. Archive rules automatically archive new
-findings that meet the criteria you define when you create the rule.
+findings that meet the criteria you define when you create the rule. To learn about filter
+keys that you can use to create an archive rule, see Access Analyzer filter keys in the IAM
+User Guide.
 
 # Arguments
 - `analyzer_name`: The name of the created analyzer.
@@ -393,3 +395,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_findings(analyzerArn, status; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_findings(analyzerArn, status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
+    validate_policy(policy_document, policy_type)
+    validate_policy(policy_document, policy_type, params::Dict{String,<:Any})
+
+Requests the validation of a policy and returns a list of findings. The findings help you
+identify issues and provide actionable recommendations to resolve the issue and enable you
+to author functional policies that meet security best practices.
+
+# Arguments
+- `policy_document`: The JSON policy document to use as the content for the policy.
+- `policy_type`: The type of policy to validate. Identity policies grant permissions to IAM
+  principals. Identity policies include managed and inline policies for IAM roles, users, and
+  groups. They also include service-control policies (SCPs) that are attached to an AWS
+  organization, organizational unit (OU), or an account. Resource policies grant permissions
+  on AWS resources. Resource policies include trust policies for IAM roles and bucket
+  policies for S3 buckets. You can provide a generic input such as identity policy or
+  resource policy or a specific input such as managed policy or S3 bucket policy.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"locale"`: The locale to use for localizing the findings.
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned.
+"""
+validate_policy(policyDocument, policyType; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType); aws_config=aws_config)
+validate_policy(policyDocument, policyType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType), params)); aws_config=aws_config)

@@ -317,6 +317,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"onPremisesTagSet"`: Information about groups of tags applied to on-premises instances.
   The deployment group includes only on-premises instances identified by all of the tag
   groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
+- `"outdatedInstancesStrategy"`: Indicates what happens when new EC2 instances are launched
+  mid-deployment and do not receive the deployed application revision. If this option is set
+  to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated
+  instances' deployments to apply the deployed application revision to the new EC2 instances.
+  If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the
+  new EC2 instances. This may result in instances having different revisions.
 - `"tags"`:  The metadata that you apply to CodeDeploy deployment groups to help you
   organize and categorize them. Each tag consists of a key and an optional value, both of
   which you define.
@@ -758,8 +764,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   validates a deployment lifecycle event.
 - `"lifecycleEventHookExecutionId"`:  The execution ID of a deployment's lifecycle hook. A
   deployment lifecycle hook is specified in the hooks section of the AppSpec file.
-- `"status"`: The result of a Lambda function that validates a deployment lifecycle event
-  (Succeeded or Failed).
+- `"status"`: The result of a Lambda function that validates a deployment lifecycle event.
+  Succeeded and Failed are the only valid values for status.
 """
 put_lifecycle_event_hook_execution_status(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("PutLifecycleEventHookExecutionStatus"; aws_config=aws_config)
 put_lifecycle_event_hook_execution_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy("PutLifecycleEventHookExecutionStatus", params; aws_config=aws_config)
@@ -940,6 +946,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To remove tags, do not enter any tag names.
 - `"onPremisesTagSet"`: Information about an on-premises instance tag set. The deployment
   group includes only on-premises instances identified by all the tag groups.
+- `"outdatedInstancesStrategy"`: Indicates what happens when new EC2 instances are launched
+  mid-deployment and do not receive the deployed application revision. If this option is set
+  to UPDATE or is unspecified, CodeDeploy initiates one or more 'auto-update outdated
+  instances' deployments to apply the deployed application revision to the new EC2 instances.
+  If this option is set to IGNORE, CodeDeploy does not initiate a deployment to update the
+  new EC2 instances. This may result in instances having different revisions.
 - `"serviceRoleArn"`: A replacement ARN for the service role, if you want to change it.
 - `"triggerConfigurations"`: Information about triggers to change when the deployment group
   is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the AWS

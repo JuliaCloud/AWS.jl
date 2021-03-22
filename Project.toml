@@ -1,7 +1,7 @@
 name = "AWS"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
 license = "MIT"
-version = "1.29.1"
+version = "1.30.0"
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -29,11 +29,10 @@ JSON = "0.18, 0.19, 0.20, 0.21"
 MbedTLS = "0.6, 0.7, 1"
 Mocking = "0.7"
 OrderedCollections = "1"
-URIs = "1"
 Retry = "0.3, 0.4"
+URIs = "1"
 XMLDict = "0.3, 0.4"
 julia = "1"
-
 
 [extras]
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
