@@ -106,8 +106,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Manager resources.  Do not enter personally identifiable information in this field.
 - `"Description"`: A user-defined description of the resource that you want to register
   with Systems Manager.   Do not enter personally identifiable information in this field.
-- `"ExpirationDate"`: The date by which this activation request should expire. The default
-  value is 24 hours.
+- `"ExpirationDate"`: The date by which this activation request should expire, in timestamp
+  format, such as \"2021-07-07T00:00:00\". You can specify a date up to 30 days in advance.
+  If you don't provide an expiration date, the activation code expires in 24 hours.
 - `"RegistrationLimit"`: Specify the maximum number of managed instances you want to
   register. The default value is 1 instance.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
