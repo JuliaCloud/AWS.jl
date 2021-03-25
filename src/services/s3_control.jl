@@ -36,7 +36,8 @@ GetAccessPoint     DeleteAccessPoint     ListAccessPoints
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PublicAccessBlockConfiguration"`:
+- `"PublicAccessBlockConfiguration"`:  The PublicAccessBlock configuration that you want to
+  apply to the access point.
 - `"VpcConfiguration"`: If you include this field, Amazon S3 restricts access to this
   access point to requests from the specified virtual private cloud (VPC).  This is required
   for creating an access point for Amazon S3 on Outposts buckets.

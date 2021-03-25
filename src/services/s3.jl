@@ -27,13 +27,12 @@ ListMultipartUploads
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Key of the object for which the multipart upload was initiated.
 - `upload_id`: Upload ID that identifies the multipart upload.
 
@@ -181,13 +180,12 @@ PutObject     GetObject    For more information, see Copying Objects.
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the AWS SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using Access
-  Points in the Amazon Simple Storage Service Developer Guide. When using this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
-  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
+  Points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
+  must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the
+  form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: The key of the destination object.
 - `x-amz-copy-source`: Specifies the source object for the copy operation. You specify the
   value in one of two formats, depending on whether you want to access the source object
@@ -473,13 +471,12 @@ ListMultipartUploads
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload is to be initiated.
 
 # Optional Parameters
@@ -889,19 +886,19 @@ delete_bucket_website(Bucket, params::AbstractDict{String, <:Any}; aws_config::A
 
 Removes the null version (if there is one) of an object and inserts a delete marker, which
 becomes the latest version of the object. If there isn't a null version, Amazon S3 does not
-remove any objects. To remove a specific version, you must be the bucket owner and you must
-use the version Id subresource. Using this subresource permanently deletes the version. If
-the object deleted is a delete marker, Amazon S3 sets the response header,
-x-amz-delete-marker, to true.  If the object you want to delete is in a bucket where the
-bucket versioning configuration is MFA Delete enabled, you must include the x-amz-mfa
-request header in the DELETE versionId request. Requests that include x-amz-mfa must use
-HTTPS.   For more information about MFA Delete, see Using MFA Delete. To see sample
-requests that use versioning, see Sample Request.  You can delete objects by explicitly
-calling DELETE Object or configure its lifecycle (PutBucketLifecycle) to enable Amazon S3
-to remove them for you. If you want to block users or accounts from removing or deleting
-objects from your bucket, you must deny them the s3:DeleteObject, s3:DeleteObjectVersion,
-and s3:PutLifeCycleConfiguration actions.  The following action is related to DeleteObject:
-   PutObject
+remove any objects but will still respond that the command was successful. To remove a
+specific version, you must be the bucket owner and you must use the version Id subresource.
+Using this subresource permanently deletes the version. If the object deleted is a delete
+marker, Amazon S3 sets the response header, x-amz-delete-marker, to true.  If the object
+you want to delete is in a bucket where the bucket versioning configuration is MFA Delete
+enabled, you must include the x-amz-mfa request header in the DELETE versionId request.
+Requests that include x-amz-mfa must use HTTPS.   For more information about MFA Delete,
+see Using MFA Delete. To see sample requests that use versioning, see Sample Request.  You
+can delete objects by explicitly calling DELETE Object or configure its lifecycle
+(PutBucketLifecycle) to enable Amazon S3 to remove them for you. If you want to block users
+or accounts from removing or deleting objects from your bucket, you must deny them the
+s3:DeleteObject, s3:DeleteObjectVersion, and s3:PutLifeCycleConfiguration actions.  The
+following action is related to DeleteObject:    PutObject
 
 # Arguments
 - `bucket`: The bucket name of the bucket containing the object.  When using this action
@@ -910,13 +907,12 @@ and s3:PutLifeCycleConfiguration actions.  The following action is related to De
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Key name of the object to delete.
 
 # Optional Parameters
@@ -953,13 +949,12 @@ DeleteBucketMetricsConfiguration:    PutObjectTagging     GetObjectTagging
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: The key that identifies the object in the bucket from which to remove all tags.
 
 # Optional Parameters
@@ -1005,13 +1000,13 @@ ListParts     AbortMultipartUpload
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this action with an access point through the AWS SDKs, you provide the access point
   ARN in place of the bucket name. For more information about access point ARNs, see Using
-  Access Points in the Amazon Simple Storage Service Developer Guide. When using this action
-  with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3
-  on Outposts hostname takes the form
+  Access Points in the Amazon S3 User Guide. When using this action with Amazon S3 on
+  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `delete`: Container for the request.
 
 # Optional Parameters
@@ -1683,13 +1678,12 @@ ListBuckets     GetObjectAcl
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the AWS SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using Access
-  Points in the Amazon Simple Storage Service Developer Guide. When using this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
-  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
+  Points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
+  must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the
+  form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Key of the object to get.
 
 # Optional Parameters
@@ -1752,7 +1746,7 @@ PutObject
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide.
+  Amazon S3 User Guide.
 - `key`: The key of the object for which to get the ACL information.
 
 # Optional Parameters
@@ -1780,7 +1774,7 @@ action is not supported by Amazon S3 on Outposts.
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide.
+  Amazon S3 User Guide.
 - `key`: The key name for the object whose Legal Hold status you want to retrieve.
 
 # Optional Parameters
@@ -1809,7 +1803,7 @@ bucket. For more information, see Locking Objects.
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide.
+  Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1834,7 +1828,7 @@ action is not supported by Amazon S3 on Outposts.
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide.
+  Amazon S3 User Guide.
 - `key`: The key name for the object whose retention settings you want to retrieve.
 
 # Optional Parameters
@@ -1870,13 +1864,12 @@ to GetObjectTagging:    PutObjectTagging     DeleteObjectTagging
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which to get the tagging information.
 
 # Optional Parameters
@@ -1964,13 +1957,12 @@ Permissions to Your Amazon S3 Resources.
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2024,13 +2016,13 @@ error.   The following action is related to HeadObject:    GetObject
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this action with an access point through the AWS SDKs, you provide the access point
   ARN in place of the bucket name. For more information about access point ARNs, see Using
-  Access Points in the Amazon Simple Storage Service Developer Guide. When using this action
-  with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3
-  on Outposts hostname takes the form
+  Access Points in the Amazon S3 User Guide. When using this action with Amazon S3 on
+  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: The object key.
 
 # Optional Parameters
@@ -2244,13 +2236,12 @@ UploadPart     CompleteMultipartUpload     ListParts     AbortMultipartUpload
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2290,11 +2281,13 @@ list_multipart_uploads(Bucket, params::AbstractDict{String, <:Any}; aws_config::
 
 Returns metadata about all versions of the objects in a bucket. You can also use request
 parameters as selection criteria to return metadata about a subset of all the object
-versions.    A 200 OK response can contain valid or invalid XML. Make sure to design your
-application to parse the contents of the response and handle it appropriately.  To use this
-operation, you must have READ access to the bucket. This action is not supported by Amazon
-S3 on Outposts. The following operations are related to ListObjectVersions:
-ListObjectsV2     GetObject     PutObject     DeleteObject
+versions.   To use this operation, you must have permissions to perform the
+s3:ListBucketVersions action. Be aware of the name difference.     A 200 OK response can
+contain valid or invalid XML. Make sure to design your application to parse the contents of
+the response and handle it appropriately.  To use this operation, you must have READ access
+to the bucket. This action is not supported by Amazon S3 on Outposts. The following
+operations are related to ListObjectVersions:    ListObjectsV2     GetObject     PutObject
+   DeleteObject
 
 # Arguments
 - `bucket`: The bucket name that contains the objects.
@@ -2345,13 +2338,13 @@ CreateBucket     ListBuckets
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this action with an access point through the AWS SDKs, you provide the access point
   ARN in place of the bucket name. For more information about access point ARNs, see Using
-  Access Points in the Amazon Simple Storage Service Developer Guide. When using this action
-  with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3
-  on Outposts hostname takes the form
+  Access Points in the Amazon S3 User Guide. When using this action with Amazon S3 on
+  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2397,13 +2390,12 @@ operations are related to ListObjectsV2:    GetObject     PutObject     CreateBu
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2455,13 +2447,12 @@ The following operations are related to ListParts:    CreateMultipartUpload     
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload was initiated.
 - `upload_id`: Upload ID identifying the multipart upload whose parts are being listed.
 
@@ -2704,7 +2695,7 @@ DeleteBucketEncryption
 - `bucket`: Specifies default encryption for a bucket using server-side encryption with
   Amazon S3-managed keys (SSE-S3) or customer master keys stored in AWS KMS (SSE-KMS). For
   information about the Amazon S3 default encryption feature, see Amazon S3 Default Bucket
-  Encryption in the Amazon Simple Storage Service Developer Guide.
+  Encryption in the Amazon S3 User Guide.
 - `server_side_encryption_configuration`:
 
 # Optional Parameters
@@ -3324,11 +3315,11 @@ returns an error. Additionally, you can calculate the MD5 while putting an objec
 S3 and compare the returned ETag to the calculated MD5 value.   The Content-MD5 header is
 required for any request to upload an object with a retention period configured using
 Amazon S3 Object Lock. For more information about Amazon S3 Object Lock, see Amazon S3
-Object Lock Overview in the Amazon Simple Storage Service Developer Guide.    Server-side
-Encryption  You can optionally request server-side encryption. With server-side encryption,
-Amazon S3 encrypts your data as it writes it to disks in its data centers and decrypts the
-data when you access it. You have the option to provide your own encryption key or use AWS
-managed encryption keys (SSE-S3 or SSE-KMS). For more information, see Using Server-Side
+Object Lock Overview in the Amazon S3 User Guide.    Server-side Encryption  You can
+optionally request server-side encryption. With server-side encryption, Amazon S3 encrypts
+your data as it writes it to disks in its data centers and decrypts the data when you
+access it. You have the option to provide your own encryption key or use AWS managed
+encryption keys (SSE-S3 or SSE-KMS). For more information, see Using Server-Side
 Encryption. If you request server-side encryption using AWS Key Management Service
 (SSE-KMS), you can enable an S3 Bucket Key at the object-level. For more information, see
 Amazon S3 Bucket Keys in the Amazon S3 User Guide.  Access Control List (ACL)-Specific
@@ -3356,13 +3347,12 @@ GetBucketVersioning.   Related Resources     CopyObject     DeleteObject
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the PUT action was initiated.
 
 # Optional Parameters
@@ -3522,19 +3512,18 @@ CopyObject     GetObject
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide.
+  Amazon S3 User Guide.
 - `key`: Key for which the PUT action was initiated. When using this action with an access
   point, you must direct requests to the access point hostname. The access point hostname
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the AWS SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using Access
-  Points in the Amazon Simple Storage Service Developer Guide. When using this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
-  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
+  Points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
+  must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the
+  form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3569,8 +3558,8 @@ put_object_acl(Bucket, Key, params::AbstractDict{String, <:Any}; aws_config::Abs
     put_object_legal_hold(bucket, key)
     put_object_legal_hold(bucket, key, params::Dict{String,<:Any})
 
-Applies a Legal Hold configuration to the specified object. This action is not supported by
-Amazon S3 on Outposts.  Related Resources     Locking Objects
+Applies a Legal Hold configuration to the specified object. For more information, see
+Locking Objects. This action is not supported by Amazon S3 on Outposts.
 
 # Arguments
 - `bucket`: The bucket name containing the object that you want to place a Legal Hold on.
@@ -3579,7 +3568,7 @@ Amazon S3 on Outposts.  Related Resources     Locking Objects
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide.
+  Amazon S3 User Guide.
 - `key`: The key name for the object that you want to place a Legal Hold on.
 
 # Optional Parameters
@@ -3603,8 +3592,11 @@ put_object_legal_hold(Bucket, Key, params::AbstractDict{String, <:Any}; aws_conf
 
 Places an Object Lock configuration on the specified bucket. The rule specified in the
 Object Lock configuration will be applied by default to every new object placed in the
-specified bucket.   DefaultRetention requires either Days or Years. You can't specify both
-at the same time.   Related Resources     Locking Objects
+specified bucket. For more information, see Locking Objects.     The DefaultRetention
+settings require both a mode and a period.   The DefaultRetention period can be either Days
+or Years but you must select one. You cannot specify Days and Years at the same time.   You
+can only enable Object Lock for new buckets. If you want to turn on Object Lock for an
+existing bucket, contact AWS Support.
 
 # Arguments
 - `bucket`: The bucket whose Object Lock configuration you want to create or replace.
@@ -3629,8 +3621,8 @@ put_object_lock_configuration(Bucket, params::AbstractDict{String, <:Any}; aws_c
     put_object_retention(bucket, key)
     put_object_retention(bucket, key, params::Dict{String,<:Any})
 
-Places an Object Retention configuration on an object. This action is not supported by
-Amazon S3 on Outposts.  Related Resources     Locking Objects
+Places an Object Retention configuration on an object. For more information, see Locking
+Objects.  This action is not supported by Amazon S3 on Outposts.
 
 # Arguments
 - `bucket`: The bucket name that contains the object you want to apply this Object
@@ -3639,7 +3631,7 @@ Amazon S3 on Outposts.  Related Resources     Locking Objects
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide.
+  Amazon S3 User Guide.
 - `key`: The key name for the object that you want to apply this Object Retention
   configuration to.
 
@@ -3688,13 +3680,12 @@ InternalError     Cause: The service was unable to apply the provided tag to the
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the AWS SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using Access
-  Points in the Amazon Simple Storage Service Developer Guide. When using this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
-  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
+  Points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
+  must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the
+  form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Name of the object key.
 - `tagging`: Container for the TagSet and Tag elements
 
@@ -3733,7 +3724,7 @@ GetBucketPolicyStatus     Using Amazon S3 Block Public Access
 - `public_access_block_configuration`: The PublicAccessBlock configuration that you want to
   apply to this Amazon S3 bucket. You can enable the configuration options in any
   combination. For more information about when Amazon S3 considers a bucket or object public,
-  see The Meaning of \"Public\" in the Amazon Simple Storage Service Developer Guide.
+  see The Meaning of \"Public\" in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3861,13 +3852,13 @@ Select  in the Amazon S3 User Guide
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this action with an access point through the AWS SDKs, you provide the access point
   ARN in place of the bucket name. For more information about access point ARNs, see Using
-  Access Points in the Amazon Simple Storage Service Developer Guide. When using this action
-  with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3
-  on Outposts hostname takes the form
+  Access Points in the Amazon S3 User Guide. When using this action with Amazon S3 on
+  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the action was initiated.
 
 # Optional Parameters
@@ -4019,13 +4010,12 @@ AbortMultipartUpload     ListParts     ListMultipartUploads
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload was initiated.
 - `part_number`: Part number of part being uploaded. This is a positive integer between 1
   and 10,000.
@@ -4112,13 +4102,12 @@ CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultip
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
   bucket name. For more information about access point ARNs, see Using Access Points in the
-  Amazon Simple Storage Service Developer Guide. When using this action with Amazon S3 on
-  Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
+  requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
   place of the bucket name. For more information about S3 on Outposts ARNs, see Using S3 on
-  Outposts in the Amazon Simple Storage Service Developer Guide.
+  Outposts in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload was initiated.
 - `part_number`: Part number of part being copied. This is a positive integer between 1 and
   10,000.
@@ -4205,7 +4194,24 @@ and ErrorMessage. The GetObject response metadata is supported so that the
 WriteGetObjectResponse caller, typically an AWS Lambda function, can provide the same
 metadata when it internally invokes GetObject. When WriteGetObjectResponse is called by a
 customer-owned Lambda function, the metadata returned to the end user GetObject call might
-differ from what Amazon S3 would normally return.
+differ from what Amazon S3 would normally return. AWS provides some prebuilt Lambda
+functions that you can use with S3 Object Lambda to detect and redact personally
+identifiable information (PII) and decompress S3 objects. These Lambda functions are
+available in the AWS Serverless Application Repository, and can be selected through the AWS
+Management Console when you create your Object Lambda Access Point. Example 1: PII Access
+Control - This Lambda function uses Amazon Comprehend, a natural language processing (NLP)
+service using machine learning to find insights and relationships in text. It automatically
+detects personally identifiable information (PII) such as names, addresses, dates, credit
+card numbers, and social security numbers from documents in your Amazon S3 bucket.  Example
+2: PII Redaction - This Lambda function uses Amazon Comprehend, a natural language
+processing (NLP) service using machine learning to find insights and relationships in text.
+It automatically redacts personally identifiable information (PII) such as names,
+addresses, dates, credit card numbers, and social security numbers from documents in your
+Amazon S3 bucket.  Example 3: Decompression - The Lambda function
+S3ObjectLambdaDecompression, is equipped to decompress objects stored in S3 in one of six
+compressed file formats including bzip2, gzip, snappy, zlib, zstandard and ZIP.  For
+information on how to view and use these functions, see Using AWS built Lambda functions in
+the Amazon S3 User Guide.
 
 # Arguments
 - `x-amz-request-route`: Route prefix to the HTTP URL generated.
@@ -4219,7 +4225,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-fwd-error-code"`: A string that uniquely identifies an error condition. Returned
   in the &lt;Code&gt; tag of the error XML response for a corresponding GetObject call.
   Cannot be used with a successful StatusCode header or when the transformed object is
-  provided in the body.
+  provided in the body. All error codes from S3 are sentence-cased. Regex value is
+  \"^[A-Z][a-zA-Z]+\".
 - `"x-amz-fwd-error-message"`: Contains a generic description of the error condition.
   Returned in the &lt;Message&gt; tag of the error XML response for a corresponding GetObject
   call. Cannot be used with a successful StatusCode header or when the transformed object is

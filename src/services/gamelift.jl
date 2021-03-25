@@ -184,16 +184,17 @@ GameLift fleets can deploy instances to multiple locations, including the home R
 (where the fleet is created) and an optional set of remote locations. Fleets that are
 created in the following AWS Regions support multiple locations: us-east-1 (N. Virginia),
 us-west-2 (Oregon), eu-central-1 (Frankfurt), eu-west-1 (Ireland), ap-southeast-2 (Sydney),
-ap-northeast-1 (Tokyo), and ap-northeast-2 (Seoul). Fleets that created in other GameLift
-Regions can have instances in the fleet Region only. All instances deployed to fleet
-locations use the same configuration. To create a fleet, choose the hardware for your
-instances, specify a game server build or Realtime script to deploy, and provide a runtime
-configuration to direct GameLift how to start and run game servers on each instance in the
-fleet. Set permissions for inbound traffic to your game servers, and enable optional
-features as needed. When creating a multi-location fleet, provide a list of additional
-remote locations. If successful, this operation creates a new Fleet resource and places it
-in NEW status, which prompts GameLift to initiate the fleet creation workflow. You can
-track fleet creation by checking fleet status using DescribeFleetAttributes and
+ap-northeast-1 (Tokyo), and ap-northeast-2 (Seoul). Fleets that are created in other
+GameLift Regions can deploy instances in the fleet's home Region only. All fleet instances
+use the same configuration regardless of location; however, you can adjust capacity
+settings and turn auto-scaling on/off for each location. To create a fleet, choose the
+hardware for your instances, specify a game server build or Realtime script to deploy, and
+provide a runtime configuration to direct GameLift how to start and run game servers on
+each instance in the fleet. Set permissions for inbound traffic to your game servers, and
+enable optional features as needed. When creating a multi-location fleet, provide a list of
+additional remote locations. If successful, this operation creates a new Fleet resource and
+places it in NEW status, which prompts GameLift to initiate the fleet creation workflow.
+You can track fleet creation by checking fleet status using DescribeFleetAttributes and
 DescribeFleetLocationAttributes/, or by monitoring fleet creation events using
 DescribeFleetEvents. As soon as the fleet status changes to ACTIVE, you can enable
 automatic scaling for the fleet with PutScalingPolicy and set capacity for the home Region
@@ -523,8 +524,11 @@ the queue's destinations and locations, with the best placement locations on top
 set up the queue to use the FleetIQ default prioritization or provide an alternate set of
 priorities. To create a new queue, provide a name, timeout value, and a list of
 destinations. Optionally, specify a sort configuration and/or a filter, and define a set of
-latency cap policies. If successful, a new GameSessionQueue object is returned with an
-assigned queue ARN. New game session requests, which are submitted to queue with
+latency cap policies. You can also include the ARN for an Amazon Simple Notification
+Service (SNS) topic to receive notifications of game session placement activity.
+Notifications using SNS or CloudWatch events is the preferred way to track placement
+activity. If successful, a new GameSessionQueue object is returned with an assigned queue
+ARN. New game session requests, which are submitted to the queue with
 StartGameSessionPlacement or StartMatchmaking, reference a queue's name or ARN.   Learn
 more    Design a game session queue    Create a game session queue   Related actions
 CreateGameSessionQueue | DescribeGameSessionQueues | UpdateGameSessionQueue |
@@ -536,12 +540,16 @@ DeleteGameSessionQueue | All APIs by task
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomEventData"`:  Information to be added to all events that are related to this game
+  session queue.
 - `"Destinations"`: A list of fleets and/or fleet aliases that can be used to fulfill game
   session placement requests in the queue. Destinations are identified by either a fleet ARN
   or a fleet alias ARN, and are listed in order of placement preference.
 - `"FilterConfiguration"`: A list of locations where a queue is allowed to place new game
   sessions. Locations are specified in the form of AWS Region codes, such as us-west-2. If
   this parameter is not set, game sessions can be placed in any queue location.
+- `"NotificationTarget"`: An SNS topic ARN that is set up to receive game session placement
+  notifications. See  Setting up notifications for game session placement.
 - `"PlayerLatencyPolicies"`: A set of policies that act as a sliding cap on player latency.
   FleetIQ works to deliver low latency for most players in a game session. These policies
   ensure that no individual player can be placed into a game with unreasonably high latency.
@@ -581,8 +589,8 @@ mode (with or without GameLift hosting); a rule set that specifies how to evalua
 and find acceptable matches; whether player acceptance is required; and the maximum time
 allowed for a matchmaking attempt. When using FlexMatch with GameLift hosting, you also
 need to identify the game session queue to use when starting a game session for the match.
-In addition, you must set up an Amazon Simple Notification Service (SNS) to receive
-matchmaking notifications, and provide the topic ARN in the matchmaking configuration. An
+In addition, you must set up an Amazon Simple Notification Service (SNS) topic to receive
+matchmaking notifications. Provide the topic ARN in the matchmaking configuration. An
 alternative method, continuously polling ticket status with DescribeMatchmaking, is only
 suitable for games in development with low matchmaking usage.  Learn more    Design a
 FlexMatch matchmaker    Set up FlexMatch event notification   Related actions
@@ -644,7 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   matches that are created with this matchmaking configuration. If FlexMatchMode is set to
   STANDALONE, do not set this parameter.
 - `"NotificationTarget"`: An SNS topic ARN that is set up to receive matchmaking
-  notifications.
+  notifications. See  Setting up notifications for matchmaking for more information.
 - `"Tags"`: A list of labels to assign to the new matchmaking configuration resource. Tags
   are developer-defined key-value pairs. Tagging AWS resources are useful for resource
   management, access management and cost allocation. For more information, see  Tagging AWS
@@ -3207,6 +3215,8 @@ DeleteGameSessionQueue | All APIs by task
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomEventData"`:  Information to be added to all events that are related to this game
+  session queue.
 - `"Destinations"`: A list of fleets and/or fleet aliases that can be used to fulfill game
   session placement requests in the queue. Destinations are identified by either a fleet ARN
   or a fleet alias ARN, and are listed in order of placement preference. When updating this
@@ -3215,6 +3225,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sessions. Locations are specified in the form of AWS Region codes, such as us-west-2. If
   this parameter is not set, game sessions can be placed in any queue location. To remove an
   existing filter configuration, pass in an empty set.
+- `"NotificationTarget"`: An SNS topic ARN that is set up to receive game session placement
+  notifications. See  Setting up notifications for game session placement.
 - `"PlayerLatencyPolicies"`: A set of policies that act as a sliding cap on player latency.
   FleetIQ works to deliver low latency for most players in a game session. These policies
   ensure that no individual player can be placed into a game with unreasonably high latency.

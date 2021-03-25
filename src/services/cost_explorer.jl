@@ -45,6 +45,9 @@ Creates a new Cost Category with the requested name and rules.
 - `rules`: The Cost Category rules used to categorize costs. For more information, see
   CostCategoryRule.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DefaultValue"`:
 """
 create_cost_category_definition(Name, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config)
 create_cost_category_definition(Name, RuleVersion, Rules, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules), params)); aws_config=aws_config)
@@ -896,6 +899,9 @@ categorization for the previous months.
 - `rules`: The Expression object used to categorize costs. For more information, see
   CostCategoryRule .
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DefaultValue"`:
 """
 update_cost_category_definition(CostCategoryArn, RuleVersion, Rules; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config)
 update_cost_category_definition(CostCategoryArn, RuleVersion, Rules, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules), params)); aws_config=aws_config)

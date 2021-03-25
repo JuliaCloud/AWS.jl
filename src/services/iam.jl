@@ -237,9 +237,10 @@ create_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::Abstrac
     create_instance_profile(instance_profile_name)
     create_instance_profile(instance_profile_name, params::Dict{String,<:Any})
 
- Creates a new instance profile. For information about instance profiles, see About
-instance profiles.  For information about the number of instance profiles you can create,
-see IAM object quotas in the IAM User Guide.
+ Creates a new instance profile. For information about instance profiles, see Using roles
+for applications on Amazon EC2 in the IAM User Guide, and Instance profiles in the Amazon
+EC2 User Guide.  For information about the number of instance profiles you can create, see
+IAM object quotas in the IAM User Guide.
 
 # Arguments
 - `instance_profile_name`: The name of the instance profile to create. This parameter

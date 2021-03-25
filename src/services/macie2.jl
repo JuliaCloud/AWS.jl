@@ -394,8 +394,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"findingPublishingFrequency"`: Specifies how often to publish updates to policy findings
   for the account. This includes publishing updates to AWS Security Hub and Amazon
   EventBridge (formerly called Amazon CloudWatch Events).
-- `"status"`: Specifies the status for the account. To enable Amazon Macie and start all
-  Macie activities for the account, set this value to ENABLED.
+- `"status"`: Specifies the new status for the account. To enable Amazon Macie and start
+  all Macie activities for the account, set this value to ENABLED.
 """
 enable_macie(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 enable_macie(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -520,6 +520,16 @@ Retrieves the criteria and other settings for a findings filter.
 """
 get_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)"; aws_config=aws_config)
 get_findings_filter(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)", params; aws_config=aws_config)
+
+"""
+    get_findings_publication_configuration()
+    get_findings_publication_configuration(params::Dict{String,<:Any})
+
+Retrieves the configuration settings for publishing findings to AWS Security Hub.
+
+"""
+get_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findings-publication-configuration"; aws_config=aws_config)
+get_findings_publication_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findings-publication-configuration", params; aws_config=aws_config)
 
 """
     get_invitations_count()
@@ -756,6 +766,22 @@ put_classification_export_configuration(configuration; aws_config::AbstractAWSCo
 put_classification_export_configuration(configuration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration), params)); aws_config=aws_config)
 
 """
+    put_findings_publication_configuration()
+    put_findings_publication_configuration(params::Dict{String,<:Any})
+
+Updates the configuration settings for publishing findings to AWS Security Hub.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
+  idempotency of the request.
+- `"securityHubConfiguration"`: The configuration settings that determine which findings to
+  publish to AWS Security Hub.
+"""
+put_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/findings-publication-configuration", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+put_findings_publication_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/findings-publication-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -839,13 +865,13 @@ Changes the status of a classification job.
   actively running and you specify this value less than 30 days after you paused the job,
   Macie immediately resumes processing from the point where you paused the job. Otherwise,
   Macie resumes the job according to the schedule and other settings for the job. USER_PAUSED
-  - Pauses the job temporarily. This value is valid only if the job's current status is IDLE
-  or RUNNING. If you specify this value and the job's current status is RUNNING, Macie
-  immediately begins to pause all processing tasks for the job. If you pause a one-time job
-  and you don't resume it within 30 days, the job expires and Macie cancels the job. If you
-  pause a recurring job when its status is RUNNING and you don't resume it within 30 days,
-  the job run expires and Macie cancels the run. To check the expiration date, refer to the
-  UserPausedDetails.jobExpiresAt property.
+  - Pauses the job temporarily. This value is valid only if the job's current status is IDLE,
+  PAUSED, or RUNNING. If you specify this value and the job's current status is RUNNING,
+  Macie immediately begins to pause all processing tasks for the job. If you pause a one-time
+  job and you don't resume it within 30 days, the job expires and Macie cancels the job. If
+  you pause a recurring job when its status is RUNNING and you don't resume it within 30
+  days, the job run expires and Macie cancels the run. To check the expiration date, refer to
+  the UserPausedDetails.jobExpiresAt property.
 
 """
 update_classification_job(jobId, jobStatus; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}("jobStatus"=>jobStatus); aws_config=aws_config)
