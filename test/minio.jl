@@ -30,7 +30,13 @@ S3.put_object("anewbucket","foo/bar",Dict("body"=>"a nested object"))
 S3.put_object("anewbucket","foo/baz",Dict("body"=>"a secondnested object"))
 
 # Test retrieving an object
-@test S3.get_object("anewbucket","myobject") |> String == "Hi from Minio"
+@test S3.get_object("anewbucket", "myobject") |> String == "Hi from Minio"
+
+# Test retrieving an object into a stream target
+mktemp() do f, io
+    S3.get_object("anewbucket", "myobject", Dict("response_stream"=>io))
+    @test read(f, String) == "Hi from Minio"
+end
 
 # Test listing
 objs = S3.list_objects_v2("anewbucket")

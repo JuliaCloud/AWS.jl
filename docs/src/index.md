@@ -14,6 +14,9 @@ It includes automated code generation to ensure all new AWS services are availab
 To see an overview of the architecture see the [design document](https://github.com/JuliaCloud/AWS.jl/wiki/v1-Design-Document).
 
 ## Installation
+You will need some form of AWS credentials to use this package.
+The most simple way is to set up [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
+
 ```julia
 julia> Pkg.add("AWS")
 ```
