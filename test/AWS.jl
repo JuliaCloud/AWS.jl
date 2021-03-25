@@ -50,7 +50,7 @@ end
 
     request = Request(
         service="s3",
-        api_version="api_verison",
+        api_version="api_version",
         request_method="GET",
         headers=LittleDict(
             "Host" => "s3.us-east-1.amazonaws.com",
@@ -116,7 +116,7 @@ end
 
         request = Request(
             service="s3",
-            api_version="api_verison",
+            api_version="api_version",
             request_method="HEAD",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
@@ -133,7 +133,7 @@ end
     @testset "return stream" begin
         request = Request(
             service="s3",
-            api_version="api_verison",
+            api_version="api_version",
             request_method="GET",
             return_stream=true,
             response_stream=Base.BufferStream(),
@@ -151,7 +151,7 @@ end
     @testset "return raw" begin
         request = Request(
             service="s3",
-            api_version="api_verison",
+            api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             return_raw=true
@@ -180,7 +180,7 @@ end
     @testset "MIME" begin
         request = Request(
             service="s3",
-            api_version="api_verison",
+            api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
@@ -239,7 +239,7 @@ end
         @testset "xml" begin
             request = Request(
                 service="s3",
-                api_version="api_verison",
+                api_version="api_version",
                 request_method="GET",
                 url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             )
@@ -313,7 +313,7 @@ end
         @testset "Text" begin
             request = Request(
                 service="s3",
-                api_version="api_verison",
+                api_version="api_version",
                 request_method="GET",
                 url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             )
@@ -398,24 +398,6 @@ end
         result = AWS.generate_service_url(config, request.service, request.resource)
 
         @test result == expected_result
-    end
-end
-
-@testset "_return_headers" begin
-    @testset "key exists" begin
-        expected = true
-        dict = Dict{String, Any}("return_headers"=>true)
-        result = AWS._return_headers(dict)
-
-        @test result == expected
-        @test isempty(dict)
-    end
-
-    @testset "key dne" begin
-        expected = false
-        result = AWS._return_headers(Dict{String, Any}())
-
-        @test result == expected
     end
 end
 
@@ -745,6 +727,12 @@ end
             max_keys = 1
             result = S3.list_objects(bucket_name, Dict("max_keys" => max_keys))
             @test length([result["Contents"]]) == max_keys
+
+            # GET with an IO target
+            mktemp() do f, io
+                S3.get_object(bucket_name, file_name, Dict("response_stream" => io))
+                @test read(f, String) == body
+            end
         finally
             # DELETE with parameters operation
             S3.delete_object(bucket_name, file_name)

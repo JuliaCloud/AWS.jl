@@ -49,3 +49,25 @@ end
         @test_throws NoCredentials Lambda.list_functions(;aws_config=AWSConfig(creds=nothing))
     end
 end
+
+@testset "issue 324" begin
+    body = "Hello World!"
+    file_name = "streaming.bin"
+
+    try
+        S3.create_bucket(bucket_name)
+        S3.put_object(bucket_name, file_name, Dict("body" => body))
+        resp = S3.get_object(bucket_name, file_name)
+        @test String(resp) == body
+
+        # ERROR: MethodError: no method matching iterate(::Base.BufferStream)
+        #   => BUG: header `response_stream` is pushed into the query...
+        io = Base.BufferStream()
+        S3.get_object(bucket_name, file_name, Dict("response_stream"=>io, "return_stream"=>true))
+        @test String(read(io)) == body
+
+    finally
+        S3.delete_object(bucket_name, file_name)
+        S3.delete_bucket(bucket_name)
+    end
+end
