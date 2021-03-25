@@ -140,6 +140,30 @@ create_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
 create_tags(ResourceId, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
+    create_workspace_bundle(bundle_description, bundle_name, compute_type, image_id, user_storage)
+    create_workspace_bundle(bundle_description, bundle_name, compute_type, image_id, user_storage, params::Dict{String,<:Any})
+
+Creates the specified WorkSpace bundle. For more information about creating WorkSpace
+bundles, see  Create a Custom WorkSpaces Image and Bundle.
+
+# Arguments
+- `bundle_description`: The description of the bundle.
+- `bundle_name`: The name of the bundle.
+- `compute_type`:
+- `image_id`: The identifier of the image that is used to create the bundle.
+- `user_storage`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RootStorage"`:
+- `"Tags"`: The tags associated with the bundle.  To add tags at the same time that you're
+  creating the bundle, you must create an IAM policy that grants your IAM user permissions to
+  use workspaces:CreateTags.
+"""
+create_workspace_bundle(BundleDescription, BundleName, ComputeType, ImageId, UserStorage; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateWorkspaceBundle", Dict{String, Any}("BundleDescription"=>BundleDescription, "BundleName"=>BundleName, "ComputeType"=>ComputeType, "ImageId"=>ImageId, "UserStorage"=>UserStorage); aws_config=aws_config)
+create_workspace_bundle(BundleDescription, BundleName, ComputeType, ImageId, UserStorage, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateWorkspaceBundle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleDescription"=>BundleDescription, "BundleName"=>BundleName, "ComputeType"=>ComputeType, "ImageId"=>ImageId, "UserStorage"=>UserStorage), params)); aws_config=aws_config)
+
+"""
     create_workspaces(workspaces)
     create_workspaces(workspaces, params::Dict{String,<:Any})
 
@@ -203,6 +227,20 @@ Deletes the specified tags from the specified WorkSpaces resource.
 """
 delete_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws_config=aws_config)
 delete_tags(ResourceId, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    delete_workspace_bundle()
+    delete_workspace_bundle(params::Dict{String,<:Any})
+
+Deletes the specified WorkSpace bundle. For more information about deleting WorkSpace
+bundles, see  Delete a Custom WorkSpaces Bundle or Image.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BundleId"`: The identifier of the bundle.
+"""
+delete_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteWorkspaceBundle"; aws_config=aws_config)
+delete_workspace_bundle(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteWorkspaceBundle", params; aws_config=aws_config)
 
 """
     delete_workspace_image(image_id)
@@ -365,8 +403,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. (You received this token from a
   previous call.)
 - `"Owner"`: The owner of the bundles. You cannot combine this parameter with any other
-  filter. Specify AMAZON to describe the bundles provided by AWS or null to describe the
-  bundles that belong to your account.
+  filter. To describe the bundles provided by AWS, specify AMAZON. To describe the bundles
+  that belong to your account, don't specify a value.
 """
 describe_workspace_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceBundles"; aws_config=aws_config)
 describe_workspace_bundles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceBundles", params; aws_config=aws_config)
@@ -897,6 +935,24 @@ rules.
 """
 update_rules_of_ip_group(GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateRulesOfIpGroup", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws_config=aws_config)
 update_rules_of_ip_group(GroupId, UserRules, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateRulesOfIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), params)); aws_config=aws_config)
+
+"""
+    update_workspace_bundle()
+    update_workspace_bundle(params::Dict{String,<:Any})
+
+Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace
+bundles, see  Update a Custom WorkSpaces Bundle.  Existing WorkSpaces aren't automatically
+updated when you update the bundle that they're based on. To update existing WorkSpaces
+that are based on a bundle that you've updated, you must either rebuild the WorkSpaces or
+delete and recreate them.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BundleId"`: The identifier of the bundle.
+- `"ImageId"`: The identifier of the image.
+"""
+update_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateWorkspaceBundle"; aws_config=aws_config)
+update_workspace_bundle(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateWorkspaceBundle", params; aws_config=aws_config)
 
 """
     update_workspace_image_permission(allow_copy_image, image_id, shared_account_id)

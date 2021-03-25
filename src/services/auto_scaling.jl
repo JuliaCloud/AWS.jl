@@ -109,8 +109,8 @@ batch_put_scheduled_update_group_action(AutoScalingGroupName, ScheduledUpdateGro
 
 Cancels an instance refresh operation in progress. Cancellation does not roll back any
 replacements that have already been completed, but it prevents new replacements from being
-started.  For more information, see Replacing Auto Scaling Instances Based on an Instance
-Refresh.
+started.  For more information, see Replacing Auto Scaling instances based on an instance
+refresh in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -602,7 +602,8 @@ failed to complete. You can troubleshoot using the status reason and the scaling
 activities.     Cancelling - An ongoing operation is being cancelled. Cancellation does not
 roll back any replacements that have already been completed, but it prevents new
 replacements from being started.     Cancelled - The operation is cancelled.    For more
-information, see Replacing Auto Scaling Instances Based on an Instance Refresh.
+information, see Replacing Auto Scaling instances based on an instance refresh in the
+Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1349,8 +1350,8 @@ successful, this call creates a new instance refresh request with a unique ID th
 use to track its progress. To query its status, call the DescribeInstanceRefreshes API. To
 describe the instance refreshes that have already run, call the DescribeInstanceRefreshes
 API. To cancel an instance refresh operation in progress, use the CancelInstanceRefresh
-API.  For more information, see Replacing Auto Scaling Instances Based on an Instance
-Refresh.
+API.  For more information, see Replacing Auto Scaling instances based on an instance
+refresh in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.

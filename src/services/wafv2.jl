@@ -67,7 +67,7 @@ lists those IP addresses.
 # Arguments
 - `addresses`: Contains an array of strings that specify one or more IP addresses or blocks
   of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all
-  address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow,
+  IPv4 and IPv6 CIDR ranges except for /0.  Examples:    To configure AWS WAF to allow,
   block, or count requests that originated from the IP address 192.0.2.44, specify
   192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated
   from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS
@@ -907,12 +907,16 @@ untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_co
     update_ipset(addresses, id, lock_token, name, scope)
     update_ipset(addresses, id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Updates the specified IPSet.
+Updates the specified IPSet.   This operation completely replaces any IP address
+specifications that you already have in the IP set with the ones that you provide to this
+call. If you want to add to or modify the addresses that are already in the IP set,
+retrieve those by calling GetIPSet, update them, and provide the complete updated array of
+IP addresses to this call.
 
 # Arguments
 - `addresses`: Contains an array of strings that specify one or more IP addresses or blocks
   of IP addresses in Classless Inter-Domain Routing (CIDR) notation. AWS WAF supports all
-  address ranges for IP versions IPv4 and IPv6.  Examples:    To configure AWS WAF to allow,
+  IPv4 and IPv6 CIDR ranges except for /0.  Examples:    To configure AWS WAF to allow,
   block, or count requests that originated from the IP address 192.0.2.44, specify
   192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated
   from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure AWS
