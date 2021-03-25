@@ -1206,7 +1206,7 @@ list_query_logging_configs(params::AbstractDict{String, Any}; aws_config::Abstra
     list_resource_record_sets(id, params::Dict{String,<:Any})
 
 Lists the resource record sets in a specified hosted zone.  ListResourceRecordSets returns
-up to 100 resource record sets at a time in ASCII order, beginning at a position specified
+up to 300 resource record sets at a time in ASCII order, beginning at a position specified
 by the name and type elements.  Sort order   ListResourceRecordSets sorts results first by
 DNS name with the labels reversed, for example:  com.example.www.  Note the trailing dot,
 which can change the sort order when the record name contains characters that appear before

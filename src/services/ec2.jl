@@ -5690,26 +5690,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available from all local instance storage, in GB.    instance-storage-supported - Indicates
   whether the instance type has local instance storage (true | false).    instance-type - The
   instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory
-  size.    network-info.efa-supported - Indicates whether the instance type supports Elastic
-  Fabric Adapter (EFA) (true | false).    network-info.ena-support - Indicates whether
-  Elastic Network Adapter (ENA) is supported or required (required | supported |
-  unsupported).    network-info.ipv4-addresses-per-interface - The maximum number of private
-  IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The
-  maximum number of private IPv6 addresses per network interface.
-  network-info.ipv6-supported - Indicates whether the instance type supports IPv6 (true |
-  false).    network-info.maximum-network-interfaces - The maximum number of network
-  interfaces per instance.    network-info.network-performance - The network performance (for
-  example, \"25 Gigabit\").    processor-info.supported-architecture - The CPU architecture
-  (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock
-  speed, in GHz.    supported-root-device-type - The root device type (ebs | instance-store).
-     supported-usage-class - The usage class (on-demand | spot).
-  supported-virtualization-type - The virtualization type (hvm | paravirtual).
-  vcpu-info.default-cores - The default number of cores for the instance type.
-  vcpu-info.default-threads-per-core - The default number of threads per core for the
-  instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance
-  type.    vcpu-info.valid-cores - The number of cores that can be configured for the
-  instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that
-  can be configured for the instance type. For example, \"1\" or \"1,2\".
+  size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic
+  Fabric Adapters (EFAs) per instance. (true | false).    network-info.efa-supported -
+  Indicates whether the instance type supports Elastic Fabric Adapter (EFA) (true | false).
+   network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or
+  required (required | supported | unsupported).    network-info.ipv4-addresses-per-interface
+  - The maximum number of private IPv4 addresses per network interface.
+  network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses
+  per network interface.    network-info.ipv6-supported - Indicates whether the instance type
+  supports IPv6 (true | false).    network-info.maximum-network-interfaces - The maximum
+  number of network interfaces per instance.    network-info.network-performance - The
+  network performance (for example, \"25 Gigabit\").    processor-info.supported-architecture
+  - The CPU architecture (arm64 | i386 | x86_64).
+  processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.
+  supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type -
+  The root device type (ebs | instance-store).    supported-usage-class - The usage class
+  (on-demand | spot).    supported-virtualization-type - The virtualization type (hvm |
+  paravirtual).    vcpu-info.default-cores - The default number of cores for the instance
+  type.    vcpu-info.default-threads-per-core - The default number of threads per core for
+  the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the
+  instance type.    vcpu-info.valid-cores - The number of cores that can be configured for
+  the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core
+  that can be configured for the instance type. For example, \"1\" or \"1,2\".
 - `"InstanceType"`: The instance types. For more information, see Instance types in the
   Amazon EC2 User Guide.
 - `"MaxResults"`: The maximum number of results to return for the request in a single page.
@@ -5817,40 +5819,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enabled, and false means that checking is disabled. The value must be false for the network
   interface to perform network address translation (NAT) in your VPC.
   network-interface.subnet-id - The ID of the subnet for the network interface.
-  network-interface.vpc-id - The ID of the VPC for the network interface.    owner-id - The
-  AWS account ID of the instance owner.    placement-group-name - The name of the placement
-  group for the instance.    placement-partition-number - The partition in which the instance
-  is located.    platform - The platform. To list only Windows instances, use windows.
-  private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The
-  private IPv4 address of the instance.    product-code - The product code associated with
-  the AMI used to launch the instance.    product-code.type - The type of product code
-  (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the
-  current state of the instance (for example, shows \"User Initiated [date]\" when you stop
-  or terminate the instance). Similar to the state-reason-code filter.    requester-id - The
-  ID of the entity that launched the instance on your behalf (for example, AWS Management
-  Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's
-  reservation. A reservation ID is created any time you launch an instance. A reservation ID
-  has a one-to-one relationship with an instance launch request, but can be associated with
-  more than one instance if you launch multiple instances using the same launch request. For
-  example, if you launch one instance, you get one reservation ID. If you launch ten
-  instances using the same launch request, you also get one reservation ID.
-  root-device-name - The device name of the root device volume (for example, /dev/sda1).
-  root-device-type - The type of the root device volume (ebs | instance-store).
-  source-dest-check - Indicates whether the instance performs source/destination checking. A
-  value of true means that checking is enabled, and false means that checking is disabled.
-  The value must be false for the instance to perform network address translation (NAT) in
-  your VPC.     spot-instance-request-id - The ID of the Spot Instance request.
-  state-reason-code - The reason code for the state change.    state-reason-message - A
-  message that describes the state change.    subnet-id - The ID of the subnet for the
-  instance.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource.
-  Use the tag key in the filter name and the tag value as the filter value. For example, to
-  find all resources that have a tag with the key Owner and the value TeamA, specify
-  tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag
-  assigned to the resource. Use this filter to find all resources that have a tag with a
-  specific key, regardless of the tag value.    tenancy - The tenancy of an instance
-  (dedicated | default | host).    virtualization-type - The virtualization type of the
-  instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running
-  in.
+  network-interface.vpc-id - The ID of the VPC for the network interface.    outpost-arn -
+  The Amazon Resource Name (ARN) of the Outpost.    owner-id - The AWS account ID of the
+  instance owner.    placement-group-name - The name of the placement group for the instance.
+     placement-partition-number - The partition in which the instance is located.    platform
+  - The platform. To list only Windows instances, use windows.    private-dns-name - The
+  private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of
+  the instance.    product-code - The product code associated with the AMI used to launch the
+  instance.    product-code.type - The type of product code (devpay | marketplace).
+  ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance
+  (for example, shows \"User Initiated [date]\" when you stop or terminate the instance).
+  Similar to the state-reason-code filter.    requester-id - The ID of the entity that
+  launched the instance on your behalf (for example, AWS Management Console, Auto Scaling,
+  and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is
+  created any time you launch an instance. A reservation ID has a one-to-one relationship
+  with an instance launch request, but can be associated with more than one instance if you
+  launch multiple instances using the same launch request. For example, if you launch one
+  instance, you get one reservation ID. If you launch ten instances using the same launch
+  request, you also get one reservation ID.    root-device-name - The device name of the root
+  device volume (for example, /dev/sda1).    root-device-type - The type of the root device
+  volume (ebs | instance-store).    source-dest-check - Indicates whether the instance
+  performs source/destination checking. A value of true means that checking is enabled, and
+  false means that checking is disabled. The value must be false for the instance to perform
+  network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the
+  Spot Instance request.    state-reason-code - The reason code for the state change.
+  state-reason-message - A message that describes the state change.    subnet-id - The ID of
+  the subnet for the instance.    tag:&lt;key&gt; - The key/value combination of a tag
+  assigned to the resource. Use the tag key in the filter name and the tag value as the
+  filter value. For example, to find all resources that have a tag with the key Owner and the
+  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
+  that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy
+  of an instance (dedicated | default | host).    virtualization-type - The virtualization
+  type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance
+  is running in.
 - `"InstanceId"`: The instance IDs. Default: Describes all your instances.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -9955,9 +9957,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupId"`: [EC2-VPC] Changes the security groups of the instance. You must specify at
   least one security group, even if it's just the default security group for the VPC. You
   must specify the security group ID, not the security group name.
-- `"SourceDestCheck"`: Specifies whether source/destination checking is enabled. A value of
-  true means that checking is enabled, and false means that checking is disabled. This value
-  must be false for a NAT instance to perform NAT.
+- `"SourceDestCheck"`: Enable or disable source/destination checks, which ensure that the
+  instance is either the source or the destination of any traffic that it receives. If the
+  value is true, source/destination checks are enabled; otherwise, they are disabled. The
+  default value is true. You must disable source/destination checks if the instance runs
+  services such as network address translation, routing, or firewalls.
 - `"attribute"`: The name of the attribute.
 - `"blockDeviceMapping"`: Modifies the DeleteOnTermination attribute for volumes that are
   currently attached. The volume must be owned by the caller. If no value is specified for
@@ -11150,6 +11154,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Region of that Outpost. AMIs on an Outpost that include local snapshots can be used
   to launch instances on the same Outpost only. For more information,  Amazon EBS local
   snapshots on Outposts in the Amazon Elastic Compute Cloud User Guide.
+- `"BootMode"`: The boot mode of the AMI. For more information, see Boot modes in the
+  Amazon Elastic Compute Cloud User Guide.
 - `"ImageLocation"`: The full path to your AMI manifest in Amazon S3 storage. The specified
   bucket must have the aws-exec-read canned access control list (ACL) to ensure that it can
   be accessed by Amazon EC2. For more information, see Canned ACLs in the Amazon S3 Service

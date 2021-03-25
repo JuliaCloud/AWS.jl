@@ -23,6 +23,28 @@ apply_archive_rule(analyzerArn, ruleName; aws_config::AbstractAWSConfig=global_a
 apply_archive_rule(analyzerArn, ruleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
+    create_access_preview(analyzer_arn, configurations)
+    create_access_preview(analyzer_arn, configurations, params::Dict{String,<:Any})
+
+Creates an access preview that allows you to preview Access Analyzer findings for your
+resource before deploying resource permissions.
+
+# Arguments
+- `analyzer_arn`: The ARN of the account analyzer used to generate the access preview. You
+  can only create an access preview for analyzers with an Account type and Active status.
+- `configurations`: Access control configuration for your resource that is used to generate
+  the access preview. The access preview includes findings for external access allowed to the
+  resource with the proposed access control configuration. The configuration must contain
+  exactly one element.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A client token.
+"""
+create_access_preview(analyzerArn, configurations; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/access-preview", Dict{String, Any}("analyzerArn"=>analyzerArn, "configurations"=>configurations, "clientToken"=>string(uuid4())); aws_config=aws_config)
+create_access_preview(analyzerArn, configurations, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "configurations"=>configurations, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
     create_analyzer(analyzer_name, type)
     create_analyzer(analyzer_name, type, params::Dict{String,<:Any})
 
@@ -49,7 +71,9 @@ create_analyzer(analyzerName, type, params::AbstractDict{String, <:Any}; aws_con
     create_archive_rule(analyzer_name, filter, rule_name, params::Dict{String,<:Any})
 
 Creates an archive rule for the specified analyzer. Archive rules automatically archive new
-findings that meet the criteria you define when you create the rule.
+findings that meet the criteria you define when you create the rule. To learn about filter
+keys that you can use to create an archive rule, see Access Analyzer filter keys in the IAM
+User Guide.
 
 # Arguments
 - `analyzer_name`: The name of the created analyzer.
@@ -97,6 +121,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 delete_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 delete_archive_rule(analyzerName, ruleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
+    get_access_preview(access_preview_id, analyzer_arn)
+    get_access_preview(access_preview_id, analyzer_arn, params::Dict{String,<:Any})
+
+Retrieves information about an access preview for the specified analyzer.
+
+# Arguments
+- `access_preview_id`: The unique ID for the access preview.
+- `analyzer_arn`: The ARN of the analyzer used to generate the access preview.
+
+"""
+get_access_preview(accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview/$(accessPreviewId)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
+get_access_preview(accessPreviewId, analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
     get_analyzed_resource(analyzer_arn, resource_arn)
@@ -155,6 +193,42 @@ get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config()) 
 get_finding(analyzerArn, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
+    list_access_preview_findings(access_preview_id, analyzer_arn)
+    list_access_preview_findings(access_preview_id, analyzer_arn, params::Dict{String,<:Any})
+
+Retrieves a list of access preview findings generated by the specified access preview.
+
+# Arguments
+- `access_preview_id`: The unique ID for the access preview.
+- `analyzer_arn`: The ARN of the analyzer used to generate the access.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: Criteria to filter the returned findings.
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned.
+"""
+list_access_preview_findings(accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/access-preview/$(accessPreviewId)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
+list_access_preview_findings(accessPreviewId, analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
+
+"""
+    list_access_previews(analyzer_arn)
+    list_access_previews(analyzer_arn, params::Dict{String,<:Any})
+
+Retrieves a list of access previews for the specified analyzer.
+
+# Arguments
+- `analyzer_arn`: The ARN of the analyzer used to generate the access preview.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned.
+"""
+list_access_previews(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
+list_access_previews(analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
+
+"""
     list_analyzed_resources(analyzer_arn)
     list_analyzed_resources(analyzer_arn, params::Dict{String,<:Any})
 
@@ -210,8 +284,8 @@ list_archive_rules(analyzerName, params::AbstractDict{String, <:Any}; aws_config
     list_findings(analyzer_arn, params::Dict{String,<:Any})
 
 Retrieves a list of findings generated by the specified analyzer. To learn about filter
-keys that you can use to create an archive rule, see Access Analyzer filter keys in the IAM
-User Guide.
+keys that you can use to retrieve a list of findings, see Access Analyzer filter keys in
+the IAM User Guide.
 
 # Arguments
 - `analyzer_arn`: The ARN of the analyzer to retrieve findings from.
@@ -321,3 +395,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_findings(analyzerArn, status; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())); aws_config=aws_config)
 update_findings(analyzerArn, status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
+    validate_policy(policy_document, policy_type)
+    validate_policy(policy_document, policy_type, params::Dict{String,<:Any})
+
+Requests the validation of a policy and returns a list of findings. The findings help you
+identify issues and provide actionable recommendations to resolve the issue and enable you
+to author functional policies that meet security best practices.
+
+# Arguments
+- `policy_document`: The JSON policy document to use as the content for the policy.
+- `policy_type`: The type of policy to validate. Identity policies grant permissions to IAM
+  principals. Identity policies include managed and inline policies for IAM roles, users, and
+  groups. They also include service-control policies (SCPs) that are attached to an AWS
+  organization, organizational unit (OU), or an account. Resource policies grant permissions
+  on AWS resources. Resource policies include trust policies for IAM roles and bucket
+  policies for S3 buckets. You can provide a generic input such as identity policy or
+  resource policy or a specific input such as managed policy or S3 bucket policy.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"locale"`: The locale to use for localizing the findings.
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned.
+"""
+validate_policy(policyDocument, policyType; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType); aws_config=aws_config)
+validate_policy(policyDocument, policyType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType), params)); aws_config=aws_config)

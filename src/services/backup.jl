@@ -167,7 +167,9 @@ delete_backup_vault_notifications(backupVaultName, params::AbstractDict{String, 
     delete_recovery_point(backup_vault_name, recovery_point_arn)
     delete_recovery_point(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
 
-Deletes the recovery point specified by a recovery point ID.
+Deletes the recovery point specified by a recovery point ID. If the recovery point ID
+belongs to a continuous backup, calling this endpoint deletes the existing continuous
+backup and stops future continuous backup.
 
 # Arguments
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup
@@ -295,6 +297,24 @@ describe_restore_job(restoreJobId; aws_config::AbstractAWSConfig=global_aws_conf
 describe_restore_job(restoreJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/$(restoreJobId)", params; aws_config=aws_config)
 
 """
+    disassociate_recovery_point(backup_vault_name, recovery_point_arn)
+    disassociate_recovery_point(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
+
+Deletes the specified continuous backup recovery point from AWS Backup and releases control
+of that continuous backup to the source service, such as Amazon RDS. The source service
+will continue to create and retain continuous backups using the lifecycle that you
+specified in your original backup plan. Does not support snapshot backup recovery points.
+
+# Arguments
+- `backup_vault_name`: The unique name of an AWS Backup vault. Required.
+- `recovery_point_arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS
+  Backup recovery point. Required.
+
+"""
+disassociate_recovery_point(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate"; aws_config=aws_config)
+disassociate_recovery_point(backupVaultName, recoveryPointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate", params; aws_config=aws_config)
+
+"""
     export_backup_plan_template(backup_plan_id)
     export_backup_plan_template(backup_plan_id, params::Dict{String,<:Any})
 
@@ -311,8 +331,8 @@ export_backup_plan_template(backupPlanId, params::AbstractDict{String, <:Any}; a
     get_backup_plan(backup_plan_id)
     get_backup_plan(backup_plan_id, params::Dict{String,<:Any})
 
-Returns BackupPlan details for the specified BackupPlanId. Returns the body of a backup
-plan in JSON format, in addition to plan metadata.
+Returns BackupPlan details for the specified BackupPlanId. The details are the body of a
+backup plan in JSON format, in addition to plan metadata.
 
 # Arguments
 - `backup_plan_id`: Uniquely identifies a backup plan.
@@ -429,7 +449,8 @@ get_supported_resource_types(params::AbstractDict{String, Any}; aws_config::Abst
     list_backup_jobs()
     list_backup_jobs(params::Dict{String,<:Any})
 
-Returns a list of existing backup jobs for an authenticated account.
+Returns a list of existing backup jobs for an authenticated account for the last 30 days.
+For a longer period of time, consider using these monitoring tools.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -779,7 +800,8 @@ start_backup_job(BackupVaultName, IamRoleArn, ResourceArn, params::AbstractDict{
     start_copy_job(destination_backup_vault_arn, iam_role_arn, recovery_point_arn, source_backup_vault_name)
     start_copy_job(destination_backup_vault_arn, iam_role_arn, recovery_point_arn, source_backup_vault_name, params::Dict{String,<:Any})
 
-Starts a job to create a one-time copy of the specified resource.
+Starts a job to create a one-time copy of the specified resource. Does not support
+continuous backups.
 
 # Arguments
 - `destination_backup_vault_arn`: An Amazon Resource Name (ARN) that uniquely identifies a
@@ -930,12 +952,13 @@ update_global_settings(params::AbstractDict{String, Any}; aws_config::AbstractAW
 
 Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected
 resource is transitioned to cold storage and when it expires. AWS Backup transitions and
-expires backups automatically according to the lifecycle that you define.  Backups
+expires backups automatically according to the lifecycle that you define. Backups
 transitioned to cold storage must be stored in cold storage for a minimum of 90 days.
 Therefore, the “expire after days” setting must be 90 days greater than the
 “transition to cold after days” setting. The “transition to cold after days”
-setting cannot be changed after a backup has been transitioned to cold.  Only Amazon EFS
-file system backups can be transitioned to cold storage.
+setting cannot be changed after a backup has been transitioned to cold. Only Amazon EFS
+file system backups can be transitioned to cold storage. Does not support continuous
+backups.
 
 # Arguments
 - `backup_vault_name`: The name of a logical container where backups are stored. Backup

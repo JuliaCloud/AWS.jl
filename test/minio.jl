@@ -30,11 +30,23 @@ S3.put_object("anewbucket","foo/bar",Dict("body"=>"a nested object"))
 S3.put_object("anewbucket","foo/baz",Dict("body"=>"a secondnested object"))
 
 # Test retrieving an object
-@test S3.get_object("anewbucket","myobject") |> String == "Hi from Minio"
+@test S3.get_object("anewbucket", "myobject") |> String == "Hi from Minio"
+
+# Test retrieving an object into a stream target
+mktemp() do f, io
+    S3.get_object("anewbucket", "myobject", Dict("response_stream"=>io))
+    @test read(f, String) == "Hi from Minio"
+end
 
 # Test listing
 objs = S3.list_objects_v2("anewbucket")
 @test length(objs["Contents"]) == 4
+
+# Test api version 2 of list-objects
+objs_truncated = S3.list_objects_v2("anewbucket", Dict("max-keys"=>2))
+@test length(objs_truncated["Contents"]) == 2
+@test objs_truncated["IsTruncated"] == "true"
+@test haskey(objs_truncated,"NextContinuationToken")
 
 # Test listing with prefixes
 objs_prefix = S3.list_objects_v2("anewbucket", Dict("prefix"=>"", "delimiter"=>"/"))

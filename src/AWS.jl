@@ -11,6 +11,7 @@ using Retry
 using Sockets
 using UUIDs: UUIDs
 using XMLDict
+import URIs
 
 export @service
 export _merge, AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
@@ -161,12 +162,37 @@ Base.@kwdef mutable struct Request
     url::String=""
 
     return_stream::Bool=false
-    response_stream::Union{Base.BufferStream, Nothing}=nothing
+    response_stream::Union{<:IO, Nothing}=nothing
     http_options::Array{String}=[]
     return_raw::Bool=false
     response_dict_type::Type{<:AbstractDict}=LittleDict
 end
 
+# use this until the threed arg pop! is available for LittleDict
+# https://github.com/JuliaCollections/OrderedCollections.jl/pull/59
+function _pop!(dict::AbstractDict{String, <: Any},kw,default)
+    if haskey(dict,kw)
+        val = dict[kw]
+        delete!(dict,kw)
+
+        return val
+    else
+        return default
+    end
+end
+
+function _extract_common_kw_args(service, args)
+    return (
+        service=service.name,
+        api_version=service.api_version,
+        return_stream=_pop!(args, "return_stream", false),
+        return_raw=_pop!(args, "return_raw", false),
+        response_stream=_pop!(args, "response_stream", nothing),
+        headers=LittleDict{String, String}(_pop!(args, "headers", [])),
+        http_options=_pop!(args, "http_options", []),
+        response_dict_type=_pop!(args, "response_dict_type", LittleDict),
+    )
+end
 # Needs to be included after the definition of struct otherwise it cannot find them
 include("AWSServices.jl")
 
@@ -464,16 +490,6 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
     return request_uri
 end
 
-function _return_headers(args::AbstractDict{String, <:Any})
-    return_headers = get(args, "return_headers", false)
-
-    if return_headers
-        delete!(args, "return_headers")
-    end
-
-    return return_headers
-end
-
 function _flatten_query(service::String, query::AbstractDict{String, <: Any})
     return _flatten_query!(Pair{String, String}[], service, query)
 end
@@ -502,6 +518,39 @@ function _flatten_query!(result::Vector{Pair{String, String}}, service::String, 
 end
 
 """
+    _clean_s3_uri(uri::AbstractString)
+
+Escape special AWS S3 characters in the path of the uri properly.
+
+AWS S3 allows for various special characters in file names, these characters are not being
+properly escaped before we make the requests.
+
+We cannot call `HTTP.escapeuri(request.uri)` because this will escape `/` characters which
+are used in the filepathing for sub-directories.
+
+# Arguments
+- `uri::AbstractString`: URI to to cleaned
+
+# Returns
+- `String`: URI with characters escaped
+"""
+function _clean_s3_uri(uri::AbstractString)
+    chars_to_clean = (
+        ' ' => "%20",
+        '!' => "%21",
+        ''' => "%27",
+        '(' => "%28",
+        ')' => "%29",
+        '*' => "%2A",
+        '+' => "%2B",
+        '=' => "%3D",
+    )
+    parsed_uri = URIs.URI(uri)
+    cleaned_path = reduce(replace, chars_to_clean, init=parsed_uri.path)
+    return string(URIs.URI(parsed_uri; path=cleaned_path))
+end
+
+"""
     (service::RestXMLService)(
         request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
         aws::AbstractAWSConfig=aws_config
@@ -524,56 +573,13 @@ function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    """
-        _clean_s3_uri(uri::AbstractString)
+    return_headers = _pop!(args, "return_headers", false)
 
-    Escape special AWS S3 characters properly.
-
-    AWS S3 allows for various special characters in file names, these characters are not being
-    properly escaped before we make the requests.
-
-    We cannot call `HTTP.escapeuri(request.uri)` because this will escape `/` characters which
-    are used in the filepathing for sub-directories.
-
-    # Arguments
-    - `uri::AbstractString`: URI to to cleaned
-
-    # Returns
-    - `String`: URI with characters escaped
-    """
-    function _clean_s3_uri(uri::AbstractString)
-        chars_to_clean = (
-            ' ' => "%20",
-            '!' => "%21",
-            ''' => "%27",
-            '(' => "%28",
-            ')' => "%29",
-            '*' => "%2A",
-            '+' => "%2B",
-            '=' => "%3D",
-        )
-        return reduce(replace, chars_to_clean, init=uri)
-    end
-
-    request = Request(
-        service=service.name,
-        api_version=service.api_version,
+    request = Request(;
+        _extract_common_kw_args(service, args)...,
         request_method=request_method,
-        content=get(args, "body", ""),
-        headers=LittleDict{String, String}(get(args, "headers", [])),
-        return_stream=get(args, "return_stream", false),
-        http_options=get(args, "http_options", []),
-        response_stream=get(args, "response_stream", nothing),
-        return_raw=get(args, "return_raw", false),
+        content=_pop!(args, "body", ""),
     )
-
-    if haskey(args, "response_dict_type")
-        request.response_dict_type = pop!(args, "response_dict_type")
-    end
-
-    delete!(args, "headers")
-    delete!(args, "body")
-    return_headers = _return_headers(args)
 
     if request.service == "s3"
         request_uri = _clean_s3_uri(request_uri)
@@ -618,24 +624,14 @@ function (service::QueryService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
-    return_headers = _return_headers(args)
+    return_headers = _pop!(args, "return_headers", false)
 
-    request = Request(
-        service=service.name,
-        api_version=service.api_version,
+    request = Request(;
+        _extract_common_kw_args(service, args)...,
         resource=POST_RESOURCE,
         request_method="POST",
-        headers=LittleDict{String, String}(get(args, "headers", [])),
         url=generate_service_url(aws_config, service.name, POST_RESOURCE),
-        return_stream=get(args, "return_stream", false),
-        http_options=get(args, "http_options", []),
-        response_stream=get(args, "response_stream", nothing),
-        return_raw=get(args, "return_raw", false),
     )
-
-    if haskey(args, "response_dict_type")
-        request.response_dict_type = pop!(args, "response_dict_type")
-    end
 
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
@@ -669,25 +665,15 @@ function (service::JSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
-    return_headers = _return_headers(args)
+    return_headers = _pop!(args, "return_headers", false)
 
-    request = Request(
-        service=service.name,
-        api_version=service.api_version,
+    request = Request(;
+        _extract_common_kw_args(service,args)...,
         resource=POST_RESOURCE,
         request_method="POST",
-        headers=LittleDict{String, String}(get(args, "headers", [])),
         content=json(args),
         url=generate_service_url(aws_config, service.name, POST_RESOURCE),
-        return_stream=get(args, "return_stream", false),
-        http_options=get(args, "http_options", []),
-        response_stream=get(args, "response_stream", nothing),
-        return_raw=get(args, "return_raw", false),
     )
-
-    if haskey(args, "response_dict_type")
-        request.response_dict_type = pop!(args, "response_dict_type")
-    end
 
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
@@ -718,23 +704,13 @@ function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
-    return_headers = _return_headers(args)
+    return_headers = _pop!(args, "return_headers", false)
 
-    request = Request(
-        service=service.name,
-        api_version=service.api_version,
+    request = Request(;
+        _extract_common_kw_args(service, args)...,
         request_method=request_method,
-        headers=LittleDict{String, String}(get(args, "headers", [])),
         resource=_generate_rest_resource(request_uri, args),
-        return_stream=get(args, "return_stream", false),
-        http_options=get(args, "http_options", []),
-        response_stream=get(args, "response_stream", nothing),
-        return_raw=get(args, "return_raw", false),
     )
-
-    if haskey(args, "response_dict_type")
-        request.response_dict_type = pop!(args, "response_dict_type")
-    end
 
     request.url = generate_service_url(aws_config, request.service, request.resource)
 
@@ -743,7 +719,6 @@ function (service::RestJSONService)(
     end
 
     request.headers["Content-Type"] = "application/json"
-    delete!(args, "headers")
     request.content = json(args)
 
     return submit_request(aws_config, request; return_headers=return_headers)

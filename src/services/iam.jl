@@ -75,8 +75,9 @@ add_user_to_group(GroupName, UserName, params::AbstractDict{String, <:Any}; aws_
 
 Attaches the specified managed policy to the specified IAM group. You use this operation to
 attach a managed policy to a group. To embed an inline policy in a group, use
-PutGroupPolicy. For more information about policies, see Managed policies and inline
-policies in the IAM User Guide.
+PutGroupPolicy. As a best practice, you can validate your IAM policies. To learn more, see
+Validating IAM policies in the IAM User Guide. For more information about policies, see
+Managed policies and inline policies in the IAM User Guide.
 
 # Arguments
 - `group_name`: The name (friendly name, not ARN) of the group to attach the policy to.
@@ -100,7 +101,9 @@ policy to a role, the managed policy becomes part of the role's permission (acce
 created at the same time as the role, using CreateRole. You can update a role's trust
 policy using UpdateAssumeRolePolicy.  Use this operation to attach a managed policy to a
 role. To embed an inline policy in a role, use PutRolePolicy. For more information about
-policies, see Managed policies and inline policies in the IAM User Guide.
+policies, see Managed policies and inline policies in the IAM User Guide. As a best
+practice, you can validate your IAM policies. To learn more, see Validating IAM policies in
+the IAM User Guide.
 
 # Arguments
 - `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For
@@ -120,8 +123,9 @@ attach_role_policy(PolicyArn, RoleName, params::AbstractDict{String, <:Any}; aws
 
 Attaches the specified managed policy to the specified user. You use this operation to
 attach a managed policy to a user. To embed an inline policy in a user, use PutUserPolicy.
-For more information about policies, see Managed policies and inline policies in the IAM
-User Guide.
+As a best practice, you can validate your IAM policies. To learn more, see Validating IAM
+policies in the IAM User Guide. For more information about policies, see Managed policies
+and inline policies in the IAM User Guide.
 
 # Arguments
 - `policy_arn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For
@@ -233,9 +237,10 @@ create_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::Abstrac
     create_instance_profile(instance_profile_name)
     create_instance_profile(instance_profile_name, params::Dict{String,<:Any})
 
- Creates a new instance profile. For information about instance profiles, see About
-instance profiles.  For information about the number of instance profiles you can create,
-see IAM object quotas in the IAM User Guide.
+ Creates a new instance profile. For information about instance profiles, see Using roles
+for applications on Amazon EC2 in the IAM User Guide, and Instance profiles in the Amazon
+EC2 User Guide.  For information about the number of instance profiles you can create, see
+IAM object quotas in the IAM User Guide.
 
 # Arguments
 - `instance_profile_name`: The name of the instance profile to create. This parameter
@@ -356,8 +361,9 @@ create_open_idconnect_provider(ThumbprintList, Url, params::AbstractDict{String,
 Creates a new managed policy for your AWS account. This operation creates a policy version
 with a version identifier of v1 and sets v1 as the policy's default version. For more
 information about policy versions, see Versioning for managed policies in the IAM User
-Guide. For more information about managed policies in general, see Managed policies and
-inline policies in the IAM User Guide.
+Guide. As a best practice, you can validate your IAM policies. To learn more, see
+Validating IAM policies in the IAM User Guide. For more information about managed policies
+in general, see Managed policies and inline policies in the IAM User Guide.
 
 # Arguments
 - `policy_document`: The JSON policy document that you want to use as the content for the

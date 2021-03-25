@@ -10,18 +10,15 @@ using AWS.UUIDs
 
 Creates an access point and associates it with the specified bucket. For more information,
 see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service
-User Guide.   Using this action with Amazon S3 on Outposts  This action:    Requires a
-virtual private cloud (VPC) configuration as S3 on Outposts only supports VPC style access
-points.   Does not support ACL on S3 on Outposts buckets.   Does not support Public Access
-on S3 on Outposts buckets.   Does not support object lock for S3 on Outposts buckets.   For
-more information, see Using Amazon S3 on Outposts in the Amazon Simple Storage Service User
-Guide . All Amazon S3 on Outposts REST API requests for this action require an additional
-parameter of x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint
-hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3
-on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section.  The following actions are
-related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints
-
+User Guide.   S3 on Outposts only supports VPC-style Access Points.  For more information,
+see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only Access Points
+in the Amazon Simple Storage Service User Guide.  All Amazon S3 on Outposts REST API
+requests for this action require an additional parameter of x-amz-outpost-id to be passed
+with the request and an S3 on Outposts endpoint hostname prefix instead of s3-control. For
+an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived using the access point ARN, see
+the Examples section.  The following actions are related to CreateAccessPoint:
+GetAccessPoint     DeleteAccessPoint     ListAccessPoints
 
 # Arguments
 - `bucket`: The name of the bucket that you want to associate this access point with. For
@@ -39,13 +36,34 @@ related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAc
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PublicAccessBlockConfiguration"`:
+- `"PublicAccessBlockConfiguration"`:  The PublicAccessBlock configuration that you want to
+  apply to the access point.
 - `"VpcConfiguration"`: If you include this field, Amazon S3 restricts access to this
   access point to requests from the specified virtual private cloud (VPC).  This is required
   for creating an access point for Amazon S3 on Outposts buckets.
 """
 create_access_point(Bucket, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
 create_access_point(Bucket, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
+    create_access_point_for_object_lambda(configuration, name, x-amz-account-id)
+    create_access_point_for_object_lambda(configuration, name, x-amz-account-id, params::Dict{String,<:Any})
+
+Creates an Object Lambda Access Point. For more information, see Transforming objects with
+Object Lambda Access Points in the Amazon Simple Storage Service User Guide. The following
+actions are related to CreateAccessPointForObjectLambda:
+DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda
+ListAccessPointsForObjectLambda
+
+# Arguments
+- `configuration`: Object Lambda Access Point configuration as a JSON document.
+- `name`: The name you want to assign to this Object Lambda Access Point.
+- `x-amz-account-id`: The AWS account ID for owner of the specified Object Lambda Access
+  Point.
+
+"""
+create_access_point_for_object_lambda(Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspointforobjectlambda/$(name)", Dict{String, Any}("Configuration"=>Configuration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+create_access_point_for_object_lambda(Configuration, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspointforobjectlambda/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
     create_bucket(name)
@@ -57,13 +75,13 @@ creating the bucket, you become the bucket owner. To create an Outposts bucket, 
 have S3 on Outposts. For more information, see Using Amazon S3 on Outposts in Amazon Simple
 Storage Service User Guide. Not every string is an acceptable bucket name. For information
 on bucket naming restrictions, see Working with Amazon S3 Buckets. S3 on Outposts buckets
-support:   Tags   LifecycleConfigurations for deleting expired objects   For a list of
-Amazon S3 features not supported by Amazon S3 on Outposts, see Unsupported Amazon S3
-features. For an example of the request syntax for Amazon S3 on Outposts that uses the S3
-on Outposts endpoint hostname prefix and x-amz-outpost-id in your API request, see the
-Examples section. The following actions are related to CreateBucket for Amazon S3 on
-Outposts:    PutObject     GetBucket     DeleteBucket     CreateAccessPoint
-PutAccessPointPolicy
+support:   Tags   LifecycleConfigurations for deleting expired objects   For a complete
+list of restrictions and Amazon S3 feature limitations on S3 on Outposts, see  Amazon S3 on
+Outposts Restrictions and Limitations. For an example of the request syntax for Amazon S3
+on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in
+your API request, see the Examples section. The following actions are related to
+CreateBucket for Amazon S3 on Outposts:    PutObject     GetBucket     DeleteBucket
+CreateAccessPoint     PutAccessPointPolicy
 
 # Arguments
 - `name`: The name of the bucket.
@@ -157,6 +175,23 @@ delete_access_point(name, x_amz_account_id; aws_config::AbstractAWSConfig=global
 delete_access_point(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
+    delete_access_point_for_object_lambda(name, x-amz-account-id)
+    delete_access_point_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Deletes the specified Object Lambda Access Point. The following actions are related to
+DeleteAccessPointForObjectLambda:    CreateAccessPointForObjectLambda
+GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
+
+# Arguments
+- `name`: The name of the access point you want to delete.
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+"""
+delete_access_point_for_object_lambda(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspointforobjectlambda/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+delete_access_point_for_object_lambda(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspointforobjectlambda/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
     delete_access_point_policy(name, x-amz-account-id)
     delete_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
@@ -183,6 +218,23 @@ DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
 """
 delete_access_point_policy(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
 delete_access_point_policy(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
+    delete_access_point_policy_for_object_lambda(name, x-amz-account-id)
+    delete_access_point_policy_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Removes the resource policy for an Object Lambda Access Point. The following actions are
+related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObjectLambda
+  PutAccessPointPolicyForObjectLambda
+
+# Arguments
+- `name`: The name of the Object Lambda Access Point you want to delete the policy for.
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+"""
+delete_access_point_policy_for_object_lambda(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspointforobjectlambda/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+delete_access_point_policy_for_object_lambda(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspointforobjectlambda/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
     delete_bucket(name, x-amz-account-id)
@@ -447,6 +499,42 @@ get_access_point(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aw
 get_access_point(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
+    get_access_point_configuration_for_object_lambda(name, x-amz-account-id)
+    get_access_point_configuration_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns configuration for an Object Lambda Access Point. The following actions are related
+to GetAccessPointConfigurationForObjectLambda:
+PutAccessPointConfigurationForObjectLambda
+
+# Arguments
+- `name`: The name of the Object Lambda Access Point you want to return the configuration
+  for.
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+"""
+get_access_point_configuration_for_object_lambda(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda/$(name)/configuration", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+get_access_point_configuration_for_object_lambda(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda/$(name)/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
+    get_access_point_for_object_lambda(name, x-amz-account-id)
+    get_access_point_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns configuration information about the specified Object Lambda Access Point The
+following actions are related to GetAccessPointForObjectLambda:
+CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda
+ListAccessPointsForObjectLambda
+
+# Arguments
+- `name`: The name of the Object Lambda Access Point.
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+"""
+get_access_point_for_object_lambda(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+get_access_point_for_object_lambda(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
     get_access_point_policy(name, x-amz-account-id)
     get_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
@@ -471,6 +559,23 @@ get_access_point_policy(name, x_amz_account_id; aws_config::AbstractAWSConfig=gl
 get_access_point_policy(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
+    get_access_point_policy_for_object_lambda(name, x-amz-account-id)
+    get_access_point_policy_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns the resource policy for an Object Lambda Access Point. The following actions are
+related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda
+  PutAccessPointPolicyForObjectLambda
+
+# Arguments
+- `name`: The name of the Object Lambda Access Point.
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+"""
+get_access_point_policy_for_object_lambda(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+get_access_point_policy_for_object_lambda(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
     get_access_point_policy_status(name, x-amz-account-id)
     get_access_point_policy_status(name, x-amz-account-id, params::Dict{String,<:Any})
 
@@ -487,23 +592,39 @@ get_access_point_policy_status(name, x_amz_account_id; aws_config::AbstractAWSCo
 get_access_point_policy_status(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
+    get_access_point_policy_status_for_object_lambda(name, x-amz-account-id)
+    get_access_point_policy_status_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns the status of the resource policy associated with an Object Lambda Access Point.
+
+# Arguments
+- `name`: The name of the Object Lambda Access Point.
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+"""
+get_access_point_policy_status_for_object_lambda(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda/$(name)/policyStatus", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+get_access_point_policy_status_for_object_lambda(name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda/$(name)/policyStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
     get_bucket(name, x-amz-account-id)
     get_bucket(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on
 Outposts in the Amazon Simple Storage Service User Guide. If you are using an identity
-other than the root user of the AWS account that owns the bucket, the calling identity must
-have the s3-outposts:GetBucket permissions on the specified bucket and belong to the bucket
-owner's account in order to use this action. Only users from Outposts bucket owner account
-with the right permissions can perform actions on an Outposts bucket.   If you don't have
-s3-outposts:GetBucket permissions or you're not using an identity that belongs to the
-bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions
-are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API
-requests for this action require an additional parameter of x-amz-outpost-id to be passed
-with the request and an S3 on Outposts endpoint hostname prefix instead of s3-control. For
-an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
-endpoint hostname prefix and the x-amz-outpost-id derived using the access point ARN, see
-the Examples section.    PutObject     CreateBucket     DeleteBucket
+other than the root user of the AWS account that owns the Outposts bucket, the calling
+identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket
+and belong to the Outposts bucket owner's account in order to use this action. Only users
+from Outposts bucket owner account with the right permissions can perform actions on an
+Outposts bucket.   If you don't have s3-outposts:GetBucket permissions or you're not using
+an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access
+Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All
+Amazon S3 on Outposts REST API requests for this action require an additional parameter of
+x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
+prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
+Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
+derived using the access point ARN, see the Examples section.    PutObject     CreateBucket
+    DeleteBucket
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -749,6 +870,34 @@ list_access_points(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_co
 list_access_points(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
+    list_access_points_for_object_lambda(x-amz-account-id)
+    list_access_points_for_object_lambda(x-amz-account-id, params::Dict{String,<:Any})
+
+Returns a list of the access points associated with the Object Lambda Access Point. You can
+retrieve up to 1000 access points per call. If there are more than 1,000 access points (or
+the number specified in maxResults, whichever is less), the response will include a
+continuation token that you can use to list the additional access points. The following
+actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForObjectLambda
+    DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda
+
+# Arguments
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of access points that you want to include in the list.
+  If there are more than this number of access points, then the response will include a
+  continuation token in the NextToken field that you can use to retrieve the next page of
+  access points.
+- `"nextToken"`: If the list has more access points than can be returned in one call to
+  this API, this field contains a continuation token that you can provide in subsequent calls
+  to this API to retrieve additional access points.
+"""
+list_access_points_for_object_lambda(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+list_access_points_for_object_lambda(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspointforobjectlambda", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
     list_jobs(x-amz-account-id)
     list_jobs(x-amz-account-id, params::Dict{String,<:Any})
 
@@ -818,6 +967,24 @@ list_storage_lens_configurations(x_amz_account_id; aws_config::AbstractAWSConfig
 list_storage_lens_configurations(x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/storagelens", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
+    put_access_point_configuration_for_object_lambda(configuration, name, x-amz-account-id)
+    put_access_point_configuration_for_object_lambda(configuration, name, x-amz-account-id, params::Dict{String,<:Any})
+
+Replaces configuration for an Object Lambda Access Point. The following actions are related
+to PutAccessPointConfigurationForObjectLambda:
+GetAccessPointConfigurationForObjectLambda
+
+# Arguments
+- `configuration`: Object Lambda Access Point configuration document.
+- `name`: The name of the Object Lambda Access Point.
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+"""
+put_access_point_configuration_for_object_lambda(Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspointforobjectlambda/$(name)/configuration", Dict{String, Any}("Configuration"=>Configuration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+put_access_point_configuration_for_object_lambda(Configuration, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspointforobjectlambda/$(name)/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
     put_access_point_policy(policy, name, x-amz-account-id)
     put_access_point_policy(policy, name, x-amz-account-id, params::Dict{String,<:Any})
 
@@ -853,21 +1020,39 @@ put_access_point_policy(Policy, name, x_amz_account_id; aws_config::AbstractAWSC
 put_access_point_policy(Policy, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
 
 """
+    put_access_point_policy_for_object_lambda(policy, name, x-amz-account-id)
+    put_access_point_policy_for_object_lambda(policy, name, x-amz-account-id, params::Dict{String,<:Any})
+
+Creates or replaces resource policy for an Object Lambda Access Point. For an example
+policy, see Creating Object Lambda Access Points in the Amazon Simple Storage Service User
+Guide. The following actions are related to PutAccessPointPolicyForObjectLambda:
+DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda
+
+# Arguments
+- `policy`: Object Lambda Access Point resource policy document.
+- `name`: The name of the Object Lambda Access Point.
+- `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
+  Access Point.
+
+"""
+put_access_point_policy_for_object_lambda(Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspointforobjectlambda/$(name)/policy", Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+put_access_point_policy_for_object_lambda(Policy, name, x_amz_account_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspointforobjectlambda/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), params)); aws_config=aws_config)
+
+"""
     put_bucket_lifecycle_configuration(name, x-amz-account-id)
     put_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action puts a lifecycle configuration to an Amazon S3 on Outposts bucket. To put a
 lifecycle configuration to an S3 bucket, see PutBucketLifecycleConfiguration in the Amazon
-Simple Storage Service API.   Creates a new lifecycle configuration for the Outposts bucket
-or replaces an existing lifecycle configuration. Outposts buckets only support lifecycle
-configurations that delete/expire objects after a certain period of time and abort
-incomplete multipart uploads. For more information, see Managing Lifecycle Permissions for
-Amazon S3 on Outposts.  All Amazon S3 on Outposts REST API requests for this action require
-an additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
-Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to PutBucketLifecycleConfiguration:
+Simple Storage Service API.   Creates a new lifecycle configuration for the S3 on Outposts
+bucket or replaces an existing lifecycle configuration. Outposts buckets only support
+lifecycle configurations that delete/expire objects after a certain period of time and
+abort incomplete multipart uploads.  All Amazon S3 on Outposts REST API requests for this
+action require an additional parameter of x-amz-outpost-id to be passed with the request
+and an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the
+request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname
+prefix and the x-amz-outpost-id derived using the access point ARN, see the Examples
+section. The following actions are related to PutBucketLifecycleConfiguration:
 GetBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
 
 # Arguments
@@ -933,21 +1118,21 @@ put_bucket_policy(Policy, name, x_amz_account_id, params::AbstractDict{String, <
     put_bucket_tagging(tagging, name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see
-PutBucketTagging in the Amazon Simple Storage Service API.   Sets the tags for an Outposts
-bucket. For more information, see Using Amazon S3 on Outposts in the Amazon Simple Storage
-Service User Guide. Use tags to organize your AWS bill to reflect your own cost structure.
-To do this, sign up to get your AWS account bill with tag key values included. Then, to see
-the cost of combined resources, organize your billing information according to resources
-with the same tag key values. For example, you can tag several resources with a specific
-application name, and then organize your billing information to see the total cost of that
-application across several services. For more information, see Cost Allocation and Tagging.
- Within a bucket, if you add a tag that has the same key as an existing tag, the new value
-overwrites the old value. For more information, see  Using Cost Allocation in Amazon S3
-Bucket Tags.  To use this action, you must have permissions to perform the
+PutBucketTagging in the Amazon Simple Storage Service API.   Sets the tags for an S3 on
+Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon Simple
+Storage Service User Guide. Use tags to organize your AWS bill to reflect your own cost
+structure. To do this, sign up to get your AWS account bill with tag key values included.
+Then, to see the cost of combined resources, organize your billing information according to
+resources with the same tag key values. For example, you can tag several resources with a
+specific application name, and then organize your billing information to see the total cost
+of that application across several services. For more information, see Cost allocation and
+tagging.  Within a bucket, if you add a tag that has the same key as an existing tag, the
+new value overwrites the old value. For more information, see  Using cost allocation in
+Amazon S3 bucket tags.  To use this action, you must have permissions to perform the
 s3-outposts:PutBucketTagging action. The Outposts bucket owner has this permission by
 default and can grant this permission to others. For more information about permissions,
-see  Permissions Related to Bucket Subresource Operations and Managing Access Permissions
-to Your Amazon S3 Resources.  PutBucketTagging has the following special errors:   Error
+see  Permissions Related to Bucket Subresource Operations and Managing access permissions
+to your Amazon S3 resources.  PutBucketTagging has the following special errors:   Error
 code: InvalidTagError    Description: The tag provided was not a valid tag. This error can
 occur if the tag did not pass input validation. For information about tag restrictions, see
  User-Defined Tag Restrictions and  AWS-Generated Cost Allocation Tag Restrictions.

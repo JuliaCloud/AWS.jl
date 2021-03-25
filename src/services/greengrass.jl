@@ -202,23 +202,25 @@ create_function_definition_version(FunctionDefinitionId; aws_config::AbstractAWS
 create_function_definition_version(FunctionDefinitionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", params; aws_config=aws_config)
 
 """
-    create_group()
-    create_group(params::Dict{String,<:Any})
+    create_group(name)
+    create_group(name, params::Dict{String,<:Any})
 
 Creates a group. You may provide the initial version of the group or use
 ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package
 (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line
 application to create and deploy Greengrass groups.
 
+# Arguments
+- `name`: The name of the group.
+
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"InitialVersion"`: Information about the initial version of the group.
-- `"Name"`: The name of the group.
 - `"X-Amzn-Client-Token"`: A client token used to correlate requests and responses.
 - `"tags"`: Tag(s) to add to the new resource.
 """
-create_group(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups"; aws_config=aws_config)
-create_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups", params; aws_config=aws_config)
+create_group(Name; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+create_group(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_group_certificate_authority(group_id)

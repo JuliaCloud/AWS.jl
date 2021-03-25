@@ -102,6 +102,7 @@ const emr = AWS.JSONService("elasticmapreduce", "2009-03-31", "1.1", "ElasticMap
 const emr_containers = AWS.RestJSONService("emr-containers", "2020-10-01")
 const eventbridge = AWS.JSONService("events", "2015-10-07", "1.1", "AWSEvents")
 const firehose = AWS.JSONService("firehose", "2015-08-04", "1.1", "Firehose_20150804")
+const fis = AWS.RestJSONService("fis", "2020-12-01")
 const fms = AWS.JSONService("fms", "2018-01-01", "1.1", "AWSFMS_20180101")
 const forecast = AWS.JSONService("forecast", "2018-06-26", "1.1", "AmazonForecast")
 const forecastquery = AWS.JSONService("forecastquery", "2018-06-26", "1.1", "AmazonForecastRuntime")
