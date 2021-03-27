@@ -266,6 +266,7 @@ Creates a new room profile with the specified details.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: The user-specified token that is used during the creation of a
   profile.
+- `"DataRetentionOptIn"`: Whether data retention of the profile is enabled.
 - `"Locale"`: The locale of the room profile. (This is currently only available to a
   limited preview audience.)
 - `"MaxVolumeLimit"`: The maximum volume limit for a room profile.
@@ -1570,6 +1571,7 @@ Updates an existing room profile by room profile ARN.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Address"`: The updated address for the room profile.
+- `"DataRetentionOptIn"`: Whether data retention of the profile is enabled.
 - `"DistanceUnit"`: The updated distance unit for the room profile.
 - `"IsDefault"`: Sets the profile as default if selected. If this is missing, no update is
   done to the default status.

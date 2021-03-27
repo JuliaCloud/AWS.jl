@@ -414,7 +414,10 @@ Notebooks to Resources in a VPC.
 
 # Arguments
 - `auth_mode`: The mode of authentication that members use to access the domain.
-- `default_user_settings`: The default user settings.
+- `default_user_settings`: The default settings to use to create a user profile when
+  UserSettings isn't specified in the call to the CreateUserProfile API.  SecurityGroups is
+  aggregated when specified in both calls. For all other settings in UserSettings, the values
+  specified in CreateUserProfile take precedence over those specified in CreateDomain.
 - `domain_name`: A name for the domain.
 - `subnet_ids`: The VPC subnets that Studio uses for communication.
 - `vpc_id`: The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for
@@ -1414,8 +1417,9 @@ assumes to perform tasks on your behalf during model training. You must grant th
 necessary permissions so that Amazon SageMaker can successfully complete model training.
  StoppingCondition - To help cap training costs, use MaxRuntimeInSeconds to set a time
 limit for training. Use MaxWaitTimeInSeconds to specify how long you are willing to wait
-for a managed spot training job to complete.     For more information about Amazon
-SageMaker, see How It Works.
+for a managed spot training job to complete.     Environment - The environment variables to
+set in the Docker container.    For more information about Amazon SageMaker, see How It
+Works.
 
 # Arguments
 - `algorithm_specification`: The registry path of the Docker image that contains the
@@ -1471,6 +1475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distributed training. If you enable network isolation for training jobs that are configured
   to use a VPC, Amazon SageMaker downloads and uploads customer data and model artifacts
   through the specified VPC, but the training container does not have network access.
+- `"Environment"`: The environment variables to set in the Docker container.
 - `"ExperimentConfig"`:
 - `"HyperParameters"`: Algorithm-specific parameters that influence the quality of the
   model. You set hyperparameters before you start the learning process. For a list of
