@@ -78,10 +78,16 @@ _web_identity_patch = function (;
             "SecretAccessKey" => secret_key,
             "SessionToken" => session_token,
             "Expiration" => string(now(UTC)),
-            "AssumedRoleUser" => Dict("Arn" => role_arn * "/" * params["RoleSessionName"]),
         )
 
-        result = Dict("AssumeRoleWithWebIdentityResult" => Dict("Credentials" => creds))
+        result = Dict(
+            "AssumeRoleWithWebIdentityResult" => Dict(
+                "Credentials" => creds,
+                "AssumedRoleUser" => Dict(
+                    "Arn" => role_arn * "/" * params["RoleSessionName"],
+                ),
+            ),
+        )
 
         return HTTP.Response(200, ["Content-Type" => "text/json", "charset" => "utf-8"], body=json(result))
     end

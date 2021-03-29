@@ -494,12 +494,13 @@ function credentials_from_webtoken()
     )
 
     role_creds = resp["AssumeRoleWithWebIdentityResult"]["Credentials"]
+    assumed_role_user = resp["AssumeRoleWithWebIdentityResult"]["AssumedRoleUser"]
 
     return AWSCredentials(
         role_creds["AccessKeyId"],
         role_creds["SecretAccessKey"],
         role_creds["SessionToken"],
-        role_creds["AssumedRoleUser"]["Arn"];
+        assumed_role_user["Arn"];
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
         renew=credentials_from_webtoken
     )
