@@ -353,8 +353,8 @@ list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_con
 list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
-    put_integration(domain_name, object_type_name, uri)
-    put_integration(domain_name, object_type_name, uri, params::Dict{String,<:Any})
+    put_integration(domain_name, object_type_name)
+    put_integration(domain_name, object_type_name, params::Dict{String,<:Any})
 
 Adds an integration between the service and a third-party service, which includes Amazon
 AppFlow and Amazon Connect. An integration can belong to only one domain.
@@ -362,14 +362,15 @@ AppFlow and Amazon Connect. An integration can belong to only one domain.
 # Arguments
 - `domain_name`: The unique name of the domain.
 - `object_type_name`: The name of the profile object type.
-- `uri`: The URI of the S3 bucket or any other type of data source.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FlowDefinition"`:
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
+- `"Uri"`: The URI of the S3 bucket or any other type of data source.
 """
-put_integration(DomainName, ObjectTypeName, Uri; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "Uri"=>Uri); aws_config=aws_config)
-put_integration(DomainName, ObjectTypeName, Uri, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName, "Uri"=>Uri), params)); aws_config=aws_config)
+put_integration(DomainName, ObjectTypeName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}("ObjectTypeName"=>ObjectTypeName); aws_config=aws_config)
+put_integration(DomainName, ObjectTypeName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectTypeName"=>ObjectTypeName), params)); aws_config=aws_config)
 
 """
     put_profile_object(domain_name, object, object_type_name)

@@ -19,8 +19,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to create a new resource with the same token as a resource that already exists, an
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
-- `"Tags"`: The tags attached to the specified resource. Tags are metadata that can be used
-  to manage a resource
+- `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
+  use to manage a resource.
 """
 associate_aws_account_with_partner_account(Sidewalk; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/partner-accounts", Dict{String, Any}("Sidewalk"=>Sidewalk, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 associate_aws_account_with_partner_account(Sidewalk, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/partner-accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sidewalk"=>Sidewalk, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -86,7 +86,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
 - `"Description"`: The description of the new resource.
-- `"Tags"`: The tags to attach to the new destination. Tags are metadata that can be used
+- `"Tags"`: The tags to attach to the new destination. Tags are metadata that you can use
   to manage a resource.
 """
 create_destination(Expression, ExpressionType, Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/destinations", Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "Name"=>Name, "RoleArn"=>RoleArn, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
@@ -106,8 +106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client request.
 - `"LoRaWAN"`: The device profile information to use to create the device profile.
 - `"Name"`: The name of the new resource.
-- `"Tags"`: The tags to attach to the new device profile Tags are metadata that can be used
-  to manage a resource.
+- `"Tags"`: The tags to attach to the new device profile. Tags are metadata that you can
+  use to manage a resource.
 """
 create_device_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/device-profiles", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_device_profile(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/device-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -126,8 +126,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client request.
 - `"LoRaWAN"`: The service profile information to use to create the service profile.
 - `"Name"`: The name of the new resource.
-- `"Tags"`: The tags to attach to the new service profile. Tags are metadata that can be
-  used to manage a resource.
+- `"Tags"`: The tags to attach to the new service profile. Tags are metadata that you can
+  use to manage a resource.
 """
 create_service_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/service-profiles", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_service_profile(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/service-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -151,6 +151,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the new resource.
 - `"LoRaWAN"`: The device configuration information to use to create the wireless device.
 - `"Name"`: The name of the new resource.
+- `"Tags"`: The tags to attach to the new wireless device. Tags are metadata that you can
+  use to manage a resource.
 """
 create_wireless_device(DestinationName, Type; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices", Dict{String, Any}("DestinationName"=>DestinationName, "Type"=>Type, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_wireless_device(DestinationName, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationName"=>DestinationName, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -172,8 +174,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client request.
 - `"Description"`: The description of the new resource.
 - `"Name"`: The name of the new resource.
-- `"Tags"`: The tags to attach to the new wireless gateway. Tags are metadata that can be
-  used to manage a resource.
+- `"Tags"`: The tags to attach to the new wireless gateway. Tags are metadata that you can
+  use to manage a resource.
 """
 create_wireless_gateway(LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways", Dict{String, Any}("LoRaWAN"=>LoRaWAN, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_wireless_gateway(LoRaWAN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoRaWAN"=>LoRaWAN, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -210,8 +212,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
   client request.
 - `"Name"`: The name of the new resource.
-- `"Tags"`: The tags attached to the specified resource. Tags are metadata that can be used
-  to manage a resource
+- `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
+  use to manage a resource.
 - `"Update"`: Information about the gateways to update.
 """
 create_wireless_gateway_task_definition(AutoCreateTasks; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateway-task-definitions", Dict{String, Any}("AutoCreateTasks"=>AutoCreateTasks, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
@@ -606,7 +608,7 @@ list_service_profiles(params::AbstractDict{String, Any}; aws_config::AbstractAWS
 Lists the tags (metadata) you have assigned to the resource.
 
 # Arguments
-- `resource_arn`: The ARN of the resource for which to list tags.
+- `resource_arn`: The ARN of the resource for which you want to list tags.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
@@ -692,8 +694,8 @@ send_data_to_wireless_device(Id, PayloadData, TransmitMode, params::AbstractDict
 Adds a tag to a resource.
 
 # Arguments
-- `tags`: Adds to or modifies the tags of the given resource. Tags are metadata that can be
-  used to manage a resource.
+- `tags`: Adds to or modifies the tags of the given resource. Tags are metadata that you
+  can use to manage a resource.
 - `resource_arn`: The ARN of the resource to add tags to.
 
 """
