@@ -39,6 +39,11 @@ end
     )
 end
 
+@testset "_role_session_name" begin
+    @test AWS._role_session_name("prefix-", "name", "-suffix") == "prefix-name-suffix"
+    @test AWS._role_session_name("a" ^ 22, "b" ^ 22, "c" ^ 22) == "a" ^ 22 * "b" ^ 20 * "c" ^ 22
+end
+
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
         creds = AWSCredentials("access_key_id" ,"secret_key")
@@ -468,49 +473,60 @@ end
         mktempdir() do dir
             web_identity_file = joinpath(dir, "web_identity")
             write(web_identity_file, "foobar")
+            session_name = "foobar-session"
+
+            access_key = "access-key-$(randstring(6))"
+            secret_key = "secret-key-$(randstring(6))"
+            session_token = "session-token-$(randstring(6))"
+            role_arn = "arn:aws:sts::1234:assumed-role/foobar"
+
+            patch = Patches._web_identity_patch(;
+                access_key=access_key,
+                secret_key=secret_key,
+                session_token=session_token,
+                role_arn=role_arn,
+            )
 
             withenv(
                 "AWS_ROLE_ARN" => "foobar",
-                "AWS_ROLE_SESSION_NAME" => Patches.web_sesh_token,
                 "AWS_WEB_IDENTITY_TOKEN_FILE" => web_identity_file,
+                "AWS_ROLE_SESSION_NAME" => session_name,
             ) do
-                apply(Patches._web_identity_patch) do
+                apply(patch) do
                     result = credentials_from_webtoken()
 
-                    @test result.access_key_id == Patches.web_access_key
-                    @test result.secret_key == Patches.web_secret_key
-                    @test result.token == Patches.web_sesh_token
+                    @test result.access_key_id == access_key
+                    @test result.secret_key == secret_key
+                    @test result.token == session_token
+                    @test result.user_arn == role_arn * "/" * session_name
                     @test result.renew == credentials_from_webtoken
                     expiry = result.expiry
 
                     result = check_credentials(result)
 
-                    @test result.access_key_id == Patches.web_access_key
-                    @test result.secret_key == Patches.web_secret_key
-                    @test result.token == Patches.web_sesh_token
+                    @test result.access_key_id == access_key
+                    @test result.secret_key == secret_key
+                    @test result.token == session_token
+                    @test result.user_arn == role_arn * "/" * session_name
                     @test result.renew == credentials_from_webtoken
                     @test expiry != result.expiry
                 end
             end
 
+            session_name = "AWS.jl-role-foobar-20210101T000000Z"
+            patches = [
+                patch
+                @patch Dates.now(::Type{UTC}) = DateTime(2021)
+            ]
+
             withenv(
                 "AWS_ROLE_ARN" => "foobar",
                 "AWS_WEB_IDENTITY_TOKEN_FILE" => web_identity_file,
+                "AWS_ROLE_SESSION_NAME" => nothing,
             ) do
-                apply(Patches._web_identity_patch) do
+                apply(patches) do
                     result = credentials_from_webtoken()
-
-                    @test result.access_key_id == Patches.web_access_key
-                    @test result.secret_key == Patches.web_secret_key
-                    @test result.renew == credentials_from_webtoken
-                    expiry = result.expiry
-
-                    result = check_credentials(result)
-
-                    @test result.access_key_id == Patches.web_access_key
-                    @test result.secret_key == Patches.web_secret_key
-                    @test result.renew == credentials_from_webtoken
-                    @test expiry != result.expiry
+                    @test result.user_arn == role_arn * "/" * session_name
                 end
             end
         end
