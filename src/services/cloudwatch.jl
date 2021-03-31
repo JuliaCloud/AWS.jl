@@ -79,6 +79,19 @@ delete_insight_rules(RuleNames; aws_config::AbstractAWSConfig=global_aws_config(
 delete_insight_rules(RuleNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), params)); aws_config=aws_config)
 
 """
+    delete_metric_stream(name)
+    delete_metric_stream(name, params::Dict{String,<:Any})
+
+Permanently deletes the metric stream that you specify.
+
+# Arguments
+- `name`: The name of the metric stream to delete.
+
+"""
+delete_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteMetricStream", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+delete_metric_stream(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("DeleteMetricStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+
+"""
     describe_alarm_history()
     describe_alarm_history(params::Dict{String,<:Any})
 
@@ -521,6 +534,19 @@ get_metric_statistics(EndTime, MetricName, Namespace, Period, StartTime; aws_con
 get_metric_statistics(EndTime, MetricName, Namespace, Period, StartTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime), params)); aws_config=aws_config)
 
 """
+    get_metric_stream(name)
+    get_metric_stream(name, params::Dict{String,<:Any})
+
+Returns information about the metric stream that you specify.
+
+# Arguments
+- `name`: The name of the metric stream to retrieve information about.
+
+"""
+get_metric_stream(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricStream", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+get_metric_stream(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+
+"""
     get_metric_widget_image(metric_widget)
     get_metric_widget_image(metric_widget, params::Dict{String,<:Any})
 
@@ -580,6 +606,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_dashboards(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListDashboards"; aws_config=aws_config)
 list_dashboards(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListDashboards", params; aws_config=aws_config)
+
+"""
+    list_metric_streams()
+    list_metric_streams(params::Dict{String,<:Any})
+
+Returns a list of metric streams in this account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in one operation.
+- `"NextToken"`: Include this value, if it was returned by the previous call, to get the
+  next set of metric streams.
+"""
+list_metric_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListMetricStreams"; aws_config=aws_config)
+list_metric_streams(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("ListMetricStreams", params; aws_config=aws_config)
 
 """
     list_metrics()
@@ -813,7 +854,7 @@ permissions for some alarm operations:   The iam:CreateServiceLinkedRole for all
 with EC2 actions   The iam:CreateServiceLinkedRole to create an alarm with Systems Manager
 OpsItem actions.   The first time you create an alarm in the AWS Management Console, the
 CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked
-rolea for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and
+role for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and
 AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see AWS service-linked
 role.
 
@@ -895,7 +936,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles):
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 |
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
 - `"Period"`: The length, in seconds, used each time the metric specified in MetricName is
   evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms
   based on static thresholds. If you are creating an alarm based on a metric math expression,
@@ -989,6 +1031,54 @@ put_metric_data(MetricData, Namespace; aws_config::AbstractAWSConfig=global_aws_
 put_metric_data(MetricData, Namespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace), params)); aws_config=aws_config)
 
 """
+    put_metric_stream(firehose_arn, name, output_format, role_arn)
+    put_metric_stream(firehose_arn, name, output_format, role_arn, params::Dict{String,<:Any})
+
+Creates or updates a metric stream. Metric streams can automatically stream CloudWatch
+metrics to AWS destinations including Amazon S3 and to many third-party solutions. For more
+information, see  Using Metric Streams. To create a metric stream, you must be logged on to
+an account that has the iam:PassRole permission and either the CloudWatchFullAccess policy
+or the cloudwatch:PutMetricStream permission. When you create or update a metric stream,
+you choose one of the following:   Stream metrics from all metric namespaces in the
+account.   Stream metrics from all metric namespaces in the account, except for the
+namespaces that you list in ExcludeFilters.   Stream metrics from only the metric
+namespaces that you list in IncludeFilters.   When you use PutMetricStream to create a new
+metric stream, the stream is created in the running state. If you use it to update an
+existing stream, the state of the stream is not changed.
+
+# Arguments
+- `firehose_arn`: The ARN of the Amazon Kinesis Firehose delivery stream to use for this
+  metric stream. This Amazon Kinesis Firehose delivery stream must already exist and must be
+  in the same account as the metric stream.
+- `name`: If you are creating a new metric stream, this is the name for the new stream. The
+  name must be different than the names of other metric streams in this account and Region.
+  If you are updating a metric stream, specify the name of that stream here. Valid characters
+  are A-Z, a-z, 0-9, \"-\" and \"_\".
+- `output_format`: The output format for the stream. Valid values are json and
+  opentelemetry0.7. For more information about metric stream output formats, see  Metric
+  streams output formats.
+- `role_arn`: The ARN of an IAM role that this metric stream will use to access Amazon
+  Kinesis Firehose resources. This IAM role must already exist and must be in the same
+  account as the metric stream. This IAM role must include the following permissions:
+  firehose:PutRecord   firehose:PutRecordBatch
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExcludeFilters"`: If you specify this parameter, the stream sends metrics from all
+  metric namespaces except for the namespaces that you specify here. You cannot include
+  ExcludeFilters and IncludeFilters in the same operation.
+- `"IncludeFilters"`: If you specify this parameter, the stream sends only the metrics from
+  the metric namespaces that you specify here. You cannot include IncludeFilters and
+  ExcludeFilters in the same operation.
+- `"Tags"`: A list of key-value pairs to associate with the metric stream. You can
+  associate as many as 50 tags with a metric stream. Tags can help you organize and
+  categorize your resources. You can also use them to scope user permissions by granting a
+  user permission to access or change only resources with certain tag values.
+"""
+put_metric_stream(FirehoseArn, Name, OutputFormat, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricStream", Dict{String, Any}("FirehoseArn"=>FirehoseArn, "Name"=>Name, "OutputFormat"=>OutputFormat, "RoleArn"=>RoleArn); aws_config=aws_config)
+put_metric_stream(FirehoseArn, Name, OutputFormat, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirehoseArn"=>FirehoseArn, "Name"=>Name, "OutputFormat"=>OutputFormat, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+
+"""
     set_alarm_state(alarm_name, state_reason, state_value)
     set_alarm_state(alarm_name, state_reason, state_value, params::Dict{String,<:Any})
 
@@ -1019,6 +1109,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 set_alarm_state(AlarmName, StateReason, StateValue; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("SetAlarmState", Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue); aws_config=aws_config)
 set_alarm_state(AlarmName, StateReason, StateValue, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("SetAlarmState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue), params)); aws_config=aws_config)
+
+"""
+    start_metric_streams(names)
+    start_metric_streams(names, params::Dict{String,<:Any})
+
+Starts the streaming of metrics for one or more of your metric streams.
+
+# Arguments
+- `names`: The array of the names of metric streams to start streaming. This is an \"all or
+  nothing\" operation. If you do not have permission to access all of the metric streams that
+  you list here, then none of the streams that you list in the operation will start streaming.
+
+"""
+start_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("StartMetricStreams", Dict{String, Any}("Names"=>Names); aws_config=aws_config)
+start_metric_streams(Names, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("StartMetricStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config)
+
+"""
+    stop_metric_streams(names)
+    stop_metric_streams(names, params::Dict{String,<:Any})
+
+Stops the streaming of metrics for one or more of your metric streams.
+
+# Arguments
+- `names`: The array of the names of metric streams to stop streaming. This is an \"all or
+  nothing\" operation. If you do not have permission to access all of the metric streams that
+  you list here, then none of the streams that you list in the operation will stop streaming.
+
+"""
+stop_metric_streams(Names; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("StopMetricStreams", Dict{String, Any}("Names"=>Names); aws_config=aws_config)
+stop_metric_streams(Names, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("StopMetricStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)

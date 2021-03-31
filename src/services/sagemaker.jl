@@ -142,14 +142,15 @@ create_algorithm(AlgorithmName, TrainingSpecification, params::AbstractDict{Stri
     create_app(app_name, app_type, domain_id, user_profile_name)
     create_app(app_name, app_type, domain_id, user_profile_name, params::Dict{String,<:Any})
 
-Creates a running App for the specified UserProfile. Supported Apps are JupyterServer and
+Creates a running app for the specified UserProfile. Supported apps are JupyterServer and
 KernelGateway. This operation is automatically invoked by Amazon SageMaker Studio upon
 access to the associated Domain, and when new kernel configurations are selected by the
 user. A user may have multiple Apps active simultaneously.
 
 # Arguments
 - `app_name`: The name of the app.
-- `app_type`: The type of app.
+- `app_type`: The type of app. Supported apps are JupyterServer and KernelGateway.
+  TensorBoard is not supported.
 - `domain_id`: The domain ID.
 - `user_profile_name`: The user profile name.
 
@@ -210,31 +211,32 @@ create_artifact(ArtifactType, Source, params::AbstractDict{String, <:Any}; aws_c
     create_auto_mljob(auto_mljob_name, input_data_config, output_data_config, role_arn, params::Dict{String,<:Any})
 
 Creates an Autopilot job. Find the best performing model after you run an Autopilot job by
-calling . Deploy that model by following the steps described in Step 6.1: Deploy the Model
-to Amazon SageMaker Hosting Services. For information about how to use Autopilot, see
-Automate Model Development with Amazon SageMaker Autopilot.
+calling . For information about how to use Autopilot, see Automate Model Development with
+Amazon SageMaker Autopilot.
 
 # Arguments
-- `auto_mljob_name`: Identifies an Autopilot job. Must be unique to your account and is
-  case-insensitive.
-- `input_data_config`: Similar to InputDataConfig supported by Tuning. Format(s) supported:
-  CSV. Minimum of 500 rows.
-- `output_data_config`: Similar to OutputDataConfig supported by Tuning. Format(s)
-  supported: CSV.
+- `auto_mljob_name`: Identifies an Autopilot job. The name must be unique to your account
+  and is case-insensitive.
+- `input_data_config`: An array of channel objects that describes the input data and its
+  location. Each channel is a named input source. Similar to InputDataConfig supported by .
+  Format(s) supported: CSV. Minimum of 500 rows.
+- `output_data_config`: Provides information about encryption and the Amazon S3 output path
+  needed to store artifacts from an AutoML job. Format(s) supported: CSV.
 - `role_arn`: The ARN of the role that is used to access the data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoMLJobConfig"`: Contains CompletionCriteria and SecurityConfig.
-- `"AutoMLJobObjective"`: Defines the objective of a an AutoML job. You provide a
-  AutoMLJobObjectiveMetricName and Autopilot infers whether to minimize or maximize it. If a
-  metric is not specified, the most commonly used ObjectiveMetric for problem type is
-  automaically selected.
-- `"GenerateCandidateDefinitionsOnly"`: Generates possible candidates without training a
-  model. A candidate is a combination of data preprocessors, algorithms, and algorithm
+- `"AutoMLJobConfig"`: Contains CompletionCriteria and SecurityConfig settings for the
+  AutoML job.
+- `"AutoMLJobObjective"`: Defines the objective metric used to measure the predictive
+  quality of an AutoML job. You provide a AutoMLJobObjectiveMetricName and Autopilot infers
+  whether to minimize or maximize it.
+- `"GenerateCandidateDefinitionsOnly"`: Generates possible candidates without training the
+  models. A candidate is a combination of data preprocessors, algorithms, and algorithm
   parameter settings.
-- `"ProblemType"`: Defines the kind of preprocessing and algorithms intended for the
-  candidates. Options include: BinaryClassification, MulticlassClassification, and Regression.
+- `"ProblemType"`: Defines the type of supervised learning available for the candidates.
+  Options include: BinaryClassification, MulticlassClassification, and Regression. For more
+  information, see  Amazon SageMaker Autopilot problem types and algorithm support.
 - `"Tags"`: Each tag consists of a key and an optional value. Tag keys must be unique per
   resource.
 """
@@ -2376,10 +2378,10 @@ describe_artifact(ArtifactArn, params::AbstractDict{String, <:Any}; aws_config::
     describe_auto_mljob(auto_mljob_name)
     describe_auto_mljob(auto_mljob_name, params::Dict{String,<:Any})
 
-Returns information about an Amazon SageMaker job.
+Returns information about an Amazon SageMaker AutoML job.
 
 # Arguments
-- `auto_mljob_name`: Request information about a job using that job's unique name.
+- `auto_mljob_name`: Requests information about an AutoML job using its unique name.
 
 """
 describe_auto_mljob(AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DescribeAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName); aws_config=aws_config)
@@ -3221,20 +3223,20 @@ list_auto_mljobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSCon
     list_candidates_for_auto_mljob(auto_mljob_name)
     list_candidates_for_auto_mljob(auto_mljob_name, params::Dict{String,<:Any})
 
-List the Candidates created for the job.
+List the candidates created for the job.
 
 # Arguments
-- `auto_mljob_name`: List the Candidates created for the job by providing the job's name.
+- `auto_mljob_name`: List the candidates created for the job by providing the job's name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CandidateNameEquals"`: List the Candidates for the job and filter by candidate name.
-- `"MaxResults"`: List the job's Candidates up to a specified limit.
+- `"CandidateNameEquals"`: List the candidates for the job and filter by candidate name.
+- `"MaxResults"`: List the job's candidates up to a specified limit.
 - `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
   your next request to receive the next set of results.
 - `"SortBy"`: The parameter by which to sort the results. The default is Descending.
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
-- `"StatusEquals"`: List the Candidates for the job and filter by status.
+- `"StatusEquals"`: List the candidates for the job and filter by status.
 """
 list_candidates_for_auto_mljob(AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("ListCandidatesForAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName); aws_config=aws_config)
 list_candidates_for_auto_mljob(AutoMLJobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("ListCandidatesForAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName), params)); aws_config=aws_config)

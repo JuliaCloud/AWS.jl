@@ -10,6 +10,8 @@ using AWS.UUIDs
 
 Creates an association between a geofence collection and a tracker resource. This allows
 the tracker resource to communicate location data to the linked geofence collection.
+Currently not supported — Cross-account configurations, such as creating associations
+between a tracker resource in one account and a geofence collection in another account.
 
 # Arguments
 - `consumer_arn`: The Amazon Resource Name (ARN) for the geofence collection to be
@@ -41,8 +43,11 @@ batch_delete_geofence(CollectionName, GeofenceIds, params::AbstractDict{String, 
     batch_evaluate_geofences(collection_name, device_position_updates)
     batch_evaluate_geofences(collection_name, device_position_updates, params::Dict{String,<:Any})
 
-Used in geofence monitoring. Evaluates device positions against the position of geofences
-in a given geofence collection.
+Evaluates device positions against the geofence geometries from a given geofence
+collection. The evaluation determines if the device has entered or exited a geofenced area,
+which publishes ENTER or EXIT geofence events to Amazon EventBridge.  The last geofence
+that a device was observed within, if any, is tracked for 30 days after the most recent
+device position update
 
 # Arguments
 - `collection_name`: The geofence collection used in evaluating the position of devices
@@ -58,8 +63,7 @@ batch_evaluate_geofences(CollectionName, DevicePositionUpdates, params::Abstract
     batch_get_device_position(device_ids, tracker_name)
     batch_get_device_position(device_ids, tracker_name, params::Dict{String,<:Any})
 
-A batch request to retrieve device positions.  The response will return the device
-positions from the last 24 hours.
+A batch request to retrieve all device positions.
 
 # Arguments
 - `device_ids`: Devices whose position you want to retrieve.   For example, for two
@@ -74,7 +78,7 @@ batch_get_device_position(DeviceIds, TrackerName, params::AbstractDict{String, <
     batch_put_geofence(collection_name, entries)
     batch_put_geofence(collection_name, entries, params::Dict{String,<:Any})
 
-A batch request for storing geofences into a given geofence collection.
+A batch request for storing geofence geometries into a given geofence collection.
 
 # Arguments
 - `collection_name`: The geofence collection storing the geofences.
@@ -88,10 +92,10 @@ batch_put_geofence(CollectionName, Entries, params::AbstractDict{String, <:Any};
     batch_update_device_position(tracker_name, updates)
     batch_update_device_position(tracker_name, updates, params::Dict{String,<:Any})
 
-Uploads a position update for one or more devices to a tracker resource. The data is used
-for API queries requesting the device position and position history.  Limitation —
-Location data is sampled at a fixed rate of 1 position per 30 second interval, and retained
-for 1 year before it is deleted.
+Uploads position update data for one or more devices to a tracker resource. Amazon Location
+uses the data when reporting the last known device position and position history.  Only one
+position update is stored per sample time. Location data is sampled at a fixed rate of one
+position per 30-second interval, and retained for one year before it is deleted.
 
 # Arguments
 - `tracker_name`: The name of the tracker resource to update.
@@ -109,19 +113,21 @@ Creates a geofence collection, which manages and stores geofences.
 
 # Arguments
 - `collection_name`: A custom name for the geofence collection. Requirements:   Contain
-  only alphanumeric characters (A–Z, a–z, 0-9), hyphens (-), and underscores (_).    Must
-  be a unique geofence collection name.   No spaces allowed. For example,
+  only alphanumeric characters (A–Z, a–z, 0-9), hyphens (-), periods (.), and underscores
+  (_).    Must be a unique geofence collection name.   No spaces allowed. For example,
   ExampleGeofenceCollection.
-- `pricing_plan`: Specifies the pricing plan for your geofence collection. There's three
-  pricing plan options:    RequestBasedUsage — Selects the \"Request-Based Usage\" pricing
-  plan.    MobileAssetTracking — Selects the \"Mobile Asset Tracking\" pricing plan.
-  MobileAssetManagement — Selects the \"Mobile Asset Management\" pricing plan.   For
-  additional details and restrictions on each pricing plan option, see the Amazon Location
-  Service pricing page.
+- `pricing_plan`: Specifies the pricing plan for your geofence collection. For additional
+  details and restrictions on each pricing plan option, see the Amazon Location Service
+  pricing page.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: An optional description for the geofence collection.
+- `"PricingPlanDataSource"`: Specifies the plan data source. Required if the Mobile Asset
+  Tracking (MAT) or the Mobile Asset Management (MAM) pricing plan is selected. Billing is
+  determined by the resource usage, the associated pricing plan, and the data source that was
+  specified. For more information about each pricing plan option and restrictions, see the
+  Amazon Location Service pricing page. Valid Values: Esri | Here
 """
 create_geofence_collection(CollectionName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections", Dict{String, Any}("CollectionName"=>CollectionName, "PricingPlan"=>PricingPlan); aws_config=aws_config)
 create_geofence_collection(CollectionName, PricingPlan, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionName"=>CollectionName, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config)
@@ -139,14 +145,10 @@ Service Terms for Amazon Location Service.
 # Arguments
 - `configuration`: Specifies the map style selected from an available data provider.
 - `map_name`: The name for the map resource. Requirements:   Must contain only alphanumeric
-  characters (A–Z, a–z, 0–9), hyphens (-), and underscores (_).    Must be a unique map
-  resource name.    No spaces allowed. For example, ExampleMap.
-- `pricing_plan`: Specifies the pricing plan for your map resource. There's three pricing
-  plan options:    RequestBasedUsage — Selects the \"Request-Based Usage\" pricing plan.
-  MobileAssetTracking — Selects the \"Mobile Asset Tracking\" pricing plan.
-  MobileAssetManagement — Selects the \"Mobile Asset Management\" pricing plan.   For
-  additional details and restrictions on each pricing plan option, see the Amazon Location
-  Service pricing page.
+  characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be
+  a unique map resource name.    No spaces allowed. For example, ExampleMap.
+- `pricing_plan`: Specifies the pricing plan for your map resource. For additional details
+  and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -167,16 +169,17 @@ limitations, you may not use HERE to store results for locations in Japan. For m
 information, see the AWS Service Terms for Amazon Location Service.
 
 # Arguments
-- `data_source`: Specifies the data provider of geospatial data.
+- `data_source`: Specifies the data provider of geospatial data.  This field is
+  case-sensitive. Enter the valid values as shown. For example, entering HERE will return an
+  error.  Valid values include:    Esri     Here    For additional details on data providers,
+  see the Amazon Location Service data providers page.
 - `index_name`: The name of the Place index resource.  Requirements:   Contain only
-  alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-) and underscores (_) ).   Must be a
-  unique Place index resource name.   No spaces allowed. For example, ExamplePlaceIndex.
-- `pricing_plan`: Specifies the pricing plan for your Place index resource. There's three
-  pricing plan options:    RequestBasedUsage — Selects the \"Request-Based Usage\" pricing
-  plan.    MobileAssetTracking — Selects the \"Mobile Asset Tracking\" pricing plan.
-  MobileAssetManagement — Selects the \"Mobile Asset Management\" pricing plan.   For
-  additional details and restrictions on each pricing plan option, see the Amazon Location
-  Service pricing page.
+  alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).
+  Must be a unique Place index resource name.   No spaces allowed. For example,
+  ExamplePlaceIndex.
+- `pricing_plan`: Specifies the pricing plan for your Place index resource. For additional
+  details and restrictions on each pricing plan option, see the Amazon Location Service
+  pricing page.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -194,19 +197,21 @@ Creates a tracker resource in your AWS account, which lets you retrieve current 
 historical location of devices.
 
 # Arguments
-- `pricing_plan`: Specifies the pricing plan for your tracker resource. There's three
-  pricing plan options:    RequestBasedUsage — Selects the \"Request-Based Usage\" pricing
-  plan.    MobileAssetTracking — Selects the \"Mobile Asset Tracking\" pricing plan.
-  MobileAssetManagement — Selects the \"Mobile Asset Management\" pricing plan.   For
-  additional details and restrictions on each pricing plan option, see the Amazon Location
-  Service pricing page.
+- `pricing_plan`: Specifies the pricing plan for your tracker resource. For additional
+  details and restrictions on each pricing plan option, see the Amazon Location Service
+  pricing page.
 - `tracker_name`: The name for the tracker resource. Requirements:   Contain only
-  alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-) and underscores (_).   Must be a
-  unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
+  alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).
+  Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: An optional description for the tracker resource.
+- `"PricingPlanDataSource"`: Specifies the plan data source. Required if the Mobile Asset
+  Tracking (MAT) or the Mobile Asset Management (MAM) pricing plan is selected. Billing is
+  determined by the resource usage, the associated pricing plan, and data source that was
+  specified. For more information about each pricing plan option and restrictions, see the
+  Amazon Location Service pricing page. Valid Values: Esri | Here
 """
 create_tracker(PricingPlan, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers", Dict{String, Any}("PricingPlan"=>PricingPlan, "TrackerName"=>TrackerName); aws_config=aws_config)
 create_tracker(PricingPlan, TrackerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PricingPlan"=>PricingPlan, "TrackerName"=>TrackerName), params)); aws_config=aws_config)
@@ -327,7 +332,7 @@ describe_tracker(TrackerName, params::AbstractDict{String, <:Any}; aws_config::A
     disassociate_tracker_consumer(consumer_arn, tracker_name)
     disassociate_tracker_consumer(consumer_arn, tracker_name, params::Dict{String,<:Any})
 
-Removes the association bewteen a tracker resource and a geofence collection.  Once you
+Removes the association between a tracker resource and a geofence collection.  Once you
 unlink a tracker resource from a geofence collection, the tracker positions will no longer
 be automatically evaluated against geofences.
 
@@ -346,11 +351,11 @@ disassociate_tracker_consumer(ConsumerArn, TrackerName, params::AbstractDict{Str
     get_device_position(device_id, tracker_name)
     get_device_position(device_id, tracker_name, params::Dict{String,<:Any})
 
-Retrieves the latest device position.  Limitation — Device positions are deleted after
-one year.
+Retrieves a device's most recent position according to its sample time.  Device positions
+are deleted after one year.
 
 # Arguments
-- `device_id`: The device whose position you want to retreieve.
+- `device_id`: The device whose position you want to retrieve.
 - `tracker_name`: The tracker resource receiving the position update.
 
 """
@@ -362,7 +367,7 @@ get_device_position(DeviceId, TrackerName, params::AbstractDict{String, <:Any}; 
     get_device_position_history(device_id, tracker_name, params::Dict{String,<:Any})
 
 Retrieves the device position history from a tracker resource within a specified range of
-time.  Limitation — Device positions are deleted after one year.
+time.  Device positions are deleted after 1 year.
 
 # Arguments
 - `device_id`: The device whose position history you want to retrieve.
@@ -372,13 +377,15 @@ time.  Limitation — Device positions are deleted after one year.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EndTimeExclusive"`: Specify the end time for the position history in  ISO 8601 format:
-  YYYY-MM-DDThh:mm:ss.sssZ.    The given time for EndTimeExclusive must be after the time for
+  YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be the time that the request is made.
+  Requirement:   The time specified for EndTimeExclusive must be after the time for
   StartTimeInclusive.
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 - `"StartTimeInclusive"`: Specify the start time for the position history in  ISO 8601
-  format: YYYY-MM-DDThh:mm:ss.sssZ.    The given time for EndTimeExclusive must be after the
-  time for StartTimeInclusive.
+  format: YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be 24 hours prior to the time
+  that the request is made. Requirement:   The time specified for StartTimeInclusive must be
+  before EndTimeExclusive.
 """
 get_device_position_history(DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions"; aws_config=aws_config)
 get_device_position_history(DeviceId, TrackerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions", params; aws_config=aws_config)
@@ -575,13 +582,14 @@ list_trackers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=g
     put_geofence(collection_name, geofence_id, geometry)
     put_geofence(collection_name, geofence_id, geometry, params::Dict{String,<:Any})
 
-Stores a geofence to a given geofence collection, or updates the geometry of an existing
-geofence if a geofence ID is included in the request.
+Stores a geofence geometry in a given geofence collection, or updates the geometry of an
+existing geofence if a geofence ID is included in the request.
 
 # Arguments
 - `collection_name`: The geofence collection to store the geofence in.
 - `geofence_id`: An identifier for the geofence. For example, ExampleGeofence-1.
-- `geometry`: Contains the polygon details to specify the position of the geofence.
+- `geometry`: Contains the polygon details to specify the position of the geofence.  Each
+  geofence polygon can have a maximum of 1,000 vertices.
 
 """
 put_geofence(CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=global_aws_config()) = location("PUT", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", Dict{String, Any}("Geometry"=>Geometry); aws_config=aws_config)
