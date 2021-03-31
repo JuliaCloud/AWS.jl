@@ -443,15 +443,15 @@ Associates an AWS Identity and Access Management (IAM) role with an AWS Certific
 (ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves
 application inside an enclave. For more information, see AWS Certificate Manager for Nitro
 Enclaves in the AWS Nitro Enclaves User Guide. When the IAM role is associated with the ACM
-certificate, places the certificate, certificate chain, and encrypted private key in an
+certificate, the certificate, certificate chain, and encrypted private key are placed in an
 Amazon S3 bucket that only the associated IAM role can access. The private key of the
 certificate is encrypted with an AWS-managed KMS customer master (CMK) that has an attached
 attestation-based CMK policy. To enable the IAM role to access the Amazon S3 object, you
 must grant it permission to call s3:GetObject on the Amazon S3 bucket returned by the
 command. To enable the IAM role to access the AWS KMS CMK, you must grant it permission to
-call kms:Decrypt on AWS KMS CMK returned by the command. For more information, see  Grant
-the role permission to access the certificate and encryption key in the AWS Nitro Enclaves
-User Guide.
+call kms:Decrypt on the AWS KMS CMK returned by the command. For more information, see
+Grant the role permission to access the certificate and encryption key in the AWS Nitro
+Enclaves User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2146,6 +2146,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_placement_group(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreatePlacementGroup"; aws_config=aws_config)
 create_placement_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreatePlacementGroup", params; aws_config=aws_config)
+
+"""
+    create_replace_root_volume_task(instance_id)
+    create_replace_root_volume_task(instance_id, params::Dict{String,<:Any})
+
+Creates a root volume replacement task for an Amazon EC2 instance. The root volume can
+either be restored to its initial launch state, or it can be restored using a specific
+snapshot. For more information, see Replace a root volume in the Amazon Elastic Compute
+Cloud User Guide.
+
+# Arguments
+- `instance_id`: The ID of the instance for which to replace the root volume.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
+  of the request. If you do not specify a client token, a randomly generated token is used
+  for the request to ensure idempotency. For more information, see Ensuring Idempotency.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"SnapshotId"`: The ID of the snapshot from which to restore the replacement root volume.
+  If you want to restore the volume to the initial launch state, omit this parameter.
+- `"TagSpecification"`: The tags to apply to the root volume replacement task.
+"""
+create_replace_root_volume_task(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateReplaceRootVolumeTask", Dict{String, Any}("InstanceId"=>InstanceId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_replace_root_volume_task(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateReplaceRootVolumeTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_reserved_instances_listing(client_token, instance_count, price_schedules, reserved_instances_id)
@@ -6569,6 +6596,28 @@ describe_regions(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("Des
 describe_regions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeRegions", params; aws_config=aws_config)
 
 """
+    describe_replace_root_volume_tasks()
+    describe_replace_root_volume_tasks(params::Dict{String,<:Any})
+
+Describes a root volume replacement task. For more information, see Replace a root volume
+in the Amazon Elastic Compute Cloud User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: Filter to use:    instance-id - The ID of the instance for which the root
+  volume replacement task was created.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+- `"ReplaceRootVolumeTaskId"`: The ID of the root volume replacement task to view.
+"""
+describe_replace_root_volume_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeReplaceRootVolumeTasks"; aws_config=aws_config)
+describe_replace_root_volume_tasks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeReplaceRootVolumeTasks", params; aws_config=aws_config)
+
+"""
     describe_reserved_instances()
     describe_reserved_instances(params::Dict{String,<:Any})
 
@@ -8346,6 +8395,23 @@ disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::A
 disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config)
 
 """
+    disable_serial_console_access()
+    disable_serial_console_access(params::Dict{String,<:Any})
+
+Disables access to the EC2 serial console of all instances for your account. By default,
+access to the EC2 serial console is disabled for your account. For more information, see
+Manage account access to the EC2 serial console in the Amazon EC2 User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+disable_serial_console_access(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisableSerialConsoleAccess"; aws_config=aws_config)
+disable_serial_console_access(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisableSerialConsoleAccess", params; aws_config=aws_config)
+
+"""
     disable_transit_gateway_route_table_propagation(transit_gateway_attachment_id, transit_gateway_route_table_id)
     disable_transit_gateway_route_table_propagation(transit_gateway_attachment_id, transit_gateway_route_table_id, params::Dict{String,<:Any})
 
@@ -8598,8 +8664,8 @@ disassociate_vpc_cidr_block(associationId, params::AbstractDict{String, <:Any}; 
     enable_ebs_encryption_by_default(params::Dict{String,<:Any})
 
 Enables EBS encryption by default for your account in the current Region. After you enable
-encryption by default, the EBS volumes that you create are are always encrypted, either
-using the default CMK or the CMK that you specified when you created each volume. For more
+encryption by default, the EBS volumes that you create are always encrypted, either using
+the default CMK or the CMK that you specified when you created each volume. For more
 information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. You
 can specify the default CMK for encryption by default using ModifyEbsDefaultKmsKeyId or
 ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption
@@ -8641,6 +8707,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
 enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config)
+
+"""
+    enable_serial_console_access()
+    enable_serial_console_access(params::Dict{String,<:Any})
+
+Enables access to the EC2 serial console of all instances for your account. By default,
+access to the EC2 serial console is disabled for your account. For more information, see
+Manage account access to the EC2 serial console in the Amazon EC2 User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+enable_serial_console_access(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("EnableSerialConsoleAccess"; aws_config=aws_config)
+enable_serial_console_access(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("EnableSerialConsoleAccess", params; aws_config=aws_config)
 
 """
     enable_transit_gateway_route_table_propagation(transit_gateway_attachment_id, transit_gateway_route_table_id)
@@ -9206,6 +9289,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 get_reserved_instances_exchange_quote(ReservedInstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId); aws_config=aws_config)
 get_reserved_instances_exchange_quote(ReservedInstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetReservedInstancesExchangeQuote", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstanceId"=>ReservedInstanceId), params)); aws_config=aws_config)
+
+"""
+    get_serial_console_access_status()
+    get_serial_console_access_status(params::Dict{String,<:Any})
+
+Retrieves the access status of your account to the EC2 serial console of all instances. By
+default, access to the EC2 serial console is disabled for your account. For more
+information, see Manage account access to the EC2 serial console in the Amazon EC2 User
+Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+get_serial_console_access_status(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetSerialConsoleAccessStatus"; aws_config=aws_config)
+get_serial_console_access_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetSerialConsoleAccessStatus", params; aws_config=aws_config)
 
 """
     get_transit_gateway_attachment_propagations(transit_gateway_attachment_id)
@@ -10547,7 +10648,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Iops"`: The target IOPS rate of the volume. This parameter is valid only for gp3, io1,
   and io2 volumes. The following are the supported values for each volume type:    gp3:
   3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   Default: If no IOPS
-  value is specified, the existing value is retained.
+  value is specified, the existing value is retained, unless a volume type is modified that
+  supports different values.
 - `"MultiAttachEnabled"`: Specifies whether to enable Amazon EBS Multi-Attach. If you
   enable Multi-Attach, you can attach the volume to up to 16  Nitro-based instances in the
   same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more

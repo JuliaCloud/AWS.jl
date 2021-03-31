@@ -1764,11 +1764,10 @@ get_registry(RegistryId, params::AbstractDict{String, <:Any}; aws_config::Abstra
     get_resource_policies()
     get_resource_policies(params::Dict{String,<:Any})
 
-Retrieves the security configurations for the resource policies set on individual
-resources, and also the account-level policy. This operation also returns the Data Catalog
-resource policy. However, if you enabled metadata encryption in Data Catalog settings, and
-you do not have permission on the AWS KMS key, the operation can't return the Data Catalog
-resource policy.
+Retrieves the resource policies set on individual resources by AWS Resource Access Manager
+during cross-account permission grants. Also retrieves the Data Catalog resource policy. If
+you enabled metadata encryption in Data Catalog settings, and you do not have permission on
+the AWS KMS key, the operation can't return the Data Catalog resource policy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1786,9 +1785,10 @@ Retrieves a specified resource policy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ResourceArn"`: The ARN of the AWS Glue resource for the resource policy to be
-  retrieved. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string
-  pattern
+- `"ResourceArn"`: The ARN of the AWS Glue resource for which to retrieve the resource
+  policy. If not supplied, the Data Catalog resource policy is returned. Use
+  GetResourcePolicies to view all existing resource policies. For more information see
+  Specifying AWS Glue Resource ARNs.
 """
 get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetResourcePolicy"; aws_config=aws_config)
 get_resource_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetResourcePolicy", params; aws_config=aws_config)
@@ -2349,19 +2349,18 @@ Sets the Data Catalog resource policy for access control.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EnableHybrid"`: Allows you to specify if you want to use both resource-level and
-  account/catalog-level resource policies. A resource-level policy is a policy attached to an
-  individual resource such as a database or a table. The default value of NO indicates that
-  resource-level policies cannot co-exist with an account-level policy. A value of YES means
-  the use of both resource-level and account/catalog-level resource policies is allowed.
+- `"EnableHybrid"`: If 'TRUE', indicates that you are using both methods to grant
+  cross-account access to Data Catalog resources:   By directly updating the resource policy
+  with PutResourePolicy    By using the Grant permissions command on the AWS Management
+  Console.   Must be set to 'TRUE' if you have already used the Management Console to grant
+  cross-account access, otherwise the call fails. Default is 'FALSE'.
 - `"PolicyExistsCondition"`: A value of MUST_EXIST is used to update a policy. A value of
   NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the
-  call will not depend on the existence of a policy.
+  call does not depend on the existence of a policy.
 - `"PolicyHashCondition"`: The hash value returned when the previous policy was set using
   PutResourcePolicy. Its purpose is to prevent concurrent modifications of a policy. Do not
   use this parameter if no previous policy has been set.
-- `"ResourceArn"`: The ARN of the AWS Glue resource for the resource policy to be set. For
-  more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern
+- `"ResourceArn"`: Do not use. For internal use only.
 """
 put_resource_policy(PolicyInJson; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutResourcePolicy", Dict{String, Any}("PolicyInJson"=>PolicyInJson); aws_config=aws_config)
 put_resource_policy(PolicyInJson, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInJson"=>PolicyInJson), params)); aws_config=aws_config)

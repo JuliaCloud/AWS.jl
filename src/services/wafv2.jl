@@ -154,6 +154,13 @@ capacity requirements.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
+  create a rule with a block action, you can send a custom response to the web request. You
+  define these for the rule group, and then use them in the rules that you define in the rule
+  group.  For information about customizing web requests and responses, see Customizing web
+  requests and responses in AWS WAF in the AWS WAF Developer Guide.  For information about
+  the limits on count and size for custom request and response settings, see AWS WAF quotas
+  in the AWS WAF Developer Guide.
 - `"Description"`: A description of the rule group that helps with identification.
 - `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that AWS WAF uses to identify
@@ -192,6 +199,13 @@ an AWS AppSync GraphQL API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
+  create a rule with a block action, you can send a custom response to the web request. You
+  define these for the web ACL, and then use them in the rules and default actions that you
+  define in the web ACL.  For information about customizing web requests and responses, see
+  Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.  For
+  information about the limits on count and size for custom request and response settings,
+  see AWS WAF quotas in the AWS WAF Developer Guide.
 - `"Description"`: A description of the Web ACL that helps with identification.
 - `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that AWS WAF uses to identify
@@ -907,11 +921,7 @@ untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_co
     update_ipset(addresses, id, lock_token, name, scope)
     update_ipset(addresses, id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Updates the specified IPSet.   This operation completely replaces any IP address
-specifications that you already have in the IP set with the ones that you provide to this
-call. If you want to add to or modify the addresses that are already in the IP set,
-retrieve those by calling GetIPSet, update them, and provide the complete updated array of
-IP addresses to this call.
+Updates the specified IPSet.
 
 # Arguments
 - `addresses`: Contains an array of strings that specify one or more IP addresses or blocks
@@ -1016,6 +1026,13 @@ This allows others to reuse the rule group with confidence in its capacity requi
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
+  create a rule with a block action, you can send a custom response to the web request. You
+  define these for the rule group, and then use them in the rules that you define in the rule
+  group.  For information about customizing web requests and responses, see Customizing web
+  requests and responses in AWS WAF in the AWS WAF Developer Guide.  For information about
+  the limits on count and size for custom request and response settings, see AWS WAF quotas
+  in the AWS WAF Developer Guide.
 - `"Description"`: A description of the rule group that helps with identification.
 - `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that AWS WAF uses to identify
@@ -1062,6 +1079,13 @@ GraphQL API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomResponseBodies"`: A map of custom response keys and content bodies. When you
+  create a rule with a block action, you can send a custom response to the web request. You
+  define these for the web ACL, and then use them in the rules and default actions that you
+  define in the web ACL.  For information about customizing web requests and responses, see
+  Customizing web requests and responses in AWS WAF in the AWS WAF Developer Guide.  For
+  information about the limits on count and size for custom request and response settings,
+  see AWS WAF quotas in the AWS WAF Developer Guide.
 - `"Description"`: A description of the Web ACL that helps with identification.
 - `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
   block, or count. Each rule includes one top-level statement that AWS WAF uses to identify

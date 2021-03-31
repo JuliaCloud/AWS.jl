@@ -329,6 +329,29 @@ describe_aggregate_compliance_by_config_rules(ConfigurationAggregatorName; aws_c
 describe_aggregate_compliance_by_config_rules(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregateComplianceByConfigRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
+    describe_aggregate_compliance_by_conformance_packs(configuration_aggregator_name)
+    describe_aggregate_compliance_by_conformance_packs(configuration_aggregator_name, params::Dict{String,<:Any})
+
+Returns a list of the conformance packs and their associated compliance status with the
+count of compliant and noncompliant AWS Config rules within each conformance pack.  The
+results can return an empty result page, but if you have a nextToken, the results are
+displayed on the next page.
+
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the result by AggregateConformancePackComplianceFilters object.
+- `"Limit"`: The maximum number of conformance packs details returned on each page. The
+  default is maximum. If you specify 0, AWS Config uses the default.
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+  next page of results in a paginated response.
+"""
+describe_aggregate_compliance_by_conformance_packs(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregateComplianceByConformancePacks", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
+describe_aggregate_compliance_by_conformance_packs(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("DescribeAggregateComplianceByConformancePacks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
+
+"""
     describe_aggregation_authorizations()
     describe_aggregation_authorizations(params::Dict{String,<:Any})
 
@@ -866,6 +889,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 get_aggregate_config_rule_compliance_summary(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateConfigRuleComplianceSummary", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
 get_aggregate_config_rule_compliance_summary(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateConfigRuleComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
+
+"""
+    get_aggregate_conformance_pack_compliance_summary(configuration_aggregator_name)
+    get_aggregate_conformance_pack_compliance_summary(configuration_aggregator_name, params::Dict{String,<:Any})
+
+Returns the count of compliant and noncompliant conformance packs across all AWS Accounts
+and AWS Regions. You can filter based on AWS Account ID or AWS Region.  The results can
+return an empty result page, but if you have a nextToken, the results are displayed on the
+next page.
+
+# Arguments
+- `configuration_aggregator_name`: The name of the configuration aggregator.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the results based on the
+  AggregateConformancePackComplianceSummaryFilters object.
+- `"GroupByKey"`: Groups the result based on AWS Account ID or AWS Region.
+- `"Limit"`: The maximum number of results returned on each page. The default is maximum.
+  If you specify 0, AWS Config uses the default.
+- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+  next page of results in a paginated response.
+"""
+get_aggregate_conformance_pack_compliance_summary(ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateConformancePackComplianceSummary", Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName); aws_config=aws_config)
+get_aggregate_conformance_pack_compliance_summary(ConfigurationAggregatorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = config_service("GetAggregateConformancePackComplianceSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationAggregatorName"=>ConfigurationAggregatorName), params)); aws_config=aws_config)
 
 """
     get_aggregate_discovered_resource_counts(configuration_aggregator_name)
@@ -1516,7 +1564,7 @@ either the TemplateS3Uri or the TemplateBody parameter, but not both. If you pro
 AWS Config uses the TemplateS3Uri parameter and ignores the TemplateBody parameter. AWS
 Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS
 until the conformance pack is created or updated. You cannot update a conformance pack
-while it is in this state. You can create 6 conformance packs with 25 AWS Config rules in
+while it is in this state. You can create 50 conformance packs with 25 AWS Config rules in
 each pack and 3 delegated administrator per organization.
 
 # Arguments
@@ -1527,7 +1575,7 @@ each pack and 3 delegated administrator per organization.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConformancePackInputParameters"`: A list of ConformancePackInputParameter objects.
 - `"DeliveryS3Bucket"`: Amazon S3 bucket where AWS Config stores conformance pack
-  templates.  This field is optional.
+  templates.  This field is optional. If used, it must be prefixed with awsconfigconforms.
 - `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.  This field is optional.
 - `"ExcludedAccounts"`: A list of AWS accounts to be excluded from an organization
   conformance pack while deploying a conformance pack.
