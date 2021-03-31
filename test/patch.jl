@@ -44,10 +44,6 @@ body = """
 
 response = HTTP.Messages.Response()
 
-web_access_key = "web_identity_access_key"
-web_secret_key = "web_identity_secret_key"
-web_sesh_token = "web_session_token"
-
 function _response!(; version::VersionNumber=version, status::Int64=status, headers::Array=headers, body::String=body)
     response.version = version
     response.status = status
@@ -69,17 +65,32 @@ _config_file_patch = @patch function dot_aws_config_file()
     return ""
 end
 
-_web_identity_patch = @patch function AWS._http_request(request)
-    creds = Dict(
-        "AccessKeyId" => web_access_key, 
-        "SecretAccessKey" => web_secret_key,
-        "SessionToken" => web_sesh_token, 
-        "Expiration" => string(now(UTC))
-    )
+_web_identity_patch = function (;
+    access_key="web_identity_access_key",
+    secret_key="web_identity_secret_key",
+    session_token="web_session_token",
+    role_arn="arn:aws:sts:::assumed-role/role-name",
+)
+    @patch function AWS._http_request(request)
+        params = Dict(split.(split(request.content, '&'), '='))
+        creds = Dict(
+            "AccessKeyId" => access_key,
+            "SecretAccessKey" => secret_key,
+            "SessionToken" => session_token,
+            "Expiration" => string(now(UTC)),
+        )
 
-    result = Dict("AssumeRoleWithWebIdentityResult" => Dict("Credentials" => creds))
+        result = Dict(
+            "AssumeRoleWithWebIdentityResult" => Dict(
+                "Credentials" => creds,
+                "AssumedRoleUser" => Dict(
+                    "Arn" => role_arn * "/" * params["RoleSessionName"],
+                ),
+            ),
+        )
 
-    return HTTP.Response(200, ["Content-Type" => "text/json", "charset" => "utf-8"], body=json(result))
+        return HTTP.Response(200, ["Content-Type" => "text/json", "charset" => "utf-8"], body=json(result))
+    end
 end
 
 _github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
