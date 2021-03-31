@@ -9,33 +9,39 @@ using AWS.UUIDs
     compare_faces(source_image, target_image, params::Dict{String,<:Any})
 
 Compares a face in the source input image with each of the 100 largest faces detected in
-the target input image.    If the source image contains multiple faces, the service detects
-the largest face and compares it with each face detected in the target image.   You pass
-the input and target images either as base64-encoded image bytes or as references to images
-in an Amazon S3 bucket. If you use the AWS CLI to call Amazon Rekognition operations,
-passing image bytes isn't supported. The image must be formatted as a PNG or JPEG file.  In
-response, the operation returns an array of face matches ordered by similarity score in
-descending order. For each face match, the response provides a bounding box of the face,
-facial landmarks, pose details (pitch, role, and yaw), quality (brightness and sharpness),
-and confidence value (indicating the level of confidence that the bounding box contains a
-face). The response also provides a similarity score, which indicates how closely the faces
-match.   By default, only faces with a similarity score of greater than or equal to 80% are
-returned in the response. You can change this value by specifying the SimilarityThreshold
-parameter.   CompareFaces also returns an array of faces that don't match the source image.
-For each face, it returns a bounding box, confidence value, landmarks, pose details, and
-quality. The response also returns information about the face in the source image,
-including the bounding box of the face and confidence value. The QualityFilter input
-parameter allows you to filter out detected faces that don’t meet a required quality bar.
-The quality bar is based on a variety of common use cases. Use QualityFilter to set the
-quality bar by specifying LOW, MEDIUM, or HIGH. If you do not want to filter detected
-faces, specify NONE. The default value is NONE.  If the image doesn't contain Exif
-metadata, CompareFaces returns orientation information for the source and target images.
-Use these values to display the images with the correct image orientation. If no faces are
-detected in the source or target images, CompareFaces returns an InvalidParameterException
-error.    This is a stateless API operation. That is, data returned by this operation
-doesn't persist.  For an example, see Comparing Faces in Images in the Amazon Rekognition
-Developer Guide. This operation requires permissions to perform the
-rekognition:CompareFaces action.
+the target input image.   If the source image contains multiple faces, the service detects
+the largest face and compares it with each face detected in the target image.
+CompareFaces uses machine learning algorithms, which are probabilistic. A false negative is
+an incorrect prediction that a face in the target image has a low similarity confidence
+score when compared to the face in the source image. To reduce the probability of false
+negatives, we recommend that you compare the target image against multiple source images.
+If you plan to use CompareFaces to make a decision that impacts an individual's rights,
+privacy, or access to services, we recommend that you pass the result to a human for review
+and further validation before taking action.  You pass the input and target images either
+as base64-encoded image bytes or as references to images in an Amazon S3 bucket. If you use
+the AWS CLI to call Amazon Rekognition operations, passing image bytes isn't supported. The
+image must be formatted as a PNG or JPEG file.  In response, the operation returns an array
+of face matches ordered by similarity score in descending order. For each face match, the
+response provides a bounding box of the face, facial landmarks, pose details (pitch, role,
+and yaw), quality (brightness and sharpness), and confidence value (indicating the level of
+confidence that the bounding box contains a face). The response also provides a similarity
+score, which indicates how closely the faces match.   By default, only faces with a
+similarity score of greater than or equal to 80% are returned in the response. You can
+change this value by specifying the SimilarityThreshold parameter.   CompareFaces also
+returns an array of faces that don't match the source image. For each face, it returns a
+bounding box, confidence value, landmarks, pose details, and quality. The response also
+returns information about the face in the source image, including the bounding box of the
+face and confidence value. The QualityFilter input parameter allows you to filter out
+detected faces that don’t meet a required quality bar. The quality bar is based on a
+variety of common use cases. Use QualityFilter to set the quality bar by specifying LOW,
+MEDIUM, or HIGH. If you do not want to filter detected faces, specify NONE. The default
+value is NONE.  If the image doesn't contain Exif metadata, CompareFaces returns
+orientation information for the source and target images. Use these values to display the
+images with the correct image orientation. If no faces are detected in the source or target
+images, CompareFaces returns an InvalidParameterException error.    This is a stateless API
+operation. That is, data returned by this operation doesn't persist.  For an example, see
+Comparing Faces in Images in the Amazon Rekognition Developer Guide. This operation
+requires permissions to perform the rekognition:CompareFaces action.
 
 # Arguments
 - `source_image`: The input image as base64-encoded bytes or an S3 object. If you use the
@@ -81,6 +87,9 @@ requires permissions to perform the rekognition:CreateCollection action.
 # Arguments
 - `collection_id`: ID for the collection that you are creating.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the collection.
 """
 create_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
 create_collection(CollectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
@@ -121,6 +130,9 @@ requires permissions to perform the rekognition:CreateProjectVersion action.
 - `training_data`: The dataset to use for training.
 - `version_name`: A name for the version of the model. This value must be unique.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the model.
 """
 create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName); aws_config=aws_config)
 create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName), params)); aws_config=aws_config)
@@ -152,6 +164,10 @@ to stop processing. You can delete the stream processor by calling DeleteStreamP
 - `settings`: Face recognition input parameters to be used by the stream processor.
   Includes the collection to use for face recognition and the face attributes to detect.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the stream
+  processor.
 """
 create_stream_processor(Input, Name, Output, RoleArn, Settings; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings); aws_config=aws_config)
 create_stream_processor(Input, Name, Output, RoleArn, Settings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings), params)); aws_config=aws_config)
@@ -1073,6 +1089,21 @@ list_stream_processors(; aws_config::AbstractAWSConfig=global_aws_config()) = re
 list_stream_processors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListStreamProcessors", params; aws_config=aws_config)
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+ Returns a list of tags in an Amazon Rekognition collection, stream processor, or Custom
+Labels model.
+
+# Arguments
+- `resource_arn`:  Amazon Resource Name (ARN) of the model, collection, or stream processor
+  that contains the tags that you want a list of.
+
+"""
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+
+"""
     recognize_celebrities(image)
     recognize_celebrities(image, params::Dict{String,<:Any})
 
@@ -1552,3 +1583,35 @@ Stops a running stream processor that was created by CreateStreamProcessor.
 """
 stop_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 stop_stream_processor(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+ Adds one or more key-value tags to an Amazon Rekognition collection, stream processor, or
+Custom Labels model. For more information, see Tagging AWS Resources.
+
+# Arguments
+- `resource_arn`:  Amazon Resource Name (ARN) of the model, collection, or stream processor
+  that you want to assign the tags to.
+- `tags`:  The key-value tags to assign to the resource.
+
+"""
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+ Removes one or more tags from an Amazon Rekognition collection, stream processor, or
+Custom Labels model.
+
+# Arguments
+- `resource_arn`:  Amazon Resource Name (ARN) of the model, collection, or stream processor
+  that you want to remove the tags from.
+- `tag_keys`:  A list of the tags that you want to remove.
+
+"""
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)

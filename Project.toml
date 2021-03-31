@@ -1,7 +1,7 @@
 name = "AWS"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
 license = "MIT"
-version = "1.31.0"
+version = "1.33.0"
 
 [deps]
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -36,9 +36,10 @@ julia = "1"
 
 [extras]
 Pkg = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 Suppressor = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [targets]
-test = ["Pkg", "Suppressor", "Test", "UUIDs"]
+test = ["Pkg", "Random", "Suppressor", "Test", "UUIDs"]

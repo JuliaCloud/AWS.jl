@@ -41,8 +41,10 @@ Creates a new DataBrew dataset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Format"`: Specifies the file format of a dataset created from an S3 file or folder.
+- `"Format"`: The file format of a dataset that is created from an S3 file or folder.
 - `"FormatOptions"`:
+- `"PathOptions"`: A set of options that defines how DataBrew interprets an S3 path of the
+  dataset.
 - `"Tags"`: Metadata tags to apply to this dataset.
 """
 create_dataset(Input, Name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}("Input"=>Input, "Name"=>Name); aws_config=aws_config)
@@ -591,8 +593,10 @@ Modifies the definition of an existing DataBrew dataset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Format"`: Specifies the file format of a dataset created from an S3 file or folder.
+- `"Format"`: The file format of a dataset that is created from an S3 file or folder.
 - `"FormatOptions"`:
+- `"PathOptions"`: A set of options that defines how DataBrew interprets an S3 path of the
+  dataset.
 """
 update_dataset(Input, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}("Input"=>Input); aws_config=aws_config)
 update_dataset(Input, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input), params)); aws_config=aws_config)

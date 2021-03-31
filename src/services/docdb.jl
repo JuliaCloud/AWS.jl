@@ -5,6 +5,25 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    add_source_identifier_to_subscription(source_identifier, subscription_name)
+    add_source_identifier_to_subscription(source_identifier, subscription_name, params::Dict{String,<:Any})
+
+Adds a source identifier to an existing event notification subscription.
+
+# Arguments
+- `source_identifier`: The identifier of the event source to be added:   If the source type
+  is an instance, a DBInstanceIdentifier must be provided.   If the source type is a security
+  group, a DBSecurityGroupName must be provided.   If the source type is a parameter group, a
+  DBParameterGroupName must be provided.   If the source type is a snapshot, a
+  DBSnapshotIdentifier must be provided.
+- `subscription_name`: The name of the Amazon DocumentDB event notification subscription
+  that you want to add a source identifier to.
+
+"""
+add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("AddSourceIdentifierToSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+
+"""
     add_tags_to_resource(resource_name, tag)
     add_tags_to_resource(resource_name, tag, params::Dict{String,<:Any})
 
@@ -321,6 +340,57 @@ create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentif
 create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
 
 """
+    create_event_subscription(sns_topic_arn, subscription_name)
+    create_event_subscription(sns_topic_arn, subscription_name, params::Dict{String,<:Any})
+
+Creates an Amazon DocumentDB event notification subscription. This action requires a topic
+Amazon Resource Name (ARN) created by using the Amazon DocumentDB console, the Amazon SNS
+console, or the Amazon SNS API. To obtain an ARN with Amazon SNS, you must create a topic
+in Amazon SNS and subscribe to the topic. The ARN is displayed in the Amazon SNS console.
+You can specify the type of source (SourceType) that you want to be notified of. You can
+also provide a list of Amazon DocumentDB sources (SourceIds) that trigger the events, and
+you can provide a list of event categories (EventCategories) for events that you want to be
+notified of. For example, you can specify SourceType = db-instance, SourceIds =
+mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify
+both the SourceType and SourceIds (such as SourceType = db-instance and SourceIdentifier =
+myDBInstance1), you are notified of all the db-instance events for the specified source. If
+you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the
+events for that source type for all your Amazon DocumentDB sources. If you do not specify
+either the SourceType or the SourceIdentifier, you are notified of events generated from
+all Amazon DocumentDB sources belonging to your customer account.
+
+# Arguments
+- `sns_topic_arn`: The Amazon Resource Name (ARN) of the SNS topic created for event
+  notification. Amazon SNS creates the ARN when you create a topic and subscribe to it.
+- `subscription_name`: The name of the subscription. Constraints: The name must be fewer
+  than 255 characters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Enabled"`:  A Boolean value; set to true to activate the subscription, set to false to
+  create the subscription but not active it.
+- `"EventCategories"`:  A list of event categories for a SourceType that you want to
+  subscribe to.
+- `"SourceIds"`: The list of identifiers of the event sources for which events are
+  returned. If not specified, then all sources are included in the response. An identifier
+  must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't
+  end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are
+  provided, SourceType must also be provided.   If the source type is an instance, a
+  DBInstanceIdentifier must be provided.   If the source type is a security group, a
+  DBSecurityGroupName must be provided.   If the source type is a parameter group, a
+  DBParameterGroupName must be provided.   If the source type is a snapshot, a
+  DBSnapshotIdentifier must be provided.
+- `"SourceType"`: The type of source that is generating the events. For example, if you
+  want to be notified of events generated by an instance, you would set this parameter to
+  db-instance. If this value is not specified, all events are returned. Valid values:
+  db-instance, db-cluster, db-parameter-group, db-security-group, db-snapshot,
+  db-cluster-snapshot
+- `"Tags"`: The tags to be assigned to the event subscription.
+"""
+create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+
+"""
     delete_dbcluster(dbcluster_identifier)
     delete_dbcluster(dbcluster_identifier, params::Dict{String,<:Any})
 
@@ -409,6 +479,20 @@ any DB instances.
 """
 delete_dbsubnet_group(DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName); aws_config=aws_config)
 delete_dbsubnet_group(DBSubnetGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config)
+
+"""
+    delete_event_subscription(subscription_name)
+    delete_event_subscription(subscription_name, params::Dict{String,<:Any})
+
+Deletes an Amazon DocumentDB event notification subscription.
+
+# Arguments
+- `subscription_name`: The name of the Amazon DocumentDB event notification subscription
+  that you want to delete.
+
+"""
+delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+delete_event_subscription(SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     describe_certificates()
@@ -705,6 +789,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventCategories"; aws_config=aws_config)
 describe_event_categories(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventCategories", params; aws_config=aws_config)
+
+"""
+    describe_event_subscriptions()
+    describe_event_subscriptions(params::Dict{String,<:Any})
+
+Lists all the subscription descriptions for a customer account. The description for a
+subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID,
+CreationTime, and Status. If you specify a SubscriptionName, lists the description for that
+subscription.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: This parameter is not currently supported.
+- `"Marker"`: An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the marker, up to the
+  value specified by MaxRecords.
+- `"MaxRecords"`:  The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a pagination token (marker) is included
+  in the response so that the remaining results can be retrieved. Default: 100 Constraints:
+  Minimum 20, maximum 100.
+- `"SubscriptionName"`: The name of the Amazon DocumentDB event notification subscription
+  that you want to describe.
+"""
+describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventSubscriptions"; aws_config=aws_config)
+describe_event_subscriptions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventSubscriptions", params; aws_config=aws_config)
 
 """
     describe_events()
@@ -1050,6 +1159,30 @@ modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractA
 modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
 
 """
+    modify_event_subscription(subscription_name)
+    modify_event_subscription(subscription_name, params::Dict{String,<:Any})
+
+Modifies an existing Amazon DocumentDB event notification subscription.
+
+# Arguments
+- `subscription_name`: The name of the Amazon DocumentDB event notification subscription.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Enabled"`:  A Boolean value; set to true to activate the subscription.
+- `"EventCategories"`:  A list of event categories for a SourceType that you want to
+  subscribe to.
+- `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the SNS topic created for event
+  notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
+- `"SourceType"`: The type of source that is generating the events. For example, if you
+  want to be notified of events generated by an instance, set this parameter to db-instance.
+  If this value is not specified, all events are returned. Valid values: db-instance,
+  db-parameter-group, db-security-group, db-snapshot
+"""
+modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+modify_event_subscription(SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+
+"""
     reboot_dbinstance(dbinstance_identifier)
     reboot_dbinstance(dbinstance_identifier, params::Dict{String,<:Any})
 
@@ -1070,6 +1203,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 reboot_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RebootDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
 reboot_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+
+"""
+    remove_source_identifier_from_subscription(source_identifier, subscription_name)
+    remove_source_identifier_from_subscription(source_identifier, subscription_name, params::Dict{String,<:Any})
+
+Removes a source identifier from an existing Amazon DocumentDB event notification
+subscription.
+
+# Arguments
+- `source_identifier`:  The source identifier to be removed from the subscription, such as
+  the instance identifier for an instance, or the name of a security group.
+- `subscription_name`: The name of the Amazon DocumentDB event notification subscription
+  that you want to remove a source identifier from.
+
+"""
+remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveSourceIdentifierFromSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     remove_tags_from_resource(resource_name, tag_keys)

@@ -463,40 +463,44 @@ function dot_aws_config(profile=nothing)
 end
 
 
+# https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc
 function credentials_from_webtoken()
     token_role_arn = "AWS_ROLE_ARN"
-    token_role_session = "AWS_ROLE_SESSION_NAME"
-    token_web_identity = "AWS_WEB_IDENTITY_TOKEN_FILE"
+    token_web_identity_file = "AWS_WEB_IDENTITY_TOKEN_FILE"
+    token_role_session = "AWS_ROLE_SESSION_NAME"  # Optional session name
 
-    has_all_keys =
-        haskey(ENV, token_role_arn) &&
-        haskey(ENV, token_role_session) &&
-        haskey(ENV, token_web_identity)
-
-    if !has_all_keys
+    if !(haskey(ENV, token_role_arn) && haskey(ENV, token_web_identity_file))
         return nothing
     end
 
     role_arn = ENV[token_role_arn]
-    role_session = ENV[token_role_session]
     web_identity = read(ENV["AWS_WEB_IDENTITY_TOKEN_FILE"], String)
+    role_session = get(ENV, token_role_session) do
+        _role_session_name(
+            "AWS.jl-role-",
+            basename(role_arn),
+            "-" * Dates.format(@mock(now(UTC)), dateformat"yyyymmdd\THHMMSS\Z"),
+        )
+    end
 
-    resp = @mock AWSServices.sts(
+    resp = AWSServices.sts(
         "AssumeRoleWithWebIdentity",
         Dict(
             "RoleArn" => role_arn,
-            "RoleSessionName" => role_session,
-            "WebIdentityToken" => web_identity
+            "RoleSessionName" => role_session,  # Required by AssumeRoleWithWebIdentity
+            "WebIdentityToken" => web_identity,
         );
         aws_config=AWSConfig(creds=nothing)
     )
 
     role_creds = resp["AssumeRoleWithWebIdentityResult"]["Credentials"]
+    assumed_role_user = resp["AssumeRoleWithWebIdentityResult"]["AssumedRoleUser"]
 
     return AWSCredentials(
         role_creds["AccessKeyId"],
         role_creds["SecretAccessKey"],
-        role_creds["SessionToken"];
+        role_creds["SessionToken"],
+        assumed_role_user["Arn"];
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
         renew=credentials_from_webtoken
     )
@@ -624,4 +628,23 @@ function _get_ini_value(
     value === :notfound && (value = default_value)
 
     return value
+end
+
+
+"""
+    _role_session_name(
+        prefix::AbstractString,
+        name::AbstractString,
+        suffix::AbstractString,
+    ) -> String
+
+Generate a valid role session name. Currently only ensures that the session name is
+64-characters or less.
+"""
+function _role_session_name(prefix, name, suffix)
+    b = IOBuffer()
+    write(b, prefix, name)
+    truncate(b, min(64 - length(suffix), b.size))  # Assumes ASCII
+    write(b, suffix)
+    return String(take!(b))
 end

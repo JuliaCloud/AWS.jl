@@ -34,6 +34,41 @@ batch_get_variable(names; aws_config::AbstractAWSConfig=global_aws_config()) = f
 batch_get_variable(names, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("BatchGetVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config)
 
 """
+    cancel_batch_prediction_job(job_id)
+    cancel_batch_prediction_job(job_id, params::Dict{String,<:Any})
+
+Cancels the specified batch prediction job.
+
+# Arguments
+- `job_id`: The ID of the batch prediction job to cancel.
+
+"""
+cancel_batch_prediction_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CancelBatchPredictionJob", Dict{String, Any}("jobId"=>jobId); aws_config=aws_config)
+cancel_batch_prediction_job(jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CancelBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config)
+
+"""
+    create_batch_prediction_job(detector_name, event_type_name, iam_role_arn, input_path, job_id, output_path)
+    create_batch_prediction_job(detector_name, event_type_name, iam_role_arn, input_path, job_id, output_path, params::Dict{String,<:Any})
+
+Creates a batch prediction job.
+
+# Arguments
+- `detector_name`: The name of the detector.
+- `event_type_name`: The name of the event type.
+- `iam_role_arn`: The ARN of the IAM role to use for this job request.
+- `input_path`: The Amazon S3 location of your training file.
+- `job_id`: The ID of the batch prediction job.
+- `output_path`: The Amazon S3 location of your output file.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"detectorVersion"`: The detector version.
+- `"tags"`: A collection of key and value pairs.
+"""
+create_batch_prediction_job(detectorName, eventTypeName, iamRoleArn, inputPath, jobId, outputPath; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateBatchPredictionJob", Dict{String, Any}("detectorName"=>detectorName, "eventTypeName"=>eventTypeName, "iamRoleArn"=>iamRoleArn, "inputPath"=>inputPath, "jobId"=>jobId, "outputPath"=>outputPath); aws_config=aws_config)
+create_batch_prediction_job(detectorName, eventTypeName, iamRoleArn, inputPath, jobId, outputPath, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorName"=>detectorName, "eventTypeName"=>eventTypeName, "iamRoleArn"=>iamRoleArn, "inputPath"=>inputPath, "jobId"=>jobId, "outputPath"=>outputPath), params)); aws_config=aws_config)
+
+"""
     create_detector_version(detector_id, rules)
     create_detector_version(detector_id, rules, params::Dict{String,<:Any})
 
@@ -148,6 +183,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_variable(dataSource, dataType, defaultValue, name; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateVariable", Dict{String, Any}("dataSource"=>dataSource, "dataType"=>dataType, "defaultValue"=>defaultValue, "name"=>name); aws_config=aws_config)
 create_variable(dataSource, dataType, defaultValue, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("CreateVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "dataType"=>dataType, "defaultValue"=>defaultValue, "name"=>name), params)); aws_config=aws_config)
+
+"""
+    delete_batch_prediction_job(job_id)
+    delete_batch_prediction_job(job_id, params::Dict{String,<:Any})
+
+Deletes a batch prediction job.
+
+# Arguments
+- `job_id`: The ID of the batch prediction job to delete.
+
+"""
+delete_batch_prediction_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("DeleteBatchPredictionJob", Dict{String, Any}("jobId"=>jobId); aws_config=aws_config)
+delete_batch_prediction_job(jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("DeleteBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config)
 
 """
     delete_detector(detector_id)
@@ -373,6 +421,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_model_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("DescribeModelVersions"; aws_config=aws_config)
 describe_model_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("DescribeModelVersions", params; aws_config=aws_config)
+
+"""
+    get_batch_prediction_jobs()
+    get_batch_prediction_jobs(params::Dict{String,<:Any})
+
+Gets all batch prediction jobs or a specific job if you specify a job ID. This is a
+paginated API. If you provide a null maxResults, this action retrieves a maximum of 50
+records per page. If you provide a maxResults, the value must be between 1 and 50. To get
+the next page results, provide the pagination token from the GetBatchPredictionJobsResponse
+as part of your request. A null pagination token fetches the records from the beginning.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"jobId"`: The batch prediction job for which to get the details.
+- `"maxResults"`: The maximum number of objects to return for the request.
+- `"nextToken"`: The next token from the previous request.
+"""
+get_batch_prediction_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("GetBatchPredictionJobs"; aws_config=aws_config)
+get_batch_prediction_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = frauddetector("GetBatchPredictionJobs", params; aws_config=aws_config)
 
 """
     get_detector_version(detector_id, detector_version_id)

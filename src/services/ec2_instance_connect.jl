@@ -5,18 +5,42 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    send_serial_console_sshpublic_key(instance_id, sshpublic_key)
+    send_serial_console_sshpublic_key(instance_id, sshpublic_key, params::Dict{String,<:Any})
+
+Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds,
+which gives you 60 seconds to establish a serial console connection to the instance using
+SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide.
+
+# Arguments
+- `instance_id`: The ID of the EC2 instance.
+- `sshpublic_key`: The public key material. To use the public key, you must have the
+  matching private key. For information about the supported key formats and lengths, see
+  Requirements for key pairs in the Amazon EC2 User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SerialPort"`: The serial port of the EC2 instance. Currently only port 0 is supported.
+  Default: 0
+"""
+send_serial_console_sshpublic_key(InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config()) = ec2_instance_connect("SendSerialConsoleSSHPublicKey", Dict{String, Any}("InstanceId"=>InstanceId, "SSHPublicKey"=>SSHPublicKey); aws_config=aws_config)
+send_serial_console_sshpublic_key(InstanceId, SSHPublicKey, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2_instance_connect("SendSerialConsoleSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config)
+
+"""
     send_sshpublic_key(availability_zone, instance_id, instance_osuser, sshpublic_key)
     send_sshpublic_key(availability_zone, instance_id, instance_osuser, sshpublic_key, params::Dict{String,<:Any})
 
-Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
+Pushes an SSH public key to the specified EC2 instance for use by the specified user. The
+key remains for 60 seconds. For more information, see Connect to your Linux instance using
+EC2 Instance Connect in the Amazon EC2 User Guide.
 
 # Arguments
-- `availability_zone`: The availability zone the EC2 instance was launched in.
-- `instance_id`: The EC2 instance you wish to publish the SSH key to.
-- `instance_osuser`: The OS user on the EC2 instance whom the key may be used to
-  authenticate as.
-- `sshpublic_key`: The public key to be published to the instance. To use it after
-  publication you must have the matching private key.
+- `availability_zone`: The Availability Zone in which the EC2 instance was launched.
+- `instance_id`: The ID of the EC2 instance.
+- `instance_osuser`: The OS user on the EC2 instance for whom the key can be used to
+  authenticate.
+- `sshpublic_key`: The public key material. To use the public key, you must have the
+  matching private key.
 
 """
 send_sshpublic_key(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config()) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey); aws_config=aws_config)
