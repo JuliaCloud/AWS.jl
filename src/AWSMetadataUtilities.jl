@@ -136,7 +136,7 @@ Get the low-level definition for an AWS Service.
 """
 function _generate_low_level_definition(service::AbstractDict)
     protocol = service["protocol"]
-    service_name = service["signingName"]
+    service_name = haskey(service, "signingName") ? service["signingName"] : service["endpointPrefix"]
     service_id = replace(lowercase(service["serviceId"]), ' ' => '_')
     api_version = service["apiVersion"]
 
