@@ -57,6 +57,23 @@ authorize_cluster_security_group_ingress(ClusterSecurityGroupName; aws_config::A
 authorize_cluster_security_group_ingress(ClusterSecurityGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeClusterSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config)
 
 """
+    authorize_endpoint_access(account)
+    authorize_endpoint_access(account, params::Dict{String,<:Any})
+
+Grants access to a cluster.
+
+# Arguments
+- `account`: The AWS account ID to grant access to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClusterIdentifier"`: The cluster identifier of the cluster to grant access to.
+- `"VpcIds"`: The virtual private cloud (VPC) identifiers to grant access to.
+"""
+authorize_endpoint_access(Account; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeEndpointAccess", Dict{String, Any}("Account"=>Account); aws_config=aws_config)
+authorize_endpoint_access(Account, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account), params)); aws_config=aws_config)
+
+"""
     authorize_snapshot_access(account_with_restore_access, snapshot_identifier)
     authorize_snapshot_access(account_with_restore_access, snapshot_identifier, params::Dict{String,<:Any})
 
@@ -410,6 +427,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_cluster_subnet_group(ClusterSubnetGroupName, Description, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterSubnetGroup", Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "Description"=>Description, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
 create_cluster_subnet_group(ClusterSubnetGroupName, Description, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "Description"=>Description, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
+
+"""
+    create_endpoint_access(endpoint_name, subnet_group_name)
+    create_endpoint_access(endpoint_name, subnet_group_name, params::Dict{String,<:Any})
+
+Creates a Redshift-managed VPC endpoint.
+
+# Arguments
+- `endpoint_name`: The Redshift-managed VPC endpoint name. An endpoint name must contain
+  1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character
+  must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
+- `subnet_group_name`: The subnet group from which Amazon Redshift chooses the subnet to
+  deploy the endpoint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClusterIdentifier"`: The cluster identifier of the cluster to access.
+- `"ResourceOwner"`: The AWS account ID of the owner of the cluster. This is only required
+  if the cluster is in another AWS account.
+- `"VpcSecurityGroupIds"`: The security group that defines the ports, protocols, and
+  sources for inbound traffic that you are authorizing into your endpoint.
+"""
+create_endpoint_access(EndpointName, SubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateEndpointAccess", Dict{String, Any}("EndpointName"=>EndpointName, "SubnetGroupName"=>SubnetGroupName); aws_config=aws_config)
+create_endpoint_access(EndpointName, SubnetGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName, "SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config)
 
 """
     create_event_subscription(sns_topic_arn, subscription_name)
@@ -767,6 +808,19 @@ Deletes the specified cluster subnet group.
 """
 delete_cluster_subnet_group(ClusterSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterSubnetGroup", Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName); aws_config=aws_config)
 delete_cluster_subnet_group(ClusterSubnetGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName), params)); aws_config=aws_config)
+
+"""
+    delete_endpoint_access(endpoint_name)
+    delete_endpoint_access(endpoint_name, params::Dict{String,<:Any})
+
+Deletes a Redshift-managed VPC endpoint.
+
+# Arguments
+- `endpoint_name`: The Redshift-managed VPC endpoint to delete.
+
+"""
+delete_endpoint_access(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteEndpointAccess", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
+delete_endpoint_access(EndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
 
 """
     delete_event_subscription(subscription_name)
@@ -1275,6 +1329,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_default_cluster_parameters(ParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeDefaultClusterParameters", Dict{String, Any}("ParameterGroupFamily"=>ParameterGroupFamily); aws_config=aws_config)
 describe_default_cluster_parameters(ParameterGroupFamily, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupFamily"=>ParameterGroupFamily), params)); aws_config=aws_config)
+
+"""
+    describe_endpoint_access()
+    describe_endpoint_access(params::Dict{String,<:Any})
+
+Describes a Redshift-managed VPC endpoint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClusterIdentifier"`: The cluster identifier associated with the described endpoint.
+- `"EndpointName"`: The name of the endpoint to be described.
+- `"Marker"`: Reserved for Amazon Redshift internal use.
+- `"MaxRecords"`: Reserved for Amazon Redshift internal use.
+- `"ResourceOwner"`: The AWS account ID of the owner of the cluster.
+- `"VpcId"`: The virtual private cloud (VPC) identifier with access to the cluster.
+"""
+describe_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAccess"; aws_config=aws_config)
+describe_endpoint_access(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAccess", params; aws_config=aws_config)
+
+"""
+    describe_endpoint_authorization()
+    describe_endpoint_authorization(params::Dict{String,<:Any})
+
+Describes an endpoint authorization.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Account"`: The AWS account ID of either the cluster owner (grantor) or grantee. If
+  Grantee parameter is true, then the Account value is of the grantor.
+- `"ClusterIdentifier"`: The cluster identifier of the cluster to access.
+- `"Grantee"`: Indicates whether to check authorization from a grantor or grantee point of
+  view. If true, Amazon Redshift returns endpoint authorizations that you've been granted. If
+  false (default), checks authorization from a grantor point of view.
+- `"Marker"`: Reserved for Amazon Redshift internal use.
+- `"MaxRecords"`: Reserved for Amazon Redshift internal use.
+"""
+describe_endpoint_authorization(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAuthorization"; aws_config=aws_config)
+describe_endpoint_authorization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAuthorization", params; aws_config=aws_config)
 
 """
     describe_event_categories()
@@ -2298,6 +2390,23 @@ modify_cluster_subnet_group(ClusterSubnetGroupName, SubnetIdentifier; aws_config
 modify_cluster_subnet_group(ClusterSubnetGroupName, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyClusterSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSubnetGroupName"=>ClusterSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
 
 """
+    modify_endpoint_access(endpoint_name)
+    modify_endpoint_access(endpoint_name, params::Dict{String,<:Any})
+
+Modifies a Redshift-managed VPC endpoint.
+
+# Arguments
+- `endpoint_name`: The endpoint to be modified.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"VpcSecurityGroupIds"`: The complete list of VPC security groups associated with the
+  endpoint after the endpoint is modified.
+"""
+modify_endpoint_access(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyEndpointAccess", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
+modify_endpoint_access(EndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyEndpointAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
+
+"""
     modify_event_subscription(subscription_name)
     modify_event_subscription(subscription_name, params::Dict{String,<:Any})
 
@@ -2727,6 +2836,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 revoke_cluster_security_group_ingress(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeClusterSecurityGroupIngress", Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName); aws_config=aws_config)
 revoke_cluster_security_group_ingress(ClusterSecurityGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeClusterSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config)
+
+"""
+    revoke_endpoint_access()
+    revoke_endpoint_access(params::Dict{String,<:Any})
+
+Revokes access to a cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Account"`: The AWS account ID whose access is to be revoked.
+- `"ClusterIdentifier"`: The cluster to revoke access from.
+- `"Force"`: Indicates whether to force the revoke action. If true, the Redshift-managed
+  VPC endpoints associated with the endpoint authorization are also deleted.
+- `"VpcIds"`: The virtual private cloud (VPC) identifiers for which access is to be revoked.
+"""
+revoke_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeEndpointAccess"; aws_config=aws_config)
+revoke_endpoint_access(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeEndpointAccess", params; aws_config=aws_config)
 
 """
     revoke_snapshot_access(account_with_restore_access, snapshot_identifier)

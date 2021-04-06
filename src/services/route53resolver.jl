@@ -5,6 +5,39 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id)
+    associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id, params::Dict{String,<:Any})
+
+Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
+
+# Arguments
+- `creator_request_id`: A unique string that identifies the request and that allows failed
+  requests to be retried without the risk of executing the operation twice. CreatorRequestId
+  can be any unique string, for example, a date/time stamp.
+- `firewall_rule_group_id`: The unique identifier of the firewall rule group.
+- `name`: A name that lets you identify the association, to manage and use it.
+- `priority`: The setting that determines the processing order of the rule group among the
+  rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic
+  starting from rule group with the lowest numeric priority setting.  You must specify a
+  unique priority for each rule group that you associate with a single VPC. To make it easier
+  to insert rule groups later, leave space between the numbers, for example, use 100, 200,
+  and so on. You can change the priority setting for a rule group association after you
+  create it.
+- `vpc_id`: The unique identifier of the VPC that you want to associate with the rule
+  group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MutationProtection"`: If enabled, this setting disallows modification or removal of the
+  association, to help prevent against accidentally altering DNS firewall protections. When
+  you create the association, the default setting is DISABLED.
+- `"Tags"`: A list of the tag keys and values that you want to associate with the rule
+  group association.
+"""
+associate_firewall_rule_group(CreatorRequestId, FirewallRuleGroupId, Name, Priority, VpcId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateFirewallRuleGroup", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority, "VpcId"=>VpcId); aws_config=aws_config)
+associate_firewall_rule_group(CreatorRequestId, FirewallRuleGroupId, Name, Priority, VpcId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority, "VpcId"=>VpcId), params)); aws_config=aws_config)
+
+"""
     associate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id)
     associate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id, params::Dict{String,<:Any})
 
@@ -67,6 +100,98 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 associate_resolver_rule(ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId); aws_config=aws_config)
 associate_resolver_rule(ResolverRuleId, VPCId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), params)); aws_config=aws_config)
+
+"""
+    create_firewall_domain_list(creator_request_id, name)
+    create_firewall_domain_list(creator_request_id, name, params::Dict{String,<:Any})
+
+Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the
+domains for the new list with a file, using ImportFirewallDomains, or with domain strings,
+using UpdateFirewallDomains.
+
+# Arguments
+- `creator_request_id`: A unique string that identifies the request and that allows you to
+  retry failed requests without the risk of executing the operation twice. CreatorRequestId
+  can be any unique string, for example, a date/time stamp.
+- `name`: A name that lets you identify the domain list to manage and use it.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of the tag keys and values that you want to associate with the domain
+  list.
+"""
+create_firewall_domain_list(CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallDomainList", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name); aws_config=aws_config)
+create_firewall_domain_list(CreatorRequestId, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name), params)); aws_config=aws_config)
+
+"""
+    create_firewall_rule(action, creator_request_id, firewall_domain_list_id, firewall_rule_group_id, name, priority)
+    create_firewall_rule(action, creator_request_id, firewall_domain_list_id, firewall_rule_group_id, name, priority, params::Dict{String,<:Any})
+
+Creates a single DNS Firewall rule in the specified rule group, using the specified domain
+list.
+
+# Arguments
+- `action`: The action that DNS Firewall should take on a DNS query when it matches one of
+  the domains in the rule's domain list:    ALLOW - Permit the request to go through.
+  ALERT - Permit the request and send metrics and log to Cloud Watch.    BLOCK - Disallow the
+  request. This option requires additional details in the rule's BlockResponse.
+- `creator_request_id`: A unique string that identifies the request and that allows you to
+  retry failed requests without the risk of executing the operation twice. CreatorRequestId
+  can be any unique string, for example, a date/time stamp.
+- `firewall_domain_list_id`: The ID of the domain list that you want to use in the rule.
+- `firewall_rule_group_id`: The unique identifier of the firewall rule group where you want
+  to create the rule.
+- `name`: A name that lets you identify the rule in the rule group.
+- `priority`: The setting that determines the processing order of the rule in the rule
+  group. DNS Firewall processes the rules in a rule group by order of priority, starting from
+  the lowest setting. You must specify a unique priority for each rule in a rule group. To
+  make it easier to insert rules later, leave space between the numbers, for example, use
+  100, 200, and so on. You can change the priority setting for the rules in a rule group at
+  any time.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BlockOverrideDnsType"`: The DNS record's type. This determines the format of the record
+  value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a
+  BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is
+  OVERRIDE.
+- `"BlockOverrideDomain"`: The custom DNS record to send back in response to the query.
+  Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is
+  required if the BlockResponse setting is OVERRIDE.
+- `"BlockOverrideTtl"`: The recommended amount of time, in seconds, for the DNS resolver or
+  web browser to cache the provided override record. Used for the rule action BLOCK with a
+  BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is
+  OVERRIDE.
+- `"BlockResponse"`: The way that you want DNS Firewall to block the request, used with the
+  rule aciton setting BLOCK.     NODATA - Respond indicating that the query was successful,
+  but no response is available for it.    NXDOMAIN - Respond indicating that the domain name
+  that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response.
+  This option requires custom handling details in the rule's BlockOverride* settings.    This
+  setting is required if the rule action setting is BLOCK.
+"""
+create_firewall_rule(Action, CreatorRequestId, FirewallDomainListId, FirewallRuleGroupId, Name, Priority; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRule", Dict{String, Any}("Action"=>Action, "CreatorRequestId"=>CreatorRequestId, "FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority); aws_config=aws_config)
+create_firewall_rule(Action, CreatorRequestId, FirewallDomainListId, FirewallRuleGroupId, Name, Priority, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "CreatorRequestId"=>CreatorRequestId, "FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority), params)); aws_config=aws_config)
+
+"""
+    create_firewall_rule_group(creator_request_id, name)
+    create_firewall_rule_group(creator_request_id, name, params::Dict{String,<:Any})
+
+Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You
+can add rules to the new rule group by calling CreateFirewallRule.
+
+# Arguments
+- `creator_request_id`: A unique string defined by you to identify the request. This allows
+  you to retry failed requests without the risk of executing the operation twice. This can be
+  any unique string, for example, a timestamp.
+- `name`: A name that lets you identify the rule group, to manage and use it.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of the tag keys and values that you want to associate with the rule
+  group.
+"""
+create_firewall_rule_group(CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRuleGroup", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name); aws_config=aws_config)
+create_firewall_rule_group(CreatorRequestId, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_resolver_endpoint(creator_request_id, direction, ip_addresses, security_group_ids)
@@ -179,6 +304,48 @@ create_resolver_rule(CreatorRequestId, DomainName, RuleType; aws_config::Abstrac
 create_resolver_rule(CreatorRequestId, DomainName, RuleType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType), params)); aws_config=aws_config)
 
 """
+    delete_firewall_domain_list(firewall_domain_list_id)
+    delete_firewall_domain_list(firewall_domain_list_id, params::Dict{String,<:Any})
+
+Deletes the specified domain list.
+
+# Arguments
+- `firewall_domain_list_id`: The ID of the domain list that you want to delete.
+
+"""
+delete_firewall_domain_list(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallDomainList", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId); aws_config=aws_config)
+delete_firewall_domain_list(FirewallDomainListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
+
+"""
+    delete_firewall_rule(firewall_domain_list_id, firewall_rule_group_id)
+    delete_firewall_rule(firewall_domain_list_id, firewall_rule_group_id, params::Dict{String,<:Any})
+
+Deletes the specified firewall rule.
+
+# Arguments
+- `firewall_domain_list_id`: The ID of the domain list that's used in the rule.
+- `firewall_rule_group_id`: The unique identifier of the firewall rule group that you want
+  to delete the rule from.
+
+"""
+delete_firewall_rule(FirewallDomainListId, FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRule", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
+delete_firewall_rule(FirewallDomainListId, FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+
+"""
+    delete_firewall_rule_group(firewall_rule_group_id)
+    delete_firewall_rule_group(firewall_rule_group_id, params::Dict{String,<:Any})
+
+Deletes the specified firewall rule group.
+
+# Arguments
+- `firewall_rule_group_id`: The unique identifier of the firewall rule group that you want
+  to delete.
+
+"""
+delete_firewall_rule_group(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRuleGroup", Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
+delete_firewall_rule_group(FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+
+"""
     delete_resolver_endpoint(resolver_endpoint_id)
     delete_resolver_endpoint(resolver_endpoint_id, params::Dict{String,<:Any})
 
@@ -232,6 +399,19 @@ DisassociateResolverRule.
 """
 delete_resolver_rule(ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
 delete_resolver_rule(ResolverRuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config)
+
+"""
+    disassociate_firewall_rule_group(firewall_rule_group_association_id)
+    disassociate_firewall_rule_group(firewall_rule_group_association_id, params::Dict{String,<:Any})
+
+Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
+
+# Arguments
+- `firewall_rule_group_association_id`: The identifier of the FirewallRuleGroupAssociation.
+
+"""
+disassociate_firewall_rule_group(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateFirewallRuleGroup", Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId); aws_config=aws_config)
+disassociate_firewall_rule_group(FirewallRuleGroupAssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
 
 """
     disassociate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id)
@@ -288,6 +468,77 @@ domain name that you specified in the Resolver rule.
 """
 disassociate_resolver_rule(ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId); aws_config=aws_config)
 disassociate_resolver_rule(ResolverRuleId, VPCId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), params)); aws_config=aws_config)
+
+"""
+    get_firewall_config(resource_id)
+    get_firewall_config(resource_id, params::Dict{String,<:Any})
+
+Retrieves the configuration of the firewall behavior provided by DNS Firewall for a single
+Amazon virtual private cloud (VPC).
+
+# Arguments
+- `resource_id`: The ID of the Amazon virtual private cloud (VPC) that the configuration is
+  for.
+
+"""
+get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallConfig", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
+get_firewall_config(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
+
+"""
+    get_firewall_domain_list(firewall_domain_list_id)
+    get_firewall_domain_list(firewall_domain_list_id, params::Dict{String,<:Any})
+
+Retrieves the specified firewall domain list.
+
+# Arguments
+- `firewall_domain_list_id`: The ID of the domain list.
+
+"""
+get_firewall_domain_list(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallDomainList", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId); aws_config=aws_config)
+get_firewall_domain_list(FirewallDomainListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
+
+"""
+    get_firewall_rule_group(firewall_rule_group_id)
+    get_firewall_rule_group(firewall_rule_group_id, params::Dict{String,<:Any})
+
+Retrieves the specified firewall rule group.
+
+# Arguments
+- `firewall_rule_group_id`: The unique identifier of the firewall rule group.
+
+"""
+get_firewall_rule_group(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroup", Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
+get_firewall_rule_group(FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+
+"""
+    get_firewall_rule_group_association(firewall_rule_group_association_id)
+    get_firewall_rule_group_association(firewall_rule_group_association_id, params::Dict{String,<:Any})
+
+Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one
+rule group. A VPC can have more than one firewall rule group association, and a rule group
+can be associated with more than one VPC.
+
+# Arguments
+- `firewall_rule_group_association_id`: The identifier of the FirewallRuleGroupAssociation.
+
+"""
+get_firewall_rule_group_association(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupAssociation", Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId); aws_config=aws_config)
+get_firewall_rule_group_association(FirewallRuleGroupAssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
+
+"""
+    get_firewall_rule_group_policy(arn)
+    get_firewall_rule_group_policy(arn, params::Dict{String,<:Any})
+
+Returns the AWS Identity and Access Management (AWS IAM) policy for sharing the specified
+rule group. You can use the policy to share the rule group using AWS Resource Access
+Manager (RAM).
+
+# Arguments
+- `arn`: The ARN (Amazon Resource Name) for the rule group.
+
+"""
+get_firewall_rule_group_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupPolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
+get_firewall_rule_group_policy(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
 
 """
     get_resolver_dnssec_config(resource_id)
@@ -410,6 +661,196 @@ to use.
 """
 get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
 get_resolver_rule_policy(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+
+"""
+    import_firewall_domains(domain_file_url, firewall_domain_list_id, operation)
+    import_firewall_domains(domain_file_url, firewall_domain_list_id, operation, params::Dict{String,<:Any})
+
+Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
+Each domain specification in your domain list must satisfy the following requirements:
+It can optionally start with * (asterisk).   With the exception of the optional starting
+asterisk, it must only contain the following characters: A-Z, a-z, 0-9, - (hyphen).   It
+must be from 1-255 characters in length.
+
+# Arguments
+- `domain_file_url`: The fully qualified URL or URI of the file stored in Amazon Simple
+  Storage Service (S3) that contains the list of domains to import. The file must be in an S3
+  bucket that's in the same Region as your DNS Firewall. The file must be a text file and
+  must contain a single domain per line.
+- `firewall_domain_list_id`: The ID of the domain list that you want to modify with the
+  import operation.
+- `operation`: What you want DNS Firewall to do with the domains that are listed in the
+  file. This must be set to REPLACE, which updates the domain list to exactly match the list
+  in the file.
+
+"""
+import_firewall_domains(DomainFileUrl, FirewallDomainListId, Operation; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ImportFirewallDomains", Dict{String, Any}("DomainFileUrl"=>DomainFileUrl, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation); aws_config=aws_config)
+import_firewall_domains(DomainFileUrl, FirewallDomainListId, Operation, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ImportFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainFileUrl"=>DomainFileUrl, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation), params)); aws_config=aws_config)
+
+"""
+    list_firewall_configs()
+    list_firewall_configs(params::Dict{String,<:Any})
+
+Retrieves the firewall configurations that you have defined. DNS Firewall uses the
+configurations to manage firewall behavior for your VPCs.  A single call might return only
+a partial list of the configurations. For information, see MaxResults.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+  request. If more objects are available, in the response, Resolver provides a NextToken
+  value that you can use in a subsequent call to get the next batch of objects. If you don't
+  specify a value for MaxResults, Resolver returns up to 100 objects.
+- `"NextToken"`: For the first call to this list request, omit this value. When you request
+  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
+  If more objects are available for retrieval, Resolver returns a NextToken value in the
+  response. To retrieve the next batch of objects, use the token that was returned for the
+  prior request in your next request.
+"""
+list_firewall_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallConfigs"; aws_config=aws_config)
+list_firewall_configs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallConfigs", params; aws_config=aws_config)
+
+"""
+    list_firewall_domain_lists()
+    list_firewall_domain_lists(params::Dict{String,<:Any})
+
+Retrieves the firewall domain lists that you have defined. For each firewall domain list,
+you can retrieve the domains that are defined for a list by calling ListFirewallDomains.  A
+single call to this list operation might return only a partial list of the domain lists.
+For information, see MaxResults.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+  request. If more objects are available, in the response, Resolver provides a NextToken
+  value that you can use in a subsequent call to get the next batch of objects. If you don't
+  specify a value for MaxResults, Resolver returns up to 100 objects.
+- `"NextToken"`: For the first call to this list request, omit this value. When you request
+  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
+  If more objects are available for retrieval, Resolver returns a NextToken value in the
+  response. To retrieve the next batch of objects, use the token that was returned for the
+  prior request in your next request.
+"""
+list_firewall_domain_lists(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomainLists"; aws_config=aws_config)
+list_firewall_domain_lists(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomainLists", params; aws_config=aws_config)
+
+"""
+    list_firewall_domains(firewall_domain_list_id)
+    list_firewall_domains(firewall_domain_list_id, params::Dict{String,<:Any})
+
+Retrieves the domains that you have defined for the specified firewall domain list.  A
+single call might return only a partial list of the domains. For information, see
+MaxResults.
+
+# Arguments
+- `firewall_domain_list_id`: The ID of the domain list whose domains you want to retrieve.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+  request. If more objects are available, in the response, Resolver provides a NextToken
+  value that you can use in a subsequent call to get the next batch of objects. If you don't
+  specify a value for MaxResults, Resolver returns up to 100 objects.
+- `"NextToken"`: For the first call to this list request, omit this value. When you request
+  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
+  If more objects are available for retrieval, Resolver returns a NextToken value in the
+  response. To retrieve the next batch of objects, use the token that was returned for the
+  prior request in your next request.
+"""
+list_firewall_domains(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomains", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId); aws_config=aws_config)
+list_firewall_domains(FirewallDomainListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
+
+"""
+    list_firewall_rule_group_associations()
+    list_firewall_rule_group_associations(params::Dict{String,<:Any})
+
+Retrieves the firewall rule group associations that you have defined. Each association
+enables DNS filtering for a VPC with one rule group.  A single call might return only a
+partial list of the associations. For information, see MaxResults.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirewallRuleGroupId"`: The unique identifier of the firewall rule group that you want
+  to retrieve the associations for. Leave this blank to retrieve associations for any rule
+  group.
+- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+  request. If more objects are available, in the response, Resolver provides a NextToken
+  value that you can use in a subsequent call to get the next batch of objects. If you don't
+  specify a value for MaxResults, Resolver returns up to 100 objects.
+- `"NextToken"`: For the first call to this list request, omit this value. When you request
+  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
+  If more objects are available for retrieval, Resolver returns a NextToken value in the
+  response. To retrieve the next batch of objects, use the token that was returned for the
+  prior request in your next request.
+- `"Priority"`: The setting that determines the processing order of the rule group among
+  the rule groups that are associated with a single VPC. DNS Firewall filters VPC traffic
+  starting from rule group with the lowest numeric priority setting.
+- `"Status"`: The association Status setting that you want DNS Firewall to filter on for
+  the list. If you don't specify this, then DNS Firewall returns all associations, regardless
+  of status.
+- `"VpcId"`: The unique identifier of the VPC that you want to retrieve the associations
+  for. Leave this blank to retrieve associations for any VPC.
+"""
+list_firewall_rule_group_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroupAssociations"; aws_config=aws_config)
+list_firewall_rule_group_associations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroupAssociations", params; aws_config=aws_config)
+
+"""
+    list_firewall_rule_groups()
+    list_firewall_rule_groups(params::Dict{String,<:Any})
+
+Retrieves the minimal high-level information for the rule groups that you have defined.  A
+single call might return only a partial list of the rule groups. For information, see
+MaxResults.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+  request. If more objects are available, in the response, Resolver provides a NextToken
+  value that you can use in a subsequent call to get the next batch of objects. If you don't
+  specify a value for MaxResults, Resolver returns up to 100 objects.
+- `"NextToken"`: For the first call to this list request, omit this value. When you request
+  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
+  If more objects are available for retrieval, Resolver returns a NextToken value in the
+  response. To retrieve the next batch of objects, use the token that was returned for the
+  prior request in your next request.
+"""
+list_firewall_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroups"; aws_config=aws_config)
+list_firewall_rule_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroups", params; aws_config=aws_config)
+
+"""
+    list_firewall_rules(firewall_rule_group_id)
+    list_firewall_rules(firewall_rule_group_id, params::Dict{String,<:Any})
+
+Retrieves the firewall rules that you have defined for the specified firewall rule group.
+DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A
+single call might return only a partial list of the rules. For information, see MaxResults.
+
+# Arguments
+- `firewall_rule_group_id`: The unique identifier of the firewall rule group that you want
+  to retrieve the rules for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Action"`: Optional additional filter for the rules to retrieve. The action that DNS
+  Firewall should take on a DNS query when it matches one of the domains in the rule's domain
+  list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go
+  through but send an alert to the logs.    BLOCK - Disallow the request. If this is
+  specified, additional handling details are provided in the rule's BlockResponse setting.
+- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+  request. If more objects are available, in the response, Resolver provides a NextToken
+  value that you can use in a subsequent call to get the next batch of objects. If you don't
+  specify a value for MaxResults, Resolver returns up to 100 objects.
+- `"NextToken"`: For the first call to this list request, omit this value. When you request
+  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
+  If more objects are available for retrieval, Resolver returns a NextToken value in the
+  response. To retrieve the next batch of objects, use the token that was returned for the
+  prior request in your next request.
+- `"Priority"`: Optional additional filter for the rules to retrieve. The setting that
+  determines the processing order of the rules in a rule group. DNS Firewall processes the
+  rules in a rule group by order of priority, starting from the lowest setting.
+"""
+list_firewall_rules(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRules", Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
+list_firewall_rules(FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
 
 """
     list_resolver_dnssec_configs()
@@ -647,6 +1088,22 @@ list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_con
 list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
+    put_firewall_rule_group_policy(arn, firewall_rule_group_policy)
+    put_firewall_rule_group_policy(arn, firewall_rule_group_policy, params::Dict{String,<:Any})
+
+Attaches an AWS Identity and Access Management (AWS IAM) policy for sharing the rule group.
+You can use the policy to share the rule group using AWS Resource Access Manager (RAM).
+
+# Arguments
+- `arn`: The ARN (Amazon Resource Name) for the rule group that you want to share.
+- `firewall_rule_group_policy`: The AWS Identity and Access Management (AWS IAM) policy to
+  attach to the rule group.
+
+"""
+put_firewall_rule_group_policy(Arn, FirewallRuleGroupPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutFirewallRuleGroupPolicy", Dict{String, Any}("Arn"=>Arn, "FirewallRuleGroupPolicy"=>FirewallRuleGroupPolicy); aws_config=aws_config)
+put_firewall_rule_group_policy(Arn, FirewallRuleGroupPolicy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutFirewallRuleGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "FirewallRuleGroupPolicy"=>FirewallRuleGroupPolicy), params)); aws_config=aws_config)
+
+"""
     put_resolver_query_log_config_policy(arn, resolver_query_log_config_policy)
     put_resolver_query_log_config_policy(arn, resolver_query_log_config_policy, params::Dict{String,<:Any})
 
@@ -728,6 +1185,117 @@ Removes one or more tags from a specified resource.
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    update_firewall_config(firewall_fail_open, resource_id)
+    update_firewall_config(firewall_fail_open, resource_id, params::Dict{String,<:Any})
+
+Updates the configuration of the firewall behavior provided by DNS Firewall for a single
+Amazon virtual private cloud (VPC).
+
+# Arguments
+- `firewall_fail_open`: Determines how Route 53 Resolver handles queries during failures,
+  for example when all traffic that is sent to DNS Firewall fails to receive a reply.    By
+  default, fail open is disabled, which means the failure mode is closed. This approach
+  favors security over availability. DNS Firewall blocks queries that it is unable to
+  evaluate properly.    If you enable this option, the failure mode is open. This approach
+  favors availability over security. DNS Firewall allows queries to proceed if it is unable
+  to properly evaluate them.    This behavior is only enforced for VPCs that have at least
+  one DNS Firewall rule group association.
+- `resource_id`: The ID of the Amazon virtual private cloud (VPC) that the configuration is
+  for.
+
+"""
+update_firewall_config(FirewallFailOpen, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallConfig", Dict{String, Any}("FirewallFailOpen"=>FirewallFailOpen, "ResourceId"=>ResourceId); aws_config=aws_config)
+update_firewall_config(FirewallFailOpen, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallFailOpen"=>FirewallFailOpen, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
+
+"""
+    update_firewall_domains(domains, firewall_domain_list_id, operation)
+    update_firewall_domains(domains, firewall_domain_list_id, operation, params::Dict{String,<:Any})
+
+Updates the firewall domain list from an array of domain specifications.
+
+# Arguments
+- `domains`: A list of domains to use in the update operation. Each domain specification in
+  your domain list must satisfy the following requirements:    It can optionally start with *
+  (asterisk).   With the exception of the optional starting asterisk, it must only contain
+  the following characters: A-Z, a-z, 0-9, - (hyphen).   It must be from 1-255 characters in
+  length.
+- `firewall_domain_list_id`: The ID of the domain list whose domains you want to update.
+- `operation`: What you want DNS Firewall to do with the domains that you are providing:
+   ADD - Add the domains to the ones that are already in the domain list.     REMOVE - Search
+  the domain list for the domains and remove them from the list.    REPLACE - Update the
+  domain list to exactly match the list that you are providing.
+
+"""
+update_firewall_domains(Domains, FirewallDomainListId, Operation; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallDomains", Dict{String, Any}("Domains"=>Domains, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation); aws_config=aws_config)
+update_firewall_domains(Domains, FirewallDomainListId, Operation, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domains"=>Domains, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation), params)); aws_config=aws_config)
+
+"""
+    update_firewall_rule(firewall_domain_list_id, firewall_rule_group_id)
+    update_firewall_rule(firewall_domain_list_id, firewall_rule_group_id, params::Dict{String,<:Any})
+
+Updates the specified firewall rule.
+
+# Arguments
+- `firewall_domain_list_id`: The ID of the domain list to use in the rule.
+- `firewall_rule_group_id`: The unique identifier of the firewall rule group for the rule.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Action"`: The action that DNS Firewall should take on a DNS query when it matches one
+  of the domains in the rule's domain list:    ALLOW - Permit the request to go through.
+  ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow
+  the request. This option requires additional details in the rule's BlockResponse.
+- `"BlockOverrideDnsType"`: The DNS record's type. This determines the format of the record
+  value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a
+  BlockResponse setting of OVERRIDE.
+- `"BlockOverrideDomain"`: The custom DNS record to send back in response to the query.
+  Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+- `"BlockOverrideTtl"`: The recommended amount of time, in seconds, for the DNS resolver or
+  web browser to cache the provided override record. Used for the rule action BLOCK with a
+  BlockResponse setting of OVERRIDE.
+- `"BlockResponse"`: The way that you want DNS Firewall to block the request. Used for the
+  rule action setting BLOCK.    NODATA - Respond indicating that the query was successful,
+  but no response is available for it.    NXDOMAIN - Respond indicating that the domain name
+  that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response.
+  This option requires custom handling details in the rule's BlockOverride* settings.
+- `"Name"`: The name of the rule.
+- `"Priority"`: The setting that determines the processing order of the rule in the rule
+  group. DNS Firewall processes the rules in a rule group by order of priority, starting from
+  the lowest setting. You must specify a unique priority for each rule in a rule group. To
+  make it easier to insert rules later, leave space between the numbers, for example, use
+  100, 200, and so on. You can change the priority setting for the rules in a rule group at
+  any time.
+"""
+update_firewall_rule(FirewallDomainListId, FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRule", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
+update_firewall_rule(FirewallDomainListId, FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+
+"""
+    update_firewall_rule_group_association(firewall_rule_group_association_id)
+    update_firewall_rule_group_association(firewall_rule_group_association_id, params::Dict{String,<:Any})
+
+Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS
+filtering for the VPC.
+
+# Arguments
+- `firewall_rule_group_association_id`: The identifier of the FirewallRuleGroupAssociation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MutationProtection"`: If enabled, this setting disallows modification or removal of the
+  association, to help prevent against accidentally altering DNS firewall protections.
+- `"Name"`: The name of the rule group association.
+- `"Priority"`: The setting that determines the processing order of the rule group among
+  the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic
+  starting from rule group with the lowest numeric priority setting.  You must specify a
+  unique priority for each rule group that you associate with a single VPC. To make it easier
+  to insert rule groups later, leave space between the numbers, for example, use 100, 200,
+  and so on. You can change the priority setting for a rule group association after you
+  create it.
+"""
+update_firewall_rule_group_association(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRuleGroupAssociation", Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId); aws_config=aws_config)
+update_firewall_rule_group_association(FirewallRuleGroupAssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRuleGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
 
 """
     update_resolver_dnssec_config(resource_id, validation)

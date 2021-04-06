@@ -2964,6 +2964,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 - `"thingTypeName"`: The name of the thing type used to search for things.
+- `"usePrefixAttributeValue"`: When true, the action returns the thing resources with
+  attribute values that start with the attributeValue provided. When false, or not present,
+  the action returns only the thing resources with attribute values that match the entire
+  attributeValue provided.
 """
 list_things(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things"; aws_config=aws_config)
 list_things(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things", params; aws_config=aws_config)

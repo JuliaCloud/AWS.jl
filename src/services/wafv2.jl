@@ -921,7 +921,11 @@ untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_co
     update_ipset(addresses, id, lock_token, name, scope)
     update_ipset(addresses, id, lock_token, name, scope, params::Dict{String,<:Any})
 
-Updates the specified IPSet.
+Updates the specified IPSet.   This operation completely replaces any IP address
+specifications that you already have in the IP set with the ones that you provide to this
+call. If you want to add to or modify the addresses that are already in the IP set,
+retrieve those by calling GetIPSet, update them, and provide the complete updated array of
+IP addresses to this call.
 
 # Arguments
 - `addresses`: Contains an array of strings that specify one or more IP addresses or blocks

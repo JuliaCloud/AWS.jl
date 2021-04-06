@@ -187,6 +187,38 @@ associate_hosted_connection(connectionId, parentConnectionId; aws_config::Abstra
 associate_hosted_connection(connectionId, parentConnectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("AssociateHostedConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "parentConnectionId"=>parentConnectionId), params)); aws_config=aws_config)
 
 """
+    associate_mac_sec_key(connection_id)
+    associate_mac_sec_key(connection_id, params::Dict{String,<:Any})
+
+Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key
+(CAK) pair with an AWS Direct Connect dedicated connection. You must supply either the
+secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC
+Security (MACsec) key considerations, see MACsec pre-shared CKN/CAK key considerations  in
+the AWS Direct Connect User Guide.
+
+# Arguments
+- `connection_id`: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
+  (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cak"`: The MAC Security (MACsec) CAK to associate with the dedicated connection. You
+  can create the CKN/CAK pair using an industry standard tool.  The valid values are 64
+  hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn
+  request parameter and not use the secretARN request parameter.
+- `"ckn"`: The MAC Security (MACsec) CKN to associate with the dedicated connection. You
+  can create the CKN/CAK pair using an industry standard tool.  The valid values are 64
+  hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak
+  request parameter and not use the secretARN request parameter.
+- `"secretARN"`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
+  associate with the dedicated connection. You can use DescribeConnections or DescribeLags to
+  retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do
+  not use the ckn and cak request parameters.
+"""
+associate_mac_sec_key(connectionId; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("AssociateMacSecKey", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config)
+associate_mac_sec_key(connectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("AssociateMacSecKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config)
+
+"""
     associate_virtual_interface(connection_id, virtual_interface_id)
     associate_virtual_interface(connection_id, virtual_interface_id, params::Dict{String,<:Any})
 
@@ -319,6 +351,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"lagId"`: The ID of the LAG.
 - `"providerName"`: The name of the service provider associated with the requested
   connection.
+- `"requestMACSec"`: Indicates whether you want the connection to support MAC Security
+  (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information
+  about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the AWS Direct
+  Connect User Guide.
 - `"tags"`: The tags to associate with the lag.
 """
 create_connection(bandwidth, connectionName, location; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("CreateConnection", Dict{String, Any}("bandwidth"=>bandwidth, "connectionName"=>connectionName, "location"=>location); aws_config=aws_config)
@@ -463,6 +499,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"childConnectionTags"`: The tags to associate with the automtically created LAGs.
 - `"connectionId"`: The ID of an existing dedicated connection to migrate to the LAG.
 - `"providerName"`: The name of the service provider associated with the LAG.
+- `"requestMACSec"`: Indicates whether the connection will support MAC Security (MACsec).
+  All connections in the LAG must be capable of supporting MAC Security (MACsec). For
+  information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the AWS
+  Direct Connect User Guide.
 - `"tags"`: The tags to associate with the LAG.
 """
 create_lag(connectionsBandwidth, lagName, location, numberOfConnections; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("CreateLag", Dict{String, Any}("connectionsBandwidth"=>connectionsBandwidth, "lagName"=>lagName, "location"=>location, "numberOfConnections"=>numberOfConnections); aws_config=aws_config)
@@ -964,6 +1004,23 @@ disassociate_connection_from_lag(connectionId, lagId; aws_config::AbstractAWSCon
 disassociate_connection_from_lag(connectionId, lagId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("DisassociateConnectionFromLag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "lagId"=>lagId), params)); aws_config=aws_config)
 
 """
+    disassociate_mac_sec_key(connection_id, secret_arn)
+    disassociate_mac_sec_key(connection_id, secret_arn, params::Dict{String,<:Any})
+
+Removes the association between a MAC Security (MACsec) security key and an AWS Direct
+Connect dedicated connection.
+
+# Arguments
+- `connection_id`: The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
+  (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
+- `secret_arn`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You
+  can use DescribeConnections to retrieve the ARN of the MAC Security (MACsec) secret key.
+
+"""
+disassociate_mac_sec_key(connectionId, secretARN; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("DisassociateMacSecKey", Dict{String, Any}("connectionId"=>connectionId, "secretARN"=>secretARN); aws_config=aws_config)
+disassociate_mac_sec_key(connectionId, secretARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("DisassociateMacSecKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId, "secretARN"=>secretARN), params)); aws_config=aws_config)
+
+"""
     list_virtual_interface_test_history()
     list_virtual_interface_test_history(params::Dict{String,<:Any})
 
@@ -1051,6 +1108,27 @@ untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_co
 untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
+    update_connection(connection_id)
+    update_connection(connection_id, params::Dict{String,<:Any})
+
+Updates the AWS Direct Connect dedicated connection configuration. You can update the
+following parameters for a connection:   The connection name   The connection's MAC
+Security (MACsec) encryption mode.
+
+# Arguments
+- `connection_id`: The ID of the dedicated connection. You can use DescribeConnections to
+  retrieve the connection ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"connectionName"`: The name of the connection.
+- `"encryptionMode"`: The connection MAC Security (MACsec) encryption mode. The valid
+  values are no_encrypt, should_encrypt, and must_encrypt.
+"""
+update_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("UpdateConnection", Dict{String, Any}("connectionId"=>connectionId); aws_config=aws_config)
+update_connection(connectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = direct_connect("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectionId"=>connectionId), params)); aws_config=aws_config)
+
+"""
     update_direct_connect_gateway_association()
     update_direct_connect_gateway_association(params::Dict{String,<:Any})
 
@@ -1073,19 +1151,20 @@ update_direct_connect_gateway_association(params::AbstractDict{String, <:Any}; a
     update_lag(lag_id, params::Dict{String,<:Any})
 
 Updates the attributes of the specified link aggregation group (LAG). You can update the
-following attributes:   The name of the LAG.   The value for the minimum number of
-connections that must be operational for the LAG itself to be operational.    When you
-create a LAG, the default value for the minimum number of operational connections is zero
-(0). If you update this value and the number of operational connections falls below the
-specified value, the LAG automatically goes down to avoid over-utilization of the remaining
-connections. Adjust this value with care, as it could force the LAG down if it is set
-higher than the current number of operational connections.
+following LAG attributes:   The name of the LAG.   The value for the minimum number of
+connections that must be operational for the LAG itself to be operational.    The LAG's
+MACsec encryption mode. AWS assigns this value to each connection which is part of the LAG.
+  The tags    If you adjust the threshold value for the minimum number of operational
+connections, ensure that the new value does not cause the LAG to fall below the threshold
+and become non-operational.
 
 # Arguments
 - `lag_id`: The ID of the LAG.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"encryptionMode"`: The LAG MAC Security (MACsec) encryption mode. AWS applies the value
+  to all connections which are part of the LAG.
 - `"lagName"`: The name of the LAG.
 - `"minimumLinks"`: The minimum number of physical connections that must be operational for
   the LAG itself to be operational.

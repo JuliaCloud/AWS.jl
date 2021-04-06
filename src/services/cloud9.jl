@@ -25,7 +25,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this operation completes no more than one time. For more information, see Client Tokens in
   the Amazon EC2 API Reference.
 - `"connectionType"`: The connection type used for connecting to an Amazon EC2 environment.
+  Valid values are CONNECT_SSH (default) and CONNECT_SSM (connected through AWS Systems
+  Manager). For more information, see Accessing no-ingress EC2 instances with AWS Systems
+  Manager in the AWS Cloud9 User Guide.
 - `"description"`: The description of the environment to create.
+- `"imageId"`: The identifier for the Amazon Machine Image (AMI) that's used to create the
+  EC2 instance. You can specify the AMI for the instance using an AMI alias or an AWS Systems
+  Manager (SSM) path. The default AMI is used if the parameter isn't explicitly assigned a
+  value in the request.   AMI aliases     Amazon Linux 2: amazonlinux-2-x86_64    Ubuntu
+  18.04: ubuntu-18.04-x86_64    Amazon Linux (default): amazonlinux-1-x86_64     SSM paths
+  Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64    Ubuntu 18.04:
+  resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64    Amazon Linux (default):
+  resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64
 - `"ownerArn"`: The Amazon Resource Name (ARN) of the environment owner. This ARN can be
   the ARN of any AWS IAM principal. If this value is not specified, the ARN defaults to this
   environment's creator.

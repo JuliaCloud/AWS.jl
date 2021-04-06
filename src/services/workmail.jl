@@ -81,6 +81,37 @@ create_group(Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_conf
 create_group(Name, OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId), params)); aws_config=aws_config)
 
 """
+    create_mobile_device_access_rule(effect, name, organization_id)
+    create_mobile_device_access_rule(effect, name, organization_id, params::Dict{String,<:Any})
+
+Creates a new mobile device access rule for the specified Amazon WorkMail organization.
+
+# Arguments
+- `effect`: The effect of the rule when it matches. Allowed values are ALLOW or DENY.
+- `name`: The rule name.
+- `organization_id`: The Amazon WorkMail organization under which the rule will be created.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The idempotency token for the client request.
+- `"Description"`: The rule description.
+- `"DeviceModels"`: Device models that the rule will match.
+- `"DeviceOperatingSystems"`: Device operating systems that the rule will match.
+- `"DeviceTypes"`: Device types that the rule will match.
+- `"DeviceUserAgents"`: Device user agents that the rule will match.
+- `"NotDeviceModels"`: Device models that the rule will not match. All other device models
+  will match.
+- `"NotDeviceOperatingSystems"`: Device operating systems that the rule will not match. All
+  other device operating systems will match.
+- `"NotDeviceTypes"`: Device types that the rule will not match. All other device types
+  will match.
+- `"NotDeviceUserAgents"`: Device user agents that the rule will not match. All other
+  device user agents will match.
+"""
+create_mobile_device_access_rule(Effect, Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("CreateMobileDeviceAccessRule", Dict{String, Any}("Effect"=>Effect, "Name"=>Name, "OrganizationId"=>OrganizationId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_mobile_device_access_rule(Effect, Name, OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("CreateMobileDeviceAccessRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Effect"=>Effect, "Name"=>Name, "OrganizationId"=>OrganizationId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
     create_organization(alias)
     create_organization(alias, params::Dict{String,<:Any})
 
@@ -209,6 +240,20 @@ Deletes permissions granted to a member (user or group).
 """
 delete_mailbox_permissions(EntityId, GranteeId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 delete_mailbox_permissions(EntityId, GranteeId, OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId), params)); aws_config=aws_config)
+
+"""
+    delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id)
+    delete_mobile_device_access_rule(mobile_device_access_rule_id, organization_id, params::Dict{String,<:Any})
+
+Deletes a mobile device access rule for the specified Amazon WorkMail organization.
+
+# Arguments
+- `mobile_device_access_rule_id`: The identifier of the rule to be deleted.
+- `organization_id`: The Amazon WorkMail organization under which the rule will be deleted.
+
+"""
+delete_mobile_device_access_rule(MobileDeviceAccessRuleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("DeleteMobileDeviceAccessRule", Dict{String, Any}("MobileDeviceAccessRuleId"=>MobileDeviceAccessRuleId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+delete_mobile_device_access_rule(MobileDeviceAccessRuleId, OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("DeleteMobileDeviceAccessRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MobileDeviceAccessRuleId"=>MobileDeviceAccessRuleId, "OrganizationId"=>OrganizationId), params)); aws_config=aws_config)
 
 """
     delete_organization(delete_directory, organization_id)
@@ -443,6 +488,27 @@ get_mailbox_details(OrganizationId, UserId; aws_config::AbstractAWSConfig=global
 get_mailbox_details(OrganizationId, UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("GetMailboxDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), params)); aws_config=aws_config)
 
 """
+    get_mobile_device_access_effect(organization_id)
+    get_mobile_device_access_effect(organization_id, params::Dict{String,<:Any})
+
+Simulates the effect of the mobile device access rules for the given attributes of a sample
+access event. Use this method to test the effects of the current set of mobile device
+access rules for the Amazon WorkMail organization for a particular user's attributes.
+
+# Arguments
+- `organization_id`: The Amazon WorkMail organization to simulate the access effect for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceModel"`: Device model the simulated user will report.
+- `"DeviceOperatingSystem"`: Device operating system the simulated user will report.
+- `"DeviceType"`: Device type the simulated user will report.
+- `"DeviceUserAgent"`: Device user agent the simulated user will report.
+"""
+get_mobile_device_access_effect(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("GetMobileDeviceAccessEffect", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
+get_mobile_device_access_effect(OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("GetMobileDeviceAccessEffect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), params)); aws_config=aws_config)
+
+"""
     list_access_control_rules(organization_id)
     list_access_control_rules(organization_id, params::Dict{String,<:Any})
 
@@ -550,6 +616,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_mailbox_permissions(EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
 list_mailbox_permissions(EntityId, OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), params)); aws_config=aws_config)
+
+"""
+    list_mobile_device_access_rules(organization_id)
+    list_mobile_device_access_rules(organization_id, params::Dict{String,<:Any})
+
+Lists the mobile device access rules for the specified Amazon WorkMail organization.
+
+# Arguments
+- `organization_id`: The Amazon WorkMail organization for which to list the rules.
+
+"""
+list_mobile_device_access_rules(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListMobileDeviceAccessRules", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
+list_mobile_device_access_rules(OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("ListMobileDeviceAccessRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), params)); aws_config=aws_config)
 
 """
     list_organizations()
@@ -815,6 +894,37 @@ Updates a user's current mailbox quota for a specified organization and user.
 """
 update_mailbox_quota(MailboxQuota, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("UpdateMailboxQuota", Dict{String, Any}("MailboxQuota"=>MailboxQuota, "OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
 update_mailbox_quota(MailboxQuota, OrganizationId, UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("UpdateMailboxQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MailboxQuota"=>MailboxQuota, "OrganizationId"=>OrganizationId, "UserId"=>UserId), params)); aws_config=aws_config)
+
+"""
+    update_mobile_device_access_rule(effect, mobile_device_access_rule_id, name, organization_id)
+    update_mobile_device_access_rule(effect, mobile_device_access_rule_id, name, organization_id, params::Dict{String,<:Any})
+
+Updates a mobile device access rule for the specified Amazon WorkMail organization.
+
+# Arguments
+- `effect`: The effect of the rule when it matches. Allowed values are ALLOW or DENY.
+- `mobile_device_access_rule_id`: The identifier of the rule to be updated.
+- `name`: The updated rule name.
+- `organization_id`: The Amazon WorkMail organization under which the rule will be updated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The updated rule description.
+- `"DeviceModels"`: Device models that the updated rule will match.
+- `"DeviceOperatingSystems"`: Device operating systems that the updated rule will match.
+- `"DeviceTypes"`: Device types that the updated rule will match.
+- `"DeviceUserAgents"`: User agents that the updated rule will match.
+- `"NotDeviceModels"`: Device models that the updated rule will not match. All other device
+  models will match.
+- `"NotDeviceOperatingSystems"`: Device operating systems that the updated rule will not
+  match. All other device operating systems will match.
+- `"NotDeviceTypes"`: Device types that the updated rule will not match. All other device
+  types will match.
+- `"NotDeviceUserAgents"`: User agents that the updated rule will not match. All other user
+  agents will match.
+"""
+update_mobile_device_access_rule(Effect, MobileDeviceAccessRuleId, Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("UpdateMobileDeviceAccessRule", Dict{String, Any}("Effect"=>Effect, "MobileDeviceAccessRuleId"=>MobileDeviceAccessRuleId, "Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+update_mobile_device_access_rule(Effect, MobileDeviceAccessRuleId, Name, OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmail("UpdateMobileDeviceAccessRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Effect"=>Effect, "MobileDeviceAccessRuleId"=>MobileDeviceAccessRuleId, "Name"=>Name, "OrganizationId"=>OrganizationId), params)); aws_config=aws_config)
 
 """
     update_primary_email_address(email, entity_id, organization_id)

@@ -10,7 +10,7 @@ using AWS.UUIDs
 
 Removes one or more documents from an index. The documents must have been added with the
 BatchPutDocument operation. The documents are deleted asynchronously. You can see the
-progress of the deletion by using AWS CloudWatch. Any error messages releated to the
+progress of the deletion by using AWS CloudWatch. Any error messages related to the
 processing of the batch are sent to you CloudWatch log.
 
 # Arguments
@@ -127,10 +127,10 @@ create_faq(IndexId, Name, RoleArn, S3Path, params::AbstractDict{String, <:Any}; 
     create_index(name, role_arn, params::Dict{String,<:Any})
 
 Creates a new Amazon Kendra index. Index creation is an asynchronous operation. To
-determine if index creation has completed, check the Status field returned from a call to .
-The Status field is set to ACTIVE when the index is ready to use. Once the index is active
-you can index your documents using the operation or using one of the supported data
-sources.
+determine if index creation has completed, check the Status field returned from a call to
+DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the
+index is active you can index your documents using the BatchPutDocument operation or using
+one of the supported data sources.
 
 # Arguments
 - `name`: The name for the new index.
@@ -195,7 +195,8 @@ create_thesaurus(IndexId, Name, RoleArn, SourceS3Path, params::AbstractDict{Stri
 
 Deletes an Amazon Kendra data source. An exception is not thrown if the data source is
 already being deleted. While the data source is being deleted, the Status field returned by
-a call to the operation is set to DELETING. For more information, see Deleting Data Sources.
+a call to the DescribeDataSource operation is set to DELETING. For more information, see
+Deleting Data Sources.
 
 # Arguments
 - `id`: The unique identifier of the data source to delete.
@@ -430,7 +431,7 @@ query returns the 100 most relevant results.
 
 # Arguments
 - `index_id`: The unique identifier of the index to search. The identifier is returned in
-  the response from the operation.
+  the response from the CreateIndex operation.
 - `query_text`: The text to search for.
 
 # Optional Parameters
@@ -506,7 +507,7 @@ Enables you to provide feedback to Amazon Kendra to improve the performance of t
 # Arguments
 - `index_id`: The identifier of the index that was queried.
 - `query_id`: The identifier of the specific query for which you are submitting feedback.
-  The query ID is returned in the response to the operation.
+  The query ID is returned in the response to the Query operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -584,7 +585,7 @@ Updates an existing Amazon Kendra index.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CapacityUnits"`: Sets the number of addtional storage and query capacity units that
+- `"CapacityUnits"`: Sets the number of additional storage and query capacity units that
   should be used by the index. You can change the capacity of the index up to 5 times per
   day. If you are using extra storage units, you can't reduce the storage capacity below that
   required to meet the storage needs for your index.
