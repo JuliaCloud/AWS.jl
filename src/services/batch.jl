@@ -543,13 +543,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Environments in the AWS Batch User Guide.
 - `"serviceRole"`: The full Amazon Resource Name (ARN) of the IAM role that allows AWS
   Batch to make calls to other AWS services on your behalf. For more information, see AWS
-  Batch service IAM role in the AWS Batch User Guide. If your specified role has a path other
-  than /, then you must either specify the full role ARN (this is recommended) or prefix the
-  role name with the path.  Depending on how you created your AWS Batch service role, its ARN
-  might contain the service-role path prefix. When you only specify the name of the service
-  role, AWS Batch assumes that your ARN doesn't use the service-role path prefix. Because of
-  this, we recommend that you specify the full ARN of your service role when you create
-  compute environments.
+  Batch service IAM role in the AWS Batch User Guide.  If the compute environment has a
+  service-linked role, it cannot be changed to use a regular IAM role. If the compute
+  environment has a regular IAM role, it cannot be changed to use a service-linked role.  If
+  your specified role has a path other than /, then you must either specify the full role ARN
+  (this is recommended) or prefix the role name with the path.  Depending on how you created
+  your AWS Batch service role, its ARN might contain the service-role path prefix. When you
+  only specify the name of the service role, AWS Batch assumes that your ARN doesn't use the
+  service-role path prefix. Because of this, we recommend that you specify the full ARN of
+  your service role when you create compute environments.
 - `"state"`: The state of the compute environment. Compute environments in the ENABLED
   state can accept jobs from a queue and scale in or out automatically based on the workload
   demand of its associated queues. If the state is ENABLED, then the AWS Batch scheduler can

@@ -38,6 +38,10 @@ graph within a Region. If the same account calls CreateGraph with the same admin
 account, it always returns the same behavior graph ARN. It does not create a new behavior
 graph.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags to assign to the new behavior graph. For each tag, you provide the tag
+  key and the tag value.
 """
 create_graph(; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph"; aws_config=aws_config)
 create_graph(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph", params; aws_config=aws_config)
@@ -206,6 +210,19 @@ list_members(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = dete
 list_members(GraphArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config)
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Returns the tag values that are assigned to a behavior graph.
+
+# Arguments
+- `resource_arn`: The ARN of the behavior graph for which to retrieve the tag values.
+
+"""
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+
+"""
     reject_invitation(graph_arn)
     reject_invitation(graph_arn, params::Dict{String,<:Any})
 
@@ -237,3 +254,31 @@ enable the member account, the status remains ACCEPTED_BUT_DISABLED.
 """
 start_monitoring_member(AccountId, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn); aws_config=aws_config)
 start_monitoring_member(AccountId, GraphArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn), params)); aws_config=aws_config)
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Applies tag values to a behavior graph.
+
+# Arguments
+- `resource_arn`: The ARN of the behavior graph to assign the tags to.
+- `tags`: The tag values to assign to the behavior graph.
+
+"""
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes tags from a behavior graph.
+
+# Arguments
+- `resource_arn`: The ARN of the behavior graph to remove the tags from.
+- `tag_keys`: The tag keys of the tags to remove from the behavior graph.
+
+"""
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = detective("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)

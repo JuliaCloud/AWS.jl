@@ -394,6 +394,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
     @repeat 3 try
         credentials(aws) === nothing || sign!(aws, request)
+
         response = @mock _http_request(request)
 
         if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""

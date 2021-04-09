@@ -7332,15 +7332,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CIDR block associated with the subnet.    ipv6-cidr-block-association.association-id - An
   association ID for an IPv6 CIDR block associated with the subnet.
   ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the
-  subnet.    owner-id - The ID of the AWS account that owns the subnet.    state - The state
-  of the subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the
-  subnet.    subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The key/value combination
-  of a tag assigned to the resource. Use the tag key in the filter name and the tag value as
-  the filter value. For example, to find all resources that have a tag with the key Owner and
-  the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
-  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
-  assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
-  VPC for the subnet.
+  subnet.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The
+  ID of the AWS account that owns the subnet.    state - The state of the subnet (pending |
+  available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.    subnet-id -
+  The ID of the subnet.    tag:&lt;key&gt; - The key/value combination of a tag assigned to
+  the resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key Owner and the value TeamA,
+  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
+  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
+  with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the
+  subnet.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -9127,6 +9128,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 get_ebs_encryption_by_default(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetEbsEncryptionByDefault"; aws_config=aws_config)
 get_ebs_encryption_by_default(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetEbsEncryptionByDefault", params; aws_config=aws_config)
+
+"""
+    get_flow_logs_integration_template(config_delivery_s3_destination_arn, flow_log_id, integrate_service)
+    get_flow_logs_integration_template(config_delivery_s3_destination_arn, flow_log_id, integrate_service, params::Dict{String,<:Any})
+
+Generates a CloudFormation template that streamlines and automates the integration of VPC
+flow logs with Amazon Athena. This make it easier for you to query and gain insights from
+VPC flow logs data. Based on the information that you provide, we configure resources in
+the template to do the following:   Create a table in Athena that maps fields to a custom
+log format   Create a Lambda function that updates the table with new partitions on a
+daily, weekly, or monthly basis   Create a table partitioned between two timestamps in the
+past   Create a set of named queries in Athena that you can use to get started quickly
+
+# Arguments
+- `config_delivery_s3_destination_arn`: To store the CloudFormation template in Amazon S3,
+  specify the location in Amazon S3.
+- `flow_log_id`: The ID of the flow log.
+- `integrate_service`: Information about the service integration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+get_flow_logs_integration_template(ConfigDeliveryS3DestinationArn, FlowLogId, IntegrateService; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetFlowLogsIntegrationTemplate", Dict{String, Any}("ConfigDeliveryS3DestinationArn"=>ConfigDeliveryS3DestinationArn, "FlowLogId"=>FlowLogId, "IntegrateService"=>IntegrateService); aws_config=aws_config)
+get_flow_logs_integration_template(ConfigDeliveryS3DestinationArn, FlowLogId, IntegrateService, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetFlowLogsIntegrationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigDeliveryS3DestinationArn"=>ConfigDeliveryS3DestinationArn, "FlowLogId"=>FlowLogId, "IntegrateService"=>IntegrateService), params)); aws_config=aws_config)
 
 """
     get_groups_for_capacity_reservation(capacity_reservation_id)

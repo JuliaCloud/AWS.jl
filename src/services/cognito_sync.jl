@@ -11,8 +11,8 @@ using AWS.UUIDs
 Initiates a bulk publish of all existing datasets for an Identity Pool to the configured
 stream. Customers are limited to one successful bulk publish per 24 hours. Bulk publish is
 an asynchronous request, customers can see the status of the request via the
-GetBulkPublishDetails operation. This API can only be called with developer credentials.
-You cannot call this API with the temporary user credentials provided by Cognito Identity.
+GetBulkPublishDetails operation.This API can only be called with developer credentials. You
+cannot call this API with the temporary user credentials provided by Cognito Identity.
 
 # Arguments
 - `identity_pool_id`: A name-spaced GUID (for example,
@@ -112,7 +112,7 @@ describe_identity_usage(IdentityId, IdentityPoolId, params::AbstractDict{String,
     get_bulk_publish_details(identity_pool_id)
     get_bulk_publish_details(identity_pool_id, params::Dict{String,<:Any})
 
-Get the status of the last BulkPublish operation for an identity pool. This API can only be
+Get the status of the last BulkPublish operation for an identity pool.This API can only be
 called with developer credentials. You cannot call this API with the temporary user
 credentials provided by Cognito Identity.
 
@@ -129,9 +129,9 @@ get_bulk_publish_details(IdentityPoolId, params::AbstractDict{String, <:Any}; aw
     get_cognito_events(identity_pool_id)
     get_cognito_events(identity_pool_id, params::Dict{String,<:Any})
 
-Gets the events and the corresponding Lambda functions associated with an identity pool.
-This API can only be called with developer credentials. You cannot call this API with the
-temporary user credentials provided by Cognito Identity.
+Gets the events and the corresponding Lambda functions associated with an identity
+pool.This API can only be called with developer credentials. You cannot call this API with
+the temporary user credentials provided by Cognito Identity.
 
 # Arguments
 - `identity_pool_id`: The Cognito Identity Pool ID for the request
@@ -144,7 +144,7 @@ get_cognito_events(IdentityPoolId, params::AbstractDict{String, <:Any}; aws_conf
     get_identity_pool_configuration(identity_pool_id)
     get_identity_pool_configuration(identity_pool_id, params::Dict{String,<:Any})
 
-Gets the configuration settings of an identity pool. This API can only be called with
+Gets the configuration settings of an identity pool.This API can only be called with
 developer credentials. You cannot call this API with the temporary user credentials
 provided by Cognito Identity.
 
@@ -234,7 +234,7 @@ list_records(DatasetName, IdentityId, IdentityPoolId, params::AbstractDict{Strin
     register_device(identity_id, identity_pool_id, platform, token)
     register_device(identity_id, identity_pool_id, platform, token, params::Dict{String,<:Any})
 
-Registers a device to receive push sync notifications. This API can only be called with
+Registers a device to receive push sync notifications.This API can only be called with
 temporary credentials provided by Cognito Identity. You cannot call this API with developer
 credentials.
 
@@ -256,7 +256,7 @@ register_device(IdentityId, IdentityPoolId, Platform, Token, params::AbstractDic
 
 Sets the AWS Lambda function for a given event type for an identity pool. This request only
 updates the key/value pair specified. Other key/values pairs are not updated. To remove a
-key value pair, pass a empty value for the particular key. This API can only be called with
+key value pair, pass a empty value for the particular key.This API can only be called with
 developer credentials. You cannot call this API with the temporary user credentials
 provided by Cognito Identity.
 
@@ -272,7 +272,7 @@ set_cognito_events(Events, IdentityPoolId, params::AbstractDict{String, <:Any}; 
     set_identity_pool_configuration(identity_pool_id)
     set_identity_pool_configuration(identity_pool_id, params::Dict{String,<:Any})
 
-Sets the necessary configuration for push sync. This API can only be called with developer
+Sets the necessary configuration for push sync.This API can only be called with developer
 credentials. You cannot call this API with the temporary user credentials provided by
 Cognito Identity.
 
@@ -293,7 +293,7 @@ set_identity_pool_configuration(IdentityPoolId, params::AbstractDict{String, <:A
     subscribe_to_dataset(dataset_name, device_id, identity_id, identity_pool_id)
     subscribe_to_dataset(dataset_name, device_id, identity_id, identity_pool_id, params::Dict{String,<:Any})
 
-Subscribes to receive notifications when a dataset is modified by another device. This API
+Subscribes to receive notifications when a dataset is modified by another device.This API
 can only be called with temporary credentials provided by Cognito Identity. You cannot call
 this API with developer credentials.
 
@@ -313,9 +313,9 @@ subscribe_to_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId, params::
     unsubscribe_from_dataset(dataset_name, device_id, identity_id, identity_pool_id)
     unsubscribe_from_dataset(dataset_name, device_id, identity_id, identity_pool_id, params::Dict{String,<:Any})
 
-Unsubscribes from receiving notifications when a dataset is modified by another device.
-This API can only be called with temporary credentials provided by Cognito Identity. You
-cannot call this API with developer credentials.
+Unsubscribes from receiving notifications when a dataset is modified by another device.This
+API can only be called with temporary credentials provided by Cognito Identity. You cannot
+call this API with developer credentials.
 
 # Arguments
 - `dataset_name`: The name of the dataset from which to unsubcribe.
@@ -336,13 +336,13 @@ unsubscribe_from_dataset(DatasetName, DeviceId, IdentityId, IdentityPoolId, para
 Posts updates to records and adds and deletes records for a dataset and user. The sync
 count in the record patch is your last known sync count for that record. The server will
 reject an UpdateRecords request with a ResourceConflictException if you try to patch a
-record with a new value but a stale sync count. For example, if the sync count on the
-server is 5 for a key called highScore and you try and submit a new highScore with sync
-count of 4, the request will be rejected. To obtain the current sync count for a record,
-call ListRecords. On a successful update of the record, the response returns the new sync
-count for that record. You should present that sync count the next time you try to update
-that same record. When the record does not exist, specify the sync count as 0. This API can
-be called with temporary user credentials provided by Cognito Identity or with developer
+record with a new value but a stale sync count.For example, if the sync count on the server
+is 5 for a key called highScore and you try and submit a new highScore with sync count of
+4, the request will be rejected. To obtain the current sync count for a record, call
+ListRecords. On a successful update of the record, the response returns the new sync count
+for that record. You should present that sync count the next time you try to update that
+same record. When the record does not exist, specify the sync count as 0. This API can be
+called with temporary user credentials provided by Cognito Identity or with developer
 credentials.
 
 # Arguments

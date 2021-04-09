@@ -98,6 +98,13 @@ end
         @test response == expected
     end
 
+    @testset "signingName preference" begin
+        expected = "const serviceid = AWS.RestXMLService(\"signingName\", \"2021-04-09\")"
+        response = _generate_low_level_definition(services["signingName"])
+
+        @test response == expected
+    end
+
     @testset "invalid protocol" begin
         @test_throws ProtocolNotDefined _generate_low_level_definition(services["invalid"])
     end

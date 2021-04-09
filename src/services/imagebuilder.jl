@@ -56,8 +56,8 @@ create_component(clientToken, name, platform, semanticVersion; aws_config::Abstr
 create_component(clientToken, name, platform, semanticVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion), params)); aws_config=aws_config)
 
 """
-    create_container_recipe(client_token, components, container_type, dockerfile_template_data, name, parent_image, semantic_version, target_repository)
-    create_container_recipe(client_token, components, container_type, dockerfile_template_data, name, parent_image, semantic_version, target_repository, params::Dict{String,<:Any})
+    create_container_recipe(client_token, components, container_type, name, parent_image, semantic_version, target_repository)
+    create_container_recipe(client_token, components, container_type, name, parent_image, semantic_version, target_repository, params::Dict{String,<:Any})
 
 Creates a new container recipe. Container recipes define how images are configured, tested,
 and assessed.
@@ -66,8 +66,6 @@ and assessed.
 - `client_token`: The client token used to make this request idempotent.
 - `components`: Components for build and test that are included in the container recipe.
 - `container_type`: The type of container to create.
-- `dockerfile_template_data`: The Dockerfile template used to build your image as an inline
-  data blob.
 - `name`: The name of the container recipe.
 - `parent_image`: The source image for the container recipe.
 - `semantic_version`: The semantic version of the container recipe
@@ -77,17 +75,21 @@ and assessed.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the container recipe.
+- `"dockerfileTemplateData"`: The Dockerfile template used to build your image as an inline
+  data blob.
 - `"dockerfileTemplateUri"`: The S3 URI for the Dockerfile that will be used to build your
   container image.
 - `"imageOsVersionOverride"`: Specifies the operating system version for the source image.
+- `"instanceConfiguration"`: A group of options that can be used to configure an instance
+  for building and testing container images.
 - `"kmsKeyId"`: Identifies which KMS key is used to encrypt the container image.
 - `"platformOverride"`: Specifies the operating system platform when you use a custom
   source image.
 - `"tags"`: Tags that are attached to the container recipe.
 - `"workingDirectory"`: The working directory for use during build and test workflows.
 """
-create_container_recipe(clientToken, components, containerType, dockerfileTemplateData, name, parentImage, semanticVersion, targetRepository; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateContainerRecipe", Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "containerType"=>containerType, "dockerfileTemplateData"=>dockerfileTemplateData, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion, "targetRepository"=>targetRepository); aws_config=aws_config)
-create_container_recipe(clientToken, components, containerType, dockerfileTemplateData, name, parentImage, semanticVersion, targetRepository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateContainerRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "containerType"=>containerType, "dockerfileTemplateData"=>dockerfileTemplateData, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion, "targetRepository"=>targetRepository), params)); aws_config=aws_config)
+create_container_recipe(clientToken, components, containerType, name, parentImage, semanticVersion, targetRepository; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateContainerRecipe", Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "containerType"=>containerType, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion, "targetRepository"=>targetRepository); aws_config=aws_config)
+create_container_recipe(clientToken, components, containerType, name, parentImage, semanticVersion, targetRepository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateContainerRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "containerType"=>containerType, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion, "targetRepository"=>targetRepository), params)); aws_config=aws_config)
 
 """
     create_distribution_configuration(client_token, distributions, name)
@@ -227,8 +229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityGroupIds"`: The security group IDs to associate with the instance used to
   customize your EC2 AMI.
 - `"snsTopicArn"`: The SNS topic on which to send image build events.
-- `"subnetId"`: The subnet ID in which to place the instance used to customize your EC2
-  AMI.
+- `"subnetId"`: The subnet ID in which to place the instance used to customize your EC2 AMI.
 - `"tags"`: The tags of the infrastructure configuration.
 - `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the
   infrastructure configuration. Set to false if you want Image Builder to retain the instance
@@ -515,8 +516,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags of the component.
 - `"uri"`: The uri of the component. Must be an S3 URL and the requester must have
   permission to access the S3 bucket. If you use S3, you can specify component content up to
-  your service quota. Either data or uri can be used to specify the data within the
-  component.
+  your service quota. Either data or uri can be used to specify the data within the component.
 """
 import_component(clientToken, format, name, platform, semanticVersion, type; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/ImportComponent", Dict{String, Any}("clientToken"=>clientToken, "format"=>format, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion, "type"=>type); aws_config=aws_config)
 import_component(clientToken, format, name, platform, semanticVersion, type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/ImportComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "format"=>format, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion, "type"=>type), params)); aws_config=aws_config)
@@ -590,7 +590,7 @@ Returns a list of distribution configurations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.     name - The name of this distribution configuration.
+- `"filters"`: The filters.    name - The name of this distribution configuration.
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
