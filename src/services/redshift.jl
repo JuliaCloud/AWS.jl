@@ -2787,6 +2787,9 @@ table created from the snapshot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnableCaseSensitiveIdentifier"`: Indicates whether name identifiers for database,
+  schema, and table are case sensitive. If true, the names are case sensitive. If false
+  (default), the names are not case sensitive.
 - `"SourceSchemaName"`: The name of the source schema that contains the table to restore
   from. If you do not specify a SourceSchemaName value, the default is public.
 - `"TargetDatabaseName"`: The name of the database to restore the table to.

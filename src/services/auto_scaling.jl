@@ -421,7 +421,7 @@ size and desired capacity of the Auto Scaling group to zero.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ForceDelete"`: Specifies that the group is to be deleted along with all instances
   associated with the group, without waiting for all instances to be terminated. This
-  parameter also deletes any lifecycle actions associated with the group.
+  parameter also deletes any outstanding lifecycle actions associated with the group.
 """
 delete_auto_scaling_group(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteAutoScalingGroup", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
 delete_auto_scaling_group(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteAutoScalingGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
@@ -516,6 +516,25 @@ Deletes the specified tags.
 """
 delete_tags(Tags; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteTags", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
 delete_tags(Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    delete_warm_pool(auto_scaling_group_name)
+    delete_warm_pool(auto_scaling_group_name, params::Dict{String,<:Any})
+
+Deletes the warm pool for the specified Auto Scaling group.
+
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ForceDelete"`: Specifies that the warm pool is to be deleted along with all instances
+  associated with the warm pool, without waiting for all instances to be terminated. This
+  parameter also deletes any outstanding lifecycle actions associated with the warm pool
+  instances.
+"""
+delete_warm_pool(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteWarmPool", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
+delete_warm_pool(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteWarmPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
     describe_account_limits()
@@ -858,6 +877,25 @@ describe_termination_policy_types(; aws_config::AbstractAWSConfig=global_aws_con
 describe_termination_policy_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeTerminationPolicyTypes", params; aws_config=aws_config)
 
 """
+    describe_warm_pool(auto_scaling_group_name)
+    describe_warm_pool(auto_scaling_group_name, params::Dict{String,<:Any})
+
+Describes a warm pool and its instances.
+
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxRecords"`: The maximum number of instances to return with this call. The maximum
+  value is 50.
+- `"NextToken"`: The token for the next set of instances to return. (You received this
+  token from a previous call.)
+"""
+describe_warm_pool(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeWarmPool", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
+describe_warm_pool(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeWarmPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
+
+"""
     detach_instances(auto_scaling_group_name, should_decrement_desired_capacity)
     detach_instances(auto_scaling_group_name, should_decrement_desired_capacity, params::Dict{String,<:Any})
 
@@ -933,8 +971,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances
       GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances
   GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity
-  GroupTerminatingCapacity     GroupTotalCapacity    If you omit this parameter, all metrics
-  are disabled.
+  GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity
+  WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity
+  WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity
+     If you omit this parameter, all metrics are disabled.
 """
 disable_metrics_collection(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DisableMetricsCollection", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
 disable_metrics_collection(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DisableMetricsCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
@@ -960,7 +1000,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GroupTerminatingInstances     GroupTotalInstances    The instance weighting feature
   supports the following additional metrics:     GroupInServiceCapacity
   GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity
-  GroupTotalCapacity    If you omit this parameter, all metrics are enabled.
+  GroupTotalCapacity    The warm pools feature supports the following additional metrics:
+  WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity
+  WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity
+    GroupAndWarmPoolTotalCapacity    If you omit this parameter, all metrics are enabled.
 """
 enable_metrics_collection(AutoScalingGroupName, Granularity; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("EnableMetricsCollection", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "Granularity"=>Granularity); aws_config=aws_config)
 enable_metrics_collection(AutoScalingGroupName, Granularity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("EnableMetricsCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "Granularity"=>Granularity), params)); aws_config=aws_config)
@@ -1221,6 +1264,47 @@ put_scheduled_update_group_action(AutoScalingGroupName, ScheduledActionName; aws
 put_scheduled_update_group_action(AutoScalingGroupName, ScheduledActionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutScheduledUpdateGroupAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "ScheduledActionName"=>ScheduledActionName), params)); aws_config=aws_config)
 
 """
+    put_warm_pool(auto_scaling_group_name)
+    put_warm_pool(auto_scaling_group_name, params::Dict{String,<:Any})
+
+Adds a warm pool to the specified Auto Scaling group. A warm pool is a pool of
+pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your
+application needs to scale out, the Auto Scaling group can draw on the warm pool to meet
+its new desired capacity. For more information, see Warm pools for Amazon EC2 Auto Scaling
+in the Amazon EC2 Auto Scaling User Guide. This operation must be called from the Region in
+which the Auto Scaling group was created. This operation cannot be called on an Auto
+Scaling group that has a mixed instances policy or a launch template or launch
+configuration that requests Spot Instances. You can view the instances in the warm pool
+using the DescribeWarmPool API call. If you are no longer using a warm pool, you can delete
+it by calling the DeleteWarmPool API.
+
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxGroupPreparedCapacity"`: Specifies the total maximum number of instances that are
+  allowed to be in the warm pool or in any state except Terminated for the Auto Scaling
+  group. This is an optional property. Specify it only if the warm pool size should not be
+  determined by the difference between the group's maximum capacity and its desired capacity.
+    Amazon EC2 Auto Scaling will launch and maintain either the difference between the
+  group's maximum capacity and its desired capacity, if a value for MaxGroupPreparedCapacity
+  is not specified, or the difference between the MaxGroupPreparedCapacity and the desired
+  capacity, if a value for MaxGroupPreparedCapacity is specified.  The size of the warm pool
+  is dynamic. Only when MaxGroupPreparedCapacity and MinSize are set to the same value does
+  the warm pool have an absolute size.  If the desired capacity of the Auto Scaling group is
+  higher than the MaxGroupPreparedCapacity, the capacity of the warm pool is 0. To remove a
+  value that you previously set, include the property but specify -1 for the value.
+- `"MinSize"`: Specifies the minimum number of instances to maintain in the warm pool. This
+  helps you to ensure that there is always a certain number of warmed instances available to
+  handle traffic spikes. Defaults to 0 if not specified.
+- `"PoolState"`: Sets the instance state to transition to after the lifecycle hooks finish.
+  Valid values are: Stopped (default) or Running.
+"""
+put_warm_pool(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutWarmPool", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
+put_warm_pool(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutWarmPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
+
+"""
     record_lifecycle_action_heartbeat(auto_scaling_group_name, lifecycle_hook_name)
     record_lifecycle_action_heartbeat(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
@@ -1235,7 +1319,8 @@ to publish lifecycle notifications to the target.   Create the lifecycle hook. S
 whether the hook is used when the instances launch or terminate.    If you need more time,
 record the lifecycle action heartbeat to keep the instance in a pending state.    If you
 finish before the timeout period ends, complete the lifecycle action.   For more
-information, see Auto Scaling lifecycle in the Amazon EC2 Auto Scaling User Guide.
+information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling
+User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1324,11 +1409,11 @@ set_instance_health(HealthStatus, InstanceId, params::AbstractDict{String, <:Any
     set_instance_protection(auto_scaling_group_name, instance_ids, protected_from_scale_in)
     set_instance_protection(auto_scaling_group_name, instance_ids, protected_from_scale_in, params::Dict{String,<:Any})
 
-Updates the instance protection settings of the specified instances. For more information
-about preventing instances that are part of an Auto Scaling group from terminating on scale
-in, see Instance scale-in protection in the Amazon EC2 Auto Scaling User Guide. If you
-exceed your maximum limit of instance IDs, which is 50 per Auto Scaling group, the call
-fails.
+Updates the instance protection settings of the specified instances. This operation cannot
+be called on instances in a warm pool. For more information about preventing instances that
+are part of an Auto Scaling group from terminating on scale in, see Instance scale-in
+protection in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of
+instance IDs, which is 50 per Auto Scaling group, the call fails.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1344,14 +1429,14 @@ set_instance_protection(AutoScalingGroupName, InstanceIds, ProtectedFromScaleIn,
     start_instance_refresh(auto_scaling_group_name)
     start_instance_refresh(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Starts a new instance refresh operation, which triggers a rolling replacement of all
-previously launched instances in the Auto Scaling group with a new group of instances. If
-successful, this call creates a new instance refresh request with a unique ID that you can
-use to track its progress. To query its status, call the DescribeInstanceRefreshes API. To
-describe the instance refreshes that have already run, call the DescribeInstanceRefreshes
-API. To cancel an instance refresh operation in progress, use the CancelInstanceRefresh
-API.  For more information, see Replacing Auto Scaling instances based on an instance
-refresh in the Amazon EC2 Auto Scaling User Guide.
+Starts a new instance refresh operation, which triggers a rolling replacement of previously
+launched instances in the Auto Scaling group with a new group of instances. If successful,
+this call creates a new instance refresh request with a unique ID that you can use to track
+its progress. To query its status, call the DescribeInstanceRefreshes API. To describe the
+instance refreshes that have already run, call the DescribeInstanceRefreshes API. To cancel
+an instance refresh operation in progress, use the CancelInstanceRefresh API.  For more
+information, see Replacing Auto Scaling instances based on an instance refresh in the
+Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1400,16 +1485,17 @@ suspend_processes(AutoScalingGroupName, params::AbstractDict{String, <:Any}; aws
     terminate_instance_in_auto_scaling_group(instance_id, should_decrement_desired_capacity)
     terminate_instance_in_auto_scaling_group(instance_id, should_decrement_desired_capacity, params::Dict{String,<:Any})
 
-Terminates the specified instance and optionally adjusts the desired group size.  This call
-simply makes a termination request. The instance is not terminated immediately. When an
-instance is terminated, the instance status changes to terminated. You can't connect to or
-start an instance after you've terminated it. If you do not specify the option to decrement
-the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that
-are terminated.  By default, Amazon EC2 Auto Scaling balances instances across all
-Availability Zones. If you decrement the desired capacity, your Auto Scaling group can
-become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance
-the group, and rebalancing might terminate instances in other zones. For more information,
-see Rebalancing activities in the Amazon EC2 Auto Scaling User Guide.
+Terminates the specified instance and optionally adjusts the desired group size. This
+operation cannot be called on instances in a warm pool. This call simply makes a
+termination request. The instance is not terminated immediately. When an instance is
+terminated, the instance status changes to terminated. You can't connect to or start an
+instance after you've terminated it. If you do not specify the option to decrement the
+desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are
+terminated.  By default, Amazon EC2 Auto Scaling balances instances across all Availability
+Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced
+between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and
+rebalancing might terminate instances in other zones. For more information, see Rebalancing
+activities in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `instance_id`: The ID of the instance.

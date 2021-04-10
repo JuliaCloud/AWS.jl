@@ -365,7 +365,8 @@ AppFlow and Amazon Connect. An integration can belong to only one domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FlowDefinition"`:
+- `"FlowDefinition"`: The configuration that controls how Customer Profiles retrieves data
+  from the source.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 - `"Uri"`: The URI of the S3 bucket or any other type of data source.
 """

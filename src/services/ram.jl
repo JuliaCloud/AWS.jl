@@ -34,7 +34,9 @@ Associates the specified resource share with the specified principals and resour
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"principals"`: The principals.
+- `"principals"`: The principals to associate with the resource share. The possible values
+  are IDs of AWS accounts, and the ARNs of organizational units (OU) or organizations from
+  AWS Organizations.
 - `"resourceArns"`: The Amazon Resource Names (ARN) of the resources.
 """
 associate_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/associateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
@@ -307,11 +309,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principals"`: The principals.
 - `"resourceArn"`: The Amazon Resource Name (ARN) of the resource.
 - `"resourceShareArns"`: The Amazon Resource Names (ARN) of the resource shares.
-- `"resourceType"`: The resource type. Valid values: codebuild:Project |
-  codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet |
+- `"resourceType"`: The resource type. Valid values: acm-pca:CertificateAuthority |
+  appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation |
+  ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet |
   ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image
-  | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group |
-  rds:Cluster | route53resolver:ResolverRule
+  | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database |
+  glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy |
+  network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost
+  | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup
+  |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
 """
 list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listprincipals", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
 list_principals(resourceOwner, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listprincipals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config)
@@ -367,11 +373,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principal"`: The principal.
 - `"resourceArns"`: The Amazon Resource Names (ARN) of the resources.
 - `"resourceShareArns"`: The Amazon Resource Names (ARN) of the resource shares.
-- `"resourceType"`: The resource type. Valid values: codebuild:Project |
-  codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet |
+- `"resourceType"`: The resource type. Valid values: acm-pca:CertificateAuthority |
+  appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation |
+  ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet |
   ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image
-  | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group |
-  rds:Cluster | route53resolver:ResolverRule
+  | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database |
+  glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy |
+  network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost
+  | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup
+  |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
 """
 list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresources", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
 list_resources(resourceOwner, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config)

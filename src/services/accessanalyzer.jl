@@ -23,6 +23,21 @@ apply_archive_rule(analyzerArn, ruleName; aws_config::AbstractAWSConfig=global_a
 apply_archive_rule(analyzerArn, ruleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
+    cancel_policy_generation(job_id)
+    cancel_policy_generation(job_id, params::Dict{String,<:Any})
+
+Cancels the requested policy generation.
+
+# Arguments
+- `job_id`: The JobId that is returned by the StartPolicyGeneration operation. The JobId
+  can be used with GetGeneratedPolicy to retrieve the generated policies or used with
+  CancelPolicyGeneration to cancel the policy generation request.
+
+"""
+cancel_policy_generation(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation/$(jobId)"; aws_config=aws_config)
+cancel_policy_generation(jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation/$(jobId)", params; aws_config=aws_config)
+
+"""
     create_access_preview(analyzer_arn, configurations)
     create_access_preview(analyzer_arn, configurations, params::Dict{String,<:Any})
 
@@ -193,6 +208,32 @@ get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config()) 
 get_finding(analyzerArn, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
+    get_generated_policy(job_id)
+    get_generated_policy(job_id, params::Dict{String,<:Any})
+
+Retrieves the policy that was generated using StartPolicyGeneration.
+
+# Arguments
+- `job_id`: The JobId that is returned by the StartPolicyGeneration operation. The JobId
+  can be used with GetGeneratedPolicy to retrieve the generated policies or used with
+  CancelPolicyGeneration to cancel the policy generation request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includeResourcePlaceholders"`: The level of detail that you want to generate. You can
+  specify whether to generate policies with placeholders for resource ARNs for actions that
+  support resource level granularity in policies. For example, in the resource section of a
+  policy, you can receive a placeholder such as \"Resource\":\"arn:aws:s3:::{BucketName}\"
+  instead of \"*\".
+- `"includeServiceLevelTemplate"`: The level of detail that you want to generate. You can
+  specify whether to generate service-level policies.  Access Analyzer uses
+  iam:servicelastaccessed to identify services that have been used recently to create this
+  service-level template.
+"""
+get_generated_policy(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation/$(jobId)"; aws_config=aws_config)
+get_generated_policy(jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation/$(jobId)", params; aws_config=aws_config)
+
+"""
     list_access_preview_findings(access_preview_id, analyzer_arn)
     list_access_preview_findings(access_preview_id, analyzer_arn, params::Dict{String,<:Any})
 
@@ -301,6 +342,23 @@ list_findings(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = 
 list_findings(analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
+    list_policy_generations()
+    list_policy_generations(params::Dict{String,<:Any})
+
+Lists all of the policy generations requested in the last seven days.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned.
+- `"principalArn"`: The ARN of the IAM entity (user or role) for which you are generating a
+  policy. Use this with ListGeneratedPolicies to filter the results to only include results
+  for a specific principal.
+"""
+list_policy_generations(; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation"; aws_config=aws_config)
+list_policy_generations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation", params; aws_config=aws_config)
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -312,6 +370,30 @@ Retrieves a list of tags applied to the specified resource.
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
 list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+
+"""
+    start_policy_generation(policy_generation_details)
+    start_policy_generation(policy_generation_details, params::Dict{String,<:Any})
+
+Starts the policy generation request.
+
+# Arguments
+- `policy_generation_details`: Contains the ARN of the IAM entity (user or role) for which
+  you are generating a policy.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. Idempotency ensures that an API request completes only once.
+  With an idempotent request, if the original request completes successfully, the subsequent
+  retries with the same client token return the result from the original successful request
+  and they have no additional effect. If you do not specify a client token, one is
+  automatically generated by the AWS SDK.
+- `"cloudTrailDetails"`: A CloudTrailDetails object that contains details about a Trail
+  that you want to analyze to generate policies.
+"""
+start_policy_generation(policyGenerationDetails; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation", Dict{String, Any}("policyGenerationDetails"=>policyGenerationDetails, "clientToken"=>string(uuid4())); aws_config=aws_config)
+start_policy_generation(policyGenerationDetails, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyGenerationDetails"=>policyGenerationDetails, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_resource_scan(analyzer_arn, resource_arn)

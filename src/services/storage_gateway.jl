@@ -103,7 +103,7 @@ add_tags_to_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws
     add_upload_buffer(disk_ids, gateway_arn, params::Dict{String,<:Any})
 
 Configures one or more gateway local disks as upload buffer for a specified gateway. This
-operation is supported for the stored volume, cached volume and tape gateway types. In the
+operation is supported for the stored volume, cached volume, and tape gateway types. In the
 request, you specify the gateway Amazon Resource Name (ARN) to which you want to add upload
 buffer, and one or more disk IDs that you want to configure as upload buffer.
 
@@ -167,6 +167,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 assign_tape_pool(PoolId, TapeARN; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("AssignTapePool", Dict{String, Any}("PoolId"=>PoolId, "TapeARN"=>TapeARN); aws_config=aws_config)
 assign_tape_pool(PoolId, TapeARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("AssignTapePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId, "TapeARN"=>TapeARN), params)); aws_config=aws_config)
+
+"""
+    associate_file_system(client_token, gateway_arn, location_arn, password, user_name)
+    associate_file_system(client_token, gateway_arn, location_arn, password, user_name, params::Dict{String,<:Any})
+
+Associate an Amazon FSx file system with the Amazon FSx file gateway. After the association
+process is complete, the file shares on the Amazon FSx file system are available for access
+through the gateway. This operation only supports the Amazon FSx file gateway type.
+
+# Arguments
+- `client_token`: A unique string value that you supply that is used by the file gateway to
+  ensure idempotent file system association creation.
+- `gateway_arn`:
+- `location_arn`: The Amazon Resource Name (ARN) of the Amazon FSx file system to associate
+  with the Amazon FSx file gateway.
+- `password`: The password of the user credential.
+- `user_name`: The user name of the user credential that has permission to access the root
+  share D of the Amazon FSx file system. The user account must belong to the Amazon FSx
+  delegated admin user group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for the audit
+  logs.
+- `"CacheAttributes"`:
+- `"Tags"`: A list of up to 50 tags that can be assigned to the file system association.
+  Each tag is a key-value pair.
+"""
+associate_file_system(ClientToken, GatewayARN, LocationARN, Password, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("AssociateFileSystem", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Password"=>Password, "UserName"=>UserName); aws_config=aws_config)
+associate_file_system(ClientToken, GatewayARN, LocationARN, Password, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("AssociateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Password"=>Password, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     attach_volume(gateway_arn, network_interface_id, volume_arn)
@@ -318,7 +348,7 @@ File gateway does not support creating hard or symbolic links on a file share.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheAttributes"`: Refresh cache information.
+- `"CacheAttributes"`: Specifies refresh cache information for the file share.
 - `"ClientList"`: The list of clients that are allowed to access the file gateway. The list
   must contain either valid IP addresses or valid CIDR blocks.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
@@ -335,7 +365,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
 - `"NFSFileShareDefaults"`: File share default values. Optional.
-- `"NotificationPolicy"`: The notification policy of the file share.
+- `"NotificationPolicy"`: The notification policy of the file share. SettlingTimeInSeconds
+  controls the number of seconds to wait after the last point in time a client wrote to a
+  file before generating an ObjectUploaded notification. Because clients can make many small
+  writes to files, it's best to set this parameter for as long as possible to avoid
+  generating multiple notifications for the same file in a small time period.
+  SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3,
+  only the timing of the notification.  The following example sets NotificationPolicy on with
+  SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
+  following example sets NotificationPolicy off.  {}
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a file gateway puts objects into. The default value is private.
 - `"ReadOnly"`: A value that sets the write status of a file share. Set this value to true
@@ -390,11 +428,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   super-user. Acceptable formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1.
   Use this option very carefully, because any user in this list can do anything they like on
   the file share, regardless of file permissions.
-- `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for the audit
+- `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
 - `"Authentication"`: The authentication method that users use to access the file share.
   The default is ActiveDirectory. Valid Values: ActiveDirectory | GuestAccess
-- `"CacheAttributes"`: Refresh cache information.
+- `"CacheAttributes"`: Specifies refresh cache information for the file share.
 - `"CaseSensitivity"`: The case of an object name in an Amazon S3 bucket. For
   ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway
   determines the case sensitivity. The default value is ClientSpecified.
@@ -415,7 +453,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"NotificationPolicy"`: The notification policy of the file share.
+- `"NotificationPolicy"`: The notification policy of the file share. SettlingTimeInSeconds
+  controls the number of seconds to wait after the last point in time a client wrote to a
+  file before generating an ObjectUploaded notification. Because clients can make many small
+  writes to files, it's best to set this parameter for as long as possible to avoid
+  generating multiple notifications for the same file in a small time period.
+  SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3,
+  only the timing of the notification.  The following example sets NotificationPolicy on with
+  SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
+  following example sets NotificationPolicy off.  {}
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a file gateway puts objects into. The default value is private.
 - `"ReadOnly"`: A value that sets the write status of a file share. Set this value to true
@@ -449,7 +495,7 @@ create_smbfile_share(ClientToken, GatewayARN, LocationARN, Role, params::Abstrac
 
 Initiates a snapshot of a volume. AWS Storage Gateway provides the ability to back up
 point-in-time snapshots of your data to Amazon Simple Storage (Amazon S3) for durable
-off-site recovery, as well as import the data to an Amazon Elastic Block Store (EBS) volume
+off-site recovery, and also import the data to an Amazon Elastic Block Store (EBS) volume
 in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a
 scheduled or ad hoc basis. This API enables you to take an ad hoc snapshot. For more
 information, see Editing a snapshot schedule. In the CreateSnapshot request, you identify
@@ -538,8 +584,8 @@ size, and the iSCSI target ARN that initiators can use to connect to the volume 
 - `network_interface_id`: The network interface of the gateway on which to expose the iSCSI
   target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of
   the network interfaces available on a gateway. Valid Values: A valid IP address.
-- `preserve_existing_data`: Set to true true if you want to preserve the data on the local
-  disk. Otherwise, set to false to create an empty volume. Valid Values: true | false
+- `preserve_existing_data`: Set to true if you want to preserve the data on the local disk.
+  Otherwise, set to false to create an empty volume. Valid Values: true | false
 - `target_name`: The name of the iSCSI target used by an initiator to connect to a volume
   and used as a suffix for the target ARN. For example, specifying TargetName as myvolume
   results in the target ARN of
@@ -555,7 +601,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"SnapshotId"`: The snapshot ID (e.g. \"snap-1122aabb\") of the snapshot to restore as
+- `"SnapshotId"`: The snapshot ID (e.g., \"snap-1122aabb\") of the snapshot to restore as
   the new stored volume. Specify this field if you want to create the iSCSI storage volume
   from a snapshot; otherwise, do not include this field. To list snapshots for your account
   use DescribeSnapshots in the Amazon Elastic Compute Cloud API Reference.
@@ -658,8 +704,8 @@ add cache storage to a gateway.
   gateways for your account and AWS Region.
 - `num_tapes_to_create`: The number of virtual tapes that you want to create.
 - `tape_barcode_prefix`: A prefix that you append to the barcode of the virtual tape you
-  are creating. This prefix makes the barcode unique.  The prefix must be 1 to 4 characters
-  in length and must be one of the uppercase letters from A to Z.
+  are creating. This prefix makes the barcode unique.  The prefix must be 1-4 characters in
+  length and must be one of the uppercase letters from A to Z.
 - `tape_size_in_bytes`: The size, in bytes, of the virtual tapes that you want to create.
   The size must be aligned by gigabyte (1024*1024*1024 bytes).
 
@@ -887,7 +933,7 @@ delete_volume(VolumeARN, params::AbstractDict{String, <:Any}; aws_config::Abstra
     describe_availability_monitor_test(gateway_arn)
     describe_availability_monitor_test(gateway_arn, params::Dict{String,<:Any})
 
-Returns information about the most recent High Availability monitoring test that was
+Returns information about the most recent high availability monitoring test that was
 performed on the host in a cluster. If a test isn't performed, the status and start time in
 the response would be null.
 
@@ -989,6 +1035,21 @@ operation is supported in the volume and tape gateway types.
 """
 describe_chap_credentials(TargetARN; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DescribeChapCredentials", Dict{String, Any}("TargetARN"=>TargetARN); aws_config=aws_config)
 describe_chap_credentials(TargetARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DescribeChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetARN"=>TargetARN), params)); aws_config=aws_config)
+
+"""
+    describe_file_system_associations(file_system_association_arnlist)
+    describe_file_system_associations(file_system_association_arnlist, params::Dict{String,<:Any})
+
+Gets the file system association information. This operation is only supported for Amazon
+FSx file gateways.
+
+# Arguments
+- `file_system_association_arnlist`: An array containing the Amazon Resource Name (ARN) of
+  each file system association to be described.
+
+"""
+describe_file_system_associations(FileSystemAssociationARNList; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DescribeFileSystemAssociations", Dict{String, Any}("FileSystemAssociationARNList"=>FileSystemAssociationARNList); aws_config=aws_config)
+describe_file_system_associations(FileSystemAssociationARNList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DescribeFileSystemAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemAssociationARNList"=>FileSystemAssociationARNList), params)); aws_config=aws_config)
 
 """
     describe_gateway_information(gateway_arn)
@@ -1266,6 +1327,28 @@ disable_gateway(GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()) =
 disable_gateway(GatewayARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DisableGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), params)); aws_config=aws_config)
 
 """
+    disassociate_file_system(file_system_association_arn)
+    disassociate_file_system(file_system_association_arn, params::Dict{String,<:Any})
+
+Disassociates an Amazon FSx file system from the specified gateway. After the
+disassociation process finishes, the gateway can no longer access the Amazon FSx file
+system. This operation is only supported in the Amazon FSx file gateway type.
+
+# Arguments
+- `file_system_association_arn`: The Amazon Resource Name (ARN) of the file system
+  association to be deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ForceDelete"`: If this value is set to true, the operation disassociates an Amazon FSx
+  file system immediately. It ends all data uploads to the file system, and the file system
+  association enters the FORCE_DELETING status. If this value is set to false, the Amazon FSx
+  file system does not disassociate until all data is uploaded.
+"""
+disassociate_file_system(FileSystemAssociationARN; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DisassociateFileSystem", Dict{String, Any}("FileSystemAssociationARN"=>FileSystemAssociationARN); aws_config=aws_config)
+disassociate_file_system(FileSystemAssociationARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DisassociateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemAssociationARN"=>FileSystemAssociationARN), params)); aws_config=aws_config)
+
+"""
     join_domain(domain_name, gateway_arn, password, user_name)
     join_domain(domain_name, gateway_arn, password, user_name, params::Dict{String,<:Any})
 
@@ -1331,6 +1414,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_file_shares(; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("ListFileShares"; aws_config=aws_config)
 list_file_shares(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("ListFileShares", params; aws_config=aws_config)
+
+"""
+    list_file_system_associations()
+    list_file_system_associations(params::Dict{String,<:Any})
+
+Gets a list of FileSystemAssociationSummary objects. Each object contains a summary of a
+file system association. This operation is only supported for Amazon FSx file gateways.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GatewayARN"`:
+- `"Limit"`: The maximum number of file system associations to return in the response. If
+  present, Limit must be an integer with a value greater than zero. Optional.
+- `"Marker"`: Opaque pagination token returned from a previous ListFileSystemAssociations
+  operation. If present, Marker specifies where to continue the list from after a previous
+  call to ListFileSystemAssociations. Optional.
+"""
+list_file_system_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("ListFileSystemAssociations"; aws_config=aws_config)
+list_file_system_associations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("ListFileSystemAssociations", params; aws_config=aws_config)
 
 """
     list_gateways()
@@ -1526,18 +1628,20 @@ notify_when_uploaded(FileShareARN, params::AbstractDict{String, <:Any}; aws_conf
     refresh_cache(file_share_arn)
     refresh_cache(file_share_arn, params::Dict{String,<:Any})
 
-Refreshes the cache for the specified file share. This operation finds objects in the
-Amazon S3 bucket that were added, removed, or replaced since the gateway last listed the
-bucket's contents and cached the results. This operation is only supported in the file
-gateway type. You can subscribe to be notified through an Amazon CloudWatch event when your
-RefreshCache operation completes. For more information, see Getting notified about file
-operations in the AWS Storage Gateway User Guide. When this API is called, it only
-initiates the refresh operation. When the API call completes and returns a success code, it
-doesn't necessarily mean that the file refresh has completed. You should use the
-refresh-complete notification to determine that the operation has completed before you
-check for new files on the gateway file share. You can subscribe to be notified through an
-CloudWatch event when your RefreshCache operation completes. Throttle limit: This API is
-asynchronous so the gateway will accept no more than two refreshes at any time. We
+Refreshes the cached inventory of objects for the specified file share. This operation
+finds objects in the Amazon S3 bucket that were added, removed, or replaced since the
+gateway last listed the bucket's contents and cached the results. This operation does not
+import files into the file gateway cache storage. It only updates the cached inventory to
+reflect changes in the inventory of the objects in the S3 bucket. This operation is only
+supported in the file gateway type. You can subscribe to be notified through an Amazon
+CloudWatch event when your RefreshCache operation completes. For more information, see
+Getting notified about file operations in the AWS Storage Gateway User Guide. When this API
+is called, it only initiates the refresh operation. When the API call completes and returns
+a success code, it doesn't necessarily mean that the file refresh has completed. You should
+use the refresh-complete notification to determine that the operation has completed before
+you check for new files on the gateway file share. You can subscribe to be notified through
+a CloudWatch event when your RefreshCache operation completes. Throttle limit: This API is
+asynchronous, so the gateway will accept no more than two refreshes at any time. We
 recommend using the refresh-complete CloudWatch event notification before issuing
 additional requests. For more information, see Getting notified about file operations in
 the AWS Storage Gateway User Guide. If you invoke the RefreshCache API when two requests
@@ -1833,6 +1937,30 @@ update_chap_credentials(InitiatorName, SecretToAuthenticateInitiator, TargetARN;
 update_chap_credentials(InitiatorName, SecretToAuthenticateInitiator, TargetARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("UpdateChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InitiatorName"=>InitiatorName, "SecretToAuthenticateInitiator"=>SecretToAuthenticateInitiator, "TargetARN"=>TargetARN), params)); aws_config=aws_config)
 
 """
+    update_file_system_association(file_system_association_arn)
+    update_file_system_association(file_system_association_arn, params::Dict{String,<:Any})
+
+Updates a file system association. This operation is only supported in the Amazon FSx file
+gateway type.
+
+# Arguments
+- `file_system_association_arn`: The Amazon Resource Name (ARN) of the file system
+  association that you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for the audit
+  logs.
+- `"CacheAttributes"`:
+- `"Password"`: The password of the user credential.
+- `"UserName"`: The user name of the user credential that has permission to access the root
+  share D of the Amazon FSx file system. The user account must belong to the Amazon FSx
+  delegated admin user group.
+"""
+update_file_system_association(FileSystemAssociationARN; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("UpdateFileSystemAssociation", Dict{String, Any}("FileSystemAssociationARN"=>FileSystemAssociationARN); aws_config=aws_config)
+update_file_system_association(FileSystemAssociationARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("UpdateFileSystemAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemAssociationARN"=>FileSystemAssociationARN), params)); aws_config=aws_config)
+
+"""
     update_gateway_information(gateway_arn)
     update_gateway_information(gateway_arn, params::Dict{String,<:Any})
 
@@ -1918,7 +2046,7 @@ S3 bucket   Metadata defaults for your S3 bucket   Allowed NFS clients for your 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheAttributes"`: Refresh cache information.
+- `"CacheAttributes"`: specifies refresh cache information for the file share.
 - `"ClientList"`: The list of clients that are allowed to access the file gateway. The list
   must contain either valid IP addresses or valid CIDR blocks.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
@@ -1935,7 +2063,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
 - `"NFSFileShareDefaults"`: The default values for the file share. Optional.
-- `"NotificationPolicy"`: The notification policy of the file share.
+- `"NotificationPolicy"`: The notification policy of the file share. SettlingTimeInSeconds
+  controls the number of seconds to wait after the last point in time a client wrote to a
+  file before generating an ObjectUploaded notification. Because clients can make many small
+  writes to files, it's best to set this parameter for as long as possible to avoid
+  generating multiple notifications for the same file in a small time period.
+  SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3,
+  only the timing of the notification.  The following example sets NotificationPolicy on with
+  SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
+  following example sets NotificationPolicy off.  {}
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a file gateway puts objects into. The default value is private.
 - `"ReadOnly"`: A value that sets the write status of a file share. Set this value to true
@@ -1978,9 +2114,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator rights to the file share. A group must be prefixed with the @ character.
   Acceptable formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set
   if Authentication is set to ActiveDirectory.
-- `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for the audit
+- `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for audit
   logs.
-- `"CacheAttributes"`: Refresh cache information.
+- `"CacheAttributes"`: Specifies refresh cache information for the file share.
 - `"CaseSensitivity"`: The case of an object name in an Amazon S3 bucket. For
   ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway
   determines the case sensitivity. The default value is ClientSpecified.
@@ -2001,7 +2137,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
-- `"NotificationPolicy"`: The notification policy of the file share.
+- `"NotificationPolicy"`: The notification policy of the file share. SettlingTimeInSeconds
+  controls the number of seconds to wait after the last point in time a client wrote to a
+  file before generating an ObjectUploaded notification. Because clients can make many small
+  writes to files, it's best to set this parameter for as long as possible to avoid
+  generating multiple notifications for the same file in a small time period.
+  SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3,
+  only the timing of the notification.  The following example sets NotificationPolicy on with
+  SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
+  following example sets NotificationPolicy off.  {}
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
   the S3 bucket that a file gateway puts objects into. The default value is private.
 - `"ReadOnly"`: A value that sets the write status of a file share. Set this value to true

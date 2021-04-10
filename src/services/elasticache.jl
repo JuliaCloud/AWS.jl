@@ -8,9 +8,11 @@ using AWS.UUIDs
     add_tags_to_resource(resource_name, tag)
     add_tags_to_resource(resource_name, tag, params::Dict{String,<:Any})
 
-Adds up to 50 cost allocation tags to the named resource. A cost allocation tag is a
-key-value pair where the key and value are case-sensitive. You can use cost allocation tags
-to categorize and track your AWS costs.  When you apply tags to your ElastiCache resources,
+A tag is a key-value pair where the key and value are case-sensitive. You can use tags to
+categorize and track all your ElastiCache resources, with the exception of global
+replication group. When you add or remove tags on replication groups, those actions will be
+replicated to all nodes in the replication group. For more information, see Resource-level
+permissions.  For example, you can use cost-allocation tags to your ElastiCache resources,
 AWS generates a cost allocation report as a comma-separated value (CSV) file with your
 usage and costs aggregated by your tags. You can apply tags that represent business
 categories (such as cost centers, application names, or owners) to organize your costs
@@ -23,13 +25,13 @@ ElastiCache in the ElastiCache User Guide.
   arn:aws:elasticache:us-west-2:0123456789:snapshot:mySnapshot. ElastiCache resources are
   cluster and snapshot. For more information about ARNs, see Amazon Resource Names (ARNs) and
   AWS Service Namespaces.
-- `tag`: A list of cost allocation tags to be added to this resource. A tag is a key-value
-  pair. A tag key must be accompanied by a tag value.
+- `tag`: A list of tags to be added to this resource. A tag is a key-value pair. A tag key
+  must be accompanied by a tag value, although null is accepted.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of cost allocation tags to be added to this resource. A tag is a
-  key-value pair. A tag key must be accompanied by a tag value.
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 """
 add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws_config=aws_config)
 add_tags_to_resource(ResourceName, Tag, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config)
@@ -151,6 +153,8 @@ ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the target snapshot.
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 - `"TargetBucket"`: The Amazon S3 bucket to which the snapshot is exported. This parameter
   is used only when exporting a snapshot for external access. When using this parameter to
   export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket.
@@ -294,7 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify
   this parameter, ElastiCache automatically chooses an appropriate time range.  This
   parameter is only valid if the Engine parameter is redis.
-- `"Tags"`: A list of cost allocation tags to be added to this resource.
+- `"Tags"`: A list of tags to be added to this resource.
 """
 create_cache_cluster(CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheCluster", Dict{String, Any}("CacheClusterId"=>CacheClusterId); aws_config=aws_config)
 create_cache_cluster(CacheClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheClusterId"=>CacheClusterId), params)); aws_config=aws_config)
@@ -319,6 +323,10 @@ Groups in the ElastiCache User Guide.
 - `cache_parameter_group_name`: A user-specified name for the cache parameter group.
 - `description`: A user-specified description for the cache parameter group.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 """
 create_cache_parameter_group(CacheParameterGroupFamily, CacheParameterGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheParameterGroup", Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily, "CacheParameterGroupName"=>CacheParameterGroupName, "Description"=>Description); aws_config=aws_config)
 create_cache_parameter_group(CacheParameterGroupFamily, CacheParameterGroupName, Description, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheParameterGroupFamily"=>CacheParameterGroupFamily, "CacheParameterGroupName"=>CacheParameterGroupName, "Description"=>Description), params)); aws_config=aws_config)
@@ -338,6 +346,10 @@ VPC, use a cache subnet group instead. For more information, see CreateCacheSubn
   Cannot be the word \"Default\". Example: mysecuritygroup
 - `description`: A description for the cache security group.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 """
 create_cache_security_group(CacheSecurityGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheSecurityGroup", Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "Description"=>Description); aws_config=aws_config)
 create_cache_security_group(CacheSecurityGroupName, Description, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSecurityGroupName"=>CacheSecurityGroupName, "Description"=>Description), params)); aws_config=aws_config)
@@ -359,6 +371,8 @@ in an Amazon Virtual Private Cloud (Amazon VPC).
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SubnetIds"`: A list of VPC subnet IDs for the cache subnet group.
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 """
 create_cache_subnet_group(CacheSubnetGroupDescription, CacheSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheSubnetGroup", Dict{String, Any}("CacheSubnetGroupDescription"=>CacheSubnetGroupDescription, "CacheSubnetGroupName"=>CacheSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
 create_cache_subnet_group(CacheSubnetGroupDescription, CacheSubnetGroupName, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateCacheSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CacheSubnetGroupDescription"=>CacheSubnetGroupDescription, "CacheSubnetGroupName"=>CacheSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
@@ -371,24 +385,24 @@ Global Datastore for Redis offers fully managed, fast, reliable and secure cross
 replication. Using Global Datastore for Redis, you can create cross-region read replica
 clusters for ElastiCache for Redis to enable low-latency reads and disaster recovery across
 regions. For more information, see Replication Across Regions Using Global Datastore.
-The GlobalReplicationGroupIdSuffix is the name of the Global Datastore.   The
+The GlobalReplicationGroupIdSuffix is the name of the Global datastore.   The
 PrimaryReplicationGroupId represents the name of the primary cluster that accepts writes
 and will replicate updates to the secondary cluster.
 
 # Arguments
-- `global_replication_group_id_suffix`: The suffix name of a Global Datastore. Amazon
-  ElastiCache automatically applies a prefix to the Global Datastore ID when it is created.
-  Each AWS Region has its own prefix. For instance, a Global Datastore ID created in the
+- `global_replication_group_id_suffix`: The suffix name of a Global datastore. Amazon
+  ElastiCache automatically applies a prefix to the Global datastore ID when it is created.
+  Each AWS Region has its own prefix. For instance, a Global datastore ID created in the
   US-West-1 region will begin with \"dsdfu\" along with the suffix name you provide. The
   suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global
-  Datastore name across multiple regions.  For a full list of AWS Regions and their
-  respective Global Datastore iD prefixes, see Using the AWS CLI with Global Datastores .
+  datastore name across multiple regions.  For a full list of AWS Regions and their
+  respective Global datastore iD prefixes, see Using the AWS CLI with Global datastores .
 - `primary_replication_group_id`: The name of the primary cluster that accepts writes and
   will replicate updates to the secondary cluster.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GlobalReplicationGroupDescription"`: Provides details of the Global Datastore
+- `"GlobalReplicationGroupDescription"`: Provides details of the Global datastore
 """
 create_global_replication_group(GlobalReplicationGroupIdSuffix, PrimaryReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupIdSuffix"=>GlobalReplicationGroupIdSuffix, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId); aws_config=aws_config)
 create_global_replication_group(GlobalReplicationGroupIdSuffix, PrimaryReplicationGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalReplicationGroupIdSuffix"=>GlobalReplicationGroupIdSuffix, "PrimaryReplicationGroupId"=>PrimaryReplicationGroupId), params)); aws_config=aws_config)
@@ -399,7 +413,7 @@ create_global_replication_group(GlobalReplicationGroupIdSuffix, PrimaryReplicati
 
 Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication
 group. This API can be used to create a standalone regional replication group or a
-secondary replication group associated with a Global Datastore. A Redis (cluster mode
+secondary replication group associated with a Global datastore. A Redis (cluster mode
 disabled) replication group is a collection of clusters, where one of the clusters is a
 read/write primary and the others are read-only replicas. Writes to the primary are
 asynchronously propagated to the replicas. A Redis cluster-mode enabled cluster is
@@ -500,7 +514,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cannot downgrade to an earlier engine version. If you want to use an earlier engine
   version, you must delete the existing cluster or replication group and create it anew with
   the earlier engine version.
-- `"GlobalReplicationGroupId"`: The name of the Global Datastore
+- `"GlobalReplicationGroupId"`: The name of the Global datastore
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the disk in the cluster.
 - `"MultiAZEnabled"`: A flag indicating if you have Multi-AZ enabled to enhance fault
   tolerance. For more information, see Minimizing Downtime: Multi-AZ.
@@ -568,10 +582,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotWindow"`: The daily time range (in UTC) during which ElastiCache begins taking
   a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify
   this parameter, ElastiCache automatically chooses an appropriate time range.
-- `"Tags"`: A list of cost allocation tags to be added to this resource. Tags are
-  comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple
-  tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey,
-  Value=mySecondKeyValue.
+- `"Tags"`: A list of tags to be added to this resource. Tags are comma-separated key,value
+  pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following:
+  Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Tags on replication
+  groups will be replicated to all nodes.
 - `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
   You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To
   enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true
@@ -603,6 +617,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the snapshot.
 - `"ReplicationGroupId"`: The identifier of an existing replication group. The snapshot is
   created from this replication group.
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 """
 create_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateSnapshot", Dict{String, Any}("SnapshotName"=>SnapshotName); aws_config=aws_config)
 create_snapshot(SnapshotName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), params)); aws_config=aws_config)
@@ -625,6 +641,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NoPasswordRequired"`: Indicates a password is not required for this user.
 - `"Passwords"`: Passwords used for this user. You can create up to two passwords for each
   user.
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 """
 create_user(AccessString, Engine, UserId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateUser", Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName); aws_config=aws_config)
 create_user(AccessString, Engine, UserId, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessString"=>AccessString, "Engine"=>Engine, "UserId"=>UserId, "UserName"=>UserName), params)); aws_config=aws_config)
@@ -642,6 +660,8 @@ Using Role Based Access Control (RBAC)
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 - `"UserIds"`: The list of user IDs that belong to the user group.
 """
 create_user_group(Engine, UserGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateUserGroup", Dict{String, Any}("Engine"=>Engine, "UserGroupId"=>UserGroupId); aws_config=aws_config)
@@ -651,12 +671,12 @@ create_user_group(Engine, UserGroupId, params::AbstractDict{String, <:Any}; aws_
     decrease_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count)
     decrease_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count, params::Dict{String,<:Any})
 
-Decreases the number of node groups in a Global Datastore
+Decreases the number of node groups in a Global datastore
 
 # Arguments
 - `apply_immediately`: Indicates that the shard reconfiguration process begins immediately.
   At present, the only permitted value for this parameter is true.
-- `global_replication_group_id`: The name of the Global Datastore
+- `global_replication_group_id`: The name of the Global datastore
 - `node_group_count`: The number of node groups (shards) that results from the modification
   of the shard configuration
 
@@ -786,18 +806,20 @@ delete_cache_subnet_group(CacheSubnetGroupName, params::AbstractDict{String, <:A
     delete_global_replication_group(global_replication_group_id, retain_primary_replication_group)
     delete_global_replication_group(global_replication_group_id, retain_primary_replication_group, params::Dict{String,<:Any})
 
-Deleting a Global Datastore is a two-step process:    First, you must
+Deleting a Global datastore is a two-step process:    First, you must
 DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global
-Datastore.   Once the Global Datastore contains only the primary cluster, you can use
-DeleteGlobalReplicationGroup API to delete the Global Datastore while retainining the
-primary cluster using Retain…= true.   Since the Global Datastore has only a primary
-cluster, you can delete the Global Datastore while retaining the primary by setting
-RetainPrimaryCluster=true. When you receive a successful response from this operation,
-Amazon ElastiCache immediately begins deleting the selected resources; you cannot cancel or
-revert this operation.
+datastore.   Once the Global datastore contains only the primary cluster, you can use the
+DeleteGlobalReplicationGroup API to delete the Global datastore while retainining the
+primary cluster using RetainPrimaryReplicationGroup=true.   Since the Global Datastore has
+only a primary cluster, you can delete the Global Datastore while retaining the primary by
+setting RetainPrimaryReplicationGroup=true. The primary cluster is never deleted when
+deleting a Global Datastore. It can only be deleted when it no longer is associated with
+any Global Datastore. When you receive a successful response from this operation, Amazon
+ElastiCache immediately begins deleting the selected resources; you cannot cancel or revert
+this operation.
 
 # Arguments
-- `global_replication_group_id`: The name of the Global Datastore
+- `global_replication_group_id`: The name of the Global datastore
 - `retain_primary_replication_group`: The primary replication group is retained as a
   standalone replication group.
 
@@ -1087,18 +1109,18 @@ describe_events(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
     describe_global_replication_groups(params::Dict{String,<:Any})
 
 Returns information about a particular global replication group. If no identifier is
-specified, returns information about all Global Datastores.
+specified, returns information about all Global datastores.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GlobalReplicationGroupId"`: The name of the Global Datastore
+- `"GlobalReplicationGroupId"`: The name of the Global datastore
 - `"Marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a marker is included in the response so that the
   remaining results can be retrieved.
-- `"ShowMemberInfo"`: Returns the list of members that comprise the Global Datastore.
+- `"ShowMemberInfo"`: Returns the list of members that comprise the Global datastore.
 """
 describe_global_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeGlobalReplicationGroups"; aws_config=aws_config)
 describe_global_replication_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DescribeGlobalReplicationGroups", params; aws_config=aws_config)
@@ -1367,16 +1389,16 @@ describe_users(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfi
     disassociate_global_replication_group(global_replication_group_id, replication_group_id, replication_group_region)
     disassociate_global_replication_group(global_replication_group_id, replication_group_id, replication_group_region, params::Dict{String,<:Any})
 
-Remove a secondary cluster from the Global Datastore using the Global Datastore name. The
+Remove a secondary cluster from the Global datastore using the Global datastore name. The
 secondary cluster will no longer receive updates from the primary cluster, but will remain
 as a standalone cluster in that AWS region.
 
 # Arguments
-- `global_replication_group_id`: The name of the Global Datastore
+- `global_replication_group_id`: The name of the Global datastore
 - `replication_group_id`: The name of the secondary cluster you wish to remove from the
-  Global Datastore
+  Global datastore
 - `replication_group_region`: The AWS region of secondary cluster you wish to remove from
-  the Global Datastore
+  the Global datastore
 
 """
 disassociate_global_replication_group(GlobalReplicationGroupId, ReplicationGroupId, ReplicationGroupRegion; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DisassociateGlobalReplicationGroup", Dict{String, Any}("GlobalReplicationGroupId"=>GlobalReplicationGroupId, "ReplicationGroupId"=>ReplicationGroupId, "ReplicationGroupRegion"=>ReplicationGroupRegion); aws_config=aws_config)
@@ -1390,8 +1412,8 @@ Used to failover the primary region to a selected secondary region. The selected
 region will become primary, and all other clusters will become secondary.
 
 # Arguments
-- `global_replication_group_id`: The name of the Global Datastore
-- `primary_region`: The AWS region of the primary cluster of the Global Datastore
+- `global_replication_group_id`: The name of the Global datastore
+- `primary_region`: The AWS region of the primary cluster of the Global datastore
 - `primary_replication_group_id`: The name of the primary replication group
 
 """
@@ -1402,18 +1424,18 @@ failover_global_replication_group(GlobalReplicationGroupId, PrimaryRegion, Prima
     increase_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count)
     increase_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count, params::Dict{String,<:Any})
 
-Increase the number of node groups in the Global Datastore
+Increase the number of node groups in the Global datastore
 
 # Arguments
 - `apply_immediately`: Indicates that the process begins immediately. At present, the only
   permitted value for this parameter is true.
-- `global_replication_group_id`: The name of the Global Datastore
+- `global_replication_group_id`: The name of the Global datastore
 - `node_group_count`: The number of node groups you wish to add
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RegionalConfigurations"`: Describes the replication group IDs, the AWS regions where
-  they are stored and the shard configuration for each that comprise the Global Datastore
+  they are stored and the shard configuration for each that comprise the Global datastore
 """
 increase_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("IncreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount); aws_config=aws_config)
 increase_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("IncreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount), params)); aws_config=aws_config)
@@ -1474,12 +1496,12 @@ list_allowed_node_type_modifications(params::AbstractDict{String, <:Any}; aws_co
     list_tags_for_resource(resource_name)
     list_tags_for_resource(resource_name, params::Dict{String,<:Any})
 
-Lists all cost allocation tags currently on the named resource. A cost allocation tag is a
-key-value pair where the key is case-sensitive and the value is optional. You can use cost
-allocation tags to categorize and track your AWS costs. If the cluster is not in the
-available state, ListTagsForResource returns an error. You can have a maximum of 50 cost
-allocation tags on an ElastiCache resource. For more information, see Monitoring Costs with
-Tags.
+Lists all tags currently on a named resource.  A tag is a key-value pair where the key and
+value are case-sensitive. You can use tags to categorize and track all your ElastiCache
+resources, with the exception of global replication group. When you add or remove tags on
+replication groups, those actions will be replicated to all nodes in the replication group.
+For more information, see Resource-level permissions. If the cluster is not in the
+available state, ListTagsForResource returns an error.
 
 # Arguments
 - `resource_name`: The Amazon Resource Name (ARN) of the resource for which you want the
@@ -1664,25 +1686,25 @@ modify_cache_subnet_group(CacheSubnetGroupName, params::AbstractDict{String, <:A
     modify_global_replication_group(apply_immediately, global_replication_group_id)
     modify_global_replication_group(apply_immediately, global_replication_group_id, params::Dict{String,<:Any})
 
-Modifies the settings for a Global Datastore.
+Modifies the settings for a Global datastore.
 
 # Arguments
 - `apply_immediately`: This parameter causes the modifications in this request and any
   pending modifications to be applied, asynchronously and as soon as possible. Modifications
   to Global Replication Groups cannot be requested to be applied in PreferredMaintenceWindow.
-- `global_replication_group_id`: The name of the Global Datastore
+- `global_replication_group_id`: The name of the Global datastore
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutomaticFailoverEnabled"`: Determines whether a read replica is automatically promoted
   to read/write primary if the existing primary encounters a failure.
-- `"CacheNodeType"`: A valid cache node type that you want to scale this Global Datastore
+- `"CacheNodeType"`: A valid cache node type that you want to scale this Global datastore
   to.
 - `"CacheParameterGroupName"`: The name of the cache parameter group to use with the Global
   datastore. It must be compatible with the major engine version used by the Global datastore.
 - `"EngineVersion"`: The upgraded version of the cache engine to be run on the clusters in
-  the Global Datastore.
-- `"GlobalReplicationGroupDescription"`: A description of the Global Datastore
+  the Global datastore.
+- `"GlobalReplicationGroupDescription"`: A description of the Global datastore
 """
 modify_global_replication_group(ApplyImmediately, GlobalReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId); aws_config=aws_config)
 modify_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId), params)); aws_config=aws_config)
@@ -1735,8 +1757,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you
   want to use an earlier engine version, you must delete the existing replication group and
   create it anew with the earlier engine version.
-- `"MultiAZEnabled"`: A flag indicating if you have Multi-AZ enabled to enhance fault
-  tolerance. For more information, see Minimizing Downtime: Multi-AZ.
+- `"MultiAZEnabled"`: A list of tags to be added to this resource. A tag is a key-value
+  pair. A tag key must be accompanied by a tag value, although null is accepted.
 - `"NodeGroupId"`: Deprecated. This parameter is not used.
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to which
   notifications are sent.  The Amazon SNS topic owner must be same as the replication group
@@ -1869,6 +1891,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reserved Cache Node ID is an unique customer-specified identifier to track this
   reservation. If this parameter is not specified, ElastiCache automatically generates an
   identifier for the reservation.  Example: myreservationID
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
 """
 purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("PurchaseReservedCacheNodesOffering", Dict{String, Any}("ReservedCacheNodesOfferingId"=>ReservedCacheNodesOfferingId); aws_config=aws_config)
 purchase_reserved_cache_nodes_offering(ReservedCacheNodesOfferingId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("PurchaseReservedCacheNodesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedCacheNodesOfferingId"=>ReservedCacheNodesOfferingId), params)); aws_config=aws_config)
@@ -1881,7 +1905,7 @@ Redistribute slots to ensure uniform distribution across existing shards in the 
 
 # Arguments
 - `apply_immediately`: If True, redistribution is applied immediately.
-- `global_replication_group_id`: The name of the Global Datastore
+- `global_replication_group_id`: The name of the Global datastore
 
 """
 rebalance_slots_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("RebalanceSlotsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId); aws_config=aws_config)
@@ -1921,7 +1945,11 @@ reboot_cache_cluster(CacheClusterId, CacheNodeId, params::AbstractDict{String, <
     remove_tags_from_resource(resource_name, tag_keys)
     remove_tags_from_resource(resource_name, tag_keys, params::Dict{String,<:Any})
 
-Removes the tags identified by the TagKeys list from the named resource.
+Removes the tags identified by the TagKeys list from the named resource. A tag is a
+key-value pair where the key and value are case-sensitive. You can use tags to categorize
+and track all your ElastiCache resources, with the exception of global replication group.
+When you add or remove tags on replication groups, those actions will be replicated to all
+nodes in the replication group. For more information, see Resource-level permissions.
 
 # Arguments
 - `resource_name`: The Amazon Resource Name (ARN) of the resource from which you want the
