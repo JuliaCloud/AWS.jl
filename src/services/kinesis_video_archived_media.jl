@@ -299,7 +299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HLS media playlist. It is recommended to use a value of ALWAYS if the fragment timestamps
   are not accurate.    NEVER: no discontinuity markers are placed anywhere. It is recommended
   to use a value of NEVER to ensure the media player timeline most accurately maps to the
-  producer timestamps.     ON_DISCONTIUNITY: a discontinuity marker is placed between
+  producer timestamps.     ON_DISCONTINUITY: a discontinuity marker is placed between
   fragments that have a gap or overlap of more than 50 milliseconds. For most playback
   scenarios, it is recommended to use a value of ON_DISCONTINUITY so that the media player
   timeline is only reset when there is a significant issue with the media timeline (e.g. a

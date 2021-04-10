@@ -314,6 +314,39 @@ create_streaming_url(FleetName, StackName, UserId; aws_config::AbstractAWSConfig
 create_streaming_url(FleetName, StackName, UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId), params)); aws_config=aws_config)
 
 """
+    create_updated_image(existing_image_name, new_image_name)
+    create_updated_image(existing_image_name, new_image_name, params::Dict{String,<:Any})
+
+Creates a new image with the latest Windows operating system updates, driver updates, and
+AppStream 2.0 agent software. For more information, see the \"Update an Image by Using
+Managed AppStream 2.0 Image Updates\" section in Administer Your AppStream 2.0 Images, in
+the Amazon AppStream 2.0 Administration Guide.
+
+# Arguments
+- `existing_image_name`: The name of the image to update.
+- `new_image_name`: The name of the new image. The name must be unique within the AWS
+  account and Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"dryRun"`: Indicates whether to display the status of image update availability before
+  AppStream 2.0 initiates the process of creating a new updated image. If this value is set
+  to true, AppStream 2.0 displays whether image updates are available. If this value is set
+  to false, AppStream 2.0 initiates the process of creating a new updated image without
+  displaying whether image updates are available.
+- `"newImageDescription"`: The description to display for the new image.
+- `"newImageDisplayName"`: The name to display for the new image.
+- `"newImageTags"`: The tags to associate with the new image. A tag is a key-value pair,
+  and the value is optional. For example, Environment=Test. If you do not specify a value,
+  Environment=.  Generally allowed characters are: letters, numbers, and spaces representable
+  in UTF-8, and the following special characters:  _ . : / = +  - @ If you do not specify a
+  value, the value is set to an empty string. For more information about tags, see Tagging
+  Your Resources in the Amazon AppStream 2.0 Administration Guide.
+"""
+create_updated_image(existingImageName, newImageName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateUpdatedImage", Dict{String, Any}("existingImageName"=>existingImageName, "newImageName"=>newImageName); aws_config=aws_config)
+create_updated_image(existingImageName, newImageName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateUpdatedImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("existingImageName"=>existingImageName, "newImageName"=>newImageName), params)); aws_config=aws_config)
+
+"""
     create_usage_report_subscription()
     create_usage_report_subscription(params::Dict{String,<:Any})
 

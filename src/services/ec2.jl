@@ -1075,19 +1075,20 @@ copy_fpga_image(SourceFpgaImageId, SourceRegion, params::AbstractDict{String, <:
 
 Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a
 Region to an AWS Outpost. You can't copy an AMI from an Outpost to a Region, from one
-Outpost to another, or within the same Outpost. To copy an AMI from one Region to another,
-specify the source Region using the SourceRegion parameter, and specify the destination
-Region using its endpoint. Copies of encrypted backing snapshots for the AMI are encrypted.
-Copies of unencrypted backing snapshots remain unencrypted, unless you set Encrypted during
-the copy operation. You cannot create an unencrypted copy of an encrypted backing snapshot.
-To copy an AMI from a Region to an Outpost, specify the source Region using the
-SourceRegion parameter, and specify the ARN of the destination Outpost using
-DestinationOutpostArn. Backing snapshots copied to an Outpost are encrypted by default
-using the default encryption key for the Region, or a different key that you specify in the
-request using KmsKeyId. Outposts do not support unencrypted snapshots. For more
-information,  Amazon EBS local snapshots on Outposts in the Amazon Elastic Compute Cloud
-User Guide.  For more information about the prerequisites and limits when copying an AMI,
-see Copying an AMI in the Amazon Elastic Compute Cloud User Guide.
+Outpost to another, or within the same Outpost. To copy an AMI to another partition, see
+CreateStoreImageTask. To copy an AMI from one Region to another, specify the source Region
+using the SourceRegion parameter, and specify the destination Region using its endpoint.
+Copies of encrypted backing snapshots for the AMI are encrypted. Copies of unencrypted
+backing snapshots remain unencrypted, unless you set Encrypted during the copy operation.
+You cannot create an unencrypted copy of an encrypted backing snapshot. To copy an AMI from
+a Region to an Outpost, specify the source Region using the SourceRegion parameter, and
+specify the ARN of the destination Outpost using DestinationOutpostArn. Backing snapshots
+copied to an Outpost are encrypted by default using the default encryption key for the
+Region, or a different key that you specify in the request using KmsKeyId. Outposts do not
+support unencrypted snapshots. For more information,  Amazon EBS local snapshots on
+Outposts in the Amazon Elastic Compute Cloud User Guide. For more information about the
+prerequisites and limits when copying an AMI, see Copying an AMI in the Amazon Elastic
+Compute Cloud User Guide.
 
 # Arguments
 - `name`: The name of the new AMI in the destination Region.
@@ -1732,7 +1733,7 @@ create_image(instanceId, name, params::AbstractDict{String, <:Any}; aws_config::
 
 Exports a running or stopped instance to an Amazon S3 bucket. For information about the
 supported operating systems, image formats, and known limitations for the types of
-instances you can export, see Exporting an Instance as a VM Using VM Import/Export in the
+instances you can export, see Exporting an instance as a VM Using VM Import/Export in the
 VM Import/Export User Guide.
 
 # Arguments
@@ -2210,6 +2211,36 @@ create_reserved_instances_listing(clientToken, instanceCount, priceSchedules, re
 create_reserved_instances_listing(clientToken, instanceCount, priceSchedules, reservedInstancesId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateReservedInstancesListing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "instanceCount"=>instanceCount, "priceSchedules"=>priceSchedules, "reservedInstancesId"=>reservedInstancesId), params)); aws_config=aws_config)
 
 """
+    create_restore_image_task(bucket, object_key)
+    create_restore_image_task(bucket, object_key, params::Dict{String,<:Any})
+
+Starts a task that restores an AMI from an S3 object that was previously created by using
+CreateStoreImageTask. To use this API, you must have the required permissions. For more
+information, see Permissions for storing and restoring AMIs using S3 in the Amazon Elastic
+Compute Cloud User Guide. For more information, see Store and restore an AMI using S3 in
+the Amazon Elastic Compute Cloud User Guide.
+
+# Arguments
+- `bucket`: The name of the S3 bucket that contains the stored AMI object.
+- `object_key`: The name of the stored AMI object in the bucket.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Name"`: The name for the restored AMI. The name must be unique for AMIs in the Region
+  for this account. If you do not provide a name, the new AMI gets the same name as the
+  original AMI.
+- `"TagSpecification"`: The tags to apply to the AMI and snapshots on restoration. You can
+  tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be
+  image.   To tag the snapshots, the value for ResourceType must be snapshot. The same tag is
+  applied to all of the snapshots that are created.
+"""
+create_restore_image_task(Bucket, ObjectKey; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateRestoreImageTask", Dict{String, Any}("Bucket"=>Bucket, "ObjectKey"=>ObjectKey); aws_config=aws_config)
+create_restore_image_task(Bucket, ObjectKey, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateRestoreImageTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "ObjectKey"=>ObjectKey), params)); aws_config=aws_config)
+
+"""
     create_route(route_table_id)
     create_route(route_table_id, params::Dict{String,<:Any})
 
@@ -2430,6 +2461,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_spot_datafeed_subscription(bucket; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateSpotDatafeedSubscription", Dict{String, Any}("bucket"=>bucket); aws_config=aws_config)
 create_spot_datafeed_subscription(bucket, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateSpotDatafeedSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucket"=>bucket), params)); aws_config=aws_config)
+
+"""
+    create_store_image_task(bucket, image_id)
+    create_store_image_task(bucket, image_id, params::Dict{String,<:Any})
+
+Stores an AMI as a single object in an S3 bucket. To use this API, you must have the
+required permissions. For more information, see Permissions for storing and restoring AMIs
+using S3 in the Amazon Elastic Compute Cloud User Guide. For more information, see Store
+and restore an AMI using S3 in the Amazon Elastic Compute Cloud User Guide.
+
+# Arguments
+- `bucket`: The name of the S3 bucket in which the AMI object will be stored. The bucket
+  must be in the Region in which the request is being made. The AMI object appears in the
+  bucket only after the upload task has completed.
+- `image_id`: The ID of the AMI.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"S3ObjectTag"`: The tags to apply to the AMI object that will be stored in the S3
+  bucket.
+"""
+create_store_image_task(Bucket, ImageId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateStoreImageTask", Dict{String, Any}("Bucket"=>Bucket, "ImageId"=>ImageId); aws_config=aws_config)
+create_store_image_task(Bucket, ImageId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateStoreImageTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "ImageId"=>ImageId), params)); aws_config=aws_config)
 
 """
     create_subnet(cidr_block, vpc_id)
@@ -4628,9 +4685,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pending - The Capacity Reservation request was successful but the capacity provisioning is
   still pending.    failed - The Capacity Reservation request has failed. A request might
   fail due to invalid request parameters, capacity constraints, or instance limit
-  constraints. Failed requests are retained for 60 minutes.      end-date - The date and time
-  at which the Capacity Reservation expires. When a Capacity Reservation expires, the
-  reserved capacity is released and you can no longer launch instances into it. The Capacity
+  constraints. Failed requests are retained for 60 minutes.      start-date - The date and
+  time at which the Capacity Reservation was started.    end-date - The date and time at
+  which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved
+  capacity is released and you can no longer launch instances into it. The Capacity
   Reservation's state changes to expired when it reaches its end date and time.
   end-date-type - Indicates the way in which the Capacity Reservation ends. A Capacity
   Reservation can have one of the following end types:    unlimited - The Capacity
@@ -5718,9 +5776,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   whether the instance type has local instance storage (true | false).    instance-type - The
   instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory
   size.    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic
-  Fabric Adapters (EFAs) per instance. (true | false).    network-info.efa-supported -
-  Indicates whether the instance type supports Elastic Fabric Adapter (EFA) (true | false).
-   network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or
+  Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the
+  instance type supports Elastic Fabric Adapter (EFA) (true | false).
+  network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or
   required (required | supported | unsupported).    network-info.ipv4-addresses-per-interface
   - The maximum number of private IPv4 addresses per network interface.
   network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses
@@ -7254,9 +7312,9 @@ describe_spot_instance_requests(params::AbstractDict{String, <:Any}; aws_config:
 
 Describes the Spot price history. For more information, see Spot Instance pricing history
 in the Amazon EC2 User Guide for Linux Instances. When you specify a start and end time,
-this operation returns the prices of the instance types within the time range that you
-specified and the time when the price changed. The price is valid within the time period
-that you specified; the response merely indicates the last time that the price changed.
+the operation returns the prices of the instance types within that time range. It also
+returns the last price change before the start time, which is the effective price as of the
+start time.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7310,6 +7368,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_stale_security_groups(VpcId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeStaleSecurityGroups", Dict{String, Any}("VpcId"=>VpcId); aws_config=aws_config)
 describe_stale_security_groups(VpcId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeStaleSecurityGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VpcId"=>VpcId), params)); aws_config=aws_config)
+
+"""
+    describe_store_image_tasks()
+    describe_store_image_tasks(params::Dict{String,<:Any})
+
+Describes the progress of the AMI store tasks. You can describe the store tasks for
+specified AMIs. If you don't specify the AMIs, you get a paginated list of store tasks from
+the last 31 days. For each AMI task, the response indicates if the task is InProgress,
+Completed, or Failed. For tasks InProgress, the response shows the estimated progress as a
+percentage. Tasks are listed in reverse chronological order. Currently, only tasks from the
+past 31 days can be viewed. To use this API, you must have the required permissions. For
+more information, see Permissions for storing and restoring AMIs using S3 in the Amazon
+Elastic Compute Cloud User Guide. For more information, see Store and restore an AMI using
+S3 in the Amazon Elastic Compute Cloud User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: The filters.    task-state - Returns tasks in a certain state (InProgress |
+  Completed | Failed)    bucket - Returns task information for tasks that targeted a specific
+  bucket. For the filter value, specify the bucket name.
+- `"ImageId"`: The AMI IDs for which to show progress. Up to 20 AMI IDs can be included in
+  a request.
+- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
+  remaining results, make another call with the returned NextToken value. This value can be
+  between 1 and 200. You cannot specify this parameter and the ImageIDs parameter in the same
+  call.
+- `"NextToken"`: The token for the next page of results.
+"""
+describe_store_image_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeStoreImageTasks"; aws_config=aws_config)
+describe_store_image_tasks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeStoreImageTasks", params; aws_config=aws_config)
 
 """
     describe_subnets()
@@ -8873,7 +8964,7 @@ export_client_vpn_client_configuration(ClientVpnEndpointId, params::AbstractDict
     export_image(disk_image_format, image_id, s3_export_location, params::Dict{String,<:Any})
 
 Exports an Amazon Machine Image (AMI) to a VM file. For more information, see Exporting a
-VM Directory from an Amazon Machine Image (AMI) in the VM Import/Export User Guide.
+VM directly from an Amazon Machine Image (AMI) in the VM Import/Export User Guide.
 
 # Arguments
 - `disk_image_format`: The disk image format.
@@ -9493,7 +9584,7 @@ import_client_vpn_client_certificate_revocation_list(CertificateRevocationList, 
     import_image(params::Dict{String,<:Any})
 
 Import single or multi-volume disk images or EBS snapshots into an Amazon Machine Image
-(AMI). For more information, see Importing a VM as an Image Using VM Import/Export in the
+(AMI). For more information, see Importing a VM as an image using VM Import/Export in the
 VM Import/Export User Guide.
 
 # Optional Parameters
@@ -9549,11 +9640,12 @@ import_image(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=
     import_instance(platform)
     import_instance(platform, params::Dict{String,<:Any})
 
-Creates an import instance task using metadata from the specified disk image.
-ImportInstance only supports single-volume VMs. To import multi-volume VMs, use
-ImportImage. For more information, see Importing a Virtual Machine Using the Amazon EC2
-CLI. For information about the import manifest referenced by this API action, see VM Import
-Manifest.
+Creates an import instance task using metadata from the specified disk image. This API
+action supports only single-volume VMs. To import multi-volume VMs, use ImportImage
+instead. This API action is not supported by the AWS Command Line Interface (AWS CLI). For
+information about using the Amazon EC2 CLI, which is deprecated, see Importing a VM to
+Amazon EC2 in the Amazon EC2 CLI Reference PDF file. For information about the import
+manifest referenced by this API action, see VM Import Manifest.
 
 # Arguments
 - `platform`: The instance operating system.
@@ -9600,7 +9692,8 @@ import_key_pair(keyName, publicKeyMaterial, params::AbstractDict{String, <:Any};
     import_snapshot()
     import_snapshot(params::Dict{String,<:Any})
 
-Imports a disk into an EBS snapshot.
+Imports a disk into an EBS snapshot. For more information, see Importing a disk as a
+snapshot using VM Import/Export in the VM Import/Export User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9643,9 +9736,13 @@ import_snapshot(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConf
     import_volume(availability_zone, image, volume)
     import_volume(availability_zone, image, volume, params::Dict{String,<:Any})
 
-Creates an import volume task using metadata from the specified disk image.For more
-information, see Importing Disks to Amazon EBS. For information about the import manifest
-referenced by this API action, see VM Import Manifest.
+Creates an import volume task using metadata from the specified disk image. This API action
+supports only single-volume VMs. To import multi-volume VMs, use ImportImage instead. To
+import a disk to a snapshot, use ImportSnapshot instead. This API action is not supported
+by the AWS Command Line Interface (AWS CLI). For information about using the Amazon EC2
+CLI, which is deprecated, see Importing Disks to Amazon EBS in the Amazon EC2 CLI Reference
+PDF file. For information about the import manifest referenced by this API action, see VM
+Import Manifest.
 
 # Arguments
 - `availability_zone`: The Availability Zone for the resulting EBS volume.
@@ -10083,9 +10180,10 @@ EC2 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GroupId"`: [EC2-VPC] Changes the security groups of the instance. You must specify at
-  least one security group, even if it's just the default security group for the VPC. You
-  must specify the security group ID, not the security group name.
+- `"GroupId"`: [EC2-VPC] Replaces the security groups of the instance with the specified
+  security groups. You must specify at least one security group, even if it's just the
+  default security group for the VPC. You must specify the security group ID, not the
+  security group name.
 - `"SourceDestCheck"`: Enable or disable source/destination checks, which ensure that the
   instance is either the source or the destination of any traffic that it receives. If the
   value is true, source/destination checks are enabled; otherwise, they are disabled. The
@@ -10347,10 +10445,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"sourceDestCheck"`: Indicates whether source/destination checking is enabled. A value of
-  true means checking is enabled, and false means checking is disabled. This value must be
-  false for a NAT instance to perform NAT. For more information, see NAT Instances in the
-  Amazon Virtual Private Cloud User Guide.
+- `"sourceDestCheck"`: Enable or disable source/destination checks, which ensure that the
+  instance is either the source or the destination of any traffic that it receives. If the
+  value is true, source/destination checks are enabled; otherwise, they are disabled. The
+  default value is true. You must disable source/destination checks if the instance runs
+  services such as network address translation, routing, or firewalls.
 """
 modify_network_interface_attribute(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
 modify_network_interface_attribute(networkInterfaceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyNetworkInterfaceAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config)

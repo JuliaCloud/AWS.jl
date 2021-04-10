@@ -37,9 +37,8 @@ EC2 User Guide.
 - `resource_type`: Specifies the type of resource you are tagging.  The ManagedInstance
   type for this API action is for on-premises managed instances. You must specify the name of
   the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
-- `tags`:  One or more tags. The value parameter is required, but if you don't want the tag
-  to have a value, specify the parameter with no value, and we set the value to an empty
-  string.   Do not enter personally identifiable information in this field.
+- `tags`: One or more tags. The value parameter is required.  Do not enter personally
+  identifiable information in this field.
 
 """
 add_tags_to_resource(ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("AddTagsToResource", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags); aws_config=aws_config)
@@ -874,7 +873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"ReverseOrder"`: A boolean that indicates whether to list step executions in reverse
-  order by start time. The default value is false.
+  order by start time. The default value is 'false'.
 """
 describe_automation_step_executions(AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationStepExecutions", Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId); aws_config=aws_config)
 describe_automation_step_executions(AutomationExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationStepExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config)
@@ -1490,20 +1489,26 @@ get_calendar_state(CalendarNames, params::AbstractDict{String, <:Any}; aws_confi
     get_command_invocation(command_id, instance_id, params::Dict{String,<:Any})
 
 Returns detailed information about command execution for an invocation or plugin.
+GetCommandInvocation only gives the execution status of a plugin in a document. To get the
+command execution status on a specific instance, use ListCommandInvocations. To get the
+command execution status across instances, use ListCommands.
 
 # Arguments
 - `command_id`: (Required) The parent command ID of the invocation plugin.
 - `instance_id`: (Required) The ID of the managed instance targeted by the command. A
-  managed instance can be an EC2 instance or an instance in your hybrid environment that is
-  configured for Systems Manager.
+  managed instance can be an Amazon Elastic Compute Cloud (Amazon EC2) instance or an
+  instance in your hybrid environment that is configured for AWS Systems Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PluginName"`: The name of the plugin for which you want detailed results. If the
-  document contains only one plugin, you can omit the name and details for that plugin are
-  returned. If the document contains more than one plugin, you must specify the name of the
-  plugin for which you want to view details. Plugin names are also referred to as step names
-  in Systems Manager documents. For example, aws:RunShellScript is a plugin.
+  document contains only one plugin, you can omit the name and details for that plugin. If
+  the document contains more than one plugin, you must specify the name of the plugin for
+  which you want to view details. Plugin names are also referred to as step names in Systems
+  Manager documents. For example, aws:RunShellScript is a plugin. To find the PluginName,
+  check the document content and find the name of the plugin. Alternatively, use
+  ListCommandInvocations with the CommandId and Details parameters. The PluginName is the
+  Name attribute of the CommandPlugin object in the CommandPlugins list.
 """
 get_command_invocation(CommandId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCommandInvocation", Dict{String, Any}("CommandId"=>CommandId, "InstanceId"=>InstanceId); aws_config=aws_config)
 get_command_invocation(CommandId, InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCommandInvocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CommandId"=>CommandId, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
@@ -1917,13 +1922,12 @@ requirements and restrictions.   A version of a parameter can have a maximum of 
 if version 1 has the label Production, then you can't attach Production to version 2.   You
 can move a label from one version of a parameter to another.   You can't create a label
 when you create a new parameter. You must attach a label to a specific version of a
-parameter.   You can't delete a parameter label. If you no longer want to use a parameter
-label, then you must move it to a different version of a parameter.   A label can have a
-maximum of 100 characters.   Labels can contain letters (case sensitive), numbers, periods
-(.), hyphens (-), or underscores (_).   Labels can't begin with a number, \"aws,\" or
-\"ssm\" (not case sensitive). If a label fails to meet these requirements, then the label
-is not associated with a parameter and the system displays it in the list of InvalidLabels.
-
+parameter.   If you no longer want to use a parameter label, then you can either delete it
+or move it to a different version of a parameter.   A label can have a maximum of 100
+characters.   Labels can contain letters (case sensitive), numbers, periods (.), hyphens
+(-), or underscores (_).   Labels can't begin with a number, \"aws,\" or \"ssm\" (not case
+sensitive). If a label fails to meet these requirements, then the label is not associated
+with a parameter and the system displays it in the list of InvalidLabels.
 
 # Arguments
 - `labels`: One or more labels to attach to the specified parameter version.
@@ -1991,7 +1995,7 @@ requested instance ID. ListCommandInvocations provide status about command execu
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CommandId"`: (Optional) The invocations for a specific command ID.
 - `"Details"`: (Optional) If set this returns the response of the command executions and
-  any command output. By default this is set to False.
+  any command output. The default value is 'false'.
 - `"Filters"`: (Optional) One or more filters. Use a filter to return a more specific list
   of results.
 - `"InstanceId"`: (Optional) The command execution details for a specific instance ID.
@@ -2396,8 +2400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ID when you create the parameter. The system automatically populates Key ID with your
   default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key
   ID parameter.
-- `"Overwrite"`: Overwrite an existing parameter. If not specified, will default to
-  \"false\".
+- `"Overwrite"`: Overwrite an existing parameter. The default value is 'false'.
 - `"Policies"`: One or more policies to apply to a parameter. This action takes a JSON
   array. Parameter Store supports the following policy types: Expiration: This policy deletes
   the parameter after it expires. When you create the policy, you specify the expiration
@@ -2842,6 +2845,9 @@ been received.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChangeDetails"`: User-provided details about the change. If no details are provided,
+  content specified in the Template information section of the associated change template is
+  added.
 - `"ChangeRequestName"`: The name of the change request associated with the runbook
   workflow to be run.
 - `"ClientToken"`: The user-provided idempotency token. The token must be unique, is case
@@ -2850,6 +2856,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   runbook workflow.
 - `"Parameters"`: A key-value map of parameters that match the declared parameters in the
   change template document.
+- `"ScheduledEndTime"`: The time that the requester expects the runbook workflow related to
+  the change request to complete. The time is an estimate only that the requester provides
+  for reviewers.
 - `"ScheduledTime"`: The date and time specified in the change request to run the
   Automation runbooks.  The Automation runbooks specified for the runbook workflow can't run
   until all required approvals for the change request have been received.
@@ -2919,6 +2928,22 @@ client and SSM Agent on the instance. A terminated session cannot be resumed.
 """
 terminate_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("TerminateSession", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config)
 terminate_session(SessionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("TerminateSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config)
+
+"""
+    unlabel_parameter_version(labels, name, parameter_version)
+    unlabel_parameter_version(labels, name, parameter_version, params::Dict{String,<:Any})
+
+Remove a label or labels from a parameter.
+
+# Arguments
+- `labels`: One or more labels to delete from the specified parameter version.
+- `name`: The parameter name of which you want to delete one or more labels.
+- `parameter_version`: The specific version of the parameter which you want to delete one
+  or more labels from. If it is not present, the call will fail.
+
+"""
+unlabel_parameter_version(Labels, Name, ParameterVersion; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UnlabelParameterVersion", Dict{String, Any}("Labels"=>Labels, "Name"=>Name, "ParameterVersion"=>ParameterVersion); aws_config=aws_config)
+unlabel_parameter_version(Labels, Name, ParameterVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UnlabelParameterVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels, "Name"=>Name, "ParameterVersion"=>ParameterVersion), params)); aws_config=aws_config)
 
 """
     update_association(association_id)
@@ -3035,9 +3060,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a document.
 - `"DocumentFormat"`: Specify the document format for the new document version. Systems
   Manager supports JSON and YAML documents. JSON is the default format.
-- `"DocumentVersion"`: (Required) The latest version of the document that you want to
-  update. The latest document version can be specified using the LATEST variable or by the
-  version number. Updating a previous version of a document is not supported.
+- `"DocumentVersion"`: The version of the document that you want to update. Currently,
+  Systems Manager supports updating only the latest version of the document. You can specify
+  the version number of the latest version or use the LATEST variable.
 - `"TargetType"`: Specify a new target type for the document.
 - `"VersionName"`: An optional field specifying the version of the artifact you are
   updating with the document. For example, \"Release 12, Update 6\". This value is unique
