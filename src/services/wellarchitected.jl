@@ -290,7 +290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 list_lenses(; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/lenses"; aws_config=aws_config)
-list_lenses(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/lenses", params; aws_config=aws_config)
+list_lenses(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/lenses", params; aws_config=aws_config)
 
 """
     list_milestones(workload_id)
@@ -322,7 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkloadId"`:
 """
 list_notifications(; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/notifications"; aws_config=aws_config)
-list_notifications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/notifications", params; aws_config=aws_config)
+list_notifications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/notifications", params; aws_config=aws_config)
 
 """
     list_share_invitations()
@@ -337,7 +337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkloadNamePrefix"`:
 """
 list_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/shareInvitations"; aws_config=aws_config)
-list_share_invitations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/shareInvitations", params; aws_config=aws_config)
+list_share_invitations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("GET", "/shareInvitations", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(workload_arn)
@@ -383,7 +383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkloadNamePrefix"`:
 """
 list_workloads(; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloadsSummaries"; aws_config=aws_config)
-list_workloads(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloadsSummaries", params; aws_config=aws_config)
+list_workloads(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("POST", "/workloadsSummaries", params; aws_config=aws_config)
 
 """
     tag_resource(tags, workload_arn)

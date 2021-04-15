@@ -91,7 +91,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 list_event_integrations(; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations"; aws_config=aws_config)
-list_event_integrations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations", params; aws_config=aws_config)
+list_event_integrations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appintegrations("GET", "/eventIntegrations", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

@@ -122,7 +122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChannelName"`: The name of the signaling channel that you want to describe.
 """
 describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeSignalingChannel"; aws_config=aws_config)
-describe_signaling_channel(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeSignalingChannel", params; aws_config=aws_config)
+describe_signaling_channel(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeSignalingChannel", params; aws_config=aws_config)
 
 """
     describe_stream()
@@ -137,7 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream.
 """
 describe_stream(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeStream"; aws_config=aws_config)
-describe_stream(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeStream", params; aws_config=aws_config)
+describe_stream(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeStream", params; aws_config=aws_config)
 
 """
     get_data_endpoint(apiname)
@@ -208,7 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of channels, provide this token in your next request.
 """
 list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listSignalingChannels"; aws_config=aws_config)
-list_signaling_channels(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listSignalingChannels", params; aws_config=aws_config)
+list_signaling_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listSignalingChannels", params; aws_config=aws_config)
 
 """
     list_streams()
@@ -228,7 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   condition. Currently, you can specify only the prefix of a stream name as a condition.
 """
 list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listStreams"; aws_config=aws_config)
-list_streams(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listStreams", params; aws_config=aws_config)
+list_streams(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listStreams", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -266,7 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream that you want to list tags for.
 """
 list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listTagsForStream"; aws_config=aws_config)
-list_tags_for_stream(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listTagsForStream", params; aws_config=aws_config)
+list_tags_for_stream(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listTagsForStream", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)

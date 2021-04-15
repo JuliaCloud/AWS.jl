@@ -378,7 +378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrative API (SigV4) requests.
 """
 describe_activities(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities"; aws_config=aws_config)
-describe_activities(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities", params; aws_config=aws_config)
+describe_activities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities", params; aws_config=aws_config)
 
 """
     describe_comments(document_id, version_id)
@@ -564,7 +564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userIds"`: The IDs of the users.
 """
 describe_users(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users"; aws_config=aws_config)
-describe_users(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users", params; aws_config=aws_config)
+describe_users(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users", params; aws_config=aws_config)
 
 """
     get_current_user(authentication)
@@ -707,7 +707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accessing the API operation using IAM credentials.
 """
 get_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources"; aws_config=aws_config)
-get_resources(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources", params; aws_config=aws_config)
+get_resources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources", params; aws_config=aws_config)
 
 """
     initiate_document_version_upload(parent_folder_id)

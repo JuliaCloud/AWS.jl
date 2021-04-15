@@ -181,7 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels"; aws_config=aws_config)
-list_channels(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels", params; aws_config=aws_config)
+list_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels", params; aws_config=aws_config)
 
 """
     list_harvest_jobs()
@@ -199,7 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 list_harvest_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs"; aws_config=aws_config)
-list_harvest_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs", params; aws_config=aws_config)
+list_harvest_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs", params; aws_config=aws_config)
 
 """
     list_origin_endpoints()
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 list_origin_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints"; aws_config=aws_config)
-list_origin_endpoints(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints", params; aws_config=aws_config)
+list_origin_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource-arn)

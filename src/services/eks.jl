@@ -383,7 +383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only to retrieve the next items in a list and not for other programmatic purposes.
 """
 describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions"; aws_config=aws_config)
-describe_addon_versions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions", params; aws_config=aws_config)
+describe_addon_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions", params; aws_config=aws_config)
 
 """
     describe_cluster(name)
@@ -533,7 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next items in a list and not for other programmatic purposes.
 """
 list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters"; aws_config=aws_config)
-list_clusters(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters", params; aws_config=aws_config)
+list_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters", params; aws_config=aws_config)
 
 """
     list_fargate_profiles(name)

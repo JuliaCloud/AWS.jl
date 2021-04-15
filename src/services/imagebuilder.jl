@@ -560,7 +560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   shared with you by other customers.
 """
 list_components(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponents"; aws_config=aws_config)
-list_components(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponents", params; aws_config=aws_config)
+list_components(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponents", params; aws_config=aws_config)
 
 """
     list_container_recipes()
@@ -580,7 +580,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 """
 list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListContainerRecipes"; aws_config=aws_config)
-list_container_recipes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListContainerRecipes", params; aws_config=aws_config)
+list_container_recipes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListContainerRecipes", params; aws_config=aws_config)
 
 """
     list_distribution_configurations()
@@ -596,7 +596,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 list_distribution_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListDistributionConfigurations"; aws_config=aws_config)
-list_distribution_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListDistributionConfigurations", params; aws_config=aws_config)
+list_distribution_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListDistributionConfigurations", params; aws_config=aws_config)
 
 """
     list_image_build_versions(image_version_arn)
@@ -673,7 +673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelines"; aws_config=aws_config)
-list_image_pipelines(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelines", params; aws_config=aws_config)
+list_image_pipelines(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelines", params; aws_config=aws_config)
 
 """
     list_image_recipes()
@@ -693,7 +693,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipes that have been shared with you by other customers.
 """
 list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageRecipes"; aws_config=aws_config)
-list_image_recipes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageRecipes", params; aws_config=aws_config)
+list_image_recipes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageRecipes", params; aws_config=aws_config)
 
 """
     list_images()
@@ -715,7 +715,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   other customers.
 """
 list_images(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImages"; aws_config=aws_config)
-list_images(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImages", params; aws_config=aws_config)
+list_images(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImages", params; aws_config=aws_config)
 
 """
     list_infrastructure_configurations()
@@ -731,7 +731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 """
 list_infrastructure_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListInfrastructureConfigurations"; aws_config=aws_config)
-list_infrastructure_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListInfrastructureConfigurations", params; aws_config=aws_config)
+list_infrastructure_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListInfrastructureConfigurations", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

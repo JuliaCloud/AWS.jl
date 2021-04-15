@@ -27,7 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"value"`: Specifies a value of the API key.
 """
 create_api_key(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys"; aws_config=aws_config)
-create_api_key(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys", params; aws_config=aws_config)
+create_api_key(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/apikeys", params; aws_config=aws_config)
 
 """
     create_authorizer(name, restapi_id, type)
@@ -761,7 +761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to 256 characters.
 """
 generate_client_certificate(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/clientcertificates"; aws_config=aws_config)
-generate_client_certificate(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/clientcertificates", params; aws_config=aws_config)
+generate_client_certificate(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("POST", "/clientcertificates", params; aws_config=aws_config)
 
 """
     get_account()
@@ -771,7 +771,7 @@ Gets information about the current Account resource.
 
 """
 get_account(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/account"; aws_config=aws_config)
-get_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/account", params; aws_config=aws_config)
+get_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/account", params; aws_config=aws_config)
 
 """
     get_api_key(api__key)
@@ -808,7 +808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The current pagination position in the paged result set.
 """
 get_api_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys"; aws_config=aws_config)
-get_api_keys(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys", params; aws_config=aws_config)
+get_api_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/apikeys", params; aws_config=aws_config)
 
 """
     get_authorizer(authorizer_id, restapi_id)
@@ -904,7 +904,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The current pagination position in the paged result set.
 """
 get_client_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates"; aws_config=aws_config)
-get_client_certificates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates", params; aws_config=aws_config)
+get_client_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/clientcertificates", params; aws_config=aws_config)
 
 """
     get_deployment(deployment_id, restapi_id)
@@ -1047,7 +1047,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The current pagination position in the paged result set.
 """
 get_domain_names(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames"; aws_config=aws_config)
-get_domain_names(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames", params; aws_config=aws_config)
+get_domain_names(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/domainnames", params; aws_config=aws_config)
 
 """
     get_export(export_type, restapi_id, stage_name)
@@ -1337,7 +1337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The current pagination position in the paged result set.
 """
 get_rest_apis(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis"; aws_config=aws_config)
-get_rest_apis(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis", params; aws_config=aws_config)
+get_rest_apis(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/restapis", params; aws_config=aws_config)
 
 """
     get_sdk(restapi_id, sdk_type, stage_name)
@@ -1388,7 +1388,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The current pagination position in the paged result set.
 """
 get_sdk_types(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes"; aws_config=aws_config)
-get_sdk_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes", params; aws_config=aws_config)
+get_sdk_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/sdktypes", params; aws_config=aws_config)
 
 """
     get_stage(restapi_id, stage_name)
@@ -1523,7 +1523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The current pagination position in the paged result set.
 """
 get_usage_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans"; aws_config=aws_config)
-get_usage_plans(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans", params; aws_config=aws_config)
+get_usage_plans(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/usageplans", params; aws_config=aws_config)
 
 """
     get_vpc_link(vpclink_id)
@@ -1552,7 +1552,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The current pagination position in the paged result set.
 """
 get_vpc_links(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks"; aws_config=aws_config)
-get_vpc_links(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks", params; aws_config=aws_config)
+get_vpc_links(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("GET", "/vpclinks", params; aws_config=aws_config)
 
 """
     import_api_keys(body, format)
@@ -1980,7 +1980,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and in the order specified in this list.
 """
 update_account(; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/account"; aws_config=aws_config)
-update_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/account", params; aws_config=aws_config)
+update_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = api_gateway("PATCH", "/account", params; aws_config=aws_config)
 
 """
     update_api_key(api__key)

@@ -126,7 +126,7 @@ Retrieves the current settings of the AWS IoT Events logging options.
 
 """
 describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/logging"; aws_config=aws_config)
-describe_logging_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/logging", params; aws_config=aws_config)
+describe_logging_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/logging", params; aws_config=aws_config)
 
 """
     get_detector_model_analysis_results(analysis_id)
@@ -176,7 +176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 list_detector_models(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models"; aws_config=aws_config)
-list_detector_models(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models", params; aws_config=aws_config)
+list_detector_models(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/detector-models", params; aws_config=aws_config)
 
 """
     list_inputs()
@@ -190,7 +190,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token that you can use to return the next set of results.
 """
 list_inputs(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs"; aws_config=aws_config)
-list_inputs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs", params; aws_config=aws_config)
+list_inputs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events("GET", "/inputs", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

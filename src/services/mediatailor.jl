@@ -278,7 +278,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channels"; aws_config=aws_config)
-list_channels(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channels", params; aws_config=aws_config)
+list_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channels", params; aws_config=aws_config)
 
 """
     list_playback_configurations()
@@ -297,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum allowed. Use the token to fetch the next page of results.
 """
 list_playback_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations"; aws_config=aws_config)
-list_playback_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations", params; aws_config=aws_config)
+list_playback_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations", params; aws_config=aws_config)
 
 """
     list_source_locations()
@@ -313,7 +313,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 """
 list_source_locations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocations"; aws_config=aws_config)
-list_source_locations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocations", params; aws_config=aws_config)
+list_source_locations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocations", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -411,7 +411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to assign to the playback configuration.
 """
 put_playback_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration"; aws_config=aws_config)
-put_playback_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration", params; aws_config=aws_config)
+put_playback_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration", params; aws_config=aws_config)
 
 """
     start_channel(channel_name)

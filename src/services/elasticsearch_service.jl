@@ -171,7 +171,7 @@ Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
 
 """
 delete_elasticsearch_service_role(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/role"; aws_config=aws_config)
-delete_elasticsearch_service_role(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/role", params; aws_config=aws_config)
+delete_elasticsearch_service_role(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/role", params; aws_config=aws_config)
 
 """
     delete_inbound_cross_cluster_search_connection(connection_id)
@@ -317,7 +317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken. It is used for pagination.
 """
 describe_inbound_cross_cluster_search_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/inboundConnection/search"; aws_config=aws_config)
-describe_inbound_cross_cluster_search_connections(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/inboundConnection/search", params; aws_config=aws_config)
+describe_inbound_cross_cluster_search_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/inboundConnection/search", params; aws_config=aws_config)
 
 """
     describe_outbound_cross_cluster_search_connections()
@@ -338,7 +338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken. It is used for pagination.
 """
 describe_outbound_cross_cluster_search_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection/search"; aws_config=aws_config)
-describe_outbound_cross_cluster_search_connections(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection/search", params; aws_config=aws_config)
+describe_outbound_cross_cluster_search_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection/search", params; aws_config=aws_config)
 
 """
     describe_packages()
@@ -355,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   non-null NextToken value. If provided, returns results for the next page.
 """
 describe_packages(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/describe"; aws_config=aws_config)
-describe_packages(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/describe", params; aws_config=aws_config)
+describe_packages(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/describe", params; aws_config=aws_config)
 
 """
     describe_reserved_elasticsearch_instance_offerings()
@@ -373,7 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available offering that matches the specified reservation identifier.
 """
 describe_reserved_elasticsearch_instance_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstanceOfferings"; aws_config=aws_config)
-describe_reserved_elasticsearch_instance_offerings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstanceOfferings", params; aws_config=aws_config)
+describe_reserved_elasticsearch_instance_offerings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstanceOfferings", params; aws_config=aws_config)
 
 """
     describe_reserved_elasticsearch_instances()
@@ -391,7 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   show only the reservation that matches the specified reserved Elasticsearch instance ID.
 """
 describe_reserved_elasticsearch_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstances"; aws_config=aws_config)
-describe_reserved_elasticsearch_instances(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstances", params; aws_config=aws_config)
+describe_reserved_elasticsearch_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstances", params; aws_config=aws_config)
 
 """
     dissociate_package(domain_name, package_id)
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`:
 """
 get_compatible_elasticsearch_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions"; aws_config=aws_config)
-get_compatible_elasticsearch_versions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions", params; aws_config=aws_config)
+get_compatible_elasticsearch_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions", params; aws_config=aws_config)
 
 """
     get_package_version_history(package_id)
@@ -480,7 +480,7 @@ Returns the name of all Elasticsearch domains owned by the current user's accoun
 
 """
 list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain"; aws_config=aws_config)
-list_domain_names(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain", params; aws_config=aws_config)
+list_domain_names(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain", params; aws_config=aws_config)
 
 """
     list_domains_for_package(package_id)
@@ -536,7 +536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:
 """
 list_elasticsearch_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/versions"; aws_config=aws_config)
-list_elasticsearch_versions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/versions", params; aws_config=aws_config)
+list_elasticsearch_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/versions", params; aws_config=aws_config)
 
 """
     list_packages_for_domain(domain_name)

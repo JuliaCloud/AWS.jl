@@ -170,7 +170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"packagingGroupId"`: Returns Assets associated with the specified PackagingGroup.
 """
 list_assets(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/assets"; aws_config=aws_config)
-list_assets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/assets", params; aws_config=aws_config)
+list_assets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/assets", params; aws_config=aws_config)
 
 """
     list_packaging_configurations()
@@ -186,7 +186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified PackagingGroup.
 """
 list_packaging_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/packaging_configurations"; aws_config=aws_config)
-list_packaging_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/packaging_configurations", params; aws_config=aws_config)
+list_packaging_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/packaging_configurations", params; aws_config=aws_config)
 
 """
     list_packaging_groups()
@@ -200,7 +200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 list_packaging_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/packaging_groups"; aws_config=aws_config)
-list_packaging_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/packaging_groups", params; aws_config=aws_config)
+list_packaging_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage_vod("GET", "/packaging_groups", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource-arn)

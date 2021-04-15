@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This snapshot identifier is included in the share URL when a project is exported.
 """
 create_project(; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/projects"; aws_config=aws_config)
-create_project(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/projects", params; aws_config=aws_config)
+create_project(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("POST", "/projects", params; aws_config=aws_config)
 
 """
     delete_project(project_id)
@@ -114,7 +114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to list more bundles.
 """
 list_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles"; aws_config=aws_config)
-list_bundles(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles", params; aws_config=aws_config)
+list_bundles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/bundles", params; aws_config=aws_config)
 
 """
     list_projects()
@@ -130,7 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to list more projects.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/projects"; aws_config=aws_config)
-list_projects(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/projects", params; aws_config=aws_config)
+list_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mobile("GET", "/projects", params; aws_config=aws_config)
 
 """
     update_project(project_id)

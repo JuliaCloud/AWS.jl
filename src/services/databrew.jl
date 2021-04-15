@@ -349,7 +349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets"; aws_config=aws_config)
-list_datasets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets", params; aws_config=aws_config)
+list_datasets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets", params; aws_config=aws_config)
 
 """
     list_job_runs(name)
@@ -386,7 +386,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   those jobs that are associated with the specified project.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs", params; aws_config=aws_config)
 
 """
     list_projects()
@@ -400,7 +400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects"; aws_config=aws_config)
-list_projects(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects", params; aws_config=aws_config)
+list_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects", params; aws_config=aws_config)
 
 """
     list_recipe_versions(name)
@@ -434,7 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED
 """
 list_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes"; aws_config=aws_config)
-list_recipes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes", params; aws_config=aws_config)
+list_recipes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes", params; aws_config=aws_config)
 
 """
     list_schedules()
@@ -449,7 +449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_schedules(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules"; aws_config=aws_config)
-list_schedules(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules", params; aws_config=aws_config)
+list_schedules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

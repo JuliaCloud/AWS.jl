@@ -55,7 +55,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Deprecated - don't use this parameter. Use Group instead.
 """
 delete_group(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/delete-group"; aws_config=aws_config)
-delete_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/delete-group", params; aws_config=aws_config)
+delete_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/delete-group", params; aws_config=aws_config)
 
 """
     get_group()
@@ -70,7 +70,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Deprecated - don't use this parameter. Use Group instead.
 """
 get_group(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group"; aws_config=aws_config)
-get_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group", params; aws_config=aws_config)
+get_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group", params; aws_config=aws_config)
 
 """
     get_group_configuration()
@@ -86,7 +86,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or the ARN of the resource group.
 """
 get_group_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-configuration"; aws_config=aws_config)
-get_group_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-configuration", params; aws_config=aws_config)
+get_group_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-configuration", params; aws_config=aws_config)
 
 """
     get_group_query()
@@ -103,7 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Don't use this parameter. Use Group instead.
 """
 get_group_query(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-query"; aws_config=aws_config)
-get_group_query(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-query", params; aws_config=aws_config)
+get_group_query(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/get-group-query", params; aws_config=aws_config)
 
 """
     get_tags(arn)
@@ -178,7 +178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate where the output should continue from.
 """
 list_group_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/list-group-resources"; aws_config=aws_config)
-list_group_resources(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/list-group-resources", params; aws_config=aws_config)
+list_group_resources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/list-group-resources", params; aws_config=aws_config)
 
 """
     list_groups()
@@ -210,7 +210,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to indicate where the output should continue from.
 """
 list_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/groups-list"; aws_config=aws_config)
-list_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/groups-list", params; aws_config=aws_config)
+list_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/groups-list", params; aws_config=aws_config)
 
 """
     put_group_configuration()
@@ -233,7 +233,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update.
 """
 put_group_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/put-group-configuration"; aws_config=aws_config)
-put_group_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/put-group-configuration", params; aws_config=aws_config)
+put_group_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/put-group-configuration", params; aws_config=aws_config)
 
 """
     search_resources(resource_query)
@@ -333,7 +333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: Don't use this parameter. Use Group instead.
 """
 update_group(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/update-group"; aws_config=aws_config)
-update_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/update-group", params; aws_config=aws_config)
+update_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = resource_groups("POST", "/update-group", params; aws_config=aws_config)
 
 """
     update_group_query(resource_query)

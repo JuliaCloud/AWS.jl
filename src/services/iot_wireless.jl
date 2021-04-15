@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Server endpoint.
 """
 get_service_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-endpoint"; aws_config=aws_config)
-get_service_endpoint(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-endpoint", params; aws_config=aws_config)
+get_service_endpoint(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-endpoint", params; aws_config=aws_config)
 
 """
     get_service_profile(id)
@@ -554,7 +554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations"; aws_config=aws_config)
-list_destinations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations", params; aws_config=aws_config)
+list_destinations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations", params; aws_config=aws_config)
 
 """
     list_device_profiles()
@@ -569,7 +569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_device_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles"; aws_config=aws_config)
-list_device_profiles(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles", params; aws_config=aws_config)
+list_device_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles", params; aws_config=aws_config)
 
 """
     list_partner_accounts()
@@ -584,7 +584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_partner_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts"; aws_config=aws_config)
-list_partner_accounts(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts", params; aws_config=aws_config)
+list_partner_accounts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts", params; aws_config=aws_config)
 
 """
     list_service_profiles()
@@ -599,7 +599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_service_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles"; aws_config=aws_config)
-list_service_profiles(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles", params; aws_config=aws_config)
+list_service_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -634,7 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   device type.
 """
 list_wireless_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices"; aws_config=aws_config)
-list_wireless_devices(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices", params; aws_config=aws_config)
+list_wireless_devices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices", params; aws_config=aws_config)
 
 """
     list_wireless_gateway_task_definitions()
@@ -651,7 +651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this task definition type.
 """
 list_wireless_gateway_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions"; aws_config=aws_config)
-list_wireless_gateway_task_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions", params; aws_config=aws_config)
+list_wireless_gateway_task_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions", params; aws_config=aws_config)
 
 """
     list_wireless_gateways()
@@ -666,7 +666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_wireless_gateways(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways"; aws_config=aws_config)
-list_wireless_gateways(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways", params; aws_config=aws_config)
+list_wireless_gateways(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways", params; aws_config=aws_config)
 
 """
     send_data_to_wireless_device(id, payload_data, transmit_mode)

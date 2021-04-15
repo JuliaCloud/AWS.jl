@@ -237,7 +237,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations"; aws_config=aws_config)
-list_invitations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations", params; aws_config=aws_config)
+list_invitations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations", params; aws_config=aws_config)
 
 """
     list_members(network_id)
@@ -281,7 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status are listed. Applies only to Hyperledger Fabric.
 """
 list_networks(; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks"; aws_config=aws_config)
-list_networks(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks", params; aws_config=aws_config)
+list_networks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks", params; aws_config=aws_config)
 
 """
     list_nodes(network_id)

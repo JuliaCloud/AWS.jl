@@ -269,7 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous ListDomain API call.
 """
 list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains"; aws_config=aws_config)
-list_domains(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains", params; aws_config=aws_config)
+list_domains(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains", params; aws_config=aws_config)
 
 """
     list_integrations(domain_name)
@@ -300,7 +300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The pagination token from the previous ListObjectTypeTemplates API call.
 """
 list_profile_object_type_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/templates"; aws_config=aws_config)
-list_profile_object_type_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/templates", params; aws_config=aws_config)
+list_profile_object_type_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/templates", params; aws_config=aws_config)
 
 """
     list_profile_object_types(domain_name)

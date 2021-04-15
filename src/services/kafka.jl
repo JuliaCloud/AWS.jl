@@ -246,7 +246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   
 """
 get_compatible_kafka_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/compatible-kafka-versions"; aws_config=aws_config)
-get_compatible_kafka_versions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/compatible-kafka-versions", params; aws_config=aws_config)
+get_compatible_kafka_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/compatible-kafka-versions", params; aws_config=aws_config)
 
 """
     list_cluster_operations(cluster_arn)
@@ -298,7 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch, provide this token in your next request.
 """
 list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters"; aws_config=aws_config)
-list_clusters(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters", params; aws_config=aws_config)
+list_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters", params; aws_config=aws_config)
 
 """
     list_configuration_revisions(arn)
@@ -345,7 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch, provide this token in your next request.
 """
 list_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations"; aws_config=aws_config)
-list_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations", params; aws_config=aws_config)
+list_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations", params; aws_config=aws_config)
 
 """
     list_kafka_versions()
@@ -365,7 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide this token in your next request.
 """
 list_kafka_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/kafka-versions"; aws_config=aws_config)
-list_kafka_versions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/kafka-versions", params; aws_config=aws_config)
+list_kafka_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kafka("GET", "/v1/kafka-versions", params; aws_config=aws_config)
 
 """
     list_nodes(cluster_arn)

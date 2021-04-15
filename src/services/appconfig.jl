@@ -373,7 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
 list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications"; aws_config=aws_config)
-list_applications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications", params; aws_config=aws_config)
+list_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications", params; aws_config=aws_config)
 
 """
     list_configuration_profiles(application_id)
@@ -406,7 +406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
 list_deployment_strategies(; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies"; aws_config=aws_config)
-list_deployment_strategies(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies", params; aws_config=aws_config)
+list_deployment_strategies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies", params; aws_config=aws_config)
 
 """
     list_deployments(application_id, environment_id)

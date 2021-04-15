@@ -491,7 +491,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. If no token is provided, the default page is the first page.  Default value: null
 """
 list_geofence_collections(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/list-collections"; aws_config=aws_config)
-list_geofence_collections(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/list-collections", params; aws_config=aws_config)
+list_geofence_collections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/list-collections", params; aws_config=aws_config)
 
 """
     list_geofences(collection_name)
@@ -524,7 +524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. If no token is provided, the default page is the first page. Default value: null
 """
 list_maps(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/maps/v0/list-maps"; aws_config=aws_config)
-list_maps(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/maps/v0/list-maps", params; aws_config=aws_config)
+list_maps(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/maps/v0/list-maps", params; aws_config=aws_config)
 
 """
     list_place_indexes()
@@ -540,7 +540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. If no token is provided, the default page is the first page. Default value: null
 """
 list_place_indexes(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/list-indexes"; aws_config=aws_config)
-list_place_indexes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/list-indexes", params; aws_config=aws_config)
+list_place_indexes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/list-indexes", params; aws_config=aws_config)
 
 """
     list_tracker_consumers(tracker_name)
@@ -576,7 +576,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. If no token is provided, the default page is the first page.  Default value: null
 """
 list_trackers(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/list-trackers"; aws_config=aws_config)
-list_trackers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/list-trackers", params; aws_config=aws_config)
+list_trackers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/list-trackers", params; aws_config=aws_config)
 
 """
     put_geofence(collection_name, geofence_id, geometry)

@@ -65,7 +65,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is obtained from the output of the previous ListWorkspaces request.
 """
 list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces"; aws_config=aws_config)
-list_workspaces(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces", params; aws_config=aws_config)
+list_workspaces(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces", params; aws_config=aws_config)
 
 """
     update_workspace_alias(workspace_id)

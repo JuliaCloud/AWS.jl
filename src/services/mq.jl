@@ -79,7 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Create tags when creating the configuration.
 """
 create_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("POST", "/v1/configurations"; aws_config=aws_config)
-create_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("POST", "/v1/configurations", params; aws_config=aws_config)
+create_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("POST", "/v1/configurations", params; aws_config=aws_config)
 
 """
     create_tags(resource-arn)
@@ -194,7 +194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To request the first page, leave nextToken empty.
 """
 describe_broker_engine_types(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-engine-types"; aws_config=aws_config)
-describe_broker_engine_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-engine-types", params; aws_config=aws_config)
+describe_broker_engine_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-engine-types", params; aws_config=aws_config)
 
 """
     describe_broker_instance_options()
@@ -213,7 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"storageType"`: Filter response by storage type.
 """
 describe_broker_instance_options(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-instance-options"; aws_config=aws_config)
-describe_broker_instance_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-instance-options", params; aws_config=aws_config)
+describe_broker_instance_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/broker-instance-options", params; aws_config=aws_config)
 
 """
     describe_configuration(configuration-id)
@@ -272,7 +272,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To request the first page, leave nextToken empty.
 """
 list_brokers(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers"; aws_config=aws_config)
-list_brokers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers", params; aws_config=aws_config)
+list_brokers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/brokers", params; aws_config=aws_config)
 
 """
     list_configuration_revisions(configuration-id)
@@ -307,7 +307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To request the first page, leave nextToken empty.
 """
 list_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/configurations"; aws_config=aws_config)
-list_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/configurations", params; aws_config=aws_config)
+list_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mq("GET", "/v1/configurations", params; aws_config=aws_config)
 
 """
     list_tags(resource-arn)

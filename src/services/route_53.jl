@@ -193,7 +193,8 @@ Migrating DNS Service for an Existing Domain to Amazon Route 53 in the Amazon Ro
 Developer Guide.    When you submit a CreateHostedZone request, the initial status of the
 hosted zone is PENDING. For public hosted zones, this means that the NS and SOA records are
 not yet available on all Route 53 DNS servers. When the NS and SOA records are available,
-the status of the zone changes to INSYNC.
+the status of the zone changes to INSYNC. The CreateHostedZone request requires the caller
+to have an ec2:DescribeVpcs permission.
 
 # Arguments
 - `caller_reference`: A unique string that identifies the request and that allows failed
@@ -243,8 +244,8 @@ KSKs per hosted zone.
   Status  Enabled  Key spec  ECC_NIST_P256  Key usage  Sign and verify  Key policy  The key
   policy must give permission for the following actions:   DescribeKey   GetPublicKey   Sign
    The key policy must also include the Amazon Route 53 service in the principal for your
-  account. Specify the following:    \"Service\": \"api-service.dnssec.route53.aws.internal\"
-       For more information about working with a customer managed CMK in AWS KMS, see AWS Key
+  account. Specify the following:    \"Service\": \"dnssec.route53.aws.amazonaws.com\"
+  For more information about working with a customer managed CMK in AWS KMS, see AWS Key
   Management Service concepts.
 - `name`: A string used to identify a key-signing key (KSK). Name can include numbers,
   letters, and underscores (_). Name must be unique for each key-signing key in the same
@@ -543,7 +544,7 @@ delete_hosted_zone(Id, params::AbstractDict{String, <:Any}; aws_config::Abstract
     delete_key_signing_key(hosted_zone_id, name, params::Dict{String,<:Any})
 
 Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The
-KSK must be deactived before you can delete it regardless of whether the hosted zone is
+KSK must be deactivated before you can delete it regardless of whether the hosted zone is
 enabled for DNSSEC signing.
 
 # Arguments
@@ -757,7 +758,7 @@ Developer Guide.
 
 """
 get_checker_ip_ranges(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges"; aws_config=aws_config)
-get_checker_ip_ranges(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges", params; aws_config=aws_config)
+get_checker_ip_ranges(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/checkeripranges", params; aws_config=aws_config)
 
 """
     get_dnssec(id)
@@ -802,7 +803,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported subdivision codes, use the ListGeoLocations API.
 """
 get_geo_location(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocation"; aws_config=aws_config)
-get_geo_location(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocation", params; aws_config=aws_config)
+get_geo_location(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocation", params; aws_config=aws_config)
 
 """
     get_health_check(health_check_id)
@@ -827,7 +828,7 @@ Retrieves the number of health checks that are associated with the current AWS a
 
 """
 get_health_check_count(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheckcount"; aws_config=aws_config)
-get_health_check_count(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheckcount", params; aws_config=aws_config)
+get_health_check_count(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheckcount", params; aws_config=aws_config)
 
 """
     get_health_check_last_failure_reason(health_check_id)
@@ -885,7 +886,7 @@ Retrieves the number of hosted zones that are associated with the current AWS ac
 
 """
 get_hosted_zone_count(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonecount"; aws_config=aws_config)
-get_hosted_zone_count(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonecount", params; aws_config=aws_config)
+get_hosted_zone_count(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonecount", params; aws_config=aws_config)
 
 """
     get_hosted_zone_limit(id, type)
@@ -996,7 +997,7 @@ account.
 
 """
 get_traffic_policy_instance_count(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstancecount"; aws_config=aws_config)
-get_traffic_policy_instance_count(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstancecount", params; aws_config=aws_config)
+get_traffic_policy_instance_count(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstancecount", params; aws_config=aws_config)
 
 """
     list_geo_locations()
@@ -1033,7 +1034,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   states), you must include both startcountrycode and startsubdivisioncode.
 """
 list_geo_locations(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocations"; aws_config=aws_config)
-list_geo_locations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocations", params; aws_config=aws_config)
+list_geo_locations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/geolocations", params; aws_config=aws_config)
 
 """
     list_health_checks()
@@ -1055,7 +1056,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checks.
 """
 list_health_checks(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck"; aws_config=aws_config)
-list_health_checks(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck", params; aws_config=aws_config)
+list_health_checks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheck", params; aws_config=aws_config)
 
 """
     list_hosted_zones()
@@ -1083,7 +1084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   zone that Route 53 will return if you submit another request.
 """
 list_hosted_zones(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone"; aws_config=aws_config)
-list_hosted_zones(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone", params; aws_config=aws_config)
+list_hosted_zones(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzone", params; aws_config=aws_config)
 
 """
     list_hosted_zones_by_name()
@@ -1136,7 +1137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones.
 """
 list_hosted_zones_by_name(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyname"; aws_config=aws_config)
-list_hosted_zones_by_name(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyname", params; aws_config=aws_config)
+list_hosted_zones_by_name(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonesbyname", params; aws_config=aws_config)
 
 """
     list_hosted_zones_by_vpc(vpcid, vpcregion)
@@ -1199,7 +1200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for NextToken in the request.
 """
 list_query_logging_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig"; aws_config=aws_config)
-list_query_logging_configs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig", params; aws_config=aws_config)
+list_query_logging_configs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig", params; aws_config=aws_config)
 
 """
     list_resource_record_sets(id)
@@ -1285,7 +1286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns only the first 100 reusable delegation sets.
 """
 list_reusable_delegation_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset"; aws_config=aws_config)
-list_reusable_delegation_sets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset", params; aws_config=aws_config)
+list_reusable_delegation_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/delegationset", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_id, resource_type)
@@ -1350,7 +1351,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned in the previous response.
 """
 list_traffic_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies"; aws_config=aws_config)
-list_traffic_policies(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies", params; aws_config=aws_config)
+list_traffic_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicies", params; aws_config=aws_config)
 
 """
     list_traffic_policy_instances()
@@ -1394,7 +1395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more traffic policy instances to get.
 """
 list_traffic_policy_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances"; aws_config=aws_config)
-list_traffic_policy_instances(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances", params; aws_config=aws_config)
+list_traffic_policy_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstances", params; aws_config=aws_config)
 
 """
     list_traffic_policy_instances_by_hosted_zone(id)
@@ -1548,7 +1549,8 @@ list_vpcassociation_authorizations(Id, params::AbstractDict{String, <:Any}; aws_
 
 Gets the value that Amazon Route 53 returns in response to a DNS request for a specified
 record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0
-client subnet IP address, and a subnet mask.
+client subnet IP address, and a subnet mask.  This call only supports querying public
+hosted zones.
 
 # Arguments
 - `hostedzoneid`: The ID of the hosted zone that you want Amazon Route 53 to simulate a

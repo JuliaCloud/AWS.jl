@@ -631,7 +631,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 """
 list_development_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development"; aws_config=aws_config)
-list_development_schema_arns(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development", params; aws_config=aws_config)
+list_development_schema_arns(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development", params; aws_config=aws_config)
 
 """
     list_directories()
@@ -647,7 +647,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Deleted.
 """
 list_directories(; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list"; aws_config=aws_config)
-list_directories(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list", params; aws_config=aws_config)
+list_directories(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list", params; aws_config=aws_config)
 
 """
     list_facet_attributes(name, x-amz-data-partition)
@@ -747,7 +747,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   minor version ARNs for a major version are listed.
 """
 list_managed_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed"; aws_config=aws_config)
-list_managed_schema_arns(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed", params; aws_config=aws_config)
+list_managed_schema_arns(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed", params; aws_config=aws_config)
 
 """
     list_object_attributes(object_reference, x-amz-data-partition)
@@ -943,7 +943,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list all minor version ARNs for a major version.
 """
 list_published_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published"; aws_config=aws_config)
-list_published_schema_arns(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published", params; aws_config=aws_config)
+list_published_schema_arns(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

@@ -452,7 +452,7 @@ Retrieves details about your account's limits and usage in an AWS Region.
 
 """
 get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/"; aws_config=aws_config)
-get_account_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/", params; aws_config=aws_config)
+get_account_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/", params; aws_config=aws_config)
 
 """
     get_alias(function_name, name)
@@ -797,7 +797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: Maximum number of items to return.
 """
 list_code_signing_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/"; aws_config=aws_config)
-list_code_signing_configs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/", params; aws_config=aws_config)
+list_code_signing_configs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/", params; aws_config=aws_config)
 
 """
     list_event_source_mappings()
@@ -821,7 +821,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of event source mappings to return.
 """
 list_event_source_mappings(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/"; aws_config=aws_config)
-list_event_source_mappings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/", params; aws_config=aws_config)
+list_event_source_mappings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/", params; aws_config=aws_config)
 
 """
     list_function_event_invoke_configs(function_name)
@@ -872,7 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   higher.
 """
 list_functions(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/"; aws_config=aws_config)
-list_functions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/", params; aws_config=aws_config)
+list_functions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/", params; aws_config=aws_config)
 
 """
     list_functions_by_code_signing_config(code_signing_config_arn)
@@ -930,7 +930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of layers to return.
 """
 list_layers(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers"; aws_config=aws_config)
-list_layers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers", params; aws_config=aws_config)
+list_layers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers", params; aws_config=aws_config)
 
 """
     list_provisioned_concurrency_configs(function_name)

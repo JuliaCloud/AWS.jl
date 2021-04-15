@@ -228,7 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: The states of the requested virtual clusters.
 """
 list_virtual_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters"; aws_config=aws_config)
-list_virtual_clusters(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters", params; aws_config=aws_config)
+list_virtual_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = emr_containers("GET", "/virtualclusters", params; aws_config=aws_config)
 
 """
     start_job_run(client_token, execution_role_arn, job_driver, release_label, virtual_cluster_id)

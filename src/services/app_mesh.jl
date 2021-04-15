@@ -553,7 +553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in a list and not for other programmatic purposes.
 """
 list_meshes(; aws_config::AbstractAWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes"; aws_config=aws_config)
-list_meshes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes", params; aws_config=aws_config)
+list_meshes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = app_mesh("GET", "/v20190125/meshes", params; aws_config=aws_config)
 
 """
     list_routes(mesh_name, virtual_router_name)

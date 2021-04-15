@@ -631,10 +631,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled using the BackupRetentionPeriod parameter.  The
   default is a 30-minute window selected at random from an 8-hour block of time for each AWS
-  Region. To see the time blocks available, see  Adjusting the Preferred DB Cluster
-  Maintenance Window in the Amazon Aurora User Guide.  Constraints:   Must be in the format
-  hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with
-  the preferred maintenance window.   Must be at least 30 minutes.
+  Region. To view the time blocks available, see  Backup window in the Amazon Aurora User
+  Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
+  Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must
+  be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
   a 30-minute window selected at random from an 8-hour block of time for each AWS Region,
@@ -974,14 +974,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid values: 1150-65535 except 1234, 1434, 3260, 3343, 3389, 47001, and 49152-49156.
   Amazon Aurora   Default: 3306   Valid values: 1150-65535  Type: Integer
 - `"PreferredBackupWindow"`:  The daily time range during which automated backups are
-  created if automated backups are enabled, using the BackupRetentionPeriod parameter. For
-  more information, see The Backup Window in the Amazon RDS User Guide.   Amazon Aurora  Not
-  applicable. The daily time range for creating automated backups is managed by the DB
-  cluster.  The default is a 30-minute window selected at random from an 8-hour block of time
-  for each AWS Region. To see the time blocks available, see  Adjusting the Preferred DB
-  Instance Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the
-  format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict
-  with the preferred maintenance window.   Must be at least 30 minutes.
+  created if automated backups are enabled, using the BackupRetentionPeriod parameter. The
+  default is a 30-minute window selected at random from an 8-hour block of time for each AWS
+  Region. For more information, see Backup window in the Amazon RDS User Guide.   Amazon
+  Aurora  Not applicable. The daily time range for creating automated backups is managed by
+  the DB cluster. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in
+  Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
+  window.   Must be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The time range each week during which system maintenance
   can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS
   Maintenance Window.   Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window
@@ -1435,8 +1434,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceIds"`: The list of identifiers of the event sources for which events are
   returned. If not specified, then all sources are included in the response. An identifier
   must begin with a letter and must contain only ASCII letters, digits, and hyphens. It can't
-  end with a hyphen or contain two consecutive hyphens. Constraints:   If a SourceIds value
-  is supplied, SourceType must also be provided.   If the source type is a DB instance, a
+  end with a hyphen or contain two consecutive hyphens. Constraints:   If SourceIds are
+  supplied, SourceType must also be provided.   If the source type is a DB instance, a
   DBInstanceIdentifier value must be supplied.   If the source type is a DB cluster, a
   DBClusterIdentifier value must be supplied.   If the source type is a DB parameter group, a
   DBParameterGroupName value must be supplied.   If the source type is a DB security group, a
@@ -3328,10 +3327,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The
   default is a 30-minute window selected at random from an 8-hour block of time for each AWS
-  Region. To see the time blocks available, see  Adjusting the Preferred DB Cluster
-  Maintenance Window in the Amazon Aurora User Guide.  Constraints:   Must be in the format
-  hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with
-  the preferred maintenance window.   Must be at least 30 minutes.
+  Region. To view the time blocks available, see  Backup window in the Amazon Aurora User
+  Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
+  Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must
+  be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
   a 30-minute window selected at random from an 8-hour block of time for each AWS Region,
@@ -3491,16 +3490,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Backup.
 - `"BackupRetentionPeriod"`: The number of days to retain automated backups. Setting this
   parameter to a positive number enables backups. Setting this parameter to 0 disables
-  automated backups. Changing this parameter can result in an outage if you change from 0 to
-  a non-zero value or from a non-zero value to 0. These changes are applied during the next
-  maintenance window unless the ApplyImmediately parameter is enabled for this request. If
-  you change the parameter from one non-zero value to another non-zero value, the change is
-  asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The retention
-  period for automated backups is managed by the DB cluster. For more information, see
-  ModifyDBCluster. Default: Uses existing setting Constraints:   Must be a value from 0 to 35
-    Can be specified for a MySQL read replica only if the source is running MySQL 5.6 or
-  later   Can be specified for a PostgreSQL read replica only if the source is running
-  PostgreSQL 9.3.5   Can't be set to 0 if the DB instance is a source to read replicas
+  automated backups.  Enabling and disabling backups can result in a brief I/O suspension
+  that lasts from a few seconds to a few minutes, depending on the size and class of your DB
+  instance.  These changes are applied during the next maintenance window unless the
+  ApplyImmediately parameter is enabled for this request. If you change the parameter from
+  one non-zero value to another non-zero value, the change is asynchronously applied as soon
+  as possible.  Amazon Aurora  Not applicable. The retention period for automated backups is
+  managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses
+  existing setting Constraints:   Must be a value from 0 to 35   Can be specified for a MySQL
+  read replica only if the source is running MySQL 5.6 or later   Can be specified for a
+  PostgreSQL read replica only if the source is running PostgreSQL 9.3.5   Can't be set to 0
+  if the DB instance is a source to read replicas
 - `"CACertificateIdentifier"`: Indicates the certificate that needs to be associated with
   the instance.
 - `"CertificateRotationRestart"`: A value that indicates whether the DB instance is
@@ -3670,9 +3670,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredBackupWindow"`:  The daily time range during which automated backups are
   created if automated backups are enabled, as determined by the BackupRetentionPeriod
   parameter. Changing this parameter doesn't result in an outage and the change is
-  asynchronously applied as soon as possible.   Amazon Aurora  Not applicable. The daily time
-  range for creating automated backups is managed by the DB cluster. For more information,
-  see ModifyDBCluster. Constraints:   Must be in the format hh24:mi-hh24:mi   Must be in
+  asynchronously applied as soon as possible. The default is a 30-minute window selected at
+  random from an 8-hour block of time for each AWS Region. For more information, see Backup
+  window in the Amazon RDS User Guide.   Amazon Aurora  Not applicable. The daily time range
+  for creating automated backups is managed by the DB cluster. For more information, see
+  ModifyDBCluster. Constraints:   Must be in the format hh24:mi-hh24:mi   Must be in
   Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window
    Must be at least 30 minutes
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which system
@@ -3682,7 +3684,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maintenance window is changed to include the current time, then changing this parameter
   will cause a reboot of the DB instance. If moving this window to the current time, there
   must be at least 30 minutes between the current time and end of the window to ensure
-  pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi
+  pending changes are applied. For more information, see Amazon RDS Maintenance Window in the
+  Amazon RDS User Guide.  Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi
   Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
 - `"ProcessorFeatures"`: The number of CPU cores and the number of threads per core for the
   DB instance class of the DB instance.
@@ -4413,10 +4416,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled using the BackupRetentionPeriod parameter.  The
   default is a 30-minute window selected at random from an 8-hour block of time for each AWS
-  Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window
-  in the Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.
-  Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred
-  maintenance window.   Must be at least 30 minutes.
+  Region. To view the time blocks available, see  Backup window in the Amazon Aurora User
+  Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
+  Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must
+  be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
   a 30-minute window selected at random from an 8-hour block of time for each AWS Region,
@@ -4877,9 +4880,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Port"`: The port number on which the database accepts connections.  Type: Integer
   Valid Values: 1150-65535  Default: 3306
 - `"PreferredBackupWindow"`: The time range each day during which automated backups are
-  created if automated backups are enabled. For more information, see The Backup Window in
-  the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be
-  in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
+  created if automated backups are enabled. For more information, see Backup window in the
+  Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in
+  Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
   window.   Must be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The time range each week during which system maintenance
   can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS
@@ -5050,7 +5053,7 @@ restore_dbinstance_to_point_in_time(TargetDBInstanceIdentifier, params::Abstract
     revoke_dbsecurity_group_ingress(dbsecurity_group_name, params::Dict{String,<:Any})
 
 Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC2 or VPC
-Security Groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for
+security groups. Required parameters for this API are one of CIDRIP, EC2SecurityGroupId for
 VPC, or (EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId).
 
 # Arguments

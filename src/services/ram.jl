@@ -153,7 +153,7 @@ account for the AWS Organization.
 
 """
 enable_sharing_with_aws_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/enablesharingwithawsorganization"; aws_config=aws_config)
-enable_sharing_with_aws_organization(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/enablesharingwithawsorganization", params; aws_config=aws_config)
+enable_sharing_with_aws_organization(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/enablesharingwithawsorganization", params; aws_config=aws_config)
 
 """
     get_permission(permission_arn)
@@ -231,7 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceShareInvitationArns"`: The Amazon Resource Names (ARN) of the invitations.
 """
 get_resource_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshareinvitations"; aws_config=aws_config)
-get_resource_share_invitations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshareinvitations", params; aws_config=aws_config)
+get_resource_share_invitations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshareinvitations", params; aws_config=aws_config)
 
 """
     get_resource_shares(resource_owner)
@@ -289,7 +289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
 """
 list_permissions(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpermissions"; aws_config=aws_config)
-list_permissions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpermissions", params; aws_config=aws_config)
+list_permissions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpermissions", params; aws_config=aws_config)
 
 """
     list_principals(resource_owner)
@@ -353,7 +353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcetypes"; aws_config=aws_config)
-list_resource_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcetypes", params; aws_config=aws_config)
+list_resource_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcetypes", params; aws_config=aws_config)
 
 """
     list_resources(resource_owner)

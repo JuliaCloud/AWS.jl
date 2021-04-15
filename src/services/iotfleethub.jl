@@ -74,7 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to get the next set of results.
 """
 list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = iotfleethub("GET", "/applications"; aws_config=aws_config)
-list_applications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotfleethub("GET", "/applications", params; aws_config=aws_config)
+list_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotfleethub("GET", "/applications", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

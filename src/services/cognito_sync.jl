@@ -197,7 +197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token for obtaining the next page of results.
 """
 list_identity_pool_usage(; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools"; aws_config=aws_config)
-list_identity_pool_usage(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools", params; aws_config=aws_config)
+list_identity_pool_usage(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_sync("GET", "/identitypools", params; aws_config=aws_config)
 
 """
     list_records(dataset_name, identity_id, identity_pool_id)

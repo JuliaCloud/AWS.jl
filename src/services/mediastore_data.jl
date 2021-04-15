@@ -88,7 +88,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
 list_items(; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/"; aws_config=aws_config)
-list_items(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/", params; aws_config=aws_config)
+list_items(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediastore_data("GET", "/", params; aws_config=aws_config)
 
 """
     put_object(body, path)

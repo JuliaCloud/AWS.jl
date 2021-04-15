@@ -443,7 +443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the real-time log configuration to delete.
 """
 delete_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/"; aws_config=aws_config)
-delete_realtime_log_config2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/", params; aws_config=aws_config)
+delete_realtime_log_config2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/", params; aws_config=aws_config)
 
 """
     delete_streaming_distribution2020_05_31(id)
@@ -774,7 +774,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the real-time log configuration to get.
 """
 get_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/"; aws_config=aws_config)
-get_realtime_log_config2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/", params; aws_config=aws_config)
+get_realtime_log_config2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/", params; aws_config=aws_config)
 
 """
     get_streaming_distribution2020_05_31(id)
@@ -827,7 +827,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only the custom policies created in your AWS account.
 """
 list_cache_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy"; aws_config=aws_config)
-list_cache_policies2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy", params; aws_config=aws_config)
+list_cache_policies2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy", params; aws_config=aws_config)
 
 """
     list_cloud_front_origin_access_identities2020_05_31()
@@ -845,7 +845,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   body.
 """
 list_cloud_front_origin_access_identities2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront"; aws_config=aws_config)
-list_cloud_front_origin_access_identities2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", params; aws_config=aws_config)
+list_cloud_front_origin_access_identities2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", params; aws_config=aws_config)
 
 """
     list_distributions2020_05_31()
@@ -862,7 +862,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of distributions you want in the response body.
 """
 list_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution"; aws_config=aws_config)
-list_distributions2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution", params; aws_config=aws_config)
+list_distributions2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution", params; aws_config=aws_config)
 
 """
     list_distributions_by_cache_policy_id2020_05_31(cache_policy_id)
@@ -968,7 +968,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distributions you want to list.
 """
 list_distributions_by_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/"; aws_config=aws_config)
-list_distributions_by_realtime_log_config2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/", params; aws_config=aws_config)
+list_distributions_by_realtime_log_config2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/", params; aws_config=aws_config)
 
 """
     list_distributions_by_web_aclid2020_05_31(web_aclid)
@@ -1011,7 +1011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response body.
 """
 list_field_level_encryption_configs2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption"; aws_config=aws_config)
-list_field_level_encryption_configs2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption", params; aws_config=aws_config)
+list_field_level_encryption_configs2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption", params; aws_config=aws_config)
 
 """
     list_field_level_encryption_profiles2020_05_31()
@@ -1030,7 +1030,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response body.
 """
 list_field_level_encryption_profiles2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile"; aws_config=aws_config)
-list_field_level_encryption_profiles2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile", params; aws_config=aws_config)
+list_field_level_encryption_profiles2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile", params; aws_config=aws_config)
 
 """
     list_invalidations2020_05_31(distribution_id)
@@ -1074,7 +1074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of key groups that you want in the response.
 """
 list_key_groups2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group"; aws_config=aws_config)
-list_key_groups2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group", params; aws_config=aws_config)
+list_key_groups2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group", params; aws_config=aws_config)
 
 """
     list_origin_request_policies2020_05_31()
@@ -1100,7 +1100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Returns only the custom policies created in your AWS account.
 """
 list_origin_request_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy"; aws_config=aws_config)
-list_origin_request_policies2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy", params; aws_config=aws_config)
+list_origin_request_policies2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy", params; aws_config=aws_config)
 
 """
     list_public_keys2020_05_31()
@@ -1117,7 +1117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of public keys you want in the response body.
 """
 list_public_keys2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key"; aws_config=aws_config)
-list_public_keys2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key", params; aws_config=aws_config)
+list_public_keys2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key", params; aws_config=aws_config)
 
 """
     list_realtime_log_configs2020_05_31()
@@ -1139,7 +1139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response.
 """
 list_realtime_log_configs2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config"; aws_config=aws_config)
-list_realtime_log_configs2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config", params; aws_config=aws_config)
+list_realtime_log_configs2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config", params; aws_config=aws_config)
 
 """
     list_streaming_distributions2020_05_31()
@@ -1153,7 +1153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The value that you provided for the MaxItems request parameter.
 """
 list_streaming_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution"; aws_config=aws_config)
-list_streaming_distributions2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution", params; aws_config=aws_config)
+list_streaming_distributions2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution", params; aws_config=aws_config)
 
 """
     list_tags_for_resource2020_05_31(resource)
@@ -1423,7 +1423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data. You must provide an integer between 1 and 100, inclusive.
 """
 update_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/"; aws_config=aws_config)
-update_realtime_log_config2020_05_31(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/", params; aws_config=aws_config)
+update_realtime_log_config2020_05_31(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/", params; aws_config=aws_config)
 
 """
     update_streaming_distribution2020_05_31(id, streaming_distribution_config)

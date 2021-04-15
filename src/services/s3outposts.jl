@@ -56,4 +56,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next endpoint requested in the list.
 """
 list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints"; aws_config=aws_config)
-list_endpoints(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints", params; aws_config=aws_config)
+list_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints", params; aws_config=aws_config)

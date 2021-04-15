@@ -162,7 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken value.
 """
 list_entitlements(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/entitlements"; aws_config=aws_config)
-list_entitlements(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/entitlements", params; aws_config=aws_config)
+list_entitlements(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/entitlements", params; aws_config=aws_config)
 
 """
     list_flows()
@@ -185,7 +185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can submit the ListFlows request a second time and specify the NextToken value.
 """
 list_flows(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/flows"; aws_config=aws_config)
-list_flows(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/flows", params; aws_config=aws_config)
+list_flows(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/flows", params; aws_config=aws_config)
 
 """
     list_offerings()
@@ -211,7 +211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value.
 """
 list_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/offerings"; aws_config=aws_config)
-list_offerings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/offerings", params; aws_config=aws_config)
+list_offerings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/offerings", params; aws_config=aws_config)
 
 """
     list_reservations()
@@ -235,7 +235,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken value.
 """
 list_reservations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/reservations"; aws_config=aws_config)
-list_reservations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/reservations", params; aws_config=aws_config)
+list_reservations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("GET", "/v1/reservations", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

@@ -228,6 +228,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   major version of the Amazon Redshift engine is released, you can request that the service
   automatically apply upgrades during the maintenance window to the Amazon Redshift engine
   that is running on your cluster. Default: true
+- `"AquaConfigurationStatus"`: The value represents how the cluster is configured to use
+  AQUA (Advanced Query Accelerator) when it is created. Possible values include the
+  following.   enabled - Use AQUA if it is available for the current AWS Region and Amazon
+  Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines
+  whether to use AQUA.
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
   are disabled, you can still create manual snapshots when you want with
@@ -2112,6 +2117,25 @@ get_reserved_node_exchange_offerings(ReservedNodeId; aws_config::AbstractAWSConf
 get_reserved_node_exchange_offerings(ReservedNodeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("GetReservedNodeExchangeOfferings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodeId"=>ReservedNodeId), params)); aws_config=aws_config)
 
 """
+    modify_aqua_configuration(cluster_identifier)
+    modify_aqua_configuration(cluster_identifier, params::Dict{String,<:Any})
+
+Modifies whether a cluster can use AQUA (Advanced Query Accelerator).
+
+# Arguments
+- `cluster_identifier`: The identifier of the cluster to be modified.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AquaConfigurationStatus"`: The new value of AQUA configuration status. Possible values
+  include the following.   enabled - Use AQUA if it is available for the current AWS Region
+  and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift
+  determines whether to use AQUA.
+"""
+modify_aqua_configuration(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyAquaConfiguration", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
+modify_aqua_configuration(ClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyAquaConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+
+"""
     modify_cluster(cluster_identifier)
     modify_cluster(cluster_identifier, params::Dict{String,<:Any})
 
@@ -2679,6 +2703,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllowVersionUpgrade"`: If true, major version upgrades can be applied during the
   maintenance window to the Amazon Redshift engine that is running on the cluster.  Default:
   true
+- `"AquaConfigurationStatus"`: The value represents how the cluster is configured to use
+  AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include
+  the following.   enabled - Use AQUA if it is available for the current AWS Region and
+  Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift
+  determines whether to use AQUA.
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
   are disabled, you can still create manual snapshots when you want with

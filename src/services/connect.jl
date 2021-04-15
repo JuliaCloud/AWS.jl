@@ -936,7 +936,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 list_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance"; aws_config=aws_config)
-list_instances(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance", params; aws_config=aws_config)
+list_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance", params; aws_config=aws_config)
 
 """
     list_integration_associations(instance_id)

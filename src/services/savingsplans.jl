@@ -78,7 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: The states.
 """
 describe_savings_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans"; aws_config=aws_config)
-describe_savings_plans(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans", params; aws_config=aws_config)
+describe_savings_plans(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlans", params; aws_config=aws_config)
 
 """
     describe_savings_plans_offering_rates()
@@ -101,7 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
 describe_savings_plans_offering_rates(; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates"; aws_config=aws_config)
-describe_savings_plans_offering_rates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates", params; aws_config=aws_config)
+describe_savings_plans_offering_rates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates", params; aws_config=aws_config)
 
 """
     describe_savings_plans_offerings()
@@ -127,7 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
 describe_savings_plans_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings"; aws_config=aws_config)
-describe_savings_plans_offerings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings", params; aws_config=aws_config)
+describe_savings_plans_offerings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans("POST", "/DescribeSavingsPlansOfferings", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

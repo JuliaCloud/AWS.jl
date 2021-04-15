@@ -700,7 +700,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 get_apps(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/apps"; aws_config=aws_config)
-get_apps(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/apps", params; aws_config=aws_config)
+get_apps(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/apps", params; aws_config=aws_config)
 
 """
     get_baidu_channel(application-id)
@@ -1174,7 +1174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 get_recommender_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/recommenders"; aws_config=aws_config)
-get_recommender_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/recommenders", params; aws_config=aws_config)
+get_recommender_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/recommenders", params; aws_config=aws_config)
 
 """
     get_segment(application-id, segment-id)
@@ -1474,7 +1474,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include this parameter in your request.
 """
 list_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/templates"; aws_config=aws_config)
-list_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/templates", params; aws_config=aws_config)
+list_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint("GET", "/v1/templates", params; aws_config=aws_config)
 
 """
     phone_number_validate(number_validate_request)

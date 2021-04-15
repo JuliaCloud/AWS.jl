@@ -281,7 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating.
 """
 list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications"; aws_config=aws_config)
-list_applications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications", params; aws_config=aws_config)
+list_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = serverlessapplicationrepository("GET", "/applications", params; aws_config=aws_config)
 
 """
     put_application_policy(application_id, statements)

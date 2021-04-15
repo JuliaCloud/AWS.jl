@@ -350,7 +350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the subsequent request to fetch the next page of access point descriptions.
 """
 describe_access_points(; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/access-points"; aws_config=aws_config)
-describe_access_points(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/access-points", params; aws_config=aws_config)
+describe_access_points(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/access-points", params; aws_config=aws_config)
 
 """
     describe_backup_policy(file_system_id)
@@ -413,7 +413,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100 per page if you have more than 100 file systems.
 """
 describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems"; aws_config=aws_config)
-describe_file_systems(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems", params; aws_config=aws_config)
+describe_file_systems(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems", params; aws_config=aws_config)
 
 """
     describe_lifecycle_configuration(file_system_id)
@@ -482,7 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either a mount target ID or ARN as input.
 """
 describe_mount_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/mount-targets"; aws_config=aws_config)
-describe_mount_targets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/mount-targets", params; aws_config=aws_config)
+describe_mount_targets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/mount-targets", params; aws_config=aws_config)
 
 """
     describe_tags(file_system_id)

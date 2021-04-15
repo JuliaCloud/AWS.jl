@@ -233,7 +233,7 @@ cross-account backup.
 
 """
 describe_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings"; aws_config=aws_config)
-describe_global_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings", params; aws_config=aws_config)
+describe_global_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings", params; aws_config=aws_config)
 
 """
     describe_protected_resource(resource_arn)
@@ -281,7 +281,7 @@ try to protect that service's resources in this Region.
 
 """
 describe_region_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/account-settings"; aws_config=aws_config)
-describe_region_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/account-settings", params; aws_config=aws_config)
+describe_region_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/account-settings", params; aws_config=aws_config)
 
 """
     describe_restore_job(restore_job_id)
@@ -443,7 +443,7 @@ Returns the AWS resource types supported by AWS Backup.
 
 """
 get_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types"; aws_config=aws_config)
-get_supported_resource_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types", params; aws_config=aws_config)
+get_supported_resource_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types", params; aws_config=aws_config)
 
 """
     list_backup_jobs()
@@ -476,7 +476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: Returns only backup jobs that are in the specified state.
 """
 list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/"; aws_config=aws_config)
-list_backup_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/", params; aws_config=aws_config)
+list_backup_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/", params; aws_config=aws_config)
 
 """
     list_backup_plan_templates()
@@ -493,7 +493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_backup_plan_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans"; aws_config=aws_config)
-list_backup_plan_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans", params; aws_config=aws_config)
+list_backup_plan_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans", params; aws_config=aws_config)
 
 """
     list_backup_plan_versions(backup_plan_id)
@@ -534,7 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_backup_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/"; aws_config=aws_config)
-list_backup_plans(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/", params; aws_config=aws_config)
+list_backup_plans(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/", params; aws_config=aws_config)
 
 """
     list_backup_selections(backup_plan_id)
@@ -570,7 +570,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_backup_vaults(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/"; aws_config=aws_config)
-list_backup_vaults(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/", params; aws_config=aws_config)
+list_backup_vaults(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/", params; aws_config=aws_config)
 
 """
     list_copy_jobs()
@@ -600,7 +600,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: Returns only copy jobs that are in the specified state.
 """
 list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/"; aws_config=aws_config)
-list_copy_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/", params; aws_config=aws_config)
+list_copy_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/", params; aws_config=aws_config)
 
 """
     list_protected_resources()
@@ -617,7 +617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_protected_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/"; aws_config=aws_config)
-list_protected_resources(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/", params; aws_config=aws_config)
+list_protected_resources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/", params; aws_config=aws_config)
 
 """
     list_recovery_points_by_backup_vault(backup_vault_name)
@@ -689,7 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Returns only restore jobs associated with the specified job status.
 """
 list_restore_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/"; aws_config=aws_config)
-list_restore_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/", params; aws_config=aws_config)
+list_restore_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/", params; aws_config=aws_config)
 
 """
     list_tags(resource_arn)
@@ -944,7 +944,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GlobalSettings"`: A list of resources along with the opt-in preferences for the account.
 """
 update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings"; aws_config=aws_config)
-update_global_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings", params; aws_config=aws_config)
+update_global_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings", params; aws_config=aws_config)
 
 """
     update_recovery_point_lifecycle(backup_vault_name, recovery_point_arn)
@@ -997,4 +997,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   preferences for the Region.
 """
 update_region_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/account-settings"; aws_config=aws_config)
-update_region_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/account-settings", params; aws_config=aws_config)
+update_region_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/account-settings", params; aws_config=aws_config)

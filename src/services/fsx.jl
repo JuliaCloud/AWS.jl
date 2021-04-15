@@ -55,6 +55,49 @@ cancel_data_repository_task(TaskId; aws_config::AbstractAWSConfig=global_aws_con
 cancel_data_repository_task(TaskId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CancelDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), params)); aws_config=aws_config)
 
 """
+    copy_backup(source_backup_id)
+    copy_backup(source_backup_id, params::Dict{String,<:Any})
+
+Copies an existing backup within the same AWS account to another Region (cross-Region copy)
+or within the same Region (in-Region copy). You can have up to five backup copy requests in
+progress to a single destination Region per account. You can use cross-Region backup copies
+for cross-region disaster recovery. You periodically take backups and copy them to another
+Region so that in the event of a disaster in the primary Region, you can restore from
+backup and recover availability quickly in the other Region. You can make cross-Region
+copies only within your AWS partition.  You can also use backup copies to clone your file
+data set to another Region or within the same Region. You can use the SourceRegion
+parameter to specify the AWS Region from which the backup will be copied. For example, if
+you make the call from the us-west-1 Region and want to copy a backup from the us-east-2
+Region, you specify us-east-2 in the SourceRegion parameter to make a cross-Region copy. If
+you don't specify a Region, the backup copy is created in the same Region where the request
+is sent from (in-Region copy). For more information on creating backup copies, see  Copying
+backups in the Amazon FSx for Windows User Guide and Copying backups in the Amazon FSx for
+Lustre User Guide.
+
+# Arguments
+- `source_backup_id`: The ID of the source backup. Specifies the ID of the backup that is
+  being copied.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"CopyTags"`: A boolean flag indicating whether tags from the source backup should be
+  copied to the backup copy. This value defaults to false. If you set CopyTags to true and
+  the source backup has existing tags, you can use the Tags parameter to create new tags,
+  provided that the sum of the source backup tags and the new tags doesn't exceed 50. Both
+  sets of tags are merged. If there are tag conflicts (for example, two tags with the same
+  key but different values), the tags created with the Tags parameter take precedence.
+- `"KmsKeyId"`:
+- `"SourceRegion"`: The source AWS Region of the backup. Specifies the AWS Region from
+  which the backup is being copied. The source and destination Regions must be in the same
+  AWS partition. If you don't specify a Region, it defaults to the Region where the request
+  is sent from (in-Region copy).
+- `"Tags"`:
+"""
+copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CopyBackup", Dict{String, Any}("SourceBackupId"=>SourceBackupId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+copy_backup(SourceBackupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fsx("CopyBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceBackupId"=>SourceBackupId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
     create_backup(file_system_id)
     create_backup(file_system_id, params::Dict{String,<:Any})
 
@@ -169,9 +212,10 @@ state along with other information.
   from. For Windows MULTI_AZ_1 file system deployment types, provide exactly two subnet IDs,
   one for the preferred file server and one for the standby file server. You specify one of
   these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID
-  property. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types and Lustre
-  file systems, provide exactly one subnet ID. The file server is launched in that subnet's
-  Availability Zone.
+  property. For more information, see  Availability and durability: Single-AZ and Multi-AZ
+  file systems. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 file system deployment types and
+  Lustre file systems, provide exactly one subnet ID. The file server is launched in that
+  subnet's Availability Zone.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -236,6 +280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+- `"KmsKeyId"`:
 - `"LustreConfiguration"`:
 - `"SecurityGroupIds"`: A list of IDs for the security groups that apply to the specified
   network interfaces created for file system access. These security groups apply to all

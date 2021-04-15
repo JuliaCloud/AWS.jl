@@ -16,7 +16,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetName"`: The name that you want to give the configuration set.
 """
 create_configuration_set(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets"; aws_config=aws_config)
-create_configuration_set(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets", params; aws_config=aws_config)
+create_configuration_set(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets", params; aws_config=aws_config)
 
 """
     create_configuration_set_event_destination(configuration_set_name)
@@ -90,7 +90,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: Used to specify the number of items that should be returned in the response.
 """
 list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets"; aws_config=aws_config)
-list_configuration_sets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets", params; aws_config=aws_config)
+list_configuration_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets", params; aws_config=aws_config)
 
 """
     send_voice_message()
@@ -111,7 +111,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when they receive the message, because you can specify a CallerId parameter in the request.
 """
 send_voice_message(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message"; aws_config=aws_config)
-send_voice_message(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message", params; aws_config=aws_config)
+send_voice_message(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message", params; aws_config=aws_config)
 
 """
     update_configuration_set_event_destination(configuration_set_name, event_destination_name)

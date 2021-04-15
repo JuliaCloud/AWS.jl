@@ -649,7 +649,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list be sorted by bot name in ascending or descending order.
 """
 list_bots(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/"; aws_config=aws_config)
-list_bots(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/", params; aws_config=aws_config)
+list_bots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/", params; aws_config=aws_config)
 
 """
     list_built_in_intents(locale_id)

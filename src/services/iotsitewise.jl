@@ -497,7 +497,7 @@ SiteWise User Guide.
 
 """
 describe_default_encryption_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/configuration/account/encryption"; aws_config=aws_config)
-describe_default_encryption_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/configuration/account/encryption", params; aws_config=aws_config)
+describe_default_encryption_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/configuration/account/encryption", params; aws_config=aws_config)
 
 """
     describe_gateway(gateway_id)
@@ -541,7 +541,7 @@ Retrieves the current AWS IoT SiteWise logging options.
 
 """
 describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/logging"; aws_config=aws_config)
-describe_logging_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/logging", params; aws_config=aws_config)
+describe_logging_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/logging", params; aws_config=aws_config)
 
 """
     describe_portal(portal_id)
@@ -649,7 +649,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"propertyId"`: The ID of the asset property.
 """
 get_asset_property_value(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/latest"; aws_config=aws_config)
-get_asset_property_value(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/latest", params; aws_config=aws_config)
+get_asset_property_value(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/latest", params; aws_config=aws_config)
 
 """
     get_asset_property_value_history()
@@ -682,7 +682,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING
 """
 get_asset_property_value_history(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/history"; aws_config=aws_config)
-get_asset_property_value_history(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/history", params; aws_config=aws_config)
+get_asset_property_value_history(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/history", params; aws_config=aws_config)
 
 """
     list_access_policies()
@@ -708,7 +708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you specify resourceId.
 """
 list_access_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/access-policies"; aws_config=aws_config)
-list_access_policies(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/access-policies", params; aws_config=aws_config)
+list_access_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/access-policies", params; aws_config=aws_config)
 
 """
     list_asset_models()
@@ -723,7 +723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 list_asset_models(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/asset-models"; aws_config=aws_config)
-list_asset_models(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/asset-models", params; aws_config=aws_config)
+list_asset_models(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/asset-models", params; aws_config=aws_config)
 
 """
     list_asset_relationships(asset_id, traversal_type)
@@ -770,7 +770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 list_assets(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/assets"; aws_config=aws_config)
-list_assets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/assets", params; aws_config=aws_config)
+list_assets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/assets", params; aws_config=aws_config)
 
 """
     list_associated_assets(asset_id)
@@ -831,7 +831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 list_gateways(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways"; aws_config=aws_config)
-list_gateways(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways", params; aws_config=aws_config)
+list_gateways(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways", params; aws_config=aws_config)
 
 """
     list_portals()
@@ -846,7 +846,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 list_portals(; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/portals"; aws_config=aws_config)
-list_portals(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/portals", params; aws_config=aws_config)
+list_portals(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/portals", params; aws_config=aws_config)
 
 """
     list_project_assets(project_id)

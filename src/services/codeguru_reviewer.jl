@@ -249,7 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
 """
 list_repository_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations"; aws_config=aws_config)
-list_repository_associations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations", params; aws_config=aws_config)
+list_repository_associations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguru_reviewer("GET", "/associations", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
