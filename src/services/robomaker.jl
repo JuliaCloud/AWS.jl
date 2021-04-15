@@ -334,7 +334,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateLocation"`: The location of the world template.
 """
 create_world_template(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate"; aws_config=aws_config)
-create_world_template(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate", params; aws_config=aws_config)
+create_world_template(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate", params; aws_config=aws_config)
 
 """
     delete_fleet(fleet)
@@ -582,7 +582,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"template"`: The Amazon Resource Name (arn) of the world template.
 """
 get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody"; aws_config=aws_config)
-get_world_template_body(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody", params; aws_config=aws_config)
+get_world_template_body(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody", params; aws_config=aws_config)
 
 """
     list_deployment_jobs()
@@ -610,7 +610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs"; aws_config=aws_config)
-list_deployment_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs", params; aws_config=aws_config)
+list_deployment_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs", params; aws_config=aws_config)
 
 """
     list_fleets()
@@ -637,7 +637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   purposes.
 """
 list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets"; aws_config=aws_config)
-list_fleets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets", params; aws_config=aws_config)
+list_fleets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets", params; aws_config=aws_config)
 
 """
     list_robot_applications()
@@ -665,7 +665,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionQualifier"`: The version qualifier of the robot application.
 """
 list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications"; aws_config=aws_config)
-list_robot_applications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications", params; aws_config=aws_config)
+list_robot_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications", params; aws_config=aws_config)
 
 """
     list_robots()
@@ -691,7 +691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is set to null.
 """
 list_robots(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots"; aws_config=aws_config)
-list_robots(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots", params; aws_config=aws_config)
+list_robots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots", params; aws_config=aws_config)
 
 """
     list_simulation_applications()
@@ -719,7 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionQualifier"`: The version qualifier of the simulation application.
 """
 list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications"; aws_config=aws_config)
-list_simulation_applications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications", params; aws_config=aws_config)
+list_simulation_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications", params; aws_config=aws_config)
 
 """
     list_simulation_job_batches()
@@ -742,7 +742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response object's NextToken parameter is set to null.
 """
 list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches"; aws_config=aws_config)
-list_simulation_job_batches(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches", params; aws_config=aws_config)
+list_simulation_job_batches(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches", params; aws_config=aws_config)
 
 """
     list_simulation_jobs()
@@ -771,7 +771,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs"; aws_config=aws_config)
-list_simulation_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs", params; aws_config=aws_config)
+list_simulation_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -809,7 +809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs"; aws_config=aws_config)
-list_world_export_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs", params; aws_config=aws_config)
+list_world_export_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs", params; aws_config=aws_config)
 
 """
     list_world_generation_jobs()
@@ -833,7 +833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response object's NextToken parameter is set to null.
 """
 list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs"; aws_config=aws_config)
-list_world_generation_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs", params; aws_config=aws_config)
+list_world_generation_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs", params; aws_config=aws_config)
 
 """
     list_world_templates()
@@ -856,7 +856,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates"; aws_config=aws_config)
-list_world_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates", params; aws_config=aws_config)
+list_world_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates", params; aws_config=aws_config)
 
 """
     list_worlds()
@@ -879,7 +879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is set to null.
 """
 list_worlds(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds"; aws_config=aws_config)
-list_worlds(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds", params; aws_config=aws_config)
+list_worlds(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds", params; aws_config=aws_config)
 
 """
     register_robot(fleet, robot)

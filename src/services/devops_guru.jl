@@ -36,7 +36,7 @@ of operations in your AWS account.
 
 """
 describe_account_health(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health"; aws_config=aws_config)
-describe_account_health(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health", params; aws_config=aws_config)
+describe_account_health(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health", params; aws_config=aws_config)
 
 """
     describe_account_overview(from_time)
@@ -84,7 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InsightId"`:  The ID of the insight for which the feedback was provided.
 """
 describe_feedback(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/feedback"; aws_config=aws_config)
-describe_feedback(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/feedback", params; aws_config=aws_config)
+describe_feedback(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/feedback", params; aws_config=aws_config)
 
 """
     describe_insight(id)
@@ -133,7 +133,7 @@ to create an OpsItem for each generated insight.
 
 """
 describe_service_integration(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations"; aws_config=aws_config)
-describe_service_integration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations", params; aws_config=aws_config)
+describe_service_integration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations", params; aws_config=aws_config)
 
 """
     get_resource_collection(resource_collection_type)
@@ -232,7 +232,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_notification_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/channels"; aws_config=aws_config)
-list_notification_channels(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/channels", params; aws_config=aws_config)
+list_notification_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/channels", params; aws_config=aws_config)
 
 """
     list_recommendations(insight_id)
@@ -264,7 +264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   insight.
 """
 put_feedback(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback"; aws_config=aws_config)
-put_feedback(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback", params; aws_config=aws_config)
+put_feedback(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback", params; aws_config=aws_config)
 
 """
     remove_notification_channel(id)

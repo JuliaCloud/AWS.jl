@@ -406,7 +406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of bots, specify the pagination token in the next request.
 """
 get_bots(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/"; aws_config=aws_config)
-get_bots(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/", params; aws_config=aws_config)
+get_bots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/bots/", params; aws_config=aws_config)
 
 """
     get_builtin_intent(signature)
@@ -444,7 +444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Built-in Intents in the Alexa Skills Kit.
 """
 get_builtin_intents(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/"; aws_config=aws_config)
-get_builtin_intents(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/", params; aws_config=aws_config)
+get_builtin_intents(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/intents/", params; aws_config=aws_config)
 
 """
     get_builtin_slot_types()
@@ -468,7 +468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   matches both \"xyzabc\" and \"abcxyz.\"
 """
 get_builtin_slot_types(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/"; aws_config=aws_config)
-get_builtin_slot_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/", params; aws_config=aws_config)
+get_builtin_slot_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/builtins/slottypes/", params; aws_config=aws_config)
 
 """
     get_export(export_type, name, resource_type, version)
@@ -560,7 +560,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fetch the next page of intents, specify the pagination token in the next request.
 """
 get_intents(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/"; aws_config=aws_config)
-get_intents(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/", params; aws_config=aws_config)
+get_intents(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/", params; aws_config=aws_config)
 
 """
     get_slot_type(name, version)
@@ -626,7 +626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request.
 """
 get_slot_types(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/"; aws_config=aws_config)
-get_slot_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/", params; aws_config=aws_config)
+get_slot_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/slottypes/", params; aws_config=aws_config)
 
 """
     get_utterances_view(bot_versions, botname, status_type)

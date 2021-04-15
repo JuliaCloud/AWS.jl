@@ -89,7 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: The case-sensitive name of the group.
 """
 delete_group(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteGroup"; aws_config=aws_config)
-delete_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteGroup", params; aws_config=aws_config)
+delete_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteGroup", params; aws_config=aws_config)
 
 """
     delete_sampling_rule()
@@ -105,7 +105,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not both.
 """
 delete_sampling_rule(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteSamplingRule"; aws_config=aws_config)
-delete_sampling_rule(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteSamplingRule", params; aws_config=aws_config)
+delete_sampling_rule(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteSamplingRule", params; aws_config=aws_config)
 
 """
     get_encryption_config()
@@ -115,7 +115,7 @@ Retrieves the current encryption configuration for X-Ray data.
 
 """
 get_encryption_config(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/EncryptionConfig"; aws_config=aws_config)
-get_encryption_config(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/EncryptionConfig", params; aws_config=aws_config)
+get_encryption_config(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/EncryptionConfig", params; aws_config=aws_config)
 
 """
     get_group()
@@ -129,7 +129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: The case-sensitive name of the group.
 """
 get_group(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetGroup"; aws_config=aws_config)
-get_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetGroup", params; aws_config=aws_config)
+get_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetGroup", params; aws_config=aws_config)
 
 """
     get_groups()
@@ -142,7 +142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 get_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Groups"; aws_config=aws_config)
-get_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Groups", params; aws_config=aws_config)
+get_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Groups", params; aws_config=aws_config)
 
 """
     get_insight(insight_id)
@@ -242,7 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 get_sampling_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetSamplingRules"; aws_config=aws_config)
-get_sampling_rules(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetSamplingRules", params; aws_config=aws_config)
+get_sampling_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetSamplingRules", params; aws_config=aws_config)
 
 """
     get_sampling_statistic_summaries()
@@ -255,7 +255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 """
 get_sampling_statistic_summaries(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/SamplingStatisticSummaries"; aws_config=aws_config)
-get_sampling_statistic_summaries(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/SamplingStatisticSummaries", params; aws_config=aws_config)
+get_sampling_statistic_summaries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/SamplingStatisticSummaries", params; aws_config=aws_config)
 
 """
     get_sampling_targets(sampling_statistics_documents)
@@ -518,7 +518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with InsightsEnabled set to true.
 """
 update_group(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UpdateGroup"; aws_config=aws_config)
-update_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UpdateGroup", params; aws_config=aws_config)
+update_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UpdateGroup", params; aws_config=aws_config)
 
 """
     update_sampling_rule(sampling_rule_update)

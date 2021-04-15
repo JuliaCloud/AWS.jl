@@ -472,7 +472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which can be used to return the next set of items in the list.
 """
 list_graphql_apis(; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis"; aws_config=aws_config)
-list_graphql_apis(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis", params; aws_config=aws_config)
+list_graphql_apis(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("GET", "/v1/apis", params; aws_config=aws_config)
 
 """
     list_resolvers(api_id, type_name)

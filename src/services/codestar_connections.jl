@@ -48,6 +48,7 @@ default. You can make its status `AVAILABLE` by setting up the host in the conso
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:
 - `"VpcConfiguration"`: The VPC configuration to be provisioned for the host. A VPC must be
   configured and the infrastructure to be represented by the host must already be connected
   to the VPC.

@@ -37,7 +37,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: The name of the thing to be added to the billing group.
 """
 add_thing_to_billing_group(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/billing-groups/addThingToBillingGroup"; aws_config=aws_config)
-add_thing_to_billing_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/billing-groups/addThingToBillingGroup", params; aws_config=aws_config)
+add_thing_to_billing_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/billing-groups/addThingToBillingGroup", params; aws_config=aws_config)
 
 """
     add_thing_to_thing_group()
@@ -57,7 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: The name of the thing to add to a group.
 """
 add_thing_to_thing_group(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/addThingToThingGroup"; aws_config=aws_config)
-add_thing_to_thing_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/addThingToThingGroup", params; aws_config=aws_config)
+add_thing_to_thing_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/addThingToThingGroup", params; aws_config=aws_config)
 
 """
     associate_targets_with_job(job_id, targets)
@@ -271,7 +271,7 @@ Clears the default authorizer.
 
 """
 clear_default_authorizer(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/default-authorizer"; aws_config=aws_config)
-clear_default_authorizer(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/default-authorizer", params; aws_config=aws_config)
+clear_default_authorizer(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/default-authorizer", params; aws_config=aws_config)
 
 """
     confirm_topic_rule_destination(confirmation_token)
@@ -555,7 +555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"setAsActive"`: Specifies whether the certificate is active.
 """
 create_keys_and_certificate(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/keys-and-certificate"; aws_config=aws_config)
-create_keys_and_certificate(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/keys-and-certificate", params; aws_config=aws_config)
+create_keys_and_certificate(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/keys-and-certificate", params; aws_config=aws_config)
 
 """
     create_mitigation_action(action_name, action_params, role_arn)
@@ -933,7 +933,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deleteScheduledAudits"`: If true, all scheduled audits are deleted.
 """
 delete_account_audit_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/audit/configuration"; aws_config=aws_config)
-delete_account_audit_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/audit/configuration", params; aws_config=aws_config)
+delete_account_audit_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/audit/configuration", params; aws_config=aws_config)
 
 """
     delete_audit_suppression(check_name, resource_identifier)
@@ -1241,7 +1241,7 @@ Deletes a CA certificate registration code.
 
 """
 delete_registration_code(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/registrationcode"; aws_config=aws_config)
-delete_registration_code(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/registrationcode", params; aws_config=aws_config)
+delete_registration_code(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/registrationcode", params; aws_config=aws_config)
 
 """
     delete_role_alias(role_alias)
@@ -1419,7 +1419,7 @@ include how audit notifications are sent and which audit checks are enabled or d
 
 """
 describe_account_audit_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/configuration"; aws_config=aws_config)
-describe_account_audit_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/configuration", params; aws_config=aws_config)
+describe_account_audit_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/configuration", params; aws_config=aws_config)
 
 """
     describe_audit_finding(finding_id)
@@ -1553,7 +1553,7 @@ Describes the default authorizer.
 
 """
 describe_default_authorizer(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/default-authorizer"; aws_config=aws_config)
-describe_default_authorizer(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/default-authorizer", params; aws_config=aws_config)
+describe_default_authorizer(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/default-authorizer", params; aws_config=aws_config)
 
 """
     describe_detect_mitigation_actions_task(task_id)
@@ -1611,7 +1611,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   widespread distrust of Symantec certificate authorities.
 """
 describe_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/endpoint"; aws_config=aws_config)
-describe_endpoint(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/endpoint", params; aws_config=aws_config)
+describe_endpoint(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/endpoint", params; aws_config=aws_config)
 
 """
     describe_event_configurations()
@@ -1621,7 +1621,7 @@ Describes event configurations.
 
 """
 describe_event_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/event-configurations"; aws_config=aws_config)
-describe_event_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/event-configurations", params; aws_config=aws_config)
+describe_event_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/event-configurations", params; aws_config=aws_config)
 
 """
     describe_index(index_name)
@@ -1916,7 +1916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityProfileName"`:  The name of the security profile.
 """
 get_behavior_model_training_summaries(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/behavior-model-training/summaries"; aws_config=aws_config)
-get_behavior_model_training_summaries(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/behavior-model-training/summaries", params; aws_config=aws_config)
+get_behavior_model_training_summaries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/behavior-model-training/summaries", params; aws_config=aws_config)
 
 """
     get_cardinality(query_string)
@@ -1952,7 +1952,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: The thing name.
 """
 get_effective_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/effective-policies"; aws_config=aws_config)
-get_effective_policies(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/effective-policies", params; aws_config=aws_config)
+get_effective_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/effective-policies", params; aws_config=aws_config)
 
 """
     get_indexing_configuration()
@@ -1962,7 +1962,7 @@ Gets the indexing configuration.
 
 """
 get_indexing_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/indexing/config"; aws_config=aws_config)
-get_indexing_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/indexing/config", params; aws_config=aws_config)
+get_indexing_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/indexing/config", params; aws_config=aws_config)
 
 """
     get_job_document(job_id)
@@ -1986,7 +1986,7 @@ GetV2LoggingOptions instead.
 
 """
 get_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/loggingOptions"; aws_config=aws_config)
-get_logging_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/loggingOptions", params; aws_config=aws_config)
+get_logging_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/loggingOptions", params; aws_config=aws_config)
 
 """
     get_otaupdate(ota_update_id)
@@ -2062,7 +2062,7 @@ Gets a registration code used to register a CA certificate with AWS IoT.
 
 """
 get_registration_code(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/registrationcode"; aws_config=aws_config)
-get_registration_code(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/registrationcode", params; aws_config=aws_config)
+get_registration_code(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/registrationcode", params; aws_config=aws_config)
 
 """
     get_statistics(query_string)
@@ -2119,7 +2119,7 @@ Gets the fine grained logging options.
 
 """
 get_v2_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/v2LoggingOptions"; aws_config=aws_config)
-get_v2_logging_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/v2LoggingOptions", params; aws_config=aws_config)
+get_v2_logging_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/v2LoggingOptions", params; aws_config=aws_config)
 
 """
     list_active_violations()
@@ -2138,7 +2138,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: The name of the thing whose active violations are listed.
 """
 list_active_violations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/active-violations"; aws_config=aws_config)
-list_active_violations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/active-violations", params; aws_config=aws_config)
+list_active_violations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/active-violations", params; aws_config=aws_config)
 
 """
     list_attached_policies(target)
@@ -2184,7 +2184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify either the taskId or the startTime and endTime, but not both.
 """
 list_audit_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/findings"; aws_config=aws_config)
-list_audit_findings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/findings", params; aws_config=aws_config)
+list_audit_findings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/findings", params; aws_config=aws_config)
 
 """
     list_audit_mitigation_actions_executions(finding_id, task_id)
@@ -2249,7 +2249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceIdentifier"`:
 """
 list_audit_suppressions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/list"; aws_config=aws_config)
-list_audit_suppressions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/list", params; aws_config=aws_config)
+list_audit_suppressions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/audit/suppressions/list", params; aws_config=aws_config)
 
 """
     list_audit_tasks(end_time, start_time)
@@ -2289,7 +2289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the list authorizers request.
 """
 list_authorizers(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/authorizers/"; aws_config=aws_config)
-list_authorizers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/authorizers/", params; aws_config=aws_config)
+list_authorizers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/authorizers/", params; aws_config=aws_config)
 
 """
     list_billing_groups()
@@ -2306,7 +2306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_billing_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/billing-groups"; aws_config=aws_config)
-list_billing_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/billing-groups", params; aws_config=aws_config)
+list_billing_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/billing-groups", params; aws_config=aws_config)
 
 """
     list_cacertificates()
@@ -2322,7 +2322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The result page size.
 """
 list_cacertificates(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/cacertificates"; aws_config=aws_config)
-list_cacertificates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/cacertificates", params; aws_config=aws_config)
+list_cacertificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/cacertificates", params; aws_config=aws_config)
 
 """
     list_certificates()
@@ -2339,7 +2339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The result page size.
 """
 list_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/certificates"; aws_config=aws_config)
-list_certificates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/certificates", params; aws_config=aws_config)
+list_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/certificates", params; aws_config=aws_config)
 
 """
     list_certificates_by_ca(ca_certificate_id)
@@ -2373,7 +2373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The token for the next set of results.
 """
 list_custom_metrics(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/custom-metrics"; aws_config=aws_config)
-list_custom_metrics(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/custom-metrics", params; aws_config=aws_config)
+list_custom_metrics(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/custom-metrics", params; aws_config=aws_config)
 
 """
     list_detect_mitigation_actions_executions()
@@ -2394,7 +2394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"violationId"`:  The unique identifier of the violation.
 """
 list_detect_mitigation_actions_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/executions"; aws_config=aws_config)
-list_detect_mitigation_actions_executions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/executions", params; aws_config=aws_config)
+list_detect_mitigation_actions_executions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/detect/mitigationactions/executions", params; aws_config=aws_config)
 
 """
     list_detect_mitigation_actions_tasks(end_time, start_time)
@@ -2428,7 +2428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_dimensions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/dimensions"; aws_config=aws_config)
-list_dimensions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/dimensions", params; aws_config=aws_config)
+list_dimensions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/dimensions", params; aws_config=aws_config)
 
 """
     list_domain_configurations()
@@ -2445,7 +2445,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceType"`: The type of service delivered by the endpoint.
 """
 list_domain_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/domainConfigurations"; aws_config=aws_config)
-list_domain_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/domainConfigurations", params; aws_config=aws_config)
+list_domain_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/domainConfigurations", params; aws_config=aws_config)
 
 """
     list_indices()
@@ -2460,7 +2460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_indices(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/indices"; aws_config=aws_config)
-list_indices(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/indices", params; aws_config=aws_config)
+list_indices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/indices", params; aws_config=aws_config)
 
 """
     list_job_executions_for_job(job_id)
@@ -2531,7 +2531,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/jobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/jobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/jobs", params; aws_config=aws_config)
 
 """
     list_mitigation_actions()
@@ -2547,7 +2547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_mitigation_actions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/mitigationactions/actions"; aws_config=aws_config)
-list_mitigation_actions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/mitigationactions/actions", params; aws_config=aws_config)
+list_mitigation_actions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/mitigationactions/actions", params; aws_config=aws_config)
 
 """
     list_otaupdates()
@@ -2562,7 +2562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"otaUpdateStatus"`: The OTA update job status.
 """
 list_otaupdates(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/otaUpdates"; aws_config=aws_config)
-list_otaupdates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/otaUpdates", params; aws_config=aws_config)
+list_otaupdates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/otaUpdates", params; aws_config=aws_config)
 
 """
     list_outgoing_certificates()
@@ -2578,7 +2578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The result page size.
 """
 list_outgoing_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/certificates-out-going"; aws_config=aws_config)
-list_outgoing_certificates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/certificates-out-going", params; aws_config=aws_config)
+list_outgoing_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/certificates-out-going", params; aws_config=aws_config)
 
 """
     list_policies()
@@ -2594,7 +2594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The result page size.
 """
 list_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/policies"; aws_config=aws_config)
-list_policies(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/policies", params; aws_config=aws_config)
+list_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/policies", params; aws_config=aws_config)
 
 """
     list_policy_principals(x-amzn-iot-policy)
@@ -2701,7 +2701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to retrieve the next set of results.
 """
 list_provisioning_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/provisioning-templates"; aws_config=aws_config)
-list_provisioning_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/provisioning-templates", params; aws_config=aws_config)
+list_provisioning_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/provisioning-templates", params; aws_config=aws_config)
 
 """
     list_role_aliases()
@@ -2716,7 +2716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The maximum number of results to return at one time.
 """
 list_role_aliases(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/role-aliases"; aws_config=aws_config)
-list_role_aliases(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/role-aliases", params; aws_config=aws_config)
+list_role_aliases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/role-aliases", params; aws_config=aws_config)
 
 """
     list_scheduled_audits()
@@ -2730,7 +2730,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_scheduled_audits(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/scheduledaudits"; aws_config=aws_config)
-list_scheduled_audits(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/scheduledaudits", params; aws_config=aws_config)
+list_scheduled_audits(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/audit/scheduledaudits", params; aws_config=aws_config)
 
 """
     list_security_profiles()
@@ -2749,7 +2749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_security_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/security-profiles"; aws_config=aws_config)
-list_security_profiles(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/security-profiles", params; aws_config=aws_config)
+list_security_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/security-profiles", params; aws_config=aws_config)
 
 """
     list_security_profiles_for_target(security_profile_target_arn)
@@ -2783,7 +2783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to get the next set of results.
 """
 list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/streams"; aws_config=aws_config)
-list_streams(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/streams", params; aws_config=aws_config)
+list_streams(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/streams", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -2854,7 +2854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recursive"`: If true, return child groups as well.
 """
 list_thing_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-groups"; aws_config=aws_config)
-list_thing_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-groups", params; aws_config=aws_config)
+list_thing_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-groups", params; aws_config=aws_config)
 
 """
     list_thing_groups_for_thing(thing_name)
@@ -2927,7 +2927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the bulk thing provisioning task.
 """
 list_thing_registration_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks"; aws_config=aws_config)
-list_thing_registration_tasks(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks", params; aws_config=aws_config)
+list_thing_registration_tasks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-registration-tasks", params; aws_config=aws_config)
 
 """
     list_thing_types()
@@ -2943,7 +2943,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingTypeName"`: The name of the thing type.
 """
 list_thing_types(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-types"; aws_config=aws_config)
-list_thing_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-types", params; aws_config=aws_config)
+list_thing_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/thing-types", params; aws_config=aws_config)
 
 """
     list_things()
@@ -2970,7 +2970,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributeValue provided.
 """
 list_things(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things"; aws_config=aws_config)
-list_things(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things", params; aws_config=aws_config)
+list_things(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things", params; aws_config=aws_config)
 
 """
     list_things_in_billing_group(billing_group_name)
@@ -3022,7 +3022,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_topic_rule_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/destinations"; aws_config=aws_config)
-list_topic_rule_destinations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/destinations", params; aws_config=aws_config)
+list_topic_rule_destinations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/destinations", params; aws_config=aws_config)
 
 """
     list_topic_rules()
@@ -3039,7 +3039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"topic"`: The topic.
 """
 list_topic_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/rules"; aws_config=aws_config)
-list_topic_rules(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/rules", params; aws_config=aws_config)
+list_topic_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/rules", params; aws_config=aws_config)
 
 """
     list_v2_logging_levels()
@@ -3056,7 +3056,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   THING_Group.
 """
 list_v2_logging_levels(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/v2LoggingLevel"; aws_config=aws_config)
-list_v2_logging_levels(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/v2LoggingLevel", params; aws_config=aws_config)
+list_v2_logging_levels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/v2LoggingLevel", params; aws_config=aws_config)
 
 """
     list_violation_events(end_time, start_time)
@@ -3205,7 +3205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: The name of the thing to be removed from the billing group.
 """
 remove_thing_from_billing_group(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/billing-groups/removeThingFromBillingGroup"; aws_config=aws_config)
-remove_thing_from_billing_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/billing-groups/removeThingFromBillingGroup", params; aws_config=aws_config)
+remove_thing_from_billing_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/billing-groups/removeThingFromBillingGroup", params; aws_config=aws_config)
 
 """
     remove_thing_from_thing_group()
@@ -3223,7 +3223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: The name of the thing to remove from the group.
 """
 remove_thing_from_thing_group(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/removeThingFromThingGroup"; aws_config=aws_config)
-remove_thing_from_thing_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/removeThingFromThingGroup", params; aws_config=aws_config)
+remove_thing_from_thing_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/removeThingFromThingGroup", params; aws_config=aws_config)
 
 """
     replace_topic_rule(rule_name, topic_rule_payload)
@@ -3332,7 +3332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The ARN of the role that allows IoT to write to Cloudwatch logs.
 """
 set_v2_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/v2LoggingOptions"; aws_config=aws_config)
-set_v2_logging_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/v2LoggingOptions", params; aws_config=aws_config)
+set_v2_logging_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/v2LoggingOptions", params; aws_config=aws_config)
 
 """
     start_audit_mitigation_actions_task(audit_check_to_actions_mapping, client_request_token, target, task_id)
@@ -3555,7 +3555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required when performing an audit.
 """
 update_account_audit_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/configuration"; aws_config=aws_config)
-update_account_audit_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/configuration", params; aws_config=aws_config)
+update_account_audit_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/audit/configuration", params; aws_config=aws_config)
 
 """
     update_audit_suppression(check_name, resource_identifier)
@@ -3749,7 +3749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventConfigurations"`: The new event configuration values.
 """
 update_event_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/event-configurations"; aws_config=aws_config)
-update_event_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/event-configurations", params; aws_config=aws_config)
+update_event_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PATCH", "/event-configurations", params; aws_config=aws_config)
 
 """
     update_indexing_configuration()
@@ -3763,7 +3763,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingIndexingConfiguration"`: Thing indexing configuration.
 """
 update_indexing_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/indexing/config"; aws_config=aws_config)
-update_indexing_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/indexing/config", params; aws_config=aws_config)
+update_indexing_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("POST", "/indexing/config", params; aws_config=aws_config)
 
 """
     update_job(job_id)
@@ -3997,7 +3997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: The thing whose group memberships will be updated.
 """
 update_thing_groups_for_thing(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/updateThingGroupsForThing"; aws_config=aws_config)
-update_thing_groups_for_thing(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/updateThingGroupsForThing", params; aws_config=aws_config)
+update_thing_groups_for_thing(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/thing-groups/updateThingGroupsForThing", params; aws_config=aws_config)
 
 """
     update_topic_rule_destination(arn, status)

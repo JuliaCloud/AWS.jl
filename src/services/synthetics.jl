@@ -109,7 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent operation to retrieve the next set of results.
 """
 describe_canaries(; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries"; aws_config=aws_config)
-describe_canaries(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries", params; aws_config=aws_config)
+describe_canaries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries", params; aws_config=aws_config)
 
 """
     describe_canaries_last_run()
@@ -126,7 +126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent DescribeCanaries operation to retrieve the next set of results.
 """
 describe_canaries_last_run(; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries/last-run"; aws_config=aws_config)
-describe_canaries_last_run(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries/last-run", params; aws_config=aws_config)
+describe_canaries_last_run(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/canaries/last-run", params; aws_config=aws_config)
 
 """
     describe_runtime_versions()
@@ -144,7 +144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
 """
 describe_runtime_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/runtime-versions"; aws_config=aws_config)
-describe_runtime_versions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/runtime-versions", params; aws_config=aws_config)
+describe_runtime_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = synthetics("POST", "/runtime-versions", params; aws_config=aws_config)
 
 """
     get_canary(name)

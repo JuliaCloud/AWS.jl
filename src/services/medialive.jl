@@ -33,7 +33,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"multiplexIds"`: List of multiplex IDs
 """
 batch_delete(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete"; aws_config=aws_config)
-batch_delete(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete", params; aws_config=aws_config)
+batch_delete(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/delete", params; aws_config=aws_config)
 
 """
     batch_start()
@@ -47,7 +47,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"multiplexIds"`: List of multiplex IDs
 """
 batch_start(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start"; aws_config=aws_config)
-batch_start(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start", params; aws_config=aws_config)
+batch_start(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/start", params; aws_config=aws_config)
 
 """
     batch_stop()
@@ -61,7 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"multiplexIds"`: List of multiplex IDs
 """
 batch_stop(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop"; aws_config=aws_config)
-batch_stop(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop", params; aws_config=aws_config)
+batch_stop(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/batch/stop", params; aws_config=aws_config)
 
 """
     batch_update_schedule(channel_id)
@@ -171,7 +171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"whitelistRules"`: List of IPv4 CIDR addresses to whitelist
 """
 create_input_security_group(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputSecurityGroups"; aws_config=aws_config)
-create_input_security_group(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputSecurityGroups", params; aws_config=aws_config)
+create_input_security_group(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("POST", "/prod/inputSecurityGroups", params; aws_config=aws_config)
 
 """
     create_multiplex(availability_zones, multiplex_settings, name, request_id)
@@ -500,7 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels"; aws_config=aws_config)
-list_channels(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels", params; aws_config=aws_config)
+list_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/channels", params; aws_config=aws_config)
 
 """
     list_input_device_transfers(transfer_type)
@@ -533,7 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:
 """
 list_input_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices"; aws_config=aws_config)
-list_input_devices(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices", params; aws_config=aws_config)
+list_input_devices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputDevices", params; aws_config=aws_config)
 
 """
     list_input_security_groups()
@@ -547,7 +547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:
 """
 list_input_security_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups"; aws_config=aws_config)
-list_input_security_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups", params; aws_config=aws_config)
+list_input_security_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputSecurityGroups", params; aws_config=aws_config)
 
 """
     list_inputs()
@@ -561,7 +561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:
 """
 list_inputs(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs"; aws_config=aws_config)
-list_inputs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs", params; aws_config=aws_config)
+list_inputs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/inputs", params; aws_config=aws_config)
 
 """
     list_multiplex_programs(multiplex_id)
@@ -592,7 +592,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next page of results.
 """
 list_multiplexes(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes"; aws_config=aws_config)
-list_multiplexes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes", params; aws_config=aws_config)
+list_multiplexes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/multiplexes", params; aws_config=aws_config)
 
 """
     list_offerings()
@@ -617,7 +617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"videoQuality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
 list_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings"; aws_config=aws_config)
-list_offerings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings", params; aws_config=aws_config)
+list_offerings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/offerings", params; aws_config=aws_config)
 
 """
     list_reservations()
@@ -639,7 +639,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"videoQuality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
 list_reservations(; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations"; aws_config=aws_config)
-list_reservations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations", params; aws_config=aws_config)
+list_reservations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = medialive("GET", "/prod/reservations", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource-arn)

@@ -301,7 +301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of analyzer.
 """
 list_analyzers(; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer"; aws_config=aws_config)
-list_analyzers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer", params; aws_config=aws_config)
+list_analyzers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer", params; aws_config=aws_config)
 
 """
     list_archive_rules(analyzer_name)
@@ -356,7 +356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for a specific principal.
 """
 list_policy_generations(; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation"; aws_config=aws_config)
-list_policy_generations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation", params; aws_config=aws_config)
+list_policy_generations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

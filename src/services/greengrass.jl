@@ -52,7 +52,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tag(s) to add to the new resource.
 """
 create_connector_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/connectors"; aws_config=aws_config)
-create_connector_definition(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/connectors", params; aws_config=aws_config)
+create_connector_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/connectors", params; aws_config=aws_config)
 
 """
     create_connector_definition_version(connector_definition_id)
@@ -88,7 +88,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tag(s) to add to the new resource.
 """
 create_core_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/cores"; aws_config=aws_config)
-create_core_definition(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/cores", params; aws_config=aws_config)
+create_core_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/cores", params; aws_config=aws_config)
 
 """
     create_core_definition_version(core_definition_id)
@@ -144,7 +144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tag(s) to add to the new resource.
 """
 create_device_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/devices"; aws_config=aws_config)
-create_device_definition(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/devices", params; aws_config=aws_config)
+create_device_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/devices", params; aws_config=aws_config)
 
 """
     create_device_definition_version(device_definition_id)
@@ -180,7 +180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tag(s) to add to the new resource.
 """
 create_function_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/functions"; aws_config=aws_config)
-create_function_definition(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/functions", params; aws_config=aws_config)
+create_function_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/functions", params; aws_config=aws_config)
 
 """
     create_function_definition_version(function_definition_id)
@@ -280,7 +280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tag(s) to add to the new resource.
 """
 create_logger_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/loggers"; aws_config=aws_config)
-create_logger_definition(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/loggers", params; aws_config=aws_config)
+create_logger_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/loggers", params; aws_config=aws_config)
 
 """
     create_logger_definition_version(logger_definition_id)
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tag(s) to add to the new resource.
 """
 create_resource_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/resources"; aws_config=aws_config)
-create_resource_definition(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/resources", params; aws_config=aws_config)
+create_resource_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/resources", params; aws_config=aws_config)
 
 """
     create_resource_definition_version(resource_definition_id)
@@ -373,7 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tag(s) to add to the new resource.
 """
 create_subscription_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/subscriptions"; aws_config=aws_config)
-create_subscription_definition(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/subscriptions", params; aws_config=aws_config)
+create_subscription_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/subscriptions", params; aws_config=aws_config)
 
 """
     create_subscription_definition_version(subscription_definition_id)
@@ -518,7 +518,7 @@ not work.
 
 """
 disassociate_service_role_from_account(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/servicerole"; aws_config=aws_config)
-disassociate_service_role_from_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/servicerole", params; aws_config=aws_config)
+disassociate_service_role_from_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/servicerole", params; aws_config=aws_config)
 
 """
     get_associated_role(group_id)
@@ -847,7 +847,7 @@ Retrieves the service role that is attached to your account.
 
 """
 get_service_role_for_account(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/servicerole"; aws_config=aws_config)
-get_service_role_for_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/servicerole", params; aws_config=aws_config)
+get_service_role_for_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/servicerole", params; aws_config=aws_config)
 
 """
     get_subscription_definition(subscription_definition_id)
@@ -929,7 +929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_bulk_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments"; aws_config=aws_config)
-list_bulk_deployments(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments", params; aws_config=aws_config)
+list_bulk_deployments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments", params; aws_config=aws_config)
 
 """
     list_connector_definition_versions(connector_definition_id)
@@ -964,7 +964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_connector_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors"; aws_config=aws_config)
-list_connector_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors", params; aws_config=aws_config)
+list_connector_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors", params; aws_config=aws_config)
 
 """
     list_core_definition_versions(core_definition_id)
@@ -997,7 +997,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_core_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores"; aws_config=aws_config)
-list_core_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores", params; aws_config=aws_config)
+list_core_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores", params; aws_config=aws_config)
 
 """
     list_deployments(group_id)
@@ -1048,7 +1048,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_device_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices"; aws_config=aws_config)
-list_device_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices", params; aws_config=aws_config)
+list_device_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices", params; aws_config=aws_config)
 
 """
     list_function_definition_versions(function_definition_id)
@@ -1081,7 +1081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_function_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions"; aws_config=aws_config)
-list_function_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions", params; aws_config=aws_config)
+list_function_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions", params; aws_config=aws_config)
 
 """
     list_group_certificate_authorities(group_id)
@@ -1127,7 +1127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups"; aws_config=aws_config)
-list_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups", params; aws_config=aws_config)
+list_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups", params; aws_config=aws_config)
 
 """
     list_logger_definition_versions(logger_definition_id)
@@ -1160,7 +1160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_logger_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers"; aws_config=aws_config)
-list_logger_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers", params; aws_config=aws_config)
+list_logger_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers", params; aws_config=aws_config)
 
 """
     list_resource_definition_versions(resource_definition_id)
@@ -1193,7 +1193,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_resource_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources"; aws_config=aws_config)
-list_resource_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources", params; aws_config=aws_config)
+list_resource_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources", params; aws_config=aws_config)
 
 """
     list_subscription_definition_versions(subscription_definition_id)
@@ -1226,7 +1226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 """
 list_subscription_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions"; aws_config=aws_config)
-list_subscription_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions", params; aws_config=aws_config)
+list_subscription_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource-arn)

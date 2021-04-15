@@ -340,7 +340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this pagination token to retrieve the next set of projects.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects"; aws_config=aws_config)
-list_projects(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects", params; aws_config=aws_config)
+list_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

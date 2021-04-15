@@ -143,7 +143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token for the next page of data.
 """
 describe_connector_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/describe-connector-profiles"; aws_config=aws_config)
-describe_connector_profiles(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/describe-connector-profiles", params; aws_config=aws_config)
+describe_connector_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/describe-connector-profiles", params; aws_config=aws_config)
 
 """
     describe_connectors()
@@ -161,7 +161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token for the next page of data.
 """
 describe_connectors(; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/describe-connectors"; aws_config=aws_config)
-describe_connectors(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/describe-connectors", params; aws_config=aws_config)
+describe_connectors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/describe-connectors", params; aws_config=aws_config)
 
 """
     describe_flow(flow_name)
@@ -216,7 +216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   roots. Otherwise, this request returns all entities supported by the provider.
 """
 list_connector_entities(; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/list-connector-entities"; aws_config=aws_config)
-list_connector_entities(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/list-connector-entities", params; aws_config=aws_config)
+list_connector_entities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/list-connector-entities", params; aws_config=aws_config)
 
 """
     list_flows()
@@ -231,7 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token for next page of data.
 """
 list_flows(; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/list-flows"; aws_config=aws_config)
-list_flows(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/list-flows", params; aws_config=aws_config)
+list_flows(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = appflow("POST", "/list-flows", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

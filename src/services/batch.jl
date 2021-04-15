@@ -219,7 +219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in a list and not for other programmatic purposes.
 """
 describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments"; aws_config=aws_config)
-describe_compute_environments(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments", params; aws_config=aws_config)
+describe_compute_environments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments", params; aws_config=aws_config)
 
 """
     describe_job_definitions()
@@ -249,7 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status used to filter job definitions.
 """
 describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions"; aws_config=aws_config)
-describe_job_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions", params; aws_config=aws_config)
+describe_job_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions", params; aws_config=aws_config)
 
 """
     describe_job_queues()
@@ -275,7 +275,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not for other programmatic purposes.
 """
 describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues"; aws_config=aws_config)
-describe_job_queues(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues", params; aws_config=aws_config)
+describe_job_queues(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues", params; aws_config=aws_config)
 
 """
     describe_jobs(jobs)
@@ -325,7 +325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   programmatic purposes.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

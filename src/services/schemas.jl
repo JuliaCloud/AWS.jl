@@ -95,7 +95,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryName"`: The name of the registry.
 """
 delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy"; aws_config=aws_config)
-delete_resource_policy(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy", params; aws_config=aws_config)
+delete_resource_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy", params; aws_config=aws_config)
 
 """
     delete_schema(registry_name, schema_name)
@@ -250,7 +250,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registryName"`: The name of the registry.
 """
 get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/policy"; aws_config=aws_config)
-get_resource_policy(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/policy", params; aws_config=aws_config)
+get_resource_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/policy", params; aws_config=aws_config)
 
 """
     list_discoverers()
@@ -270,7 +270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the specified prefix.
 """
 list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers"; aws_config=aws_config)
-list_discoverers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers", params; aws_config=aws_config)
+list_discoverers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers", params; aws_config=aws_config)
 
 """
     list_registries()
@@ -290,7 +290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ones provided by AWS.
 """
 list_registries(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries"; aws_config=aws_config)
-list_registries(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries", params; aws_config=aws_config)
+list_registries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries", params; aws_config=aws_config)
 
 """
     list_schema_versions(registry_name, schema_name)

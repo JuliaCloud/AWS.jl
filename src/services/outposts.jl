@@ -92,7 +92,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 list_outposts(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts"; aws_config=aws_config)
-list_outposts(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts", params; aws_config=aws_config)
+list_outposts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts", params; aws_config=aws_config)
 
 """
     list_sites()
@@ -106,7 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 list_sites(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites"; aws_config=aws_config)
-list_sites(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites", params; aws_config=aws_config)
+list_sites(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

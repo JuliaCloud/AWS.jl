@@ -203,7 +203,7 @@ account in the current AWS Region.
 
 """
 get_account(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/account"; aws_config=aws_config)
-get_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/account", params; aws_config=aws_config)
+get_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/account", params; aws_config=aws_config)
 
 """
     get_blacklist_reports(blacklist_item_names)
@@ -291,7 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
 get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips"; aws_config=aws_config)
-get_dedicated_ips(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips", params; aws_config=aws_config)
+get_dedicated_ips(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips", params; aws_config=aws_config)
 
 """
     get_deliverability_dashboard_options()
@@ -308,7 +308,7 @@ Pricing.
 
 """
 get_deliverability_dashboard_options(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard"; aws_config=aws_config)
-get_deliverability_dashboard_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard", params; aws_config=aws_config)
+get_deliverability_dashboard_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard", params; aws_config=aws_config)
 
 """
     get_deliverability_test_report(report_id)
@@ -394,7 +394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results.
 """
 list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets"; aws_config=aws_config)
-list_configuration_sets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets", params; aws_config=aws_config)
+list_configuration_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets", params; aws_config=aws_config)
 
 """
     list_dedicated_ip_pools()
@@ -412,7 +412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results.
 """
 list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ip-pools"; aws_config=aws_config)
-list_dedicated_ip_pools(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ip-pools", params; aws_config=aws_config)
+list_dedicated_ip_pools(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ip-pools", params; aws_config=aws_config)
 
 """
     list_deliverability_test_reports()
@@ -433,7 +433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more than 1000.
 """
 list_deliverability_test_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports"; aws_config=aws_config)
-list_deliverability_test_reports(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports", params; aws_config=aws_config)
+list_deliverability_test_reports(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports", params; aws_config=aws_config)
 
 """
     list_domain_deliverability_campaigns(end_date, start_date, subscribed_domain)
@@ -483,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you specify has to be at least 0, and can be no more than 1000.
 """
 list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities"; aws_config=aws_config)
-list_email_identities(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities", params; aws_config=aws_config)
+list_email_identities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -516,7 +516,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Set to true to enable the automatic warm-up feature, or set to false to disable it.
 """
 put_account_dedicated_ip_warmup_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup"; aws_config=aws_config)
-put_account_dedicated_ip_warmup_attributes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup", params; aws_config=aws_config)
+put_account_dedicated_ip_warmup_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup", params; aws_config=aws_config)
 
 """
     put_account_sending_attributes()
@@ -532,7 +532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ability to send email.
 """
 put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/sending"; aws_config=aws_config)
-put_account_sending_attributes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/sending", params; aws_config=aws_config)
+put_account_sending_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/sending", params; aws_config=aws_config)
 
 """
     put_configuration_set_delivery_options(configuration_set_name)

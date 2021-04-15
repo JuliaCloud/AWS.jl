@@ -206,7 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or ENTITLED to the account (for subscribers).
 """
 list_data_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets"; aws_config=aws_config)
-list_data_sets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets", params; aws_config=aws_config)
+list_data_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/data-sets", params; aws_config=aws_config)
 
 """
     list_jobs()
@@ -223,7 +223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"revisionId"`: The unique identifier for a revision.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dataexchange("GET", "/v1/jobs", params; aws_config=aws_config)
 
 """
     list_revision_assets(data_set_id, revision_id)

@@ -151,7 +151,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 list_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices"; aws_config=aws_config)
-list_devices(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices", params; aws_config=aws_config)
+list_devices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource-arn)

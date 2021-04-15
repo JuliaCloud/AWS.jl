@@ -51,7 +51,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If present, this indicates where to continue the listing.
 """
 describe_voices(; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/voices"; aws_config=aws_config)
-describe_voices(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/voices", params; aws_config=aws_config)
+describe_voices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/voices", params; aws_config=aws_config)
 
 """
     get_lexicon(lexicon_name)
@@ -95,7 +95,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If present, indicates where to continue the list of lexicons.
 """
 list_lexicons(; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/lexicons"; aws_config=aws_config)
-list_lexicons(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/lexicons", params; aws_config=aws_config)
+list_lexicons(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/lexicons", params; aws_config=aws_config)
 
 """
     list_speech_synthesis_tasks()
@@ -113,7 +113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Status of the speech synthesis tasks returned in a List operation
 """
 list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/synthesisTasks"; aws_config=aws_config)
-list_speech_synthesis_tasks(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/synthesisTasks", params; aws_config=aws_config)
+list_speech_synthesis_tasks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/synthesisTasks", params; aws_config=aws_config)
 
 """
     put_lexicon(content, lexicon_name)

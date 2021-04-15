@@ -540,7 +540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domains"; aws_config=aws_config)
-list_domains(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domains", params; aws_config=aws_config)
+list_domains(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domains", params; aws_config=aws_config)
 
 """
     list_package_version_assets(domain, format, package, repository, version)
@@ -696,7 +696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with names that start with repositoryPrefix are returned.
 """
 list_repositories(; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repositories"; aws_config=aws_config)
-list_repositories(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repositories", params; aws_config=aws_config)
+list_repositories(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repositories", params; aws_config=aws_config)
 
 """
     list_repositories_in_domain(domain)

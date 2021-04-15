@@ -57,7 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and bitrate can be up to 1.5 Mbps.
 """
 create_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel"; aws_config=aws_config)
-create_channel(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel", params; aws_config=aws_config)
+create_channel(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/CreateChannel", params; aws_config=aws_config)
 
 """
     create_recording_configuration(destination_configuration)
@@ -275,7 +275,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken response field.
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListChannels"; aws_config=aws_config)
-list_channels(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListChannels", params; aws_config=aws_config)
+list_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListChannels", params; aws_config=aws_config)
 
 """
     list_playback_key_pairs()
@@ -291,7 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Maximum number of key pairs to return.
 """
 list_playback_key_pairs(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs"; aws_config=aws_config)
-list_playback_key_pairs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs", params; aws_config=aws_config)
+list_playback_key_pairs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListPlaybackKeyPairs", params; aws_config=aws_config)
 
 """
     list_recording_configurations()
@@ -307,7 +307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination; see the nextToken response field.
 """
 list_recording_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListRecordingConfigurations"; aws_config=aws_config)
-list_recording_configurations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListRecordingConfigurations", params; aws_config=aws_config)
+list_recording_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListRecordingConfigurations", params; aws_config=aws_config)
 
 """
     list_stream_keys(channel_arn)
@@ -341,7 +341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken response field.
 """
 list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreams"; aws_config=aws_config)
-list_streams(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreams", params; aws_config=aws_config)
+list_streams(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ivs("POST", "/ListStreams", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

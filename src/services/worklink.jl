@@ -296,7 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listFleets"; aws_config=aws_config)
-list_fleets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listFleets", params; aws_config=aws_config)
+list_fleets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listFleets", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

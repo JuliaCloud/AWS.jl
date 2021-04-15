@@ -236,7 +236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request the next batch of endpoints.
 """
 describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints"; aws_config=aws_config)
-describe_endpoints(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints", params; aws_config=aws_config)
+describe_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints", params; aws_config=aws_config)
 
 """
     disassociate_certificate(arn)
@@ -328,7 +328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates"; aws_config=aws_config)
-list_job_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates", params; aws_config=aws_config)
+list_job_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates", params; aws_config=aws_config)
 
 """
     list_jobs()
@@ -351,7 +351,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or ERROR.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs", params; aws_config=aws_config)
 
 """
     list_presets()
@@ -376,7 +376,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 list_presets(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets"; aws_config=aws_config)
-list_presets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets", params; aws_config=aws_config)
+list_presets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets", params; aws_config=aws_config)
 
 """
     list_queues()
@@ -399,7 +399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 list_queues(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues"; aws_config=aws_config)
-list_queues(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues", params; aws_config=aws_config)
+list_queues(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(arn)

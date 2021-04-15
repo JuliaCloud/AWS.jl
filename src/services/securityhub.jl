@@ -281,7 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value returned from the previous response.
 """
 describe_action_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get"; aws_config=aws_config)
-describe_action_targets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get", params; aws_config=aws_config)
+describe_action_targets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets/get", params; aws_config=aws_config)
 
 """
     describe_hub()
@@ -295,7 +295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HubArn"`: The ARN of the Hub resource to retrieve.
 """
 describe_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/accounts"; aws_config=aws_config)
-describe_hub(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/accounts", params; aws_config=aws_config)
+describe_hub(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/accounts", params; aws_config=aws_config)
 
 """
     describe_organization_configuration()
@@ -306,7 +306,7 @@ called from a Security Hub administrator account.
 
 """
 describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration"; aws_config=aws_config)
-describe_organization_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration", params; aws_config=aws_config)
+describe_organization_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/configuration", params; aws_config=aws_config)
 
 """
     describe_products()
@@ -327,7 +327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProductArn"`: The ARN of the integration to return.
 """
 describe_products(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/products"; aws_config=aws_config)
-describe_products(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/products", params; aws_config=aws_config)
+describe_products(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/products", params; aws_config=aws_config)
 
 """
     describe_standards()
@@ -345,7 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned from the previous response.
 """
 describe_standards(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards"; aws_config=aws_config)
-describe_standards(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards", params; aws_config=aws_config)
+describe_standards(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/standards", params; aws_config=aws_config)
 
 """
     describe_standards_controls(standards_subscription_arn)
@@ -415,7 +415,7 @@ export them before you disable Security Hub.
 
 """
 disable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts"; aws_config=aws_config)
-disable_security_hub(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts", params; aws_config=aws_config)
+disable_security_hub(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts", params; aws_config=aws_config)
 
 """
     disassociate_from_master_account()
@@ -428,7 +428,7 @@ can disassociate a member account.
 
 """
 disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate"; aws_config=aws_config)
-disassociate_from_master_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate", params; aws_config=aws_config)
+disassociate_from_master_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate", params; aws_config=aws_config)
 
 """
     disassociate_members(account_ids)
@@ -500,7 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to add to the hub resource when you enable Security Hub.
 """
 enable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/accounts"; aws_config=aws_config)
-enable_security_hub(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/accounts", params; aws_config=aws_config)
+enable_security_hub(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/accounts", params; aws_config=aws_config)
 
 """
     get_enabled_standards()
@@ -519,7 +519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   standards to retrieve.
 """
 get_enabled_standards(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/get"; aws_config=aws_config)
-get_enabled_standards(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/get", params; aws_config=aws_config)
+get_enabled_standards(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/standards/get", params; aws_config=aws_config)
 
 """
     get_findings()
@@ -541,7 +541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortCriteria"`: The finding attributes used to sort the list of returned findings.
 """
 get_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings"; aws_config=aws_config)
-get_findings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings", params; aws_config=aws_config)
+get_findings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings", params; aws_config=aws_config)
 
 """
     get_insight_results(insight_arn)
@@ -574,7 +574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the previous response.
 """
 get_insights(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights/get"; aws_config=aws_config)
-get_insights(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights/get", params; aws_config=aws_config)
+get_insights(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/insights/get", params; aws_config=aws_config)
 
 """
     get_invitations_count()
@@ -585,7 +585,7 @@ member account, not including the currently accepted invitation.
 
 """
 get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations/count"; aws_config=aws_config)
-get_invitations_count(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations/count", params; aws_config=aws_config)
+get_invitations_count(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations/count", params; aws_config=aws_config)
 
 """
     get_master_account()
@@ -597,7 +597,7 @@ invited manually.
 
 """
 get_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/master"; aws_config=aws_config)
-get_master_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/master", params; aws_config=aws_config)
+get_master_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/master", params; aws_config=aws_config)
 
 """
     get_members(account_ids)
@@ -652,7 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to the value returned from the previous response.
 """
 list_enabled_products_for_import(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions"; aws_config=aws_config)
-list_enabled_products_for_import(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions", params; aws_config=aws_config)
+list_enabled_products_for_import(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/productSubscriptions", params; aws_config=aws_config)
 
 """
     list_invitations()
@@ -671,7 +671,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned from the previous response.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations"; aws_config=aws_config)
-list_invitations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations", params; aws_config=aws_config)
+list_invitations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/invitations", params; aws_config=aws_config)
 
 """
     list_members()
@@ -695,7 +695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes all existing member accounts.
 """
 list_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members"; aws_config=aws_config)
-list_members(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members", params; aws_config=aws_config)
+list_members(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members", params; aws_config=aws_config)
 
 """
     list_organization_admin_accounts()
@@ -713,7 +713,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to the value returned from the previous response.
 """
 list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin"; aws_config=aws_config)
-list_organization_admin_accounts(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin", params; aws_config=aws_config)
+list_organization_admin_accounts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/organization/admin", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -839,7 +839,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enabled automatically. To not automatically enable new controls, set this to false.
 """
 update_security_hub_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts"; aws_config=aws_config)
-update_security_hub_configuration(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts", params; aws_config=aws_config)
+update_security_hub_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("PATCH", "/accounts", params; aws_config=aws_config)
 
 """
     update_standards_control(standards_control_arn)

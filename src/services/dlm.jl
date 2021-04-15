@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetTags"`: The target tag for a policy. Tags are strings in the format key=value.
 """
 get_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies"; aws_config=aws_config)
-get_lifecycle_policies(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies", params; aws_config=aws_config)
+get_lifecycle_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies", params; aws_config=aws_config)
 
 """
     get_lifecycle_policy(policy_id)

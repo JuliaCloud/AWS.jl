@@ -524,7 +524,7 @@ member account except the currently accepted invitation.
 
 """
 get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation/count"; aws_config=aws_config)
-get_invitations_count(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation/count", params; aws_config=aws_config)
+get_invitations_count(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation/count", params; aws_config=aws_config)
 
 """
     get_ipset(detector_id, ip_set_id)
@@ -668,7 +668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 list_detectors(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector"; aws_config=aws_config)
-list_detectors(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector", params; aws_config=aws_config)
+list_detectors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/detector", params; aws_config=aws_config)
 
 """
     list_filters(detector_id)
@@ -767,7 +767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation"; aws_config=aws_config)
-list_invitations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation", params; aws_config=aws_config)
+list_invitations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/invitation", params; aws_config=aws_config)
 
 """
     list_ipsets(detector_id)
@@ -830,7 +830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing results after the first page.
 """
 list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/admin"; aws_config=aws_config)
-list_organization_admin_accounts(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/admin", params; aws_config=aws_config)
+list_organization_admin_accounts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = guardduty("GET", "/admin", params; aws_config=aws_config)
 
 """
     list_publishing_destinations(detector_id)

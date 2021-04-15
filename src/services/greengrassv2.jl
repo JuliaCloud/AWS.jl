@@ -51,7 +51,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
 """
 create_component_version(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion"; aws_config=aws_config)
-create_component_version(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion", params; aws_config=aws_config)
+create_component_version(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion", params; aws_config=aws_config)
 
 """
     create_deployment(target_arn)
@@ -231,7 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scope"`: The scope of the components to list. Default: PRIVATE
 """
 list_components(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components"; aws_config=aws_config)
-list_components(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components", params; aws_config=aws_config)
+list_components(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components", params; aws_config=aws_config)
 
 """
     list_core_devices()
@@ -252,7 +252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter, the list includes only core devices that are members of this thing group.
 """
 list_core_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices"; aws_config=aws_config)
-list_core_devices(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices", params; aws_config=aws_config)
+list_core_devices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices", params; aws_config=aws_config)
 
 """
     list_deployments()
@@ -270,7 +270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetArn"`: The ARN of the target AWS IoT thing or thing group.
 """
 list_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments"; aws_config=aws_config)
-list_deployments(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments", params; aws_config=aws_config)
+list_deployments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments", params; aws_config=aws_config)
 
 """
     list_effective_deployments(core_device_thing_name)

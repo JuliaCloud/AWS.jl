@@ -134,7 +134,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to apply to the resource during creation.
 """
 create_global_network(; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("POST", "/global-networks"; aws_config=aws_config)
-create_global_network(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("POST", "/global-networks", params; aws_config=aws_config)
+create_global_network(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("POST", "/global-networks", params; aws_config=aws_config)
 
 """
     create_link(bandwidth, site_id, global_network_id)
@@ -286,7 +286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 describe_global_networks(; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("GET", "/global-networks"; aws_config=aws_config)
-describe_global_networks(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("GET", "/global-networks", params; aws_config=aws_config)
+describe_global_networks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = networkmanager("GET", "/global-networks", params; aws_config=aws_config)
 
 """
     disassociate_customer_gateway(customer_gateway_arn, global_network_id)

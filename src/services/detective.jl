@@ -44,7 +44,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key and the tag value.
 """
 create_graph(; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph"; aws_config=aws_config)
-create_graph(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph", params; aws_config=aws_config)
+create_graph(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph", params; aws_config=aws_config)
 
 """
     create_members(accounts, graph_arn)
@@ -162,7 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 list_graphs(; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graphs/list"; aws_config=aws_config)
-list_graphs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graphs/list", params; aws_config=aws_config)
+list_graphs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graphs/list", params; aws_config=aws_config)
 
 """
     list_invitations()
@@ -184,7 +184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/invitations/list"; aws_config=aws_config)
-list_invitations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/invitations/list", params; aws_config=aws_config)
+list_invitations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/invitations/list", params; aws_config=aws_config)
 
 """
     list_members(graph_arn)

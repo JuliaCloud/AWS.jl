@@ -255,7 +255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListJournalS3Exports call, then you should use that value as input here.
 """
 list_journal_s3_exports(; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/journal-s3-exports"; aws_config=aws_config)
-list_journal_s3_exports(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/journal-s3-exports", params; aws_config=aws_config)
+list_journal_s3_exports(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/journal-s3-exports", params; aws_config=aws_config)
 
 """
     list_journal_s3_exports_for_ledger(name)
@@ -299,7 +299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call, then you should use that value as input here.
 """
 list_ledgers(; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers"; aws_config=aws_config)
-list_ledgers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers", params; aws_config=aws_config)
+list_ledgers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

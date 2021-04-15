@@ -34,7 +34,7 @@ characteristics, such as memory and throughput.
 
 """
 describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("GET", "/describe-accelerator-types"; aws_config=aws_config)
-describe_accelerator_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("GET", "/describe-accelerator-types", params; aws_config=aws_config)
+describe_accelerator_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("GET", "/describe-accelerator-types", params; aws_config=aws_config)
 
 """
     describe_accelerators()
@@ -57,7 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a previously truncated response.
 """
 describe_accelerators(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/describe-accelerators"; aws_config=aws_config)
-describe_accelerators(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/describe-accelerators", params; aws_config=aws_config)
+describe_accelerators(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_inference("POST", "/describe-accelerators", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

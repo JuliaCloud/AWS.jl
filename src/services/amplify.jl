@@ -374,7 +374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result. Pass its value in another request to retrieve more entries.
 """
 list_apps(; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps"; aws_config=aws_config)
-list_apps(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps", params; aws_config=aws_config)
+list_apps(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps", params; aws_config=aws_config)
 
 """
     list_artifacts(app_id, branch_name, job_id)

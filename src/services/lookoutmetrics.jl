@@ -228,7 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3SourceConfig"`: A datasource bucket in Amazon S3.
 """
 get_sample_data(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetSampleData"; aws_config=aws_config)
-get_sample_data(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetSampleData", params; aws_config=aws_config)
+get_sample_data(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetSampleData", params; aws_config=aws_config)
 
 """
     list_alerts()
@@ -245,7 +245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_alerts(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAlerts"; aws_config=aws_config)
-list_alerts(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAlerts", params; aws_config=aws_config)
+list_alerts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAlerts", params; aws_config=aws_config)
 
 """
     list_anomaly_detectors()
@@ -261,7 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyDetectors"; aws_config=aws_config)
-list_anomaly_detectors(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyDetectors", params; aws_config=aws_config)
+list_anomaly_detectors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyDetectors", params; aws_config=aws_config)
 
 """
     list_anomaly_group_summaries(anomaly_detector_arn, sensitivity_threshold)
@@ -318,7 +318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_metric_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListMetricSets"; aws_config=aws_config)
-list_metric_sets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListMetricSets", params; aws_config=aws_config)
+list_metric_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListMetricSets", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

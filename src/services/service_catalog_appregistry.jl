@@ -196,7 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 """
 list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications"; aws_config=aws_config)
-list_applications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications", params; aws_config=aws_config)
+list_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/applications", params; aws_config=aws_config)
 
 """
     list_associated_attribute_groups(application)
@@ -251,7 +251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call.
 """
 list_attribute_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/attribute-groups"; aws_config=aws_config)
-list_attribute_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/attribute-groups", params; aws_config=aws_config)
+list_attribute_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = service_catalog_appregistry("GET", "/attribute-groups", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

@@ -579,6 +579,28 @@ describe_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = data
 describe_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("DescribeConnections", params; aws_config=aws_config)
 
 """
+    describe_endpoint_settings(engine_name)
+    describe_endpoint_settings(engine_name, params::Dict{String,<:Any})
+
+Returns information about the possible endpoint settings available when you create an
+endpoint for a specific database engine.
+
+# Arguments
+- `engine_name`: The databse engine used for your source or target endpoint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the marker, up to the
+  value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved.
+"""
+describe_endpoint_settings(EngineName; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("DescribeEndpointSettings", Dict{String, Any}("EngineName"=>EngineName); aws_config=aws_config)
+describe_endpoint_settings(EngineName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("DescribeEndpointSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineName"=>EngineName), params)); aws_config=aws_config)
+
+"""
     describe_endpoint_types()
     describe_endpoint_types(params::Dict{String,<:Any})
 
@@ -1230,9 +1252,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplicationTaskSettings"`: JSON file that contains settings for the task, such as task
   metadata settings.
 - `"TableMappings"`: When using the AWS CLI or boto3, provide the path of the JSON file
-  that contains the table mappings. Precede the path with file://. When working with the DMS
-  API, provide the JSON as the parameter value, for example: --table-mappings
-  file://mappingfile.json
+  that contains the table mappings. Precede the path with file://. For example,
+  --table-mappings file://mappingfile.json. When working with the DMS API, provide the JSON
+  as the parameter value.
 - `"TaskData"`: Supplemental information that the task requires to migrate the data for
   certain source and target endpoints. For more information, see Specifying Supplemental Data
   for Task Settings in the AWS Database Migration Service User Guide.

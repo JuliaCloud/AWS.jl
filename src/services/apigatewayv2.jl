@@ -753,7 +753,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element of the collection.
 """
 get_apis(; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis"; aws_config=aws_config)
-get_apis(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis", params; aws_config=aws_config)
+get_apis(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/apis", params; aws_config=aws_config)
 
 """
     get_authorizer(api_id, authorizer_id)
@@ -845,7 +845,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element of the collection.
 """
 get_domain_names(; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames"; aws_config=aws_config)
-get_domain_names(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames", params; aws_config=aws_config)
+get_domain_names(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/domainnames", params; aws_config=aws_config)
 
 """
     get_integration(api_id, integration_id)
@@ -1097,7 +1097,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element of the collection.
 """
 get_vpc_links(; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks"; aws_config=aws_config)
-get_vpc_links(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks", params; aws_config=aws_config)
+get_vpc_links(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewayv2("GET", "/v2/vpclinks", params; aws_config=aws_config)
 
 """
     import_api(body)

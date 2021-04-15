@@ -132,7 +132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: A status value with which to filter your results.
 """
 list_signing_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-jobs"; aws_config=aws_config)
-list_signing_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-jobs", params; aws_config=aws_config)
+list_signing_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-jobs", params; aws_config=aws_config)
 
 """
     list_signing_platforms()
@@ -156,7 +156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"target"`: The validation template that is used by the target signing platform.
 """
 list_signing_platforms(; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-platforms"; aws_config=aws_config)
-list_signing_platforms(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-platforms", params; aws_config=aws_config)
+list_signing_platforms(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-platforms", params; aws_config=aws_config)
 
 """
     list_signing_profiles()
@@ -182,7 +182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list.
 """
 list_signing_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles"; aws_config=aws_config)
-list_signing_profiles(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles", params; aws_config=aws_config)
+list_signing_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = signer("GET", "/signing-profiles", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

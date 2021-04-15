@@ -214,7 +214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   get the next page of results.
 """
 list_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config"; aws_config=aws_config)
-list_configs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config", params; aws_config=aws_config)
+list_configs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/config", params; aws_config=aws_config)
 
 """
     list_contacts(end_time, start_time, status_list)
@@ -253,7 +253,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListDataflowEndpointGroups call. Used to get the next page of results.
 """
 list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup"; aws_config=aws_config)
-list_dataflow_endpoint_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup", params; aws_config=aws_config)
+list_dataflow_endpoint_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/dataflowEndpointGroup", params; aws_config=aws_config)
 
 """
     list_ground_stations()
@@ -269,7 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"satelliteId"`: Satellite ID to retrieve on-boarded ground stations.
 """
 list_ground_stations(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/groundstation"; aws_config=aws_config)
-list_ground_stations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/groundstation", params; aws_config=aws_config)
+list_ground_stations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/groundstation", params; aws_config=aws_config)
 
 """
     list_mission_profiles()
@@ -284,7 +284,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Used to get the next page of results.
 """
 list_mission_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile"; aws_config=aws_config)
-list_mission_profiles(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile", params; aws_config=aws_config)
+list_mission_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/missionprofile", params; aws_config=aws_config)
 
 """
     list_satellites()
@@ -299,7 +299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   satellites.
 """
 list_satellites(; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite"; aws_config=aws_config)
-list_satellites(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite", params; aws_config=aws_config)
+list_satellites(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = groundstation("GET", "/satellite", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

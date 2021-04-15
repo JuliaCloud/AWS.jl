@@ -298,7 +298,7 @@ Retrieves the current settings of the AWS IoT Analytics logging options.
 
 """
 describe_logging_options(; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/logging"; aws_config=aws_config)
-describe_logging_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/logging", params; aws_config=aws_config)
+describe_logging_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/logging", params; aws_config=aws_config)
 
 """
     describe_pipeline(pipeline_name)
@@ -345,7 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/channels"; aws_config=aws_config)
-list_channels(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/channels", params; aws_config=aws_config)
+list_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/channels", params; aws_config=aws_config)
 
 """
     list_dataset_contents(dataset_name)
@@ -383,7 +383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/datasets"; aws_config=aws_config)
-list_datasets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/datasets", params; aws_config=aws_config)
+list_datasets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/datasets", params; aws_config=aws_config)
 
 """
     list_datastores()
@@ -398,7 +398,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_datastores(; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/datastores"; aws_config=aws_config)
-list_datastores(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/datastores", params; aws_config=aws_config)
+list_datastores(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/datastores", params; aws_config=aws_config)
 
 """
     list_pipelines()
@@ -413,7 +413,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/pipelines"; aws_config=aws_config)
-list_pipelines(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/pipelines", params; aws_config=aws_config)
+list_pipelines(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotanalytics("GET", "/pipelines", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

@@ -101,7 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 list_event_types(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listEventTypes"; aws_config=aws_config)
-list_event_types(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listEventTypes", params; aws_config=aws_config)
+list_event_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listEventTypes", params; aws_config=aws_config)
 
 """
     list_notification_rules()
@@ -121,7 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 list_notification_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listNotificationRules"; aws_config=aws_config)
-list_notification_rules(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listNotificationRules", params; aws_config=aws_config)
+list_notification_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listNotificationRules", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(arn)
@@ -154,7 +154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of the results.
 """
 list_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listTargets"; aws_config=aws_config)
-list_targets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listTargets", params; aws_config=aws_config)
+list_targets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_notifications("POST", "/listTargets", params; aws_config=aws_config)
 
 """
     subscribe(arn, target)

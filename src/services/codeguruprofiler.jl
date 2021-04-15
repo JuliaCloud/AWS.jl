@@ -161,7 +161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
 get_findings_report_account_summary(; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/findingsReports"; aws_config=aws_config)
-get_findings_report_account_summary(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/findingsReports", params; aws_config=aws_config)
+get_findings_report_account_summary(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/findingsReports", params; aws_config=aws_config)
 
 """
     get_notification_configuration(profiling_group_name)
@@ -385,7 +385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next items in a list and not for other programmatic purposes.
 """
 list_profiling_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups"; aws_config=aws_config)
-list_profiling_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups", params; aws_config=aws_config)
+list_profiling_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

@@ -1432,7 +1432,7 @@ Business Calling and Amazon Chime Voice Connector settings.
 
 """
 get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings"; aws_config=aws_config)
-get_global_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings", params; aws_config=aws_config)
+get_global_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings", params; aws_config=aws_config)
 
 """
     get_meeting(meeting_id)
@@ -1457,7 +1457,7 @@ The details of the endpoint for the messaging session.
 
 """
 get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session"; aws_config=aws_config)
-get_messaging_session_endpoint(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session", params; aws_config=aws_config)
+get_messaging_session_endpoint(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/endpoints/messaging-session", params; aws_config=aws_config)
 
 """
     get_phone_number(phone_number_id)
@@ -1496,7 +1496,7 @@ default outbound calling name.
 
 """
 get_phone_number_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings/phone-number"; aws_config=aws_config)
-get_phone_number_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings/phone-number", params; aws_config=aws_config)
+get_phone_number_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings/phone-number", params; aws_config=aws_config)
 
 """
     get_proxy_session(proxy_session_id, voice_connector_id)
@@ -1772,7 +1772,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"user-email"`: User email address with which to filter results.
 """
 list_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/accounts"; aws_config=aws_config)
-list_accounts(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/accounts", params; aws_config=aws_config)
+list_accounts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/accounts", params; aws_config=aws_config)
 
 """
     list_app_instance_admins(app_instance_arn)
@@ -1823,7 +1823,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of AppInstances.
 """
 list_app_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances"; aws_config=aws_config)
-list_app_instances(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances", params; aws_config=aws_config)
+list_app_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/app-instances", params; aws_config=aws_config)
 
 """
     list_attendee_tags(attendee_id, meeting_id)
@@ -1938,7 +1938,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channel_memberships_for_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships"; aws_config=aws_config)
-list_channel_memberships_for_app_instance_user(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships", params; aws_config=aws_config)
+list_channel_memberships_for_app_instance_user(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-memberships", params; aws_config=aws_config)
 
 """
     list_channel_messages(channel_arn)
@@ -2032,7 +2032,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
 list_channels_moderated_by_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels"; aws_config=aws_config)
-list_channels_moderated_by_app_instance_user(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels", params; aws_config=aws_config)
+list_channels_moderated_by_app_instance_user(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels", params; aws_config=aws_config)
 
 """
     list_meeting_tags(meeting_id)
@@ -2060,7 +2060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
 list_meetings(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/meetings"; aws_config=aws_config)
-list_meetings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/meetings", params; aws_config=aws_config)
+list_meetings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/meetings", params; aws_config=aws_config)
 
 """
     list_phone_number_orders()
@@ -2074,7 +2074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
 list_phone_number_orders(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/phone-number-orders"; aws_config=aws_config)
-list_phone_number_orders(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/phone-number-orders", params; aws_config=aws_config)
+list_phone_number_orders(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/phone-number-orders", params; aws_config=aws_config)
 
 """
     list_phone_numbers()
@@ -2093,7 +2093,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The phone number status.
 """
 list_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/phone-numbers"; aws_config=aws_config)
-list_phone_numbers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/phone-numbers", params; aws_config=aws_config)
+list_phone_numbers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/phone-numbers", params; aws_config=aws_config)
 
 """
     list_proxy_sessions(voice_connector_id)
@@ -2165,7 +2165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
 list_sip_media_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications"; aws_config=aws_config)
-list_sip_media_applications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications", params; aws_config=aws_config)
+list_sip_media_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-media-applications", params; aws_config=aws_config)
 
 """
     list_sip_rules()
@@ -2181,7 +2181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sip-media-application"`: The SIP media application ID.
 """
 list_sip_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules"; aws_config=aws_config)
-list_sip_rules(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules", params; aws_config=aws_config)
+list_sip_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(arn)
@@ -2229,7 +2229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
 list_voice_connector_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/voice-connector-groups"; aws_config=aws_config)
-list_voice_connector_groups(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/voice-connector-groups", params; aws_config=aws_config)
+list_voice_connector_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/voice-connector-groups", params; aws_config=aws_config)
 
 """
     list_voice_connector_termination_credentials(voice_connector_id)
@@ -2256,7 +2256,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
 list_voice_connectors(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/voice-connectors"; aws_config=aws_config)
-list_voice_connectors(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/voice-connectors", params; aws_config=aws_config)
+list_voice_connectors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/voice-connectors", params; aws_config=aws_config)
 
 """
     logout_user(account_id, user_id)
@@ -2585,7 +2585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toll-free-prefix"`: The toll-free prefix that you use to filter results.
 """
 search_available_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/search?type=phone-numbers"; aws_config=aws_config)
-search_available_phone_numbers(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/search?type=phone-numbers", params; aws_config=aws_config)
+search_available_phone_numbers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/search?type=phone-numbers", params; aws_config=aws_config)
 
 """
     send_channel_message(client_request_token, content, persistence, type, channel_arn)

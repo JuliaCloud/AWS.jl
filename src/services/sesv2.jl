@@ -432,7 +432,7 @@ account in the current AWS Region.
 
 """
 get_account(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/account"; aws_config=aws_config)
-get_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/account", params; aws_config=aws_config)
+get_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/account", params; aws_config=aws_config)
 
 """
     get_blacklist_reports(blacklist_item_names)
@@ -564,7 +564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
 get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips"; aws_config=aws_config)
-get_dedicated_ips(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips", params; aws_config=aws_config)
+get_dedicated_ips(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ips", params; aws_config=aws_config)
 
 """
     get_deliverability_dashboard_options()
@@ -580,7 +580,7 @@ and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
 
 """
 get_deliverability_dashboard_options(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard"; aws_config=aws_config)
-get_deliverability_dashboard_options(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard", params; aws_config=aws_config)
+get_deliverability_dashboard_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard", params; aws_config=aws_config)
 
 """
     get_deliverability_test_report(report_id)
@@ -723,7 +723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results.
 """
 list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets"; aws_config=aws_config)
-list_configuration_sets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets", params; aws_config=aws_config)
+list_configuration_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/configuration-sets", params; aws_config=aws_config)
 
 """
     list_contact_lists()
@@ -743,7 +743,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to retrieve additional lists.
 """
 list_contact_lists(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists"; aws_config=aws_config)
-list_contact_lists(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists", params; aws_config=aws_config)
+list_contact_lists(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/contact-lists", params; aws_config=aws_config)
 
 """
     list_contacts(contact_list_name)
@@ -790,7 +790,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be no more than 50.
 """
 list_custom_verification_email_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates"; aws_config=aws_config)
-list_custom_verification_email_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates", params; aws_config=aws_config)
+list_custom_verification_email_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/custom-verification-email-templates", params; aws_config=aws_config)
 
 """
     list_dedicated_ip_pools()
@@ -807,7 +807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results.
 """
 list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools"; aws_config=aws_config)
-list_dedicated_ip_pools(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools", params; aws_config=aws_config)
+list_dedicated_ip_pools(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/dedicated-ip-pools", params; aws_config=aws_config)
 
 """
     list_deliverability_test_reports()
@@ -828,7 +828,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more than 1000.
 """
 list_deliverability_test_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports"; aws_config=aws_config)
-list_deliverability_test_reports(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports", params; aws_config=aws_config)
+list_deliverability_test_reports(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports", params; aws_config=aws_config)
 
 """
     list_domain_deliverability_campaigns(end_date, start_date, subscribed_domain)
@@ -878,7 +878,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you specify has to be at least 0, and can be no more than 1000.
 """
 list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities"; aws_config=aws_config)
-list_email_identities(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities", params; aws_config=aws_config)
+list_email_identities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/identities", params; aws_config=aws_config)
 
 """
     list_email_templates()
@@ -897,7 +897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you specify has to be at least 1, and can be no more than 10.
 """
 list_email_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates"; aws_config=aws_config)
-list_email_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates", params; aws_config=aws_config)
+list_email_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/templates", params; aws_config=aws_config)
 
 """
     list_import_jobs()
@@ -918,7 +918,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional addresses.
 """
 list_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs"; aws_config=aws_config)
-list_import_jobs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs", params; aws_config=aws_config)
+list_import_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/import-jobs", params; aws_config=aws_config)
 
 """
     list_suppressed_destinations()
@@ -943,7 +943,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify should be in Unix time format.
 """
 list_suppressed_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses"; aws_config=aws_config)
-list_suppressed_destinations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses", params; aws_config=aws_config)
+list_suppressed_destinations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("GET", "/v2/email/suppression/addresses", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -976,7 +976,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to true to enable the automatic warm-up feature, or set to false to disable it.
 """
 put_account_dedicated_ip_warmup_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup"; aws_config=aws_config)
-put_account_dedicated_ip_warmup_attributes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup", params; aws_config=aws_config)
+put_account_dedicated_ip_warmup_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup", params; aws_config=aws_config)
 
 """
     put_account_details(mail_type, use_case_description, website_url)
@@ -1021,7 +1021,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ability to send email.
 """
 put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending"; aws_config=aws_config)
-put_account_sending_attributes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending", params; aws_config=aws_config)
+put_account_sending_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/sending", params; aws_config=aws_config)
 
 """
     put_account_suppression_attributes()
@@ -1039,7 +1039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message sent to that address results in a hard bounce.
 """
 put_account_suppression_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression"; aws_config=aws_config)
-put_account_suppression_attributes(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression", params; aws_config=aws_config)
+put_account_suppression_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sesv2("PUT", "/v2/email/account/suppression", params; aws_config=aws_config)
 
 """
     put_configuration_set_delivery_options(configuration_set_name)

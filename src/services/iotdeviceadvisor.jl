@@ -17,7 +17,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be attached to the suite definition.
 """
 create_suite_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions"; aws_config=aws_config)
-create_suite_definition(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions", params; aws_config=aws_config)
+create_suite_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions", params; aws_config=aws_config)
 
 """
     delete_suite_definition(suite_definition_id)
@@ -90,7 +90,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Requests the Device Advisor test suites next token.
 """
 list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions"; aws_config=aws_config)
-list_suite_definitions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions", params; aws_config=aws_config)
+list_suite_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions", params; aws_config=aws_config)
 
 """
     list_suite_runs()
@@ -109,7 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   based on suite definition version.
 """
 list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns"; aws_config=aws_config)
-list_suite_runs(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns", params; aws_config=aws_config)
+list_suite_runs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -137,7 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Requests the test cases next token.
 """
 list_test_cases(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/testCases"; aws_config=aws_config)
-list_test_cases(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/testCases", params; aws_config=aws_config)
+list_test_cases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/testCases", params; aws_config=aws_config)
 
 """
     start_suite_run(suite_definition_id)

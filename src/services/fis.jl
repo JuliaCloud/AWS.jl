@@ -100,7 +100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 list_actions(; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/actions"; aws_config=aws_config)
-list_actions(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/actions", params; aws_config=aws_config)
+list_actions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/actions", params; aws_config=aws_config)
 
 """
     list_experiment_templates()
@@ -115,7 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 list_experiment_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/experimentTemplates"; aws_config=aws_config)
-list_experiment_templates(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/experimentTemplates", params; aws_config=aws_config)
+list_experiment_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/experimentTemplates", params; aws_config=aws_config)
 
 """
     list_experiments()
@@ -130,7 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 list_experiments(; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/experiments"; aws_config=aws_config)
-list_experiments(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/experiments", params; aws_config=aws_config)
+list_experiments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fis("GET", "/experiments", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)

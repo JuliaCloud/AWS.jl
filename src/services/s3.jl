@@ -2206,7 +2206,7 @@ Returns a list of all buckets owned by the authenticated sender of the request.
 
 """
 list_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/"; aws_config=aws_config)
-list_buckets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/", params; aws_config=aws_config)
+list_buckets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3("GET", "/", params; aws_config=aws_config)
 
 """
     list_multipart_uploads(bucket)

@@ -238,7 +238,7 @@ delete_control(controlId, params::AbstractDict{String, <:Any}; aws_config::Abstr
 
 """
 deregister_account(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterAccount"; aws_config=aws_config)
-deregister_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterAccount", params; aws_config=aws_config)
+deregister_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterAccount", params; aws_config=aws_config)
 
 """
     deregister_organization_admin_account()
@@ -251,7 +251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"adminAccountId"`:  The identifier for the specified administrator account.
 """
 deregister_organization_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount"; aws_config=aws_config)
-deregister_organization_admin_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount", params; aws_config=aws_config)
+deregister_organization_admin_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount", params; aws_config=aws_config)
 
 """
     disassociate_assessment_report_evidence_folder(assessment_id, evidence_folder_id)
@@ -276,7 +276,7 @@ disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, p
 
 """
 get_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/status"; aws_config=aws_config)
-get_account_status(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/status", params; aws_config=aws_config)
+get_account_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/status", params; aws_config=aws_config)
 
 """
     get_assessment(assessment_id)
@@ -364,7 +364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token used to fetch the next set of results.
 """
 get_delegations(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/delegations"; aws_config=aws_config)
-get_delegations(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/delegations", params; aws_config=aws_config)
+get_delegations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/delegations", params; aws_config=aws_config)
 
 """
     get_evidence(assessment_id, control_set_id, evidence_folder_id, evidence_id)
@@ -465,7 +465,7 @@ get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId
 
 """
 get_organization_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount"; aws_config=aws_config)
-get_organization_admin_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount", params; aws_config=aws_config)
+get_organization_admin_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount", params; aws_config=aws_config)
 
 """
     get_services_in_scope()
@@ -475,7 +475,7 @@ get_organization_admin_account(params::AbstractDict{String, Any}; aws_config::Ab
 
 """
 get_services_in_scope(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/services"; aws_config=aws_config)
-get_services_in_scope(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/services", params; aws_config=aws_config)
+get_services_in_scope(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/services", params; aws_config=aws_config)
 
 """
     get_settings(attribute)
@@ -521,7 +521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token used to fetch the next set of results.
 """
 list_assessment_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentReports"; aws_config=aws_config)
-list_assessment_reports(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentReports", params; aws_config=aws_config)
+list_assessment_reports(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessmentReports", params; aws_config=aws_config)
 
 """
     list_assessments()
@@ -536,7 +536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token used to fetch the next set of results.
 """
 list_assessments(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments"; aws_config=aws_config)
-list_assessments(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments", params; aws_config=aws_config)
+list_assessments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/assessments", params; aws_config=aws_config)
 
 """
     list_controls(control_type)
@@ -587,7 +587,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token used to fetch the next set of results.
 """
 list_notifications(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/notifications"; aws_config=aws_config)
-list_notifications(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/notifications", params; aws_config=aws_config)
+list_notifications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("GET", "/notifications", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -614,7 +614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"kmsKey"`:  The AWS KMS key details.
 """
 register_account(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerAccount"; aws_config=aws_config)
-register_account(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerAccount", params; aws_config=aws_config)
+register_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("POST", "/account/registerAccount", params; aws_config=aws_config)
 
 """
     register_organization_admin_account(admin_account_id)
@@ -787,7 +787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Audit Manager sends notifications.
 """
 update_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/settings"; aws_config=aws_config)
-update_settings(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/settings", params; aws_config=aws_config)
+update_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = auditmanager("PUT", "/settings", params; aws_config=aws_config)
 
 """
     validate_assessment_report_integrity(s3_relative_path)

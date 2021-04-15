@@ -305,7 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines"; aws_config=aws_config)
-list_pipelines(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines", params; aws_config=aws_config)
+list_pipelines(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines", params; aws_config=aws_config)
 
 """
     list_presets()
@@ -322,7 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 list_presets(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets"; aws_config=aws_config)
-list_presets(params::AbstractDict{String, Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets", params; aws_config=aws_config)
+list_presets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets", params; aws_config=aws_config)
 
 """
     read_job(id)
