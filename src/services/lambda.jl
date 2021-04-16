@@ -31,7 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this option to avoid modifying a policy that has changed since you last read it.
 """
 add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
-add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config)
+add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config)
 
 """
     add_permission(action, function_name, principal, statement_id)
@@ -81,7 +81,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, an Amazon S3 bucket or Amazon SNS topic.
 """
 add_permission(Action, FunctionName, Principal, StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
-add_permission(Action, FunctionName, Principal, StatementId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config)
+add_permission(Action, FunctionName, Principal, StatementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config)
 
 """
     create_alias(function_name, function_version, name)
@@ -106,7 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoutingConfig"`: The routing configuration of the alias.
 """
 create_alias(FunctionName, FunctionVersion, Name; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name); aws_config=aws_config)
-create_alias(FunctionName, FunctionVersion, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), params)); aws_config=aws_config)
+create_alias(FunctionName, FunctionVersion, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_code_signing_config(allowed_publishers)
@@ -126,7 +126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: Descriptive name for this code signing configuration.
 """
 create_code_signing_config(AllowedPublishers; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}("AllowedPublishers"=>AllowedPublishers); aws_config=aws_config)
-create_code_signing_config(AllowedPublishers, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedPublishers"=>AllowedPublishers), params)); aws_config=aws_config)
+create_code_signing_config(AllowedPublishers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2020-04-22/code-signing-configs/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedPublishers"=>AllowedPublishers), params)); aws_config=aws_config)
 
 """
     create_event_source_mapping(function_name)
@@ -196,7 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The range is between 1 second up to 900 seconds.
 """
 create_event_source_mapping(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}("FunctionName"=>FunctionName); aws_config=aws_config)
-create_event_source_mapping(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionName"=>FunctionName), params)); aws_config=aws_config)
+create_event_source_mapping(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionName"=>FunctionName), params)); aws_config=aws_config)
 
 """
     create_function(code, function_name, role)
@@ -280,7 +280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access resources and the internet through that VPC. For more information, see VPC Settings.
 """
 create_function(Code, FunctionName, Role; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role); aws_config=aws_config)
-create_function(Code, FunctionName, Role, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role), params)); aws_config=aws_config)
+create_function(Code, FunctionName, Role, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role), params)); aws_config=aws_config)
 
 """
     delete_alias(function_name, name)
@@ -297,7 +297,7 @@ Deletes a Lambda function alias.
 
 """
 delete_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
-delete_alias(FunctionName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
+delete_alias(FunctionName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
 
 """
     delete_code_signing_config(code_signing_config_arn)
@@ -312,7 +312,7 @@ if no function is using it.
 
 """
 delete_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
-delete_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
+delete_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
 
 """
     delete_event_source_mapping(uuid)
@@ -327,7 +327,7 @@ state and might not be completely deleted for several seconds.
 
 """
 delete_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
-delete_event_source_mapping(UUID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
+delete_event_source_mapping(UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
 
 """
     delete_function(function_name)
@@ -353,7 +353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by an alias.
 """
 delete_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config)
-delete_function(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config)
+delete_function(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config)
 
 """
     delete_function_code_signing_config(function_name)
@@ -369,7 +369,7 @@ Removes the code signing configuration from the function.
 
 """
 delete_function_code_signing_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config"; aws_config=aws_config)
-delete_function_code_signing_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config)
+delete_function_code_signing_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config)
 
 """
     delete_function_concurrency(function_name)
@@ -386,7 +386,7 @@ Removes a concurrent execution limit from a function.
 
 """
 delete_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency"; aws_config=aws_config)
-delete_function_concurrency(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", params; aws_config=aws_config)
+delete_function_concurrency(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", params; aws_config=aws_config)
 
 """
     delete_function_event_invoke_config(function_name)
@@ -408,7 +408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: A version number or alias name.
 """
 delete_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
-delete_function_event_invoke_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
+delete_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
 
 """
     delete_layer_version(layer_name, version_number)
@@ -424,7 +424,7 @@ functions refer to it.
 
 """
 delete_layer_version(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws_config=aws_config)
-delete_layer_version(LayerName, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config)
+delete_layer_version(LayerName, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config)
 
 """
     delete_provisioned_concurrency_config(function_name, qualifier)
@@ -442,7 +442,7 @@ Deletes the provisioned concurrency configuration for a function.
 
 """
 delete_provisioned_concurrency_config(FunctionName, Qualifier; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws_config=aws_config)
-delete_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config)
+delete_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config)
 
 """
     get_account_settings()
@@ -452,7 +452,7 @@ Retrieves details about your account's limits and usage in an AWS Region.
 
 """
 get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/"; aws_config=aws_config)
-get_account_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/", params; aws_config=aws_config)
+get_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/", params; aws_config=aws_config)
 
 """
     get_alias(function_name, name)
@@ -469,7 +469,7 @@ Returns details about a Lambda function alias.
 
 """
 get_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
-get_alias(FunctionName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
+get_alias(FunctionName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
 
 """
     get_code_signing_config(code_signing_config_arn)
@@ -483,7 +483,7 @@ Returns information about the specified code signing configuration.
 
 """
 get_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
-get_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
+get_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
 
 """
     get_event_source_mapping(uuid)
@@ -497,7 +497,7 @@ the output of ListEventSourceMappings.
 
 """
 get_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
-get_event_source_mapping(UUID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
+get_event_source_mapping(UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
 
 """
     get_function(function_name)
@@ -521,7 +521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   function.
 """
 get_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config)
-get_function(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config)
+get_function(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", params; aws_config=aws_config)
 
 """
     get_function_code_signing_config(function_name)
@@ -537,7 +537,7 @@ Returns the code signing configuration for the specified function.
 
 """
 get_function_code_signing_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config"; aws_config=aws_config)
-get_function_code_signing_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config)
+get_function_code_signing_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-06-30/functions/$(FunctionName)/code-signing-config", params; aws_config=aws_config)
 
 """
     get_function_concurrency(function_name)
@@ -555,7 +555,7 @@ concurrency limit for a function, use PutFunctionConcurrency.
 
 """
 get_function_concurrency(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency"; aws_config=aws_config)
-get_function_concurrency(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", params; aws_config=aws_config)
+get_function_concurrency(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", params; aws_config=aws_config)
 
 """
     get_function_configuration(function_name)
@@ -580,7 +580,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   function.
 """
 get_function_configuration(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config)
-get_function_configuration(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config)
+get_function_configuration(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config)
 
 """
     get_function_event_invoke_config(function_name)
@@ -602,7 +602,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: A version number or alias name.
 """
 get_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
-get_function_event_invoke_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
+get_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
 
 """
     get_layer_version(layer_name, version_number)
@@ -617,7 +617,7 @@ layer archive that's valid for 10 minutes.
 
 """
 get_layer_version(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws_config=aws_config)
-get_layer_version(LayerName, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config)
+get_layer_version(LayerName, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", params; aws_config=aws_config)
 
 """
     get_layer_version_by_arn(arn)
@@ -631,7 +631,7 @@ layer archive that's valid for 10 minutes.
 
 """
 get_layer_version_by_arn(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-get_layer_version_by_arn(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+get_layer_version_by_arn(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
 
 """
     get_layer_version_policy(layer_name, version_number)
@@ -646,7 +646,7 @@ see AddLayerVersionPermission.
 
 """
 get_layer_version_policy(LayerName, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy"; aws_config=aws_config)
-get_layer_version_policy(LayerName, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", params; aws_config=aws_config)
+get_layer_version_policy(LayerName, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", params; aws_config=aws_config)
 
 """
     get_policy(function_name)
@@ -667,7 +667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: Specify a version or alias to get the policy for that resource.
 """
 get_policy(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy"; aws_config=aws_config)
-get_policy(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", params; aws_config=aws_config)
+get_policy(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", params; aws_config=aws_config)
 
 """
     get_provisioned_concurrency_config(function_name, qualifier)
@@ -685,7 +685,7 @@ Retrieves the provisioned concurrency configuration for a function's alias or ve
 
 """
 get_provisioned_concurrency_config(FunctionName, Qualifier; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws_config=aws_config)
-get_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config)
+get_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), params)); aws_config=aws_config)
 
 """
     invoke(function_name)
@@ -739,7 +739,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Log-Type"`: Set to Tail to include the execution log in the response.
 """
 invoke(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations"; aws_config=aws_config)
-invoke(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", params; aws_config=aws_config)
+invoke(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", params; aws_config=aws_config)
 
 """
     invoke_async(function_name, invoke_args)
@@ -757,7 +757,7 @@ invoke(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAW
 
 """
 invoke_async(FunctionName, InvokeArgs; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}("InvokeArgs"=>InvokeArgs); aws_config=aws_config)
-invoke_async(FunctionName, InvokeArgs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvokeArgs"=>InvokeArgs), params)); aws_config=aws_config)
+invoke_async(FunctionName, InvokeArgs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvokeArgs"=>InvokeArgs), params)); aws_config=aws_config)
 
 """
     list_aliases(function_name)
@@ -780,7 +780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: Limit the number of aliases returned.
 """
 list_aliases(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases"; aws_config=aws_config)
-list_aliases(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", params; aws_config=aws_config)
+list_aliases(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", params; aws_config=aws_config)
 
 """
     list_code_signing_configs()
@@ -797,7 +797,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: Maximum number of items to return.
 """
 list_code_signing_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/"; aws_config=aws_config)
-list_code_signing_configs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/", params; aws_config=aws_config)
+list_code_signing_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/", params; aws_config=aws_config)
 
 """
     list_event_source_mappings()
@@ -821,7 +821,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of event source mappings to return.
 """
 list_event_source_mappings(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/"; aws_config=aws_config)
-list_event_source_mappings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/", params; aws_config=aws_config)
+list_event_source_mappings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/", params; aws_config=aws_config)
 
 """
     list_function_event_invoke_configs(function_name)
@@ -844,7 +844,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of configurations to return.
 """
 list_function_event_invoke_configs(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list"; aws_config=aws_config)
-list_function_event_invoke_configs(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", params; aws_config=aws_config)
+list_function_event_invoke_configs(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", params; aws_config=aws_config)
 
 """
     list_functions()
@@ -872,7 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   higher.
 """
 list_functions(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/"; aws_config=aws_config)
-list_functions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/", params; aws_config=aws_config)
+list_functions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/", params; aws_config=aws_config)
 
 """
     list_functions_by_code_signing_config(code_signing_config_arn)
@@ -893,7 +893,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: Maximum number of items to return.
 """
 list_functions_by_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions"; aws_config=aws_config)
-list_functions_by_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions", params; aws_config=aws_config)
+list_functions_by_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)/functions", params; aws_config=aws_config)
 
 """
     list_layer_versions(layer_name)
@@ -913,7 +913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of versions to return.
 """
 list_layer_versions(LayerName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions"; aws_config=aws_config)
-list_layer_versions(LayerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", params; aws_config=aws_config)
+list_layer_versions(LayerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", params; aws_config=aws_config)
 
 """
     list_layers()
@@ -930,7 +930,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of layers to return.
 """
 list_layers(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers"; aws_config=aws_config)
-list_layers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers", params; aws_config=aws_config)
+list_layers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2018-10-31/layers", params; aws_config=aws_config)
 
 """
     list_provisioned_concurrency_configs(function_name)
@@ -952,7 +952,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: Specify a number to limit the number of configurations returned.
 """
 list_provisioned_concurrency_configs(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL"; aws_config=aws_config)
-list_provisioned_concurrency_configs(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", params; aws_config=aws_config)
+list_provisioned_concurrency_configs(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", params; aws_config=aws_config)
 
 """
     list_tags(arn)
@@ -965,7 +965,7 @@ Returns a function's tags. You can also view tags with GetFunction.
 
 """
 list_tags(ARN; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2017-03-31/tags/$(ARN)"; aws_config=aws_config)
-list_tags(ARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2017-03-31/tags/$(ARN)", params; aws_config=aws_config)
+list_tags(ARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2017-03-31/tags/$(ARN)", params; aws_config=aws_config)
 
 """
     list_versions_by_function(function_name)
@@ -987,7 +987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of versions to return.
 """
 list_versions_by_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config)
-list_versions_by_function(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config)
+list_versions_by_function(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config)
 
 """
     publish_layer_version(content, layer_name)
@@ -1011,7 +1011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, https://opensource.org/licenses/MIT.   The full text of the license.
 """
 publish_layer_version(Content, LayerName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}("Content"=>Content); aws_config=aws_config)
-publish_layer_version(Content, LayerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config)
+publish_layer_version(Content, LayerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config)
 
 """
     publish_version(function_name)
@@ -1043,7 +1043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changed since you last updated it.
 """
 publish_version(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config)
-publish_version(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config)
+publish_version(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config)
 
 """
     put_function_code_signing_config(code_signing_config_arn, function_name)
@@ -1063,7 +1063,7 @@ function.
 
 """
 put_function_code_signing_config(CodeSigningConfigArn, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn); aws_config=aws_config)
-put_function_code_signing_config(CodeSigningConfigArn, FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn), params)); aws_config=aws_config)
+put_function_code_signing_config(CodeSigningConfigArn, FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-06-30/functions/$(FunctionName)/code-signing-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeSigningConfigArn"=>CodeSigningConfigArn), params)); aws_config=aws_config)
 
 """
     put_function_concurrency(function_name, reserved_concurrent_executions)
@@ -1090,7 +1090,7 @@ per-function limit. For more information, see Managing Concurrency.
 
 """
 put_function_concurrency(FunctionName, ReservedConcurrentExecutions; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions); aws_config=aws_config)
-put_function_concurrency(FunctionName, ReservedConcurrentExecutions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions), params)); aws_config=aws_config)
+put_function_concurrency(FunctionName, ReservedConcurrentExecutions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions), params)); aws_config=aws_config)
 
 """
     put_function_event_invoke_config(function_name)
@@ -1130,7 +1130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: A version number or alias name.
 """
 put_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
-put_function_event_invoke_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
+put_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
 
 """
     put_provisioned_concurrency_config(function_name, provisioned_concurrent_executions, qualifier)
@@ -1150,7 +1150,7 @@ Adds a provisioned concurrency configuration to a function's alias or version.
 
 """
 put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier); aws_config=aws_config)
-put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier), params)); aws_config=aws_config)
+put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions, Qualifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier), params)); aws_config=aws_config)
 
 """
     remove_layer_version_permission(layer_name, statement_id, version_number)
@@ -1170,7 +1170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this option to avoid modifying a policy that has changed since you last read it.
 """
 remove_layer_version_permission(LayerName, StatementId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)"; aws_config=aws_config)
-remove_layer_version_permission(LayerName, StatementId, VersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", params; aws_config=aws_config)
+remove_layer_version_permission(LayerName, StatementId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", params; aws_config=aws_config)
 
 """
     remove_permission(function_name, statement_id)
@@ -1197,7 +1197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   it.
 """
 remove_permission(FunctionName, StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)"; aws_config=aws_config)
-remove_permission(FunctionName, StatementId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", params; aws_config=aws_config)
+remove_permission(FunctionName, StatementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", params; aws_config=aws_config)
 
 """
     tag_resource(arn, tags)
@@ -1211,7 +1211,7 @@ Adds tags to a function.
 
 """
 tag_resource(ARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(arn, tag_keys)
@@ -1225,7 +1225,7 @@ Removes tags from a function.
 
 """
 untag_resource(ARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ARN, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(ARN, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_alias(function_name, name)
@@ -1249,7 +1249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoutingConfig"`: The routing configuration of the alias.
 """
 update_alias(FunctionName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
-update_alias(FunctionName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
+update_alias(FunctionName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", params; aws_config=aws_config)
 
 """
     update_code_signing_config(code_signing_config_arn)
@@ -1269,7 +1269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: Descriptive name for this code signing configuration.
 """
 update_code_signing_config(CodeSigningConfigArn; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)"; aws_config=aws_config)
-update_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
+update_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2020-04-22/code-signing-configs/$(CodeSigningConfigArn)", params; aws_config=aws_config)
 
 """
     update_event_source_mapping(uuid)
@@ -1325,7 +1325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The range is between 1 second up to 900 seconds.
 """
 update_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
-update_event_source_mapping(UUID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
+update_event_source_mapping(UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
 
 """
     update_function_code(function_name)
@@ -1364,7 +1364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   clients handle the encoding for you.
 """
 update_function_code(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code"; aws_config=aws_config)
-update_function_code(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", params; aws_config=aws_config)
+update_function_code(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", params; aws_config=aws_config)
 
 """
     update_function_configuration(function_name)
@@ -1425,7 +1425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access resources and the internet through that VPC. For more information, see VPC Settings.
 """
 update_function_configuration(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config)
-update_function_configuration(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config)
+update_function_configuration(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config)
 
 """
     update_function_event_invoke_config(function_name)
@@ -1455,4 +1455,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Qualifier"`: A version number or alias name.
 """
 update_function_event_invoke_config(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
-update_function_event_invoke_config(FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)
+update_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", params; aws_config=aws_config)

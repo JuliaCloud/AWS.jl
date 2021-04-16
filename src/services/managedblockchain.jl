@@ -22,7 +22,7 @@ Creates a member within a Managed Blockchain network. Applies only to Hyperledge
 
 """
 create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration); aws_config=aws_config)
-create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration), params)); aws_config=aws_config)
+create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration), params)); aws_config=aws_config)
 
 """
     create_network(client_request_token, framework, framework_version, member_configuration, name, voting_policy)
@@ -56,7 +56,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy); aws_config=aws_config)
-create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), params)); aws_config=aws_config)
+create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), params)); aws_config=aws_config)
 
 """
     create_node(client_request_token, node_configuration, network_id)
@@ -87,7 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 """
 create_node(ClientRequestToken, NodeConfiguration, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws_config=aws_config)
-create_node(ClientRequestToken, NodeConfiguration, networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), params)); aws_config=aws_config)
+create_node(ClientRequestToken, NodeConfiguration, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), params)); aws_config=aws_config)
 
 """
     create_proposal(actions, client_request_token, member_id, network_id)
@@ -123,7 +123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 create_proposal(Actions, ClientRequestToken, MemberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId); aws_config=aws_config)
-create_proposal(Actions, ClientRequestToken, MemberId, networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), params)); aws_config=aws_config)
+create_proposal(Actions, ClientRequestToken, MemberId, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), params)); aws_config=aws_config)
 
 """
     delete_member(member_id, network_id)
@@ -142,7 +142,7 @@ account, the network is deleted also. Applies only to Hyperledger Fabric.
 
 """
 delete_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
-delete_member(memberId, networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config)
+delete_member(memberId, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config)
 
 """
     delete_node(network_id, node_id)
@@ -163,7 +163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Hyperledger Fabric and is required for Hyperledger Fabric.
 """
 delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
-delete_node(networkId, nodeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config)
+delete_node(networkId, nodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config)
 
 """
     get_member(member_id, network_id)
@@ -177,7 +177,7 @@ Returns detailed information about a member. Applies only to Hyperledger Fabric.
 
 """
 get_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
-get_member(memberId, networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config)
+get_member(memberId, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config)
 
 """
     get_network(network_id)
@@ -190,7 +190,7 @@ Returns detailed information about a network. Applies to Hyperledger Fabric and 
 
 """
 get_network(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)"; aws_config=aws_config)
-get_network(networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)", params; aws_config=aws_config)
+get_network(networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)", params; aws_config=aws_config)
 
 """
     get_node(network_id, node_id)
@@ -208,7 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Hyperledger Fabric and is required for Hyperledger Fabric.
 """
 get_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
-get_node(networkId, nodeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config)
+get_node(networkId, nodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config)
 
 """
     get_proposal(network_id, proposal_id)
@@ -222,7 +222,7 @@ Returns detailed information about a proposal. Applies only to Hyperledger Fabri
 
 """
 get_proposal(networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)"; aws_config=aws_config)
-get_proposal(networkId, proposalId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", params; aws_config=aws_config)
+get_proposal(networkId, proposalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", params; aws_config=aws_config)
 
 """
     list_invitations()
@@ -237,7 +237,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations"; aws_config=aws_config)
-list_invitations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations", params; aws_config=aws_config)
+list_invitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/invitations", params; aws_config=aws_config)
 
 """
     list_members(network_id)
@@ -261,7 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status are listed.
 """
 list_members(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members"; aws_config=aws_config)
-list_members(networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members", params; aws_config=aws_config)
+list_members(networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members", params; aws_config=aws_config)
 
 """
     list_networks()
@@ -281,7 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status are listed. Applies only to Hyperledger Fabric.
 """
 list_networks(; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks"; aws_config=aws_config)
-list_networks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks", params; aws_config=aws_config)
+list_networks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks", params; aws_config=aws_config)
 
 """
     list_nodes(network_id)
@@ -303,7 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status are listed.
 """
 list_nodes(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes"; aws_config=aws_config)
-list_nodes(networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes", params; aws_config=aws_config)
+list_nodes(networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes", params; aws_config=aws_config)
 
 """
     list_proposal_votes(network_id, proposal_id)
@@ -322,7 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
 list_proposal_votes(networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes"; aws_config=aws_config)
-list_proposal_votes(networkId, proposalId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", params; aws_config=aws_config)
+list_proposal_votes(networkId, proposalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", params; aws_config=aws_config)
 
 """
     list_proposals(network_id)
@@ -339,7 +339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
 list_proposals(networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals"; aws_config=aws_config)
-list_proposals(networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals", params; aws_config=aws_config)
+list_proposals(networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -356,7 +356,7 @@ Hyperledger Fabric Developer Guide.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     reject_invitation(invitation_id)
@@ -371,7 +371,7 @@ to Hyperledger Fabric.
 
 """
 reject_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)"; aws_config=aws_config)
-reject_invitation(invitationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)", params; aws_config=aws_config)
+reject_invitation(invitationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)", params; aws_config=aws_config)
 
 """
     tag_resource(tags, resource_arn)
@@ -394,7 +394,7 @@ Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
 
 """
 tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(Tags, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -412,7 +412,7 @@ Developer Guide.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_member(member_id, network_id)
@@ -431,7 +431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CloudWatch Logs.
 """
 update_member(memberId, networkId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config)
-update_member(memberId, networkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config)
+update_member(memberId, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config)
 
 """
     update_node(network_id, node_id)
@@ -451,7 +451,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Hyperledger Fabric.
 """
 update_node(networkId, nodeId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config)
-update_node(networkId, nodeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config)
+update_node(networkId, nodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config)
 
 """
     vote_on_proposal(vote, voter_member_id, network_id, proposal_id)
@@ -469,4 +469,4 @@ action. Applies only to Hyperledger Fabric.
 
 """
 vote_on_proposal(Vote, VoterMemberId, networkId, proposalId; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId); aws_config=aws_config)
-vote_on_proposal(Vote, VoterMemberId, networkId, proposalId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId), params)); aws_config=aws_config)
+vote_on_proposal(Vote, VoterMemberId, networkId, proposalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId), params)); aws_config=aws_config)

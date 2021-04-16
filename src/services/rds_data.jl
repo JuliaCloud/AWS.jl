@@ -34,7 +34,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter.
 """
 batch_execute_statement(resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/BatchExecute", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql); aws_config=aws_config)
-batch_execute_statement(resourceArn, secretArn, sql, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/BatchExecute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), params)); aws_config=aws_config)
+batch_execute_statement(resourceArn, secretArn, sql, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/BatchExecute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), params)); aws_config=aws_config)
 
 """
     begin_transaction(resource_arn, secret_arn)
@@ -59,7 +59,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schema"`: The name of the database schema.
 """
 begin_transaction(resourceArn, secretArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/BeginTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn); aws_config=aws_config)
-begin_transaction(resourceArn, secretArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/BeginTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn), params)); aws_config=aws_config)
+begin_transaction(resourceArn, secretArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/BeginTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn), params)); aws_config=aws_config)
 
 """
     commit_transaction(resource_arn, secret_arn, transaction_id)
@@ -74,7 +74,7 @@ Ends a SQL transaction started with the BeginTransaction operation and commits t
 
 """
 commit_transaction(resourceArn, secretArn, transactionId; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/CommitTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId); aws_config=aws_config)
-commit_transaction(resourceArn, secretArn, transactionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/CommitTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), params)); aws_config=aws_config)
+commit_transaction(resourceArn, secretArn, transactionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/CommitTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), params)); aws_config=aws_config)
 
 """
     execute_sql(aws_secret_store_arn, db_cluster_or_instance_arn, sql_statements)
@@ -97,7 +97,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schema"`: The name of the database schema.
 """
 execute_sql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/ExecuteSql", Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements); aws_config=aws_config)
-execute_sql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/ExecuteSql", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements), params)); aws_config=aws_config)
+execute_sql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/ExecuteSql", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements), params)); aws_config=aws_config)
 
 """
     execute_statement(resource_arn, secret_arn, sql)
@@ -134,7 +134,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter.
 """
 execute_statement(resourceArn, secretArn, sql; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/Execute", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql); aws_config=aws_config)
-execute_statement(resourceArn, secretArn, sql, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/Execute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), params)); aws_config=aws_config)
+execute_statement(resourceArn, secretArn, sql, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/Execute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), params)); aws_config=aws_config)
 
 """
     rollback_transaction(resource_arn, secret_arn, transaction_id)
@@ -149,4 +149,4 @@ Performs a rollback of a transaction. Rolling back a transaction cancels its cha
 
 """
 rollback_transaction(resourceArn, secretArn, transactionId; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/RollbackTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId); aws_config=aws_config)
-rollback_transaction(resourceArn, secretArn, transactionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/RollbackTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), params)); aws_config=aws_config)
+rollback_transaction(resourceArn, secretArn, transactionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds_data("POST", "/RollbackTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), params)); aws_config=aws_config)

@@ -60,4 +60,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targeting to perform a/b testing, see Test models in production
 """
 invoke_endpoint(Body, EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_runtime("POST", "/endpoints/$(EndpointName)/invocations", Dict{String, Any}("Body"=>Body); aws_config=aws_config)
-invoke_endpoint(Body, EndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_runtime("POST", "/endpoints/$(EndpointName)/invocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), params)); aws_config=aws_config)
+invoke_endpoint(Body, EndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_runtime("POST", "/endpoints/$(EndpointName)/invocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), params)); aws_config=aws_config)

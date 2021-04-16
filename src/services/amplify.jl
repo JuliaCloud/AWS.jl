@@ -44,7 +44,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  The tag for an Amplify app.
 """
 create_app(name; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_app(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+create_app(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
     create_backend_environment(app_id, environment_name)
@@ -62,7 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stackName"`:  The AWS CloudFormation stack name of a backend environment.
 """
 create_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}("environmentName"=>environmentName); aws_config=aws_config)
-create_backend_environment(appId, environmentName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config)
+create_backend_environment(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config)
 
 """
     create_branch(app_id, branch_name)
@@ -99,7 +99,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ttl"`:  The content Time To Live (TTL) for the website in seconds.
 """
 create_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}("branchName"=>branchName); aws_config=aws_config)
-create_branch(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), params)); aws_config=aws_config)
+create_branch(appId, branchName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), params)); aws_config=aws_config)
 
 """
     create_deployment(app_id, branch_name)
@@ -120,7 +120,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the zipped files.
 """
 create_deployment(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments"; aws_config=aws_config)
-create_deployment(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments", params; aws_config=aws_config)
+create_deployment(appId, branchName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments", params; aws_config=aws_config)
 
 """
     create_domain_association(app_id, domain_name, sub_domain_settings)
@@ -143,7 +143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enableAutoSubDomain"`:  Enables the automated creation of subdomains for branches.
 """
 create_domain_association(appId, domainName, subDomainSettings; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings); aws_config=aws_config)
-create_domain_association(appId, domainName, subDomainSettings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings), params)); aws_config=aws_config)
+create_domain_association(appId, domainName, subDomainSettings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings), params)); aws_config=aws_config)
 
 """
     create_webhook(app_id, branch_name)
@@ -160,7 +160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`:  The description for a webhook.
 """
 create_webhook(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}("branchName"=>branchName); aws_config=aws_config)
-create_webhook(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), params)); aws_config=aws_config)
+create_webhook(appId, branchName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), params)); aws_config=aws_config)
 
 """
     delete_app(app_id)
@@ -173,7 +173,7 @@ create_webhook(appId, branchName, params::AbstractDict{String, <:Any}; aws_confi
 
 """
 delete_app(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)"; aws_config=aws_config)
-delete_app(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)", params; aws_config=aws_config)
+delete_app(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)", params; aws_config=aws_config)
 
 """
     delete_backend_environment(app_id, environment_name)
@@ -187,7 +187,7 @@ delete_app(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 
 """
 delete_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)"; aws_config=aws_config)
-delete_backend_environment(appId, environmentName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)", params; aws_config=aws_config)
+delete_backend_environment(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)", params; aws_config=aws_config)
 
 """
     delete_branch(app_id, branch_name)
@@ -201,7 +201,7 @@ delete_backend_environment(appId, environmentName, params::AbstractDict{String, 
 
 """
 delete_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)"; aws_config=aws_config)
-delete_branch(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config)
+delete_branch(appId, branchName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config)
 
 """
     delete_domain_association(app_id, domain_name)
@@ -215,7 +215,7 @@ delete_branch(appId, branchName, params::AbstractDict{String, <:Any}; aws_config
 
 """
 delete_domain_association(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)"; aws_config=aws_config)
-delete_domain_association(appId, domainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)", params; aws_config=aws_config)
+delete_domain_association(appId, domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)", params; aws_config=aws_config)
 
 """
     delete_job(app_id, branch_name, job_id)
@@ -230,7 +230,7 @@ delete_domain_association(appId, domainName, params::AbstractDict{String, <:Any}
 
 """
 delete_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)"; aws_config=aws_config)
-delete_job(appId, branchName, jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", params; aws_config=aws_config)
+delete_job(appId, branchName, jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", params; aws_config=aws_config)
 
 """
     delete_webhook(webhook_id)
@@ -243,7 +243,7 @@ delete_job(appId, branchName, jobId, params::AbstractDict{String, <:Any}; aws_co
 
 """
 delete_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/webhooks/$(webhookId)"; aws_config=aws_config)
-delete_webhook(webhookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/webhooks/$(webhookId)", params; aws_config=aws_config)
+delete_webhook(webhookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/webhooks/$(webhookId)", params; aws_config=aws_config)
 
 """
     generate_access_logs(app_id, domain_name)
@@ -263,7 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inclusive of the start time.
 """
 generate_access_logs(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}("domainName"=>domainName); aws_config=aws_config)
-generate_access_logs(appId, domainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config)
+generate_access_logs(appId, domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), params)); aws_config=aws_config)
 
 """
     get_app(app_id)
@@ -276,7 +276,7 @@ generate_access_logs(appId, domainName, params::AbstractDict{String, <:Any}; aws
 
 """
 get_app(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)"; aws_config=aws_config)
-get_app(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)", params; aws_config=aws_config)
+get_app(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)", params; aws_config=aws_config)
 
 """
     get_artifact_url(artifact_id)
@@ -289,7 +289,7 @@ get_app(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfi
 
 """
 get_artifact_url(artifactId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/artifacts/$(artifactId)"; aws_config=aws_config)
-get_artifact_url(artifactId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/artifacts/$(artifactId)", params; aws_config=aws_config)
+get_artifact_url(artifactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/artifacts/$(artifactId)", params; aws_config=aws_config)
 
 """
     get_backend_environment(app_id, environment_name)
@@ -303,7 +303,7 @@ get_artifact_url(artifactId, params::AbstractDict{String, <:Any}; aws_config::Ab
 
 """
 get_backend_environment(appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)"; aws_config=aws_config)
-get_backend_environment(appId, environmentName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)", params; aws_config=aws_config)
+get_backend_environment(appId, environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)", params; aws_config=aws_config)
 
 """
     get_branch(app_id, branch_name)
@@ -317,7 +317,7 @@ get_backend_environment(appId, environmentName, params::AbstractDict{String, <:A
 
 """
 get_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)"; aws_config=aws_config)
-get_branch(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config)
+get_branch(appId, branchName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config)
 
 """
     get_domain_association(app_id, domain_name)
@@ -331,7 +331,7 @@ get_branch(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::A
 
 """
 get_domain_association(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains/$(domainName)"; aws_config=aws_config)
-get_domain_association(appId, domainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains/$(domainName)", params; aws_config=aws_config)
+get_domain_association(appId, domainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains/$(domainName)", params; aws_config=aws_config)
 
 """
     get_job(app_id, branch_name, job_id)
@@ -346,7 +346,7 @@ get_domain_association(appId, domainName, params::AbstractDict{String, <:Any}; a
 
 """
 get_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)"; aws_config=aws_config)
-get_job(appId, branchName, jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", params; aws_config=aws_config)
+get_job(appId, branchName, jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", params; aws_config=aws_config)
 
 """
     get_webhook(webhook_id)
@@ -359,7 +359,7 @@ get_job(appId, branchName, jobId, params::AbstractDict{String, <:Any}; aws_confi
 
 """
 get_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/webhooks/$(webhookId)"; aws_config=aws_config)
-get_webhook(webhookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/webhooks/$(webhookId)", params; aws_config=aws_config)
+get_webhook(webhookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/webhooks/$(webhookId)", params; aws_config=aws_config)
 
 """
     list_apps()
@@ -374,7 +374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result. Pass its value in another request to retrieve more entries.
 """
 list_apps(; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps"; aws_config=aws_config)
-list_apps(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps", params; aws_config=aws_config)
+list_apps(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps", params; aws_config=aws_config)
 
 """
     list_artifacts(app_id, branch_name, job_id)
@@ -395,7 +395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   artifacts.
 """
 list_artifacts(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts"; aws_config=aws_config)
-list_artifacts(appId, branchName, jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts", params; aws_config=aws_config)
+list_artifacts(appId, branchName, jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts", params; aws_config=aws_config)
 
 """
     list_backend_environments(app_id)
@@ -415,7 +415,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   here to list more backend environments.
 """
 list_backend_environments(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments"; aws_config=aws_config)
-list_backend_environments(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments", params; aws_config=aws_config)
+list_backend_environments(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments", params; aws_config=aws_config)
 
 """
     list_branches(app_id)
@@ -434,7 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   branches.
 """
 list_branches(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches"; aws_config=aws_config)
-list_branches(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches", params; aws_config=aws_config)
+list_branches(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches", params; aws_config=aws_config)
 
 """
     list_domain_associations(app_id)
@@ -453,7 +453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   projects.
 """
 list_domain_associations(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains"; aws_config=aws_config)
-list_domain_associations(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains", params; aws_config=aws_config)
+list_domain_associations(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains", params; aws_config=aws_config)
 
 """
     list_jobs(app_id, branch_name)
@@ -473,7 +473,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   steps.
 """
 list_jobs(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs"; aws_config=aws_config)
-list_jobs(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs", params; aws_config=aws_config)
+list_jobs(appId, branchName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -486,7 +486,7 @@ list_jobs(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::Ab
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     list_webhooks(app_id)
@@ -505,7 +505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more webhooks.
 """
 list_webhooks(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/webhooks"; aws_config=aws_config)
-list_webhooks(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/webhooks", params; aws_config=aws_config)
+list_webhooks(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/webhooks", params; aws_config=aws_config)
 
 """
     start_deployment(app_id, branch_name)
@@ -526,7 +526,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accessible and downloads a single .zip file.
 """
 start_deployment(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start"; aws_config=aws_config)
-start_deployment(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start", params; aws_config=aws_config)
+start_deployment(appId, branchName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start", params; aws_config=aws_config)
 
 """
     start_job(app_id, branch_name, job_type)
@@ -553,7 +553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobReason"`:  A descriptive reason for starting this job.
 """
 start_job(appId, branchName, jobType; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}("jobType"=>jobType); aws_config=aws_config)
-start_job(appId, branchName, jobType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobType"=>jobType), params)); aws_config=aws_config)
+start_job(appId, branchName, jobType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobType"=>jobType), params)); aws_config=aws_config)
 
 """
     stop_job(app_id, branch_name, job_id)
@@ -568,7 +568,7 @@ start_job(appId, branchName, jobType, params::AbstractDict{String, <:Any}; aws_c
 
 """
 stop_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop"; aws_config=aws_config)
-stop_job(appId, branchName, jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop", params; aws_config=aws_config)
+stop_job(appId, branchName, jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -582,7 +582,7 @@ stop_job(appId, branchName, jobId, params::AbstractDict{String, <:Any}; aws_conf
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -596,7 +596,7 @@ tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config:
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_app(app_id)
@@ -637,7 +637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"repository"`:  The name of the repository for an Amplify app
 """
 update_app(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)"; aws_config=aws_config)
-update_app(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)", params; aws_config=aws_config)
+update_app(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)", params; aws_config=aws_config)
 
 """
     update_branch(app_id, branch_name)
@@ -673,7 +673,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ttl"`:  The content Time to Live (TTL) for the website in seconds.
 """
 update_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)"; aws_config=aws_config)
-update_branch(appId, branchName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config)
+update_branch(appId, branchName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)", params; aws_config=aws_config)
 
 """
     update_domain_association(app_id, domain_name, sub_domain_settings)
@@ -695,7 +695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enableAutoSubDomain"`:  Enables the automated creation of subdomains for branches.
 """
 update_domain_association(appId, domainName, subDomainSettings; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}("subDomainSettings"=>subDomainSettings); aws_config=aws_config)
-update_domain_association(appId, domainName, subDomainSettings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subDomainSettings"=>subDomainSettings), params)); aws_config=aws_config)
+update_domain_association(appId, domainName, subDomainSettings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subDomainSettings"=>subDomainSettings), params)); aws_config=aws_config)
 
 """
     update_webhook(webhook_id)
@@ -712,4 +712,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`:  The description for a webhook.
 """
 update_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/webhooks/$(webhookId)"; aws_config=aws_config)
-update_webhook(webhookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/webhooks/$(webhookId)", params; aws_config=aws_config)
+update_webhook(webhookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplify("POST", "/webhooks/$(webhookId)", params; aws_config=aws_config)

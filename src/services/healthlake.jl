@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Synthea.
 """
 create_fhirdatastore(DatastoreTypeVersion; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("CreateFHIRDatastore", Dict{String, Any}("DatastoreTypeVersion"=>DatastoreTypeVersion, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_fhirdatastore(DatastoreTypeVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("CreateFHIRDatastore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreTypeVersion"=>DatastoreTypeVersion, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_fhirdatastore(DatastoreTypeVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("CreateFHIRDatastore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreTypeVersion"=>DatastoreTypeVersion, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_fhirdatastore()
@@ -36,7 +36,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DatastoreId"`:  The AWS-generated ID for the Data Store to be deleted.
 """
 delete_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DeleteFHIRDatastore"; aws_config=aws_config)
-delete_fhirdatastore(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DeleteFHIRDatastore", params; aws_config=aws_config)
+delete_fhirdatastore(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DeleteFHIRDatastore", params; aws_config=aws_config)
 
 """
     describe_fhirdatastore()
@@ -52,7 +52,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ‘CreateFHIRDatastore’ output.
 """
 describe_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRDatastore"; aws_config=aws_config)
-describe_fhirdatastore(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRDatastore", params; aws_config=aws_config)
+describe_fhirdatastore(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRDatastore", params; aws_config=aws_config)
 
 """
     describe_fhirexport_job(datastore_id, job_id)
@@ -68,7 +68,7 @@ of the job.
 
 """
 describe_fhirexport_job(DatastoreId, JobId; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRExportJob", Dict{String, Any}("DatastoreId"=>DatastoreId, "JobId"=>JobId); aws_config=aws_config)
-describe_fhirexport_job(DatastoreId, JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreId"=>DatastoreId, "JobId"=>JobId), params)); aws_config=aws_config)
+describe_fhirexport_job(DatastoreId, JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreId"=>DatastoreId, "JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_fhirimport_job(datastore_id, job_id)
@@ -83,7 +83,7 @@ of the job.
 
 """
 describe_fhirimport_job(DatastoreId, JobId; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRImportJob", Dict{String, Any}("DatastoreId"=>DatastoreId, "JobId"=>JobId); aws_config=aws_config)
-describe_fhirimport_job(DatastoreId, JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreId"=>DatastoreId, "JobId"=>JobId), params)); aws_config=aws_config)
+describe_fhirimport_job(DatastoreId, JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("DescribeFHIRImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreId"=>DatastoreId, "JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     list_fhirdatastores()
@@ -100,7 +100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Fetches the next page of Data Stores when results are paginated.
 """
 list_fhirdatastores(; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRDatastores"; aws_config=aws_config)
-list_fhirdatastores(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRDatastores", params; aws_config=aws_config)
+list_fhirdatastores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRDatastores", params; aws_config=aws_config)
 
 """
     start_fhirexport_job(client_token, data_access_role_arn, datastore_id, output_data_config)
@@ -121,7 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobName"`: The user generated name for an export job.
 """
 start_fhirexport_job(ClientToken, DataAccessRoleArn, DatastoreId, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRExportJob", Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "OutputDataConfig"=>OutputDataConfig); aws_config=aws_config)
-start_fhirexport_job(ClientToken, DataAccessRoleArn, DatastoreId, OutputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "OutputDataConfig"=>OutputDataConfig), params)); aws_config=aws_config)
+start_fhirexport_job(ClientToken, DataAccessRoleArn, DatastoreId, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "OutputDataConfig"=>OutputDataConfig), params)); aws_config=aws_config)
 
 """
     start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config)
@@ -142,4 +142,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobName"`: The name of the FHIR Import job in the StartFHIRImport job request.
 """
 start_fhirimport_job(ClientToken, DataAccessRoleArn, DatastoreId, InputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRImportJob", Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "InputDataConfig"=>InputDataConfig); aws_config=aws_config)
-start_fhirimport_job(ClientToken, DataAccessRoleArn, DatastoreId, InputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "InputDataConfig"=>InputDataConfig), params)); aws_config=aws_config)
+start_fhirimport_job(ClientToken, DataAccessRoleArn, DatastoreId, InputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "InputDataConfig"=>InputDataConfig), params)); aws_config=aws_config)

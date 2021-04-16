@@ -17,7 +17,7 @@ MediaConvert.
 
 """
 associate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-associate_certificate(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+associate_certificate(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/certificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
 
 """
     cancel_job(id)
@@ -30,7 +30,7 @@ Permanently cancel a job. Once you have canceled a job, you can't start it again
 
 """
 cancel_job(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)"; aws_config=aws_config)
-cancel_job(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)", params; aws_config=aws_config)
+cancel_job(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)", params; aws_config=aws_config)
 
 """
     create_job(role, settings)
@@ -87,7 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use standard AWS tags.
 """
 create_job(role, settings; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_job(role, settings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_job(role, settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("role"=>role, "settings"=>settings, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_job_template(name, settings)
@@ -126,7 +126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair or with only a key.
 """
 create_job_template(name, settings; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}("name"=>name, "settings"=>settings); aws_config=aws_config)
-create_job_template(name, settings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), params)); aws_config=aws_config)
+create_job_template(name, settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/jobTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), params)); aws_config=aws_config)
 
 """
     create_preset(name, settings)
@@ -147,7 +147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair or with only a key.
 """
 create_preset(name, settings; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}("name"=>name, "settings"=>settings); aws_config=aws_config)
-create_preset(name, settings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), params)); aws_config=aws_config)
+create_preset(name, settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "settings"=>settings), params)); aws_config=aws_config)
 
 """
     create_queue(name)
@@ -176,7 +176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair or with only a key.
 """
 create_queue(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_queue(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+create_queue(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
     delete_job_template(name)
@@ -189,7 +189,7 @@ Permanently delete a job template you have created.
 
 """
 delete_job_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
-delete_job_template(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config)
+delete_job_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config)
 
 """
     delete_preset(name)
@@ -202,7 +202,7 @@ Permanently delete a preset you have created.
 
 """
 delete_preset(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
-delete_preset(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)", params; aws_config=aws_config)
+delete_preset(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)", params; aws_config=aws_config)
 
 """
     delete_queue(name)
@@ -215,7 +215,7 @@ Permanently delete a queue you have created.
 
 """
 delete_queue(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
-delete_queue(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)", params; aws_config=aws_config)
+delete_queue(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)", params; aws_config=aws_config)
 
 """
     describe_endpoints()
@@ -236,7 +236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request the next batch of endpoints.
 """
 describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints"; aws_config=aws_config)
-describe_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints", params; aws_config=aws_config)
+describe_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/endpoints", params; aws_config=aws_config)
 
 """
     disassociate_certificate(arn)
@@ -251,7 +251,7 @@ Removes an association between the Amazon Resource Name (ARN) of an AWS Certific
 
 """
 disassociate_certificate(arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)"; aws_config=aws_config)
-disassociate_certificate(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)", params; aws_config=aws_config)
+disassociate_certificate(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)", params; aws_config=aws_config)
 
 """
     get_job(id)
@@ -264,7 +264,7 @@ Retrieve the JSON for a specific completed transcoding job.
 
 """
 get_job(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)"; aws_config=aws_config)
-get_job(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)", params; aws_config=aws_config)
+get_job(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs/$(id)", params; aws_config=aws_config)
 
 """
     get_job_template(name)
@@ -277,7 +277,7 @@ Retrieve the JSON for a specific job template.
 
 """
 get_job_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
-get_job_template(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config)
+get_job_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config)
 
 """
     get_preset(name)
@@ -290,7 +290,7 @@ Retrieve the JSON for a specific preset.
 
 """
 get_preset(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
-get_preset(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)", params; aws_config=aws_config)
+get_preset(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets/$(name)", params; aws_config=aws_config)
 
 """
     get_queue(name)
@@ -303,7 +303,7 @@ Retrieve the JSON for a specific queue.
 
 """
 get_queue(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
-get_queue(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)", params; aws_config=aws_config)
+get_queue(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues/$(name)", params; aws_config=aws_config)
 
 """
     list_job_templates()
@@ -328,7 +328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates"; aws_config=aws_config)
-list_job_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates", params; aws_config=aws_config)
+list_job_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobTemplates", params; aws_config=aws_config)
 
 """
     list_jobs()
@@ -351,7 +351,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or ERROR.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/jobs", params; aws_config=aws_config)
 
 """
     list_presets()
@@ -376,7 +376,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 list_presets(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets"; aws_config=aws_config)
-list_presets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets", params; aws_config=aws_config)
+list_presets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/presets", params; aws_config=aws_config)
 
 """
     list_queues()
@@ -399,7 +399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are sorted in ASCENDING or DESCENDING order. Default varies by resource.
 """
 list_queues(; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues"; aws_config=aws_config)
-list_queues(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues", params; aws_config=aws_config)
+list_queues(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/queues", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(arn)
@@ -413,7 +413,7 @@ Retrieve the tags for a MediaConvert resource.
 
 """
 list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)"; aws_config=aws_config)
-list_tags_for_resource(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)", params; aws_config=aws_config)
+list_tags_for_resource(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("GET", "/2017-08-29/tags/$(arn)", params; aws_config=aws_config)
 
 """
     tag_resource(arn, tags)
@@ -431,7 +431,7 @@ https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
 
 """
 tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}("arn"=>arn, "tags"=>tags); aws_config=aws_config)
-tag_resource(arn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "tags"=>tags), params)); aws_config=aws_config)
+tag_resource(arn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("POST", "/2017-08-29/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(arn)
@@ -450,7 +450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagKeys"`: The keys of the tags that you want to remove from the resource.
 """
 untag_resource(arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)"; aws_config=aws_config)
-untag_resource(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)", params; aws_config=aws_config)
+untag_resource(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)", params; aws_config=aws_config)
 
 """
     update_job_template(name)
@@ -482,7 +482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your job to the time it completes the transcode or encounters an error.
 """
 update_job_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)"; aws_config=aws_config)
-update_job_template(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config)
+update_job_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)", params; aws_config=aws_config)
 
 """
     update_preset(name)
@@ -500,7 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"settings"`: Settings for preset
 """
 update_preset(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)"; aws_config=aws_config)
-update_preset(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)", params; aws_config=aws_config)
+update_preset(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/presets/$(name)", params; aws_config=aws_config)
 
 """
     update_queue(name)
@@ -524,4 +524,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the queue continue to run until they finish or result in an error.
 """
 update_queue(name; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)"; aws_config=aws_config)
-update_queue(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)", params; aws_config=aws_config)
+update_queue(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconvert("PUT", "/2017-08-29/queues/$(name)", params; aws_config=aws_config)

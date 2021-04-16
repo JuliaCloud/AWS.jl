@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to assign to the channel.
 """
 create_channel(Outputs, PlaybackMode, channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/channel/$(channelName)", Dict{String, Any}("Outputs"=>Outputs, "PlaybackMode"=>PlaybackMode); aws_config=aws_config)
-create_channel(Outputs, PlaybackMode, channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/channel/$(channelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs, "PlaybackMode"=>PlaybackMode), params)); aws_config=aws_config)
+create_channel(Outputs, PlaybackMode, channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/channel/$(channelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs, "PlaybackMode"=>PlaybackMode), params)); aws_config=aws_config)
 
 """
     create_program(schedule_configuration, source_location_name, vod_source_name, channel_name, program_name)
@@ -41,7 +41,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AdBreaks"`: The ad break configuration settings.
 """
 create_program(ScheduleConfiguration, SourceLocationName, VodSourceName, channelName, programName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/channel/$(channelName)/program/$(programName)", Dict{String, Any}("ScheduleConfiguration"=>ScheduleConfiguration, "SourceLocationName"=>SourceLocationName, "VodSourceName"=>VodSourceName); aws_config=aws_config)
-create_program(ScheduleConfiguration, SourceLocationName, VodSourceName, channelName, programName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/channel/$(channelName)/program/$(programName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleConfiguration"=>ScheduleConfiguration, "SourceLocationName"=>SourceLocationName, "VodSourceName"=>VodSourceName), params)); aws_config=aws_config)
+create_program(ScheduleConfiguration, SourceLocationName, VodSourceName, channelName, programName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/channel/$(channelName)/program/$(programName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScheduleConfiguration"=>ScheduleConfiguration, "SourceLocationName"=>SourceLocationName, "VodSourceName"=>VodSourceName), params)); aws_config=aws_config)
 
 """
     create_source_location(http_configuration, source_location_name)
@@ -62,7 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to assign to the source location.
 """
 create_source_location(HttpConfiguration, sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/sourceLocation/$(sourceLocationName)", Dict{String, Any}("HttpConfiguration"=>HttpConfiguration); aws_config=aws_config)
-create_source_location(HttpConfiguration, sourceLocationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/sourceLocation/$(sourceLocationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HttpConfiguration"=>HttpConfiguration), params)); aws_config=aws_config)
+create_source_location(HttpConfiguration, sourceLocationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/sourceLocation/$(sourceLocationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HttpConfiguration"=>HttpConfiguration), params)); aws_config=aws_config)
 
 """
     create_vod_source(http_package_configurations, source_location_name, vod_source_name)
@@ -81,7 +81,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to assign to the VOD source.
 """
 create_vod_source(HttpPackageConfigurations, sourceLocationName, vodSourceName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", Dict{String, Any}("HttpPackageConfigurations"=>HttpPackageConfigurations); aws_config=aws_config)
-create_vod_source(HttpPackageConfigurations, sourceLocationName, vodSourceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HttpPackageConfigurations"=>HttpPackageConfigurations), params)); aws_config=aws_config)
+create_vod_source(HttpPackageConfigurations, sourceLocationName, vodSourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HttpPackageConfigurations"=>HttpPackageConfigurations), params)); aws_config=aws_config)
 
 """
     delete_channel(channel_name)
@@ -94,7 +94,7 @@ Deletes a channel. You must stop the channel before it can be deleted.
 
 """
 delete_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)"; aws_config=aws_config)
-delete_channel(channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)", params; aws_config=aws_config)
+delete_channel(channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)", params; aws_config=aws_config)
 
 """
     delete_channel_policy(channel_name)
@@ -107,7 +107,7 @@ Deletes a channel's IAM policy.
 
 """
 delete_channel_policy(channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)/policy"; aws_config=aws_config)
-delete_channel_policy(channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)/policy", params; aws_config=aws_config)
+delete_channel_policy(channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)/policy", params; aws_config=aws_config)
 
 """
     delete_playback_configuration(name)
@@ -120,7 +120,7 @@ Deletes the playback configuration for the specified name.
 
 """
 delete_playback_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/playbackConfiguration/$(Name)"; aws_config=aws_config)
-delete_playback_configuration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/playbackConfiguration/$(Name)", params; aws_config=aws_config)
+delete_playback_configuration(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/playbackConfiguration/$(Name)", params; aws_config=aws_config)
 
 """
     delete_program(channel_name, program_name)
@@ -134,7 +134,7 @@ Deletes a specific program on a specific channel.
 
 """
 delete_program(channelName, programName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)/program/$(programName)"; aws_config=aws_config)
-delete_program(channelName, programName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)/program/$(programName)", params; aws_config=aws_config)
+delete_program(channelName, programName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/channel/$(channelName)/program/$(programName)", params; aws_config=aws_config)
 
 """
     delete_source_location(source_location_name)
@@ -147,7 +147,7 @@ Deletes a source location on a specific channel.
 
 """
 delete_source_location(sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/sourceLocation/$(sourceLocationName)"; aws_config=aws_config)
-delete_source_location(sourceLocationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/sourceLocation/$(sourceLocationName)", params; aws_config=aws_config)
+delete_source_location(sourceLocationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/sourceLocation/$(sourceLocationName)", params; aws_config=aws_config)
 
 """
     delete_vod_source(source_location_name, vod_source_name)
@@ -161,7 +161,7 @@ Deletes a specific VOD source in a specific source location.
 
 """
 delete_vod_source(sourceLocationName, vodSourceName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)"; aws_config=aws_config)
-delete_vod_source(sourceLocationName, vodSourceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", params; aws_config=aws_config)
+delete_vod_source(sourceLocationName, vodSourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", params; aws_config=aws_config)
 
 """
     describe_channel(channel_name)
@@ -174,7 +174,7 @@ Describes the properties of a specific channel.
 
 """
 describe_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)"; aws_config=aws_config)
-describe_channel(channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)", params; aws_config=aws_config)
+describe_channel(channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)", params; aws_config=aws_config)
 
 """
     describe_program(channel_name, program_name)
@@ -188,7 +188,7 @@ Retrieves the properties of the requested program.
 
 """
 describe_program(channelName, programName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/program/$(programName)"; aws_config=aws_config)
-describe_program(channelName, programName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/program/$(programName)", params; aws_config=aws_config)
+describe_program(channelName, programName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/program/$(programName)", params; aws_config=aws_config)
 
 """
     describe_source_location(source_location_name)
@@ -201,7 +201,7 @@ Retrieves the properties of the requested source location.
 
 """
 describe_source_location(sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)"; aws_config=aws_config)
-describe_source_location(sourceLocationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)", params; aws_config=aws_config)
+describe_source_location(sourceLocationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)", params; aws_config=aws_config)
 
 """
     describe_vod_source(source_location_name, vod_source_name)
@@ -215,7 +215,7 @@ Provides details about a specific VOD source in a specific source location.
 
 """
 describe_vod_source(sourceLocationName, vodSourceName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)"; aws_config=aws_config)
-describe_vod_source(sourceLocationName, vodSourceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", params; aws_config=aws_config)
+describe_vod_source(sourceLocationName, vodSourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", params; aws_config=aws_config)
 
 """
     get_channel_policy(channel_name)
@@ -228,7 +228,7 @@ Retrieves information about a channel's IAM policy.
 
 """
 get_channel_policy(channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/policy"; aws_config=aws_config)
-get_channel_policy(channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/policy", params; aws_config=aws_config)
+get_channel_policy(channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/policy", params; aws_config=aws_config)
 
 """
     get_channel_schedule(channel_name)
@@ -249,7 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 """
 get_channel_schedule(channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/schedule"; aws_config=aws_config)
-get_channel_schedule(channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/schedule", params; aws_config=aws_config)
+get_channel_schedule(channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channel/$(channelName)/schedule", params; aws_config=aws_config)
 
 """
     get_playback_configuration(name)
@@ -262,7 +262,7 @@ Returns the playback configuration for the specified name.
 
 """
 get_playback_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfiguration/$(Name)"; aws_config=aws_config)
-get_playback_configuration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfiguration/$(Name)", params; aws_config=aws_config)
+get_playback_configuration(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfiguration/$(Name)", params; aws_config=aws_config)
 
 """
     list_channels()
@@ -278,7 +278,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channels"; aws_config=aws_config)
-list_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channels", params; aws_config=aws_config)
+list_channels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/channels", params; aws_config=aws_config)
 
 """
     list_playback_configurations()
@@ -297,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum allowed. Use the token to fetch the next page of results.
 """
 list_playback_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations"; aws_config=aws_config)
-list_playback_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations", params; aws_config=aws_config)
+list_playback_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations", params; aws_config=aws_config)
 
 """
     list_source_locations()
@@ -313,7 +313,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 """
 list_source_locations(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocations"; aws_config=aws_config)
-list_source_locations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocations", params; aws_config=aws_config)
+list_source_locations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocations", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -327,7 +327,7 @@ Returns a list of the tags assigned to the specified playback configuration reso
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
 
 """
     list_vod_sources(source_location_name)
@@ -346,7 +346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 """
 list_vod_sources(sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)/vodSources"; aws_config=aws_config)
-list_vod_sources(sourceLocationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)/vodSources", params; aws_config=aws_config)
+list_vod_sources(sourceLocationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/sourceLocation/$(sourceLocationName)/vodSources", params; aws_config=aws_config)
 
 """
     put_channel_policy(policy, channel_name)
@@ -360,7 +360,7 @@ Creates an IAM policy for the channel.
 
 """
 put_channel_policy(Policy, channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
-put_channel_policy(Policy, channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config)
+put_channel_policy(Policy, channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config)
 
 """
     put_playback_configuration()
@@ -411,7 +411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to assign to the playback configuration.
 """
 put_playback_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration"; aws_config=aws_config)
-put_playback_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration", params; aws_config=aws_config)
+put_playback_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration", params; aws_config=aws_config)
 
 """
     start_channel(channel_name)
@@ -424,7 +424,7 @@ Starts a specific channel.
 
 """
 start_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/start"; aws_config=aws_config)
-start_channel(channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/start", params; aws_config=aws_config)
+start_channel(channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/start", params; aws_config=aws_config)
 
 """
     stop_channel(channel_name)
@@ -437,7 +437,7 @@ Stops a specific channel.
 
 """
 stop_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/stop"; aws_config=aws_config)
-stop_channel(channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/stop", params; aws_config=aws_config)
+stop_channel(channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)/stop", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -453,7 +453,7 @@ tags to add.
 
 """
 tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(ResourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -470,7 +470,7 @@ more tags to remove.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_channel(outputs, channel_name)
@@ -484,7 +484,7 @@ Updates an existing channel.
 
 """
 update_channel(Outputs, channelName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)", Dict{String, Any}("Outputs"=>Outputs); aws_config=aws_config)
-update_channel(Outputs, channelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs), params)); aws_config=aws_config)
+update_channel(Outputs, channelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/channel/$(channelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs), params)); aws_config=aws_config)
 
 """
     update_source_location(http_configuration, source_location_name)
@@ -504,7 +504,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that serves segments.
 """
 update_source_location(HttpConfiguration, sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/sourceLocation/$(sourceLocationName)", Dict{String, Any}("HttpConfiguration"=>HttpConfiguration); aws_config=aws_config)
-update_source_location(HttpConfiguration, sourceLocationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/sourceLocation/$(sourceLocationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HttpConfiguration"=>HttpConfiguration), params)); aws_config=aws_config)
+update_source_location(HttpConfiguration, sourceLocationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/sourceLocation/$(sourceLocationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HttpConfiguration"=>HttpConfiguration), params)); aws_config=aws_config)
 
 """
     update_vod_source(http_package_configurations, source_location_name, vod_source_name)
@@ -520,4 +520,4 @@ Updates a specific VOD source in a specific source location.
 
 """
 update_vod_source(HttpPackageConfigurations, sourceLocationName, vodSourceName; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", Dict{String, Any}("HttpPackageConfigurations"=>HttpPackageConfigurations); aws_config=aws_config)
-update_vod_source(HttpPackageConfigurations, sourceLocationName, vodSourceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HttpPackageConfigurations"=>HttpPackageConfigurations), params)); aws_config=aws_config)
+update_vod_source(HttpPackageConfigurations, sourceLocationName, vodSourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("PUT", "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HttpPackageConfigurations"=>HttpPackageConfigurations), params)); aws_config=aws_config)

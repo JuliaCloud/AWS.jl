@@ -15,7 +15,7 @@ Create a CLI token to use Airflow CLI.
 
 """
 create_cli_token(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/clitoken/$(Name)"; aws_config=aws_config)
-create_cli_token(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/clitoken/$(Name)", params; aws_config=aws_config)
+create_cli_token(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/clitoken/$(Name)", params; aws_config=aws_config)
 
 """
     create_environment(dag_s3_path, execution_role_arn, name, network_configuration, source_bucket_arn)
@@ -82,7 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maintenance updates on your environment.
 """
 create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn); aws_config=aws_config)
-create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn), params)); aws_config=aws_config)
+create_environment(DagS3Path, ExecutionRoleArn, Name, NetworkConfiguration, SourceBucketArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PUT", "/environments/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DagS3Path"=>DagS3Path, "ExecutionRoleArn"=>ExecutionRoleArn, "NetworkConfiguration"=>NetworkConfiguration, "SourceBucketArn"=>SourceBucketArn), params)); aws_config=aws_config)
 
 """
     create_web_login_token(name)
@@ -95,7 +95,7 @@ Create a JWT token to be used to login to Airflow Web UI with claims based Authe
 
 """
 create_web_login_token(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/webtoken/$(Name)"; aws_config=aws_config)
-create_web_login_token(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/webtoken/$(Name)", params; aws_config=aws_config)
+create_web_login_token(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/webtoken/$(Name)", params; aws_config=aws_config)
 
 """
     delete_environment(name)
@@ -108,7 +108,7 @@ Delete an existing environment.
 
 """
 delete_environment(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/environments/$(Name)"; aws_config=aws_config)
-delete_environment(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/environments/$(Name)", params; aws_config=aws_config)
+delete_environment(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/environments/$(Name)", params; aws_config=aws_config)
 
 """
     get_environment(name)
@@ -121,7 +121,7 @@ Get details of an existing environment.
 
 """
 get_environment(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments/$(Name)"; aws_config=aws_config)
-get_environment(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments/$(Name)", params; aws_config=aws_config)
+get_environment(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments/$(Name)", params; aws_config=aws_config)
 
 """
     list_environments()
@@ -135,7 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The Next Token when listing MWAA environments.
 """
 list_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments"; aws_config=aws_config)
-list_environments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments", params; aws_config=aws_config)
+list_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/environments", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -148,7 +148,7 @@ List the tags for MWAA environments.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
 
 """
     publish_metrics(environment_name, metric_data)
@@ -163,7 +163,7 @@ An operation for publishing metrics from the customers to the Ops plane.
 
 """
 publish_metrics(EnvironmentName, MetricData; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}("MetricData"=>MetricData); aws_config=aws_config)
-publish_metrics(EnvironmentName, MetricData, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData), params)); aws_config=aws_config)
+publish_metrics(EnvironmentName, MetricData, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/metrics/environments/$(EnvironmentName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -177,7 +177,7 @@ Add tag to the MWAA environments.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -191,7 +191,7 @@ Remove a tag from the MWAA environments.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_environment(name)
@@ -230,4 +230,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon MWAA environment.
 """
 update_environment(Name; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)"; aws_config=aws_config)
-update_environment(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)", params; aws_config=aws_config)
+update_environment(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mwaa("PATCH", "/environments/$(Name)", params; aws_config=aws_config)

@@ -25,7 +25,7 @@ enables for the alias, you receive a BadRequestException.
 
 """
 delete_session(botAliasId, botId, localeId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("DELETE", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)"; aws_config=aws_config)
-delete_session(botAliasId, botId, localeId, sessionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("DELETE", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", params; aws_config=aws_config)
+delete_session(botAliasId, botId, localeId, sessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("DELETE", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", params; aws_config=aws_config)
 
 """
     get_session(bot_alias_id, bot_id, locale_id, session_id)
@@ -45,7 +45,7 @@ receive a BadRequestException.
 
 """
 get_session(botAliasId, botId, localeId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("GET", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)"; aws_config=aws_config)
-get_session(botAliasId, botId, localeId, sessionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("GET", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", params; aws_config=aws_config)
+get_session(botAliasId, botId, localeId, sessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("GET", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", params; aws_config=aws_config)
 
 """
     put_session(bot_alias_id, bot_id, locale_id, session_id, session_state)
@@ -75,7 +75,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create any request attributes with the prefix x-amz-lex:.
 """
 put_session(botAliasId, botId, localeId, sessionId, sessionState; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", Dict{String, Any}("sessionState"=>sessionState); aws_config=aws_config)
-put_session(botAliasId, botId, localeId, sessionId, sessionState, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionState"=>sessionState), params)); aws_config=aws_config)
+put_session(botAliasId, botId, localeId, sessionId, sessionState, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sessionState"=>sessionState), params)); aws_config=aws_config)
 
 """
     recognize_text(bot_alias_id, bot_id, locale_id, session_id, text)
@@ -101,7 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionState"`: The current state of the dialog between the user and the bot.
 """
 recognize_text(botAliasId, botId, localeId, sessionId, text; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text", Dict{String, Any}("text"=>text); aws_config=aws_config)
-recognize_text(botAliasId, botId, localeId, sessionId, text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("text"=>text), params)); aws_config=aws_config)
+recognize_text(botAliasId, botId, localeId, sessionId, text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("text"=>text), params)); aws_config=aws_config)
 
 """
     recognize_utterance(content-_type, bot_alias_id, bot_id, locale_id, session_id)
@@ -146,4 +146,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user.
 """
 recognize_utterance(Content_Type, botAliasId, botId, localeId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance", Dict{String, Any}("headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
-recognize_utterance(Content_Type, botAliasId, botId, localeId, sessionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)
+recognize_utterance(Content_Type, botAliasId, botId, localeId, sessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_runtime_v2("POST", "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)

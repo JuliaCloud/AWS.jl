@@ -19,7 +19,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ingressAccessLogs"`:
 """
 configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/configure_logs"; aws_config=aws_config)
-configure_logs(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/configure_logs", params; aws_config=aws_config)
+configure_logs(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/configure_logs", params; aws_config=aws_config)
 
 """
     create_channel(id)
@@ -38,7 +38,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:
 """
 create_channel(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/channels", Dict{String, Any}("id"=>id); aws_config=aws_config)
-create_channel(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+create_channel(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
     create_harvest_job(end_time, id, origin_endpoint_id, s3_destination, start_time)
@@ -59,7 +59,7 @@ This cannot be changed after the HarvestJob is submitted.
 
 """
 create_harvest_job(endTime, id, originEndpointId, s3Destination, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/harvest_jobs", Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime); aws_config=aws_config)
-create_harvest_job(endTime, id, originEndpointId, s3Destination, startTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/harvest_jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime), params)); aws_config=aws_config)
+create_harvest_job(endTime, id, originEndpointId, s3Destination, startTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/harvest_jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime), params)); aws_config=aws_config)
 
 """
     create_origin_endpoint(channel_id, id)
@@ -102,7 +102,7 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
   OriginEndpoint.
 """
 create_origin_endpoint(channelId, id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/origin_endpoints", Dict{String, Any}("channelId"=>channelId, "id"=>id); aws_config=aws_config)
-create_origin_endpoint(channelId, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/origin_endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "id"=>id), params)); aws_config=aws_config)
+create_origin_endpoint(channelId, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/origin_endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "id"=>id), params)); aws_config=aws_config)
 
 """
     delete_channel(id)
@@ -115,7 +115,7 @@ Deletes an existing Channel.
 
 """
 delete_channel(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/channels/$(id)"; aws_config=aws_config)
-delete_channel(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/channels/$(id)", params; aws_config=aws_config)
+delete_channel(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/channels/$(id)", params; aws_config=aws_config)
 
 """
     delete_origin_endpoint(id)
@@ -128,7 +128,7 @@ Deletes an existing OriginEndpoint.
 
 """
 delete_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/origin_endpoints/$(id)"; aws_config=aws_config)
-delete_origin_endpoint(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/origin_endpoints/$(id)", params; aws_config=aws_config)
+delete_origin_endpoint(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/origin_endpoints/$(id)", params; aws_config=aws_config)
 
 """
     describe_channel(id)
@@ -141,7 +141,7 @@ Gets details about a Channel.
 
 """
 describe_channel(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels/$(id)"; aws_config=aws_config)
-describe_channel(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels/$(id)", params; aws_config=aws_config)
+describe_channel(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels/$(id)", params; aws_config=aws_config)
 
 """
     describe_harvest_job(id)
@@ -154,7 +154,7 @@ Gets details about an existing HarvestJob.
 
 """
 describe_harvest_job(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs/$(id)"; aws_config=aws_config)
-describe_harvest_job(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs/$(id)", params; aws_config=aws_config)
+describe_harvest_job(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs/$(id)", params; aws_config=aws_config)
 
 """
     describe_origin_endpoint(id)
@@ -167,7 +167,7 @@ Gets details about an existing OriginEndpoint.
 
 """
 describe_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints/$(id)"; aws_config=aws_config)
-describe_origin_endpoint(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints/$(id)", params; aws_config=aws_config)
+describe_origin_endpoint(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints/$(id)", params; aws_config=aws_config)
 
 """
     list_channels()
@@ -181,7 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 list_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels"; aws_config=aws_config)
-list_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels", params; aws_config=aws_config)
+list_channels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/channels", params; aws_config=aws_config)
 
 """
     list_harvest_jobs()
@@ -199,7 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 list_harvest_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs"; aws_config=aws_config)
-list_harvest_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs", params; aws_config=aws_config)
+list_harvest_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/harvest_jobs", params; aws_config=aws_config)
 
 """
     list_origin_endpoints()
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
 list_origin_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints"; aws_config=aws_config)
-list_origin_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints", params; aws_config=aws_config)
+list_origin_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/origin_endpoints", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource-arn)
@@ -228,7 +228,7 @@ list_origin_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractA
 
 """
 list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
-list_tags_for_resource(resource_arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/tags/$(resource-arn)", params; aws_config=aws_config)
+list_tags_for_resource(resource_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("GET", "/tags/$(resource-arn)", params; aws_config=aws_config)
 
 """
     rotate_channel_credentials(id)
@@ -242,7 +242,7 @@ deprecated. Please use RotateIngestEndpointCredentials instead
 
 """
 rotate_channel_credentials(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/credentials"; aws_config=aws_config)
-rotate_channel_credentials(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/credentials", params; aws_config=aws_config)
+rotate_channel_credentials(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/credentials", params; aws_config=aws_config)
 
 """
     rotate_ingest_endpoint_credentials(id, ingest_endpoint_id)
@@ -256,7 +256,7 @@ Rotate the IngestEndpoint's username and password, as specified by the IngestEnd
 
 """
 rotate_ingest_endpoint_credentials(id, ingest_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials"; aws_config=aws_config)
-rotate_ingest_endpoint_credentials(id, ingest_endpoint_id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials", params; aws_config=aws_config)
+rotate_ingest_endpoint_credentials(id, ingest_endpoint_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials", params; aws_config=aws_config)
 
 """
     tag_resource(resource-arn, tags)
@@ -270,7 +270,7 @@ rotate_ingest_endpoint_credentials(id, ingest_endpoint_id, params::AbstractDict{
 
 """
 tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resource_arn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resource_arn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource-arn, tag_keys)
@@ -284,7 +284,7 @@ tag_resource(resource_arn, tags, params::AbstractDict{String, <:Any}; aws_config
 
 """
 untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resource_arn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resource_arn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_channel(id)
@@ -300,7 +300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A short text description of the Channel.
 """
 update_channel(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)"; aws_config=aws_config)
-update_channel(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)", params; aws_config=aws_config)
+update_channel(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/channels/$(id)", params; aws_config=aws_config)
 
 """
     update_origin_endpoint(id)
@@ -337,4 +337,4 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
   OriginEndpoint.
 """
 update_origin_endpoint(id; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/origin_endpoints/$(id)"; aws_config=aws_config)
-update_origin_endpoint(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/origin_endpoints/$(id)", params; aws_config=aws_config)
+update_origin_endpoint(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediapackage("PUT", "/origin_endpoints/$(id)", params; aws_config=aws_config)

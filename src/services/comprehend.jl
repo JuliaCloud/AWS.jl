@@ -18,7 +18,7 @@ languages that Amazon Comprehend can detect, see Amazon Comprehend Supported Lan
 
 """
 batch_detect_dominant_language(TextList; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectDominantLanguage", Dict{String, Any}("TextList"=>TextList); aws_config=aws_config)
-batch_detect_dominant_language(TextList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectDominantLanguage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TextList"=>TextList), params)); aws_config=aws_config)
+batch_detect_dominant_language(TextList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectDominantLanguage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TextList"=>TextList), params)); aws_config=aws_config)
 
 """
     batch_detect_entities(language_code, text_list)
@@ -36,7 +36,7 @@ them. For more information about named entities, see how-entities
 
 """
 batch_detect_entities(LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectEntities", Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList); aws_config=aws_config)
-batch_detect_entities(LanguageCode, TextList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config)
+batch_detect_entities(LanguageCode, TextList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config)
 
 """
     batch_detect_key_phrases(language_code, text_list)
@@ -53,7 +53,7 @@ Detects the key noun phrases found in a batch of documents.
 
 """
 batch_detect_key_phrases(LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectKeyPhrases", Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList); aws_config=aws_config)
-batch_detect_key_phrases(LanguageCode, TextList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectKeyPhrases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config)
+batch_detect_key_phrases(LanguageCode, TextList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectKeyPhrases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config)
 
 """
     batch_detect_sentiment(language_code, text_list)
@@ -71,7 +71,7 @@ POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
 
 """
 batch_detect_sentiment(LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectSentiment", Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList); aws_config=aws_config)
-batch_detect_sentiment(LanguageCode, TextList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectSentiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config)
+batch_detect_sentiment(LanguageCode, TextList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectSentiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config)
 
 """
     batch_detect_syntax(language_code, text_list)
@@ -91,7 +91,7 @@ the document and returns information about them. For more information, see how-s
 
 """
 batch_detect_syntax(LanguageCode, TextList; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectSyntax", Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList); aws_config=aws_config)
-batch_detect_syntax(LanguageCode, TextList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectSyntax", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config)
+batch_detect_syntax(LanguageCode, TextList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("BatchDetectSyntax", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "TextList"=>TextList), params)); aws_config=aws_config)
 
 """
     classify_document(endpoint_arn, text)
@@ -106,7 +106,7 @@ using a previously created and trained custom model and an endpoint.
 
 """
 classify_document(EndpointArn, Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ClassifyDocument", Dict{String, Any}("EndpointArn"=>EndpointArn, "Text"=>Text); aws_config=aws_config)
-classify_document(EndpointArn, Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ClassifyDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "Text"=>Text), params)); aws_config=aws_config)
+classify_document(EndpointArn, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ClassifyDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "Text"=>Text), params)); aws_config=aws_config)
 
 """
     contains_pii_entities(language_code, text)
@@ -123,7 +123,7 @@ number, or phone number.
 
 """
 contains_pii_entities(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ContainsPiiEntities", Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text); aws_config=aws_config)
-contains_pii_entities(LanguageCode, Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ContainsPiiEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
+contains_pii_entities(LanguageCode, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ContainsPiiEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
 
 """
     create_document_classifier(data_access_role_arn, document_classifier_name, input_data_config, language_code)
@@ -176,7 +176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 create_document_classifier(DataAccessRoleArn, DocumentClassifierName, InputDataConfig, LanguageCode; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateDocumentClassifier", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DocumentClassifierName"=>DocumentClassifierName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_document_classifier(DataAccessRoleArn, DocumentClassifierName, InputDataConfig, LanguageCode, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DocumentClassifierName"=>DocumentClassifierName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_document_classifier(DataAccessRoleArn, DocumentClassifierName, InputDataConfig, LanguageCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DocumentClassifierName"=>DocumentClassifierName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_endpoint(desired_inference_units, endpoint_name, model_arn)
@@ -207,7 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to an endpoint to indicate its use by the sales department.
 """
 create_endpoint(DesiredInferenceUnits, EndpointName, ModelArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateEndpoint", Dict{String, Any}("DesiredInferenceUnits"=>DesiredInferenceUnits, "EndpointName"=>EndpointName, "ModelArn"=>ModelArn, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_endpoint(DesiredInferenceUnits, EndpointName, ModelArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredInferenceUnits"=>DesiredInferenceUnits, "EndpointName"=>EndpointName, "ModelArn"=>ModelArn, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_endpoint(DesiredInferenceUnits, EndpointName, ModelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredInferenceUnits"=>DesiredInferenceUnits, "EndpointName"=>EndpointName, "ModelArn"=>ModelArn, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_entity_recognizer(data_access_role_arn, input_data_config, language_code, recognizer_name)
@@ -253,7 +253,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 create_entity_recognizer(DataAccessRoleArn, InputDataConfig, LanguageCode, RecognizerName; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateEntityRecognizer", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "RecognizerName"=>RecognizerName, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_entity_recognizer(DataAccessRoleArn, InputDataConfig, LanguageCode, RecognizerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "RecognizerName"=>RecognizerName, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_entity_recognizer(DataAccessRoleArn, InputDataConfig, LanguageCode, RecognizerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("CreateEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "RecognizerName"=>RecognizerName, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_document_classifier(document_classifier_arn)
@@ -271,7 +271,7 @@ removed, the classifier disappears from your account and is no longer available 
 
 """
 delete_document_classifier(DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteDocumentClassifier", Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn); aws_config=aws_config)
-delete_document_classifier(DocumentClassifierArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config)
+delete_document_classifier(DocumentClassifierArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config)
 
 """
     delete_endpoint(endpoint_arn)
@@ -285,7 +285,7 @@ be deleted in order for the model to be deleted.
 
 """
 delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config)
-delete_endpoint(EndpointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config)
+delete_endpoint(EndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config)
 
 """
     delete_entity_recognizer(entity_recognizer_arn)
@@ -303,7 +303,7 @@ the recognizer disappears from your account and is no longer available for use.
 
 """
 delete_entity_recognizer(EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteEntityRecognizer", Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn); aws_config=aws_config)
-delete_entity_recognizer(EntityRecognizerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config)
+delete_entity_recognizer(EntityRecognizerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DeleteEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config)
 
 """
     describe_document_classification_job(job_id)
@@ -318,7 +318,7 @@ get the status of a classification job.
 
 """
 describe_document_classification_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDocumentClassificationJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_document_classification_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDocumentClassificationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_document_classification_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDocumentClassificationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_document_classifier(document_classifier_arn)
@@ -332,7 +332,7 @@ Gets the properties associated with a document classifier.
 
 """
 describe_document_classifier(DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDocumentClassifier", Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn); aws_config=aws_config)
-describe_document_classifier(DocumentClassifierArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config)
+describe_document_classifier(DocumentClassifierArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config)
 
 """
     describe_dominant_language_detection_job(job_id)
@@ -347,7 +347,7 @@ to get the status of a detection job.
 
 """
 describe_dominant_language_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDominantLanguageDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_dominant_language_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_dominant_language_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_endpoint(endpoint_arn)
@@ -361,7 +361,7 @@ status of an endpoint.
 
 """
 describe_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config)
-describe_endpoint(EndpointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config)
+describe_endpoint(EndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), params)); aws_config=aws_config)
 
 """
     describe_entities_detection_job(job_id)
@@ -376,7 +376,7 @@ the status of a detection job.
 
 """
 describe_entities_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEntitiesDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_entities_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_entities_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_entity_recognizer(entity_recognizer_arn)
@@ -391,7 +391,7 @@ training data, recognizer metadata, metrics, and so on.
 
 """
 describe_entity_recognizer(EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEntityRecognizer", Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn); aws_config=aws_config)
-describe_entity_recognizer(EntityRecognizerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config)
+describe_entity_recognizer(EntityRecognizerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config)
 
 """
     describe_events_detection_job(job_id)
@@ -404,7 +404,7 @@ Gets the status and details of an events detection job.
 
 """
 describe_events_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_events_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_events_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_key_phrases_detection_job(job_id)
@@ -419,7 +419,7 @@ the status of a detection job.
 
 """
 describe_key_phrases_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeKeyPhrasesDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_key_phrases_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_key_phrases_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_pii_entities_detection_job(job_id)
@@ -434,7 +434,7 @@ this operation to get the job status.
 
 """
 describe_pii_entities_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribePiiEntitiesDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_pii_entities_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribePiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_pii_entities_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribePiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_sentiment_detection_job(job_id)
@@ -449,7 +449,7 @@ the status of a detection job.
 
 """
 describe_sentiment_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeSentimentDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_sentiment_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_sentiment_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_topics_detection_job(job_id)
@@ -463,7 +463,7 @@ status of a detection job.
 
 """
 describe_topics_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeTopicsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_topics_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeTopicsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_topics_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DescribeTopicsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     detect_dominant_language(text)
@@ -478,7 +478,7 @@ Comprehend can detect, see Amazon Comprehend Supported Languages.
 
 """
 detect_dominant_language(Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectDominantLanguage", Dict{String, Any}("Text"=>Text); aws_config=aws_config)
-detect_dominant_language(Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectDominantLanguage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config)
+detect_dominant_language(Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectDominantLanguage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config)
 
 """
     detect_entities(text)
@@ -505,7 +505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   here.
 """
 detect_entities(Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectEntities", Dict{String, Any}("Text"=>Text); aws_config=aws_config)
-detect_entities(Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config)
+detect_entities(Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config)
 
 """
     detect_key_phrases(language_code, text)
@@ -521,7 +521,7 @@ Detects the key noun phrases found in the text.
 
 """
 detect_key_phrases(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectKeyPhrases", Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text); aws_config=aws_config)
-detect_key_phrases(LanguageCode, Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectKeyPhrases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
+detect_key_phrases(LanguageCode, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectKeyPhrases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
 
 """
     detect_pii_entities(language_code, text)
@@ -537,7 +537,7 @@ and returns information about them.
 
 """
 detect_pii_entities(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectPiiEntities", Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text); aws_config=aws_config)
-detect_pii_entities(LanguageCode, Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectPiiEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
+detect_pii_entities(LanguageCode, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectPiiEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
 
 """
     detect_sentiment(language_code, text)
@@ -554,7 +554,7 @@ MIXED, or NEGATIVE).
 
 """
 detect_sentiment(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectSentiment", Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text); aws_config=aws_config)
-detect_sentiment(LanguageCode, Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectSentiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
+detect_sentiment(LanguageCode, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectSentiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
 
 """
     detect_syntax(language_code, text)
@@ -572,7 +572,7 @@ information, how-syntax.
 
 """
 detect_syntax(LanguageCode, Text; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectSyntax", Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text); aws_config=aws_config)
-detect_syntax(LanguageCode, Text, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectSyntax", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
+detect_syntax(LanguageCode, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("DetectSyntax", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Text"=>Text), params)); aws_config=aws_config)
 
 """
     list_document_classification_jobs()
@@ -589,7 +589,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_document_classification_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDocumentClassificationJobs"; aws_config=aws_config)
-list_document_classification_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDocumentClassificationJobs", params; aws_config=aws_config)
+list_document_classification_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDocumentClassificationJobs", params; aws_config=aws_config)
 
 """
     list_document_classifiers()
@@ -606,7 +606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_document_classifiers(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDocumentClassifiers"; aws_config=aws_config)
-list_document_classifiers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDocumentClassifiers", params; aws_config=aws_config)
+list_document_classifiers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDocumentClassifiers", params; aws_config=aws_config)
 
 """
     list_dominant_language_detection_jobs()
@@ -623,7 +623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_dominant_language_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDominantLanguageDetectionJobs"; aws_config=aws_config)
-list_dominant_language_detection_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDominantLanguageDetectionJobs", params; aws_config=aws_config)
+list_dominant_language_detection_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListDominantLanguageDetectionJobs", params; aws_config=aws_config)
 
 """
     list_endpoints()
@@ -640,7 +640,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEndpoints"; aws_config=aws_config)
-list_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEndpoints", params; aws_config=aws_config)
+list_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEndpoints", params; aws_config=aws_config)
 
 """
     list_entities_detection_jobs()
@@ -657,7 +657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_entities_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEntitiesDetectionJobs"; aws_config=aws_config)
-list_entities_detection_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEntitiesDetectionJobs", params; aws_config=aws_config)
+list_entities_detection_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEntitiesDetectionJobs", params; aws_config=aws_config)
 
 """
     list_entity_recognizers()
@@ -677,7 +677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_entity_recognizers(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEntityRecognizers"; aws_config=aws_config)
-list_entity_recognizers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEntityRecognizers", params; aws_config=aws_config)
+list_entity_recognizers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEntityRecognizers", params; aws_config=aws_config)
 
 """
     list_events_detection_jobs()
@@ -694,7 +694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_events_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs"; aws_config=aws_config)
-list_events_detection_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs", params; aws_config=aws_config)
+list_events_detection_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListEventsDetectionJobs", params; aws_config=aws_config)
 
 """
     list_key_phrases_detection_jobs()
@@ -711,7 +711,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_key_phrases_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListKeyPhrasesDetectionJobs"; aws_config=aws_config)
-list_key_phrases_detection_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListKeyPhrasesDetectionJobs", params; aws_config=aws_config)
+list_key_phrases_detection_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListKeyPhrasesDetectionJobs", params; aws_config=aws_config)
 
 """
     list_pii_entities_detection_jobs()
@@ -728,7 +728,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_pii_entities_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListPiiEntitiesDetectionJobs"; aws_config=aws_config)
-list_pii_entities_detection_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListPiiEntitiesDetectionJobs", params; aws_config=aws_config)
+list_pii_entities_detection_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListPiiEntitiesDetectionJobs", params; aws_config=aws_config)
 
 """
     list_sentiment_detection_jobs()
@@ -745,7 +745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_sentiment_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListSentimentDetectionJobs"; aws_config=aws_config)
-list_sentiment_detection_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListSentimentDetectionJobs", params; aws_config=aws_config)
+list_sentiment_detection_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListSentimentDetectionJobs", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -759,7 +759,7 @@ Lists all tags associated with a given Amazon Comprehend resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     list_topics_detection_jobs()
@@ -776,7 +776,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Identifies the next page of results to return.
 """
 list_topics_detection_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListTopicsDetectionJobs"; aws_config=aws_config)
-list_topics_detection_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListTopicsDetectionJobs", params; aws_config=aws_config)
+list_topics_detection_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("ListTopicsDetectionJobs", params; aws_config=aws_config)
 
 """
     start_document_classification_job(data_access_role_arn, document_classifier_arn, input_data_config, output_data_config)
@@ -809,7 +809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 start_document_classification_job(DataAccessRoleArn, DocumentClassifierArn, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartDocumentClassificationJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DocumentClassifierArn"=>DocumentClassifierArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_document_classification_job(DataAccessRoleArn, DocumentClassifierArn, InputDataConfig, OutputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartDocumentClassificationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DocumentClassifierArn"=>DocumentClassifierArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_document_classification_job(DataAccessRoleArn, DocumentClassifierArn, InputDataConfig, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartDocumentClassificationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DocumentClassifierArn"=>DocumentClassifierArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_dominant_language_detection_job(data_access_role_arn, input_data_config, output_data_config)
@@ -843,7 +843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see Amazon VPC.
 """
 start_dominant_language_detection_job(DataAccessRoleArn, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartDominantLanguageDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_dominant_language_detection_job(DataAccessRoleArn, InputDataConfig, OutputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_dominant_language_detection_job(DataAccessRoleArn, InputDataConfig, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_entities_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config)
@@ -887,7 +887,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 start_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartEntitiesDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_events_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config, target_event_types)
@@ -910,7 +910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobName"`: The identifier of the events detection job.
 """
 start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_events_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, TargetEventTypes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "TargetEventTypes"=>TargetEventTypes, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_key_phrases_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config)
@@ -946,7 +946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 start_key_phrases_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartKeyPhrasesDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_key_phrases_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_key_phrases_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_pii_entities_detection_job(data_access_role_arn, input_data_config, language_code, mode, output_data_config)
@@ -974,7 +974,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
 """
 start_pii_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, Mode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartPiiEntitiesDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "Mode"=>Mode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_pii_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, Mode, OutputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartPiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "Mode"=>Mode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_pii_entities_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, Mode, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartPiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "Mode"=>Mode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_sentiment_detection_job(data_access_role_arn, input_data_config, language_code, output_data_config)
@@ -1010,7 +1010,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 start_sentiment_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartSentimentDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_sentiment_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_sentiment_detection_job(DataAccessRoleArn, InputDataConfig, LanguageCode, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_topics_detection_job(data_access_role_arn, input_data_config, output_data_config)
@@ -1047,7 +1047,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon VPC.
 """
 start_topics_detection_job(DataAccessRoleArn, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartTopicsDetectionJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_topics_detection_job(DataAccessRoleArn, InputDataConfig, OutputDataConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartTopicsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_topics_detection_job(DataAccessRoleArn, InputDataConfig, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StartTopicsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     stop_dominant_language_detection_job(job_id)
@@ -1066,7 +1066,7 @@ the output location.
 
 """
 stop_dominant_language_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopDominantLanguageDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-stop_dominant_language_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+stop_dominant_language_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopDominantLanguageDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     stop_entities_detection_job(job_id)
@@ -1085,7 +1085,7 @@ output location.
 
 """
 stop_entities_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopEntitiesDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-stop_entities_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+stop_entities_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     stop_events_detection_job(job_id)
@@ -1098,7 +1098,7 @@ Stops an events detection job in progress.
 
 """
 stop_events_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-stop_events_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+stop_events_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopEventsDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     stop_key_phrases_detection_job(job_id)
@@ -1117,7 +1117,7 @@ output location.
 
 """
 stop_key_phrases_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopKeyPhrasesDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-stop_key_phrases_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+stop_key_phrases_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopKeyPhrasesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     stop_pii_entities_detection_job(job_id)
@@ -1130,7 +1130,7 @@ Stops a PII entities detection job in progress.
 
 """
 stop_pii_entities_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopPiiEntitiesDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-stop_pii_entities_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopPiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+stop_pii_entities_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopPiiEntitiesDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     stop_sentiment_detection_job(job_id)
@@ -1149,7 +1149,7 @@ the output location.
 
 """
 stop_sentiment_detection_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopSentimentDetectionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-stop_sentiment_detection_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+stop_sentiment_detection_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopSentimentDetectionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     stop_training_document_classifier(document_classifier_arn)
@@ -1167,7 +1167,7 @@ training job is stopped and put into the STOPPED state and the service sends bac
 
 """
 stop_training_document_classifier(DocumentClassifierArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopTrainingDocumentClassifier", Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn); aws_config=aws_config)
-stop_training_document_classifier(DocumentClassifierArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopTrainingDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config)
+stop_training_document_classifier(DocumentClassifierArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopTrainingDocumentClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentClassifierArn"=>DocumentClassifierArn), params)); aws_config=aws_config)
 
 """
     stop_training_entity_recognizer(entity_recognizer_arn)
@@ -1185,7 +1185,7 @@ HTTP 200 response with an empty HTTP body.
 
 """
 stop_training_entity_recognizer(EntityRecognizerArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopTrainingEntityRecognizer", Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn); aws_config=aws_config)
-stop_training_entity_recognizer(EntityRecognizerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopTrainingEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config)
+stop_training_entity_recognizer(EntityRecognizerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("StopTrainingEntityRecognizer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityRecognizerArn"=>EntityRecognizerArn), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -1204,7 +1204,7 @@ department.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1222,7 +1222,7 @@ Removes a specific tag associated with an Amazon Comprehend resource.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_endpoint(desired_inference_units, endpoint_arn)
@@ -1238,4 +1238,4 @@ Updates information about the specified endpoint.
 
 """
 update_endpoint(DesiredInferenceUnits, EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("UpdateEndpoint", Dict{String, Any}("DesiredInferenceUnits"=>DesiredInferenceUnits, "EndpointArn"=>EndpointArn); aws_config=aws_config)
-update_endpoint(DesiredInferenceUnits, EndpointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("UpdateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredInferenceUnits"=>DesiredInferenceUnits, "EndpointArn"=>EndpointArn), params)); aws_config=aws_config)
+update_endpoint(DesiredInferenceUnits, EndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = comprehend("UpdateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredInferenceUnits"=>DesiredInferenceUnits, "EndpointArn"=>EndpointArn), params)); aws_config=aws_config)

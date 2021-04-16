@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A set of tags (key-value pairs) that you want to associate with this channel.
 """
 create_signaling_channel(ChannelName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/createSignalingChannel", Dict{String, Any}("ChannelName"=>ChannelName); aws_config=aws_config)
-create_signaling_channel(ChannelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/createSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelName"=>ChannelName), params)); aws_config=aws_config)
+create_signaling_channel(ChannelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/createSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelName"=>ChannelName), params)); aws_config=aws_config)
 
 """
     create_stream(stream_name)
@@ -62,7 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pair (the value is optional).
 """
 create_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/createStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-create_stream(StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/createStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
+create_stream(StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/createStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     delete_signaling_channel(channel_arn)
@@ -82,7 +82,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListSignalingChannels API operations.
 """
 delete_signaling_channel(ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/deleteSignalingChannel", Dict{String, Any}("ChannelARN"=>ChannelARN); aws_config=aws_config)
-delete_signaling_channel(ChannelARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/deleteSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config)
+delete_signaling_channel(ChannelARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/deleteSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config)
 
 """
     delete_stream(stream_arn)
@@ -107,7 +107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checked before deleting the stream.
 """
 delete_stream(StreamARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/deleteStream", Dict{String, Any}("StreamARN"=>StreamARN); aws_config=aws_config)
-delete_stream(StreamARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/deleteStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamARN"=>StreamARN), params)); aws_config=aws_config)
+delete_stream(StreamARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/deleteStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamARN"=>StreamARN), params)); aws_config=aws_config)
 
 """
     describe_signaling_channel()
@@ -122,7 +122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChannelName"`: The name of the signaling channel that you want to describe.
 """
 describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeSignalingChannel"; aws_config=aws_config)
-describe_signaling_channel(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeSignalingChannel", params; aws_config=aws_config)
+describe_signaling_channel(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeSignalingChannel", params; aws_config=aws_config)
 
 """
     describe_stream()
@@ -137,7 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream.
 """
 describe_stream(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeStream"; aws_config=aws_config)
-describe_stream(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeStream", params; aws_config=aws_config)
+describe_stream(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/describeStream", params; aws_config=aws_config)
 
 """
     get_data_endpoint(apiname)
@@ -161,7 +161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify either this parameter or a StreamARN in the request.
 """
 get_data_endpoint(APIName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/getDataEndpoint", Dict{String, Any}("APIName"=>APIName); aws_config=aws_config)
-get_data_endpoint(APIName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/getDataEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APIName"=>APIName), params)); aws_config=aws_config)
+get_data_endpoint(APIName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/getDataEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APIName"=>APIName), params)); aws_config=aws_config)
 
 """
     get_signaling_channel_endpoint(channel_arn)
@@ -187,7 +187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration for the SINGLE_MASTER channel type.
 """
 get_signaling_channel_endpoint(ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/getSignalingChannelEndpoint", Dict{String, Any}("ChannelARN"=>ChannelARN); aws_config=aws_config)
-get_signaling_channel_endpoint(ChannelARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/getSignalingChannelEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config)
+get_signaling_channel_endpoint(ChannelARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/getSignalingChannelEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config)
 
 """
     list_signaling_channels()
@@ -208,7 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   batch of channels, provide this token in your next request.
 """
 list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listSignalingChannels"; aws_config=aws_config)
-list_signaling_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listSignalingChannels", params; aws_config=aws_config)
+list_signaling_channels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listSignalingChannels", params; aws_config=aws_config)
 
 """
     list_streams()
@@ -228,7 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   condition. Currently, you can specify only the prefix of a stream name as a condition.
 """
 list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listStreams"; aws_config=aws_config)
-list_streams(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listStreams", params; aws_config=aws_config)
+list_streams(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listStreams", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -247,7 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next batch of tags.
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
 
 """
     list_tags_for_stream()
@@ -266,7 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream that you want to list tags for.
 """
 list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listTagsForStream"; aws_config=aws_config)
-list_tags_for_stream(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listTagsForStream", params; aws_config=aws_config)
+list_tags_for_stream(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/listTagsForStream", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -286,7 +286,7 @@ User Guide.
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     tag_stream(tags)
@@ -310,7 +310,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream that you want to add the tag or tags to.
 """
 tag_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/tagStream", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_stream(Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/tagStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_stream(Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/tagStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_key_list)
@@ -327,7 +327,7 @@ ignored.
 
 """
 untag_resource(ResourceARN, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeyList"=>TagKeyList); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeyList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeyList"=>TagKeyList), params)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeyList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeyList"=>TagKeyList), params)); aws_config=aws_config)
 
 """
     untag_stream(tag_key_list)
@@ -347,7 +347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream that you want to remove tags from.
 """
 untag_stream(TagKeyList; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/untagStream", Dict{String, Any}("TagKeyList"=>TagKeyList); aws_config=aws_config)
-untag_stream(TagKeyList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/untagStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeyList"=>TagKeyList), params)); aws_config=aws_config)
+untag_stream(TagKeyList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/untagStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeyList"=>TagKeyList), params)); aws_config=aws_config)
 
 """
     update_data_retention(current_version, data_retention_change_in_hours, operation)
@@ -380,7 +380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream whose retention period you want to change.
 """
 update_data_retention(CurrentVersion, DataRetentionChangeInHours, Operation; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateDataRetention", Dict{String, Any}("CurrentVersion"=>CurrentVersion, "DataRetentionChangeInHours"=>DataRetentionChangeInHours, "Operation"=>Operation); aws_config=aws_config)
-update_data_retention(CurrentVersion, DataRetentionChangeInHours, Operation, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateDataRetention", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion, "DataRetentionChangeInHours"=>DataRetentionChangeInHours, "Operation"=>Operation), params)); aws_config=aws_config)
+update_data_retention(CurrentVersion, DataRetentionChangeInHours, Operation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateDataRetention", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion, "DataRetentionChangeInHours"=>DataRetentionChangeInHours, "Operation"=>Operation), params)); aws_config=aws_config)
 
 """
     update_signaling_channel(channel_arn, current_version)
@@ -402,7 +402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SINGLE_MASTER type of the signaling channel that you want to update.
 """
 update_signaling_channel(ChannelARN, CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateSignalingChannel", Dict{String, Any}("ChannelARN"=>ChannelARN, "CurrentVersion"=>CurrentVersion); aws_config=aws_config)
-update_signaling_channel(ChannelARN, CurrentVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "CurrentVersion"=>CurrentVersion), params)); aws_config=aws_config)
+update_signaling_channel(ChannelARN, CurrentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateSignalingChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "CurrentVersion"=>CurrentVersion), params)); aws_config=aws_config)
 
 """
     update_stream(current_version)
@@ -432,4 +432,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is an identifier for the stream, and must be unique for each account and region.
 """
 update_stream(CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateStream", Dict{String, Any}("CurrentVersion"=>CurrentVersion); aws_config=aws_config)
-update_stream(CurrentVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion), params)); aws_config=aws_config)
+update_stream(CurrentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video("POST", "/updateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CurrentVersion"=>CurrentVersion), params)); aws_config=aws_config)

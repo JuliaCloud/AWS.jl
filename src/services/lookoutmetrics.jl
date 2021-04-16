@@ -15,7 +15,7 @@ Activates an anomaly detector.
 
 """
 activate_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ActivateAnomalyDetector", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn); aws_config=aws_config)
-activate_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ActivateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
+activate_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ActivateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
 
 """
     back_test_anomaly_detector(anomaly_detector_arn)
@@ -28,7 +28,7 @@ Runs a backtest for anomaly detection for the specified resource.
 
 """
 back_test_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/BackTestAnomalyDetector", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn); aws_config=aws_config)
-back_test_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/BackTestAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
+back_test_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/BackTestAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
 
 """
     create_alert(action, alert_name, alert_sensitivity_threshold, anomaly_detector_arn)
@@ -49,7 +49,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to apply to the alert.
 """
 create_alert(Action, AlertName, AlertSensitivityThreshold, AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateAlert", Dict{String, Any}("Action"=>Action, "AlertName"=>AlertName, "AlertSensitivityThreshold"=>AlertSensitivityThreshold, "AnomalyDetectorArn"=>AnomalyDetectorArn); aws_config=aws_config)
-create_alert(Action, AlertName, AlertSensitivityThreshold, AnomalyDetectorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "AlertName"=>AlertName, "AlertSensitivityThreshold"=>AlertSensitivityThreshold, "AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
+create_alert(Action, AlertName, AlertSensitivityThreshold, AnomalyDetectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "AlertName"=>AlertName, "AlertSensitivityThreshold"=>AlertSensitivityThreshold, "AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
 
 """
     create_anomaly_detector(anomaly_detector_config, anomaly_detector_name)
@@ -69,7 +69,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to apply to the anomaly detector.
 """
 create_anomaly_detector(AnomalyDetectorConfig, AnomalyDetectorName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateAnomalyDetector", Dict{String, Any}("AnomalyDetectorConfig"=>AnomalyDetectorConfig, "AnomalyDetectorName"=>AnomalyDetectorName); aws_config=aws_config)
-create_anomaly_detector(AnomalyDetectorConfig, AnomalyDetectorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorConfig"=>AnomalyDetectorConfig, "AnomalyDetectorName"=>AnomalyDetectorName), params)); aws_config=aws_config)
+create_anomaly_detector(AnomalyDetectorConfig, AnomalyDetectorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorConfig"=>AnomalyDetectorConfig, "AnomalyDetectorName"=>AnomalyDetectorName), params)); aws_config=aws_config)
 
 """
     create_metric_set(anomaly_detector_arn, metric_list, metric_set_name, metric_source)
@@ -97,7 +97,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Timezone"`: The time zone in which your source data was recorded.
 """
 create_metric_set(AnomalyDetectorArn, MetricList, MetricSetName, MetricSource; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateMetricSet", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "MetricList"=>MetricList, "MetricSetName"=>MetricSetName, "MetricSource"=>MetricSource); aws_config=aws_config)
-create_metric_set(AnomalyDetectorArn, MetricList, MetricSetName, MetricSource, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "MetricList"=>MetricList, "MetricSetName"=>MetricSetName, "MetricSource"=>MetricSource), params)); aws_config=aws_config)
+create_metric_set(AnomalyDetectorArn, MetricList, MetricSetName, MetricSource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/CreateMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "MetricList"=>MetricList, "MetricSetName"=>MetricSetName, "MetricSource"=>MetricSource), params)); aws_config=aws_config)
 
 """
     delete_alert(alert_arn)
@@ -110,7 +110,7 @@ Deletes an alert.
 
 """
 delete_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DeleteAlert", Dict{String, Any}("AlertArn"=>AlertArn); aws_config=aws_config)
-delete_alert(AlertArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DeleteAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlertArn"=>AlertArn), params)); aws_config=aws_config)
+delete_alert(AlertArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DeleteAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlertArn"=>AlertArn), params)); aws_config=aws_config)
 
 """
     delete_anomaly_detector(anomaly_detector_arn)
@@ -124,7 +124,7 @@ resources including any configured datasets and alerts.
 
 """
 delete_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DeleteAnomalyDetector", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn); aws_config=aws_config)
-delete_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DeleteAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
+delete_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DeleteAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
 
 """
     describe_alert(alert_arn)
@@ -137,7 +137,7 @@ Describes an alert.
 
 """
 describe_alert(AlertArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAlert", Dict{String, Any}("AlertArn"=>AlertArn); aws_config=aws_config)
-describe_alert(AlertArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlertArn"=>AlertArn), params)); aws_config=aws_config)
+describe_alert(AlertArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAlert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlertArn"=>AlertArn), params)); aws_config=aws_config)
 
 """
     describe_anomaly_detection_executions(anomaly_detector_arn)
@@ -156,7 +156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Timestamp"`: The timestamp of the anomaly detection job.
 """
 describe_anomaly_detection_executions(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAnomalyDetectionExecutions", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn); aws_config=aws_config)
-describe_anomaly_detection_executions(AnomalyDetectorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAnomalyDetectionExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
+describe_anomaly_detection_executions(AnomalyDetectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAnomalyDetectionExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
 
 """
     describe_anomaly_detector(anomaly_detector_arn)
@@ -169,7 +169,7 @@ Describes a detector.
 
 """
 describe_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAnomalyDetector", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn); aws_config=aws_config)
-describe_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
+describe_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
 
 """
     describe_metric_set(metric_set_arn)
@@ -182,7 +182,7 @@ Describes a dataset.
 
 """
 describe_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeMetricSet", Dict{String, Any}("MetricSetArn"=>MetricSetArn); aws_config=aws_config)
-describe_metric_set(MetricSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricSetArn"=>MetricSetArn), params)); aws_config=aws_config)
+describe_metric_set(MetricSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/DescribeMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricSetArn"=>MetricSetArn), params)); aws_config=aws_config)
 
 """
     get_anomaly_group(anomaly_detector_arn, anomaly_group_id)
@@ -196,7 +196,7 @@ Returns details about a group of anomalous metrics.
 
 """
 get_anomaly_group(AnomalyDetectorArn, AnomalyGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetAnomalyGroup", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupId"=>AnomalyGroupId); aws_config=aws_config)
-get_anomaly_group(AnomalyDetectorArn, AnomalyGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetAnomalyGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupId"=>AnomalyGroupId), params)); aws_config=aws_config)
+get_anomaly_group(AnomalyDetectorArn, AnomalyGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetAnomalyGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupId"=>AnomalyGroupId), params)); aws_config=aws_config)
 
 """
     get_feedback(anomaly_detector_arn, anomaly_group_time_series_feedback)
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 """
 get_feedback(AnomalyDetectorArn, AnomalyGroupTimeSeriesFeedback; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetFeedback", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupTimeSeriesFeedback"=>AnomalyGroupTimeSeriesFeedback); aws_config=aws_config)
-get_feedback(AnomalyDetectorArn, AnomalyGroupTimeSeriesFeedback, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupTimeSeriesFeedback"=>AnomalyGroupTimeSeriesFeedback), params)); aws_config=aws_config)
+get_feedback(AnomalyDetectorArn, AnomalyGroupTimeSeriesFeedback, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupTimeSeriesFeedback"=>AnomalyGroupTimeSeriesFeedback), params)); aws_config=aws_config)
 
 """
     get_sample_data()
@@ -228,7 +228,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3SourceConfig"`: A datasource bucket in Amazon S3.
 """
 get_sample_data(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetSampleData"; aws_config=aws_config)
-get_sample_data(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetSampleData", params; aws_config=aws_config)
+get_sample_data(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/GetSampleData", params; aws_config=aws_config)
 
 """
     list_alerts()
@@ -245,7 +245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_alerts(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAlerts"; aws_config=aws_config)
-list_alerts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAlerts", params; aws_config=aws_config)
+list_alerts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAlerts", params; aws_config=aws_config)
 
 """
     list_anomaly_detectors()
@@ -261,7 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_anomaly_detectors(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyDetectors"; aws_config=aws_config)
-list_anomaly_detectors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyDetectors", params; aws_config=aws_config)
+list_anomaly_detectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyDetectors", params; aws_config=aws_config)
 
 """
     list_anomaly_group_summaries(anomaly_detector_arn, sensitivity_threshold)
@@ -280,7 +280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 """
 list_anomaly_group_summaries(AnomalyDetectorArn, SensitivityThreshold; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyGroupSummaries", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "SensitivityThreshold"=>SensitivityThreshold); aws_config=aws_config)
-list_anomaly_group_summaries(AnomalyDetectorArn, SensitivityThreshold, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyGroupSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "SensitivityThreshold"=>SensitivityThreshold), params)); aws_config=aws_config)
+list_anomaly_group_summaries(AnomalyDetectorArn, SensitivityThreshold, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyGroupSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "SensitivityThreshold"=>SensitivityThreshold), params)); aws_config=aws_config)
 
 """
     list_anomaly_group_time_series(anomaly_detector_arn, anomaly_group_id, metric_name)
@@ -300,7 +300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the next page of results.
 """
 list_anomaly_group_time_series(AnomalyDetectorArn, AnomalyGroupId, MetricName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyGroupTimeSeries", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupId"=>AnomalyGroupId, "MetricName"=>MetricName); aws_config=aws_config)
-list_anomaly_group_time_series(AnomalyDetectorArn, AnomalyGroupId, MetricName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyGroupTimeSeries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupId"=>AnomalyGroupId, "MetricName"=>MetricName), params)); aws_config=aws_config)
+list_anomaly_group_time_series(AnomalyDetectorArn, AnomalyGroupId, MetricName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListAnomalyGroupTimeSeries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupId"=>AnomalyGroupId, "MetricName"=>MetricName), params)); aws_config=aws_config)
 
 """
     list_metric_sets()
@@ -318,7 +318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_metric_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListMetricSets"; aws_config=aws_config)
-list_metric_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListMetricSets", params; aws_config=aws_config)
+list_metric_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/ListMetricSets", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -331,7 +331,7 @@ Gets a list of tags for a detector, dataset, or alert.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     put_feedback(anomaly_detector_arn, anomaly_group_time_series_feedback)
@@ -345,7 +345,7 @@ Add feedback for an anomalous metric.
 
 """
 put_feedback(AnomalyDetectorArn, AnomalyGroupTimeSeriesFeedback; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/PutFeedback", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupTimeSeriesFeedback"=>AnomalyGroupTimeSeriesFeedback); aws_config=aws_config)
-put_feedback(AnomalyDetectorArn, AnomalyGroupTimeSeriesFeedback, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/PutFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupTimeSeriesFeedback"=>AnomalyGroupTimeSeriesFeedback), params)); aws_config=aws_config)
+put_feedback(AnomalyDetectorArn, AnomalyGroupTimeSeriesFeedback, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/PutFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn, "AnomalyGroupTimeSeriesFeedback"=>AnomalyGroupTimeSeriesFeedback), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -360,7 +360,7 @@ Adds tags to a detector, dataset, or alert.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -374,7 +374,7 @@ Removes tags from a detector, dataset, or alert.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_anomaly_detector(anomaly_detector_arn)
@@ -394,7 +394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of an AWS KMS encryption key.
 """
 update_anomaly_detector(AnomalyDetectorArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/UpdateAnomalyDetector", Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn); aws_config=aws_config)
-update_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/UpdateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
+update_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/UpdateAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnomalyDetectorArn"=>AnomalyDetectorArn), params)); aws_config=aws_config)
 
 """
     update_metric_set(metric_set_arn)
@@ -417,4 +417,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimestampColumn"`: The timestamp column.
 """
 update_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/UpdateMetricSet", Dict{String, Any}("MetricSetArn"=>MetricSetArn); aws_config=aws_config)
-update_metric_set(MetricSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/UpdateMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricSetArn"=>MetricSetArn), params)); aws_config=aws_config)
+update_metric_set(MetricSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/UpdateMetricSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricSetArn"=>MetricSetArn), params)); aws_config=aws_config)

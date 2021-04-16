@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retained only for backward compatibility.
 """
 accept_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}("invitationId"=>invitationId); aws_config=aws_config)
-accept_invitation(invitationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId), params)); aws_config=aws_config)
+accept_invitation(invitationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId), params)); aws_config=aws_config)
 
 """
     batch_get_custom_data_identifiers()
@@ -35,7 +35,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifiers to retrieve information about.
 """
 batch_get_custom_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get"; aws_config=aws_config)
-batch_get_custom_data_identifiers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get", params; aws_config=aws_config)
+batch_get_custom_data_identifiers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/get", params; aws_config=aws_config)
 
 """
     create_classification_job(client_token, job_type, name, s3_job_definition)
@@ -75,7 +75,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 256 characters.
 """
 create_classification_job(clientToken, jobType, name, s3JobDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition); aws_config=aws_config)
-create_classification_job(clientToken, jobType, name, s3JobDefinition, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition), params)); aws_config=aws_config)
+create_classification_job(clientToken, jobType, name, s3JobDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobType"=>jobType, "name"=>name, "s3JobDefinition"=>s3JobDefinition), params)); aws_config=aws_config)
 
 """
     create_custom_data_identifier()
@@ -116,7 +116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters. The maximum length of a tag value is 256 characters.
 """
 create_custom_data_identifier(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-create_custom_data_identifier(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_custom_data_identifier(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_findings_filter(action, finding_criteria, name)
@@ -151,7 +151,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of a tag value is 256 characters.
 """
 create_findings_filter(action, findingCriteria, name; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_findings_filter(action, findingCriteria, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_findings_filter(action, findingCriteria, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findingsfilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "findingCriteria"=>findingCriteria, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_invitations(account_ids)
@@ -173,7 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message to the standard content that it sends for an invitation.
 """
 create_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
-create_invitations(accountIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config)
+create_invitations(accountIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config)
 
 """
     create_member(account)
@@ -192,7 +192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   length of a tag value is 256 characters.
 """
 create_member(account; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}("account"=>account); aws_config=aws_config)
-create_member(account, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account"=>account), params)); aws_config=aws_config)
+create_member(account, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account"=>account), params)); aws_config=aws_config)
 
 """
     create_sample_findings()
@@ -207,7 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Policy:IAMUser/S3BucketEncryptionDisabled.
 """
 create_sample_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/sample"; aws_config=aws_config)
-create_sample_findings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/sample", params; aws_config=aws_config)
+create_sample_findings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/sample", params; aws_config=aws_config)
 
 """
     decline_invitations(account_ids)
@@ -221,7 +221,7 @@ Declines Amazon Macie membership invitations that were received from specific ac
 
 """
 decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
-decline_invitations(accountIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config)
+decline_invitations(accountIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config)
 
 """
     delete_custom_data_identifier(id)
@@ -235,7 +235,7 @@ Soft deletes a custom data identifier.
 
 """
 delete_custom_data_identifier(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/custom-data-identifiers/$(id)"; aws_config=aws_config)
-delete_custom_data_identifier(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/custom-data-identifiers/$(id)", params; aws_config=aws_config)
+delete_custom_data_identifier(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/custom-data-identifiers/$(id)", params; aws_config=aws_config)
 
 """
     delete_findings_filter(id)
@@ -249,7 +249,7 @@ Deletes a findings filter.
 
 """
 delete_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/findingsfilters/$(id)"; aws_config=aws_config)
-delete_findings_filter(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/findingsfilters/$(id)", params; aws_config=aws_config)
+delete_findings_filter(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/findingsfilters/$(id)", params; aws_config=aws_config)
 
 """
     delete_invitations(account_ids)
@@ -263,7 +263,7 @@ Deletes Amazon Macie membership invitations that were received from specific acc
 
 """
 delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
-delete_invitations(accountIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config)
+delete_invitations(accountIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accountIds"=>accountIds), params)); aws_config=aws_config)
 
 """
     delete_member(id)
@@ -277,7 +277,7 @@ Deletes the association between an Amazon Macie administrator account and an acc
 
 """
 delete_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/members/$(id)"; aws_config=aws_config)
-delete_member(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/members/$(id)", params; aws_config=aws_config)
+delete_member(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/members/$(id)", params; aws_config=aws_config)
 
 """
     describe_buckets()
@@ -296,7 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: The criteria to use to sort the query results.
 """
 describe_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3"; aws_config=aws_config)
-describe_buckets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3", params; aws_config=aws_config)
+describe_buckets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3", params; aws_config=aws_config)
 
 """
     describe_classification_job(job_id)
@@ -309,7 +309,7 @@ Retrieves the status and settings for a classification job.
 
 """
 describe_classification_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/jobs/$(jobId)"; aws_config=aws_config)
-describe_classification_job(jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/jobs/$(jobId)", params; aws_config=aws_config)
+describe_classification_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/jobs/$(jobId)", params; aws_config=aws_config)
 
 """
     describe_organization_configuration()
@@ -319,7 +319,7 @@ Retrieves the Amazon Macie configuration settings for an AWS organization.
 
 """
 describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin/configuration"; aws_config=aws_config)
-describe_organization_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin/configuration", params; aws_config=aws_config)
+describe_organization_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin/configuration", params; aws_config=aws_config)
 
 """
     disable_macie()
@@ -329,7 +329,7 @@ Disables an Amazon Macie account and deletes Macie resources for the account.
 
 """
 disable_macie(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/macie"; aws_config=aws_config)
-disable_macie(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/macie", params; aws_config=aws_config)
+disable_macie(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/macie", params; aws_config=aws_config)
 
 """
     disable_organization_admin_account(admin_account_id)
@@ -344,7 +344,7 @@ organization.
 
 """
 disable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
-disable_organization_admin_account(adminAccountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), params)); aws_config=aws_config)
+disable_organization_admin_account(adminAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), params)); aws_config=aws_config)
 
 """
     disassociate_from_administrator_account()
@@ -354,7 +354,7 @@ Disassociates a member account from its Amazon Macie administrator account.
 
 """
 disassociate_from_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/administrator/disassociate"; aws_config=aws_config)
-disassociate_from_administrator_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/administrator/disassociate", params; aws_config=aws_config)
+disassociate_from_administrator_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/administrator/disassociate", params; aws_config=aws_config)
 
 """
     disassociate_from_master_account()
@@ -365,7 +365,7 @@ This operation has been replaced by the DisassociateFromAdministratorAccount ope
 
 """
 disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/master/disassociate"; aws_config=aws_config)
-disassociate_from_master_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/master/disassociate", params; aws_config=aws_config)
+disassociate_from_master_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/master/disassociate", params; aws_config=aws_config)
 
 """
     disassociate_member(id)
@@ -379,7 +379,7 @@ Disassociates an Amazon Macie administrator account from a member account.
 
 """
 disassociate_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members/disassociate/$(id)"; aws_config=aws_config)
-disassociate_member(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members/disassociate/$(id)", params; aws_config=aws_config)
+disassociate_member(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/members/disassociate/$(id)", params; aws_config=aws_config)
 
 """
     enable_macie()
@@ -398,7 +398,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all Macie activities for the account, set this value to ENABLED.
 """
 enable_macie(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-enable_macie(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+enable_macie(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/macie", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     enable_organization_admin_account(admin_account_id)
@@ -417,7 +417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 enable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())); aws_config=aws_config)
-enable_organization_admin_account(adminAccountId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+enable_organization_admin_account(adminAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/admin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     get_administrator_account()
@@ -427,7 +427,7 @@ Retrieves information about the Amazon Macie administrator account for an accoun
 
 """
 get_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/administrator"; aws_config=aws_config)
-get_administrator_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/administrator", params; aws_config=aws_config)
+get_administrator_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/administrator", params; aws_config=aws_config)
 
 """
     get_bucket_statistics()
@@ -441,7 +441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountId"`: The unique identifier for the AWS account.
 """
 get_bucket_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics"; aws_config=aws_config)
-get_bucket_statistics(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics", params; aws_config=aws_config)
+get_bucket_statistics(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics", params; aws_config=aws_config)
 
 """
     get_classification_export_configuration()
@@ -451,7 +451,7 @@ Retrieves the configuration settings for storing data classification results.
 
 """
 get_classification_export_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/classification-export-configuration"; aws_config=aws_config)
-get_classification_export_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/classification-export-configuration", params; aws_config=aws_config)
+get_classification_export_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/classification-export-configuration", params; aws_config=aws_config)
 
 """
     get_custom_data_identifier(id)
@@ -465,7 +465,7 @@ Retrieves the criteria and other settings for a custom data identifier.
 
 """
 get_custom_data_identifier(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/custom-data-identifiers/$(id)"; aws_config=aws_config)
-get_custom_data_identifier(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/custom-data-identifiers/$(id)", params; aws_config=aws_config)
+get_custom_data_identifier(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/custom-data-identifiers/$(id)", params; aws_config=aws_config)
 
 """
     get_finding_statistics(group_by)
@@ -488,7 +488,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: The criteria to use to sort the query results.
 """
 get_finding_statistics(groupBy; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/statistics", Dict{String, Any}("groupBy"=>groupBy); aws_config=aws_config)
-get_finding_statistics(groupBy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupBy"=>groupBy), params)); aws_config=aws_config)
+get_finding_statistics(groupBy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/statistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groupBy"=>groupBy), params)); aws_config=aws_config)
 
 """
     get_findings(finding_ids)
@@ -505,7 +505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: The criteria for sorting the results of the request.
 """
 get_findings(findingIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/describe", Dict{String, Any}("findingIds"=>findingIds); aws_config=aws_config)
-get_findings(findingIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), params)); aws_config=aws_config)
+get_findings(findingIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("findingIds"=>findingIds), params)); aws_config=aws_config)
 
 """
     get_findings_filter(id)
@@ -519,7 +519,7 @@ Retrieves the criteria and other settings for a findings filter.
 
 """
 get_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)"; aws_config=aws_config)
-get_findings_filter(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)", params; aws_config=aws_config)
+get_findings_filter(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters/$(id)", params; aws_config=aws_config)
 
 """
     get_findings_publication_configuration()
@@ -529,7 +529,7 @@ Retrieves the configuration settings for publishing findings to AWS Security Hub
 
 """
 get_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findings-publication-configuration"; aws_config=aws_config)
-get_findings_publication_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findings-publication-configuration", params; aws_config=aws_config)
+get_findings_publication_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findings-publication-configuration", params; aws_config=aws_config)
 
 """
     get_invitations_count()
@@ -539,7 +539,7 @@ Retrieves the count of Amazon Macie membership invitations that were received by
 
 """
 get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations/count"; aws_config=aws_config)
-get_invitations_count(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations/count", params; aws_config=aws_config)
+get_invitations_count(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations/count", params; aws_config=aws_config)
 
 """
     get_macie_session()
@@ -549,7 +549,7 @@ Retrieves the current status and configuration settings for an Amazon Macie acco
 
 """
 get_macie_session(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/macie"; aws_config=aws_config)
-get_macie_session(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/macie", params; aws_config=aws_config)
+get_macie_session(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/macie", params; aws_config=aws_config)
 
 """
     get_master_account()
@@ -560,7 +560,7 @@ account. This operation has been replaced by the GetAdministratorAccount operati
 
 """
 get_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/master"; aws_config=aws_config)
-get_master_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/master", params; aws_config=aws_config)
+get_master_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/master", params; aws_config=aws_config)
 
 """
     get_member(id)
@@ -575,7 +575,7 @@ account.
 
 """
 get_member(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members/$(id)"; aws_config=aws_config)
-get_member(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members/$(id)", params; aws_config=aws_config)
+get_member(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members/$(id)", params; aws_config=aws_config)
 
 """
     get_usage_statistics()
@@ -598,7 +598,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   30 days.
 """
 get_usage_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics"; aws_config=aws_config)
-get_usage_statistics(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics", params; aws_config=aws_config)
+get_usage_statistics(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/usage/statistics", params; aws_config=aws_config)
 
 """
     get_usage_totals()
@@ -614,7 +614,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   usage data for the preceding 30 days.
 """
 get_usage_totals(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/usage"; aws_config=aws_config)
-get_usage_totals(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/usage", params; aws_config=aws_config)
+get_usage_totals(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/usage", params; aws_config=aws_config)
 
 """
     list_classification_jobs()
@@ -631,7 +631,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: The criteria to use to sort the results.
 """
 list_classification_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs/list"; aws_config=aws_config)
-list_classification_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs/list", params; aws_config=aws_config)
+list_classification_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/jobs/list", params; aws_config=aws_config)
 
 """
     list_custom_data_identifiers()
@@ -646,7 +646,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 list_custom_data_identifiers(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list"; aws_config=aws_config)
-list_custom_data_identifiers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list", params; aws_config=aws_config)
+list_custom_data_identifiers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/list", params; aws_config=aws_config)
 
 """
     list_findings()
@@ -663,7 +663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: The criteria to use to sort the results.
 """
 list_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings"; aws_config=aws_config)
-list_findings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings", params; aws_config=aws_config)
+list_findings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/findings", params; aws_config=aws_config)
 
 """
     list_findings_filters()
@@ -679,7 +679,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 list_findings_filters(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters"; aws_config=aws_config)
-list_findings_filters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters", params; aws_config=aws_config)
+list_findings_filters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findingsfilters", params; aws_config=aws_config)
 
 """
     list_invitations()
@@ -696,7 +696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations"; aws_config=aws_config)
-list_invitations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations", params; aws_config=aws_config)
+list_invitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/invitations", params; aws_config=aws_config)
 
 """
     list_members()
@@ -717,7 +717,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   false.
 """
 list_members(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members"; aws_config=aws_config)
-list_members(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members", params; aws_config=aws_config)
+list_members(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/members", params; aws_config=aws_config)
 
 """
     list_organization_admin_accounts()
@@ -734,7 +734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin"; aws_config=aws_config)
-list_organization_admin_accounts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin", params; aws_config=aws_config)
+list_organization_admin_accounts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -749,7 +749,7 @@ data identifier, findings filter, or member account.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     put_classification_export_configuration(configuration)
@@ -763,7 +763,7 @@ Creates or updates the configuration settings for storing data classification re
 
 """
 put_classification_export_configuration(configuration; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}("configuration"=>configuration); aws_config=aws_config)
-put_classification_export_configuration(configuration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration), params)); aws_config=aws_config)
+put_classification_export_configuration(configuration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/classification-export-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration), params)); aws_config=aws_config)
 
 """
     put_findings_publication_configuration()
@@ -779,7 +779,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   publish to AWS Security Hub.
 """
 put_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/findings-publication-configuration", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-put_findings_publication_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/findings-publication-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+put_findings_publication_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/findings-publication-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -798,7 +798,7 @@ classification job, custom data identifier, findings filter, or member account.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     test_custom_data_identifier(regex, sample_text)
@@ -828,7 +828,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.
 """
 test_custom_data_identifier(regex, sampleText; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText); aws_config=aws_config)
-test_custom_data_identifier(regex, sampleText, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText), params)); aws_config=aws_config)
+test_custom_data_identifier(regex, sampleText, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -846,7 +846,7 @@ identifier, findings filter, or member account.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_classification_job(job_id, job_status)
@@ -875,7 +875,7 @@ Changes the status of a classification job.
 
 """
 update_classification_job(jobId, jobStatus; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}("jobStatus"=>jobStatus); aws_config=aws_config)
-update_classification_job(jobId, jobStatus, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobStatus"=>jobStatus), params)); aws_config=aws_config)
+update_classification_job(jobId, jobStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobStatus"=>jobStatus), params)); aws_config=aws_config)
 
 """
     update_findings_filter(id)
@@ -906,7 +906,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   relative to other filters that are also applied to the findings.
 """
 update_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)"; aws_config=aws_config)
-update_findings_filter(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)", params; aws_config=aws_config)
+update_findings_filter(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)", params; aws_config=aws_config)
 
 """
     update_macie_session()
@@ -925,7 +925,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 """
 update_macie_session(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie"; aws_config=aws_config)
-update_macie_session(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie", params; aws_config=aws_config)
+update_macie_session(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie", params; aws_config=aws_config)
 
 """
     update_member_session(id, status)
@@ -942,7 +942,7 @@ Enables an Amazon Macie administrator to suspend or re-enable a member account.
 
 """
 update_member_session(id, status; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}("status"=>status); aws_config=aws_config)
-update_member_session(id, status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config)
+update_member_session(id, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/macie/members/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config)
 
 """
     update_organization_configuration(auto_enable)
@@ -956,4 +956,4 @@ Updates the Amazon Macie configuration settings for an AWS organization.
 
 """
 update_organization_configuration(autoEnable; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}("autoEnable"=>autoEnable); aws_config=aws_config)
-update_organization_configuration(autoEnable, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoEnable"=>autoEnable), params)); aws_config=aws_config)
+update_organization_configuration(autoEnable, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoEnable"=>autoEnable), params)); aws_config=aws_config)

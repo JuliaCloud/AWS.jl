@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagsList"`: Contains a list of CloudTrail tags, up to a limit of 50
 """
 add_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("AddTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-add_tags(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
+add_tags(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
     create_trail(name, s3_bucket_name)
@@ -81,7 +81,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagsList"`:
 """
 create_trail(Name, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName); aws_config=aws_config)
-create_trail(Name, S3BucketName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName), params)); aws_config=aws_config)
+create_trail(Name, S3BucketName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("CreateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "S3BucketName"=>S3BucketName), params)); aws_config=aws_config)
 
 """
     delete_trail(name)
@@ -97,7 +97,7 @@ regions) of a trail that is enabled in all regions.
 
 """
 delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_trail(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_trail(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DeleteTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_trails()
@@ -126,7 +126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   trail ARN.
 """
 describe_trails(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DescribeTrails"; aws_config=aws_config)
-describe_trails(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DescribeTrails", params; aws_config=aws_config)
+describe_trails(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("DescribeTrails", params; aws_config=aws_config)
 
 """
     get_event_selectors(trail_name)
@@ -151,7 +151,7 @@ Management Events for Trails  in the AWS CloudTrail User Guide.
 
 """
 get_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
-get_event_selectors(TrailName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config)
+get_event_selectors(TrailName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config)
 
 """
     get_insight_selectors(trail_name)
@@ -175,7 +175,7 @@ for Trails  in the AWS CloudTrail User Guide.
 
 """
 get_insight_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetInsightSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
-get_insight_selectors(TrailName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config)
+get_insight_selectors(TrailName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config)
 
 """
     get_trail(name)
@@ -189,7 +189,7 @@ Returns settings information for a specified trail.
 
 """
 get_trail(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_trail(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_trail(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_trail_status(name)
@@ -208,7 +208,7 @@ trail status from all regions, you must call the operation on each region.
 
 """
 get_trail_status(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_trail_status(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_trail_status(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("GetTrailStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     list_public_keys()
@@ -231,7 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the current public key is returned.
 """
 list_public_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListPublicKeys"; aws_config=aws_config)
-list_public_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListPublicKeys", params; aws_config=aws_config)
+list_public_keys(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListPublicKeys", params; aws_config=aws_config)
 
 """
     list_tags(resource_id_list)
@@ -249,7 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Reserved for future use.
 """
 list_tags(ResourceIdList; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTags", Dict{String, Any}("ResourceIdList"=>ResourceIdList); aws_config=aws_config)
-list_tags(ResourceIdList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIdList"=>ResourceIdList), params)); aws_config=aws_config)
+list_tags(ResourceIdList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIdList"=>ResourceIdList), params)); aws_config=aws_config)
 
 """
     list_trails()
@@ -265,7 +265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with a value of 'root', the call with NextToken should include those same parameters.
 """
 list_trails(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTrails"; aws_config=aws_config)
-list_trails(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTrails", params; aws_config=aws_config)
+list_trails(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("ListTrails", params; aws_config=aws_config)
 
 """
     lookup_events()
@@ -301,7 +301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned. If the specified start time is after the specified end time, an error is returned.
 """
 lookup_events(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("LookupEvents"; aws_config=aws_config)
-lookup_events(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("LookupEvents", params; aws_config=aws_config)
+lookup_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("LookupEvents", params; aws_config=aws_config)
 
 """
     put_event_selectors(trail_name)
@@ -354,7 +354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten.
 """
 put_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}("TrailName"=>TrailName); aws_config=aws_config)
-put_event_selectors(TrailName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config)
+put_event_selectors(TrailName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutEventSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrailName"=>TrailName), params)); aws_config=aws_config)
 
 """
     put_insight_selectors(insight_selectors, trail_name)
@@ -373,7 +373,7 @@ ApiCallRateInsight is supported as an Insights selector.
 
 """
 put_insight_selectors(InsightSelectors, TrailName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}("InsightSelectors"=>InsightSelectors, "TrailName"=>TrailName); aws_config=aws_config)
-put_insight_selectors(InsightSelectors, TrailName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightSelectors"=>InsightSelectors, "TrailName"=>TrailName), params)); aws_config=aws_config)
+put_insight_selectors(InsightSelectors, TrailName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("PutInsightSelectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightSelectors"=>InsightSelectors, "TrailName"=>TrailName), params)); aws_config=aws_config)
 
 """
     remove_tags(resource_id)
@@ -390,7 +390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagsList"`: Specifies a list of tags to be removed.
 """
 remove_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-remove_tags(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
+remove_tags(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
     start_logging(name)
@@ -408,7 +408,7 @@ other regions) of a trail that is enabled in all regions.
 
 """
 start_logging(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_logging(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+start_logging(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StartLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     stop_logging(name)
@@ -428,7 +428,7 @@ on the shadow trails (replicated trails in other regions) of a trail enabled in 
 
 """
 stop_logging(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-stop_logging(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+stop_logging(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("StopLogging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_trail(name)
@@ -495,4 +495,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   log file delivery. The maximum length is 256 characters.
 """
 update_trail(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_trail(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+update_trail(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudtrail("UpdateTrail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)

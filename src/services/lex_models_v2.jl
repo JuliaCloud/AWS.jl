@@ -23,7 +23,7 @@ into multiple locales. At runtime the locale is used to choose a specific build 
 
 """
 build_bot_locale(botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/"; aws_config=aws_config)
-build_bot_locale(botId, botVersion, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", params; aws_config=aws_config)
+build_bot_locale(botId, botVersion, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", params; aws_config=aws_config)
 
 """
     create_bot(bot_name, data_privacy, idle_session_ttlin_seconds, role_arn)
@@ -56,7 +56,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update tags on the test alias, use the TagResource operation.
 """
 create_bot(botName, dataPrivacy, idleSessionTTLInSeconds, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/", Dict{String, Any}("botName"=>botName, "dataPrivacy"=>dataPrivacy, "idleSessionTTLInSeconds"=>idleSessionTTLInSeconds, "roleArn"=>roleArn); aws_config=aws_config)
-create_bot(botName, dataPrivacy, idleSessionTTLInSeconds, roleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botName"=>botName, "dataPrivacy"=>dataPrivacy, "idleSessionTTLInSeconds"=>idleSessionTTLInSeconds, "roleArn"=>roleArn), params)); aws_config=aws_config)
+create_bot(botName, dataPrivacy, idleSessionTTLInSeconds, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botName"=>botName, "dataPrivacy"=>dataPrivacy, "idleSessionTTLInSeconds"=>idleSessionTTLInSeconds, "roleArn"=>roleArn), params)); aws_config=aws_config)
 
 """
     create_bot_alias(bot_alias_name, bot_id)
@@ -89,7 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update tags, use the TagResource operation.
 """
 create_bot_alias(botAliasName, botId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botaliases/", Dict{String, Any}("botAliasName"=>botAliasName); aws_config=aws_config)
-create_bot_alias(botAliasName, botId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botaliases/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botAliasName"=>botAliasName), params)); aws_config=aws_config)
+create_bot_alias(botAliasName, botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botaliases/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botAliasName"=>botAliasName), params)); aws_config=aws_config)
 
 """
     create_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold)
@@ -124,7 +124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the user.
 """
 create_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/", Dict{String, Any}("localeId"=>localeId, "nluIntentConfidenceThreshold"=>nluIntentConfidenceThreshold); aws_config=aws_config)
-create_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("localeId"=>localeId, "nluIntentConfidenceThreshold"=>nluIntentConfidenceThreshold), params)); aws_config=aws_config)
+create_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("localeId"=>localeId, "nluIntentConfidenceThreshold"=>nluIntentConfidenceThreshold), params)); aws_config=aws_config)
 
 """
     create_bot_version(bot_id, bot_version_locale_specification)
@@ -148,7 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version in lists.
 """
 create_bot_version(botId, botVersionLocaleSpecification; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/", Dict{String, Any}("botVersionLocaleSpecification"=>botVersionLocaleSpecification); aws_config=aws_config)
-create_bot_version(botId, botVersionLocaleSpecification, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botVersionLocaleSpecification"=>botVersionLocaleSpecification), params)); aws_config=aws_config)
+create_bot_version(botId, botVersionLocaleSpecification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botVersionLocaleSpecification"=>botVersionLocaleSpecification), params)); aws_config=aws_config)
 
 """
     create_intent(bot_id, bot_version, intent_name, locale_id)
@@ -226,7 +226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   displayed in the utterance shown to the user..
 """
 create_intent(botId, botVersion, intentName, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/", Dict{String, Any}("intentName"=>intentName); aws_config=aws_config)
-create_intent(botId, botVersion, intentName, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("intentName"=>intentName), params)); aws_config=aws_config)
+create_intent(botId, botVersion, intentName, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("intentName"=>intentName), params)); aws_config=aws_config)
 
 """
     create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, slot_type_id, value_elicitation_setting)
@@ -260,7 +260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output. The default is to obfuscate values in the CloudWatch logs.
 """
 create_slot(botId, botVersion, intentId, localeId, slotName, slotTypeId, valueElicitationSetting; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/", Dict{String, Any}("slotName"=>slotName, "slotTypeId"=>slotTypeId, "valueElicitationSetting"=>valueElicitationSetting); aws_config=aws_config)
-create_slot(botId, botVersion, intentId, localeId, slotName, slotTypeId, valueElicitationSetting, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotName"=>slotName, "slotTypeId"=>slotTypeId, "valueElicitationSetting"=>valueElicitationSetting), params)); aws_config=aws_config)
+create_slot(botId, botVersion, intentId, localeId, slotName, slotTypeId, valueElicitationSetting, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotName"=>slotName, "slotTypeId"=>slotTypeId, "valueElicitationSetting"=>valueElicitationSetting), params)); aws_config=aws_config)
 
 """
     create_slot_type(bot_id, bot_version, locale_id, slot_type_name, value_selection_setting)
@@ -297,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the machine learning model about the values that it resolves for a slot.
 """
 create_slot_type(botId, botVersion, localeId, slotTypeName, valueSelectionSetting; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/", Dict{String, Any}("slotTypeName"=>slotTypeName, "valueSelectionSetting"=>valueSelectionSetting); aws_config=aws_config)
-create_slot_type(botId, botVersion, localeId, slotTypeName, valueSelectionSetting, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotTypeName"=>slotTypeName, "valueSelectionSetting"=>valueSelectionSetting), params)); aws_config=aws_config)
+create_slot_type(botId, botVersion, localeId, slotTypeName, valueSelectionSetting, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotTypeName"=>slotTypeName, "valueSelectionSetting"=>valueSelectionSetting), params)); aws_config=aws_config)
 
 """
     delete_bot(bot_id)
@@ -319,7 +319,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource, such as an alias, is using the bot before it is deleted.
 """
 delete_bot(botId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/"; aws_config=aws_config)
-delete_bot(botId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/", params; aws_config=aws_config)
+delete_bot(botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/", params; aws_config=aws_config)
 
 """
     delete_bot_alias(bot_alias_id, bot_id)
@@ -337,7 +337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if any other resource is using the alias before it is deleted.
 """
 delete_bot_alias(botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botaliases/$(botAliasId)/"; aws_config=aws_config)
-delete_bot_alias(botAliasId, botId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botaliases/$(botAliasId)/", params; aws_config=aws_config)
+delete_bot_alias(botAliasId, botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botaliases/$(botAliasId)/", params; aws_config=aws_config)
 
 """
     delete_bot_locale(bot_id, bot_version, locale_id)
@@ -355,7 +355,7 @@ defined for the locale are also deleted.
 
 """
 delete_bot_locale(botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/"; aws_config=aws_config)
-delete_bot_locale(botId, botVersion, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", params; aws_config=aws_config)
+delete_bot_locale(botId, botVersion, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", params; aws_config=aws_config)
 
 """
     delete_bot_version(bot_id, bot_version)
@@ -376,7 +376,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remove the version even if an alias points to it.
 """
 delete_bot_version(botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/"; aws_config=aws_config)
-delete_bot_version(botId, botVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/", params; aws_config=aws_config)
+delete_bot_version(botId, botVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/", params; aws_config=aws_config)
 
 """
     delete_intent(bot_id, bot_version, intent_id, locale_id)
@@ -395,7 +395,7 @@ intent.
 
 """
 delete_intent(botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/"; aws_config=aws_config)
-delete_intent(botId, botVersion, intentId, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", params; aws_config=aws_config)
+delete_intent(botId, botVersion, intentId, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", params; aws_config=aws_config)
 
 """
     delete_slot(bot_id, bot_version, intent_id, locale_id, slot_id)
@@ -414,7 +414,7 @@ Deletes the specified slot from an intent.
 
 """
 delete_slot(botId, botVersion, intentId, localeId, slotId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/"; aws_config=aws_config)
-delete_slot(botId, botVersion, intentId, localeId, slotId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/", params; aws_config=aws_config)
+delete_slot(botId, botVersion, intentId, localeId, slotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/", params; aws_config=aws_config)
 
 """
     delete_slot_type(bot_id, bot_version, locale_id, slot_type_id)
@@ -440,7 +440,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a slot uses it.
 """
 delete_slot_type(botId, botVersion, localeId, slotTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/"; aws_config=aws_config)
-delete_slot_type(botId, botVersion, localeId, slotTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/", params; aws_config=aws_config)
+delete_slot_type(botId, botVersion, localeId, slotTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/", params; aws_config=aws_config)
 
 """
     describe_bot(bot_id)
@@ -453,7 +453,7 @@ Provides metadata information about a bot.
 
 """
 describe_bot(botId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/"; aws_config=aws_config)
-describe_bot(botId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/", params; aws_config=aws_config)
+describe_bot(botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/", params; aws_config=aws_config)
 
 """
     describe_bot_alias(bot_alias_id, bot_id)
@@ -467,7 +467,7 @@ Get information about a specific bot alias.
 
 """
 describe_bot_alias(botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botaliases/$(botAliasId)/"; aws_config=aws_config)
-describe_bot_alias(botAliasId, botId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botaliases/$(botAliasId)/", params; aws_config=aws_config)
+describe_bot_alias(botAliasId, botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botaliases/$(botAliasId)/", params; aws_config=aws_config)
 
 """
     describe_bot_locale(bot_id, bot_version, locale_id)
@@ -484,7 +484,7 @@ Describes the settings that a bot has for a specific locale.
 
 """
 describe_bot_locale(botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/"; aws_config=aws_config)
-describe_bot_locale(botId, botVersion, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", params; aws_config=aws_config)
+describe_bot_locale(botId, botVersion, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", params; aws_config=aws_config)
 
 """
     describe_bot_version(bot_id, bot_version)
@@ -498,7 +498,7 @@ Provides metadata about a version of a bot.
 
 """
 describe_bot_version(botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/"; aws_config=aws_config)
-describe_bot_version(botId, botVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/", params; aws_config=aws_config)
+describe_bot_version(botId, botVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/", params; aws_config=aws_config)
 
 """
     describe_intent(bot_id, bot_version, intent_id, locale_id)
@@ -516,7 +516,7 @@ Returns metadata about an intent.
 
 """
 describe_intent(botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/"; aws_config=aws_config)
-describe_intent(botId, botVersion, intentId, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", params; aws_config=aws_config)
+describe_intent(botId, botVersion, intentId, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", params; aws_config=aws_config)
 
 """
     describe_slot(bot_id, bot_version, intent_id, locale_id, slot_id)
@@ -535,7 +535,7 @@ Gets metadata information about a slot.
 
 """
 describe_slot(botId, botVersion, intentId, localeId, slotId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/"; aws_config=aws_config)
-describe_slot(botId, botVersion, intentId, localeId, slotId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/", params; aws_config=aws_config)
+describe_slot(botId, botVersion, intentId, localeId, slotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/", params; aws_config=aws_config)
 
 """
     describe_slot_type(bot_id, bot_version, locale_id, slot_type_id)
@@ -553,7 +553,7 @@ Gets metadata information about a slot type.
 
 """
 describe_slot_type(botId, botVersion, localeId, slotTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/"; aws_config=aws_config)
-describe_slot_type(botId, botVersion, localeId, slotTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/", params; aws_config=aws_config)
+describe_slot_type(botId, botVersion, localeId, slotTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/", params; aws_config=aws_config)
 
 """
     list_bot_aliases(bot_id)
@@ -573,7 +573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in the nextToken parameter to return the next page of results.
 """
 list_bot_aliases(botId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botaliases/"; aws_config=aws_config)
-list_bot_aliases(botId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botaliases/", params; aws_config=aws_config)
+list_bot_aliases(botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botaliases/", params; aws_config=aws_config)
 
 """
     list_bot_locales(bot_id, bot_version)
@@ -599,7 +599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name in ascending or descending order.
 """
 list_bot_locales(botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/"; aws_config=aws_config)
-list_bot_locales(botId, botVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/", params; aws_config=aws_config)
+list_bot_locales(botId, botVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/", params; aws_config=aws_config)
 
 """
     list_bot_versions(bot_id)
@@ -626,7 +626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the list be sorted by version name in either ascending or descending order.
 """
 list_bot_versions(botId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/"; aws_config=aws_config)
-list_bot_versions(botId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/", params; aws_config=aws_config)
+list_bot_versions(botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/", params; aws_config=aws_config)
 
 """
     list_bots()
@@ -649,7 +649,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list be sorted by bot name in ascending or descending order.
 """
 list_bots(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/"; aws_config=aws_config)
-list_bots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/", params; aws_config=aws_config)
+list_bots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/", params; aws_config=aws_config)
 
 """
     list_built_in_intents(locale_id)
@@ -678,7 +678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order.
 """
 list_built_in_intents(localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/builtins/locales/$(localeId)/intents/"; aws_config=aws_config)
-list_built_in_intents(localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/builtins/locales/$(localeId)/intents/", params; aws_config=aws_config)
+list_built_in_intents(localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/builtins/locales/$(localeId)/intents/", params; aws_config=aws_config)
 
 """
     list_built_in_slot_types(locale_id)
@@ -704,7 +704,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order.
 """
 list_built_in_slot_types(localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/builtins/locales/$(localeId)/slottypes/"; aws_config=aws_config)
-list_built_in_slot_types(localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/builtins/locales/$(localeId)/slottypes/", params; aws_config=aws_config)
+list_built_in_slot_types(localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/builtins/locales/$(localeId)/slottypes/", params; aws_config=aws_config)
 
 """
     list_intents(bot_id, bot_version, locale_id)
@@ -734,7 +734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order.
 """
 list_intents(botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/"; aws_config=aws_config)
-list_intents(botId, botVersion, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/", params; aws_config=aws_config)
+list_intents(botId, botVersion, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/", params; aws_config=aws_config)
 
 """
     list_slot_types(bot_id, bot_version, locale_id)
@@ -765,7 +765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order.
 """
 list_slot_types(botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/"; aws_config=aws_config)
-list_slot_types(botId, botVersion, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/", params; aws_config=aws_config)
+list_slot_types(botId, botVersion, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/", params; aws_config=aws_config)
 
 """
     list_slots(bot_id, bot_version, intent_id, locale_id)
@@ -796,7 +796,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   order.
 """
 list_slots(botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/"; aws_config=aws_config)
-list_slots(botId, botVersion, intentId, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/", params; aws_config=aws_config)
+list_slots(botId, botVersion, intentId, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -810,7 +810,7 @@ can have tags associated with them.
 
 """
 list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/tags/$(resourceARN)"; aws_config=aws_config)
-list_tags_for_resource(resourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/tags/$(resourceARN)", params; aws_config=aws_config)
+list_tags_for_resource(resourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/tags/$(resourceARN)", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -827,7 +827,7 @@ existing value is replaced with the new value.
 
 """
 tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/tags/$(resourceARN)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceARN, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/tags/$(resourceARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceARN, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/tags/$(resourceARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -842,7 +842,7 @@ Removes tags from a bot, bot alias, or bot channel.
 
 """
 untag_resource(resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/tags/$(resourceARN)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceARN, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/tags/$(resourceARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceARN, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/tags/$(resourceARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_bot(bot_id, bot_name, data_privacy, idle_session_ttlin_seconds, role_arn)
@@ -870,7 +870,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the bot.
 """
 update_bot(botId, botName, dataPrivacy, idleSessionTTLInSeconds, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/", Dict{String, Any}("botName"=>botName, "dataPrivacy"=>dataPrivacy, "idleSessionTTLInSeconds"=>idleSessionTTLInSeconds, "roleArn"=>roleArn); aws_config=aws_config)
-update_bot(botId, botName, dataPrivacy, idleSessionTTLInSeconds, roleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botName"=>botName, "dataPrivacy"=>dataPrivacy, "idleSessionTTLInSeconds"=>idleSessionTTLInSeconds, "roleArn"=>roleArn), params)); aws_config=aws_config)
+update_bot(botId, botName, dataPrivacy, idleSessionTTLInSeconds, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botName"=>botName, "dataPrivacy"=>dataPrivacy, "idleSessionTTLInSeconds"=>idleSessionTTLInSeconds, "roleArn"=>roleArn), params)); aws_config=aws_config)
 
 """
     update_bot_alias(bot_alias_id, bot_alias_name, bot_id)
@@ -894,7 +894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sentimentAnalysisSettings"`:
 """
 update_bot_alias(botAliasId, botAliasName, botId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botaliases/$(botAliasId)/", Dict{String, Any}("botAliasName"=>botAliasName); aws_config=aws_config)
-update_bot_alias(botAliasId, botAliasName, botId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botaliases/$(botAliasId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botAliasName"=>botAliasName), params)); aws_config=aws_config)
+update_bot_alias(botAliasId, botAliasName, botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botaliases/$(botAliasId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botAliasName"=>botAliasName), params)); aws_config=aws_config)
 
 """
     update_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold)
@@ -920,7 +920,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the user.
 """
 update_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", Dict{String, Any}("nluIntentConfidenceThreshold"=>nluIntentConfidenceThreshold); aws_config=aws_config)
-update_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nluIntentConfidenceThreshold"=>nluIntentConfidenceThreshold), params)); aws_config=aws_config)
+update_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nluIntentConfidenceThreshold"=>nluIntentConfidenceThreshold), params)); aws_config=aws_config)
 
 """
     update_intent(bot_id, bot_version, intent_id, intent_name, locale_id)
@@ -961,7 +961,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   intent.
 """
 update_intent(botId, botVersion, intentId, intentName, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", Dict{String, Any}("intentName"=>intentName); aws_config=aws_config)
-update_intent(botId, botVersion, intentId, intentName, localeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("intentName"=>intentName), params)); aws_config=aws_config)
+update_intent(botId, botVersion, intentId, intentName, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("intentName"=>intentName), params)); aws_config=aws_config)
 
 """
     update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, slot_type_id, value_elicitation_setting)
@@ -989,7 +989,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon CloudWatch logs.
 """
 update_slot(botId, botVersion, intentId, localeId, slotId, slotName, slotTypeId, valueElicitationSetting; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/", Dict{String, Any}("slotName"=>slotName, "slotTypeId"=>slotTypeId, "valueElicitationSetting"=>valueElicitationSetting); aws_config=aws_config)
-update_slot(botId, botVersion, intentId, localeId, slotId, slotName, slotTypeId, valueElicitationSetting, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotName"=>slotName, "slotTypeId"=>slotTypeId, "valueElicitationSetting"=>valueElicitationSetting), params)); aws_config=aws_config)
+update_slot(botId, botVersion, intentId, localeId, slotId, slotName, slotTypeId, valueElicitationSetting, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotName"=>slotName, "slotTypeId"=>slotTypeId, "valueElicitationSetting"=>valueElicitationSetting), params)); aws_config=aws_config)
 
 """
     update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, value_selection_setting)
@@ -1017,4 +1017,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values that the slot type can take.
 """
 update_slot_type(botId, botVersion, localeId, slotTypeId, slotTypeName, valueSelectionSetting; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/", Dict{String, Any}("slotTypeName"=>slotTypeName, "valueSelectionSetting"=>valueSelectionSetting); aws_config=aws_config)
-update_slot_type(botId, botVersion, localeId, slotTypeId, slotTypeName, valueSelectionSetting, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotTypeName"=>slotTypeName, "valueSelectionSetting"=>valueSelectionSetting), params)); aws_config=aws_config)
+update_slot_type(botId, botVersion, localeId, slotTypeId, slotTypeName, valueSelectionSetting, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotTypeName"=>slotTypeName, "valueSelectionSetting"=>valueSelectionSetting), params)); aws_config=aws_config)

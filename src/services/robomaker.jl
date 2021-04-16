@@ -15,7 +15,7 @@ Deletes one or more worlds in a batch operation.
 
 """
 batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDeleteWorlds", Dict{String, Any}("worlds"=>worlds); aws_config=aws_config)
-batch_delete_worlds(worlds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDeleteWorlds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("worlds"=>worlds), params)); aws_config=aws_config)
+batch_delete_worlds(worlds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDeleteWorlds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("worlds"=>worlds), params)); aws_config=aws_config)
 
 """
     batch_describe_simulation_job(jobs)
@@ -28,7 +28,7 @@ Describes one or more simulation jobs.
 
 """
 batch_describe_simulation_job(jobs; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}("jobs"=>jobs); aws_config=aws_config)
-batch_describe_simulation_job(jobs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), params)); aws_config=aws_config)
+batch_describe_simulation_job(jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), params)); aws_config=aws_config)
 
 """
     cancel_deployment_job(job)
@@ -41,7 +41,7 @@ Cancels the specified deployment job.
 
 """
 cancel_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-cancel_deployment_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+cancel_deployment_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     cancel_simulation_job(job)
@@ -54,7 +54,7 @@ Cancels the specified simulation job.
 
 """
 cancel_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-cancel_simulation_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+cancel_simulation_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     cancel_simulation_job_batch(batch)
@@ -68,7 +68,7 @@ cancelling all of the active simulation jobs created as part of the batch.
 
 """
 cancel_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}("batch"=>batch); aws_config=aws_config)
-cancel_simulation_job_batch(batch, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), params)); aws_config=aws_config)
+cancel_simulation_job_batch(batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), params)); aws_config=aws_config)
 
 """
     cancel_world_export_job(job)
@@ -81,7 +81,7 @@ Cancels the specified export job.
 
 """
 cancel_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldExportJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-cancel_world_export_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+cancel_world_export_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     cancel_world_generation_job(job)
@@ -94,7 +94,7 @@ Cancels the specified world generator job.
 
 """
 cancel_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldGenerationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-cancel_world_generation_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+cancel_world_generation_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/cancelWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     create_deployment_job(client_request_token, deployment_application_configs, fleet)
@@ -119,7 +119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job.
 """
 create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet); aws_config=aws_config)
-create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet), params)); aws_config=aws_config)
+create_deployment_job(clientRequestToken, deploymentApplicationConfigs, fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet), params)); aws_config=aws_config)
 
 """
     create_fleet(name)
@@ -135,7 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the fleet.
 """
 create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createFleet", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_fleet(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+create_fleet(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
     create_robot(architecture, greengrass_group_id, name)
@@ -153,7 +153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map that contains tag keys and tag values that are attached to the robot.
 """
 create_robot(architecture, greengrassGroupId, name; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobot", Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name); aws_config=aws_config)
-create_robot(architecture, greengrassGroupId, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name), params)); aws_config=aws_config)
+create_robot(architecture, greengrassGroupId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name), params)); aws_config=aws_config)
 
 """
     create_robot_application(name, robot_software_suite, sources)
@@ -173,7 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application.
 """
 create_robot_application(name, robotSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws_config=aws_config)
-create_robot_application(name, robotSoftwareSuite, sources, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), params)); aws_config=aws_config)
+create_robot_application(name, robotSoftwareSuite, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), params)); aws_config=aws_config)
 
 """
     create_robot_application_version(application)
@@ -190,7 +190,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a value and it matches the latest revision ID, a new version will be created.
 """
 create_robot_application_version(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}("application"=>application); aws_config=aws_config)
-create_robot_application_version(application, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
+create_robot_application_version(application, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
 
 """
     create_simulation_application(name, robot_software_suite, simulation_software_suite, sources)
@@ -213,7 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application.
 """
 create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws_config=aws_config)
-create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), params)); aws_config=aws_config)
+create_simulation_application(name, robotSoftwareSuite, simulationSoftwareSuite, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), params)); aws_config=aws_config)
 
 """
     create_simulation_application_version(application)
@@ -230,7 +230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide a value and it matches the latest revision ID, a new version will be created.
 """
 create_simulation_application_version(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}("application"=>application); aws_config=aws_config)
-create_simulation_application_version(application, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
+create_simulation_application_version(application, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
 
 """
     create_simulation_job(iam_role, max_job_duration_in_seconds)
@@ -270,7 +270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the same VPC. You must provide at least one security group and one subnet ID.
 """
 create_simulation_job(iamRole, maxJobDurationInSeconds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_simulation_job(iamRole, maxJobDurationInSeconds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_simulation_job(iamRole, maxJobDurationInSeconds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_world_export_job(iam_role, output_location, worlds)
@@ -292,7 +292,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   export job.
 """
 create_world_export_job(iamRole, outputLocation, worlds; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_world_export_job(iamRole, outputLocation, worlds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_world_export_job(iamRole, outputLocation, worlds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "outputLocation"=>outputLocation, "worlds"=>worlds, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_world_generation_job(template, world_count)
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated worlds.
 """
 create_world_generation_job(template, worldCount; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_world_generation_job(template, worldCount, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_world_generation_job(template, worldCount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template, "worldCount"=>worldCount, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_world_template()
@@ -334,7 +334,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateLocation"`: The location of the world template.
 """
 create_world_template(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate"; aws_config=aws_config)
-create_world_template(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate", params; aws_config=aws_config)
+create_world_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/createWorldTemplate", params; aws_config=aws_config)
 
 """
     delete_fleet(fleet)
@@ -347,7 +347,7 @@ Deletes a fleet.
 
 """
 delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteFleet", Dict{String, Any}("fleet"=>fleet); aws_config=aws_config)
-delete_fleet(fleet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), params)); aws_config=aws_config)
+delete_fleet(fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), params)); aws_config=aws_config)
 
 """
     delete_robot(robot)
@@ -360,7 +360,7 @@ Deletes a robot.
 
 """
 delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobot", Dict{String, Any}("robot"=>robot); aws_config=aws_config)
-delete_robot(robot, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), params)); aws_config=aws_config)
+delete_robot(robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), params)); aws_config=aws_config)
 
 """
     delete_robot_application(application)
@@ -376,7 +376,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"applicationVersion"`: The version of the robot application to delete.
 """
 delete_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
-delete_robot_application(application, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
+delete_robot_application(application, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
 
 """
     delete_simulation_application(application)
@@ -392,7 +392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"applicationVersion"`: The version of the simulation application to delete.
 """
 delete_simulation_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
-delete_simulation_application(application, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
+delete_simulation_application(application, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
 
 """
     delete_world_template(template)
@@ -405,7 +405,7 @@ Deletes a world template.
 
 """
 delete_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
-delete_world_template(template, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config)
+delete_world_template(template, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deleteWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config)
 
 """
     deregister_robot(fleet, robot)
@@ -419,7 +419,7 @@ Deregisters a robot.
 
 """
 deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot); aws_config=aws_config)
-deregister_robot(fleet, robot, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), params)); aws_config=aws_config)
+deregister_robot(fleet, robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), params)); aws_config=aws_config)
 
 """
     describe_deployment_job(job)
@@ -432,7 +432,7 @@ Describes a deployment job.
 
 """
 describe_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-describe_deployment_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+describe_deployment_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     describe_fleet(fleet)
@@ -445,7 +445,7 @@ Describes a fleet.
 
 """
 describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeFleet", Dict{String, Any}("fleet"=>fleet); aws_config=aws_config)
-describe_fleet(fleet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), params)); aws_config=aws_config)
+describe_fleet(fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), params)); aws_config=aws_config)
 
 """
     describe_robot(robot)
@@ -458,7 +458,7 @@ Describes a robot.
 
 """
 describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobot", Dict{String, Any}("robot"=>robot); aws_config=aws_config)
-describe_robot(robot, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), params)); aws_config=aws_config)
+describe_robot(robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), params)); aws_config=aws_config)
 
 """
     describe_robot_application(application)
@@ -474,7 +474,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"applicationVersion"`: The version of the robot application to describe.
 """
 describe_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
-describe_robot_application(application, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
+describe_robot_application(application, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
 
 """
     describe_simulation_application(application)
@@ -490,7 +490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"applicationVersion"`: The version of the simulation application to describe.
 """
 describe_simulation_application(application; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}("application"=>application); aws_config=aws_config)
-describe_simulation_application(application, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
+describe_simulation_application(application, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), params)); aws_config=aws_config)
 
 """
     describe_simulation_job(job)
@@ -503,7 +503,7 @@ Describes a simulation job.
 
 """
 describe_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-describe_simulation_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+describe_simulation_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     describe_simulation_job_batch(batch)
@@ -516,7 +516,7 @@ Describes a simulation job batch.
 
 """
 describe_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}("batch"=>batch); aws_config=aws_config)
-describe_simulation_job_batch(batch, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), params)); aws_config=aws_config)
+describe_simulation_job_batch(batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), params)); aws_config=aws_config)
 
 """
     describe_world(world)
@@ -529,7 +529,7 @@ Describes a world.
 
 """
 describe_world(world; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorld", Dict{String, Any}("world"=>world); aws_config=aws_config)
-describe_world(world, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorld", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("world"=>world), params)); aws_config=aws_config)
+describe_world(world, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorld", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("world"=>world), params)); aws_config=aws_config)
 
 """
     describe_world_export_job(job)
@@ -542,7 +542,7 @@ Describes a world export job.
 
 """
 describe_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldExportJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-describe_world_export_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+describe_world_export_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     describe_world_generation_job(job)
@@ -555,7 +555,7 @@ Describes a world generation job.
 
 """
 describe_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldGenerationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-describe_world_generation_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+describe_world_generation_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldGenerationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     describe_world_template(template)
@@ -568,7 +568,7 @@ Describes a world template.
 
 """
 describe_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
-describe_world_template(template, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config)
+describe_world_template(template, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/describeWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config)
 
 """
     get_world_template_body()
@@ -582,7 +582,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"template"`: The Amazon Resource Name (arn) of the world template.
 """
 get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody"; aws_config=aws_config)
-get_world_template_body(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody", params; aws_config=aws_config)
+get_world_template_body(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/getWorldTemplateBody", params; aws_config=aws_config)
 
 """
     list_deployment_jobs()
@@ -610,7 +610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs"; aws_config=aws_config)
-list_deployment_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs", params; aws_config=aws_config)
+list_deployment_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listDeploymentJobs", params; aws_config=aws_config)
 
 """
     list_fleets()
@@ -637,7 +637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   purposes.
 """
 list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets"; aws_config=aws_config)
-list_fleets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets", params; aws_config=aws_config)
+list_fleets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listFleets", params; aws_config=aws_config)
 
 """
     list_robot_applications()
@@ -665,7 +665,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionQualifier"`: The version qualifier of the robot application.
 """
 list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications"; aws_config=aws_config)
-list_robot_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications", params; aws_config=aws_config)
+list_robot_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobotApplications", params; aws_config=aws_config)
 
 """
     list_robots()
@@ -691,7 +691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is set to null.
 """
 list_robots(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots"; aws_config=aws_config)
-list_robots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots", params; aws_config=aws_config)
+list_robots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listRobots", params; aws_config=aws_config)
 
 """
     list_simulation_applications()
@@ -719,7 +719,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionQualifier"`: The version qualifier of the simulation application.
 """
 list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications"; aws_config=aws_config)
-list_simulation_applications(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications", params; aws_config=aws_config)
+list_simulation_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationApplications", params; aws_config=aws_config)
 
 """
     list_simulation_job_batches()
@@ -742,7 +742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response object's NextToken parameter is set to null.
 """
 list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches"; aws_config=aws_config)
-list_simulation_job_batches(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches", params; aws_config=aws_config)
+list_simulation_job_batches(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobBatches", params; aws_config=aws_config)
 
 """
     list_simulation_jobs()
@@ -771,7 +771,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs"; aws_config=aws_config)
-list_simulation_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs", params; aws_config=aws_config)
+list_simulation_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listSimulationJobs", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -784,7 +784,7 @@ Lists all tags on a AWS RoboMaker resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     list_world_export_jobs()
@@ -809,7 +809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs"; aws_config=aws_config)
-list_world_export_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs", params; aws_config=aws_config)
+list_world_export_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldExportJobs", params; aws_config=aws_config)
 
 """
     list_world_generation_jobs()
@@ -833,7 +833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response object's NextToken parameter is set to null.
 """
 list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs"; aws_config=aws_config)
-list_world_generation_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs", params; aws_config=aws_config)
+list_world_generation_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldGenerationJobs", params; aws_config=aws_config)
 
 """
     list_world_templates()
@@ -856,7 +856,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object's NextToken parameter is set to null.
 """
 list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates"; aws_config=aws_config)
-list_world_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates", params; aws_config=aws_config)
+list_world_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorldTemplates", params; aws_config=aws_config)
 
 """
     list_worlds()
@@ -879,7 +879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is set to null.
 """
 list_worlds(; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds"; aws_config=aws_config)
-list_worlds(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds", params; aws_config=aws_config)
+list_worlds(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/listWorlds", params; aws_config=aws_config)
 
 """
     register_robot(fleet, robot)
@@ -893,7 +893,7 @@ Registers a robot with a fleet.
 
 """
 register_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/registerRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot); aws_config=aws_config)
-register_robot(fleet, robot, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/registerRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), params)); aws_config=aws_config)
+register_robot(fleet, robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/registerRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), params)); aws_config=aws_config)
 
 """
     restart_simulation_job(job)
@@ -906,7 +906,7 @@ Restarts a running simulation job.
 
 """
 restart_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}("job"=>job); aws_config=aws_config)
-restart_simulation_job(job, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
+restart_simulation_job(job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), params)); aws_config=aws_config)
 
 """
     start_simulation_job_batch(create_simulation_job_requests)
@@ -928,7 +928,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job batch.
 """
 start_simulation_job_batch(createSimulationJobRequests; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_simulation_job_batch(createSimulationJobRequests, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_simulation_job_batch(createSimulationJobRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     sync_deployment_job(client_request_token, fleet)
@@ -944,7 +944,7 @@ added after a deployment.
 
 """
 sync_deployment_job(clientRequestToken, fleet; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet); aws_config=aws_config)
-sync_deployment_job(clientRequestToken, fleet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet), params)); aws_config=aws_config)
+sync_deployment_job(clientRequestToken, fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -962,7 +962,7 @@ Restrictions in the AWS Billing and Cost Management User Guide.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -979,7 +979,7 @@ specify the tag key. To change the tag value of an existing tag key, use  TagRes
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_robot_application(application, robot_software_suite, sources)
@@ -998,7 +998,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"currentRevisionId"`: The revision id for the robot application.
 """
 update_robot_application(application, robotSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws_config=aws_config)
-update_robot_application(application, robotSoftwareSuite, sources, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), params)); aws_config=aws_config)
+update_robot_application(application, robotSoftwareSuite, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), params)); aws_config=aws_config)
 
 """
     update_simulation_application(application, robot_software_suite, simulation_software_suite, sources)
@@ -1019,7 +1019,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"renderingEngine"`: The rendering engine for the simulation application.
 """
 update_simulation_application(application, robotSoftwareSuite, simulationSoftwareSuite, sources; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws_config=aws_config)
-update_simulation_application(application, robotSoftwareSuite, simulationSoftwareSuite, sources, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), params)); aws_config=aws_config)
+update_simulation_application(application, robotSoftwareSuite, simulationSoftwareSuite, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), params)); aws_config=aws_config)
 
 """
     update_world_template(template)
@@ -1037,4 +1037,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateLocation"`: The location of the world template.
 """
 update_world_template(template; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateWorldTemplate", Dict{String, Any}("template"=>template); aws_config=aws_config)
-update_world_template(template, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config)
+update_world_template(template, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = robomaker("POST", "/updateWorldTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("template"=>template), params)); aws_config=aws_config)

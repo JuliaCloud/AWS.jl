@@ -17,7 +17,7 @@ received a claim code with the device(s).
 
 """
 claim_devices_by_claim_code(claimCode; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/claims/$(claimCode)"; aws_config=aws_config)
-claim_devices_by_claim_code(claimCode, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/claims/$(claimCode)", params; aws_config=aws_config)
+claim_devices_by_claim_code(claimCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/claims/$(claimCode)", params; aws_config=aws_config)
 
 """
     describe_device(device_id)
@@ -32,7 +32,7 @@ device.
 
 """
 describe_device(deviceId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)"; aws_config=aws_config)
-describe_device(deviceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)", params; aws_config=aws_config)
+describe_device(deviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)", params; aws_config=aws_config)
 
 """
     finalize_device_claim(device_id)
@@ -56,7 +56,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tagging Strategies.
 """
 finalize_device_claim(deviceId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim"; aws_config=aws_config)
-finalize_device_claim(deviceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim", params; aws_config=aws_config)
+finalize_device_claim(deviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim", params; aws_config=aws_config)
 
 """
     get_device_methods(device_id)
@@ -69,7 +69,7 @@ Given a device ID, returns the invokable methods associated with the device.
 
 """
 get_device_methods(deviceId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods"; aws_config=aws_config)
-get_device_methods(deviceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods", params; aws_config=aws_config)
+get_device_methods(deviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods", params; aws_config=aws_config)
 
 """
     initiate_device_claim(device_id)
@@ -88,7 +88,7 @@ device.
 
 """
 initiate_device_claim(deviceId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim"; aws_config=aws_config)
-initiate_device_claim(deviceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim", params; aws_config=aws_config)
+initiate_device_claim(deviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim", params; aws_config=aws_config)
 
 """
     invoke_device_method(device_id)
@@ -107,7 +107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters.
 """
 invoke_device_method(deviceId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods"; aws_config=aws_config)
-invoke_device_method(deviceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods", params; aws_config=aws_config)
+invoke_device_method(deviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods", params; aws_config=aws_config)
 
 """
     list_device_events(device_id, from_time_stamp, to_time_stamp)
@@ -134,7 +134,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 list_device_events(deviceId, fromTimeStamp, toTimeStamp; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events", Dict{String, Any}("fromTimeStamp"=>fromTimeStamp, "toTimeStamp"=>toTimeStamp); aws_config=aws_config)
-list_device_events(deviceId, fromTimeStamp, toTimeStamp, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fromTimeStamp"=>fromTimeStamp, "toTimeStamp"=>toTimeStamp), params)); aws_config=aws_config)
+list_device_events(deviceId, fromTimeStamp, toTimeStamp, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fromTimeStamp"=>fromTimeStamp, "toTimeStamp"=>toTimeStamp), params)); aws_config=aws_config)
 
 """
     list_devices()
@@ -151,7 +151,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 list_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices"; aws_config=aws_config)
-list_devices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices", params; aws_config=aws_config)
+list_devices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource-arn)
@@ -164,7 +164,7 @@ Lists the tags associated with the specified resource ARN.
 
 """
 list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
-list_tags_for_resource(resource_arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/tags/$(resource-arn)", params; aws_config=aws_config)
+list_tags_for_resource(resource_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/tags/$(resource-arn)", params; aws_config=aws_config)
 
 """
     tag_resource(resource-arn, tags)
@@ -182,7 +182,7 @@ Limits for the maximum number of tags allowed per
 
 """
 tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resource_arn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resource_arn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     unclaim_device(device_id)
@@ -195,7 +195,7 @@ Disassociates a device from your AWS account using its device ID.
 
 """
 unclaim_device(deviceId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim"; aws_config=aws_config)
-unclaim_device(deviceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim", params; aws_config=aws_config)
+unclaim_device(deviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim", params; aws_config=aws_config)
 
 """
     untag_resource(resource-arn, tag_keys)
@@ -211,7 +211,7 @@ ARN.
 
 """
 untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resource_arn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resource_arn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_device_state(device_id)
@@ -230,4 +230,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  disabled.
 """
 update_device_state(deviceId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state"; aws_config=aws_config)
-update_device_state(deviceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state", params; aws_config=aws_config)
+update_device_state(deviceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state", params; aws_config=aws_config)

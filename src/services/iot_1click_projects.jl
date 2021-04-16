@@ -20,7 +20,7 @@ Associates a physical device with a placement.
 
 """
 associate_device_with_placement(deviceId, deviceTemplateName, placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)", Dict{String, Any}("deviceId"=>deviceId); aws_config=aws_config)
-associate_device_with_placement(deviceId, deviceTemplateName, placementName, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceId"=>deviceId), params)); aws_config=aws_config)
+associate_device_with_placement(deviceId, deviceTemplateName, placementName, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceId"=>deviceId), params)); aws_config=aws_config)
 
 """
     create_placement(placement_name, project_name)
@@ -38,7 +38,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   location or function) for the placement.
 """
 create_placement(placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects/$(projectName)/placements", Dict{String, Any}("placementName"=>placementName); aws_config=aws_config)
-create_placement(placementName, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects/$(projectName)/placements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("placementName"=>placementName), params)); aws_config=aws_config)
+create_placement(placementName, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects/$(projectName)/placements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("placementName"=>placementName), params)); aws_config=aws_config)
 
 """
     create_project(project_name)
@@ -62,7 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tagging Strategies.
 """
 create_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
-create_project(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
+create_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
 
 """
     delete_placement(placement_name, project_name)
@@ -77,7 +77,7 @@ it.  When you delete a placement, all associated data becomes irretrievable.
 
 """
 delete_placement(placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)"; aws_config=aws_config)
-delete_placement(placementName, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)", params; aws_config=aws_config)
+delete_placement(placementName, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)", params; aws_config=aws_config)
 
 """
     delete_project(project_name)
@@ -91,7 +91,7 @@ Deletes a project. To delete a project, it must not have any placements associat
 
 """
 delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)"; aws_config=aws_config)
-delete_project(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)", params; aws_config=aws_config)
+delete_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)", params; aws_config=aws_config)
 
 """
     describe_placement(placement_name, project_name)
@@ -105,7 +105,7 @@ Describes a placement in a project.
 
 """
 describe_placement(placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)"; aws_config=aws_config)
-describe_placement(placementName, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)", params; aws_config=aws_config)
+describe_placement(placementName, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)", params; aws_config=aws_config)
 
 """
     describe_project(project_name)
@@ -118,7 +118,7 @@ Returns an object describing a project.
 
 """
 describe_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)"; aws_config=aws_config)
-describe_project(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)", params; aws_config=aws_config)
+describe_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)", params; aws_config=aws_config)
 
 """
     disassociate_device_from_placement(device_template_name, placement_name, project_name)
@@ -133,7 +133,7 @@ Removes a physical device from a placement.
 
 """
 disassociate_device_from_placement(deviceTemplateName, placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)"; aws_config=aws_config)
-disassociate_device_from_placement(deviceTemplateName, placementName, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)", params; aws_config=aws_config)
+disassociate_device_from_placement(deviceTemplateName, placementName, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)", params; aws_config=aws_config)
 
 """
     get_devices_in_placement(placement_name, project_name)
@@ -147,7 +147,7 @@ Returns an object enumerating the devices in a placement.
 
 """
 get_devices_in_placement(placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)/devices"; aws_config=aws_config)
-get_devices_in_placement(placementName, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)/devices", params; aws_config=aws_config)
+get_devices_in_placement(placementName, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)/devices", params; aws_config=aws_config)
 
 """
     list_placements(project_name)
@@ -165,7 +165,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 list_placements(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements"; aws_config=aws_config)
-list_placements(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements", params; aws_config=aws_config)
+list_placements(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects/$(projectName)/placements", params; aws_config=aws_config)
 
 """
     list_projects()
@@ -180,7 +180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects"; aws_config=aws_config)
-list_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects", params; aws_config=aws_config)
+list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/projects", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -193,7 +193,7 @@ Lists the tags (metadata key/value pairs) which you have assigned to the resourc
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -209,7 +209,7 @@ used to manage a resource. For more information, see AWS Tagging Strategies.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -223,7 +223,7 @@ Removes one or more tags (metadata key/value pairs) from a resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_placement(placement_name, project_name)
@@ -242,7 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum number of key/value pairs is 50.
 """
 update_placement(placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)"; aws_config=aws_config)
-update_placement(placementName, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)", params; aws_config=aws_config)
+update_placement(placementName, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)", params; aws_config=aws_config)
 
 """
     update_project(project_name)
@@ -265,4 +265,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definition using this API.
 """
 update_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)"; aws_config=aws_config)
-update_project(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)", params; aws_config=aws_config)
+update_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_1click_projects("PUT", "/projects/$(projectName)", params; aws_config=aws_config)

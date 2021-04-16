@@ -47,7 +47,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see Controlling Access Using IAM Tags.
 """
 create_certificate_authority(CertificateAuthorityConfiguration, CertificateAuthorityType; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthority", Dict{String, Any}("CertificateAuthorityConfiguration"=>CertificateAuthorityConfiguration, "CertificateAuthorityType"=>CertificateAuthorityType); aws_config=aws_config)
-create_certificate_authority(CertificateAuthorityConfiguration, CertificateAuthorityType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityConfiguration"=>CertificateAuthorityConfiguration, "CertificateAuthorityType"=>CertificateAuthorityType), params)); aws_config=aws_config)
+create_certificate_authority(CertificateAuthorityConfiguration, CertificateAuthorityType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityConfiguration"=>CertificateAuthorityConfiguration, "CertificateAuthorityType"=>CertificateAuthorityType), params)); aws_config=aws_config)
 
 """
     create_certificate_authority_audit_report(audit_report_response_format, certificate_authority_arn, s3_bucket_name)
@@ -72,7 +72,7 @@ Your Audit Reports.
 
 """
 create_certificate_authority_audit_report(AuditReportResponseFormat, CertificateAuthorityArn, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthorityAuditReport", Dict{String, Any}("AuditReportResponseFormat"=>AuditReportResponseFormat, "CertificateAuthorityArn"=>CertificateAuthorityArn, "S3BucketName"=>S3BucketName); aws_config=aws_config)
-create_certificate_authority_audit_report(AuditReportResponseFormat, CertificateAuthorityArn, S3BucketName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportResponseFormat"=>AuditReportResponseFormat, "CertificateAuthorityArn"=>CertificateAuthorityArn, "S3BucketName"=>S3BucketName), params)); aws_config=aws_config)
+create_certificate_authority_audit_report(AuditReportResponseFormat, CertificateAuthorityArn, S3BucketName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreateCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportResponseFormat"=>AuditReportResponseFormat, "CertificateAuthorityArn"=>CertificateAuthorityArn, "S3BucketName"=>S3BucketName), params)); aws_config=aws_config)
 
 """
     create_permission(actions, certificate_authority_arn, principal)
@@ -106,7 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceAccount"`: The ID of the calling account.
 """
 create_permission(Actions, CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreatePermission", Dict{String, Any}("Actions"=>Actions, "CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal); aws_config=aws_config)
-create_permission(Actions, CertificateAuthorityArn, Principal, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreatePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), params)); aws_config=aws_config)
+create_permission(Actions, CertificateAuthorityArn, Principal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("CreatePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), params)); aws_config=aws_config)
 
 """
     delete_certificate_authority(certificate_authority_arn)
@@ -140,7 +140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
 """
 delete_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeleteCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-delete_certificate_authority(CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeleteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+delete_certificate_authority(CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeleteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     delete_permission(certificate_authority_arn, principal)
@@ -173,7 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceAccount"`: The AWS account that calls this action.
 """
 delete_permission(CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePermission", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal); aws_config=aws_config)
-delete_permission(CertificateAuthorityArn, Principal, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), params)); aws_config=aws_config)
+delete_permission(CertificateAuthorityArn, Principal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Principal"=>Principal), params)); aws_config=aws_config)
 
 """
     delete_policy(resource_arn)
@@ -204,7 +204,7 @@ see Attach a Policy for Cross-Account Access.
 
 """
 delete_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-delete_policy(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+delete_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     describe_certificate_authority(certificate_authority_arn)
@@ -231,7 +231,7 @@ action's output.
 
 """
 describe_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-describe_certificate_authority(CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+describe_certificate_authority(CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     describe_certificate_authority_audit_report(audit_report_id, certificate_authority_arn)
@@ -251,7 +251,7 @@ IssueCertificate action or the RevokeCertificate action.
 
 """
 describe_certificate_authority_audit_report(AuditReportId, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthorityAuditReport", Dict{String, Any}("AuditReportId"=>AuditReportId, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-describe_certificate_authority_audit_report(AuditReportId, CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportId"=>AuditReportId, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+describe_certificate_authority_audit_report(AuditReportId, CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("DescribeCertificateAuthorityAuditReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuditReportId"=>AuditReportId, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     get_certificate(certificate_arn, certificate_authority_arn)
@@ -275,7 +275,7 @@ information about all of the certificates issued and revoked by your private CA.
 
 """
 get_certificate(CertificateArn, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-get_certificate(CertificateArn, CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+get_certificate(CertificateArn, CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     get_certificate_authority_certificate(certificate_authority_arn)
@@ -293,7 +293,7 @@ signs the one before it.
 
 """
 get_certificate_authority_certificate(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-get_certificate_authority_certificate(CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+get_certificate_authority_certificate(CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     get_certificate_authority_csr(certificate_authority_arn)
@@ -313,7 +313,7 @@ string.
 
 """
 get_certificate_authority_csr(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCsr", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-get_certificate_authority_csr(CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCsr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+get_certificate_authority_csr(CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetCertificateAuthorityCsr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     get_policy(resource_arn)
@@ -340,7 +340,7 @@ for Cross-Account Access.
 
 """
 get_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_policy(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+get_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     import_certificate_authority_certificate(certificate, certificate_authority_arn)
@@ -391,7 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subordinate CA. When you import a root CA, there is no chain.
 """
 import_certificate_authority_certificate(Certificate, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ImportCertificateAuthorityCertificate", Dict{String, Any}("Certificate"=>Certificate, "CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-import_certificate_authority_certificate(Certificate, CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ImportCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+import_certificate_authority_certificate(Certificate, CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ImportCertificateAuthorityCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     issue_certificate(certificate_authority_arn, csr, signing_algorithm, validity)
@@ -461,7 +461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RFC 5280.
 """
 issue_certificate(CertificateAuthorityArn, Csr, SigningAlgorithm, Validity; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("IssueCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Csr"=>Csr, "SigningAlgorithm"=>SigningAlgorithm, "Validity"=>Validity); aws_config=aws_config)
-issue_certificate(CertificateAuthorityArn, Csr, SigningAlgorithm, Validity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("IssueCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Csr"=>Csr, "SigningAlgorithm"=>SigningAlgorithm, "Validity"=>Validity), params)); aws_config=aws_config)
+issue_certificate(CertificateAuthorityArn, Csr, SigningAlgorithm, Validity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("IssueCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Csr"=>Csr, "SigningAlgorithm"=>SigningAlgorithm, "Validity"=>Validity), params)); aws_config=aws_config)
 
 """
     list_certificate_authorities()
@@ -483,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authorities based on their owner. The default is SELF.
 """
 list_certificate_authorities(; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListCertificateAuthorities"; aws_config=aws_config)
-list_certificate_authorities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListCertificateAuthorities", params; aws_config=aws_config)
+list_certificate_authorities(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListCertificateAuthorities", params; aws_config=aws_config)
 
 """
     list_permissions(certificate_authority_arn)
@@ -520,7 +520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response you just received.
 """
 list_permissions(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListPermissions", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-list_permissions(CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+list_permissions(CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     list_tags(certificate_authority_arn)
@@ -547,7 +547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response you just received.
 """
 list_tags(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListTags", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-list_tags(CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+list_tags(CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     put_policy(policy, resource_arn)
@@ -578,7 +578,7 @@ information, see Attach a Policy for Cross-Account Access.
 
 """
 put_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("PutPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-put_policy(Policy, ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+put_policy(Policy, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     restore_certificate_authority(certificate_authority_arn)
@@ -605,7 +605,7 @@ has ended.
 
 """
 restore_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RestoreCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-restore_certificate_authority(CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RestoreCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+restore_certificate_authority(CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RestoreCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
 
 """
     revoke_certificate(certificate_authority_arn, certificate_serial, revocation_reason)
@@ -641,7 +641,7 @@ a root CA self-signed certificate.
 
 """
 revoke_certificate(CertificateAuthorityArn, CertificateSerial, RevocationReason; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RevokeCertificate", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "CertificateSerial"=>CertificateSerial, "RevocationReason"=>RevocationReason); aws_config=aws_config)
-revoke_certificate(CertificateAuthorityArn, CertificateSerial, RevocationReason, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RevokeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "CertificateSerial"=>CertificateSerial, "RevocationReason"=>RevocationReason), params)); aws_config=aws_config)
+revoke_certificate(CertificateAuthorityArn, CertificateSerial, RevocationReason, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("RevokeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "CertificateSerial"=>CertificateSerial, "RevocationReason"=>RevocationReason), params)); aws_config=aws_config)
 
 """
     tag_certificate_authority(certificate_authority_arn, tags)
@@ -664,7 +664,7 @@ are associated with your CA.
 
 """
 tag_certificate_authority(CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("TagCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags); aws_config=aws_config)
-tag_certificate_authority(CertificateAuthorityArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("TagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_certificate_authority(CertificateAuthorityArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("TagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_certificate_authority(certificate_authority_arn, tags)
@@ -684,7 +684,7 @@ Call the ListTags action to see what tags are associated with your CA.
 
 """
 untag_certificate_authority(CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UntagCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags); aws_config=aws_config)
-untag_certificate_authority(CertificateAuthorityArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UntagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), params)); aws_config=aws_config)
+untag_certificate_authority(CertificateAuthorityArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UntagCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     update_certificate_authority(certificate_authority_arn)
@@ -709,4 +709,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Status of your private CA.
 """
 update_certificate_authority(CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UpdateCertificateAuthority", Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn); aws_config=aws_config)
-update_certificate_authority(CertificateAuthorityArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UpdateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)
+update_certificate_authority(CertificateAuthorityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = acm_pca("UpdateCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateAuthorityArn"=>CertificateAuthorityArn), params)); aws_config=aws_config)

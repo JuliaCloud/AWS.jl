@@ -21,7 +21,7 @@ can execute this operation no more than once per second.
 
 """
 clone_receipt_rule_set(OriginalRuleSetName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CloneReceiptRuleSet", Dict{String, Any}("OriginalRuleSetName"=>OriginalRuleSetName, "RuleSetName"=>RuleSetName); aws_config=aws_config)
-clone_receipt_rule_set(OriginalRuleSetName, RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CloneReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginalRuleSetName"=>OriginalRuleSetName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+clone_receipt_rule_set(OriginalRuleSetName, RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CloneReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginalRuleSetName"=>OriginalRuleSetName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     create_configuration_set(configuration_set)
@@ -36,7 +36,7 @@ execute this operation no more than once per second.
 
 """
 create_configuration_set(ConfigurationSet; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSet", Dict{String, Any}("ConfigurationSet"=>ConfigurationSet); aws_config=aws_config)
-create_configuration_set(ConfigurationSet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSet"=>ConfigurationSet), params)); aws_config=aws_config)
+create_configuration_set(ConfigurationSet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSet"=>ConfigurationSet), params)); aws_config=aws_config)
 
 """
     create_configuration_set_event_destination(configuration_set_name, event_destination)
@@ -58,7 +58,7 @@ second.
 
 """
 create_configuration_set_event_destination(ConfigurationSetName, EventDestination; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSetEventDestination", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestination"=>EventDestination); aws_config=aws_config)
-create_configuration_set_event_destination(ConfigurationSetName, EventDestination, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestination"=>EventDestination), params)); aws_config=aws_config)
+create_configuration_set_event_destination(ConfigurationSetName, EventDestination, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestination"=>EventDestination), params)); aws_config=aws_config)
 
 """
     create_configuration_set_tracking_options(configuration_set_name, tracking_options)
@@ -77,7 +77,7 @@ Developer Guide.
 
 """
 create_configuration_set_tracking_options(ConfigurationSetName, TrackingOptions; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSetTrackingOptions", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "TrackingOptions"=>TrackingOptions); aws_config=aws_config)
-create_configuration_set_tracking_options(ConfigurationSetName, TrackingOptions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "TrackingOptions"=>TrackingOptions), params)); aws_config=aws_config)
+create_configuration_set_tracking_options(ConfigurationSetName, TrackingOptions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "TrackingOptions"=>TrackingOptions), params)); aws_config=aws_config)
 
 """
     create_custom_verification_email_template(failure_redirection_url, from_email_address, success_redirection_url, template_content, template_name, template_subject)
@@ -102,7 +102,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateCustomVerificationEmailTemplate", Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject); aws_config=aws_config)
-create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject), params)); aws_config=aws_config)
+create_custom_verification_email_template(FailureRedirectionURL, FromEmailAddress, SuccessRedirectionURL, TemplateContent, TemplateName, TemplateSubject, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FailureRedirectionURL"=>FailureRedirectionURL, "FromEmailAddress"=>FromEmailAddress, "SuccessRedirectionURL"=>SuccessRedirectionURL, "TemplateContent"=>TemplateContent, "TemplateName"=>TemplateName, "TemplateSubject"=>TemplateSubject), params)); aws_config=aws_config)
 
 """
     create_receipt_filter(filter)
@@ -117,7 +117,7 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 create_receipt_filter(Filter; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptFilter", Dict{String, Any}("Filter"=>Filter); aws_config=aws_config)
-create_receipt_filter(Filter, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter), params)); aws_config=aws_config)
+create_receipt_filter(Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter), params)); aws_config=aws_config)
 
 """
     create_receipt_rule(rule, rule_set_name)
@@ -137,7 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is null, the new rule will be inserted at the beginning of the rule list.
 """
 create_receipt_rule(Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptRule", Dict{String, Any}("Rule"=>Rule, "RuleSetName"=>RuleSetName); aws_config=aws_config)
-create_receipt_rule(Rule, RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+create_receipt_rule(Rule, RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     create_receipt_rule_set(rule_set_name)
@@ -153,7 +153,7 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 create_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptRuleSet", Dict{String, Any}("RuleSetName"=>RuleSetName); aws_config=aws_config)
-create_receipt_rule_set(RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+create_receipt_rule_set(RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     create_template(template)
@@ -169,7 +169,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 create_template(Template; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateTemplate", Dict{String, Any}("Template"=>Template); aws_config=aws_config)
-create_template(Template, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Template"=>Template), params)); aws_config=aws_config)
+create_template(Template, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("CreateTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Template"=>Template), params)); aws_config=aws_config)
 
 """
     delete_configuration_set(configuration_set_name)
@@ -184,7 +184,7 @@ execute this operation no more than once per second.
 
 """
 delete_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSet", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName); aws_config=aws_config)
-delete_configuration_set(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
+delete_configuration_set(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
 
 """
     delete_configuration_set_event_destination(configuration_set_name, event_destination_name)
@@ -202,7 +202,7 @@ execute this operation no more than once per second.
 
 """
 delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSetEventDestination", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestinationName"=>EventDestinationName); aws_config=aws_config)
-delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestinationName"=>EventDestinationName), params)); aws_config=aws_config)
+delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestinationName"=>EventDestinationName), params)); aws_config=aws_config)
 
 """
     delete_configuration_set_tracking_options(configuration_set_name)
@@ -222,7 +222,7 @@ SES-operated domains.
 
 """
 delete_configuration_set_tracking_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSetTrackingOptions", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName); aws_config=aws_config)
-delete_configuration_set_tracking_options(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
+delete_configuration_set_tracking_options(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
 
 """
     delete_custom_verification_email_template(template_name)
@@ -238,7 +238,7 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 delete_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteCustomVerificationEmailTemplate", Dict{String, Any}("TemplateName"=>TemplateName); aws_config=aws_config)
-delete_custom_verification_email_template(TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
+delete_custom_verification_email_template(TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
     delete_identity(identity)
@@ -252,7 +252,7 @@ identities. You can execute this operation no more than once per second.
 
 """
 delete_identity(Identity; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteIdentity", Dict{String, Any}("Identity"=>Identity); aws_config=aws_config)
-delete_identity(Identity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config)
+delete_identity(Identity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config)
 
 """
     delete_identity_policy(identity, policy_name)
@@ -276,7 +276,7 @@ than once per second.
 
 """
 delete_identity_policy(Identity, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteIdentityPolicy", Dict{String, Any}("Identity"=>Identity, "PolicyName"=>PolicyName); aws_config=aws_config)
-delete_identity_policy(Identity, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteIdentityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+delete_identity_policy(Identity, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteIdentityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     delete_receipt_filter(filter_name)
@@ -291,7 +291,7 @@ second.
 
 """
 delete_receipt_filter(FilterName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptFilter", Dict{String, Any}("FilterName"=>FilterName); aws_config=aws_config)
-delete_receipt_filter(FilterName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FilterName"=>FilterName), params)); aws_config=aws_config)
+delete_receipt_filter(FilterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FilterName"=>FilterName), params)); aws_config=aws_config)
 
 """
     delete_receipt_rule(rule_name, rule_set_name)
@@ -307,7 +307,7 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 
 """
 delete_receipt_rule(RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptRule", Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName); aws_config=aws_config)
-delete_receipt_rule(RuleName, RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+delete_receipt_rule(RuleName, RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     delete_receipt_rule_set(rule_set_name)
@@ -323,7 +323,7 @@ per second.
 
 """
 delete_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptRuleSet", Dict{String, Any}("RuleSetName"=>RuleSetName); aws_config=aws_config)
-delete_receipt_rule_set(RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+delete_receipt_rule_set(RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     delete_template(template_name)
@@ -336,7 +336,7 @@ Deletes an email template. You can execute this operation no more than once per 
 
 """
 delete_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteTemplate", Dict{String, Any}("TemplateName"=>TemplateName); aws_config=aws_config)
-delete_template(TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
+delete_template(TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
     delete_verified_email_address(email_address)
@@ -349,7 +349,7 @@ Deprecated. Use the DeleteIdentity operation to delete email addresses and domai
 
 """
 delete_verified_email_address(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteVerifiedEmailAddress", Dict{String, Any}("EmailAddress"=>EmailAddress); aws_config=aws_config)
-delete_verified_email_address(EmailAddress, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteVerifiedEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config)
+delete_verified_email_address(EmailAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DeleteVerifiedEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config)
 
 """
     describe_active_receipt_rule_set()
@@ -361,7 +361,7 @@ can execute this operation no more than once per second.
 
 """
 describe_active_receipt_rule_set(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeActiveReceiptRuleSet"; aws_config=aws_config)
-describe_active_receipt_rule_set(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeActiveReceiptRuleSet", params; aws_config=aws_config)
+describe_active_receipt_rule_set(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeActiveReceiptRuleSet", params; aws_config=aws_config)
 
 """
     describe_configuration_set(configuration_set_name)
@@ -379,7 +379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetAttributeNames"`: A list of configuration set attributes to return.
 """
 describe_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeConfigurationSet", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName); aws_config=aws_config)
-describe_configuration_set(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
+describe_configuration_set(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeConfigurationSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
 
 """
     describe_receipt_rule(rule_name, rule_set_name)
@@ -395,7 +395,7 @@ per second.
 
 """
 describe_receipt_rule(RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeReceiptRule", Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName); aws_config=aws_config)
-describe_receipt_rule(RuleName, RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+describe_receipt_rule(RuleName, RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     describe_receipt_rule_set(rule_set_name)
@@ -410,7 +410,7 @@ more than once per second.
 
 """
 describe_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeReceiptRuleSet", Dict{String, Any}("RuleSetName"=>RuleSetName); aws_config=aws_config)
-describe_receipt_rule_set(RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+describe_receipt_rule_set(RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("DescribeReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     get_account_sending_enabled()
@@ -421,7 +421,7 @@ execute this operation no more than once per second.
 
 """
 get_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetAccountSendingEnabled"; aws_config=aws_config)
-get_account_sending_enabled(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetAccountSendingEnabled", params; aws_config=aws_config)
+get_account_sending_enabled(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetAccountSendingEnabled", params; aws_config=aws_config)
 
 """
     get_custom_verification_email_template(template_name)
@@ -438,7 +438,7 @@ once per second.
 
 """
 get_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetCustomVerificationEmailTemplate", Dict{String, Any}("TemplateName"=>TemplateName); aws_config=aws_config)
-get_custom_verification_email_template(TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
+get_custom_verification_email_template(TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
     get_identity_dkim_attributes(identities)
@@ -463,7 +463,7 @@ Guide.
 
 """
 get_identity_dkim_attributes(Identities; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityDkimAttributes", Dict{String, Any}("Identities"=>Identities); aws_config=aws_config)
-get_identity_dkim_attributes(Identities, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityDkimAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config)
+get_identity_dkim_attributes(Identities, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityDkimAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config)
 
 """
     get_identity_mail_from_domain_attributes(identities)
@@ -478,7 +478,7 @@ MAIL FROM attributes for up to 100 identities at a time.
 
 """
 get_identity_mail_from_domain_attributes(Identities; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityMailFromDomainAttributes", Dict{String, Any}("Identities"=>Identities); aws_config=aws_config)
-get_identity_mail_from_domain_attributes(Identities, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityMailFromDomainAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config)
+get_identity_mail_from_domain_attributes(Identities, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityMailFromDomainAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config)
 
 """
     get_identity_notification_attributes(identities)
@@ -497,7 +497,7 @@ Guide.
 
 """
 get_identity_notification_attributes(Identities; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityNotificationAttributes", Dict{String, Any}("Identities"=>Identities); aws_config=aws_config)
-get_identity_notification_attributes(Identities, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityNotificationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config)
+get_identity_notification_attributes(Identities, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityNotificationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config)
 
 """
     get_identity_policies(identity, policy_names)
@@ -522,7 +522,7 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 
 """
 get_identity_policies(Identity, PolicyNames; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityPolicies", Dict{String, Any}("Identity"=>Identity, "PolicyNames"=>PolicyNames); aws_config=aws_config)
-get_identity_policies(Identity, PolicyNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config)
+get_identity_policies(Identity, PolicyNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config)
 
 """
     get_identity_verification_attributes(identities)
@@ -549,7 +549,7 @@ verification attributes for up to 100 identities at a time.
 
 """
 get_identity_verification_attributes(Identities; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityVerificationAttributes", Dict{String, Any}("Identities"=>Identities); aws_config=aws_config)
-get_identity_verification_attributes(Identities, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityVerificationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config)
+get_identity_verification_attributes(Identities, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetIdentityVerificationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identities"=>Identities), params)); aws_config=aws_config)
 
 """
     get_send_quota()
@@ -560,7 +560,7 @@ more than once per second.
 
 """
 get_send_quota(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetSendQuota"; aws_config=aws_config)
-get_send_quota(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetSendQuota", params; aws_config=aws_config)
+get_send_quota(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetSendQuota", params; aws_config=aws_config)
 
 """
     get_send_statistics()
@@ -573,7 +573,7 @@ than once per second.
 
 """
 get_send_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetSendStatistics"; aws_config=aws_config)
-get_send_statistics(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetSendStatistics", params; aws_config=aws_config)
+get_send_statistics(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetSendStatistics", params; aws_config=aws_config)
 
 """
     get_template(template_name)
@@ -587,7 +587,7 @@ the template you specify. You can execute this operation no more than once per s
 
 """
 get_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetTemplate", Dict{String, Any}("TemplateName"=>TemplateName); aws_config=aws_config)
-get_template(TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
+get_template(TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("GetTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
     list_configuration_sets()
@@ -609,7 +609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the position of the configuration set in the configuration set list.
 """
 list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListConfigurationSets"; aws_config=aws_config)
-list_configuration_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListConfigurationSets", params; aws_config=aws_config)
+list_configuration_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListConfigurationSets", params; aws_config=aws_config)
 
 """
     list_custom_verification_email_templates()
@@ -630,7 +630,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in your Amazon SES account.
 """
 list_custom_verification_email_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListCustomVerificationEmailTemplates"; aws_config=aws_config)
-list_custom_verification_email_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListCustomVerificationEmailTemplates", params; aws_config=aws_config)
+list_custom_verification_email_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListCustomVerificationEmailTemplates", params; aws_config=aws_config)
 
 """
     list_identities()
@@ -650,7 +650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use for pagination.
 """
 list_identities(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListIdentities"; aws_config=aws_config)
-list_identities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListIdentities", params; aws_config=aws_config)
+list_identities(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListIdentities", params; aws_config=aws_config)
 
 """
     list_identity_policies(identity)
@@ -673,7 +673,7 @@ can execute this operation no more than once per second.
 
 """
 list_identity_policies(Identity; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListIdentityPolicies", Dict{String, Any}("Identity"=>Identity); aws_config=aws_config)
-list_identity_policies(Identity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListIdentityPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config)
+list_identity_policies(Identity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListIdentityPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config)
 
 """
     list_receipt_filters()
@@ -685,7 +685,7 @@ can execute this operation no more than once per second.
 
 """
 list_receipt_filters(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListReceiptFilters"; aws_config=aws_config)
-list_receipt_filters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListReceiptFilters", params; aws_config=aws_config)
+list_receipt_filters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListReceiptFilters", params; aws_config=aws_config)
 
 """
     list_receipt_rule_sets()
@@ -703,7 +703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the position in the receipt rule set list.
 """
 list_receipt_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListReceiptRuleSets"; aws_config=aws_config)
-list_receipt_rule_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListReceiptRuleSets", params; aws_config=aws_config)
+list_receipt_rule_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListReceiptRuleSets", params; aws_config=aws_config)
 
 """
     list_templates()
@@ -721,7 +721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   position in the list of email templates.
 """
 list_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListTemplates"; aws_config=aws_config)
-list_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListTemplates", params; aws_config=aws_config)
+list_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListTemplates", params; aws_config=aws_config)
 
 """
     list_verified_email_addresses()
@@ -732,7 +732,7 @@ associated with your account.
 
 """
 list_verified_email_addresses(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListVerifiedEmailAddresses"; aws_config=aws_config)
-list_verified_email_addresses(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListVerifiedEmailAddresses", params; aws_config=aws_config)
+list_verified_email_addresses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ListVerifiedEmailAddresses", params; aws_config=aws_config)
 
 """
     put_configuration_set_delivery_options(configuration_set_name)
@@ -750,7 +750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required to use Transport Layer Security (TLS).
 """
 put_configuration_set_delivery_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("PutConfigurationSetDeliveryOptions", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName); aws_config=aws_config)
-put_configuration_set_delivery_options(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("PutConfigurationSetDeliveryOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
+put_configuration_set_delivery_options(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("PutConfigurationSetDeliveryOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
 
 """
     put_identity_policy(identity, policy, policy_name)
@@ -776,7 +776,7 @@ operation no more than once per second.
 
 """
 put_identity_policy(Identity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("PutIdentityPolicy", Dict{String, Any}("Identity"=>Identity, "Policy"=>Policy, "PolicyName"=>PolicyName); aws_config=aws_config)
-put_identity_policy(Identity, Policy, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("PutIdentityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "Policy"=>Policy, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+put_identity_policy(Identity, Policy, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("PutIdentityPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "Policy"=>Policy, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     reorder_receipt_rule_set(rule_names, rule_set_name)
@@ -795,7 +795,7 @@ more than once per second.
 
 """
 reorder_receipt_rule_set(RuleNames, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ReorderReceiptRuleSet", Dict{String, Any}("RuleNames"=>RuleNames, "RuleSetName"=>RuleSetName); aws_config=aws_config)
-reorder_receipt_rule_set(RuleNames, RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ReorderReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+reorder_receipt_rule_set(RuleNames, RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("ReorderReceiptRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     send_bounce(bounce_sender, bounced_recipient_info_list, original_message_id)
@@ -827,7 +827,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values.
 """
 send_bounce(BounceSender, BouncedRecipientInfoList, OriginalMessageId; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendBounce", Dict{String, Any}("BounceSender"=>BounceSender, "BouncedRecipientInfoList"=>BouncedRecipientInfoList, "OriginalMessageId"=>OriginalMessageId); aws_config=aws_config)
-send_bounce(BounceSender, BouncedRecipientInfoList, OriginalMessageId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendBounce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BounceSender"=>BounceSender, "BouncedRecipientInfoList"=>BouncedRecipientInfoList, "OriginalMessageId"=>OriginalMessageId), params)); aws_config=aws_config)
+send_bounce(BounceSender, BouncedRecipientInfoList, OriginalMessageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendBounce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BounceSender"=>BounceSender, "BouncedRecipientInfoList"=>BouncedRecipientInfoList, "OriginalMessageId"=>OriginalMessageId), params)); aws_config=aws_config)
 
 """
     send_bulk_templated_email(destinations, source, template)
@@ -910,7 +910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateArn"`: The ARN of the template to use when sending this email.
 """
 send_bulk_templated_email(Destinations, Source, Template; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendBulkTemplatedEmail", Dict{String, Any}("Destinations"=>Destinations, "Source"=>Source, "Template"=>Template); aws_config=aws_config)
-send_bulk_templated_email(Destinations, Source, Template, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendBulkTemplatedEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destinations"=>Destinations, "Source"=>Source, "Template"=>Template), params)); aws_config=aws_config)
+send_bulk_templated_email(Destinations, Source, Template, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendBulkTemplatedEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destinations"=>Destinations, "Source"=>Source, "Template"=>Template), params)); aws_config=aws_config)
 
 """
     send_custom_verification_email(email_address, template_name)
@@ -934,7 +934,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   verification email.
 """
 send_custom_verification_email(EmailAddress, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendCustomVerificationEmail", Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName); aws_config=aws_config)
-send_custom_verification_email(EmailAddress, TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendCustomVerificationEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName), params)); aws_config=aws_config)
+send_custom_verification_email(EmailAddress, TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendCustomVerificationEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress, "TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
     send_email(destination, message, source)
@@ -1012,7 +1012,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you can publish email sending events.
 """
 send_email(Destination, Message, Source; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendEmail", Dict{String, Any}("Destination"=>Destination, "Message"=>Message, "Source"=>Source); aws_config=aws_config)
-send_email(Destination, Message, Source, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Message"=>Message, "Source"=>Source), params)); aws_config=aws_config)
+send_email(Destination, Message, Source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Message"=>Message, "Source"=>Source), params)); aws_config=aws_config)
 
 """
     send_raw_email(raw_message)
@@ -1126,7 +1126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   so that you can publish email sending events.
 """
 send_raw_email(RawMessage; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendRawEmail", Dict{String, Any}("RawMessage"=>RawMessage); aws_config=aws_config)
-send_raw_email(RawMessage, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendRawEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RawMessage"=>RawMessage), params)); aws_config=aws_config)
+send_raw_email(RawMessage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendRawEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RawMessage"=>RawMessage), params)); aws_config=aws_config)
 
 """
     send_templated_email(destination, source, template, template_data)
@@ -1213,7 +1213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateArn"`: The ARN of the template to use when sending this email.
 """
 send_templated_email(Destination, Source, Template, TemplateData; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendTemplatedEmail", Dict{String, Any}("Destination"=>Destination, "Source"=>Source, "Template"=>Template, "TemplateData"=>TemplateData); aws_config=aws_config)
-send_templated_email(Destination, Source, Template, TemplateData, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendTemplatedEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Source"=>Source, "Template"=>Template, "TemplateData"=>TemplateData), params)); aws_config=aws_config)
+send_templated_email(Destination, Source, Template, TemplateData, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SendTemplatedEmail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "Source"=>Source, "Template"=>Template, "TemplateData"=>TemplateData), params)); aws_config=aws_config)
 
 """
     set_active_receipt_rule_set()
@@ -1230,7 +1230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   null disables all email receiving.
 """
 set_active_receipt_rule_set(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetActiveReceiptRuleSet"; aws_config=aws_config)
-set_active_receipt_rule_set(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetActiveReceiptRuleSet", params; aws_config=aws_config)
+set_active_receipt_rule_set(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetActiveReceiptRuleSet", params; aws_config=aws_config)
 
 """
     set_identity_dkim_enabled(dkim_enabled, identity)
@@ -1254,7 +1254,7 @@ Developer Guide.
 
 """
 set_identity_dkim_enabled(DkimEnabled, Identity; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityDkimEnabled", Dict{String, Any}("DkimEnabled"=>DkimEnabled, "Identity"=>Identity); aws_config=aws_config)
-set_identity_dkim_enabled(DkimEnabled, Identity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityDkimEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DkimEnabled"=>DkimEnabled, "Identity"=>Identity), params)); aws_config=aws_config)
+set_identity_dkim_enabled(DkimEnabled, Identity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityDkimEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DkimEnabled"=>DkimEnabled, "Identity"=>Identity), params)); aws_config=aws_config)
 
 """
     set_identity_feedback_forwarding_enabled(forwarding_enabled, identity)
@@ -1280,7 +1280,7 @@ Amazon SES, see the Amazon SES Developer Guide.
 
 """
 set_identity_feedback_forwarding_enabled(ForwardingEnabled, Identity; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityFeedbackForwardingEnabled", Dict{String, Any}("ForwardingEnabled"=>ForwardingEnabled, "Identity"=>Identity); aws_config=aws_config)
-set_identity_feedback_forwarding_enabled(ForwardingEnabled, Identity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityFeedbackForwardingEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForwardingEnabled"=>ForwardingEnabled, "Identity"=>Identity), params)); aws_config=aws_config)
+set_identity_feedback_forwarding_enabled(ForwardingEnabled, Identity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityFeedbackForwardingEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForwardingEnabled"=>ForwardingEnabled, "Identity"=>Identity), params)); aws_config=aws_config)
 
 """
     set_identity_headers_in_notifications_enabled(enabled, identity, notification_type)
@@ -1304,7 +1304,7 @@ information about using notifications with Amazon SES, see the Amazon SES Develo
 
 """
 set_identity_headers_in_notifications_enabled(Enabled, Identity, NotificationType; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityHeadersInNotificationsEnabled", Dict{String, Any}("Enabled"=>Enabled, "Identity"=>Identity, "NotificationType"=>NotificationType); aws_config=aws_config)
-set_identity_headers_in_notifications_enabled(Enabled, Identity, NotificationType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityHeadersInNotificationsEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Enabled"=>Enabled, "Identity"=>Identity, "NotificationType"=>NotificationType), params)); aws_config=aws_config)
+set_identity_headers_in_notifications_enabled(Enabled, Identity, NotificationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityHeadersInNotificationsEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Enabled"=>Enabled, "Identity"=>Identity, "NotificationType"=>NotificationType), params)); aws_config=aws_config)
 
 """
     set_identity_mail_from_domain(identity)
@@ -1337,7 +1337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
 """
 set_identity_mail_from_domain(Identity; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityMailFromDomain", Dict{String, Any}("Identity"=>Identity); aws_config=aws_config)
-set_identity_mail_from_domain(Identity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityMailFromDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config)
+set_identity_mail_from_domain(Identity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityMailFromDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity), params)); aws_config=aws_config)
 
 """
     set_identity_notification_topic(identity, notification_type)
@@ -1367,7 +1367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disabled.
 """
 set_identity_notification_topic(Identity, NotificationType; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityNotificationTopic", Dict{String, Any}("Identity"=>Identity, "NotificationType"=>NotificationType); aws_config=aws_config)
-set_identity_notification_topic(Identity, NotificationType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityNotificationTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "NotificationType"=>NotificationType), params)); aws_config=aws_config)
+set_identity_notification_topic(Identity, NotificationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetIdentityNotificationTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identity"=>Identity, "NotificationType"=>NotificationType), params)); aws_config=aws_config)
 
 """
     set_receipt_rule_position(rule_name, rule_set_name)
@@ -1387,7 +1387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"After"`: The name of the receipt rule after which to place the specified receipt rule.
 """
 set_receipt_rule_position(RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetReceiptRulePosition", Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName); aws_config=aws_config)
-set_receipt_rule_position(RuleName, RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetReceiptRulePosition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+set_receipt_rule_position(RuleName, RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("SetReceiptRulePosition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleName"=>RuleName, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     test_render_template(template_data, template_name)
@@ -1404,7 +1404,7 @@ of replacement data. You can execute this operation no more than once per second
 
 """
 test_render_template(TemplateData, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("TestRenderTemplate", Dict{String, Any}("TemplateData"=>TemplateData, "TemplateName"=>TemplateName); aws_config=aws_config)
-test_render_template(TemplateData, TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("TestRenderTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateData"=>TemplateData, "TemplateName"=>TemplateName), params)); aws_config=aws_config)
+test_render_template(TemplateData, TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("TestRenderTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateData"=>TemplateData, "TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
     update_account_sending_enabled()
@@ -1422,7 +1422,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account in the current AWS Region.
 """
 update_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateAccountSendingEnabled"; aws_config=aws_config)
-update_account_sending_enabled(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateAccountSendingEnabled", params; aws_config=aws_config)
+update_account_sending_enabled(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateAccountSendingEnabled", params; aws_config=aws_config)
 
 """
     update_configuration_set_event_destination(configuration_set_name, event_destination)
@@ -1445,7 +1445,7 @@ You can execute this operation no more than once per second.
 
 """
 update_configuration_set_event_destination(ConfigurationSetName, EventDestination; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetEventDestination", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestination"=>EventDestination); aws_config=aws_config)
-update_configuration_set_event_destination(ConfigurationSetName, EventDestination, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestination"=>EventDestination), params)); aws_config=aws_config)
+update_configuration_set_event_destination(ConfigurationSetName, EventDestination, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetEventDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "EventDestination"=>EventDestination), params)); aws_config=aws_config)
 
 """
     update_configuration_set_reputation_metrics_enabled(configuration_set_name, enabled)
@@ -1464,7 +1464,7 @@ this operation no more than once per second.
 
 """
 update_configuration_set_reputation_metrics_enabled(ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetReputationMetricsEnabled", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "Enabled"=>Enabled); aws_config=aws_config)
-update_configuration_set_reputation_metrics_enabled(ConfigurationSetName, Enabled, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetReputationMetricsEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "Enabled"=>Enabled), params)); aws_config=aws_config)
+update_configuration_set_reputation_metrics_enabled(ConfigurationSetName, Enabled, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetReputationMetricsEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "Enabled"=>Enabled), params)); aws_config=aws_config)
 
 """
     update_configuration_set_sending_enabled(configuration_set_name, enabled)
@@ -1483,7 +1483,7 @@ You can execute this operation no more than once per second.
 
 """
 update_configuration_set_sending_enabled(ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetSendingEnabled", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "Enabled"=>Enabled); aws_config=aws_config)
-update_configuration_set_sending_enabled(ConfigurationSetName, Enabled, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetSendingEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "Enabled"=>Enabled), params)); aws_config=aws_config)
+update_configuration_set_sending_enabled(ConfigurationSetName, Enabled, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetSendingEnabled", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "Enabled"=>Enabled), params)); aws_config=aws_config)
 
 """
     update_configuration_set_tracking_options(configuration_set_name, tracking_options)
@@ -1502,7 +1502,7 @@ Developer Guide.
 
 """
 update_configuration_set_tracking_options(ConfigurationSetName, TrackingOptions; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetTrackingOptions", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "TrackingOptions"=>TrackingOptions); aws_config=aws_config)
-update_configuration_set_tracking_options(ConfigurationSetName, TrackingOptions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "TrackingOptions"=>TrackingOptions), params)); aws_config=aws_config)
+update_configuration_set_tracking_options(ConfigurationSetName, TrackingOptions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateConfigurationSetTrackingOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName, "TrackingOptions"=>TrackingOptions), params)); aws_config=aws_config)
 
 """
     update_custom_verification_email_template(template_name)
@@ -1530,7 +1530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateSubject"`: The subject line of the custom verification email.
 """
 update_custom_verification_email_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateCustomVerificationEmailTemplate", Dict{String, Any}("TemplateName"=>TemplateName); aws_config=aws_config)
-update_custom_verification_email_template(TemplateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
+update_custom_verification_email_template(TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateCustomVerificationEmailTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateName"=>TemplateName), params)); aws_config=aws_config)
 
 """
     update_receipt_rule(rule, rule_set_name)
@@ -1545,7 +1545,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 update_receipt_rule(Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateReceiptRule", Dict{String, Any}("Rule"=>Rule, "RuleSetName"=>RuleSetName); aws_config=aws_config)
-update_receipt_rule(Rule, RuleSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
+update_receipt_rule(Rule, RuleSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateReceiptRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "RuleSetName"=>RuleSetName), params)); aws_config=aws_config)
 
 """
     update_template(template)
@@ -1560,7 +1560,7 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 update_template(Template; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateTemplate", Dict{String, Any}("Template"=>Template); aws_config=aws_config)
-update_template(Template, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Template"=>Template), params)); aws_config=aws_config)
+update_template(Template, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("UpdateTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Template"=>Template), params)); aws_config=aws_config)
 
 """
     verify_domain_dkim(domain)
@@ -1588,7 +1588,7 @@ operation no more than once per second.
 
 """
 verify_domain_dkim(Domain; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyDomainDkim", Dict{String, Any}("Domain"=>Domain); aws_config=aws_config)
-verify_domain_dkim(Domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyDomainDkim", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain), params)); aws_config=aws_config)
+verify_domain_dkim(Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyDomainDkim", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain), params)); aws_config=aws_config)
 
 """
     verify_domain_identity(domain)
@@ -1604,7 +1604,7 @@ this operation no more than once per second.
 
 """
 verify_domain_identity(Domain; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyDomainIdentity", Dict{String, Any}("Domain"=>Domain); aws_config=aws_config)
-verify_domain_identity(Domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyDomainIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain), params)); aws_config=aws_config)
+verify_domain_identity(Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyDomainIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domain"=>Domain), params)); aws_config=aws_config)
 
 """
     verify_email_address(email_address)
@@ -1617,7 +1617,7 @@ Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
 
 """
 verify_email_address(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyEmailAddress", Dict{String, Any}("EmailAddress"=>EmailAddress); aws_config=aws_config)
-verify_email_address(EmailAddress, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config)
+verify_email_address(EmailAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config)
 
 """
     verify_email_identity(email_address)
@@ -1633,4 +1633,4 @@ than once per second.
 
 """
 verify_email_identity(EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyEmailIdentity", Dict{String, Any}("EmailAddress"=>EmailAddress); aws_config=aws_config)
-verify_email_identity(EmailAddress, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyEmailIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config)
+verify_email_identity(EmailAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ses("VerifyEmailIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailAddress"=>EmailAddress), params)); aws_config=aws_config)

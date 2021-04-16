@@ -61,7 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   points in the response.
 """
 describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = pi("DescribeDimensionKeys", Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime); aws_config=aws_config)
-describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("DescribeDimensionKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config)
+describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("DescribeDimensionKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config)
 
 """
     get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time)
@@ -104,4 +104,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data points in the response.
 """
 get_resource_metrics(EndTime, Identifier, MetricQueries, ServiceType, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetResourceMetrics", Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "MetricQueries"=>MetricQueries, "ServiceType"=>ServiceType, "StartTime"=>StartTime); aws_config=aws_config)
-get_resource_metrics(EndTime, Identifier, MetricQueries, ServiceType, StartTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetResourceMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "MetricQueries"=>MetricQueries, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config)
+get_resource_metrics(EndTime, Identifier, MetricQueries, ServiceType, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetResourceMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Identifier"=>Identifier, "MetricQueries"=>MetricQueries, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config)

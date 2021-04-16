@@ -27,7 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assumed.
 """
 batch_check_layer_availability(layerDigests, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchCheckLayerAvailability", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName); aws_config=aws_config)
-batch_check_layer_availability(layerDigests, repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
+batch_check_layer_availability(layerDigests, repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchCheckLayerAvailability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     batch_delete_image(image_ids, repository_name)
@@ -50,7 +50,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to delete. If you do not specify a registry, the default public registry is assumed.
 """
 batch_delete_image(imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchDeleteImage", Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName); aws_config=aws_config)
-batch_delete_image(imageIds, repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
+batch_delete_image(imageIds, repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("BatchDeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageIds"=>imageIds, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     complete_layer_upload(layer_digests, repository_name, upload_id)
@@ -77,7 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   layers. If you do not specify a registry, the default public registry is assumed.
 """
 complete_layer_upload(layerDigests, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CompleteLayerUpload", Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
-complete_layer_upload(layerDigests, repositoryName, uploadId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config)
+complete_layer_upload(layerDigests, repositoryName, uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CompleteLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerDigests"=>layerDigests, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config)
 
 """
     create_repository(repository_name)
@@ -102,7 +102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum length of 256 characters.
 """
 create_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CreateRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-create_repository(repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
+create_repository(repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     delete_repository(repository_name)
@@ -123,7 +123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assumed.
 """
 delete_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-delete_repository(repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
+delete_repository(repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     delete_repository_policy(repository_name)
@@ -142,7 +142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is assumed.
 """
 delete_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-delete_repository_policy(repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
+delete_repository_policy(repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DeleteRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     describe_image_tags(repository_name)
@@ -173,7 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   public registry is assumed.
 """
 describe_image_tags(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImageTags", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-describe_image_tags(repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImageTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
+describe_image_tags(repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImageTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     describe_images(repository_name)
@@ -207,7 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   public registry is assumed.
 """
 describe_images(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImages", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-describe_images(repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
+describe_images(repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     describe_registries()
@@ -232,7 +232,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not for other programmatic purposes.
 """
 describe_registries(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRegistries"; aws_config=aws_config)
-describe_registries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRegistries", params; aws_config=aws_config)
+describe_registries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRegistries", params; aws_config=aws_config)
 
 """
     describe_repositories()
@@ -263,7 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   then all repositories in a registry are described.
 """
 describe_repositories(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRepositories"; aws_config=aws_config)
-describe_repositories(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRepositories", params; aws_config=aws_config)
+describe_repositories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("DescribeRepositories", params; aws_config=aws_config)
 
 """
     get_authorization_token()
@@ -276,7 +276,7 @@ ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
 
 """
 get_authorization_token(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetAuthorizationToken"; aws_config=aws_config)
-get_authorization_token(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetAuthorizationToken", params; aws_config=aws_config)
+get_authorization_token(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetAuthorizationToken", params; aws_config=aws_config)
 
 """
     get_registry_catalog_data()
@@ -286,7 +286,7 @@ Retrieves catalog metadata for a public registry.
 
 """
 get_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRegistryCatalogData"; aws_config=aws_config)
-get_registry_catalog_data(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRegistryCatalogData", params; aws_config=aws_config)
+get_registry_catalog_data(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRegistryCatalogData", params; aws_config=aws_config)
 
 """
     get_repository_catalog_data(repository_name)
@@ -305,7 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is assumed.
 """
 get_repository_catalog_data(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryCatalogData", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-get_repository_catalog_data(repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
+get_repository_catalog_data(repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     get_repository_policy(repository_name)
@@ -322,7 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository. If you do not specify a registry, the default public registry is assumed.
 """
 get_repository_policy(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryPolicy", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-get_repository_policy(repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
+get_repository_policy(repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("GetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     initiate_layer_upload(repository_name)
@@ -344,7 +344,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upload layers. If you do not specify a registry, the default public registry is assumed.
 """
 initiate_layer_upload(repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("InitiateLayerUpload", Dict{String, Any}("repositoryName"=>repositoryName); aws_config=aws_config)
-initiate_layer_upload(repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
+initiate_layer_upload(repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("InitiateLayerUpload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -358,7 +358,7 @@ List the tags for an Amazon ECR Public resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     put_image(image_manifest, repository_name)
@@ -387,7 +387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registry is assumed.
 """
 put_image(imageManifest, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutImage", Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName); aws_config=aws_config)
-put_image(imageManifest, repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
+put_image(imageManifest, repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageManifest"=>imageManifest, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     put_registry_catalog_data()
@@ -402,7 +402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   publicly visible in the Amazon ECR Public Gallery for verified accounts.
 """
 put_registry_catalog_data(; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRegistryCatalogData"; aws_config=aws_config)
-put_registry_catalog_data(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRegistryCatalogData", params; aws_config=aws_config)
+put_registry_catalog_data(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRegistryCatalogData", params; aws_config=aws_config)
 
 """
     put_repository_catalog_data(catalog_data, repository_name)
@@ -421,7 +421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in. If you do not specify a registry, the default public registry is assumed.
 """
 put_repository_catalog_data(catalogData, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRepositoryCatalogData", Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName); aws_config=aws_config)
-put_repository_catalog_data(catalogData, repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
+put_repository_catalog_data(catalogData, repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("PutRepositoryCatalogData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("catalogData"=>catalogData, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     set_repository_policy(policy_text, repository_name)
@@ -446,7 +446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository. If you do not specify a registry, the default public registry is assumed.
 """
 set_repository_policy(policyText, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("SetRepositoryPolicy", Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName); aws_config=aws_config)
-set_repository_policy(policyText, repositoryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
+set_repository_policy(policyText, repositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("SetRepositoryPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyText"=>policyText, "repositoryName"=>repositoryName), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -465,7 +465,7 @@ a resource is deleted, the tags associated with that resource are deleted as wel
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -480,7 +480,7 @@ Deletes specified tags from a resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     upload_layer_part(layer_part_blob, part_first_byte, part_last_byte, repository_name, upload_id)
@@ -510,4 +510,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assumed.
 """
 upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("UploadLayerPart", Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId); aws_config=aws_config)
-upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config)
+upload_layer_part(layerPartBlob, partFirstByte, partLastByte, repositoryName, uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecr_public("UploadLayerPart", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("layerPartBlob"=>layerPartBlob, "partFirstByte"=>partFirstByte, "partLastByte"=>partLastByte, "repositoryName"=>repositoryName, "uploadId"=>uploadId), params)); aws_config=aws_config)

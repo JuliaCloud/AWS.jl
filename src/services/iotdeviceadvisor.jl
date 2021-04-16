@@ -17,7 +17,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be attached to the suite definition.
 """
 create_suite_definition(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions"; aws_config=aws_config)
-create_suite_definition(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions", params; aws_config=aws_config)
+create_suite_definition(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions", params; aws_config=aws_config)
 
 """
     delete_suite_definition(suite_definition_id)
@@ -30,7 +30,7 @@ Deletes a Device Advisor test suite.
 
 """
 delete_suite_definition(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("DELETE", "/suiteDefinitions/$(suiteDefinitionId)"; aws_config=aws_config)
-delete_suite_definition(suiteDefinitionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("DELETE", "/suiteDefinitions/$(suiteDefinitionId)", params; aws_config=aws_config)
+delete_suite_definition(suiteDefinitionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("DELETE", "/suiteDefinitions/$(suiteDefinitionId)", params; aws_config=aws_config)
 
 """
     get_suite_definition(suite_definition_id)
@@ -46,7 +46,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suiteDefinitionVersion"`: Requests the suite definition version of a test suite.
 """
 get_suite_definition(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)"; aws_config=aws_config)
-get_suite_definition(suiteDefinitionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)", params; aws_config=aws_config)
+get_suite_definition(suiteDefinitionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)", params; aws_config=aws_config)
 
 """
     get_suite_run(suite_definition_id, suite_run_id)
@@ -62,7 +62,7 @@ Gets information about a Device Advisor test suite run.
 
 """
 get_suite_run(suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)"; aws_config=aws_config)
-get_suite_run(suiteDefinitionId, suiteRunId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)", params; aws_config=aws_config)
+get_suite_run(suiteDefinitionId, suiteRunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)", params; aws_config=aws_config)
 
 """
     get_suite_run_report(suite_definition_id, suite_run_id)
@@ -76,7 +76,7 @@ Gets a report download link for a successful Device Advisor qualifying test suit
 
 """
 get_suite_run_report(suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report"; aws_config=aws_config)
-get_suite_run_report(suiteDefinitionId, suiteRunId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report", params; aws_config=aws_config)
+get_suite_run_report(suiteDefinitionId, suiteRunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report", params; aws_config=aws_config)
 
 """
     list_suite_definitions()
@@ -90,7 +90,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Requests the Device Advisor test suites next token.
 """
 list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions"; aws_config=aws_config)
-list_suite_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions", params; aws_config=aws_config)
+list_suite_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions", params; aws_config=aws_config)
 
 """
     list_suite_runs()
@@ -109,7 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   based on suite definition version.
 """
 list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns"; aws_config=aws_config)
-list_suite_runs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns", params; aws_config=aws_config)
+list_suite_runs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -122,7 +122,7 @@ Lists the tags attached to an IoT Device Advisor resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     list_test_cases()
@@ -137,7 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Requests the test cases next token.
 """
 list_test_cases(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/testCases"; aws_config=aws_config)
-list_test_cases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/testCases", params; aws_config=aws_config)
+list_test_cases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/testCases", params; aws_config=aws_config)
 
 """
     start_suite_run(suite_definition_id)
@@ -155,7 +155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be attached to the suite run.
 """
 start_suite_run(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns"; aws_config=aws_config)
-start_suite_run(suiteDefinitionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns", params; aws_config=aws_config)
+start_suite_run(suiteDefinitionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -169,7 +169,7 @@ Adds to and modifies existing tags of an IoT Device Advisor resource.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -183,7 +183,7 @@ Removes tags from an IoT Device Advisor resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_suite_definition(suite_definition_id)
@@ -200,4 +200,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definition configuration.
 """
 update_suite_definition(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("PATCH", "/suiteDefinitions/$(suiteDefinitionId)"; aws_config=aws_config)
-update_suite_definition(suiteDefinitionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("PATCH", "/suiteDefinitions/$(suiteDefinitionId)", params; aws_config=aws_config)
+update_suite_definition(suiteDefinitionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("PATCH", "/suiteDefinitions/$(suiteDefinitionId)", params; aws_config=aws_config)

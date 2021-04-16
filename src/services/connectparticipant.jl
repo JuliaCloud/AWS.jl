@@ -19,7 +19,7 @@ provided in StartAttachmentUpload API.
 
 """
 complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
+complete_attachment_upload(AttachmentIds, ClientToken, X_Amz_Bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/complete-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentIds"=>AttachmentIds, "ClientToken"=>ClientToken, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
 
 """
     create_participant_connection(type, x-_amz-_bearer)
@@ -43,7 +43,7 @@ Connect Participant Service APIs do not use Signature Version 4 authentication.
 
 """
 create_participant_connection(Type, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-create_participant_connection(Type, X_Amz_Bearer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
+create_participant_connection(Type, X_Amz_Bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
 
 """
     disconnect_participant(x-_amz-_bearer)
@@ -62,7 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 disconnect_participant(X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-disconnect_participant(X_Amz_Bearer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
+disconnect_participant(X_Amz_Bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
 
 """
     get_attachment(attachment_id, x-_amz-_bearer)
@@ -77,7 +77,7 @@ API for use with active contacts.
 
 """
 get_attachment(AttachmentId, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-get_attachment(AttachmentId, X_Amz_Bearer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
+get_attachment(AttachmentId, X_Amz_Bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentId"=>AttachmentId, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
 
 """
     get_transcript(x-_amz-_bearer)
@@ -103,7 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartPosition"`: A filtering option for where to start.
 """
 get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-get_transcript(X_Amz_Bearer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
+get_transcript(X_Amz_Bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
 
 """
     send_event(content_type, x-_amz-_bearer)
@@ -127,7 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   yet supported.
 """
 send_event(ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/event", Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-send_event(ContentType, X_Amz_Bearer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/event", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
+send_event(ContentType, X_Amz_Bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/event", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
 
 """
     send_message(content, content_type, x-_amz-_bearer)
@@ -148,7 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 send_message(Content, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-send_message(Content, ContentType, X_Amz_Bearer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
+send_message(Content, ContentType, X_Amz_Bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/message", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
 
 """
     start_attachment_upload(attachment_name, attachment_size_in_bytes, client_token, content_type, x-_amz-_bearer)
@@ -166,4 +166,4 @@ Provides a pre-signed Amazon S3 URL in response for uploading the file directly 
 
 """
 start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws_config=aws_config)
-start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)
+start_attachment_upload(AttachmentName, AttachmentSizeInBytes, ClientToken, ContentType, X_Amz_Bearer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connectparticipant("POST", "/participant/start-attachment-upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttachmentName"=>AttachmentName, "AttachmentSizeInBytes"=>AttachmentSizeInBytes, "ClientToken"=>ClientToken, "ContentType"=>ContentType, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), params)); aws_config=aws_config)

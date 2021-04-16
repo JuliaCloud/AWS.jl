@@ -19,7 +19,7 @@ indicating that the query has already been canceled.
 
 """
 cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}("QueryId"=>QueryId); aws_config=aws_config)
-cancel_query(QueryId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config)
+cancel_query(QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("CancelQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryId"=>QueryId), params)); aws_config=aws_config)
 
 """
     describe_endpoints()
@@ -36,7 +36,7 @@ APIs.
 
 """
 describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints"; aws_config=aws_config)
-describe_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints", params; aws_config=aws_config)
+describe_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("DescribeEndpoints", params; aws_config=aws_config)
 
 """
     query(query_string)
@@ -67,4 +67,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  A pagination token passed to get a set of results.
 """
 query(QueryString; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-query(QueryString, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+query(QueryString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_query("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)

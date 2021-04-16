@@ -21,7 +21,7 @@ column.
 
 """
 delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config)
-delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), params)); aws_config=aws_config)
+delete_record(EventTime, FeatureGroupName, RecordIdentifierValueAsString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("DELETE", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventTime"=>EventTime, "RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), params)); aws_config=aws_config)
 
 """
     get_record(feature_group_name, record_identifier_value_as_string)
@@ -42,7 +42,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for all the Features are returned.
 """
 get_record(FeatureGroupName, RecordIdentifierValueAsString; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString); aws_config=aws_config)
-get_record(FeatureGroupName, RecordIdentifierValueAsString, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), params)); aws_config=aws_config)
+get_record(FeatureGroupName, RecordIdentifierValueAsString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("GET", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecordIdentifierValueAsString"=>RecordIdentifierValueAsString), params)); aws_config=aws_config)
 
 """
     put_record(feature_group_name, record)
@@ -63,4 +63,4 @@ record, it is written only to the OfflineStore.
 
 """
 put_record(FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}("Record"=>Record); aws_config=aws_config)
-put_record(FeatureGroupName, Record, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Record"=>Record), params)); aws_config=aws_config)
+put_record(FeatureGroupName, Record, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("PUT", "/FeatureGroup/$(FeatureGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Record"=>Record), params)); aws_config=aws_config)

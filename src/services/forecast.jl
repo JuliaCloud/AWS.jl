@@ -63,7 +63,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the key prefix of aws do not count against your tags per resource limit.
 """
 create_dataset(DatasetName, DatasetType, Domain, Schema; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDataset", Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema); aws_config=aws_config)
-create_dataset(DatasetName, DatasetType, Domain, Schema, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema), params)); aws_config=aws_config)
+create_dataset(DatasetName, DatasetType, Domain, Schema, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema), params)); aws_config=aws_config)
 
 """
     create_dataset_group(dataset_group_name, domain)
@@ -109,7 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   per resource limit.
 """
 create_dataset_group(DatasetGroupName, Domain; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDatasetGroup", Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain); aws_config=aws_config)
-create_dataset_group(DatasetGroupName, Domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain), params)); aws_config=aws_config)
+create_dataset_group(DatasetGroupName, Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain), params)); aws_config=aws_config)
 
 """
     create_dataset_import_job(data_source, dataset_arn, dataset_import_job_name)
@@ -180,7 +180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple time zones and those timestamps are expressed in local time.
 """
 create_dataset_import_job(DataSource, DatasetArn, DatasetImportJobName; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDatasetImportJob", Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName); aws_config=aws_config)
-create_dataset_import_job(DataSource, DatasetArn, DatasetImportJobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName), params)); aws_config=aws_config)
+create_dataset_import_job(DataSource, DatasetArn, DatasetImportJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName), params)); aws_config=aws_config)
 
 """
     create_forecast(forecast_name, predictor_arn)
@@ -226,7 +226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the key prefix of aws do not count against your tags per resource limit.
 """
 create_forecast(ForecastName, PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateForecast", Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn); aws_config=aws_config)
-create_forecast(ForecastName, PredictorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn), params)); aws_config=aws_config)
+create_forecast(ForecastName, PredictorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn), params)); aws_config=aws_config)
 
 """
     create_forecast_export_job(destination, forecast_arn, forecast_export_job_name)
@@ -271,7 +271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   per resource limit.
 """
 create_forecast_export_job(Destination, ForecastArn, ForecastExportJobName; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateForecastExportJob", Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName); aws_config=aws_config)
-create_forecast_export_job(Destination, ForecastArn, ForecastExportJobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName), params)); aws_config=aws_config)
+create_forecast_export_job(Destination, ForecastArn, ForecastExportJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreateForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName), params)); aws_config=aws_config)
 
 """
     create_predictor(featurization_config, forecast_horizon, input_data_config, predictor_name)
@@ -370,7 +370,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of supported algorithms, see aws-forecast-choosing-recipes.
 """
 create_predictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreatePredictor", Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName); aws_config=aws_config)
-create_predictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreatePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName), params)); aws_config=aws_config)
+create_predictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreatePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName), params)); aws_config=aws_config)
 
 """
     create_predictor_backtest_export_job(destination, predictor_arn, predictor_backtest_export_job_name)
@@ -409,7 +409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag keys with this prefix.
 """
 create_predictor_backtest_export_job(Destination, PredictorArn, PredictorBacktestExportJobName; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreatePredictorBacktestExportJob", Dict{String, Any}("Destination"=>Destination, "PredictorArn"=>PredictorArn, "PredictorBacktestExportJobName"=>PredictorBacktestExportJobName); aws_config=aws_config)
-create_predictor_backtest_export_job(Destination, PredictorArn, PredictorBacktestExportJobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreatePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "PredictorArn"=>PredictorArn, "PredictorBacktestExportJobName"=>PredictorBacktestExportJobName), params)); aws_config=aws_config)
+create_predictor_backtest_export_job(Destination, PredictorArn, PredictorBacktestExportJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("CreatePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "PredictorArn"=>PredictorArn, "PredictorBacktestExportJobName"=>PredictorBacktestExportJobName), params)); aws_config=aws_config)
 
 """
     delete_dataset(dataset_arn)
@@ -426,7 +426,7 @@ operation, omitting the deleted dataset's ARN.
 
 """
 delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDataset", Dict{String, Any}("DatasetArn"=>DatasetArn); aws_config=aws_config)
-delete_dataset(DatasetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config)
+delete_dataset(DatasetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config)
 
 """
     delete_dataset_group(dataset_group_arn)
@@ -442,7 +442,7 @@ group, not the datasets in the group.
 
 """
 delete_dataset_group(DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDatasetGroup", Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn); aws_config=aws_config)
-delete_dataset_group(DatasetGroupArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config)
+delete_dataset_group(DatasetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config)
 
 """
     delete_dataset_import_job(dataset_import_job_arn)
@@ -458,7 +458,7 @@ status, use the DescribeDatasetImportJob operation.
 
 """
 delete_dataset_import_job(DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDatasetImportJob", Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn); aws_config=aws_config)
-delete_dataset_import_job(DatasetImportJobArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), params)); aws_config=aws_config)
+delete_dataset_import_job(DatasetImportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), params)); aws_config=aws_config)
 
 """
     delete_forecast(forecast_arn)
@@ -474,7 +474,7 @@ forecast is deleted, you can no longer query the forecast.
 
 """
 delete_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteForecast", Dict{String, Any}("ForecastArn"=>ForecastArn); aws_config=aws_config)
-delete_forecast(ForecastArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), params)); aws_config=aws_config)
+delete_forecast(ForecastArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), params)); aws_config=aws_config)
 
 """
     delete_forecast_export_job(forecast_export_job_arn)
@@ -490,7 +490,7 @@ use the DescribeForecastExportJob operation.
 
 """
 delete_forecast_export_job(ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteForecastExportJob", Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn); aws_config=aws_config)
-delete_forecast_export_job(ForecastExportJobArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), params)); aws_config=aws_config)
+delete_forecast_export_job(ForecastExportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), params)); aws_config=aws_config)
 
 """
     delete_predictor(predictor_arn)
@@ -505,7 +505,7 @@ DescribePredictor operation.
 
 """
 delete_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeletePredictor", Dict{String, Any}("PredictorArn"=>PredictorArn); aws_config=aws_config)
-delete_predictor(PredictorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeletePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config)
+delete_predictor(PredictorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeletePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config)
 
 """
     delete_predictor_backtest_export_job(predictor_backtest_export_job_arn)
@@ -519,7 +519,7 @@ Deletes a predictor backtest export job.
 
 """
 delete_predictor_backtest_export_job(PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeletePredictorBacktestExportJob", Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn); aws_config=aws_config)
-delete_predictor_backtest_export_job(PredictorBacktestExportJobArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeletePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config)
+delete_predictor_backtest_export_job(PredictorBacktestExportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeletePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config)
 
 """
     describe_dataset(dataset_arn)
@@ -534,7 +534,7 @@ the following dataset properties:    CreationTime     LastModificationTime     S
 
 """
 describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDataset", Dict{String, Any}("DatasetArn"=>DatasetArn); aws_config=aws_config)
-describe_dataset(DatasetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config)
+describe_dataset(DatasetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), params)); aws_config=aws_config)
 
 """
     describe_dataset_group(dataset_group_arn)
@@ -550,7 +550,7 @@ CreationTime     LastModificationTime     Status
 
 """
 describe_dataset_group(DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDatasetGroup", Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn); aws_config=aws_config)
-describe_dataset_group(DatasetGroupArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config)
+describe_dataset_group(DatasetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config)
 
 """
     describe_dataset_import_job(dataset_import_job_arn)
@@ -567,7 +567,7 @@ about the error.
 
 """
 describe_dataset_import_job(DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDatasetImportJob", Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn); aws_config=aws_config)
-describe_dataset_import_job(DatasetImportJobArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), params)); aws_config=aws_config)
+describe_dataset_import_job(DatasetImportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), params)); aws_config=aws_config)
 
 """
     describe_forecast(forecast_arn)
@@ -584,7 +584,7 @@ information about the error.
 
 """
 describe_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeForecast", Dict{String, Any}("ForecastArn"=>ForecastArn); aws_config=aws_config)
-describe_forecast(ForecastArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), params)); aws_config=aws_config)
+describe_forecast(ForecastArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), params)); aws_config=aws_config)
 
 """
     describe_forecast_export_job(forecast_export_job_arn)
@@ -601,7 +601,7 @@ error.
 
 """
 describe_forecast_export_job(ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeForecastExportJob", Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn); aws_config=aws_config)
-describe_forecast_export_job(ForecastExportJobArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), params)); aws_config=aws_config)
+describe_forecast_export_job(ForecastExportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribeForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), params)); aws_config=aws_config)
 
 """
     describe_predictor(predictor_arn)
@@ -620,7 +620,7 @@ information about the error.
 
 """
 describe_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribePredictor", Dict{String, Any}("PredictorArn"=>PredictorArn); aws_config=aws_config)
-describe_predictor(PredictorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config)
+describe_predictor(PredictorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config)
 
 """
     describe_predictor_backtest_export_job(predictor_backtest_export_job_arn)
@@ -638,7 +638,7 @@ an error occurred)
 
 """
 describe_predictor_backtest_export_job(PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribePredictorBacktestExportJob", Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn); aws_config=aws_config)
-describe_predictor_backtest_export_job(PredictorBacktestExportJobArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config)
+describe_predictor_backtest_export_job(PredictorBacktestExportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DescribePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config)
 
 """
     get_accuracy_metrics(predictor_arn)
@@ -662,7 +662,7 @@ that training has completed. To get the status, use the DescribePredictor operat
 
 """
 get_accuracy_metrics(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("GetAccuracyMetrics", Dict{String, Any}("PredictorArn"=>PredictorArn); aws_config=aws_config)
-get_accuracy_metrics(PredictorArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("GetAccuracyMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config)
+get_accuracy_metrics(PredictorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("GetAccuracyMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), params)); aws_config=aws_config)
 
 """
     list_dataset_groups()
@@ -681,7 +681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasetGroups"; aws_config=aws_config)
-list_dataset_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasetGroups", params; aws_config=aws_config)
+list_dataset_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasetGroups", params; aws_config=aws_config)
 
 """
     list_dataset_import_jobs()
@@ -711,7 +711,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasetImportJobs"; aws_config=aws_config)
-list_dataset_import_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasetImportJobs", params; aws_config=aws_config)
+list_dataset_import_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasetImportJobs", params; aws_config=aws_config)
 
 """
     list_datasets()
@@ -729,7 +729,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasets"; aws_config=aws_config)
-list_datasets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasets", params; aws_config=aws_config)
+list_datasets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListDatasets", params; aws_config=aws_config)
 
 """
     list_forecast_export_jobs()
@@ -760,7 +760,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_forecast_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListForecastExportJobs"; aws_config=aws_config)
-list_forecast_export_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListForecastExportJobs", params; aws_config=aws_config)
+list_forecast_export_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListForecastExportJobs", params; aws_config=aws_config)
 
 """
     list_forecasts()
@@ -789,7 +789,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_forecasts(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListForecasts"; aws_config=aws_config)
-list_forecasts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListForecasts", params; aws_config=aws_config)
+list_forecasts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListForecasts", params; aws_config=aws_config)
 
 """
     list_predictor_backtest_export_jobs()
@@ -817,7 +817,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_predictor_backtest_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListPredictorBacktestExportJobs"; aws_config=aws_config)
-list_predictor_backtest_export_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListPredictorBacktestExportJobs", params; aws_config=aws_config)
+list_predictor_backtest_export_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListPredictorBacktestExportJobs", params; aws_config=aws_config)
 
 """
     list_predictors()
@@ -846,7 +846,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expire after 24 hours.
 """
 list_predictors(; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListPredictors"; aws_config=aws_config)
-list_predictors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListPredictors", params; aws_config=aws_config)
+list_predictors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListPredictors", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -861,7 +861,7 @@ Lists the tags for an Amazon Forecast resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     stop_resource(resource_arn)
@@ -880,7 +880,7 @@ Job
 
 """
 stop_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("StopResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-stop_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("StopResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+stop_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("StopResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -910,7 +910,7 @@ a resource is deleted, the tags associated with that resource are also deleted.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -926,7 +926,7 @@ Deletes the specified tags from a resource.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_dataset_group(dataset_arns, dataset_group_arn)
@@ -943,4 +943,4 @@ Use the DescribeDatasetGroup operation to get the status.
 
 """
 update_dataset_group(DatasetArns, DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("UpdateDatasetGroup", Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn); aws_config=aws_config)
-update_dataset_group(DatasetArns, DatasetGroupArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("UpdateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config)
+update_dataset_group(DatasetArns, DatasetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("UpdateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn), params)); aws_config=aws_config)

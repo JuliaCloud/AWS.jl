@@ -19,7 +19,7 @@ getting the job identifier, use UpdatePipelineStatus to temporarily pause the pi
 
 """
 cancel_job(Id; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)"; aws_config=aws_config)
-cancel_job(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config)
+cancel_job(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config)
 
 """
     create_job(pipeline_id)
@@ -62,7 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the same order in which you specify them.
 """
 create_job(PipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/jobs", Dict{String, Any}("PipelineId"=>PipelineId); aws_config=aws_config)
-create_job(PipelineId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PipelineId"=>PipelineId), params)); aws_config=aws_config)
+create_job(PipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PipelineId"=>PipelineId), params)); aws_config=aws_config)
 
 """
     create_pipeline(input_bucket, name, role)
@@ -182,7 +182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket.
 """
 create_pipeline(InputBucket, Name, Role; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines", Dict{String, Any}("InputBucket"=>InputBucket, "Name"=>Name, "Role"=>Role); aws_config=aws_config)
-create_pipeline(InputBucket, Name, Role, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "Name"=>Name, "Role"=>Role), params)); aws_config=aws_config)
+create_pipeline(InputBucket, Name, Role, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "Name"=>Name, "Role"=>Role), params)); aws_config=aws_config)
 
 """
     create_preset(container, name)
@@ -216,7 +216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Video"`: A section of the request body that specifies the video parameters.
 """
 create_preset(Container, Name; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/presets", Dict{String, Any}("Container"=>Container, "Name"=>Name); aws_config=aws_config)
-create_preset(Container, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Container"=>Container, "Name"=>Name), params)); aws_config=aws_config)
+create_preset(Container, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/presets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Container"=>Container, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_pipeline(id)
@@ -231,7 +231,7 @@ pipeline is currently in use, DeletePipeline returns an error.
 
 """
 delete_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config)
-delete_pipeline(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config)
+delete_pipeline(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config)
 
 """
     delete_preset(id)
@@ -245,7 +245,7 @@ delete the default presets that are included with Elastic Transcoder.
 
 """
 delete_preset(Id; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)"; aws_config=aws_config)
-delete_preset(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config)
+delete_preset(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config)
 
 """
     list_jobs_by_pipeline(pipeline_id)
@@ -266,7 +266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 list_jobs_by_pipeline(PipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)"; aws_config=aws_config)
-list_jobs_by_pipeline(PipelineId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)", params; aws_config=aws_config)
+list_jobs_by_pipeline(PipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)", params; aws_config=aws_config)
 
 """
     list_jobs_by_status(status)
@@ -288,7 +288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 list_jobs_by_status(Status; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)"; aws_config=aws_config)
-list_jobs_by_status(Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)", params; aws_config=aws_config)
+list_jobs_by_status(Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)", params; aws_config=aws_config)
 
 """
     list_pipelines()
@@ -305,7 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines"; aws_config=aws_config)
-list_pipelines(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines", params; aws_config=aws_config)
+list_pipelines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines", params; aws_config=aws_config)
 
 """
     list_presets()
@@ -322,7 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pageToken in subsequent GET requests to get each successive page of results.
 """
 list_presets(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets"; aws_config=aws_config)
-list_presets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets", params; aws_config=aws_config)
+list_presets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets", params; aws_config=aws_config)
 
 """
     read_job(id)
@@ -335,7 +335,7 @@ The ReadJob operation returns detailed information about a job.
 
 """
 read_job(Id; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)"; aws_config=aws_config)
-read_job(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config)
+read_job(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)", params; aws_config=aws_config)
 
 """
     read_pipeline(id)
@@ -348,7 +348,7 @@ The ReadPipeline operation gets detailed information about a pipeline.
 
 """
 read_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config)
-read_pipeline(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config)
+read_pipeline(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config)
 
 """
     read_preset(id)
@@ -361,7 +361,7 @@ The ReadPreset operation gets detailed information about a preset.
 
 """
 read_preset(Id; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets/$(Id)"; aws_config=aws_config)
-read_preset(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config)
+read_preset(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("GET", "/2012-09-25/presets/$(Id)", params; aws_config=aws_config)
 
 """
     test_role(input_bucket, output_bucket, role, topics)
@@ -385,7 +385,7 @@ buckets, and tries to send a test notification to Amazon SNS topics that you spe
 
 """
 test_role(InputBucket, OutputBucket, Role, Topics; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/roleTests", Dict{String, Any}("InputBucket"=>InputBucket, "OutputBucket"=>OutputBucket, "Role"=>Role, "Topics"=>Topics); aws_config=aws_config)
-test_role(InputBucket, OutputBucket, Role, Topics, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/roleTests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "OutputBucket"=>OutputBucket, "Role"=>Role, "Topics"=>Topics), params)); aws_config=aws_config)
+test_role(InputBucket, OutputBucket, Role, Topics, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/roleTests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputBucket"=>InputBucket, "OutputBucket"=>OutputBucket, "Role"=>Role, "Topics"=>Topics), params)); aws_config=aws_config)
 
 """
     update_pipeline(id)
@@ -494,7 +494,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   S3 bucket.
 """
 update_pipeline(Id; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)"; aws_config=aws_config)
-update_pipeline(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config)
+update_pipeline(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)", params; aws_config=aws_config)
 
 """
     update_pipeline_notifications(id, notifications)
@@ -522,7 +522,7 @@ pipeline, Elastic Transcoder returns the values that you specified in the reques
 
 """
 update_pipeline_notifications(Id, Notifications; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications", Dict{String, Any}("Notifications"=>Notifications); aws_config=aws_config)
-update_pipeline_notifications(Id, Notifications, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notifications"=>Notifications), params)); aws_config=aws_config)
+update_pipeline_notifications(Id, Notifications, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notifications"=>Notifications), params)); aws_config=aws_config)
 
 """
     update_pipeline_status(id, status)
@@ -542,4 +542,4 @@ request.
 
 """
 update_pipeline_status(Id, Status; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status", Dict{String, Any}("Status"=>Status); aws_config=aws_config)
-update_pipeline_status(Id, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Status"=>Status), params)); aws_config=aws_config)
+update_pipeline_status(Id, Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Status"=>Status), params)); aws_config=aws_config)

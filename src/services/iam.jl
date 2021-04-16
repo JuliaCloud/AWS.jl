@@ -22,7 +22,7 @@ provider.
 
 """
 add_client_idto_open_idconnect_provider(ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-add_client_idto_open_idconnect_provider(ClientID, OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
+add_client_idto_open_idconnect_provider(ClientID, OpenIDConnectProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
     add_role_to_instance_profile(instance_profile_name, role_name)
@@ -49,7 +49,7 @@ instance profiles.
 
 """
 add_role_to_instance_profile(InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddRoleToInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName); aws_config=aws_config)
-add_role_to_instance_profile(InstanceProfileName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddRoleToInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config)
+add_role_to_instance_profile(InstanceProfileName, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddRoleToInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     add_user_to_group(group_name, user_name)
@@ -67,7 +67,7 @@ Adds the specified user to the specified group.
 
 """
 add_user_to_group(GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddUserToGroup", Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName); aws_config=aws_config)
-add_user_to_group(GroupName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config)
+add_user_to_group(GroupName, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     attach_group_policy(group_name, policy_arn)
@@ -89,7 +89,7 @@ Managed policies and inline policies in the IAM User Guide.
 
 """
 attach_group_policy(GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn); aws_config=aws_config)
-attach_group_policy(GroupName, PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
+attach_group_policy(GroupName, PolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
     attach_role_policy(policy_arn, role_name)
@@ -115,7 +115,7 @@ the IAM User Guide.
 
 """
 attach_role_policy(PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachRolePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName); aws_config=aws_config)
-attach_role_policy(PolicyArn, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config)
+attach_role_policy(PolicyArn, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     attach_user_policy(policy_arn, user_name)
@@ -137,7 +137,7 @@ and inline policies in the IAM User Guide.
 
 """
 attach_user_policy(PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachUserPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName); aws_config=aws_config)
-attach_user_policy(PolicyArn, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config)
+attach_user_policy(PolicyArn, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("AttachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     change_password(new_password, old_password)
@@ -163,7 +163,7 @@ passwords, see Managing passwords in the IAM User Guide.
 
 """
 change_password(NewPassword, OldPassword; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ChangePassword", Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword); aws_config=aws_config)
-change_password(NewPassword, OldPassword, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword), params)); aws_config=aws_config)
+change_password(NewPassword, OldPassword, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword), params)); aws_config=aws_config)
 
 """
     create_access_key()
@@ -189,7 +189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 create_access_key(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccessKey"; aws_config=aws_config)
-create_access_key(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccessKey", params; aws_config=aws_config)
+create_access_key(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccessKey", params; aws_config=aws_config)
 
 """
     create_account_alias(account_alias)
@@ -205,7 +205,7 @@ see Using an alias for your AWS account ID in the IAM User Guide.
 
 """
 create_account_alias(AccountAlias; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccountAlias", Dict{String, Any}("AccountAlias"=>AccountAlias); aws_config=aws_config)
-create_account_alias(AccountAlias, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config)
+create_account_alias(AccountAlias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config)
 
 """
     create_group(group_name)
@@ -231,7 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   lowercased letters.
 """
 create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-create_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+create_group(GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
     create_instance_profile(instance_profile_name)
@@ -264,7 +264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and the resource is not created.
 """
 create_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
-create_instance_profile(InstanceProfileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
+create_instance_profile(InstanceProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
 
 """
     create_login_profile(password, user_name)
@@ -296,7 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on next sign-in.
 """
 create_login_profile(Password, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateLoginProfile", Dict{String, Any}("Password"=>Password, "UserName"=>UserName); aws_config=aws_config)
-create_login_profile(Password, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserName"=>UserName), params)); aws_config=aws_config)
+create_login_profile(Password, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     create_open_idconnect_provider(thumbprint_list, url)
@@ -352,7 +352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and the resource is not created.
 """
 create_open_idconnect_provider(ThumbprintList, Url; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateOpenIDConnectProvider", Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url); aws_config=aws_config)
-create_open_idconnect_provider(ThumbprintList, Url, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url), params)); aws_config=aws_config)
+create_open_idconnect_provider(ThumbprintList, Url, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url), params)); aws_config=aws_config)
 
 """
     create_policy(policy_document, policy_name)
@@ -399,7 +399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and the resource is not created.
 """
 create_policy(PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName); aws_config=aws_config)
-create_policy(PolicyDocument, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+create_policy(PolicyDocument, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     create_policy_version(policy_arn, policy_document)
@@ -436,7 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for managed policies in the IAM User Guide.
 """
 create_policy_version(PolicyArn, PolicyDocument; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument); aws_config=aws_config)
-create_policy_version(PolicyArn, PolicyDocument, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument), params)); aws_config=aws_config)
+create_policy_version(PolicyArn, PolicyDocument, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreatePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument), params)); aws_config=aws_config)
 
 """
     create_role(assume_role_policy_document, role_name)
@@ -491,7 +491,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 create_role(AssumeRolePolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateRole", Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName); aws_config=aws_config)
-create_role(AssumeRolePolicyDocument, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config)
+create_role(AssumeRolePolicyDocument, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     create_samlprovider(name, samlmetadata_document)
@@ -530,7 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is not created.
 """
 create_samlprovider(Name, SAMLMetadataDocument; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument); aws_config=aws_config)
-create_samlprovider(Name, SAMLMetadataDocument, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument), params)); aws_config=aws_config)
+create_samlprovider(Name, SAMLMetadataDocument, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument), params)); aws_config=aws_config)
 
 """
     create_service_linked_role(awsservice_name)
@@ -564,7 +564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the role.
 """
 create_service_linked_role(AWSServiceName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceLinkedRole", Dict{String, Any}("AWSServiceName"=>AWSServiceName); aws_config=aws_config)
-create_service_linked_role(AWSServiceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSServiceName"=>AWSServiceName), params)); aws_config=aws_config)
+create_service_linked_role(AWSServiceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSServiceName"=>AWSServiceName), params)); aws_config=aws_config)
 
 """
     create_service_specific_credential(service_name, user_name)
@@ -592,7 +592,7 @@ IAM User Guide.
 
 """
 create_service_specific_credential(ServiceName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceSpecificCredential", Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName); aws_config=aws_config)
-create_service_specific_credential(ServiceName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName), params)); aws_config=aws_config)
+create_service_specific_credential(ServiceName, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     create_user(user_name)
@@ -624,7 +624,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 """
 create_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-create_user(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+create_user(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     create_virtual_mfadevice(virtual_mfadevice_name)
@@ -662,7 +662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is not created.
 """
 create_virtual_mfadevice(VirtualMFADeviceName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateVirtualMFADevice", Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName); aws_config=aws_config)
-create_virtual_mfadevice(VirtualMFADeviceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName), params)); aws_config=aws_config)
+create_virtual_mfadevice(VirtualMFADeviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("CreateVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName), params)); aws_config=aws_config)
 
 """
     deactivate_mfadevice(serial_number, user_name)
@@ -685,7 +685,7 @@ IAM User Guide.
 
 """
 deactivate_mfadevice(SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeactivateMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
-deactivate_mfadevice(SerialNumber, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeactivateMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
+deactivate_mfadevice(SerialNumber, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeactivateMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     delete_access_key(access_key_id)
@@ -710,7 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 delete_access_key(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccessKey", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
-delete_access_key(AccessKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config)
+delete_access_key(AccessKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config)
 
 """
     delete_account_alias(account_alias)
@@ -726,7 +726,7 @@ see Using an alias for your AWS account ID in the IAM User Guide.
 
 """
 delete_account_alias(AccountAlias; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountAlias", Dict{String, Any}("AccountAlias"=>AccountAlias); aws_config=aws_config)
-delete_account_alias(AccountAlias, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config)
+delete_account_alias(AccountAlias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), params)); aws_config=aws_config)
 
 """
     delete_account_password_policy()
@@ -736,7 +736,7 @@ Deletes the password policy for the AWS account. There are no parameters.
 
 """
 delete_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountPasswordPolicy"; aws_config=aws_config)
-delete_account_password_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountPasswordPolicy", params; aws_config=aws_config)
+delete_account_password_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteAccountPasswordPolicy", params; aws_config=aws_config)
 
 """
     delete_group(group_name)
@@ -752,7 +752,7 @@ policies.
 
 """
 delete_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-delete_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+delete_group(GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
     delete_group_policy(group_name, policy_name)
@@ -775,7 +775,7 @@ inline policies in the IAM User Guide.
 
 """
 delete_group_policy(GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName); aws_config=aws_config)
-delete_group_policy(GroupName, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+delete_group_policy(GroupName, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     delete_instance_profile(instance_profile_name)
@@ -795,7 +795,7 @@ information about instance profiles, see About instance profiles.
 
 """
 delete_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
-delete_instance_profile(InstanceProfileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
+delete_instance_profile(InstanceProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
 
 """
     delete_login_profile(user_name)
@@ -819,7 +819,7 @@ DeleteAccessKey.
 
 """
 delete_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-delete_login_profile(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+delete_login_profile(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     delete_open_idconnect_provider(open_idconnect_provider_arn)
@@ -838,7 +838,7 @@ operation for a provider that does not exist.
 
 """
 delete_open_idconnect_provider(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-delete_open_idconnect_provider(OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
+delete_open_idconnect_provider(OpenIDConnectProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
     delete_policy(policy_arn)
@@ -863,7 +863,7 @@ policies, see Managed policies and inline policies in the IAM User Guide.
 
 """
 delete_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-delete_policy(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
+delete_policy(PolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
     delete_policy_version(policy_arn, version_id)
@@ -887,7 +887,7 @@ Versioning for managed policies in the IAM User Guide.
 
 """
 delete_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
-delete_policy_version(PolicyArn, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
+delete_policy_version(PolicyArn, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeletePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
 
 """
     delete_role(role_name)
@@ -906,7 +906,7 @@ the instance.
 
 """
 delete_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-delete_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+delete_role(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     delete_role_permissions_boundary(role_name)
@@ -922,7 +922,7 @@ assumes the role to perform all the actions granted in its permissions policies.
 
 """
 delete_role_permissions_boundary(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-delete_role_permissions_boundary(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+delete_role_permissions_boundary(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     delete_role_policy(policy_name, role_name)
@@ -945,7 +945,7 @@ policies in the IAM User Guide.
 
 """
 delete_role_policy(PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePolicy", Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
-delete_role_policy(PolicyName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
+delete_role_policy(PolicyName, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     delete_samlprovider(samlprovider_arn)
@@ -961,7 +961,7 @@ resource ARN fails.   This operation requires Signature Version 4.
 
 """
 delete_samlprovider(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
-delete_samlprovider(SAMLProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
+delete_samlprovider(SAMLProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
 
 """
     delete_server_certificate(server_certificate_name)
@@ -986,7 +986,7 @@ Elastic Load Balancing API Reference.
 
 """
 delete_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-delete_server_certificate(ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
+delete_server_certificate(ServerCertificateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
 
 """
     delete_service_linked_role(role_name)
@@ -1012,7 +1012,7 @@ service-linked role in the IAM User Guide.
 
 """
 delete_service_linked_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceLinkedRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-delete_service_linked_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+delete_service_linked_role(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     delete_service_specific_credential(service_specific_credential_id)
@@ -1035,7 +1035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can also include any of the following characters: _+=,.@-
 """
 delete_service_specific_credential(ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId); aws_config=aws_config)
-delete_service_specific_credential(ServiceSpecificCredentialId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config)
+delete_service_specific_credential(ServiceSpecificCredentialId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config)
 
 """
     delete_signing_certificate(certificate_id)
@@ -1060,7 +1060,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 delete_signing_certificate(CertificateId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId); aws_config=aws_config)
-delete_signing_certificate(CertificateId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), params)); aws_config=aws_config)
+delete_signing_certificate(CertificateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), params)); aws_config=aws_config)
 
 """
     delete_sshpublic_key(sshpublic_key_id, user_name)
@@ -1082,7 +1082,7 @@ up AWS CodeCommit for SSH connections in the AWS CodeCommit User Guide.
 
 """
 delete_sshpublic_key(SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
-delete_sshpublic_key(SSHPublicKeyId, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config)
+delete_sshpublic_key(SSHPublicKeyId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     delete_user(user_name)
@@ -1104,7 +1104,7 @@ Attached managed policies (DetachUserPolicy)   Group memberships (RemoveUserFrom
 
 """
 delete_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-delete_user(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+delete_user(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     delete_user_permissions_boundary(user_name)
@@ -1120,7 +1120,7 @@ actions granted in its permissions policies.
 
 """
 delete_user_permissions_boundary(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-delete_user_permissions_boundary(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+delete_user_permissions_boundary(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     delete_user_policy(policy_name, user_name)
@@ -1143,7 +1143,7 @@ policies in the IAM User Guide.
 
 """
 delete_user_policy(PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
-delete_user_policy(PolicyName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
+delete_user_policy(PolicyName, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     delete_virtual_mfadevice(serial_number)
@@ -1160,7 +1160,7 @@ can delete it. For information about deactivating MFA devices, see DeactivateMFA
 
 """
 delete_virtual_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteVirtualMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber); aws_config=aws_config)
-delete_virtual_mfadevice(SerialNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config)
+delete_virtual_mfadevice(SerialNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DeleteVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config)
 
 """
     detach_group_policy(group_name, policy_arn)
@@ -1180,7 +1180,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 detach_group_policy(GroupName, PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn); aws_config=aws_config)
-detach_group_policy(GroupName, PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
+detach_group_policy(GroupName, PolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
     detach_role_policy(policy_arn, role_name)
@@ -1200,7 +1200,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 detach_role_policy(PolicyArn, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachRolePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName); aws_config=aws_config)
-detach_role_policy(PolicyArn, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config)
+detach_role_policy(PolicyArn, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     detach_user_policy(policy_arn, user_name)
@@ -1220,7 +1220,7 @@ information about policies, see Managed policies and inline policies in the IAM 
 
 """
 detach_user_policy(PolicyArn, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachUserPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName); aws_config=aws_config)
-detach_user_policy(PolicyArn, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config)
+detach_user_policy(PolicyArn, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("DetachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     enable_mfadevice(authentication_code1, authentication_code2, serial_number, user_name)
@@ -1254,7 +1254,7 @@ with the device.
 
 """
 enable_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("EnableMFADevice", Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
-enable_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("EnableMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
+enable_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("EnableMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     generate_credential_report()
@@ -1265,7 +1265,7 @@ credential report, see Getting credential reports in the IAM User Guide.
 
 """
 generate_credential_report(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateCredentialReport"; aws_config=aws_config)
-generate_credential_report(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateCredentialReport", params; aws_config=aws_config)
+generate_credential_report(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateCredentialReport", params; aws_config=aws_config)
 
 """
     generate_organizations_access_report(entity_path)
@@ -1359,7 +1359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account principal that is limited by the SCP attempted to access an AWS service.
 """
 generate_organizations_access_report(EntityPath; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}("EntityPath"=>EntityPath); aws_config=aws_config)
-generate_organizations_access_report(EntityPath, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityPath"=>EntityPath), params)); aws_config=aws_config)
+generate_organizations_access_report(EntityPath, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityPath"=>EntityPath), params)); aws_config=aws_config)
 
 """
     generate_service_last_accessed_details(arn)
@@ -1411,7 +1411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include this optional parameter, the operation generates service data.
 """
 generate_service_last_accessed_details(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-generate_service_last_accessed_details(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+generate_service_last_accessed_details(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
 
 """
     get_access_key_last_used(access_key_id)
@@ -1428,7 +1428,7 @@ specified in the last request made with that key.
 
 """
 get_access_key_last_used(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccessKeyLastUsed", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
-get_access_key_last_used(AccessKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccessKeyLastUsed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config)
+get_access_key_last_used(AccessKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccessKeyLastUsed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), params)); aws_config=aws_config)
 
 """
     get_account_authorization_details()
@@ -1463,7 +1463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 get_account_authorization_details(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountAuthorizationDetails"; aws_config=aws_config)
-get_account_authorization_details(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountAuthorizationDetails", params; aws_config=aws_config)
+get_account_authorization_details(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountAuthorizationDetails", params; aws_config=aws_config)
 
 """
     get_account_password_policy()
@@ -1475,7 +1475,7 @@ more information about using a password policy, see Managing an IAM password pol
 
 """
 get_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountPasswordPolicy"; aws_config=aws_config)
-get_account_password_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountPasswordPolicy", params; aws_config=aws_config)
+get_account_password_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountPasswordPolicy", params; aws_config=aws_config)
 
 """
     get_account_summary()
@@ -1486,7 +1486,7 @@ information about IAM quotas, see IAM and STS quotas in the IAM User Guide.
 
 """
 get_account_summary(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountSummary"; aws_config=aws_config)
-get_account_summary(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountSummary", params; aws_config=aws_config)
+get_account_summary(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetAccountSummary", params; aws_config=aws_config)
 
 """
     get_context_keys_for_custom_policy(policy_input_list)
@@ -1514,7 +1514,7 @@ HTML request.
 
 """
 get_context_keys_for_custom_policy(PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}("PolicyInputList"=>PolicyInputList); aws_config=aws_config)
-get_context_keys_for_custom_policy(PolicyInputList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config)
+get_context_keys_for_custom_policy(PolicyInputList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config)
 
 """
     get_context_keys_for_principal_policy(policy_source_arn)
@@ -1554,7 +1554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   
 """
 get_context_keys_for_principal_policy(PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}("PolicySourceArn"=>PolicySourceArn); aws_config=aws_config)
-get_context_keys_for_principal_policy(PolicySourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config)
+get_context_keys_for_principal_policy(PolicySourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config)
 
 """
     get_credential_report()
@@ -1565,7 +1565,7 @@ credential report, see Getting credential reports in the IAM User Guide.
 
 """
 get_credential_report(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetCredentialReport"; aws_config=aws_config)
-get_credential_report(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetCredentialReport", params; aws_config=aws_config)
+get_credential_report(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetCredentialReport", params; aws_config=aws_config)
 
 """
     get_group(group_name)
@@ -1593,7 +1593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 get_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-get_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+get_group(GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
     get_group_policy(group_name, policy_name)
@@ -1620,7 +1620,7 @@ and inline policies in the IAM User Guide.
 
 """
 get_group_policy(GroupName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName); aws_config=aws_config)
-get_group_policy(GroupName, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+get_group_policy(GroupName, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     get_instance_profile(instance_profile_name)
@@ -1638,7 +1638,7 @@ About instance profiles in the IAM User Guide.
 
 """
 get_instance_profile(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
-get_instance_profile(InstanceProfileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
+get_instance_profile(InstanceProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
 
 """
     get_login_profile(user_name)
@@ -1655,7 +1655,7 @@ has not been assigned a password, the operation returns a 404 (NoSuchEntity) err
 
 """
 get_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-get_login_profile(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+get_login_profile(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     get_open_idconnect_provider(open_idconnect_provider_arn)
@@ -1672,7 +1672,7 @@ IAM.
 
 """
 get_open_idconnect_provider(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-get_open_idconnect_provider(OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
+get_open_idconnect_provider(OpenIDConnectProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
     get_organizations_access_report(job_id)
@@ -1713,7 +1713,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sorted numerically by the date and time.
 """
 get_organizations_access_report(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOrganizationsAccessReport", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_organizations_access_report(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_organizations_access_report(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_policy(policy_arn)
@@ -1736,7 +1736,7 @@ Managed policies and inline policies in the IAM User Guide.
 
 """
 get_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-get_policy(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
+get_policy(PolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
     get_policy_version(policy_arn, version_id)
@@ -1765,7 +1765,7 @@ managed policy versions, see Versioning for managed policies in the IAM User Gui
 
 """
 get_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
-get_policy_version(PolicyArn, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
+get_policy_version(PolicyArn, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
 
 """
     get_role(role_name)
@@ -1787,7 +1787,7 @@ functionality.
 
 """
 get_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-get_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+get_role(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     get_role_policy(policy_name, role_name)
@@ -1815,7 +1815,7 @@ roles, see Using roles to delegate permissions and federate identities.
 
 """
 get_role_policy(PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRolePolicy", Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
-get_role_policy(PolicyName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
+get_role_policy(PolicyName, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     get_samlprovider(samlprovider_arn)
@@ -1831,7 +1831,7 @@ resource object was created or updated.  This operation requires Signature Versi
 
 """
 get_samlprovider(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
-get_samlprovider(SAMLProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
+get_samlprovider(SAMLProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
 
 """
     get_server_certificate(server_certificate_name)
@@ -1850,7 +1850,7 @@ certificates that you manage with IAM.
 
 """
 get_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-get_server_certificate(ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
+get_server_certificate(ServerCertificateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
 
 """
     get_service_last_accessed_details(job_id)
@@ -1903,7 +1903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 get_service_last_accessed_details(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetails", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_service_last_accessed_details(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_service_last_accessed_details(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_service_last_accessed_details_with_entities(job_id, service_namespace)
@@ -1947,7 +1947,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 get_service_last_accessed_details_with_entities(JobId, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-get_service_last_accessed_details_with_entities(JobId, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+get_service_last_accessed_details_with_entities(JobId, ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     get_service_linked_role_deletion_status(deletion_task_id)
@@ -1966,7 +1966,7 @@ information is returned by the service.
 
 """
 get_service_linked_role_deletion_status(DeletionTaskId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}("DeletionTaskId"=>DeletionTaskId); aws_config=aws_config)
-get_service_linked_role_deletion_status(DeletionTaskId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeletionTaskId"=>DeletionTaskId), params)); aws_config=aws_config)
+get_service_linked_role_deletion_status(DeletionTaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeletionTaskId"=>DeletionTaskId), params)); aws_config=aws_config)
 
 """
     get_sshpublic_key(encoding, sshpublic_key_id, user_name)
@@ -1992,7 +1992,7 @@ CodeCommit User Guide.
 
 """
 get_sshpublic_key(Encoding, SSHPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
-get_sshpublic_key(Encoding, SSHPublicKeyId, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config)
+get_sshpublic_key(Encoding, SSHPublicKeyId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     get_user()
@@ -2011,7 +2011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 get_user(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUser"; aws_config=aws_config)
-get_user(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUser", params; aws_config=aws_config)
+get_user(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUser", params; aws_config=aws_config)
 
 """
     get_user_policy(policy_name, user_name)
@@ -2038,7 +2038,7 @@ and inline policies in the IAM User Guide.
 
 """
 get_user_policy(PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUserPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
-get_user_policy(PolicyName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
+get_user_policy(PolicyName, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("GetUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     list_access_keys()
@@ -2071,7 +2071,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   spaces. You can also include any of the following characters: _+=,.@-
 """
 list_access_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccessKeys"; aws_config=aws_config)
-list_access_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccessKeys", params; aws_config=aws_config)
+list_access_keys(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccessKeys", params; aws_config=aws_config)
 
 """
     list_account_aliases()
@@ -2095,7 +2095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_account_aliases(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccountAliases"; aws_config=aws_config)
-list_account_aliases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccountAliases", params; aws_config=aws_config)
+list_account_aliases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAccountAliases", params; aws_config=aws_config)
 
 """
     list_attached_group_policies(group_name)
@@ -2136,7 +2136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most punctuation characters, digits, and upper and lowercased letters.
 """
 list_attached_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedGroupPolicies", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-list_attached_group_policies(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+list_attached_group_policies(GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
     list_attached_role_policies(role_name)
@@ -2177,7 +2177,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most punctuation characters, digits, and upper and lowercased letters.
 """
 list_attached_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedRolePolicies", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-list_attached_role_policies(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+list_attached_role_policies(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     list_attached_user_policies(user_name)
@@ -2218,7 +2218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most punctuation characters, digits, and upper and lowercased letters.
 """
 list_attached_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedUserPolicies", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-list_attached_user_policies(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+list_attached_user_policies(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListAttachedUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     list_entities_for_policy(policy_arn)
@@ -2264,7 +2264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is optional. If it is not included, all policies are returned.
 """
 list_entities_for_policy(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListEntitiesForPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-list_entities_for_policy(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListEntitiesForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
+list_entities_for_policy(PolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListEntitiesForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
     list_group_policies(group_name)
@@ -2296,7 +2296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_group_policies(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupPolicies", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-list_group_policies(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+list_group_policies(GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
     list_groups()
@@ -2327,7 +2327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters, digits, and upper and lowercased letters.
 """
 list_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroups"; aws_config=aws_config)
-list_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroups", params; aws_config=aws_config)
+list_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroups", params; aws_config=aws_config)
 
 """
     list_groups_for_user(user_name)
@@ -2355,7 +2355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_groups_for_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupsForUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-list_groups_for_user(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+list_groups_for_user(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     list_instance_profile_tags(instance_profile_name)
@@ -2385,7 +2385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_instance_profile_tags(InstanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfileTags", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
-list_instance_profile_tags(InstanceProfileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfileTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
+list_instance_profile_tags(InstanceProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfileTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), params)); aws_config=aws_config)
 
 """
     list_instance_profiles()
@@ -2421,7 +2421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   punctuation characters, digits, and upper and lowercased letters.
 """
 list_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfiles"; aws_config=aws_config)
-list_instance_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfiles", params; aws_config=aws_config)
+list_instance_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfiles", params; aws_config=aws_config)
 
 """
     list_instance_profiles_for_role(role_name)
@@ -2452,7 +2452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_instance_profiles_for_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfilesForRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-list_instance_profiles_for_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfilesForRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+list_instance_profiles_for_role(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListInstanceProfilesForRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     list_mfadevice_tags(serial_number)
@@ -2483,7 +2483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_mfadevice_tags(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADeviceTags", Dict{String, Any}("SerialNumber"=>SerialNumber); aws_config=aws_config)
-list_mfadevice_tags(SerialNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADeviceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config)
+list_mfadevice_tags(SerialNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADeviceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), params)); aws_config=aws_config)
 
 """
     list_mfadevices()
@@ -2513,7 +2513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 list_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADevices"; aws_config=aws_config)
-list_mfadevices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADevices", params; aws_config=aws_config)
+list_mfadevices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListMFADevices", params; aws_config=aws_config)
 
 """
     list_open_idconnect_provider_tags(open_idconnect_provider_arn)
@@ -2544,7 +2544,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_open_idconnect_provider_tags(OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviderTags", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-list_open_idconnect_provider_tags(OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
+list_open_idconnect_provider_tags(OpenIDConnectProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
     list_open_idconnect_providers()
@@ -2558,7 +2558,7 @@ provider, see GetOpenIDConnectProvider.
 
 """
 list_open_idconnect_providers(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviders"; aws_config=aws_config)
-list_open_idconnect_providers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviders", params; aws_config=aws_config)
+list_open_idconnect_providers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviders", params; aws_config=aws_config)
 
 """
     list_policies()
@@ -2608,7 +2608,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   policies are returned.
 """
 list_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicies"; aws_config=aws_config)
-list_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicies", params; aws_config=aws_config)
+list_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicies", params; aws_config=aws_config)
 
 """
     list_policies_granting_service_access(arn, service_namespaces)
@@ -2650,7 +2650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element in the response that you received to indicate where the next call should start.
 """
 list_policies_granting_service_access(Arn, ServiceNamespaces; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces); aws_config=aws_config)
-list_policies_granting_service_access(Arn, ServiceNamespaces, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces), params)); aws_config=aws_config)
+list_policies_granting_service_access(Arn, ServiceNamespaces, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces), params)); aws_config=aws_config)
 
 """
     list_policy_tags(policy_arn)
@@ -2680,7 +2680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_policy_tags(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyTags", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-list_policy_tags(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
+list_policy_tags(PolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
     list_policy_versions(policy_arn)
@@ -2709,7 +2709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_policy_versions(PolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyVersions", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
-list_policy_versions(PolicyArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
+list_policy_versions(PolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListPolicyVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), params)); aws_config=aws_config)
 
 """
     list_role_policies(role_name)
@@ -2741,7 +2741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_role_policies(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRolePolicies", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-list_role_policies(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+list_role_policies(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     list_role_tags(role_name)
@@ -2771,7 +2771,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_role_tags(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoleTags", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-list_role_tags(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoleTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+list_role_tags(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoleTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     list_roles()
@@ -2806,7 +2806,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters, digits, and upper and lowercased letters.
 """
 list_roles(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoles"; aws_config=aws_config)
-list_roles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoles", params; aws_config=aws_config)
+list_roles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListRoles", params; aws_config=aws_config)
 
 """
     list_samlprovider_tags(samlprovider_arn)
@@ -2837,7 +2837,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_samlprovider_tags(SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviderTags", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
-list_samlprovider_tags(SAMLProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
+list_samlprovider_tags(SAMLProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviderTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
 
 """
     list_samlproviders()
@@ -2851,7 +2851,7 @@ This operation requires Signature Version 4.
 
 """
 list_samlproviders(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviders"; aws_config=aws_config)
-list_samlproviders(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviders", params; aws_config=aws_config)
+list_samlproviders(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSAMLProviders", params; aws_config=aws_config)
 
 """
     list_server_certificate_tags(server_certificate_name)
@@ -2884,7 +2884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_server_certificate_tags(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificateTags", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-list_server_certificate_tags(ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
+list_server_certificate_tags(ServerCertificateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
 
 """
     list_server_certificates()
@@ -2922,7 +2922,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters, digits, and upper and lowercased letters.
 """
 list_server_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificates"; aws_config=aws_config)
-list_server_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificates", params; aws_config=aws_config)
+list_server_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServerCertificates", params; aws_config=aws_config)
 
 """
     list_service_specific_credentials()
@@ -2946,7 +2946,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with no spaces. You can also include any of the following characters: _+=,.@-
 """
 list_service_specific_credentials(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServiceSpecificCredentials"; aws_config=aws_config)
-list_service_specific_credentials(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServiceSpecificCredentials", params; aws_config=aws_config)
+list_service_specific_credentials(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListServiceSpecificCredentials", params; aws_config=aws_config)
 
 """
     list_signing_certificates()
@@ -2979,7 +2979,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following characters: _+=,.@-
 """
 list_signing_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSigningCertificates"; aws_config=aws_config)
-list_signing_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSigningCertificates", params; aws_config=aws_config)
+list_signing_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSigningCertificates", params; aws_config=aws_config)
 
 """
     list_sshpublic_keys()
@@ -3012,7 +3012,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include any of the following characters: _+=,.@-
 """
 list_sshpublic_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSSHPublicKeys"; aws_config=aws_config)
-list_sshpublic_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSSHPublicKeys", params; aws_config=aws_config)
+list_sshpublic_keys(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListSSHPublicKeys", params; aws_config=aws_config)
 
 """
     list_user_policies(user_name)
@@ -3044,7 +3044,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_user_policies(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserPolicies", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-list_user_policies(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+list_user_policies(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     list_user_tags(user_name)
@@ -3074,7 +3074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_user_tags(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserTags", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-list_user_tags(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+list_user_tags(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUserTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     list_users()
@@ -3109,7 +3109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters, digits, and upper and lowercased letters.
 """
 list_users(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUsers"; aws_config=aws_config)
-list_users(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUsers", params; aws_config=aws_config)
+list_users(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListUsers", params; aws_config=aws_config)
 
 """
     list_virtual_mfadevices()
@@ -3140,7 +3140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continue from.
 """
 list_virtual_mfadevices(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListVirtualMFADevices"; aws_config=aws_config)
-list_virtual_mfadevices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListVirtualMFADevices", params; aws_config=aws_config)
+list_virtual_mfadevices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ListVirtualMFADevices", params; aws_config=aws_config)
 
 """
     put_group_policy(group_name, policy_document, policy_name)
@@ -3174,7 +3174,7 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
 
 """
 put_group_policy(GroupName, PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName); aws_config=aws_config)
-put_group_policy(GroupName, PolicyDocument, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+put_group_policy(GroupName, PolicyDocument, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     put_role_permissions_boundary(permissions_boundary, role_name)
@@ -3197,7 +3197,7 @@ evaluation logic in the IAM User Guide.
 
 """
 put_role_permissions_boundary(PermissionsBoundary, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePermissionsBoundary", Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName); aws_config=aws_config)
-put_role_permissions_boundary(PermissionsBoundary, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName), params)); aws_config=aws_config)
+put_role_permissions_boundary(PermissionsBoundary, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     put_role_policy(policy_document, policy_name, role_name)
@@ -3236,7 +3236,7 @@ Guide.
 
 """
 put_role_policy(PolicyDocument, PolicyName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
-put_role_policy(PolicyDocument, PolicyName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
+put_role_policy(PolicyDocument, PolicyName, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     put_user_permissions_boundary(permissions_boundary, user_name)
@@ -3258,7 +3258,7 @@ are evaluated, see IAM JSON policy evaluation logic in the IAM User Guide.
 
 """
 put_user_permissions_boundary(PermissionsBoundary, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPermissionsBoundary", Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName); aws_config=aws_config)
-put_user_permissions_boundary(PermissionsBoundary, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName), params)); aws_config=aws_config)
+put_user_permissions_boundary(PermissionsBoundary, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     put_user_policy(policy_document, policy_name, user_name)
@@ -3292,7 +3292,7 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
 
 """
 put_user_policy(PolicyDocument, PolicyName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
-put_user_policy(PolicyDocument, PolicyName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
+put_user_policy(PolicyDocument, PolicyName, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("PutUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     remove_client_idfrom_open_idconnect_provider(client_id, open_idconnect_provider_arn)
@@ -3313,7 +3313,7 @@ ID that does not exist.
 
 """
 remove_client_idfrom_open_idconnect_provider(ClientID, OpenIDConnectProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
-remove_client_idfrom_open_idconnect_provider(ClientID, OpenIDConnectProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
+remove_client_idfrom_open_idconnect_provider(ClientID, OpenIDConnectProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), params)); aws_config=aws_config)
 
 """
     remove_role_from_instance_profile(instance_profile_name, role_name)
@@ -3337,7 +3337,7 @@ profiles, see About instance profiles.
 
 """
 remove_role_from_instance_profile(InstanceProfileName, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName); aws_config=aws_config)
-remove_role_from_instance_profile(InstanceProfileName, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config)
+remove_role_from_instance_profile(InstanceProfileName, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     remove_user_from_group(group_name, user_name)
@@ -3355,7 +3355,7 @@ Removes the specified user from the specified group.
 
 """
 remove_user_from_group(GroupName, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveUserFromGroup", Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName); aws_config=aws_config)
-remove_user_from_group(GroupName, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config)
+remove_user_from_group(GroupName, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("RemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     reset_service_specific_credential(service_specific_credential_id)
@@ -3379,7 +3379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can also include any of the following characters: _+=,.@-
 """
 reset_service_specific_credential(ServiceSpecificCredentialId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResetServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId); aws_config=aws_config)
-reset_service_specific_credential(ServiceSpecificCredentialId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResetServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config)
+reset_service_specific_credential(ServiceSpecificCredentialId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResetServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), params)); aws_config=aws_config)
 
 """
     resync_mfadevice(authentication_code1, authentication_code2, serial_number, user_name)
@@ -3405,7 +3405,7 @@ MFA device in the IAM User Guide.
 
 """
 resync_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResyncMFADevice", Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
-resync_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResyncMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
+resync_mfadevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("ResyncMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     set_default_policy_version(policy_arn, version_id)
@@ -3427,7 +3427,7 @@ inline policies in the IAM User Guide.
 
 """
 set_default_policy_version(PolicyArn, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetDefaultPolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
-set_default_policy_version(PolicyArn, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetDefaultPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
+set_default_policy_version(PolicyArn, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetDefaultPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), params)); aws_config=aws_config)
 
 """
     set_security_token_service_preferences(global_endpoint_token_version)
@@ -3458,7 +3458,7 @@ GlobalEndpointTokenVersion entry in the response of the GetAccountSummary operat
 
 """
 set_security_token_service_preferences(GlobalEndpointTokenVersion; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion); aws_config=aws_config)
-set_security_token_service_preferences(GlobalEndpointTokenVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion), params)); aws_config=aws_config)
+set_security_token_service_preferences(GlobalEndpointTokenVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion), params)); aws_config=aws_config)
 
 """
     simulate_custom_policy(action_names, policy_input_list)
@@ -3575,7 +3575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   carriage return (u000D)
 """
 simulate_custom_policy(ActionNames, PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulateCustomPolicy", Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList); aws_config=aws_config)
-simulate_custom_policy(ActionNames, PolicyInputList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulateCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config)
+simulate_custom_policy(ActionNames, PolicyInputList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulateCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList), params)); aws_config=aws_config)
 
 """
     simulate_principal_policy(action_names, policy_source_arn)
@@ -3703,7 +3703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   carriage return (u000D)
 """
 simulate_principal_policy(ActionNames, PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulatePrincipalPolicy", Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn); aws_config=aws_config)
-simulate_principal_policy(ActionNames, PolicySourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulatePrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config)
+simulate_principal_policy(ActionNames, PolicySourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("SimulatePrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn), params)); aws_config=aws_config)
 
 """
     tag_instance_profile(instance_profile_name, tags)
@@ -3735,7 +3735,7 @@ string. However, you must interpret the value in your code.
 
 """
 tag_instance_profile(InstanceProfileName, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "Tags"=>Tags); aws_config=aws_config)
-tag_instance_profile(InstanceProfileName, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_instance_profile(InstanceProfileName, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     tag_mfadevice(serial_number, tags)
@@ -3768,7 +3768,7 @@ comma-separated values in the string. However, you must interpret the value in y
 
 """
 tag_mfadevice(SerialNumber, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber, "Tags"=>Tags); aws_config=aws_config)
-tag_mfadevice(SerialNumber, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_mfadevice(SerialNumber, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     tag_open_idconnect_provider(open_idconnect_provider_arn, tags)
@@ -3801,7 +3801,7 @@ string. However, you must interpret the value in your code.
 
 """
 tag_open_idconnect_provider(OpenIDConnectProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "Tags"=>Tags); aws_config=aws_config)
-tag_open_idconnect_provider(OpenIDConnectProviderArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_open_idconnect_provider(OpenIDConnectProviderArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     tag_policy(policy_arn, tags)
@@ -3833,7 +3833,7 @@ values in the string. However, you must interpret the value in your code.
 
 """
 tag_policy(PolicyArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "Tags"=>Tags); aws_config=aws_config)
-tag_policy(PolicyArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_policy(PolicyArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     tag_role(role_name, tags)
@@ -3868,7 +3868,7 @@ comma-separated values in the string. However, you must interpret the value in y
 
 """
 tag_role(RoleName, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagRole", Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags); aws_config=aws_config)
-tag_role(RoleName, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_role(RoleName, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     tag_samlprovider(samlprovider_arn, tags)
@@ -3901,7 +3901,7 @@ values in the string. However, you must interpret the value in your code.
 
 """
 tag_samlprovider(SAMLProviderArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "Tags"=>Tags); aws_config=aws_config)
-tag_samlprovider(SAMLProviderArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_samlprovider(SAMLProviderArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     tag_server_certificate(server_certificate_name, tags)
@@ -3938,7 +3938,7 @@ code.
 
 """
 tag_server_certificate(ServerCertificateName, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "Tags"=>Tags); aws_config=aws_config)
-tag_server_certificate(ServerCertificateName, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_server_certificate(ServerCertificateName, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     tag_user(tags, user_name)
@@ -3973,7 +3973,7 @@ Tagging IAM identities in the IAM User Guide.
 
 """
 tag_user(Tags, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagUser", Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName); aws_config=aws_config)
-tag_user(Tags, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName), params)); aws_config=aws_config)
+tag_user(Tags, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("TagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     untag_instance_profile(instance_profile_name, tag_keys)
@@ -3992,7 +3992,7 @@ tagging, see Tagging IAM resources in the IAM User Guide.
 
 """
 untag_instance_profile(InstanceProfileName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_instance_profile(InstanceProfileName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_instance_profile(InstanceProfileName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     untag_mfadevice(serial_number, tag_keys)
@@ -4012,7 +4012,7 @@ For more information about tagging, see Tagging IAM resources in the IAM User Gu
 
 """
 untag_mfadevice(SerialNumber, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_mfadevice(SerialNumber, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_mfadevice(SerialNumber, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     untag_open_idconnect_provider(open_idconnect_provider_arn, tag_keys)
@@ -4033,7 +4033,7 @@ Guide.
 
 """
 untag_open_idconnect_provider(OpenIDConnectProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_open_idconnect_provider(OpenIDConnectProviderArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_open_idconnect_provider(OpenIDConnectProviderArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     untag_policy(policy_arn, tag_keys)
@@ -4052,7 +4052,7 @@ tagging, see Tagging IAM resources in the IAM User Guide.
 
 """
 untag_policy(PolicyArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_policy(PolicyArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_policy(PolicyArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     untag_role(role_name, tag_keys)
@@ -4071,7 +4071,7 @@ IAM resources in the IAM User Guide.
 
 """
 untag_role(RoleName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagRole", Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_role(RoleName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_role(RoleName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     untag_samlprovider(samlprovider_arn, tag_keys)
@@ -4092,7 +4092,7 @@ IAM User Guide.
 
 """
 untag_samlprovider(SAMLProviderArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_samlprovider(SAMLProviderArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_samlprovider(SAMLProviderArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     untag_server_certificate(server_certificate_name, tag_keys)
@@ -4115,7 +4115,7 @@ IAM User Guide.
 
 """
 untag_server_certificate(ServerCertificateName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_server_certificate(ServerCertificateName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_server_certificate(ServerCertificateName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     untag_user(tag_keys, user_name)
@@ -4134,7 +4134,7 @@ IAM resources in the IAM User Guide.
 
 """
 untag_user(TagKeys, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagUser", Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName); aws_config=aws_config)
-untag_user(TagKeys, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName), params)); aws_config=aws_config)
+untag_user(TagKeys, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UntagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     update_access_key(access_key_id, status)
@@ -4164,7 +4164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 update_access_key(AccessKeyId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccessKey", Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status); aws_config=aws_config)
-update_access_key(AccessKeyId, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status), params)); aws_config=aws_config)
+update_access_key(AccessKeyId, Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status), params)); aws_config=aws_config)
 
 """
     update_account_password_policy()
@@ -4218,7 +4218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result is that passwords do not require at least one uppercase character.
 """
 update_account_password_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccountPasswordPolicy"; aws_config=aws_config)
-update_account_password_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccountPasswordPolicy", params; aws_config=aws_config)
+update_account_password_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAccountPasswordPolicy", params; aws_config=aws_config)
 
 """
     update_assume_role_policy(policy_document, role_name)
@@ -4245,7 +4245,7 @@ to delegate permissions and federate identities.
 
 """
 update_assume_role_policy(PolicyDocument, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAssumeRolePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName); aws_config=aws_config)
-update_assume_role_policy(PolicyDocument, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAssumeRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config)
+update_assume_role_policy(PolicyDocument, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateAssumeRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     update_group(group_name)
@@ -4280,7 +4280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   letters.
 """
 update_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-update_group(GroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+update_group(GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
 
 """
     update_login_profile(user_name)
@@ -4312,7 +4312,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified IAM user to set a new password on next sign-in.
 """
 update_login_profile(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-update_login_profile(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+update_login_profile(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     update_open_idconnect_provider_thumbprint(open_idconnect_provider_arn, thumbprint_list)
@@ -4340,7 +4340,7 @@ privileged users.
 
 """
 update_open_idconnect_provider_thumbprint(OpenIDConnectProviderArn, ThumbprintList; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList); aws_config=aws_config)
-update_open_idconnect_provider_thumbprint(OpenIDConnectProviderArn, ThumbprintList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList), params)); aws_config=aws_config)
+update_open_idconnect_provider_thumbprint(OpenIDConnectProviderArn, ThumbprintList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList), params)); aws_config=aws_config)
 
 """
     update_role(role_name)
@@ -4367,7 +4367,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Guide.
 """
 update_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
-update_role(RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
+update_role(RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     update_role_description(description, role_name)
@@ -4382,7 +4382,7 @@ the same function as the Description parameter in the UpdateRole operation.
 
 """
 update_role_description(Description, RoleName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRoleDescription", Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName); aws_config=aws_config)
-update_role_description(Description, RoleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRoleDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName), params)); aws_config=aws_config)
+update_role_description(Description, RoleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateRoleDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName), params)); aws_config=aws_config)
 
 """
     update_samlprovider(samlmetadata_document, samlprovider_arn)
@@ -4402,7 +4402,7 @@ operation requires Signature Version 4.
 
 """
 update_samlprovider(SAMLMetadataDocument, SAMLProviderArn; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSAMLProvider", Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
-update_samlprovider(SAMLMetadataDocument, SAMLProviderArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
+update_samlprovider(SAMLMetadataDocument, SAMLProviderArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn), params)); aws_config=aws_config)
 
 """
     update_server_certificate(server_certificate_name)
@@ -4442,7 +4442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can also include any of the following characters: _+=,.@-
 """
 update_server_certificate(ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-update_server_certificate(ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
+update_server_certificate(ServerCertificateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
 
 """
     update_service_specific_credential(service_specific_credential_id, status)
@@ -4468,7 +4468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can also include any of the following characters: _+=,.@-
 """
 update_service_specific_credential(ServiceSpecificCredentialId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status); aws_config=aws_config)
-update_service_specific_credential(ServiceSpecificCredentialId, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status), params)); aws_config=aws_config)
+update_service_specific_credential(ServiceSpecificCredentialId, Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status), params)); aws_config=aws_config)
 
 """
     update_signing_certificate(certificate_id, status)
@@ -4498,7 +4498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 update_signing_certificate(CertificateId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status); aws_config=aws_config)
-update_signing_certificate(CertificateId, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status), params)); aws_config=aws_config)
+update_signing_certificate(CertificateId, Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status), params)); aws_config=aws_config)
 
 """
     update_sshpublic_key(sshpublic_key_id, status, user_name)
@@ -4525,7 +4525,7 @@ repository, see Set up AWS CodeCommit for SSH connections in the AWS CodeCommit 
 
 """
 update_sshpublic_key(SSHPublicKeyId, Status, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName); aws_config=aws_config)
-update_sshpublic_key(SSHPublicKeyId, Status, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName), params)); aws_config=aws_config)
+update_sshpublic_key(SSHPublicKeyId, Status, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     update_user(user_name)
@@ -4559,7 +4559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"MyResource\" and \"myresource\".
 """
 update_user(UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
-update_user(UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
+update_user(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config)
 
 """
     upload_server_certificate(certificate_body, private_key, server_certificate_name)
@@ -4626,7 +4626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and the resource is not created.
 """
 upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
-upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
+upload_server_certificate(CertificateBody, PrivateKey, ServerCertificateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName), params)); aws_config=aws_config)
 
 """
     upload_signing_certificate(certificate_body)
@@ -4662,7 +4662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters: _+=,.@-
 """
 upload_signing_certificate(CertificateBody; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody); aws_config=aws_config)
-upload_signing_certificate(CertificateBody, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody), params)); aws_config=aws_config)
+upload_signing_certificate(CertificateBody, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody), params)); aws_config=aws_config)
 
 """
     upload_sshpublic_key(sshpublic_key_body, user_name)
@@ -4690,4 +4690,4 @@ CodeCommit User Guide.
 
 """
 upload_sshpublic_key(SSHPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSSHPublicKey", Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName); aws_config=aws_config)
-upload_sshpublic_key(SSHPublicKeyBody, UserName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config)
+upload_sshpublic_key(SSHPublicKeyBody, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iam("UploadSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config)

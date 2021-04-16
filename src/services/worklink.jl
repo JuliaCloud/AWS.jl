@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The name to display.
 """
 associate_domain(AcmCertificateArn, DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateDomain", Dict{String, Any}("AcmCertificateArn"=>AcmCertificateArn, "DomainName"=>DomainName, "FleetArn"=>FleetArn); aws_config=aws_config)
-associate_domain(AcmCertificateArn, DomainName, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcmCertificateArn"=>AcmCertificateArn, "DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+associate_domain(AcmCertificateArn, DomainName, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcmCertificateArn"=>AcmCertificateArn, "DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     associate_website_authorization_provider(authorization_provider_type, fleet_arn)
@@ -40,7 +40,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SAML-based authorization providers.
 """
 associate_website_authorization_provider(AuthorizationProviderType, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateWebsiteAuthorizationProvider", Dict{String, Any}("AuthorizationProviderType"=>AuthorizationProviderType, "FleetArn"=>FleetArn); aws_config=aws_config)
-associate_website_authorization_provider(AuthorizationProviderType, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateWebsiteAuthorizationProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationProviderType"=>AuthorizationProviderType, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+associate_website_authorization_provider(AuthorizationProviderType, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateWebsiteAuthorizationProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationProviderType"=>AuthorizationProviderType, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     associate_website_certificate_authority(certificate, fleet_arn)
@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The certificate name to display.
 """
 associate_website_certificate_authority(Certificate, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateWebsiteCertificateAuthority", Dict{String, Any}("Certificate"=>Certificate, "FleetArn"=>FleetArn); aws_config=aws_config)
-associate_website_certificate_authority(Certificate, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+associate_website_certificate_authority(Certificate, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/associateWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Certificate"=>Certificate, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     create_fleet(fleet_name)
@@ -78,7 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  The tags to add to the resource. A tag is a key-value pair.
 """
 create_fleet(FleetName; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/createFleet", Dict{String, Any}("FleetName"=>FleetName); aws_config=aws_config)
-create_fleet(FleetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName), params)); aws_config=aws_config)
+create_fleet(FleetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName), params)); aws_config=aws_config)
 
 """
     delete_fleet(fleet_arn)
@@ -91,7 +91,7 @@ Deletes a fleet. Prevents users from accessing previously associated websites.
 
 """
 delete_fleet(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/deleteFleet", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-delete_fleet(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+delete_fleet(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     describe_audit_stream_configuration(fleet_arn)
@@ -104,7 +104,7 @@ Describes the configuration for delivering audit streams to the customer account
 
 """
 describe_audit_stream_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeAuditStreamConfiguration", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-describe_audit_stream_configuration(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeAuditStreamConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+describe_audit_stream_configuration(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeAuditStreamConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     describe_company_network_configuration(fleet_arn)
@@ -118,7 +118,7 @@ specified fleet.
 
 """
 describe_company_network_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeCompanyNetworkConfiguration", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-describe_company_network_configuration(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeCompanyNetworkConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+describe_company_network_configuration(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeCompanyNetworkConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     describe_device(device_id, fleet_arn)
@@ -132,7 +132,7 @@ Provides information about a user's device.
 
 """
 describe_device(DeviceId, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDevice", Dict{String, Any}("DeviceId"=>DeviceId, "FleetArn"=>FleetArn); aws_config=aws_config)
-describe_device(DeviceId, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+describe_device(DeviceId, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     describe_device_policy_configuration(fleet_arn)
@@ -145,7 +145,7 @@ Describes the device policy configuration for the specified fleet.
 
 """
 describe_device_policy_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDevicePolicyConfiguration", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-describe_device_policy_configuration(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDevicePolicyConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+describe_device_policy_configuration(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDevicePolicyConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     describe_domain(domain_name, fleet_arn)
@@ -159,7 +159,7 @@ Provides information about the domain.
 
 """
 describe_domain(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDomain", Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn); aws_config=aws_config)
-describe_domain(DomainName, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+describe_domain(DomainName, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     describe_fleet_metadata(fleet_arn)
@@ -173,7 +173,7 @@ networking, and device configuration details.
 
 """
 describe_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeFleetMetadata", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-describe_fleet_metadata(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeFleetMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+describe_fleet_metadata(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeFleetMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     describe_identity_provider_configuration(fleet_arn)
@@ -186,7 +186,7 @@ Describes the identity provider configuration of the specified fleet.
 
 """
 describe_identity_provider_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeIdentityProviderConfiguration", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-describe_identity_provider_configuration(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeIdentityProviderConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+describe_identity_provider_configuration(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeIdentityProviderConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     describe_website_certificate_authority(fleet_arn, website_ca_id)
@@ -200,7 +200,7 @@ Provides information about the certificate authority.
 
 """
 describe_website_certificate_authority(FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeWebsiteCertificateAuthority", Dict{String, Any}("FleetArn"=>FleetArn, "WebsiteCaId"=>WebsiteCaId); aws_config=aws_config)
-describe_website_certificate_authority(FleetArn, WebsiteCaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "WebsiteCaId"=>WebsiteCaId), params)); aws_config=aws_config)
+describe_website_certificate_authority(FleetArn, WebsiteCaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/describeWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "WebsiteCaId"=>WebsiteCaId), params)); aws_config=aws_config)
 
 """
     disassociate_domain(domain_name, fleet_arn)
@@ -215,7 +215,7 @@ domain with Amazon WorkLink.
 
 """
 disassociate_domain(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateDomain", Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn); aws_config=aws_config)
-disassociate_domain(DomainName, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+disassociate_domain(DomainName, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     disassociate_website_authorization_provider(authorization_provider_id, fleet_arn)
@@ -231,7 +231,7 @@ provider.
 
 """
 disassociate_website_authorization_provider(AuthorizationProviderId, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateWebsiteAuthorizationProvider", Dict{String, Any}("AuthorizationProviderId"=>AuthorizationProviderId, "FleetArn"=>FleetArn); aws_config=aws_config)
-disassociate_website_authorization_provider(AuthorizationProviderId, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateWebsiteAuthorizationProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationProviderId"=>AuthorizationProviderId, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+disassociate_website_authorization_provider(AuthorizationProviderId, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateWebsiteAuthorizationProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthorizationProviderId"=>AuthorizationProviderId, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     disassociate_website_certificate_authority(fleet_arn, website_ca_id)
@@ -245,7 +245,7 @@ Removes a certificate authority (CA).
 
 """
 disassociate_website_certificate_authority(FleetArn, WebsiteCaId; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateWebsiteCertificateAuthority", Dict{String, Any}("FleetArn"=>FleetArn, "WebsiteCaId"=>WebsiteCaId); aws_config=aws_config)
-disassociate_website_certificate_authority(FleetArn, WebsiteCaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "WebsiteCaId"=>WebsiteCaId), params)); aws_config=aws_config)
+disassociate_website_certificate_authority(FleetArn, WebsiteCaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/disassociateWebsiteCertificateAuthority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "WebsiteCaId"=>WebsiteCaId), params)); aws_config=aws_config)
 
 """
     list_devices(fleet_arn)
@@ -263,7 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_devices(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDevices", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-list_devices(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+list_devices(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     list_domains(fleet_arn)
@@ -281,7 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_domains(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDomains", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-list_domains(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+list_domains(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     list_fleets()
@@ -296,7 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listFleets"; aws_config=aws_config)
-list_fleets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listFleets", params; aws_config=aws_config)
+list_fleets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listFleets", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -309,7 +309,7 @@ Retrieves a list of tags for the specified resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
 
 """
     list_website_authorization_providers(fleet_arn)
@@ -327,7 +327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_website_authorization_providers(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteAuthorizationProviders", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-list_website_authorization_providers(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteAuthorizationProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+list_website_authorization_providers(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteAuthorizationProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     list_website_certificate_authorities(fleet_arn)
@@ -345,7 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_website_certificate_authorities(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteCertificateAuthorities", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-list_website_certificate_authorities(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteCertificateAuthorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+list_website_certificate_authorities(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/listWebsiteCertificateAuthorities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     restore_domain_access(domain_name, fleet_arn)
@@ -359,7 +359,7 @@ Moves a domain to ACTIVE status if it was in the INACTIVE status.
 
 """
 restore_domain_access(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/restoreDomainAccess", Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn); aws_config=aws_config)
-restore_domain_access(DomainName, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/restoreDomainAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+restore_domain_access(DomainName, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/restoreDomainAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     revoke_domain_access(domain_name, fleet_arn)
@@ -373,7 +373,7 @@ Moves a domain to INACTIVE status if it was in the ACTIVE status.
 
 """
 revoke_domain_access(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/revokeDomainAccess", Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn); aws_config=aws_config)
-revoke_domain_access(DomainName, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/revokeDomainAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+revoke_domain_access(DomainName, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/revokeDomainAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     sign_out_user(fleet_arn, username)
@@ -388,7 +388,7 @@ credentials.
 
 """
 sign_out_user(FleetArn, Username; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/signOutUser", Dict{String, Any}("FleetArn"=>FleetArn, "Username"=>Username); aws_config=aws_config)
-sign_out_user(FleetArn, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/signOutUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "Username"=>Username), params)); aws_config=aws_config)
+sign_out_user(FleetArn, Username, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/signOutUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "Username"=>Username), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -404,7 +404,7 @@ this operation updates its value.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -418,7 +418,7 @@ Removes one or more tags from the specified resource.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_audit_stream_configuration(fleet_arn)
@@ -435,7 +435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   events.
 """
 update_audit_stream_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateAuditStreamConfiguration", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-update_audit_stream_configuration(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateAuditStreamConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+update_audit_stream_configuration(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateAuditStreamConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     update_company_network_configuration(fleet_arn, security_group_ids, subnet_ids, vpc_id)
@@ -452,7 +452,7 @@ Updates the company network configuration for the fleet.
 
 """
 update_company_network_configuration(FleetArn, SecurityGroupIds, SubnetIds, VpcId; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateCompanyNetworkConfiguration", Dict{String, Any}("FleetArn"=>FleetArn, "SecurityGroupIds"=>SecurityGroupIds, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId); aws_config=aws_config)
-update_company_network_configuration(FleetArn, SecurityGroupIds, SubnetIds, VpcId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateCompanyNetworkConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "SecurityGroupIds"=>SecurityGroupIds, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId), params)); aws_config=aws_config)
+update_company_network_configuration(FleetArn, SecurityGroupIds, SubnetIds, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateCompanyNetworkConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "SecurityGroupIds"=>SecurityGroupIds, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId), params)); aws_config=aws_config)
 
 """
     update_device_policy_configuration(fleet_arn)
@@ -469,7 +469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the root certificate authority certificate used to issue device certificates.
 """
 update_device_policy_configuration(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateDevicePolicyConfiguration", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-update_device_policy_configuration(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateDevicePolicyConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+update_device_policy_configuration(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateDevicePolicyConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     update_domain_metadata(domain_name, fleet_arn)
@@ -486,7 +486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The name to display.
 """
 update_domain_metadata(DomainName, FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateDomainMetadata", Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn); aws_config=aws_config)
-update_domain_metadata(DomainName, FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateDomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
+update_domain_metadata(DomainName, FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateDomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     update_fleet_metadata(fleet_arn)
@@ -505,7 +505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   traffic through the closest AWS Region to users, which may be outside of your home Region.
 """
 update_fleet_metadata(FleetArn; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/UpdateFleetMetadata", Dict{String, Any}("FleetArn"=>FleetArn); aws_config=aws_config)
-update_fleet_metadata(FleetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/UpdateFleetMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
+update_fleet_metadata(FleetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/UpdateFleetMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn), params)); aws_config=aws_config)
 
 """
     update_identity_provider_configuration(fleet_arn, identity_provider_type)
@@ -523,4 +523,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.
 """
 update_identity_provider_configuration(FleetArn, IdentityProviderType; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateIdentityProviderConfiguration", Dict{String, Any}("FleetArn"=>FleetArn, "IdentityProviderType"=>IdentityProviderType); aws_config=aws_config)
-update_identity_provider_configuration(FleetArn, IdentityProviderType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateIdentityProviderConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "IdentityProviderType"=>IdentityProviderType), params)); aws_config=aws_config)
+update_identity_provider_configuration(FleetArn, IdentityProviderType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = worklink("POST", "/updateIdentityProviderConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetArn"=>FleetArn, "IdentityProviderType"=>IdentityProviderType), params)); aws_config=aws_config)

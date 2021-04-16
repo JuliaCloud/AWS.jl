@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use to manage a resource.
 """
 associate_aws_account_with_partner_account(Sidewalk; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/partner-accounts", Dict{String, Any}("Sidewalk"=>Sidewalk, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-associate_aws_account_with_partner_account(Sidewalk, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/partner-accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sidewalk"=>Sidewalk, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+associate_aws_account_with_partner_account(Sidewalk, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/partner-accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sidewalk"=>Sidewalk, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     associate_wireless_device_with_thing(id, thing_arn)
@@ -37,7 +37,7 @@ Associates a wireless device with a thing.
 
 """
 associate_wireless_device_with_thing(Id, ThingArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-devices/$(Id)/thing", Dict{String, Any}("ThingArn"=>ThingArn); aws_config=aws_config)
-associate_wireless_device_with_thing(Id, ThingArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-devices/$(Id)/thing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThingArn"=>ThingArn), params)); aws_config=aws_config)
+associate_wireless_device_with_thing(Id, ThingArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-devices/$(Id)/thing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThingArn"=>ThingArn), params)); aws_config=aws_config)
 
 """
     associate_wireless_gateway_with_certificate(id, iot_certificate_id)
@@ -51,7 +51,7 @@ Associates a wireless gateway with a certificate.
 
 """
 associate_wireless_gateway_with_certificate(Id, IotCertificateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-gateways/$(Id)/certificate", Dict{String, Any}("IotCertificateId"=>IotCertificateId); aws_config=aws_config)
-associate_wireless_gateway_with_certificate(Id, IotCertificateId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-gateways/$(Id)/certificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IotCertificateId"=>IotCertificateId), params)); aws_config=aws_config)
+associate_wireless_gateway_with_certificate(Id, IotCertificateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-gateways/$(Id)/certificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IotCertificateId"=>IotCertificateId), params)); aws_config=aws_config)
 
 """
     associate_wireless_gateway_with_thing(id, thing_arn)
@@ -65,7 +65,7 @@ Associates a wireless gateway with a thing.
 
 """
 associate_wireless_gateway_with_thing(Id, ThingArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-gateways/$(Id)/thing", Dict{String, Any}("ThingArn"=>ThingArn); aws_config=aws_config)
-associate_wireless_gateway_with_thing(Id, ThingArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-gateways/$(Id)/thing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThingArn"=>ThingArn), params)); aws_config=aws_config)
+associate_wireless_gateway_with_thing(Id, ThingArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/wireless-gateways/$(Id)/thing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThingArn"=>ThingArn), params)); aws_config=aws_config)
 
 """
     create_destination(expression, expression_type, name, role_arn)
@@ -90,7 +90,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to manage a resource.
 """
 create_destination(Expression, ExpressionType, Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/destinations", Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "Name"=>Name, "RoleArn"=>RoleArn, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_destination(Expression, ExpressionType, Name, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "Name"=>Name, "RoleArn"=>RoleArn, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_destination(Expression, ExpressionType, Name, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "Name"=>Name, "RoleArn"=>RoleArn, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_device_profile()
@@ -110,7 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use to manage a resource.
 """
 create_device_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/device-profiles", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_device_profile(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/device-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_device_profile(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/device-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_service_profile()
@@ -130,7 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use to manage a resource.
 """
 create_service_profile(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/service-profiles", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_service_profile(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/service-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_service_profile(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/service-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_wireless_device(destination_name, type)
@@ -155,7 +155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use to manage a resource.
 """
 create_wireless_device(DestinationName, Type; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices", Dict{String, Any}("DestinationName"=>DestinationName, "Type"=>Type, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_wireless_device(DestinationName, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationName"=>DestinationName, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_wireless_device(DestinationName, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationName"=>DestinationName, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_wireless_gateway(lo_ra_wan)
@@ -178,7 +178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use to manage a resource.
 """
 create_wireless_gateway(LoRaWAN; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways", Dict{String, Any}("LoRaWAN"=>LoRaWAN, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_wireless_gateway(LoRaWAN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoRaWAN"=>LoRaWAN, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_wireless_gateway(LoRaWAN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoRaWAN"=>LoRaWAN, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_wireless_gateway_task(id, wireless_gateway_task_definition_id)
@@ -192,7 +192,7 @@ Creates a task for a wireless gateway.
 
 """
 create_wireless_gateway_task(Id, WirelessGatewayTaskDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways/$(Id)/tasks", Dict{String, Any}("WirelessGatewayTaskDefinitionId"=>WirelessGatewayTaskDefinitionId); aws_config=aws_config)
-create_wireless_gateway_task(Id, WirelessGatewayTaskDefinitionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways/$(Id)/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WirelessGatewayTaskDefinitionId"=>WirelessGatewayTaskDefinitionId), params)); aws_config=aws_config)
+create_wireless_gateway_task(Id, WirelessGatewayTaskDefinitionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateways/$(Id)/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WirelessGatewayTaskDefinitionId"=>WirelessGatewayTaskDefinitionId), params)); aws_config=aws_config)
 
 """
     create_wireless_gateway_task_definition(auto_create_tasks)
@@ -217,7 +217,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Update"`: Information about the gateways to update.
 """
 create_wireless_gateway_task_definition(AutoCreateTasks; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateway-task-definitions", Dict{String, Any}("AutoCreateTasks"=>AutoCreateTasks, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_wireless_gateway_task_definition(AutoCreateTasks, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateway-task-definitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoCreateTasks"=>AutoCreateTasks, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_wireless_gateway_task_definition(AutoCreateTasks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-gateway-task-definitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoCreateTasks"=>AutoCreateTasks, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_destination(name)
@@ -230,7 +230,7 @@ Deletes a destination.
 
 """
 delete_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/destinations/$(Name)"; aws_config=aws_config)
-delete_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/destinations/$(Name)", params; aws_config=aws_config)
+delete_destination(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/destinations/$(Name)", params; aws_config=aws_config)
 
 """
     delete_device_profile(id)
@@ -243,7 +243,7 @@ Deletes a device profile.
 
 """
 delete_device_profile(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/device-profiles/$(Id)"; aws_config=aws_config)
-delete_device_profile(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/device-profiles/$(Id)", params; aws_config=aws_config)
+delete_device_profile(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/device-profiles/$(Id)", params; aws_config=aws_config)
 
 """
     delete_service_profile(id)
@@ -256,7 +256,7 @@ Deletes a service profile.
 
 """
 delete_service_profile(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/service-profiles/$(Id)"; aws_config=aws_config)
-delete_service_profile(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/service-profiles/$(Id)", params; aws_config=aws_config)
+delete_service_profile(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/service-profiles/$(Id)", params; aws_config=aws_config)
 
 """
     delete_wireless_device(id)
@@ -269,7 +269,7 @@ Deletes a wireless device.
 
 """
 delete_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-devices/$(Id)"; aws_config=aws_config)
-delete_wireless_device(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-devices/$(Id)", params; aws_config=aws_config)
+delete_wireless_device(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-devices/$(Id)", params; aws_config=aws_config)
 
 """
     delete_wireless_gateway(id)
@@ -282,7 +282,7 @@ Deletes a wireless gateway.
 
 """
 delete_wireless_gateway(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)"; aws_config=aws_config)
-delete_wireless_gateway(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)", params; aws_config=aws_config)
+delete_wireless_gateway(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)", params; aws_config=aws_config)
 
 """
     delete_wireless_gateway_task(id)
@@ -295,7 +295,7 @@ Deletes a wireless gateway task.
 
 """
 delete_wireless_gateway_task(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/tasks"; aws_config=aws_config)
-delete_wireless_gateway_task(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/tasks", params; aws_config=aws_config)
+delete_wireless_gateway_task(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/tasks", params; aws_config=aws_config)
 
 """
     delete_wireless_gateway_task_definition(id)
@@ -309,7 +309,7 @@ tasks that are currently in progress.
 
 """
 delete_wireless_gateway_task_definition(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateway-task-definitions/$(Id)"; aws_config=aws_config)
-delete_wireless_gateway_task_definition(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateway-task-definitions/$(Id)", params; aws_config=aws_config)
+delete_wireless_gateway_task_definition(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateway-task-definitions/$(Id)", params; aws_config=aws_config)
 
 """
     disassociate_aws_account_from_partner_account(partner_account_id, partner_type)
@@ -324,7 +324,7 @@ are null, disassociates your AWS account from all partner accounts.
 
 """
 disassociate_aws_account_from_partner_account(PartnerAccountId, partnerType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}("partnerType"=>partnerType); aws_config=aws_config)
-disassociate_aws_account_from_partner_account(PartnerAccountId, partnerType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partnerType"=>partnerType), params)); aws_config=aws_config)
+disassociate_aws_account_from_partner_account(PartnerAccountId, partnerType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partnerType"=>partnerType), params)); aws_config=aws_config)
 
 """
     disassociate_wireless_device_from_thing(id)
@@ -337,7 +337,7 @@ Disassociates a wireless device from its currently associated thing.
 
 """
 disassociate_wireless_device_from_thing(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-devices/$(Id)/thing"; aws_config=aws_config)
-disassociate_wireless_device_from_thing(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-devices/$(Id)/thing", params; aws_config=aws_config)
+disassociate_wireless_device_from_thing(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-devices/$(Id)/thing", params; aws_config=aws_config)
 
 """
     disassociate_wireless_gateway_from_certificate(id)
@@ -350,7 +350,7 @@ Disassociates a wireless gateway from its currently associated certificate.
 
 """
 disassociate_wireless_gateway_from_certificate(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/certificate"; aws_config=aws_config)
-disassociate_wireless_gateway_from_certificate(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/certificate", params; aws_config=aws_config)
+disassociate_wireless_gateway_from_certificate(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/certificate", params; aws_config=aws_config)
 
 """
     disassociate_wireless_gateway_from_thing(id)
@@ -363,7 +363,7 @@ Disassociates a wireless gateway from its currently associated thing.
 
 """
 disassociate_wireless_gateway_from_thing(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/thing"; aws_config=aws_config)
-disassociate_wireless_gateway_from_thing(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/thing", params; aws_config=aws_config)
+disassociate_wireless_gateway_from_thing(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/wireless-gateways/$(Id)/thing", params; aws_config=aws_config)
 
 """
     get_destination(name)
@@ -376,7 +376,7 @@ Gets information about a destination.
 
 """
 get_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations/$(Name)"; aws_config=aws_config)
-get_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations/$(Name)", params; aws_config=aws_config)
+get_destination(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations/$(Name)", params; aws_config=aws_config)
 
 """
     get_device_profile(id)
@@ -389,7 +389,7 @@ Gets information about a device profile.
 
 """
 get_device_profile(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles/$(Id)"; aws_config=aws_config)
-get_device_profile(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles/$(Id)", params; aws_config=aws_config)
+get_device_profile(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles/$(Id)", params; aws_config=aws_config)
 
 """
     get_partner_account(partner_account_id, partner_type)
@@ -404,7 +404,7 @@ returns all partner accounts.
 
 """
 get_partner_account(PartnerAccountId, partnerType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}("partnerType"=>partnerType); aws_config=aws_config)
-get_partner_account(PartnerAccountId, partnerType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partnerType"=>partnerType), params)); aws_config=aws_config)
+get_partner_account(PartnerAccountId, partnerType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partnerType"=>partnerType), params)); aws_config=aws_config)
 
 """
     get_service_endpoint()
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Server endpoint.
 """
 get_service_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-endpoint"; aws_config=aws_config)
-get_service_endpoint(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-endpoint", params; aws_config=aws_config)
+get_service_endpoint(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-endpoint", params; aws_config=aws_config)
 
 """
     get_service_profile(id)
@@ -433,7 +433,7 @@ Gets information about a service profile.
 
 """
 get_service_profile(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles/$(Id)"; aws_config=aws_config)
-get_service_profile(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles/$(Id)", params; aws_config=aws_config)
+get_service_profile(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles/$(Id)", params; aws_config=aws_config)
 
 """
     get_wireless_device(identifier, identifier_type)
@@ -447,7 +447,7 @@ Gets information about a wireless device.
 
 """
 get_wireless_device(Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices/$(Identifier)", Dict{String, Any}("identifierType"=>identifierType); aws_config=aws_config)
-get_wireless_device(Identifier, identifierType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices/$(Identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifierType"=>identifierType), params)); aws_config=aws_config)
+get_wireless_device(Identifier, identifierType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices/$(Identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifierType"=>identifierType), params)); aws_config=aws_config)
 
 """
     get_wireless_device_statistics(id)
@@ -460,7 +460,7 @@ Gets operating information about a wireless device.
 
 """
 get_wireless_device_statistics(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices/$(Id)/statistics"; aws_config=aws_config)
-get_wireless_device_statistics(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices/$(Id)/statistics", params; aws_config=aws_config)
+get_wireless_device_statistics(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices/$(Id)/statistics", params; aws_config=aws_config)
 
 """
     get_wireless_gateway(identifier, identifier_type)
@@ -474,7 +474,7 @@ Gets information about a wireless gateway.
 
 """
 get_wireless_gateway(Identifier, identifierType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Identifier)", Dict{String, Any}("identifierType"=>identifierType); aws_config=aws_config)
-get_wireless_gateway(Identifier, identifierType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifierType"=>identifierType), params)); aws_config=aws_config)
+get_wireless_gateway(Identifier, identifierType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Identifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifierType"=>identifierType), params)); aws_config=aws_config)
 
 """
     get_wireless_gateway_certificate(id)
@@ -487,7 +487,7 @@ Gets the ID of the certificate that is currently associated with a wireless gate
 
 """
 get_wireless_gateway_certificate(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/certificate"; aws_config=aws_config)
-get_wireless_gateway_certificate(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/certificate", params; aws_config=aws_config)
+get_wireless_gateway_certificate(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/certificate", params; aws_config=aws_config)
 
 """
     get_wireless_gateway_firmware_information(id)
@@ -500,7 +500,7 @@ Gets the firmware version and other information about a wireless gateway.
 
 """
 get_wireless_gateway_firmware_information(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/firmware-information"; aws_config=aws_config)
-get_wireless_gateway_firmware_information(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/firmware-information", params; aws_config=aws_config)
+get_wireless_gateway_firmware_information(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/firmware-information", params; aws_config=aws_config)
 
 """
     get_wireless_gateway_statistics(id)
@@ -513,7 +513,7 @@ Gets operating information about a wireless gateway.
 
 """
 get_wireless_gateway_statistics(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/statistics"; aws_config=aws_config)
-get_wireless_gateway_statistics(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/statistics", params; aws_config=aws_config)
+get_wireless_gateway_statistics(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/statistics", params; aws_config=aws_config)
 
 """
     get_wireless_gateway_task(id)
@@ -526,7 +526,7 @@ Gets information about a wireless gateway task.
 
 """
 get_wireless_gateway_task(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/tasks"; aws_config=aws_config)
-get_wireless_gateway_task(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/tasks", params; aws_config=aws_config)
+get_wireless_gateway_task(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways/$(Id)/tasks", params; aws_config=aws_config)
 
 """
     get_wireless_gateway_task_definition(id)
@@ -539,7 +539,7 @@ Gets information about a wireless gateway task definition.
 
 """
 get_wireless_gateway_task_definition(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions/$(Id)"; aws_config=aws_config)
-get_wireless_gateway_task_definition(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions/$(Id)", params; aws_config=aws_config)
+get_wireless_gateway_task_definition(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions/$(Id)", params; aws_config=aws_config)
 
 """
     list_destinations()
@@ -554,7 +554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations"; aws_config=aws_config)
-list_destinations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations", params; aws_config=aws_config)
+list_destinations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/destinations", params; aws_config=aws_config)
 
 """
     list_device_profiles()
@@ -569,7 +569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_device_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles"; aws_config=aws_config)
-list_device_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles", params; aws_config=aws_config)
+list_device_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles", params; aws_config=aws_config)
 
 """
     list_partner_accounts()
@@ -584,7 +584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_partner_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts"; aws_config=aws_config)
-list_partner_accounts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts", params; aws_config=aws_config)
+list_partner_accounts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts", params; aws_config=aws_config)
 
 """
     list_service_profiles()
@@ -599,7 +599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_service_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles"; aws_config=aws_config)
-list_service_profiles(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles", params; aws_config=aws_config)
+list_service_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/service-profiles", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -612,7 +612,7 @@ Lists the tags (metadata) you have assigned to the resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     list_wireless_devices()
@@ -634,7 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   device type.
 """
 list_wireless_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices"; aws_config=aws_config)
-list_wireless_devices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices", params; aws_config=aws_config)
+list_wireless_devices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-devices", params; aws_config=aws_config)
 
 """
     list_wireless_gateway_task_definitions()
@@ -651,7 +651,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this task definition type.
 """
 list_wireless_gateway_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions"; aws_config=aws_config)
-list_wireless_gateway_task_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions", params; aws_config=aws_config)
+list_wireless_gateway_task_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateway-task-definitions", params; aws_config=aws_config)
 
 """
     list_wireless_gateways()
@@ -666,7 +666,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 """
 list_wireless_gateways(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways"; aws_config=aws_config)
-list_wireless_gateways(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways", params; aws_config=aws_config)
+list_wireless_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways", params; aws_config=aws_config)
 
 """
     send_data_to_wireless_device(id, payload_data, transmit_mode)
@@ -685,7 +685,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WirelessMetadata"`: Metadata about the message request.
 """
 send_data_to_wireless_device(Id, PayloadData, TransmitMode; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices/$(Id)/data", Dict{String, Any}("PayloadData"=>PayloadData, "TransmitMode"=>TransmitMode); aws_config=aws_config)
-send_data_to_wireless_device(Id, PayloadData, TransmitMode, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices/$(Id)/data", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PayloadData"=>PayloadData, "TransmitMode"=>TransmitMode), params)); aws_config=aws_config)
+send_data_to_wireless_device(Id, PayloadData, TransmitMode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices/$(Id)/data", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PayloadData"=>PayloadData, "TransmitMode"=>TransmitMode), params)); aws_config=aws_config)
 
 """
     tag_resource(tags, resource_arn)
@@ -700,7 +700,7 @@ Adds a tag to a resource.
 
 """
 tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/tags", Dict{String, Any}("Tags"=>Tags, "resourceArn"=>resourceArn); aws_config=aws_config)
-tag_resource(Tags, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
+tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     test_wireless_device(id)
@@ -713,7 +713,7 @@ Simulates a provisioned device by sending an uplink data payload of Hello.
 
 """
 test_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices/$(Id)/test"; aws_config=aws_config)
-test_wireless_device(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices/$(Id)/test", params; aws_config=aws_config)
+test_wireless_device(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/wireless-devices/$(Id)/test", params; aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -727,7 +727,7 @@ Removes one or more tags from a resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_destination(name)
@@ -746,7 +746,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The ARN of the IAM Role that authorizes the destination.
 """
 update_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/destinations/$(Name)"; aws_config=aws_config)
-update_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/destinations/$(Name)", params; aws_config=aws_config)
+update_destination(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/destinations/$(Name)", params; aws_config=aws_config)
 
 """
     update_partner_account(partner_account_id, sidewalk, partner_type)
@@ -761,7 +761,7 @@ Updates properties of a partner account.
 
 """
 update_partner_account(PartnerAccountId, Sidewalk, partnerType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}("Sidewalk"=>Sidewalk, "partnerType"=>partnerType); aws_config=aws_config)
-update_partner_account(PartnerAccountId, Sidewalk, partnerType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sidewalk"=>Sidewalk, "partnerType"=>partnerType), params)); aws_config=aws_config)
+update_partner_account(PartnerAccountId, Sidewalk, partnerType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sidewalk"=>Sidewalk, "partnerType"=>partnerType), params)); aws_config=aws_config)
 
 """
     update_wireless_device(id)
@@ -780,7 +780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The new name of the resource.
 """
 update_wireless_device(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/wireless-devices/$(Id)"; aws_config=aws_config)
-update_wireless_device(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/wireless-devices/$(Id)", params; aws_config=aws_config)
+update_wireless_device(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/wireless-devices/$(Id)", params; aws_config=aws_config)
 
 """
     update_wireless_gateway(id)
@@ -797,4 +797,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The new name of the resource.
 """
 update_wireless_gateway(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/wireless-gateways/$(Id)"; aws_config=aws_config)
-update_wireless_gateway(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/wireless-gateways/$(Id)", params; aws_config=aws_config)
+update_wireless_gateway(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/wireless-gateways/$(Id)", params; aws_config=aws_config)

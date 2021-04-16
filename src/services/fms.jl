@@ -23,7 +23,7 @@ called the AWS Firewall Manager administrator account.
 
 """
 associate_admin_account(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config()) = fms("AssociateAdminAccount", Dict{String, Any}("AdminAccount"=>AdminAccount); aws_config=aws_config)
-associate_admin_account(AdminAccount, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("AssociateAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccount"=>AdminAccount), params)); aws_config=aws_config)
+associate_admin_account(AdminAccount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("AssociateAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccount"=>AdminAccount), params)); aws_config=aws_config)
 
 """
     delete_apps_list(list_id)
@@ -37,7 +37,7 @@ Permanently deletes an AWS Firewall Manager applications list.
 
 """
 delete_apps_list(ListId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteAppsList", Dict{String, Any}("ListId"=>ListId); aws_config=aws_config)
-delete_apps_list(ListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config)
+delete_apps_list(ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config)
 
 """
     delete_notification_channel()
@@ -48,7 +48,7 @@ Notification Service (SNS) topic that is used to record AWS Firewall Manager SNS
 
 """
 delete_notification_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteNotificationChannel"; aws_config=aws_config)
-delete_notification_channel(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteNotificationChannel", params; aws_config=aws_config)
+delete_notification_channel(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteNotificationChannel", params; aws_config=aws_config)
 
 """
     delete_policy(policy_id)
@@ -78,7 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are in scope.
 """
 delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeletePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-delete_policy(PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
+delete_policy(PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
 
 """
     delete_protocols_list(list_id)
@@ -92,7 +92,7 @@ Permanently deletes an AWS Firewall Manager protocols list.
 
 """
 delete_protocols_list(ListId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteProtocolsList", Dict{String, Any}("ListId"=>ListId); aws_config=aws_config)
-delete_protocols_list(ListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config)
+delete_protocols_list(ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DeleteProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config)
 
 """
     disassociate_admin_account()
@@ -104,7 +104,7 @@ AssociateAdminAccount request.
 
 """
 disassociate_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DisassociateAdminAccount"; aws_config=aws_config)
-disassociate_admin_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DisassociateAdminAccount", params; aws_config=aws_config)
+disassociate_admin_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("DisassociateAdminAccount", params; aws_config=aws_config)
 
 """
     get_admin_account()
@@ -115,7 +115,7 @@ as the AWS Firewall Manager administrator.
 
 """
 get_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetAdminAccount"; aws_config=aws_config)
-get_admin_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetAdminAccount", params; aws_config=aws_config)
+get_admin_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetAdminAccount", params; aws_config=aws_config)
 
 """
     get_apps_list(list_id)
@@ -133,7 +133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager.
 """
 get_apps_list(ListId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetAppsList", Dict{String, Any}("ListId"=>ListId); aws_config=aws_config)
-get_apps_list(ListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config)
+get_apps_list(ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config)
 
 """
     get_compliance_detail(member_account, policy_id)
@@ -158,7 +158,7 @@ policy that violate the Firewall Manager policy's rules.
 
 """
 get_compliance_detail(MemberAccount, PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetComplianceDetail", Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId); aws_config=aws_config)
-get_compliance_detail(MemberAccount, PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetComplianceDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId), params)); aws_config=aws_config)
+get_compliance_detail(MemberAccount, PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetComplianceDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId), params)); aws_config=aws_config)
 
 """
     get_notification_channel()
@@ -169,7 +169,7 @@ AWS Firewall Manager SNS logs.
 
 """
 get_notification_channel(; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetNotificationChannel"; aws_config=aws_config)
-get_notification_channel(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetNotificationChannel", params; aws_config=aws_config)
+get_notification_channel(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetNotificationChannel", params; aws_config=aws_config)
 
 """
     get_policy(policy_id)
@@ -182,7 +182,7 @@ Returns information about the specified AWS Firewall Manager policy.
 
 """
 get_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetPolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-get_policy(PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
+get_policy(PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
 
 """
     get_protection_status(policy_id)
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
 """
 get_protection_status(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetProtectionStatus", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-get_protection_status(PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetProtectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
+get_protection_status(PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetProtectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
 
 """
     get_protocols_list(list_id)
@@ -233,7 +233,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager.
 """
 get_protocols_list(ListId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetProtocolsList", Dict{String, Any}("ListId"=>ListId); aws_config=aws_config)
-get_protocols_list(ListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config)
+get_protocols_list(ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), params)); aws_config=aws_config)
 
 """
     get_violation_details(member_account, policy_id, resource_id, resource_type)
@@ -253,7 +253,7 @@ AWS account.
 
 """
 get_violation_details(MemberAccount, PolicyId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetViolationDetails", Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws_config=aws_config)
-get_violation_details(MemberAccount, PolicyId, ResourceId, ResourceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetViolationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
+get_violation_details(MemberAccount, PolicyId, ResourceId, ResourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("GetViolationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
 
 """
     list_apps_lists(max_results)
@@ -277,7 +277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request parameters, to retrieve the next batch of objects.
 """
 list_apps_lists(MaxResults; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListAppsLists", Dict{String, Any}("MaxResults"=>MaxResults); aws_config=aws_config)
-list_apps_lists(MaxResults, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListAppsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config)
+list_apps_lists(MaxResults, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListAppsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config)
 
 """
     list_compliance_status(policy_id)
@@ -303,7 +303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about another batch of PolicyComplianceStatus objects.
 """
 list_compliance_status(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListComplianceStatus", Dict{String, Any}("PolicyId"=>PolicyId); aws_config=aws_config)
-list_compliance_status(PolicyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListComplianceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
+list_compliance_status(PolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListComplianceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), params)); aws_config=aws_config)
 
 """
     list_member_accounts()
@@ -326,7 +326,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to get information about another batch of member account IDs.
 """
 list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListMemberAccounts"; aws_config=aws_config)
-list_member_accounts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListMemberAccounts", params; aws_config=aws_config)
+list_member_accounts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListMemberAccounts", params; aws_config=aws_config)
 
 """
     list_policies()
@@ -348,7 +348,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PolicySummary objects.
 """
 list_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListPolicies"; aws_config=aws_config)
-list_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListPolicies", params; aws_config=aws_config)
+list_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListPolicies", params; aws_config=aws_config)
 
 """
     list_protocols_lists(max_results)
@@ -372,7 +372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request parameters, to retrieve the next batch of objects.
 """
 list_protocols_lists(MaxResults; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListProtocolsLists", Dict{String, Any}("MaxResults"=>MaxResults); aws_config=aws_config)
-list_protocols_lists(MaxResults, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListProtocolsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config)
+list_protocols_lists(MaxResults, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListProtocolsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), params)); aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -387,7 +387,7 @@ Retrieves the list of tags for the specified AWS resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     put_apps_list(apps_list)
@@ -403,7 +403,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagList"`: The tags associated with the resource.
 """
 put_apps_list(AppsList; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutAppsList", Dict{String, Any}("AppsList"=>AppsList); aws_config=aws_config)
-put_apps_list(AppsList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppsList"=>AppsList), params)); aws_config=aws_config)
+put_apps_list(AppsList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppsList"=>AppsList), params)); aws_config=aws_config)
 
 """
     put_notification_channel(sns_role_name, sns_topic_arn)
@@ -423,7 +423,7 @@ actions in the AWS Firewall Manager Developer Guide.
 
 """
 put_notification_channel(SnsRoleName, SnsTopicArn; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutNotificationChannel", Dict{String, Any}("SnsRoleName"=>SnsRoleName, "SnsTopicArn"=>SnsTopicArn); aws_config=aws_config)
-put_notification_channel(SnsRoleName, SnsTopicArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutNotificationChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsRoleName"=>SnsRoleName, "SnsTopicArn"=>SnsTopicArn), params)); aws_config=aws_config)
+put_notification_channel(SnsRoleName, SnsTopicArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutNotificationChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsRoleName"=>SnsRoleName, "SnsTopicArn"=>SnsTopicArn), params)); aws_config=aws_config)
 
 """
     put_policy(policy)
@@ -450,7 +450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagList"`: The tags to add to the AWS resource.
 """
 put_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutPolicy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
-put_policy(Policy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config)
+put_policy(Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config)
 
 """
     put_protocols_list(protocols_list)
@@ -466,7 +466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagList"`: The tags associated with the resource.
 """
 put_protocols_list(ProtocolsList; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutProtocolsList", Dict{String, Any}("ProtocolsList"=>ProtocolsList); aws_config=aws_config)
-put_protocols_list(ProtocolsList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtocolsList"=>ProtocolsList), params)); aws_config=aws_config)
+put_protocols_list(ProtocolsList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("PutProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtocolsList"=>ProtocolsList), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tag_list)
@@ -482,7 +482,7 @@ Adds one or more tags to an AWS resource.
 
 """
 tag_resource(ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config()) = fms("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList); aws_config=aws_config)
-tag_resource(ResourceArn, TagList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList), params)); aws_config=aws_config)
+tag_resource(ResourceArn, TagList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -498,4 +498,4 @@ Removes one or more tags from an AWS resource.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = fms("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = fms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)

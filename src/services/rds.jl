@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with. For the list of supported feature names, see DBEngineVersion.
 """
 add_role_to_dbcluster(DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddRoleToDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn); aws_config=aws_config)
-add_role_to_dbcluster(DBClusterIdentifier, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddRoleToDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+add_role_to_dbcluster(DBClusterIdentifier, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddRoleToDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     add_role_to_dbinstance(dbinstance_identifier, feature_name, role_arn)
@@ -42,7 +42,7 @@ role to a DB instance, the status of the DB instance must be available.
 
 """
 add_role_to_dbinstance(DBInstanceIdentifier, FeatureName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddRoleToDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "FeatureName"=>FeatureName, "RoleArn"=>RoleArn); aws_config=aws_config)
-add_role_to_dbinstance(DBInstanceIdentifier, FeatureName, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddRoleToDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "FeatureName"=>FeatureName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+add_role_to_dbinstance(DBInstanceIdentifier, FeatureName, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddRoleToDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "FeatureName"=>FeatureName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     add_source_identifier_to_subscription(source_identifier, subscription_name)
@@ -64,7 +64,7 @@ Adds a source identifier to an existing RDS event notification subscription.
 
 """
 add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddSourceIdentifierToSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     add_tags_to_resource(resource_name, tag)
@@ -86,7 +86,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the Amazon RDS resource.
 """
 add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws_config=aws_config)
-add_tags_to_resource(ResourceName, Tag, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config)
+add_tags_to_resource(ResourceName, Tag, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config)
 
 """
     apply_pending_maintenance_action(apply_action, opt_in_type, resource_identifier)
@@ -108,7 +108,7 @@ Applies a pending maintenance action to a resource (for example, to a DB instanc
 
 """
 apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier); aws_config=aws_config)
-apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config)
+apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config)
 
 """
     authorize_dbsecurity_group_ingress(dbsecurity_group_name)
@@ -143,7 +143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided.
 """
 authorize_dbsecurity_group_ingress(DBSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AuthorizeDBSecurityGroupIngress", Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName); aws_config=aws_config)
-authorize_dbsecurity_group_ingress(DBSecurityGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AuthorizeDBSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName), params)); aws_config=aws_config)
+authorize_dbsecurity_group_ingress(DBSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("AuthorizeDBSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName), params)); aws_config=aws_config)
 
 """
     backtrack_dbcluster(backtrack_to, dbcluster_identifier)
@@ -175,7 +175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   BacktrackTo is set to a timestamp earlier than the earliest backtrack time, an error occurs.
 """
 backtrack_dbcluster(BacktrackTo, DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("BacktrackDBCluster", Dict{String, Any}("BacktrackTo"=>BacktrackTo, "DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-backtrack_dbcluster(BacktrackTo, DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("BacktrackDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BacktrackTo"=>BacktrackTo, "DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+backtrack_dbcluster(BacktrackTo, DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("BacktrackDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BacktrackTo"=>BacktrackTo, "DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     cancel_export_task(export_task_identifier)
@@ -189,7 +189,7 @@ has already been written to the S3 bucket isn't removed.
 
 """
 cancel_export_task(ExportTaskIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CancelExportTask", Dict{String, Any}("ExportTaskIdentifier"=>ExportTaskIdentifier); aws_config=aws_config)
-cancel_export_task(ExportTaskIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportTaskIdentifier"=>ExportTaskIdentifier), params)); aws_config=aws_config)
+cancel_export_task(ExportTaskIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportTaskIdentifier"=>ExportTaskIdentifier), params)); aws_config=aws_config)
 
 """
     copy_dbcluster_parameter_group(source_dbcluster_parameter_group_identifier, target_dbcluster_parameter_group_description, target_dbcluster_parameter_group_identifier)
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBClusterParameterGroup", Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier); aws_config=aws_config)
-copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), params)); aws_config=aws_config)
+copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), params)); aws_config=aws_config)
 
 """
     copy_dbcluster_snapshot(source_dbcluster_snapshot_identifier, target_dbcluster_snapshot_identifier)
@@ -323,7 +323,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBClusterSnapshot", Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier); aws_config=aws_config)
-copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     copy_dbparameter_group(source_dbparameter_group_identifier, target_dbparameter_group_description, target_dbparameter_group_identifier)
@@ -346,7 +346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 copy_dbparameter_group(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBParameterGroup", Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier); aws_config=aws_config)
-copy_dbparameter_group(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier), params)); aws_config=aws_config)
+copy_dbparameter_group(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier), params)); aws_config=aws_config)
 
 """
     copy_dbsnapshot(source_dbsnapshot_identifier, target_dbsnapshot_identifier)
@@ -433,7 +433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the target CAZ. Example: rds-caz-aiqhTgQv.
 """
 copy_dbsnapshot(SourceDBSnapshotIdentifier, TargetDBSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBSnapshot", Dict{String, Any}("SourceDBSnapshotIdentifier"=>SourceDBSnapshotIdentifier, "TargetDBSnapshotIdentifier"=>TargetDBSnapshotIdentifier); aws_config=aws_config)
-copy_dbsnapshot(SourceDBSnapshotIdentifier, TargetDBSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBSnapshotIdentifier"=>SourceDBSnapshotIdentifier, "TargetDBSnapshotIdentifier"=>TargetDBSnapshotIdentifier), params)); aws_config=aws_config)
+copy_dbsnapshot(SourceDBSnapshotIdentifier, TargetDBSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBSnapshotIdentifier"=>SourceDBSnapshotIdentifier, "TargetDBSnapshotIdentifier"=>TargetDBSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     copy_option_group(source_option_group_identifier, target_option_group_description, target_option_group_identifier)
@@ -455,7 +455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 copy_option_group(SourceOptionGroupIdentifier, TargetOptionGroupDescription, TargetOptionGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyOptionGroup", Dict{String, Any}("SourceOptionGroupIdentifier"=>SourceOptionGroupIdentifier, "TargetOptionGroupDescription"=>TargetOptionGroupDescription, "TargetOptionGroupIdentifier"=>TargetOptionGroupIdentifier); aws_config=aws_config)
-copy_option_group(SourceOptionGroupIdentifier, TargetOptionGroupDescription, TargetOptionGroupIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyOptionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceOptionGroupIdentifier"=>SourceOptionGroupIdentifier, "TargetOptionGroupDescription"=>TargetOptionGroupDescription, "TargetOptionGroupIdentifier"=>TargetOptionGroupIdentifier), params)); aws_config=aws_config)
+copy_option_group(SourceOptionGroupIdentifier, TargetOptionGroupDescription, TargetOptionGroupIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CopyOptionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceOptionGroupIdentifier"=>SourceOptionGroupIdentifier, "TargetOptionGroupDescription"=>TargetOptionGroupDescription, "TargetOptionGroupIdentifier"=>TargetOptionGroupIdentifier), params)); aws_config=aws_config)
 
 """
     create_custom_availability_zone(custom_availability_zone_name)
@@ -479,7 +479,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ExistingVpnId isn't specified.
 """
 create_custom_availability_zone(CustomAvailabilityZoneName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateCustomAvailabilityZone", Dict{String, Any}("CustomAvailabilityZoneName"=>CustomAvailabilityZoneName); aws_config=aws_config)
-create_custom_availability_zone(CustomAvailabilityZoneName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateCustomAvailabilityZone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomAvailabilityZoneName"=>CustomAvailabilityZoneName), params)); aws_config=aws_config)
+create_custom_availability_zone(CustomAvailabilityZoneName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateCustomAvailabilityZone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomAvailabilityZoneName"=>CustomAvailabilityZoneName), params)); aws_config=aws_config)
 
 """
     create_dbcluster(dbcluster_identifier, engine)
@@ -652,7 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 """
 create_dbcluster(DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine); aws_config=aws_config)
-create_dbcluster(DBClusterIdentifier, Engine, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), params)); aws_config=aws_config)
+create_dbcluster(DBClusterIdentifier, Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), params)); aws_config=aws_config)
 
 """
     create_dbcluster_endpoint(dbcluster_endpoint_identifier, dbcluster_identifier, endpoint_type)
@@ -678,7 +678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the Amazon RDS resource.
 """
 create_dbcluster_endpoint(DBClusterEndpointIdentifier, DBClusterIdentifier, EndpointType; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterEndpoint", Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier, "DBClusterIdentifier"=>DBClusterIdentifier, "EndpointType"=>EndpointType); aws_config=aws_config)
-create_dbcluster_endpoint(DBClusterEndpointIdentifier, DBClusterIdentifier, EndpointType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier, "DBClusterIdentifier"=>DBClusterIdentifier, "EndpointType"=>EndpointType), params)); aws_config=aws_config)
+create_dbcluster_endpoint(DBClusterEndpointIdentifier, DBClusterIdentifier, EndpointType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier, "DBClusterIdentifier"=>DBClusterIdentifier, "EndpointType"=>EndpointType), params)); aws_config=aws_config)
 
 """
     create_dbcluster_parameter_group(dbcluster_parameter_group_name, dbparameter_group_family, description)
@@ -720,7 +720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to assign to the DB cluster parameter group.
 """
 create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description); aws_config=aws_config)
-create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), params)); aws_config=aws_config)
+create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), params)); aws_config=aws_config)
 
 """
     create_dbcluster_snapshot(dbcluster_identifier, dbcluster_snapshot_identifier)
@@ -744,7 +744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the DB cluster snapshot.
 """
 create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
-create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     create_dbinstance(dbinstance_class, dbinstance_identifier, engine)
@@ -1028,7 +1028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group's VPC.
 """
 create_dbinstance(DBInstanceClass, DBInstanceIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBInstance", Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine); aws_config=aws_config)
-create_dbinstance(DBInstanceClass, DBInstanceIdentifier, Engine, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), params)); aws_config=aws_config)
+create_dbinstance(DBInstanceClass, DBInstanceIdentifier, Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), params)); aws_config=aws_config)
 
 """
     create_dbinstance_read_replica(dbinstance_identifier, source_dbinstance_identifier)
@@ -1220,7 +1220,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replica.   Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
 create_dbinstance_read_replica(DBInstanceIdentifier, SourceDBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBInstanceReadReplica", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "SourceDBInstanceIdentifier"=>SourceDBInstanceIdentifier); aws_config=aws_config)
-create_dbinstance_read_replica(DBInstanceIdentifier, SourceDBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBInstanceReadReplica", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "SourceDBInstanceIdentifier"=>SourceDBInstanceIdentifier), params)); aws_config=aws_config)
+create_dbinstance_read_replica(DBInstanceIdentifier, SourceDBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBInstanceReadReplica", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "SourceDBInstanceIdentifier"=>SourceDBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     create_dbparameter_group(dbparameter_group_family, dbparameter_group_name, description)
@@ -1259,7 +1259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to assign to the DB parameter group.
 """
 create_dbparameter_group(DBParameterGroupFamily, DBParameterGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBParameterGroup", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description); aws_config=aws_config)
-create_dbparameter_group(DBParameterGroupFamily, DBParameterGroupName, Description, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description), params)); aws_config=aws_config)
+create_dbparameter_group(DBParameterGroupFamily, DBParameterGroupName, Description, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description), params)); aws_config=aws_config)
 
 """
     create_dbproxy(auth, dbproxy_name, engine_family, role_arn, vpc_subnet_ids)
@@ -1301,7 +1301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   proxy.
 """
 create_dbproxy(Auth, DBProxyName, EngineFamily, RoleArn, VpcSubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxy", Dict{String, Any}("Auth"=>Auth, "DBProxyName"=>DBProxyName, "EngineFamily"=>EngineFamily, "RoleArn"=>RoleArn, "VpcSubnetIds"=>VpcSubnetIds); aws_config=aws_config)
-create_dbproxy(Auth, DBProxyName, EngineFamily, RoleArn, VpcSubnetIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Auth"=>Auth, "DBProxyName"=>DBProxyName, "EngineFamily"=>EngineFamily, "RoleArn"=>RoleArn, "VpcSubnetIds"=>VpcSubnetIds), params)); aws_config=aws_config)
+create_dbproxy(Auth, DBProxyName, EngineFamily, RoleArn, VpcSubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Auth"=>Auth, "DBProxyName"=>DBProxyName, "EngineFamily"=>EngineFamily, "RoleArn"=>RoleArn, "VpcSubnetIds"=>VpcSubnetIds), params)); aws_config=aws_config)
 
 """
     create_dbproxy_endpoint(dbproxy_endpoint_name, dbproxy_name, vpc_subnet_ids)
@@ -1329,7 +1329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   proxy. The default is the default security group for the VPC.
 """
 create_dbproxy_endpoint(DBProxyEndpointName, DBProxyName, VpcSubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxyEndpoint", Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName, "DBProxyName"=>DBProxyName, "VpcSubnetIds"=>VpcSubnetIds); aws_config=aws_config)
-create_dbproxy_endpoint(DBProxyEndpointName, DBProxyName, VpcSubnetIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName, "DBProxyName"=>DBProxyName, "VpcSubnetIds"=>VpcSubnetIds), params)); aws_config=aws_config)
+create_dbproxy_endpoint(DBProxyEndpointName, DBProxyName, VpcSubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName, "DBProxyName"=>DBProxyName, "VpcSubnetIds"=>VpcSubnetIds), params)); aws_config=aws_config)
 
 """
     create_dbsecurity_group(dbsecurity_group_description, dbsecurity_group_name)
@@ -1350,7 +1350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to assign to the DB security group.
 """
 create_dbsecurity_group(DBSecurityGroupDescription, DBSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSecurityGroup", Dict{String, Any}("DBSecurityGroupDescription"=>DBSecurityGroupDescription, "DBSecurityGroupName"=>DBSecurityGroupName); aws_config=aws_config)
-create_dbsecurity_group(DBSecurityGroupDescription, DBSecurityGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSecurityGroupDescription"=>DBSecurityGroupDescription, "DBSecurityGroupName"=>DBSecurityGroupName), params)); aws_config=aws_config)
+create_dbsecurity_group(DBSecurityGroupDescription, DBSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSecurityGroupDescription"=>DBSecurityGroupDescription, "DBSecurityGroupName"=>DBSecurityGroupName), params)); aws_config=aws_config)
 
 """
     create_dbsnapshot(dbinstance_identifier, dbsnapshot_identifier)
@@ -1372,7 +1372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 create_dbsnapshot(DBInstanceIdentifier, DBSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSnapshot", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "DBSnapshotIdentifier"=>DBSnapshotIdentifier); aws_config=aws_config)
-create_dbsnapshot(DBInstanceIdentifier, DBSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
+create_dbsnapshot(DBInstanceIdentifier, DBSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     create_dbsubnet_group(dbsubnet_group_description, dbsubnet_group_name, subnet_identifier)
@@ -1394,7 +1394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to assign to the DB subnet group.
 """
 create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSubnetGroup", Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
-create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
+create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
 
 """
     create_event_subscription(sns_topic_arn, subscription_name)
@@ -1450,7 +1450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     create_global_cluster()
@@ -1481,7 +1481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 """
 create_global_cluster(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateGlobalCluster"; aws_config=aws_config)
-create_global_cluster(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateGlobalCluster", params; aws_config=aws_config)
+create_global_cluster(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateGlobalCluster", params; aws_config=aws_config)
 
 """
     create_option_group(engine_name, major_engine_version, option_group_description, option_group_name)
@@ -1506,7 +1506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to assign to the option group.
 """
 create_option_group(EngineName, MajorEngineVersion, OptionGroupDescription, OptionGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateOptionGroup", Dict{String, Any}("EngineName"=>EngineName, "MajorEngineVersion"=>MajorEngineVersion, "OptionGroupDescription"=>OptionGroupDescription, "OptionGroupName"=>OptionGroupName); aws_config=aws_config)
-create_option_group(EngineName, MajorEngineVersion, OptionGroupDescription, OptionGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateOptionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineName"=>EngineName, "MajorEngineVersion"=>MajorEngineVersion, "OptionGroupDescription"=>OptionGroupDescription, "OptionGroupName"=>OptionGroupName), params)); aws_config=aws_config)
+create_option_group(EngineName, MajorEngineVersion, OptionGroupDescription, OptionGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("CreateOptionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineName"=>EngineName, "MajorEngineVersion"=>MajorEngineVersion, "OptionGroupDescription"=>OptionGroupDescription, "OptionGroupName"=>OptionGroupName), params)); aws_config=aws_config)
 
 """
     delete_custom_availability_zone(custom_availability_zone_id)
@@ -1521,7 +1521,7 @@ integrated with a VMware vSphere cluster. For more information about RDS on VMwa
 
 """
 delete_custom_availability_zone(CustomAvailabilityZoneId; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteCustomAvailabilityZone", Dict{String, Any}("CustomAvailabilityZoneId"=>CustomAvailabilityZoneId); aws_config=aws_config)
-delete_custom_availability_zone(CustomAvailabilityZoneId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteCustomAvailabilityZone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomAvailabilityZoneId"=>CustomAvailabilityZoneId), params)); aws_config=aws_config)
+delete_custom_availability_zone(CustomAvailabilityZoneId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteCustomAvailabilityZone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomAvailabilityZoneId"=>CustomAvailabilityZoneId), params)); aws_config=aws_config)
 
 """
     delete_dbcluster(dbcluster_identifier)
@@ -1552,7 +1552,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled.
 """
 delete_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-delete_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+delete_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     delete_dbcluster_endpoint(dbcluster_endpoint_identifier)
@@ -1567,7 +1567,7 @@ only applies to Aurora DB clusters.
 
 """
 delete_dbcluster_endpoint(DBClusterEndpointIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterEndpoint", Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier); aws_config=aws_config)
-delete_dbcluster_endpoint(DBClusterEndpointIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier), params)); aws_config=aws_config)
+delete_dbcluster_endpoint(DBClusterEndpointIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier), params)); aws_config=aws_config)
 
 """
     delete_dbcluster_parameter_group(dbcluster_parameter_group_name)
@@ -1585,7 +1585,7 @@ Aurora DB clusters.
 
 """
 delete_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
-delete_dbcluster_parameter_group(DBClusterParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
+delete_dbcluster_parameter_group(DBClusterParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
 
 """
     delete_dbcluster_snapshot(dbcluster_snapshot_identifier)
@@ -1602,7 +1602,7 @@ Guide.   This action only applies to Aurora DB clusters.
 
 """
 delete_dbcluster_snapshot(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterSnapshot", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
-delete_dbcluster_snapshot(DBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+delete_dbcluster_snapshot(DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     delete_dbinstance(dbinstance_identifier)
@@ -1650,7 +1650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   isn't specified.
 """
 delete_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-delete_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+delete_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     delete_dbinstance_automated_backup()
@@ -1668,7 +1668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which is unique to an AWS Region.
 """
 delete_dbinstance_automated_backup(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBInstanceAutomatedBackup"; aws_config=aws_config)
-delete_dbinstance_automated_backup(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBInstanceAutomatedBackup", params; aws_config=aws_config)
+delete_dbinstance_automated_backup(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBInstanceAutomatedBackup", params; aws_config=aws_config)
 
 """
     delete_dbparameter_group(dbparameter_group_name)
@@ -1684,7 +1684,7 @@ associated with any DB instances.
 
 """
 delete_dbparameter_group(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws_config=aws_config)
-delete_dbparameter_group(DBParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config)
+delete_dbparameter_group(DBParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config)
 
 """
     delete_dbproxy(dbproxy_name)
@@ -1697,7 +1697,7 @@ Deletes an existing DB proxy.
 
 """
 delete_dbproxy(DBProxyName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxy", Dict{String, Any}("DBProxyName"=>DBProxyName); aws_config=aws_config)
-delete_dbproxy(DBProxyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
+delete_dbproxy(DBProxyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
 
 """
     delete_dbproxy_endpoint(dbproxy_endpoint_name)
@@ -1713,7 +1713,7 @@ default VPC.
 
 """
 delete_dbproxy_endpoint(DBProxyEndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxyEndpoint", Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName); aws_config=aws_config)
-delete_dbproxy_endpoint(DBProxyEndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName), params)); aws_config=aws_config)
+delete_dbproxy_endpoint(DBProxyEndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName), params)); aws_config=aws_config)
 
 """
     delete_dbsecurity_group(dbsecurity_group_name)
@@ -1730,7 +1730,7 @@ any DB instances.
 
 """
 delete_dbsecurity_group(DBSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSecurityGroup", Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName); aws_config=aws_config)
-delete_dbsecurity_group(DBSecurityGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName), params)); aws_config=aws_config)
+delete_dbsecurity_group(DBSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSecurityGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName), params)); aws_config=aws_config)
 
 """
     delete_dbsnapshot(dbsnapshot_identifier)
@@ -1745,7 +1745,7 @@ The DB snapshot must be in the available state to be deleted.
 
 """
 delete_dbsnapshot(DBSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSnapshot", Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier); aws_config=aws_config)
-delete_dbsnapshot(DBSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
+delete_dbsnapshot(DBSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     delete_dbsubnet_group(dbsubnet_group_name)
@@ -1761,7 +1761,7 @@ any DB instances.
 
 """
 delete_dbsubnet_group(DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName); aws_config=aws_config)
-delete_dbsubnet_group(DBSubnetGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config)
+delete_dbsubnet_group(DBSubnetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config)
 
 """
     delete_event_subscription(subscription_name)
@@ -1775,7 +1775,7 @@ Deletes an RDS event notification subscription.
 
 """
 delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-delete_event_subscription(SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+delete_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     delete_global_cluster(global_cluster_identifier)
@@ -1790,7 +1790,7 @@ detached or destroyed first.   This action only applies to Aurora DB clusters.
 
 """
 delete_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteGlobalCluster", Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier); aws_config=aws_config)
-delete_global_cluster(GlobalClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config)
+delete_global_cluster(GlobalClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config)
 
 """
     delete_installation_media(installation_media_id)
@@ -1804,7 +1804,7 @@ provided license, such as Microsoft SQL Server.
 
 """
 delete_installation_media(InstallationMediaId; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteInstallationMedia", Dict{String, Any}("InstallationMediaId"=>InstallationMediaId); aws_config=aws_config)
-delete_installation_media(InstallationMediaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteInstallationMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstallationMediaId"=>InstallationMediaId), params)); aws_config=aws_config)
+delete_installation_media(InstallationMediaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteInstallationMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstallationMediaId"=>InstallationMediaId), params)); aws_config=aws_config)
 
 """
     delete_option_group(option_group_name)
@@ -1818,7 +1818,7 @@ Deletes an existing option group.
 
 """
 delete_option_group(OptionGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteOptionGroup", Dict{String, Any}("OptionGroupName"=>OptionGroupName); aws_config=aws_config)
-delete_option_group(OptionGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteOptionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionGroupName"=>OptionGroupName), params)); aws_config=aws_config)
+delete_option_group(OptionGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeleteOptionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionGroupName"=>OptionGroupName), params)); aws_config=aws_config)
 
 """
     deregister_dbproxy_targets(dbproxy_name)
@@ -1838,7 +1838,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetGroupName"`: The identifier of the DBProxyTargetGroup.
 """
 deregister_dbproxy_targets(DBProxyName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeregisterDBProxyTargets", Dict{String, Any}("DBProxyName"=>DBProxyName); aws_config=aws_config)
-deregister_dbproxy_targets(DBProxyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeregisterDBProxyTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
+deregister_dbproxy_targets(DBProxyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DeregisterDBProxyTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
 
 """
     describe_account_attributes()
@@ -1851,7 +1851,7 @@ value. This command doesn't take any parameters.
 
 """
 describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeAccountAttributes"; aws_config=aws_config)
-describe_account_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeAccountAttributes", params; aws_config=aws_config)
+describe_account_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeAccountAttributes", params; aws_config=aws_config)
 
 """
     describe_certificates()
@@ -1874,7 +1874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeCertificates"; aws_config=aws_config)
-describe_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeCertificates", params; aws_config=aws_config)
+describe_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeCertificates", params; aws_config=aws_config)
 
 """
     describe_custom_availability_zones()
@@ -1898,7 +1898,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_custom_availability_zones(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeCustomAvailabilityZones"; aws_config=aws_config)
-describe_custom_availability_zones(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeCustomAvailabilityZones", params; aws_config=aws_config)
+describe_custom_availability_zones(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeCustomAvailabilityZones", params; aws_config=aws_config)
 
 """
     describe_dbcluster_backtracks(dbcluster_identifier)
@@ -1935,7 +1935,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbcluster_backtracks(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterBacktracks", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-describe_dbcluster_backtracks(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterBacktracks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+describe_dbcluster_backtracks(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterBacktracks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     describe_dbcluster_endpoints()
@@ -1967,7 +1967,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbcluster_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterEndpoints"; aws_config=aws_config)
-describe_dbcluster_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterEndpoints", params; aws_config=aws_config)
+describe_dbcluster_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterEndpoints", params; aws_config=aws_config)
 
 """
     describe_dbcluster_parameter_groups()
@@ -1993,7 +1993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_dbcluster_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterParameterGroups"; aws_config=aws_config)
-describe_dbcluster_parameter_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterParameterGroups", params; aws_config=aws_config)
+describe_dbcluster_parameter_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterParameterGroups", params; aws_config=aws_config)
 
 """
     describe_dbcluster_parameters(dbcluster_parameter_group_name)
@@ -2022,7 +2022,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Parameter sources can be engine, service, or customer.
 """
 describe_dbcluster_parameters(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterParameters", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
-describe_dbcluster_parameters(DBClusterParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
+describe_dbcluster_parameters(DBClusterParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
 
 """
     describe_dbcluster_snapshot_attributes(dbcluster_snapshot_identifier)
@@ -2044,7 +2044,7 @@ action.  This action only applies to Aurora DB clusters.
 
 """
 describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterSnapshotAttributes", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
-describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     describe_dbcluster_snapshots()
@@ -2101,7 +2101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   public.
 """
 describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterSnapshots"; aws_config=aws_config)
-describe_dbcluster_snapshots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterSnapshots", params; aws_config=aws_config)
+describe_dbcluster_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusterSnapshots", params; aws_config=aws_config)
 
 """
     describe_dbclusters()
@@ -2132,7 +2132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbclusters(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusters"; aws_config=aws_config)
-describe_dbclusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusters", params; aws_config=aws_config)
+describe_dbclusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBClusters", params; aws_config=aws_config)
 
 """
     describe_dbengine_versions()
@@ -2172,7 +2172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maximum 100.
 """
 describe_dbengine_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBEngineVersions"; aws_config=aws_config)
-describe_dbengine_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBEngineVersions", params; aws_config=aws_config)
+describe_dbengine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBEngineVersions", params; aws_config=aws_config)
 
 """
     describe_dbinstance_automated_backups()
@@ -2212,7 +2212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response so that you can retrieve the remaining results.
 """
 describe_dbinstance_automated_backups(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBInstanceAutomatedBackups"; aws_config=aws_config)
-describe_dbinstance_automated_backups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBInstanceAutomatedBackups", params; aws_config=aws_config)
+describe_dbinstance_automated_backups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBInstanceAutomatedBackups", params; aws_config=aws_config)
 
 """
     describe_dbinstances()
@@ -2249,7 +2249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBInstances"; aws_config=aws_config)
-describe_dbinstances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBInstances", params; aws_config=aws_config)
+describe_dbinstances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBInstances", params; aws_config=aws_config)
 
 """
     describe_dblog_files(dbinstance_identifier)
@@ -2277,7 +2277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response so you can retrieve the remaining results.
 """
 describe_dblog_files(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBLogFiles", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-describe_dblog_files(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBLogFiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+describe_dblog_files(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBLogFiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     describe_dbparameter_groups()
@@ -2301,7 +2301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_dbparameter_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBParameterGroups"; aws_config=aws_config)
-describe_dbparameter_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBParameterGroups", params; aws_config=aws_config)
+describe_dbparameter_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBParameterGroups", params; aws_config=aws_config)
 
 """
     describe_dbparameters(dbparameter_group_name)
@@ -2327,7 +2327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Values: user | system | engine-default
 """
 describe_dbparameters(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBParameters", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws_config=aws_config)
-describe_dbparameters(DBParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config)
+describe_dbparameters(DBParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config)
 
 """
     describe_dbproxies()
@@ -2349,7 +2349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbproxies(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxies"; aws_config=aws_config)
-describe_dbproxies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxies", params; aws_config=aws_config)
+describe_dbproxies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxies", params; aws_config=aws_config)
 
 """
     describe_dbproxy_endpoints()
@@ -2375,7 +2375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbproxy_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyEndpoints"; aws_config=aws_config)
-describe_dbproxy_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyEndpoints", params; aws_config=aws_config)
+describe_dbproxy_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyEndpoints", params; aws_config=aws_config)
 
 """
     describe_dbproxy_target_groups(dbproxy_name)
@@ -2400,7 +2400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetGroupName"`: The identifier of the DBProxyTargetGroup to describe.
 """
 describe_dbproxy_target_groups(DBProxyName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyTargetGroups", Dict{String, Any}("DBProxyName"=>DBProxyName); aws_config=aws_config)
-describe_dbproxy_target_groups(DBProxyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyTargetGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
+describe_dbproxy_target_groups(DBProxyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyTargetGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
 
 """
     describe_dbproxy_targets(dbproxy_name)
@@ -2424,7 +2424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetGroupName"`: The identifier of the DBProxyTargetGroup to describe.
 """
 describe_dbproxy_targets(DBProxyName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyTargets", Dict{String, Any}("DBProxyName"=>DBProxyName); aws_config=aws_config)
-describe_dbproxy_targets(DBProxyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
+describe_dbproxy_targets(DBProxyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBProxyTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
 
 """
     describe_dbsecurity_groups()
@@ -2446,7 +2446,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_dbsecurity_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSecurityGroups"; aws_config=aws_config)
-describe_dbsecurity_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSecurityGroups", params; aws_config=aws_config)
+describe_dbsecurity_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSecurityGroups", params; aws_config=aws_config)
 
 """
     describe_dbsnapshot_attributes(dbsnapshot_identifier)
@@ -2466,7 +2466,7 @@ the manual DB snapshot public or private, use the ModifyDBSnapshotAttribute API 
 
 """
 describe_dbsnapshot_attributes(DBSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSnapshotAttributes", Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier); aws_config=aws_config)
-describe_dbsnapshot_attributes(DBSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
+describe_dbsnapshot_attributes(DBSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     describe_dbsnapshots()
@@ -2524,7 +2524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is set to public.
 """
 describe_dbsnapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSnapshots"; aws_config=aws_config)
-describe_dbsnapshots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSnapshots", params; aws_config=aws_config)
+describe_dbsnapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSnapshots", params; aws_config=aws_config)
 
 """
     describe_dbsubnet_groups()
@@ -2547,7 +2547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSubnetGroups"; aws_config=aws_config)
-describe_dbsubnet_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSubnetGroups", params; aws_config=aws_config)
+describe_dbsubnet_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeDBSubnetGroups", params; aws_config=aws_config)
 
 """
     describe_engine_default_cluster_parameters(dbparameter_group_family)
@@ -2573,7 +2573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_engine_default_cluster_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEngineDefaultClusterParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws_config=aws_config)
-describe_engine_default_cluster_parameters(DBParameterGroupFamily, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config)
+describe_engine_default_cluster_parameters(DBParameterGroupFamily, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config)
 
 """
     describe_engine_default_parameters(dbparameter_group_family)
@@ -2597,7 +2597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_engine_default_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEngineDefaultParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws_config=aws_config)
-describe_engine_default_parameters(DBParameterGroupFamily, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config)
+describe_engine_default_parameters(DBParameterGroupFamily, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config)
 
 """
     describe_event_categories()
@@ -2615,7 +2615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   db-cluster-snapshot
 """
 describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEventCategories"; aws_config=aws_config)
-describe_event_categories(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEventCategories", params; aws_config=aws_config)
+describe_event_categories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEventCategories", params; aws_config=aws_config)
 
 """
     describe_event_subscriptions()
@@ -2640,7 +2640,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   describe.
 """
 describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEventSubscriptions"; aws_config=aws_config)
-describe_event_subscriptions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEventSubscriptions", params; aws_config=aws_config)
+describe_event_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEventSubscriptions", params; aws_config=aws_config)
 
 """
     describe_events()
@@ -2685,7 +2685,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: 2009-07-08T18:00Z
 """
 describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEvents"; aws_config=aws_config)
-describe_events(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEvents", params; aws_config=aws_config)
+describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeEvents", params; aws_config=aws_config)
 
 """
     describe_export_tasks()
@@ -2714,7 +2714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceArn"`: The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
 """
 describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeExportTasks"; aws_config=aws_config)
-describe_export_tasks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeExportTasks", params; aws_config=aws_config)
+describe_export_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeExportTasks", params; aws_config=aws_config)
 
 """
     describe_global_clusters()
@@ -2743,7 +2743,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_global_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeGlobalClusters"; aws_config=aws_config)
-describe_global_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeGlobalClusters", params; aws_config=aws_config)
+describe_global_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeGlobalClusters", params; aws_config=aws_config)
 
 """
     describe_installation_media()
@@ -2770,7 +2770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only records beyond the marker, up to the value specified by MaxRecords.
 """
 describe_installation_media(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeInstallationMedia"; aws_config=aws_config)
-describe_installation_media(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeInstallationMedia", params; aws_config=aws_config)
+describe_installation_media(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeInstallationMedia", params; aws_config=aws_config)
 
 """
     describe_option_group_options(engine_name)
@@ -2798,7 +2798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraints: Minimum 20, maximum 100.
 """
 describe_option_group_options(EngineName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOptionGroupOptions", Dict{String, Any}("EngineName"=>EngineName); aws_config=aws_config)
-describe_option_group_options(EngineName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOptionGroupOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineName"=>EngineName), params)); aws_config=aws_config)
+describe_option_group_options(EngineName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOptionGroupOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngineName"=>EngineName), params)); aws_config=aws_config)
 
 """
     describe_option_groups()
@@ -2827,7 +2827,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with EngineName or MajorEngineVersion.
 """
 describe_option_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOptionGroups"; aws_config=aws_config)
-describe_option_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOptionGroups", params; aws_config=aws_config)
+describe_option_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOptionGroups", params; aws_config=aws_config)
 
 """
     describe_orderable_dbinstance_options(engine)
@@ -2864,7 +2864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Vpc"`: A value that indicates whether to show only VPC or non-VPC offerings.
 """
 describe_orderable_dbinstance_options(Engine; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOrderableDBInstanceOptions", Dict{String, Any}("Engine"=>Engine); aws_config=aws_config)
-describe_orderable_dbinstance_options(Engine, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), params)); aws_config=aws_config)
+describe_orderable_dbinstance_options(Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), params)); aws_config=aws_config)
 
 """
     describe_pending_maintenance_actions()
@@ -2891,7 +2891,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceIdentifier"`: The ARN of a resource to return pending maintenance actions for.
 """
 describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribePendingMaintenanceActions"; aws_config=aws_config)
-describe_pending_maintenance_actions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribePendingMaintenanceActions", params; aws_config=aws_config)
+describe_pending_maintenance_actions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribePendingMaintenanceActions", params; aws_config=aws_config)
 
 """
     describe_reserved_dbinstances()
@@ -2931,7 +2931,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to show only purchased reservations matching the specified offering identifier.
 """
 describe_reserved_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeReservedDBInstances"; aws_config=aws_config)
-describe_reserved_dbinstances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeReservedDBInstances", params; aws_config=aws_config)
+describe_reserved_dbinstances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeReservedDBInstances", params; aws_config=aws_config)
 
 """
     describe_reserved_dbinstances_offerings()
@@ -2967,7 +2967,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
 """
 describe_reserved_dbinstances_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeReservedDBInstancesOfferings"; aws_config=aws_config)
-describe_reserved_dbinstances_offerings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeReservedDBInstancesOfferings", params; aws_config=aws_config)
+describe_reserved_dbinstances_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeReservedDBInstancesOfferings", params; aws_config=aws_config)
 
 """
     describe_source_regions()
@@ -2991,7 +2991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a valid AWS Region name.
 """
 describe_source_regions(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeSourceRegions"; aws_config=aws_config)
-describe_source_regions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeSourceRegions", params; aws_config=aws_config)
+describe_source_regions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeSourceRegions", params; aws_config=aws_config)
 
 """
     describe_valid_dbinstance_modifications(dbinstance_identifier)
@@ -3005,7 +3005,7 @@ to your DB instance. You can use this information when you call ModifyDBInstance
 
 """
 describe_valid_dbinstance_modifications(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeValidDBInstanceModifications", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-describe_valid_dbinstance_modifications(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeValidDBInstanceModifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+describe_valid_dbinstance_modifications(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DescribeValidDBInstanceModifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     download_dblog_file_portion(dbinstance_identifier, log_file_name)
@@ -3039,7 +3039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   until the AdditionalDataPending response element returns false.
 """
 download_dblog_file_portion(DBInstanceIdentifier, LogFileName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DownloadDBLogFilePortion", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "LogFileName"=>LogFileName); aws_config=aws_config)
-download_dblog_file_portion(DBInstanceIdentifier, LogFileName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DownloadDBLogFilePortion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "LogFileName"=>LogFileName), params)); aws_config=aws_config)
+download_dblog_file_portion(DBInstanceIdentifier, LogFileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("DownloadDBLogFilePortion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "LogFileName"=>LogFileName), params)); aws_config=aws_config)
 
 """
     failover_dbcluster(dbcluster_identifier)
@@ -3066,7 +3066,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, mydbcluster-replica1.
 """
 failover_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("FailoverDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-failover_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("FailoverDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+failover_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("FailoverDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     failover_global_cluster(global_cluster_identifier, target_db_cluster_identifier)
@@ -3097,7 +3097,7 @@ or to reconfigure your Aurora global database topology.
 
 """
 failover_global_cluster(GlobalClusterIdentifier, TargetDbClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("FailoverGlobalCluster", Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier, "TargetDbClusterIdentifier"=>TargetDbClusterIdentifier); aws_config=aws_config)
-failover_global_cluster(GlobalClusterIdentifier, TargetDbClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("FailoverGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier, "TargetDbClusterIdentifier"=>TargetDbClusterIdentifier), params)); aws_config=aws_config)
+failover_global_cluster(GlobalClusterIdentifier, TargetDbClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("FailoverGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier, "TargetDbClusterIdentifier"=>TargetDbClusterIdentifier), params)); aws_config=aws_config)
 
 """
     import_installation_media(custom_availability_zone_id, engine, engine_installation_media_path, engine_version, osinstallation_media_path)
@@ -3125,7 +3125,7 @@ provided license, such as SQL Server.
 
 """
 import_installation_media(CustomAvailabilityZoneId, Engine, EngineInstallationMediaPath, EngineVersion, OSInstallationMediaPath; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ImportInstallationMedia", Dict{String, Any}("CustomAvailabilityZoneId"=>CustomAvailabilityZoneId, "Engine"=>Engine, "EngineInstallationMediaPath"=>EngineInstallationMediaPath, "EngineVersion"=>EngineVersion, "OSInstallationMediaPath"=>OSInstallationMediaPath); aws_config=aws_config)
-import_installation_media(CustomAvailabilityZoneId, Engine, EngineInstallationMediaPath, EngineVersion, OSInstallationMediaPath, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ImportInstallationMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomAvailabilityZoneId"=>CustomAvailabilityZoneId, "Engine"=>Engine, "EngineInstallationMediaPath"=>EngineInstallationMediaPath, "EngineVersion"=>EngineVersion, "OSInstallationMediaPath"=>OSInstallationMediaPath), params)); aws_config=aws_config)
+import_installation_media(CustomAvailabilityZoneId, Engine, EngineInstallationMediaPath, EngineVersion, OSInstallationMediaPath, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ImportInstallationMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomAvailabilityZoneId"=>CustomAvailabilityZoneId, "Engine"=>Engine, "EngineInstallationMediaPath"=>EngineInstallationMediaPath, "EngineVersion"=>EngineVersion, "OSInstallationMediaPath"=>OSInstallationMediaPath), params)); aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_name)
@@ -3144,7 +3144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: This parameter isn't currently supported.
 """
 list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ListTagsForResource", Dict{String, Any}("ResourceName"=>ResourceName); aws_config=aws_config)
-list_tags_for_resource(ResourceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config)
 
 """
     modify_certificates()
@@ -3176,7 +3176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 """
 modify_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyCertificates"; aws_config=aws_config)
-modify_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyCertificates", params; aws_config=aws_config)
+modify_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyCertificates", params; aws_config=aws_config)
 
 """
     modify_current_dbcluster_capacity(dbcluster_identifier)
@@ -3215,7 +3215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignores the capacity change if a scaling point isn't found in the timeout period.
 """
 modify_current_dbcluster_capacity(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyCurrentDBClusterCapacity", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-modify_current_dbcluster_capacity(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyCurrentDBClusterCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+modify_current_dbcluster_capacity(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyCurrentDBClusterCapacity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbcluster(dbcluster_identifier)
@@ -3342,7 +3342,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the DB cluster will belong to.
 """
 modify_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-modify_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+modify_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbcluster_endpoint(dbcluster_endpoint_identifier)
@@ -3365,7 +3365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group.
 """
 modify_dbcluster_endpoint(DBClusterEndpointIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterEndpoint", Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier); aws_config=aws_config)
-modify_dbcluster_endpoint(DBClusterEndpointIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier), params)); aws_config=aws_config)
+modify_dbcluster_endpoint(DBClusterEndpointIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterEndpointIdentifier"=>DBClusterEndpointIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbcluster_parameter_group(dbcluster_parameter_group_name, parameter)
@@ -3400,7 +3400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: A list of parameters in the DB cluster parameter group to modify.
 """
 modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter); aws_config=aws_config)
-modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config)
+modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config)
 
 """
     modify_dbcluster_snapshot_attribute(attribute_name, dbcluster_snapshot_identifier)
@@ -3444,7 +3444,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the restore attribute can still copy or restore a manual DB cluster snapshot.
 """
 modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterSnapshotAttribute", Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
-modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbinstance(dbinstance_identifier)
@@ -3738,7 +3738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VpcSecurityGroupIds.
 """
 modify_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-modify_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+modify_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbparameter_group(dbparameter_group_name, parameter)
@@ -3780,7 +3780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance without failover.
 """
 modify_dbparameter_group(DBParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter); aws_config=aws_config)
-modify_dbparameter_group(DBParameterGroupName, Parameter, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config)
+modify_dbparameter_group(DBParameterGroupName, Parameter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config)
 
 """
     modify_dbproxy(dbproxy_name)
@@ -3814,7 +3814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityGroups"`: The new list of security groups for the DBProxy.
 """
 modify_dbproxy(DBProxyName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxy", Dict{String, Any}("DBProxyName"=>DBProxyName); aws_config=aws_config)
-modify_dbproxy(DBProxyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
+modify_dbproxy(DBProxyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
 
 """
     modify_dbproxy_endpoint(dbproxy_endpoint_name)
@@ -3836,7 +3836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   different set of security group IDs than for the original proxy.
 """
 modify_dbproxy_endpoint(DBProxyEndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxyEndpoint", Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName); aws_config=aws_config)
-modify_dbproxy_endpoint(DBProxyEndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName), params)); aws_config=aws_config)
+modify_dbproxy_endpoint(DBProxyEndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyEndpointName"=>DBProxyEndpointName), params)); aws_config=aws_config)
 
 """
     modify_dbproxy_target_group(dbproxy_name, target_group_name)
@@ -3857,7 +3857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or contain two consecutive hyphens.
 """
 modify_dbproxy_target_group(DBProxyName, TargetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxyTargetGroup", Dict{String, Any}("DBProxyName"=>DBProxyName, "TargetGroupName"=>TargetGroupName); aws_config=aws_config)
-modify_dbproxy_target_group(DBProxyName, TargetGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxyTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName, "TargetGroupName"=>TargetGroupName), params)); aws_config=aws_config)
+modify_dbproxy_target_group(DBProxyName, TargetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBProxyTargetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName, "TargetGroupName"=>TargetGroupName), params)); aws_config=aws_config)
 
 """
     modify_dbsnapshot(dbsnapshot_identifier)
@@ -3885,7 +3885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Option group considerations in the Amazon RDS User Guide.
 """
 modify_dbsnapshot(DBSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSnapshot", Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier); aws_config=aws_config)
-modify_dbsnapshot(DBSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
+modify_dbsnapshot(DBSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbsnapshot_attribute(attribute_name, dbsnapshot_identifier)
@@ -3926,7 +3926,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can still copy or restore the manual DB snapshot.
 """
 modify_dbsnapshot_attribute(AttributeName, DBSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSnapshotAttribute", Dict{String, Any}("AttributeName"=>AttributeName, "DBSnapshotIdentifier"=>DBSnapshotIdentifier); aws_config=aws_config)
-modify_dbsnapshot_attribute(AttributeName, DBSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
+modify_dbsnapshot_attribute(AttributeName, DBSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbsubnet_group(dbsubnet_group_name, subnet_identifier)
@@ -3947,7 +3947,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetIds"`: The EC2 subnet IDs for the DB subnet group.
 """
 modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
-modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
+modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
 
 """
     modify_event_subscription(subscription_name)
@@ -3977,7 +3977,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   db-cluster-snapshot
 """
 modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-modify_event_subscription(SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+modify_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     modify_global_cluster()
@@ -4019,7 +4019,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: my-cluster2
 """
 modify_global_cluster(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyGlobalCluster"; aws_config=aws_config)
-modify_global_cluster(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyGlobalCluster", params; aws_config=aws_config)
+modify_global_cluster(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyGlobalCluster", params; aws_config=aws_config)
 
 """
     modify_option_group(option_group_name)
@@ -4042,7 +4042,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptionsToRemove"`: Options in this list are removed from the option group.
 """
 modify_option_group(OptionGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyOptionGroup", Dict{String, Any}("OptionGroupName"=>OptionGroupName); aws_config=aws_config)
-modify_option_group(OptionGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyOptionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionGroupName"=>OptionGroupName), params)); aws_config=aws_config)
+modify_option_group(OptionGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyOptionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionGroupName"=>OptionGroupName), params)); aws_config=aws_config)
 
 """
     promote_read_replica(dbinstance_identifier)
@@ -4077,7 +4077,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   window.   Must be at least 30 minutes.
 """
 promote_read_replica(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PromoteReadReplica", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-promote_read_replica(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PromoteReadReplica", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+promote_read_replica(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PromoteReadReplica", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     promote_read_replica_dbcluster(dbcluster_identifier)
@@ -4093,7 +4093,7 @@ Aurora DB clusters.
 
 """
 promote_read_replica_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PromoteReadReplicaDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-promote_read_replica_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PromoteReadReplicaDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+promote_read_replica_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PromoteReadReplicaDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     purchase_reserved_dbinstances_offering(reserved_dbinstances_offering_id)
@@ -4113,7 +4113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:
 """
 purchase_reserved_dbinstances_offering(ReservedDBInstancesOfferingId; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PurchaseReservedDBInstancesOffering", Dict{String, Any}("ReservedDBInstancesOfferingId"=>ReservedDBInstancesOfferingId); aws_config=aws_config)
-purchase_reserved_dbinstances_offering(ReservedDBInstancesOfferingId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PurchaseReservedDBInstancesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedDBInstancesOfferingId"=>ReservedDBInstancesOfferingId), params)); aws_config=aws_config)
+purchase_reserved_dbinstances_offering(ReservedDBInstancesOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("PurchaseReservedDBInstancesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedDBInstancesOfferingId"=>ReservedDBInstancesOfferingId), params)); aws_config=aws_config)
 
 """
     reboot_dbinstance(dbinstance_identifier)
@@ -4137,7 +4137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configured for Multi-AZ.
 """
 reboot_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RebootDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-reboot_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+reboot_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     register_dbproxy_targets(dbproxy_name)
@@ -4156,7 +4156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetGroupName"`: The identifier of the DBProxyTargetGroup.
 """
 register_dbproxy_targets(DBProxyName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RegisterDBProxyTargets", Dict{String, Any}("DBProxyName"=>DBProxyName); aws_config=aws_config)
-register_dbproxy_targets(DBProxyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RegisterDBProxyTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
+register_dbproxy_targets(DBProxyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RegisterDBProxyTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBProxyName"=>DBProxyName), params)); aws_config=aws_config)
 
 """
     remove_from_global_cluster()
@@ -4175,7 +4175,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   database cluster.
 """
 remove_from_global_cluster(; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveFromGlobalCluster"; aws_config=aws_config)
-remove_from_global_cluster(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveFromGlobalCluster", params; aws_config=aws_config)
+remove_from_global_cluster(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveFromGlobalCluster", params; aws_config=aws_config)
 
 """
     remove_role_from_dbcluster(dbcluster_identifier, role_arn)
@@ -4197,7 +4197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disassociated from. For the list of supported feature names, see DBEngineVersion.
 """
 remove_role_from_dbcluster(DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveRoleFromDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn); aws_config=aws_config)
-remove_role_from_dbcluster(DBClusterIdentifier, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveRoleFromDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+remove_role_from_dbcluster(DBClusterIdentifier, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveRoleFromDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     remove_role_from_dbinstance(dbinstance_identifier, feature_name, role_arn)
@@ -4214,7 +4214,7 @@ Disassociates an AWS Identity and Access Management (IAM) role from a DB instanc
 
 """
 remove_role_from_dbinstance(DBInstanceIdentifier, FeatureName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveRoleFromDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "FeatureName"=>FeatureName, "RoleArn"=>RoleArn); aws_config=aws_config)
-remove_role_from_dbinstance(DBInstanceIdentifier, FeatureName, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveRoleFromDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "FeatureName"=>FeatureName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+remove_role_from_dbinstance(DBInstanceIdentifier, FeatureName, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveRoleFromDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "FeatureName"=>FeatureName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     remove_source_identifier_from_subscription(source_identifier, subscription_name)
@@ -4230,7 +4230,7 @@ Removes a source identifier from an existing RDS event notification subscription
 
 """
 remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveSourceIdentifierFromSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     remove_tags_from_resource(resource_name, tag_keys)
@@ -4247,7 +4247,7 @@ resource, see Tagging Amazon RDS Resources in the Amazon RDS User Guide.
 
 """
 remove_tags_from_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveTagsFromResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws_config=aws_config)
-remove_tags_from_resource(ResourceName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+remove_tags_from_resource(ResourceName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     reset_dbcluster_parameter_group(dbcluster_parameter_group_name)
@@ -4276,7 +4276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of parameter names specified for the Parameters parameter.
 """
 reset_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ResetDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
-reset_dbcluster_parameter_group(DBClusterParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
+reset_dbcluster_parameter_group(DBClusterParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
 
 """
     reset_dbparameter_group(dbparameter_group_name)
@@ -4310,7 +4310,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reset to default values.
 """
 reset_dbparameter_group(DBParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ResetDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws_config=aws_config)
-reset_dbparameter_group(DBParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ResetDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config)
+reset_dbparameter_group(DBParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ResetDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), params)); aws_config=aws_config)
 
 """
     restore_dbcluster_from_s3(dbcluster_identifier, engine, master_user_password, master_username, s3_bucket_name, s3_ingestion_role_arn, source_engine, source_engine_version)
@@ -4435,7 +4435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DB cluster.
 """
 restore_dbcluster_from_s3(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername, S3BucketName, S3IngestionRoleArn, SourceEngine, SourceEngineVersion; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterFromS3", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername, "S3BucketName"=>S3BucketName, "S3IngestionRoleArn"=>S3IngestionRoleArn, "SourceEngine"=>SourceEngine, "SourceEngineVersion"=>SourceEngineVersion); aws_config=aws_config)
-restore_dbcluster_from_s3(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername, S3BucketName, S3IngestionRoleArn, SourceEngine, SourceEngineVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterFromS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername, "S3BucketName"=>S3BucketName, "S3IngestionRoleArn"=>S3IngestionRoleArn, "SourceEngine"=>SourceEngine, "SourceEngineVersion"=>SourceEngineVersion), params)); aws_config=aws_config)
+restore_dbcluster_from_s3(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername, S3BucketName, S3IngestionRoleArn, SourceEngine, SourceEngineVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterFromS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername, "S3BucketName"=>S3BucketName, "S3IngestionRoleArn"=>S3IngestionRoleArn, "SourceEngine"=>SourceEngine, "SourceEngineVersion"=>SourceEngineVersion), params)); aws_config=aws_config)
 
 """
     restore_dbcluster_from_snapshot(dbcluster_identifier, engine, snapshot_identifier)
@@ -4534,7 +4534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   belong to.
 """
 restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterFromSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
-restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
+restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     restore_dbcluster_to_point_in_time(dbcluster_identifier, source_dbcluster_identifier)
@@ -4627,7 +4627,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new DB cluster belongs to.
 """
 restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterToPointInTime", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier); aws_config=aws_config)
-restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), params)); aws_config=aws_config)
+restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     restore_dbinstance_from_dbsnapshot(dbinstance_identifier, dbsnapshot_identifier)
@@ -4757,7 +4757,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
 restore_dbinstance_from_dbsnapshot(DBInstanceIdentifier, DBSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceFromDBSnapshot", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "DBSnapshotIdentifier"=>DBSnapshotIdentifier); aws_config=aws_config)
-restore_dbinstance_from_dbsnapshot(DBInstanceIdentifier, DBSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceFromDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
+restore_dbinstance_from_dbsnapshot(DBInstanceIdentifier, DBSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceFromDBSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier, "DBSnapshotIdentifier"=>DBSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     restore_dbinstance_from_s3(dbinstance_class, dbinstance_identifier, engine, s3_bucket_name, s3_ingestion_role_arn, source_engine, source_engine_version)
@@ -4914,7 +4914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.
 """
 restore_dbinstance_from_s3(DBInstanceClass, DBInstanceIdentifier, Engine, S3BucketName, S3IngestionRoleArn, SourceEngine, SourceEngineVersion; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceFromS3", Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine, "S3BucketName"=>S3BucketName, "S3IngestionRoleArn"=>S3IngestionRoleArn, "SourceEngine"=>SourceEngine, "SourceEngineVersion"=>SourceEngineVersion); aws_config=aws_config)
-restore_dbinstance_from_s3(DBInstanceClass, DBInstanceIdentifier, Engine, S3BucketName, S3IngestionRoleArn, SourceEngine, SourceEngineVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceFromS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine, "S3BucketName"=>S3BucketName, "S3IngestionRoleArn"=>S3IngestionRoleArn, "SourceEngine"=>SourceEngine, "SourceEngineVersion"=>SourceEngineVersion), params)); aws_config=aws_config)
+restore_dbinstance_from_s3(DBInstanceClass, DBInstanceIdentifier, Engine, S3BucketName, S3IngestionRoleArn, SourceEngine, SourceEngineVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceFromS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine, "S3BucketName"=>S3BucketName, "S3IngestionRoleArn"=>S3IngestionRoleArn, "SourceEngine"=>SourceEngine, "SourceEngineVersion"=>SourceEngineVersion), params)); aws_config=aws_config)
 
 """
     restore_dbinstance_to_point_in_time(target_dbinstance_identifier)
@@ -5046,7 +5046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
 restore_dbinstance_to_point_in_time(TargetDBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceToPointInTime", Dict{String, Any}("TargetDBInstanceIdentifier"=>TargetDBInstanceIdentifier); aws_config=aws_config)
-restore_dbinstance_to_point_in_time(TargetDBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetDBInstanceIdentifier"=>TargetDBInstanceIdentifier), params)); aws_config=aws_config)
+restore_dbinstance_to_point_in_time(TargetDBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RestoreDBInstanceToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetDBInstanceIdentifier"=>TargetDBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     revoke_dbsecurity_group_ingress(dbsecurity_group_name)
@@ -5078,7 +5078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be provided.
 """
 revoke_dbsecurity_group_ingress(DBSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RevokeDBSecurityGroupIngress", Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName); aws_config=aws_config)
-revoke_dbsecurity_group_ingress(DBSecurityGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RevokeDBSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName), params)); aws_config=aws_config)
+revoke_dbsecurity_group_ingress(DBSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("RevokeDBSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSecurityGroupName"=>DBSecurityGroupName), params)); aws_config=aws_config)
 
 """
     start_activity_stream(kms_key_id, mode, resource_arn)
@@ -5103,7 +5103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as soon as possible, regardless of the maintenance window for the database.
 """
 start_activity_stream(KmsKeyId, Mode, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartActivityStream", Dict{String, Any}("KmsKeyId"=>KmsKeyId, "Mode"=>Mode, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-start_activity_stream(KmsKeyId, Mode, ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartActivityStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KmsKeyId"=>KmsKeyId, "Mode"=>Mode, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+start_activity_stream(KmsKeyId, Mode, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartActivityStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KmsKeyId"=>KmsKeyId, "Mode"=>Mode, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     start_dbcluster(dbcluster_identifier)
@@ -5120,7 +5120,7 @@ applies to Aurora DB clusters.
 
 """
 start_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-start_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+start_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     start_dbinstance(dbinstance_identifier)
@@ -5137,7 +5137,7 @@ clusters, use StartDBCluster instead.
 
 """
 start_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-start_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+start_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     start_dbinstance_automated_backups_replication(source_dbinstance_arn)
@@ -5164,7 +5164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Region that contains the source DB instance.
 """
 start_dbinstance_automated_backups_replication(SourceDBInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBInstanceAutomatedBackupsReplication", Dict{String, Any}("SourceDBInstanceArn"=>SourceDBInstanceArn); aws_config=aws_config)
-start_dbinstance_automated_backups_replication(SourceDBInstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBInstanceAutomatedBackupsReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBInstanceArn"=>SourceDBInstanceArn), params)); aws_config=aws_config)
+start_dbinstance_automated_backups_replication(SourceDBInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartDBInstanceAutomatedBackupsReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBInstanceArn"=>SourceDBInstanceArn), params)); aws_config=aws_config)
 
 """
     start_export_task(export_task_identifier, iam_role_arn, kms_key_id, s3_bucket_name, source_arn)
@@ -5203,7 +5203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exported snapshot.
 """
 start_export_task(ExportTaskIdentifier, IamRoleArn, KmsKeyId, S3BucketName, SourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartExportTask", Dict{String, Any}("ExportTaskIdentifier"=>ExportTaskIdentifier, "IamRoleArn"=>IamRoleArn, "KmsKeyId"=>KmsKeyId, "S3BucketName"=>S3BucketName, "SourceArn"=>SourceArn); aws_config=aws_config)
-start_export_task(ExportTaskIdentifier, IamRoleArn, KmsKeyId, S3BucketName, SourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportTaskIdentifier"=>ExportTaskIdentifier, "IamRoleArn"=>IamRoleArn, "KmsKeyId"=>KmsKeyId, "S3BucketName"=>S3BucketName, "SourceArn"=>SourceArn), params)); aws_config=aws_config)
+start_export_task(ExportTaskIdentifier, IamRoleArn, KmsKeyId, S3BucketName, SourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StartExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportTaskIdentifier"=>ExportTaskIdentifier, "IamRoleArn"=>IamRoleArn, "KmsKeyId"=>KmsKeyId, "S3BucketName"=>S3BucketName, "SourceArn"=>SourceArn), params)); aws_config=aws_config)
 
 """
     stop_activity_stream(resource_arn)
@@ -5223,7 +5223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   soon as possible, regardless of the maintenance window for the database.
 """
 stop_activity_stream(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopActivityStream", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-stop_activity_stream(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopActivityStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+stop_activity_stream(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopActivityStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     stop_dbcluster(dbcluster_identifier)
@@ -5241,7 +5241,7 @@ information, see  Stopping and Starting an Aurora Cluster in the Amazon Aurora U
 
 """
 stop_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-stop_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+stop_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     stop_dbinstance(dbinstance_identifier)
@@ -5263,7 +5263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created immediately before the DB instance is stopped.
 """
 stop_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-stop_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+stop_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     stop_dbinstance_automated_backups_replication(source_dbinstance_arn)
@@ -5279,4 +5279,4 @@ Replicating Automated Backups to Another AWS Region in the Amazon RDS User Guide
 
 """
 stop_dbinstance_automated_backups_replication(SourceDBInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBInstanceAutomatedBackupsReplication", Dict{String, Any}("SourceDBInstanceArn"=>SourceDBInstanceArn); aws_config=aws_config)
-stop_dbinstance_automated_backups_replication(SourceDBInstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBInstanceAutomatedBackupsReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBInstanceArn"=>SourceDBInstanceArn), params)); aws_config=aws_config)
+stop_dbinstance_automated_backups_replication(SourceDBInstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("StopDBInstanceAutomatedBackupsReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBInstanceArn"=>SourceDBInstanceArn), params)); aws_config=aws_config)

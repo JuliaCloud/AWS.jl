@@ -16,7 +16,7 @@ event bus will start receiving events from the event source.
 
 """
 activate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ActivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-activate_event_source(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ActivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+activate_event_source(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ActivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     cancel_replay(replay_name)
@@ -29,7 +29,7 @@ Cancels the specified replay.
 
 """
 cancel_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CancelReplay", Dict{String, Any}("ReplayName"=>ReplayName); aws_config=aws_config)
-cancel_replay(ReplayName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CancelReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplayName"=>ReplayName), params)); aws_config=aws_config)
+cancel_replay(ReplayName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CancelReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplayName"=>ReplayName), params)); aws_config=aws_config)
 
 """
     create_api_destination(connection_arn, http_method, invocation_endpoint, name)
@@ -52,7 +52,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the HTTP invocation endpoint.
 """
 create_api_destination(ConnectionArn, HttpMethod, InvocationEndpoint, Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateApiDestination", Dict{String, Any}("ConnectionArn"=>ConnectionArn, "HttpMethod"=>HttpMethod, "InvocationEndpoint"=>InvocationEndpoint, "Name"=>Name); aws_config=aws_config)
-create_api_destination(ConnectionArn, HttpMethod, InvocationEndpoint, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn, "HttpMethod"=>HttpMethod, "InvocationEndpoint"=>InvocationEndpoint, "Name"=>Name), params)); aws_config=aws_config)
+create_api_destination(ConnectionArn, HttpMethod, InvocationEndpoint, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn, "HttpMethod"=>HttpMethod, "InvocationEndpoint"=>InvocationEndpoint, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_archive(archive_name, event_source_arn)
@@ -76,7 +76,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   0, events are retained indefinitely
 """
 create_archive(ArchiveName, EventSourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateArchive", Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn); aws_config=aws_config)
-create_archive(ArchiveName, EventSourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn), params)); aws_config=aws_config)
+create_archive(ArchiveName, EventSourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName, "EventSourceArn"=>EventSourceArn), params)); aws_config=aws_config)
 
 """
     create_connection(auth_parameters, authorization_type, name)
@@ -96,7 +96,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the connection to create.
 """
 create_connection(AuthParameters, AuthorizationType, Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateConnection", Dict{String, Any}("AuthParameters"=>AuthParameters, "AuthorizationType"=>AuthorizationType, "Name"=>Name); aws_config=aws_config)
-create_connection(AuthParameters, AuthorizationType, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthParameters"=>AuthParameters, "AuthorizationType"=>AuthorizationType, "Name"=>Name), params)); aws_config=aws_config)
+create_connection(AuthParameters, AuthorizationType, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthParameters"=>AuthParameters, "AuthorizationType"=>AuthorizationType, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_event_bus(name)
@@ -119,7 +119,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to associate with the event bus.
 """
 create_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_event_bus(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+create_event_bus(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreateEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_partner_event_source(account, name)
@@ -150,7 +150,7 @@ customers decide whether to create an event bus to receive these events.
 
 """
 create_partner_event_source(Account, Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreatePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
-create_partner_event_source(Account, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreatePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), params)); aws_config=aws_config)
+create_partner_event_source(Account, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("CreatePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     deactivate_event_source(name)
@@ -167,7 +167,7 @@ ActivateEventSource.
 
 """
 deactivate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-deactivate_event_source(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+deactivate_event_source(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeactivateEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     deauthorize_connection(name)
@@ -181,7 +181,7 @@ from the connection so you can reuse it without having to create a new connectio
 
 """
 deauthorize_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeauthorizeConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-deauthorize_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeauthorizeConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+deauthorize_connection(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeauthorizeConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_api_destination(name)
@@ -194,7 +194,7 @@ Deletes the specified API destination.
 
 """
 delete_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteApiDestination", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_api_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_api_destination(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_archive(archive_name)
@@ -207,7 +207,7 @@ Deletes the specified archive.
 
 """
 delete_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
-delete_archive(ArchiveName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
+delete_archive(ArchiveName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
 
 """
     delete_connection(name)
@@ -220,7 +220,7 @@ Deletes a connection.
 
 """
 delete_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_connection(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_event_bus(name)
@@ -234,7 +234,7 @@ event bus need to be deleted. You can't delete your account's default event bus.
 
 """
 delete_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteEventBus", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_event_bus(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_event_bus(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteEventBus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_partner_event_source(account, name)
@@ -250,7 +250,7 @@ partner event bus in the AWS customer account becomes DELETED.
 
 """
 delete_partner_event_source(Account, Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeletePartnerEventSource", Dict{String, Any}("Account"=>Account, "Name"=>Name); aws_config=aws_config)
-delete_partner_event_source(Account, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeletePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), params)); aws_config=aws_config)
+delete_partner_event_source(Account, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeletePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Account"=>Account, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_rule(name)
@@ -277,7 +277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListRules and checking the ManagedBy field of the response.
 """
 delete_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_rule(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_rule(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_api_destination(name)
@@ -290,7 +290,7 @@ Retrieves details about an API destination.
 
 """
 describe_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeApiDestination", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_api_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+describe_api_destination(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_archive(archive_name)
@@ -303,7 +303,7 @@ Retrieves details about an archive.
 
 """
 describe_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
-describe_archive(ArchiveName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
+describe_archive(ArchiveName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
 
 """
     describe_connection(name)
@@ -316,7 +316,7 @@ Retrieves details about a connection.
 
 """
 describe_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+describe_connection(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_event_bus()
@@ -335,7 +335,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default event bus is displayed.
 """
 describe_event_bus(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventBus"; aws_config=aws_config)
-describe_event_bus(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventBus", params; aws_config=aws_config)
+describe_event_bus(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventBus", params; aws_config=aws_config)
 
 """
     describe_event_source(name)
@@ -348,7 +348,7 @@ This operation lists details about a partner event source that is shared with yo
 
 """
 describe_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_event_source(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+describe_event_source(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_partner_event_source(name)
@@ -363,7 +363,7 @@ DescribeEventSource to see details about a partner event source that is shared w
 
 """
 describe_partner_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_partner_event_source(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+describe_partner_event_source(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribePartnerEventSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_replay(replay_name)
@@ -383,7 +383,7 @@ the last event replayed.
 
 """
 describe_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeReplay", Dict{String, Any}("ReplayName"=>ReplayName); aws_config=aws_config)
-describe_replay(ReplayName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplayName"=>ReplayName), params)); aws_config=aws_config)
+describe_replay(ReplayName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplayName"=>ReplayName), params)); aws_config=aws_config)
 
 """
     describe_rule(name)
@@ -401,7 +401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this, the default event bus is used.
 """
 describe_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_rule(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+describe_rule(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DescribeRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     disable_rule(name)
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this, the default event bus is used.
 """
 disable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DisableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-disable_rule(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DisableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+disable_rule(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("DisableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     enable_rule(name)
@@ -439,7 +439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this, the default event bus is used.
 """
 enable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-enable_rule(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+enable_rule(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("EnableRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     list_api_destinations()
@@ -456,7 +456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_api_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListApiDestinations"; aws_config=aws_config)
-list_api_destinations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListApiDestinations", params; aws_config=aws_config)
+list_api_destinations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListApiDestinations", params; aws_config=aws_config)
 
 """
     list_archives()
@@ -475,7 +475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: The state of the archive.
 """
 list_archives(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListArchives"; aws_config=aws_config)
-list_archives(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListArchives", params; aws_config=aws_config)
+list_archives(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListArchives", params; aws_config=aws_config)
 
 """
     list_connections()
@@ -492,7 +492,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListConnections"; aws_config=aws_config)
-list_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListConnections", params; aws_config=aws_config)
+list_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListConnections", params; aws_config=aws_config)
 
 """
     list_event_buses()
@@ -511,7 +511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_event_buses(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventBuses"; aws_config=aws_config)
-list_event_buses(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventBuses", params; aws_config=aws_config)
+list_event_buses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventBuses", params; aws_config=aws_config)
 
 """
     list_event_sources()
@@ -530,7 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_event_sources(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventSources"; aws_config=aws_config)
-list_event_sources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventSources", params; aws_config=aws_config)
+list_event_sources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListEventSources", params; aws_config=aws_config)
 
 """
     list_partner_event_source_accounts(event_source_name)
@@ -552,7 +552,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieves the next set of results.
 """
 list_partner_event_source_accounts(EventSourceName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSourceAccounts", Dict{String, Any}("EventSourceName"=>EventSourceName); aws_config=aws_config)
-list_partner_event_source_accounts(EventSourceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSourceAccounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSourceName"=>EventSourceName), params)); aws_config=aws_config)
+list_partner_event_source_accounts(EventSourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSourceAccounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSourceName"=>EventSourceName), params)); aws_config=aws_config)
 
 """
     list_partner_event_sources(name_prefix)
@@ -574,7 +574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieves the next set of results.
 """
 list_partner_event_sources(NamePrefix; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}("NamePrefix"=>NamePrefix); aws_config=aws_config)
-list_partner_event_sources(NamePrefix, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamePrefix"=>NamePrefix), params)); aws_config=aws_config)
+list_partner_event_sources(NamePrefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListPartnerEventSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamePrefix"=>NamePrefix), params)); aws_config=aws_config)
 
 """
     list_replays()
@@ -593,7 +593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: The state of the replay.
 """
 list_replays(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListReplays"; aws_config=aws_config)
-list_replays(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListReplays", params; aws_config=aws_config)
+list_replays(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListReplays", params; aws_config=aws_config)
 
 """
     list_rule_names_by_target(target_arn)
@@ -613,7 +613,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_rule_names_by_target(TargetArn; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRuleNamesByTarget", Dict{String, Any}("TargetArn"=>TargetArn); aws_config=aws_config)
-list_rule_names_by_target(TargetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRuleNamesByTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetArn"=>TargetArn), params)); aws_config=aws_config)
+list_rule_names_by_target(TargetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRuleNamesByTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetArn"=>TargetArn), params)); aws_config=aws_config)
 
 """
     list_rules()
@@ -632,7 +632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRules"; aws_config=aws_config)
-list_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRules", params; aws_config=aws_config)
+list_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListRules", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -646,7 +646,7 @@ buses can be tagged.
 
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
 
 """
     list_targets_by_rule(rule)
@@ -665,7 +665,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTargetsByRule", Dict{String, Any}("Rule"=>Rule); aws_config=aws_config)
-list_targets_by_rule(Rule, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTargetsByRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule), params)); aws_config=aws_config)
+list_targets_by_rule(Rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("ListTargetsByRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule), params)); aws_config=aws_config)
 
 """
     put_events(entries)
@@ -680,7 +680,7 @@ Sends custom events to Amazon EventBridge so that they can be matched to rules.
 
 """
 put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-put_events(Entries, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
+put_events(Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
 
 """
     put_partner_events(entries)
@@ -694,7 +694,7 @@ customers do not use this operation.
 
 """
 put_partner_events(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPartnerEvents", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-put_partner_events(Entries, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPartnerEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
+put_partner_events(Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPartnerEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
 
 """
     put_permission()
@@ -741,7 +741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify this StatementId when you run RemovePermission.
 """
 put_permission(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPermission"; aws_config=aws_config)
-put_permission(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPermission", params; aws_config=aws_config)
+put_permission(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutPermission", params; aws_config=aws_config)
 
 """
     put_rule(name)
@@ -799,7 +799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The list of key-value pairs to associate with the rule.
 """
 put_rule(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutRule", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-put_rule(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+put_rule(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     put_targets(rule, targets)
@@ -868,7 +868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this, the default event bus is used.
 """
 put_targets(Rule, Targets; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutTargets", Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets); aws_config=aws_config)
-put_targets(Rule, Targets, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets), params)); aws_config=aws_config)
+put_targets(Rule, Targets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("PutTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Rule"=>Rule, "Targets"=>Targets), params)); aws_config=aws_config)
 
 """
     remove_permission()
@@ -888,7 +888,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to put events to the default event bus.
 """
 remove_permission(; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemovePermission"; aws_config=aws_config)
-remove_permission(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemovePermission", params; aws_config=aws_config)
+remove_permission(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemovePermission", params; aws_config=aws_config)
 
 """
     remove_targets(ids, rule)
@@ -915,7 +915,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListRules and checking the ManagedBy field of the response.
 """
 remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemoveTargets", Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule); aws_config=aws_config)
-remove_targets(Ids, Rule, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemoveTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule), params)); aws_config=aws_config)
+remove_targets(Ids, Rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("RemoveTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ids"=>Ids, "Rule"=>Rule), params)); aws_config=aws_config)
 
 """
     start_replay(destination, event_end_time, event_source_arn, event_start_time, replay_name)
@@ -945,7 +945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the replay to start.
 """
 start_replay(Destination, EventEndTime, EventSourceArn, EventStartTime, ReplayName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("StartReplay", Dict{String, Any}("Destination"=>Destination, "EventEndTime"=>EventEndTime, "EventSourceArn"=>EventSourceArn, "EventStartTime"=>EventStartTime, "ReplayName"=>ReplayName); aws_config=aws_config)
-start_replay(Destination, EventEndTime, EventSourceArn, EventStartTime, ReplayName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("StartReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "EventEndTime"=>EventEndTime, "EventSourceArn"=>EventSourceArn, "EventStartTime"=>EventStartTime, "ReplayName"=>ReplayName), params)); aws_config=aws_config)
+start_replay(Destination, EventEndTime, EventSourceArn, EventStartTime, ReplayName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("StartReplay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "EventEndTime"=>EventEndTime, "EventSourceArn"=>EventSourceArn, "EventStartTime"=>EventStartTime, "ReplayName"=>ReplayName), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -968,7 +968,7 @@ resource.
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     test_event_pattern(event, event_pattern)
@@ -989,7 +989,7 @@ match.
 
 """
 test_event_pattern(Event, EventPattern; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TestEventPattern", Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern); aws_config=aws_config)
-test_event_pattern(Event, EventPattern, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TestEventPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern), params)); aws_config=aws_config)
+test_event_pattern(Event, EventPattern, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("TestEventPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Event"=>Event, "EventPattern"=>EventPattern), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1004,7 +1004,7 @@ Removes one or more tags from the specified EventBridge resource. In Amazon Even
 
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_api_destination(name)
@@ -1025,7 +1025,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the API destination.
 """
 update_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateApiDestination", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_api_destination(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+update_api_destination(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateApiDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_archive(archive_name)
@@ -1043,7 +1043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetentionDays"`: The number of days to retain events in the archive.
 """
 update_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}("ArchiveName"=>ArchiveName); aws_config=aws_config)
-update_archive(ArchiveName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
+update_archive(ArchiveName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ArchiveName"=>ArchiveName), params)); aws_config=aws_config)
 
 """
     update_connection(name)
@@ -1061,4 +1061,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the connection.
 """
 update_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+update_connection(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eventbridge("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)

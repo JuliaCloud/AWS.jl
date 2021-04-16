@@ -25,7 +25,7 @@ allocations, to provide customers with usagedata split into buckets by tags that
 
 """
 batch_meter_usage(ProductCode, UsageRecords; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("BatchMeterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords); aws_config=aws_config)
-batch_meter_usage(ProductCode, UsageRecords, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("BatchMeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords), params)); aws_config=aws_config)
+batch_meter_usage(ProductCode, UsageRecords, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("BatchMeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords), params)); aws_config=aws_config)
 
 """
     meter_usage(product_code, timestamp, usage_dimension)
@@ -57,7 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UsageQuantity"`: Consumption value for the hour. Defaults to 0 if not specified.
 """
 meter_usage(ProductCode, Timestamp, UsageDimension; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("MeterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension); aws_config=aws_config)
-meter_usage(ProductCode, Timestamp, UsageDimension, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("MeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension), params)); aws_config=aws_config)
+meter_usage(ProductCode, Timestamp, UsageDimension, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("MeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension), params)); aws_config=aws_config)
 
 """
     register_usage(product_code, public_key_version)
@@ -100,7 +100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance and guard against replay attacks.
 """
 register_usage(ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("RegisterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion); aws_config=aws_config)
-register_usage(ProductCode, PublicKeyVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("RegisterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion), params)); aws_config=aws_config)
+register_usage(ProductCode, PublicKeyVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("RegisterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion), params)); aws_config=aws_config)
 
 """
     resolve_customer(registration_token)
@@ -118,4 +118,4 @@ a CustomerIdentifier and product code.
 
 """
 resolve_customer(RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("ResolveCustomer", Dict{String, Any}("RegistrationToken"=>RegistrationToken); aws_config=aws_config)
-resolve_customer(RegistrationToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("ResolveCustomer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), params)); aws_config=aws_config)
+resolve_customer(RegistrationToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_metering("ResolveCustomer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), params)); aws_config=aws_config)

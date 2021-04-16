@@ -16,7 +16,7 @@ using PartiQL.
 
 """
 batch_execute_statement(Statements; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}("Statements"=>Statements); aws_config=aws_config)
-batch_execute_statement(Statements, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statements"=>Statements), params)); aws_config=aws_config)
+batch_execute_statement(Statements, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statements"=>Statements), params)); aws_config=aws_config)
 
 """
     batch_get_item(request_items)
@@ -92,7 +92,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReturnConsumedCapacity"`:
 """
 batch_get_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchGetItem", Dict{String, Any}("RequestItems"=>RequestItems); aws_config=aws_config)
-batch_get_item(RequestItems, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchGetItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestItems"=>RequestItems), params)); aws_config=aws_config)
+batch_get_item(RequestItems, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchGetItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestItems"=>RequestItems), params)); aws_config=aws_config)
 
 """
     batch_write_item(request_items)
@@ -168,7 +168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   no statistics are returned.
 """
 batch_write_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchWriteItem", Dict{String, Any}("RequestItems"=>RequestItems); aws_config=aws_config)
-batch_write_item(RequestItems, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchWriteItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestItems"=>RequestItems), params)); aws_config=aws_config)
+batch_write_item(RequestItems, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("BatchWriteItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestItems"=>RequestItems), params)); aws_config=aws_config)
 
 """
     create_backup(backup_name, table_name)
@@ -195,7 +195,7 @@ write capacity
 
 """
 create_backup(BackupName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateBackup", Dict{String, Any}("BackupName"=>BackupName, "TableName"=>TableName); aws_config=aws_config)
-create_backup(BackupName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupName"=>BackupName, "TableName"=>TableName), params)); aws_config=aws_config)
+create_backup(BackupName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupName"=>BackupName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     create_global_table(global_table_name, replication_group)
@@ -227,7 +227,7 @@ write capacity units to matching secondary indexes across your global table.
 
 """
 create_global_table(GlobalTableName, ReplicationGroup; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateGlobalTable", Dict{String, Any}("GlobalTableName"=>GlobalTableName, "ReplicationGroup"=>ReplicationGroup); aws_config=aws_config)
-create_global_table(GlobalTableName, ReplicationGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName, "ReplicationGroup"=>ReplicationGroup), params)); aws_config=aws_config)
+create_global_table(GlobalTableName, ReplicationGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName, "ReplicationGroup"=>ReplicationGroup), params)); aws_config=aws_config)
 
 """
     create_table(attribute_definitions, key_schema, table_name)
@@ -327,7 +327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for DynamoDB.
 """
 create_table(AttributeDefinitions, KeySchema, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateTable", Dict{String, Any}("AttributeDefinitions"=>AttributeDefinitions, "KeySchema"=>KeySchema, "TableName"=>TableName); aws_config=aws_config)
-create_table(AttributeDefinitions, KeySchema, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeDefinitions"=>AttributeDefinitions, "KeySchema"=>KeySchema, "TableName"=>TableName), params)); aws_config=aws_config)
+create_table(AttributeDefinitions, KeySchema, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeDefinitions"=>AttributeDefinitions, "KeySchema"=>KeySchema, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     delete_backup(backup_arn)
@@ -341,7 +341,7 @@ times per second.
 
 """
 delete_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteBackup", Dict{String, Any}("BackupArn"=>BackupArn); aws_config=aws_config)
-delete_backup(BackupArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn), params)); aws_config=aws_config)
+delete_backup(BackupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn), params)); aws_config=aws_config)
 
 """
     delete_item(key, table_name)
@@ -414,7 +414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DeleteItem does not recognize any values other than NONE or ALL_OLD.
 """
 delete_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteItem", Dict{String, Any}("Key"=>Key, "TableName"=>TableName); aws_config=aws_config)
-delete_item(Key, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config)
+delete_item(Key, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     delete_table(table_name)
@@ -437,7 +437,7 @@ on that table goes into the DISABLED state, and the stream is automatically dele
 
 """
 delete_table(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteTable", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-delete_table(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+delete_table(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     describe_backup(backup_arn)
@@ -451,7 +451,7 @@ Describes an existing backup of a table. You can call DescribeBackup at a maximu
 
 """
 describe_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeBackup", Dict{String, Any}("BackupArn"=>BackupArn); aws_config=aws_config)
-describe_backup(BackupArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn), params)); aws_config=aws_config)
+describe_backup(BackupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn), params)); aws_config=aws_config)
 
 """
     describe_continuous_backups(table_name)
@@ -472,7 +472,7 @@ time during the last 35 days.  You can call DescribeContinuousBackups at a maxim
 
 """
 describe_continuous_backups(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeContinuousBackups", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-describe_continuous_backups(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeContinuousBackups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+describe_continuous_backups(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeContinuousBackups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     describe_contributor_insights(table_name)
@@ -488,7 +488,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IndexName"`: The name of the global secondary index to describe, if applicable.
 """
 describe_contributor_insights(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeContributorInsights", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-describe_contributor_insights(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeContributorInsights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+describe_contributor_insights(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeContributorInsights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     describe_endpoints()
@@ -498,7 +498,7 @@ Returns the regional endpoint information.
 
 """
 describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeEndpoints"; aws_config=aws_config)
-describe_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeEndpoints", params; aws_config=aws_config)
+describe_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeEndpoints", params; aws_config=aws_config)
 
 """
     describe_export(export_arn)
@@ -511,7 +511,7 @@ Describes an existing table export.
 
 """
 describe_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeExport", Dict{String, Any}("ExportArn"=>ExportArn); aws_config=aws_config)
-describe_export(ExportArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportArn"=>ExportArn), params)); aws_config=aws_config)
+describe_export(ExportArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeExport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportArn"=>ExportArn), params)); aws_config=aws_config)
 
 """
     describe_global_table(global_table_name)
@@ -526,7 +526,7 @@ can use DescribeTable instead.
 
 """
 describe_global_table(GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeGlobalTable", Dict{String, Any}("GlobalTableName"=>GlobalTableName); aws_config=aws_config)
-describe_global_table(GlobalTableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config)
+describe_global_table(GlobalTableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config)
 
 """
     describe_global_table_settings(global_table_name)
@@ -540,7 +540,7 @@ Version 2017.11.29 of global tables.
 
 """
 describe_global_table_settings(GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeGlobalTableSettings", Dict{String, Any}("GlobalTableName"=>GlobalTableName); aws_config=aws_config)
-describe_global_table_settings(GlobalTableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeGlobalTableSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config)
+describe_global_table_settings(GlobalTableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeGlobalTableSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config)
 
 """
     describe_kinesis_streaming_destination(table_name)
@@ -553,7 +553,7 @@ Returns information about the status of Kinesis streaming.
 
 """
 describe_kinesis_streaming_destination(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-describe_kinesis_streaming_destination(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+describe_kinesis_streaming_destination(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     describe_limits()
@@ -592,7 +592,7 @@ no content.
 
 """
 describe_limits(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeLimits"; aws_config=aws_config)
-describe_limits(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeLimits", params; aws_config=aws_config)
+describe_limits(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeLimits", params; aws_config=aws_config)
 
 """
     describe_table(table_name)
@@ -610,7 +610,7 @@ few seconds, and then try the DescribeTable request again.
 
 """
 describe_table(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTable", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-describe_table(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+describe_table(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     describe_table_replica_auto_scaling(table_name)
@@ -624,7 +624,7 @@ operation only applies to Version 2019.11.21 of global tables.
 
 """
 describe_table_replica_auto_scaling(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTableReplicaAutoScaling", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-describe_table_replica_auto_scaling(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTableReplicaAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+describe_table_replica_auto_scaling(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTableReplicaAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     describe_time_to_live(table_name)
@@ -637,7 +637,7 @@ Gives a description of the Time to Live (TTL) status on the specified table.
 
 """
 describe_time_to_live(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTimeToLive", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-describe_time_to_live(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+describe_time_to_live(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DescribeTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     disable_kinesis_streaming_destination(stream_arn, table_name)
@@ -652,7 +652,7 @@ deleting either of the resources.
 
 """
 disable_kinesis_streaming_destination(StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DisableKinesisStreamingDestination", Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName); aws_config=aws_config)
-disable_kinesis_streaming_destination(StreamArn, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DisableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), params)); aws_config=aws_config)
+disable_kinesis_streaming_destination(StreamArn, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("DisableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     enable_kinesis_streaming_destination(stream_arn, table_name)
@@ -669,7 +669,7 @@ ACTIVE.
 
 """
 enable_kinesis_streaming_destination(StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("EnableKinesisStreamingDestination", Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName); aws_config=aws_config)
-enable_kinesis_streaming_destination(StreamArn, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("EnableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), params)); aws_config=aws_config)
+enable_kinesis_streaming_destination(StreamArn, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("EnableKinesisStreamingDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamArn"=>StreamArn, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     execute_statement(statement)
@@ -690,7 +690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`:  The parameters for the PartiQL statement, if any.
 """
 execute_statement(Statement; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteStatement", Dict{String, Any}("Statement"=>Statement); aws_config=aws_config)
-execute_statement(Statement, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statement"=>Statement), params)); aws_config=aws_config)
+execute_statement(Statement, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Statement"=>Statement), params)); aws_config=aws_config)
 
 """
     execute_transaction(transact_statements)
@@ -709,7 +709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned in the statement response.
 """
 execute_transaction(TransactStatements; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteTransaction", Dict{String, Any}("TransactStatements"=>TransactStatements, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-execute_transaction(TransactStatements, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactStatements"=>TransactStatements, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+execute_transaction(TransactStatements, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExecuteTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactStatements"=>TransactStatements, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     export_table_to_point_in_time(s3_bucket, table_arn)
@@ -747,7 +747,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   export data will be stored (if applicable).
 """
 export_table_to_point_in_time(S3Bucket, TableArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExportTableToPointInTime", Dict{String, Any}("S3Bucket"=>S3Bucket, "TableArn"=>TableArn, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-export_table_to_point_in_time(S3Bucket, TableArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExportTableToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "TableArn"=>TableArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+export_table_to_point_in_time(S3Bucket, TableArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ExportTableToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3Bucket"=>S3Bucket, "TableArn"=>TableArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     get_item(key, table_name)
@@ -799,7 +799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReturnConsumedCapacity"`:
 """
 get_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("GetItem", Dict{String, Any}("Key"=>Key, "TableName"=>TableName); aws_config=aws_config)
-get_item(Key, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("GetItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config)
+get_item(Key, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("GetItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     list_backups()
@@ -830,7 +830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TimeRangeUpperBound is exclusive.
 """
 list_backups(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListBackups"; aws_config=aws_config)
-list_backups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListBackups", params; aws_config=aws_config)
+list_backups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListBackups", params; aws_config=aws_config)
 
 """
     list_contributor_insights()
@@ -846,7 +846,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TableName"`: The name of the table.
 """
 list_contributor_insights(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListContributorInsights"; aws_config=aws_config)
-list_contributor_insights(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListContributorInsights", params; aws_config=aws_config)
+list_contributor_insights(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListContributorInsights", params; aws_config=aws_config)
 
 """
     list_exports()
@@ -863,7 +863,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TableArn"`: The Amazon Resource Name (ARN) associated with the exported table.
 """
 list_exports(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListExports"; aws_config=aws_config)
-list_exports(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListExports", params; aws_config=aws_config)
+list_exports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListExports", params; aws_config=aws_config)
 
 """
     list_global_tables()
@@ -884,7 +884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RegionName"`: Lists the global tables in a specific Region.
 """
 list_global_tables(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListGlobalTables"; aws_config=aws_config)
-list_global_tables(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListGlobalTables", params; aws_config=aws_config)
+list_global_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListGlobalTables", params; aws_config=aws_config)
 
 """
     list_tables()
@@ -902,7 +902,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the limit is 100.
 """
 list_tables(; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListTables"; aws_config=aws_config)
-list_tables(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListTables", params; aws_config=aws_config)
+list_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListTables", params; aws_config=aws_config)
 
 """
     list_tags_of_resource(resource_arn)
@@ -923,7 +923,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   page of results.
 """
 list_tags_of_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListTagsOfResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_of_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListTagsOfResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_of_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("ListTagsOfResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     put_item(item, table_name)
@@ -1017,7 +1017,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recognize any values other than NONE or ALL_OLD.
 """
 put_item(Item, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("PutItem", Dict{String, Any}("Item"=>Item, "TableName"=>TableName); aws_config=aws_config)
-put_item(Item, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("PutItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Item"=>Item, "TableName"=>TableName), params)); aws_config=aws_config)
+put_item(Item, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("PutItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Item"=>Item, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     query(table_name)
@@ -1194,7 +1194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
 """
 query(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("Query", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-query(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+query(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     restore_table_from_backup(backup_arn, target_table_name)
@@ -1224,7 +1224,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table.
 """
 restore_table_from_backup(BackupArn, TargetTableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("RestoreTableFromBackup", Dict{String, Any}("BackupArn"=>BackupArn, "TargetTableName"=>TargetTableName); aws_config=aws_config)
-restore_table_from_backup(BackupArn, TargetTableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("RestoreTableFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn, "TargetTableName"=>TargetTableName), params)); aws_config=aws_config)
+restore_table_from_backup(BackupArn, TargetTableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("RestoreTableFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupArn"=>BackupArn, "TargetTableName"=>TargetTableName), params)); aws_config=aws_config)
 
 """
     restore_table_to_point_in_time(target_table_name)
@@ -1266,7 +1266,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   LatestRestorableDateTime is typically 5 minutes before the current time.
 """
 restore_table_to_point_in_time(TargetTableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("RestoreTableToPointInTime", Dict{String, Any}("TargetTableName"=>TargetTableName); aws_config=aws_config)
-restore_table_to_point_in_time(TargetTableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("RestoreTableToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetTableName"=>TargetTableName), params)); aws_config=aws_config)
+restore_table_to_point_in_time(TargetTableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("RestoreTableToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetTableName"=>TargetTableName), params)); aws_config=aws_config)
 
 """
     scan(table_name)
@@ -1408,7 +1408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also specify Segment.
 """
 scan(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("Scan", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-scan(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("Scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+scan(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("Scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -1427,7 +1427,7 @@ DynamoDB Developer Guide.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     transact_get_items(transact_items)
@@ -1456,7 +1456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is valid.
 """
 transact_get_items(TransactItems; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TransactGetItems", Dict{String, Any}("TransactItems"=>TransactItems); aws_config=aws_config)
-transact_get_items(TransactItems, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TransactGetItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactItems"=>TransactItems), params)); aws_config=aws_config)
+transact_get_items(TransactItems, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TransactGetItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactItems"=>TransactItems), params)); aws_config=aws_config)
 
 """
     transact_write_items(transact_items)
@@ -1522,7 +1522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default), no statistics are returned.
 """
 transact_write_items(TransactItems; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TransactWriteItems", Dict{String, Any}("TransactItems"=>TransactItems, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-transact_write_items(TransactItems, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TransactWriteItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactItems"=>TransactItems, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+transact_write_items(TransactItems, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("TransactWriteItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransactItems"=>TransactItems, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1540,7 +1540,7 @@ DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Gu
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_continuous_backups(point_in_time_recovery_specification, table_name)
@@ -1562,7 +1562,7 @@ your table to any point in time during the last 35 days.
 
 """
 update_continuous_backups(PointInTimeRecoverySpecification, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateContinuousBackups", Dict{String, Any}("PointInTimeRecoverySpecification"=>PointInTimeRecoverySpecification, "TableName"=>TableName); aws_config=aws_config)
-update_continuous_backups(PointInTimeRecoverySpecification, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateContinuousBackups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PointInTimeRecoverySpecification"=>PointInTimeRecoverySpecification, "TableName"=>TableName), params)); aws_config=aws_config)
+update_continuous_backups(PointInTimeRecoverySpecification, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateContinuousBackups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PointInTimeRecoverySpecification"=>PointInTimeRecoverySpecification, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     update_contributor_insights(contributor_insights_action, table_name)
@@ -1579,7 +1579,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IndexName"`: The global secondary index name, if applicable.
 """
 update_contributor_insights(ContributorInsightsAction, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateContributorInsights", Dict{String, Any}("ContributorInsightsAction"=>ContributorInsightsAction, "TableName"=>TableName); aws_config=aws_config)
-update_contributor_insights(ContributorInsightsAction, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateContributorInsights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContributorInsightsAction"=>ContributorInsightsAction, "TableName"=>TableName), params)); aws_config=aws_config)
+update_contributor_insights(ContributorInsightsAction, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateContributorInsights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContributorInsightsAction"=>ContributorInsightsAction, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     update_global_table(global_table_name, replica_updates)
@@ -1603,7 +1603,7 @@ provisioned and maximum write capacity units.
 
 """
 update_global_table(GlobalTableName, ReplicaUpdates; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateGlobalTable", Dict{String, Any}("GlobalTableName"=>GlobalTableName, "ReplicaUpdates"=>ReplicaUpdates); aws_config=aws_config)
-update_global_table(GlobalTableName, ReplicaUpdates, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName, "ReplicaUpdates"=>ReplicaUpdates), params)); aws_config=aws_config)
+update_global_table(GlobalTableName, ReplicaUpdates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateGlobalTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName, "ReplicaUpdates"=>ReplicaUpdates), params)); aws_config=aws_config)
 
 """
     update_global_table_settings(global_table_name)
@@ -1632,7 +1632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be modified.
 """
 update_global_table_settings(GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateGlobalTableSettings", Dict{String, Any}("GlobalTableName"=>GlobalTableName); aws_config=aws_config)
-update_global_table_settings(GlobalTableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateGlobalTableSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config)
+update_global_table_settings(GlobalTableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateGlobalTableSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalTableName"=>GlobalTableName), params)); aws_config=aws_config)
 
 """
     update_item(key, table_name)
@@ -1750,7 +1750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DynamoDB Developer Guide.
 """
 update_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateItem", Dict{String, Any}("Key"=>Key, "TableName"=>TableName); aws_config=aws_config)
-update_item(Key, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config)
+update_item(Key, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     update_table(table_name)
@@ -1799,7 +1799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   has a stream, or if you try to disable a stream on a table that doesn't have a stream.
 """
 update_table(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTable", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-update_table(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+update_table(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     update_table_replica_auto_scaling(table_name)
@@ -1820,7 +1820,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be modified.
 """
 update_table_replica_auto_scaling(TableName; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTableReplicaAutoScaling", Dict{String, Any}("TableName"=>TableName); aws_config=aws_config)
-update_table_replica_auto_scaling(TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTableReplicaAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
+update_table_replica_auto_scaling(TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTableReplicaAutoScaling", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     update_time_to_live(table_name, time_to_live_specification)
@@ -1850,4 +1850,4 @@ Guide.
 
 """
 update_time_to_live(TableName, TimeToLiveSpecification; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTimeToLive", Dict{String, Any}("TableName"=>TableName, "TimeToLiveSpecification"=>TimeToLiveSpecification); aws_config=aws_config)
-update_time_to_live(TableName, TimeToLiveSpecification, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName, "TimeToLiveSpecification"=>TimeToLiveSpecification), params)); aws_config=aws_config)
+update_time_to_live(TableName, TimeToLiveSpecification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dynamodb("UpdateTimeToLive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TableName"=>TableName, "TimeToLiveSpecification"=>TimeToLiveSpecification), params)); aws_config=aws_config)

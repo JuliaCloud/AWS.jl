@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tests whether the caller has permission to make the call.
 """
 create_home_region_control(HomeRegion, Target; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target); aws_config=aws_config)
-create_home_region_control(HomeRegion, Target, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target), params)); aws_config=aws_config)
+create_home_region_control(HomeRegion, Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target), params)); aws_config=aws_config)
 
 """
     describe_home_region_controls()
@@ -42,7 +42,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
 """
 describe_home_region_controls(; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls"; aws_config=aws_config)
-describe_home_region_controls(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls", params; aws_config=aws_config)
+describe_home_region_controls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls", params; aws_config=aws_config)
 
 """
     get_home_region()
@@ -56,4 +56,4 @@ Hub home region.
 
 """
 get_home_region(; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion"; aws_config=aws_config)
-get_home_region(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion", params; aws_config=aws_config)
+get_home_region(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion", params; aws_config=aws_config)

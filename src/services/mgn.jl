@@ -19,7 +19,7 @@ if the Source Server is already launchable (dataReplicationInfo.lagDuration is n
 
 """
 change_server_life_cycle_state(lifeCycle, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/ChangeServerLifeCycleState", Dict{String, Any}("lifeCycle"=>lifeCycle, "sourceServerID"=>sourceServerID); aws_config=aws_config)
-change_server_life_cycle_state(lifeCycle, sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/ChangeServerLifeCycleState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifeCycle"=>lifeCycle, "sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+change_server_life_cycle_state(lifeCycle, sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/ChangeServerLifeCycleState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifeCycle"=>lifeCycle, "sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server)
@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Request to configure tags during Replication Settings template creation.
 """
 create_replication_configuration_template(associateDefaultSecurityGroup, bandwidthThrottling, createPublicIP, dataPlaneRouting, defaultLargeStagingDiskType, ebsEncryption, replicationServerInstanceType, replicationServersSecurityGroupsIDs, stagingAreaSubnetId, stagingAreaTags, useDedicatedReplicationServer; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/CreateReplicationConfigurationTemplate", Dict{String, Any}("associateDefaultSecurityGroup"=>associateDefaultSecurityGroup, "bandwidthThrottling"=>bandwidthThrottling, "createPublicIP"=>createPublicIP, "dataPlaneRouting"=>dataPlaneRouting, "defaultLargeStagingDiskType"=>defaultLargeStagingDiskType, "ebsEncryption"=>ebsEncryption, "replicationServerInstanceType"=>replicationServerInstanceType, "replicationServersSecurityGroupsIDs"=>replicationServersSecurityGroupsIDs, "stagingAreaSubnetId"=>stagingAreaSubnetId, "stagingAreaTags"=>stagingAreaTags, "useDedicatedReplicationServer"=>useDedicatedReplicationServer); aws_config=aws_config)
-create_replication_configuration_template(associateDefaultSecurityGroup, bandwidthThrottling, createPublicIP, dataPlaneRouting, defaultLargeStagingDiskType, ebsEncryption, replicationServerInstanceType, replicationServersSecurityGroupsIDs, stagingAreaSubnetId, stagingAreaTags, useDedicatedReplicationServer, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/CreateReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associateDefaultSecurityGroup"=>associateDefaultSecurityGroup, "bandwidthThrottling"=>bandwidthThrottling, "createPublicIP"=>createPublicIP, "dataPlaneRouting"=>dataPlaneRouting, "defaultLargeStagingDiskType"=>defaultLargeStagingDiskType, "ebsEncryption"=>ebsEncryption, "replicationServerInstanceType"=>replicationServerInstanceType, "replicationServersSecurityGroupsIDs"=>replicationServersSecurityGroupsIDs, "stagingAreaSubnetId"=>stagingAreaSubnetId, "stagingAreaTags"=>stagingAreaTags, "useDedicatedReplicationServer"=>useDedicatedReplicationServer), params)); aws_config=aws_config)
+create_replication_configuration_template(associateDefaultSecurityGroup, bandwidthThrottling, createPublicIP, dataPlaneRouting, defaultLargeStagingDiskType, ebsEncryption, replicationServerInstanceType, replicationServersSecurityGroupsIDs, stagingAreaSubnetId, stagingAreaTags, useDedicatedReplicationServer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/CreateReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associateDefaultSecurityGroup"=>associateDefaultSecurityGroup, "bandwidthThrottling"=>bandwidthThrottling, "createPublicIP"=>createPublicIP, "dataPlaneRouting"=>dataPlaneRouting, "defaultLargeStagingDiskType"=>defaultLargeStagingDiskType, "ebsEncryption"=>ebsEncryption, "replicationServerInstanceType"=>replicationServerInstanceType, "replicationServersSecurityGroupsIDs"=>replicationServersSecurityGroupsIDs, "stagingAreaSubnetId"=>stagingAreaSubnetId, "stagingAreaTags"=>stagingAreaTags, "useDedicatedReplicationServer"=>useDedicatedReplicationServer), params)); aws_config=aws_config)
 
 """
     delete_job(job_id)
@@ -71,7 +71,7 @@ Deletes a single Job by ID.
 
 """
 delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteJob", Dict{String, Any}("jobID"=>jobID); aws_config=aws_config)
-delete_job(jobID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobID"=>jobID), params)); aws_config=aws_config)
+delete_job(jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobID"=>jobID), params)); aws_config=aws_config)
 
 """
     delete_replication_configuration_template(replication_configuration_template_id)
@@ -85,7 +85,7 @@ Deletes a single Replication Configuration Template by ID
 
 """
 delete_replication_configuration_template(replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteReplicationConfigurationTemplate", Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID); aws_config=aws_config)
-delete_replication_configuration_template(replicationConfigurationTemplateID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID), params)); aws_config=aws_config)
+delete_replication_configuration_template(replicationConfigurationTemplateID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID), params)); aws_config=aws_config)
 
 """
     delete_source_server(source_server_id)
@@ -98,7 +98,7 @@ Deletes a single source server by ID.
 
 """
 delete_source_server(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteSourceServer", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-delete_source_server(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteSourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+delete_source_server(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DeleteSourceServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     describe_job_log_items(job_id)
@@ -115,7 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request to describe Job log next token.
 """
 describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeJobLogItems", Dict{String, Any}("jobID"=>jobID); aws_config=aws_config)
-describe_job_log_items(jobID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeJobLogItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobID"=>jobID), params)); aws_config=aws_config)
+describe_job_log_items(jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeJobLogItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobID"=>jobID), params)); aws_config=aws_config)
 
 """
     describe_jobs(filters)
@@ -136,7 +136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request to describe Job logby next token.
 """
 describe_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeJobs", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
-describe_jobs(filters, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config)
+describe_jobs(filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config)
 
 """
     describe_replication_configuration_templates(replication_configuration_template_ids)
@@ -154,7 +154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request to describe Replication Configuration template by next token.
 """
 describe_replication_configuration_templates(replicationConfigurationTemplateIDs; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeReplicationConfigurationTemplates", Dict{String, Any}("replicationConfigurationTemplateIDs"=>replicationConfigurationTemplateIDs); aws_config=aws_config)
-describe_replication_configuration_templates(replicationConfigurationTemplateIDs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeReplicationConfigurationTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateIDs"=>replicationConfigurationTemplateIDs), params)); aws_config=aws_config)
+describe_replication_configuration_templates(replicationConfigurationTemplateIDs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeReplicationConfigurationTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateIDs"=>replicationConfigurationTemplateIDs), params)); aws_config=aws_config)
 
 """
     describe_source_servers(filters)
@@ -171,7 +171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Request to filter Source Servers list by next token.
 """
 describe_source_servers(filters; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeSourceServers", Dict{String, Any}("filters"=>filters); aws_config=aws_config)
-describe_source_servers(filters, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeSourceServers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config)
+describe_source_servers(filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DescribeSourceServers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config)
 
 """
     disconnect_from_service(source_server_id)
@@ -193,7 +193,7 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDurationwill be nulli
 
 """
 disconnect_from_service(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DisconnectFromService", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-disconnect_from_service(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DisconnectFromService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+disconnect_from_service(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/DisconnectFromService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     finalize_cutover(source_server_id)
@@ -214,7 +214,7 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDurationwill be nulli
 
 """
 finalize_cutover(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/FinalizeCutover", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-finalize_cutover(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/FinalizeCutover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+finalize_cutover(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/FinalizeCutover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     get_launch_configuration(source_server_id)
@@ -227,7 +227,7 @@ Lists all LaunchConfigurations available, filtered by Source Server IDs.
 
 """
 get_launch_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/GetLaunchConfiguration", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-get_launch_configuration(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/GetLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+get_launch_configuration(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/GetLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     get_replication_configuration(source_server_id)
@@ -240,7 +240,7 @@ Lists all ReplicationConfigurations, filtered by Source Server ID.
 
 """
 get_replication_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/GetReplicationConfiguration", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-get_replication_configuration(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/GetReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+get_replication_configuration(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/GetReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     initialize_service()
@@ -250,7 +250,7 @@ Initialize Application Migration Service.
 
 """
 initialize_service(; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/InitializeService"; aws_config=aws_config)
-initialize_service(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/InitializeService", params; aws_config=aws_config)
+initialize_service(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/InitializeService", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -263,7 +263,7 @@ List all tags for your Application Migration Service resources.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     mark_as_archived(source_server_id)
@@ -278,7 +278,7 @@ lifecycle.state which equals DISCONNECTED or CUTOVER.
 
 """
 mark_as_archived(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/MarkAsArchived", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-mark_as_archived(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/MarkAsArchived", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+mark_as_archived(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/MarkAsArchived", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     retry_data_replication(source_server_id)
@@ -294,7 +294,7 @@ state.
 
 """
 retry_data_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/RetryDataReplication", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-retry_data_replication(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/RetryDataReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+retry_data_replication(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/RetryDataReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     start_cutover(source_server_ids)
@@ -312,7 +312,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Start Cutover by Tags.
 """
 start_cutover(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/StartCutover", Dict{String, Any}("sourceServerIDs"=>sourceServerIDs); aws_config=aws_config)
-start_cutover(sourceServerIDs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/StartCutover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config)
+start_cutover(sourceServerIDs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/StartCutover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config)
 
 """
     start_test(source_server_ids)
@@ -330,7 +330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Start Test by Tags.
 """
 start_test(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/StartTest", Dict{String, Any}("sourceServerIDs"=>sourceServerIDs); aws_config=aws_config)
-start_test(sourceServerIDs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/StartTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config)
+start_test(sourceServerIDs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/StartTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -347,7 +347,7 @@ optional value.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     terminate_target_instances(source_server_ids)
@@ -365,7 +365,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Terminate Target instance by Tags.
 """
 terminate_target_instances(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/TerminateTargetInstances", Dict{String, Any}("sourceServerIDs"=>sourceServerIDs); aws_config=aws_config)
-terminate_target_instances(sourceServerIDs, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/TerminateTargetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config)
+terminate_target_instances(sourceServerIDs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/TerminateTargetInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerIDs"=>sourceServerIDs), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -380,7 +380,7 @@ resources.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_launch_configuration(source_server_id)
@@ -402,7 +402,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   right sizing request.
 """
 update_launch_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateLaunchConfiguration", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-update_launch_configuration(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+update_launch_configuration(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateLaunchConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     update_replication_configuration(source_server_id)
@@ -436,7 +436,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Replication Server request.
 """
 update_replication_configuration(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateReplicationConfiguration", Dict{String, Any}("sourceServerID"=>sourceServerID); aws_config=aws_config)
-update_replication_configuration(sourceServerID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
+update_replication_configuration(sourceServerID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateReplicationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceServerID"=>sourceServerID), params)); aws_config=aws_config)
 
 """
     update_replication_configuration_template(replication_configuration_template_id)
@@ -474,4 +474,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dedicated Replication Server request.
 """
 update_replication_configuration_template(replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateReplicationConfigurationTemplate", Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID); aws_config=aws_config)
-update_replication_configuration_template(replicationConfigurationTemplateID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID), params)); aws_config=aws_config)
+update_replication_configuration_template(replicationConfigurationTemplateID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mgn("POST", "/UpdateReplicationConfigurationTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationConfigurationTemplateID"=>replicationConfigurationTemplateID), params)); aws_config=aws_config)

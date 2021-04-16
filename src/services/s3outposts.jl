@@ -21,7 +21,7 @@ DeleteEndpoint     ListEndpoints
 
 """
 create_endpoint(OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("POST", "/S3Outposts/CreateEndpoint", Dict{String, Any}("OutpostId"=>OutpostId, "SecurityGroupId"=>SecurityGroupId, "SubnetId"=>SubnetId); aws_config=aws_config)
-create_endpoint(OutpostId, SecurityGroupId, SubnetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("POST", "/S3Outposts/CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutpostId"=>OutpostId, "SecurityGroupId"=>SecurityGroupId, "SubnetId"=>SubnetId), params)); aws_config=aws_config)
+create_endpoint(OutpostId, SecurityGroupId, SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("POST", "/S3Outposts/CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutpostId"=>OutpostId, "SecurityGroupId"=>SecurityGroupId, "SubnetId"=>SubnetId), params)); aws_config=aws_config)
 
 """
     delete_endpoint(endpoint_id, outpost_id)
@@ -38,7 +38,7 @@ endpoint.   Related actions include:    CreateEndpoint     ListEndpoints
 
 """
 delete_endpoint(endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId); aws_config=aws_config)
-delete_endpoint(endpointId, outpostId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId), params)); aws_config=aws_config)
+delete_endpoint(endpointId, outpostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId), params)); aws_config=aws_config)
 
 """
     list_endpoints()
@@ -56,4 +56,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next endpoint requested in the list.
 """
 list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints"; aws_config=aws_config)
-list_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints", params; aws_config=aws_config)
+list_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints", params; aws_config=aws_config)
