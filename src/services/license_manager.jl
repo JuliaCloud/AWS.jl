@@ -15,7 +15,7 @@ Accepts the specified grant.
 
 """
 accept_grant(GrantArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("AcceptGrant", Dict{String, Any}("GrantArn"=>GrantArn); aws_config=aws_config)
-accept_grant(GrantArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("AcceptGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config)
+accept_grant(GrantArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("AcceptGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config)
 
 """
     check_in_license(license_consumption_token)
@@ -31,7 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Beneficiary"`: License beneficiary.
 """
 check_in_license(LicenseConsumptionToken; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckInLicense", Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken); aws_config=aws_config)
-check_in_license(LicenseConsumptionToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckInLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken), params)); aws_config=aws_config)
+check_in_license(LicenseConsumptionToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckInLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken), params)); aws_config=aws_config)
 
 """
     checkout_borrow_license(client_token, digital_signature_method, entitlements, license_arn)
@@ -55,7 +55,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NodeId"`: Node ID.
 """
 checkout_borrow_license(ClientToken, DigitalSignatureMethod, Entitlements, LicenseArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckoutBorrowLicense", Dict{String, Any}("ClientToken"=>ClientToken, "DigitalSignatureMethod"=>DigitalSignatureMethod, "Entitlements"=>Entitlements, "LicenseArn"=>LicenseArn); aws_config=aws_config)
-checkout_borrow_license(ClientToken, DigitalSignatureMethod, Entitlements, LicenseArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckoutBorrowLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DigitalSignatureMethod"=>DigitalSignatureMethod, "Entitlements"=>Entitlements, "LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
+checkout_borrow_license(ClientToken, DigitalSignatureMethod, Entitlements, LicenseArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckoutBorrowLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DigitalSignatureMethod"=>DigitalSignatureMethod, "Entitlements"=>Entitlements, "LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
 
 """
     checkout_license(checkout_type, client_token, entitlements, key_fingerprint, product_sku)
@@ -77,7 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NodeId"`: Node ID.
 """
 checkout_license(CheckoutType, ClientToken, Entitlements, KeyFingerprint, ProductSKU; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckoutLicense", Dict{String, Any}("CheckoutType"=>CheckoutType, "ClientToken"=>ClientToken, "Entitlements"=>Entitlements, "KeyFingerprint"=>KeyFingerprint, "ProductSKU"=>ProductSKU); aws_config=aws_config)
-checkout_license(CheckoutType, ClientToken, Entitlements, KeyFingerprint, ProductSKU, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckoutLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CheckoutType"=>CheckoutType, "ClientToken"=>ClientToken, "Entitlements"=>Entitlements, "KeyFingerprint"=>KeyFingerprint, "ProductSKU"=>ProductSKU), params)); aws_config=aws_config)
+checkout_license(CheckoutType, ClientToken, Entitlements, KeyFingerprint, ProductSKU, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CheckoutLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CheckoutType"=>CheckoutType, "ClientToken"=>ClientToken, "Entitlements"=>Entitlements, "KeyFingerprint"=>KeyFingerprint, "ProductSKU"=>ProductSKU), params)); aws_config=aws_config)
 
 """
     create_grant(allowed_operations, client_token, grant_name, home_region, license_arn, principals)
@@ -97,7 +97,7 @@ with specific AWS accounts.
 
 """
 create_grant(AllowedOperations, ClientToken, GrantName, HomeRegion, LicenseArn, Principals; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateGrant", Dict{String, Any}("AllowedOperations"=>AllowedOperations, "ClientToken"=>ClientToken, "GrantName"=>GrantName, "HomeRegion"=>HomeRegion, "LicenseArn"=>LicenseArn, "Principals"=>Principals); aws_config=aws_config)
-create_grant(AllowedOperations, ClientToken, GrantName, HomeRegion, LicenseArn, Principals, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedOperations"=>AllowedOperations, "ClientToken"=>ClientToken, "GrantName"=>GrantName, "HomeRegion"=>HomeRegion, "LicenseArn"=>LicenseArn, "Principals"=>Principals), params)); aws_config=aws_config)
+create_grant(AllowedOperations, ClientToken, GrantName, HomeRegion, LicenseArn, Principals, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowedOperations"=>AllowedOperations, "ClientToken"=>ClientToken, "GrantName"=>GrantName, "HomeRegion"=>HomeRegion, "LicenseArn"=>LicenseArn, "Principals"=>Principals), params)); aws_config=aws_config)
 
 """
     create_grant_version(client_token, grant_arn)
@@ -118,7 +118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Grant status.
 """
 create_grant_version(ClientToken, GrantArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateGrantVersion", Dict{String, Any}("ClientToken"=>ClientToken, "GrantArn"=>GrantArn); aws_config=aws_config)
-create_grant_version(ClientToken, GrantArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateGrantVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GrantArn"=>GrantArn), params)); aws_config=aws_config)
+create_grant_version(ClientToken, GrantArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateGrantVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GrantArn"=>GrantArn), params)); aws_config=aws_config)
 
 """
     create_license(beneficiary, client_token, consumption_configuration, entitlements, home_region, issuer, license_name, product_name, product_sku, validity)
@@ -146,7 +146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseMetadata"`: Information about the license.
 """
 create_license(Beneficiary, ClientToken, ConsumptionConfiguration, Entitlements, HomeRegion, Issuer, LicenseName, ProductName, ProductSKU, Validity; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicense", Dict{String, Any}("Beneficiary"=>Beneficiary, "ClientToken"=>ClientToken, "ConsumptionConfiguration"=>ConsumptionConfiguration, "Entitlements"=>Entitlements, "HomeRegion"=>HomeRegion, "Issuer"=>Issuer, "LicenseName"=>LicenseName, "ProductName"=>ProductName, "ProductSKU"=>ProductSKU, "Validity"=>Validity); aws_config=aws_config)
-create_license(Beneficiary, ClientToken, ConsumptionConfiguration, Entitlements, HomeRegion, Issuer, LicenseName, ProductName, ProductSKU, Validity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Beneficiary"=>Beneficiary, "ClientToken"=>ClientToken, "ConsumptionConfiguration"=>ConsumptionConfiguration, "Entitlements"=>Entitlements, "HomeRegion"=>HomeRegion, "Issuer"=>Issuer, "LicenseName"=>LicenseName, "ProductName"=>ProductName, "ProductSKU"=>ProductSKU, "Validity"=>Validity), params)); aws_config=aws_config)
+create_license(Beneficiary, ClientToken, ConsumptionConfiguration, Entitlements, HomeRegion, Issuer, LicenseName, ProductName, ProductSKU, Validity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Beneficiary"=>Beneficiary, "ClientToken"=>ClientToken, "ConsumptionConfiguration"=>ConsumptionConfiguration, "Entitlements"=>Entitlements, "HomeRegion"=>HomeRegion, "Issuer"=>Issuer, "LicenseName"=>LicenseName, "ProductName"=>ProductName, "ProductSKU"=>ProductSKU, "Validity"=>Validity), params)); aws_config=aws_config)
 
 """
     create_license_configuration(license_counting_type, name)
@@ -185,7 +185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to add to the license configuration.
 """
 create_license_configuration(LicenseCountingType, Name; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseConfiguration", Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name); aws_config=aws_config)
-create_license_configuration(LicenseCountingType, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name), params)); aws_config=aws_config)
+create_license_configuration(LicenseCountingType, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_license_version(client_token, consumption_configuration, entitlements, home_region, issuer, license_arn, license_name, product_name, status, validity)
@@ -214,7 +214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceVersion"`: Current version of the license.
 """
 create_license_version(ClientToken, ConsumptionConfiguration, Entitlements, HomeRegion, Issuer, LicenseArn, LicenseName, ProductName, Status, Validity; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseVersion", Dict{String, Any}("ClientToken"=>ClientToken, "ConsumptionConfiguration"=>ConsumptionConfiguration, "Entitlements"=>Entitlements, "HomeRegion"=>HomeRegion, "Issuer"=>Issuer, "LicenseArn"=>LicenseArn, "LicenseName"=>LicenseName, "ProductName"=>ProductName, "Status"=>Status, "Validity"=>Validity); aws_config=aws_config)
-create_license_version(ClientToken, ConsumptionConfiguration, Entitlements, HomeRegion, Issuer, LicenseArn, LicenseName, ProductName, Status, Validity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "ConsumptionConfiguration"=>ConsumptionConfiguration, "Entitlements"=>Entitlements, "HomeRegion"=>HomeRegion, "Issuer"=>Issuer, "LicenseArn"=>LicenseArn, "LicenseName"=>LicenseName, "ProductName"=>ProductName, "Status"=>Status, "Validity"=>Validity), params)); aws_config=aws_config)
+create_license_version(ClientToken, ConsumptionConfiguration, Entitlements, HomeRegion, Issuer, LicenseArn, LicenseName, ProductName, Status, Validity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "ConsumptionConfiguration"=>ConsumptionConfiguration, "Entitlements"=>Entitlements, "HomeRegion"=>HomeRegion, "Issuer"=>Issuer, "LicenseArn"=>LicenseArn, "LicenseName"=>LicenseName, "ProductName"=>ProductName, "Status"=>Status, "Validity"=>Validity), params)); aws_config=aws_config)
 
 """
     create_token(client_token, license_arn)
@@ -239,7 +239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data is mapped to the amr claim of the JWT token.
 """
 create_token(ClientToken, LicenseArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateToken", Dict{String, Any}("ClientToken"=>ClientToken, "LicenseArn"=>LicenseArn); aws_config=aws_config)
-create_token(ClientToken, LicenseArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
+create_token(ClientToken, LicenseArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
 
 """
     delete_grant(grant_arn, version)
@@ -253,7 +253,7 @@ Deletes the specified grant.
 
 """
 delete_grant(GrantArn, Version; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteGrant", Dict{String, Any}("GrantArn"=>GrantArn, "Version"=>Version); aws_config=aws_config)
-delete_grant(GrantArn, Version, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn, "Version"=>Version), params)); aws_config=aws_config)
+delete_grant(GrantArn, Version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn, "Version"=>Version), params)); aws_config=aws_config)
 
 """
     delete_license(license_arn, source_version)
@@ -267,7 +267,7 @@ Deletes the specified license.
 
 """
 delete_license(LicenseArn, SourceVersion; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicense", Dict{String, Any}("LicenseArn"=>LicenseArn, "SourceVersion"=>SourceVersion); aws_config=aws_config)
-delete_license(LicenseArn, SourceVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn, "SourceVersion"=>SourceVersion), params)); aws_config=aws_config)
+delete_license(LicenseArn, SourceVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn, "SourceVersion"=>SourceVersion), params)); aws_config=aws_config)
 
 """
     delete_license_configuration(license_configuration_arn)
@@ -281,7 +281,7 @@ is in use.
 
 """
 delete_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-delete_license_configuration(LicenseConfigurationArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
+delete_license_configuration(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
 
 """
     delete_token(token_id)
@@ -294,7 +294,7 @@ Deletes the specified token. Must be called in the license home Region.
 
 """
 delete_token(TokenId; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteToken", Dict{String, Any}("TokenId"=>TokenId); aws_config=aws_config)
-delete_token(TokenId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TokenId"=>TokenId), params)); aws_config=aws_config)
+delete_token(TokenId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TokenId"=>TokenId), params)); aws_config=aws_config)
 
 """
     extend_license_consumption(license_consumption_token)
@@ -312,7 +312,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions.
 """
 extend_license_consumption(LicenseConsumptionToken; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ExtendLicenseConsumption", Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken); aws_config=aws_config)
-extend_license_consumption(LicenseConsumptionToken, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ExtendLicenseConsumption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken), params)); aws_config=aws_config)
+extend_license_consumption(LicenseConsumptionToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ExtendLicenseConsumption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConsumptionToken"=>LicenseConsumptionToken), params)); aws_config=aws_config)
 
 """
     get_access_token(token)
@@ -329,7 +329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TokenProperties"`: Token properties to validate against those present in the JWT token.
 """
 get_access_token(Token; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetAccessToken", Dict{String, Any}("Token"=>Token); aws_config=aws_config)
-get_access_token(Token, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetAccessToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Token"=>Token), params)); aws_config=aws_config)
+get_access_token(Token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetAccessToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Token"=>Token), params)); aws_config=aws_config)
 
 """
     get_grant(grant_arn)
@@ -345,7 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Version"`: Grant version.
 """
 get_grant(GrantArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetGrant", Dict{String, Any}("GrantArn"=>GrantArn); aws_config=aws_config)
-get_grant(GrantArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config)
+get_grant(GrantArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config)
 
 """
     get_license(license_arn)
@@ -361,7 +361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Version"`: License version.
 """
 get_license(LicenseArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicense", Dict{String, Any}("LicenseArn"=>LicenseArn); aws_config=aws_config)
-get_license(LicenseArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
+get_license(LicenseArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
 
 """
     get_license_configuration(license_configuration_arn)
@@ -374,7 +374,7 @@ Gets detailed information about the specified license configuration.
 
 """
 get_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-get_license_configuration(LicenseConfigurationArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
+get_license_configuration(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
 
 """
     get_license_usage(license_arn)
@@ -387,7 +387,7 @@ Gets detailed information about the usage of the specified license.
 
 """
 get_license_usage(LicenseArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseUsage", Dict{String, Any}("LicenseArn"=>LicenseArn); aws_config=aws_config)
-get_license_usage(LicenseArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
+get_license_usage(LicenseArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
 
 """
     get_service_settings()
@@ -397,7 +397,7 @@ Gets the License Manager settings for the current Region.
 
 """
 get_service_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetServiceSettings"; aws_config=aws_config)
-get_service_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetServiceSettings", params; aws_config=aws_config)
+get_service_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetServiceSettings", params; aws_config=aws_config)
 
 """
     list_associations_for_license_configuration(license_configuration_arn)
@@ -416,7 +416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_associations_for_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListAssociationsForLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-list_associations_for_license_configuration(LicenseConfigurationArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListAssociationsForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
+list_associations_for_license_configuration(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListAssociationsForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
 
 """
     list_distributed_grants()
@@ -433,7 +433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_distributed_grants(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListDistributedGrants"; aws_config=aws_config)
-list_distributed_grants(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListDistributedGrants", params; aws_config=aws_config)
+list_distributed_grants(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListDistributedGrants", params; aws_config=aws_config)
 
 """
     list_failures_for_license_configuration_operations(license_configuration_arn)
@@ -450,7 +450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_failures_for_license_configuration_operations(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListFailuresForLicenseConfigurationOperations", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-list_failures_for_license_configuration_operations(LicenseConfigurationArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListFailuresForLicenseConfigurationOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
+list_failures_for_license_configuration_operations(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListFailuresForLicenseConfigurationOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
 
 """
     list_license_configurations()
@@ -472,7 +472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_license_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseConfigurations"; aws_config=aws_config)
-list_license_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseConfigurations", params; aws_config=aws_config)
+list_license_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseConfigurations", params; aws_config=aws_config)
 
 """
     list_license_specifications_for_resource(resource_arn)
@@ -490,7 +490,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_license_specifications_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseSpecificationsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_license_specifications_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_license_specifications_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     list_license_versions(license_arn)
@@ -507,7 +507,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_license_versions(LicenseArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseVersions", Dict{String, Any}("LicenseArn"=>LicenseArn); aws_config=aws_config)
-list_license_versions(LicenseArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
+list_license_versions(LicenseArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseArn"=>LicenseArn), params)); aws_config=aws_config)
 
 """
     list_licenses()
@@ -524,7 +524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_licenses(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenses"; aws_config=aws_config)
-list_licenses(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenses", params; aws_config=aws_config)
+list_licenses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenses", params; aws_config=aws_config)
 
 """
     list_received_grants()
@@ -541,7 +541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_received_grants(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListReceivedGrants"; aws_config=aws_config)
-list_received_grants(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListReceivedGrants", params; aws_config=aws_config)
+list_received_grants(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListReceivedGrants", params; aws_config=aws_config)
 
 """
     list_received_licenses()
@@ -558,7 +558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_received_licenses(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListReceivedLicenses"; aws_config=aws_config)
-list_received_licenses(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListReceivedLicenses", params; aws_config=aws_config)
+list_received_licenses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListReceivedLicenses", params; aws_config=aws_config)
 
 """
     list_resource_inventory()
@@ -582,7 +582,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_resource_inventory(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListResourceInventory"; aws_config=aws_config)
-list_resource_inventory(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListResourceInventory", params; aws_config=aws_config)
+list_resource_inventory(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListResourceInventory", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -595,7 +595,7 @@ Lists the tags for the specified license configuration.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     list_tokens()
@@ -612,7 +612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TokenIds"`: Token IDs.
 """
 list_tokens(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListTokens"; aws_config=aws_config)
-list_tokens(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListTokens", params; aws_config=aws_config)
+list_tokens(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListTokens", params; aws_config=aws_config)
 
 """
     list_usage_for_license_configuration(license_configuration_arn)
@@ -637,7 +637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 list_usage_for_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListUsageForLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-list_usage_for_license_configuration(LicenseConfigurationArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListUsageForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
+list_usage_for_license_configuration(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListUsageForLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
 
 """
     reject_grant(grant_arn)
@@ -650,7 +650,7 @@ Rejects the specified grant.
 
 """
 reject_grant(GrantArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("RejectGrant", Dict{String, Any}("GrantArn"=>GrantArn); aws_config=aws_config)
-reject_grant(GrantArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("RejectGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config)
+reject_grant(GrantArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("RejectGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -664,7 +664,7 @@ Adds the specified tags to the specified license configuration.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -678,7 +678,7 @@ Removes the specified tags from the specified license configuration.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_license_configuration(license_configuration_arn)
@@ -703,7 +703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProductInformationList"`: New product information.
 """
 update_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
-update_license_configuration(LicenseConfigurationArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
+update_license_configuration(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
 
 """
     update_license_specifications_for_resource(resource_arn)
@@ -723,7 +723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveLicenseSpecifications"`: ARNs of the license configurations to remove.
 """
 update_license_specifications_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseSpecificationsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-update_license_specifications_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+update_license_specifications_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseSpecificationsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     update_service_settings()
@@ -742,4 +742,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Manager alerts.
 """
 update_service_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings"; aws_config=aws_config)
-update_service_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings", params; aws_config=aws_config)
+update_service_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateServiceSettings", params; aws_config=aws_config)

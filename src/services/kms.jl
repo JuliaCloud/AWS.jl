@@ -26,7 +26,7 @@ kms:CancelKeyDeletion (key policy)  Related operations: ScheduleKeyDeletion
 
 """
 cancel_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CancelKeyDeletion", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-cancel_key_deletion(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CancelKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+cancel_key_deletion(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CancelKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     connect_custom_key_store(custom_key_store_id)
@@ -66,7 +66,7 @@ UpdateCustomKeyStore
 
 """
 connect_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ConnectCustomKeyStore", Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId); aws_config=aws_config)
-connect_custom_key_store(CustomKeyStoreId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ConnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
+connect_custom_key_store(CustomKeyStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ConnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
 
 """
     create_alias(alias_name, target_key_id)
@@ -108,7 +108,7 @@ ListAliases     UpdateAlias
 
 """
 create_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateAlias", Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId); aws_config=aws_config)
-create_alias(AliasName, TargetKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config)
+create_alias(AliasName, TargetKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config)
 
 """
     create_custom_key_store(cloud_hsm_cluster_id, custom_key_store_name, key_store_password, trust_anchor_certificate)
@@ -149,7 +149,7 @@ DescribeCustomKeyStores     DisconnectCustomKeyStore     UpdateCustomKeyStore
 
 """
 create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword, TrustAnchorCertificate; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateCustomKeyStore", Dict{String, Any}("CloudHsmClusterId"=>CloudHsmClusterId, "CustomKeyStoreName"=>CustomKeyStoreName, "KeyStorePassword"=>KeyStorePassword, "TrustAnchorCertificate"=>TrustAnchorCertificate); aws_config=aws_config)
-create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword, TrustAnchorCertificate, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudHsmClusterId"=>CloudHsmClusterId, "CustomKeyStoreName"=>CustomKeyStoreName, "KeyStorePassword"=>KeyStorePassword, "TrustAnchorCertificate"=>TrustAnchorCertificate), params)); aws_config=aws_config)
+create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword, TrustAnchorCertificate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudHsmClusterId"=>CloudHsmClusterId, "CustomKeyStoreName"=>CustomKeyStoreName, "KeyStorePassword"=>KeyStorePassword, "TrustAnchorCertificate"=>TrustAnchorCertificate), params)); aws_config=aws_config)
 
 """
     create_grant(grantee_principal, key_id, operations)
@@ -224,7 +224,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS General Reference.
 """
 create_grant(GranteePrincipal, KeyId, Operations; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateGrant", Dict{String, Any}("GranteePrincipal"=>GranteePrincipal, "KeyId"=>KeyId, "Operations"=>Operations); aws_config=aws_config)
-create_grant(GranteePrincipal, KeyId, Operations, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GranteePrincipal"=>GranteePrincipal, "KeyId"=>KeyId, "Operations"=>Operations), params)); aws_config=aws_config)
+create_grant(GranteePrincipal, KeyId, Operations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GranteePrincipal"=>GranteePrincipal, "KeyId"=>KeyId, "Operations"=>Operations), params)); aws_config=aws_config)
 
 """
     create_key()
@@ -349,7 +349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have kms:TagResource permission in an IAM policy.
 """
 create_key(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateKey"; aws_config=aws_config)
-create_key(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateKey", params; aws_config=aws_config)
+create_key(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateKey", params; aws_config=aws_config)
 
 """
     decrypt(ciphertext_blob)
@@ -423,7 +423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and alias ARN, use ListAliases.
 """
 decrypt(CiphertextBlob; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Decrypt", Dict{String, Any}("CiphertextBlob"=>CiphertextBlob); aws_config=aws_config)
-decrypt(CiphertextBlob, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Decrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob), params)); aws_config=aws_config)
+decrypt(CiphertextBlob, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Decrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob), params)); aws_config=aws_config)
 
 """
     delete_alias(alias_name)
@@ -447,7 +447,7 @@ ListAliases     UpdateAlias
 
 """
 delete_alias(AliasName; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteAlias", Dict{String, Any}("AliasName"=>AliasName); aws_config=aws_config)
-delete_alias(AliasName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName), params)); aws_config=aws_config)
+delete_alias(AliasName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName), params)); aws_config=aws_config)
 
 """
     delete_custom_key_store(custom_key_store_id)
@@ -481,7 +481,7 @@ DescribeCustomKeyStores     DisconnectCustomKeyStore     UpdateCustomKeyStore
 
 """
 delete_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteCustomKeyStore", Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId); aws_config=aws_config)
-delete_custom_key_store(CustomKeyStoreId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
+delete_custom_key_store(CustomKeyStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
 
 """
     delete_imported_key_material(key_id)
@@ -508,7 +508,7 @@ operations:     GetParametersForImport     ImportKeyMaterial
 
 """
 delete_imported_key_material(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteImportedKeyMaterial", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-delete_imported_key_material(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteImportedKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+delete_imported_key_material(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DeleteImportedKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     describe_custom_key_stores()
@@ -554,7 +554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 describe_custom_key_stores(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeCustomKeyStores"; aws_config=aws_config)
-describe_custom_key_stores(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeCustomKeyStores", params; aws_config=aws_config)
+describe_custom_key_stores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeCustomKeyStores", params; aws_config=aws_config)
 
 """
     describe_key(key_id)
@@ -601,7 +601,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Key Management Service Developer Guide.
 """
 describe_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-describe_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+describe_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     disable_key(key_id)
@@ -625,7 +625,7 @@ kms:DisableKey (key policy)  Related operations: EnableKey
 
 """
 disable_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-disable_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+disable_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     disable_key_rotation(key_id)
@@ -650,7 +650,7 @@ GetKeyRotationStatus
 
 """
 disable_key_rotation(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKeyRotation", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-disable_key_rotation(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+disable_key_rotation(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     disconnect_custom_key_store(custom_key_store_id)
@@ -679,7 +679,7 @@ UpdateCustomKeyStore
 
 """
 disconnect_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisconnectCustomKeyStore", Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId); aws_config=aws_config)
-disconnect_custom_key_store(CustomKeyStoreId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisconnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
+disconnect_custom_key_store(CustomKeyStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DisconnectCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
 
 """
     enable_key(key_id)
@@ -701,7 +701,7 @@ kms:EnableKey (key policy)  Related operations: DisableKey
 
 """
 enable_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-enable_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+enable_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     enable_key_rotation(key_id)
@@ -726,7 +726,7 @@ GetKeyRotationStatus
 
 """
 enable_key_rotation(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKeyRotation", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-enable_key_rotation(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+enable_key_rotation(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("EnableKeyRotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     encrypt(key_id, plaintext)
@@ -802,7 +802,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Key Management Service Developer Guide.
 """
 encrypt(KeyId, Plaintext; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Encrypt", Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext); aws_config=aws_config)
-encrypt(KeyId, Plaintext, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Encrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext), params)); aws_config=aws_config)
+encrypt(KeyId, Plaintext, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Encrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext), params)); aws_config=aws_config)
 
 """
     generate_data_key(key_id)
@@ -874,7 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
 """
 generate_data_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-generate_data_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+generate_data_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     generate_data_key_pair(key_id, key_pair_spec)
@@ -940,7 +940,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Key Management Service Developer Guide.
 """
 generate_data_key_pair(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPair", Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec); aws_config=aws_config)
-generate_data_key_pair(KeyId, KeyPairSpec, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config)
+generate_data_key_pair(KeyId, KeyPairSpec, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config)
 
 """
     generate_data_key_pair_without_plaintext(key_id, key_pair_spec)
@@ -1000,7 +1000,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Key Management Service Developer Guide.
 """
 generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec); aws_config=aws_config)
-generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config)
+generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config)
 
 """
     generate_data_key_without_plaintext(key_id)
@@ -1067,7 +1067,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   256-bit symmetric keys), we recommend that you use the KeySpec field instead of this one.
 """
 generate_data_key_without_plaintext(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyWithoutPlaintext", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-generate_data_key_without_plaintext(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+generate_data_key_without_plaintext(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     generate_random()
@@ -1087,7 +1087,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NumberOfBytes"`: The length of the byte string.
 """
 generate_random(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateRandom"; aws_config=aws_config)
-generate_random(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateRandom", params; aws_config=aws_config)
+generate_random(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateRandom", params; aws_config=aws_config)
 
 """
     get_key_policy(key_id, policy_name)
@@ -1108,7 +1108,7 @@ permissions: kms:GetKeyPolicy (key policy)  Related operations: PutKeyPolicy
 
 """
 get_key_policy(KeyId, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyPolicy", Dict{String, Any}("KeyId"=>KeyId, "PolicyName"=>PolicyName); aws_config=aws_config)
-get_key_policy(KeyId, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+get_key_policy(KeyId, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     get_key_rotation_status(key_id)
@@ -1137,7 +1137,7 @@ Related operations:     DisableKeyRotation     EnableKeyRotation
 
 """
 get_key_rotation_status(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyRotationStatus", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-get_key_rotation_status(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyRotationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+get_key_rotation_status(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyRotationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     get_parameters_for_import(key_id, wrapping_algorithm, wrapping_key_spec)
@@ -1176,7 +1176,7 @@ operations:     ImportKeyMaterial     DeleteImportedKeyMaterial
 
 """
 get_parameters_for_import(KeyId, WrappingAlgorithm, WrappingKeySpec; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetParametersForImport", Dict{String, Any}("KeyId"=>KeyId, "WrappingAlgorithm"=>WrappingAlgorithm, "WrappingKeySpec"=>WrappingKeySpec); aws_config=aws_config)
-get_parameters_for_import(KeyId, WrappingAlgorithm, WrappingKeySpec, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetParametersForImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "WrappingAlgorithm"=>WrappingAlgorithm, "WrappingKeySpec"=>WrappingKeySpec), params)); aws_config=aws_config)
+get_parameters_for_import(KeyId, WrappingAlgorithm, WrappingKeySpec, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetParametersForImport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "WrappingAlgorithm"=>WrappingAlgorithm, "WrappingKeySpec"=>WrappingKeySpec), params)); aws_config=aws_config)
 
 """
     get_public_key(key_id)
@@ -1226,7 +1226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Key Management Service Developer Guide.
 """
 get_public_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetPublicKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-get_public_key(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+get_public_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     import_key_material(encrypted_key_material, import_token, key_id)
@@ -1289,7 +1289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Otherwise it is required.
 """
 import_key_material(EncryptedKeyMaterial, ImportToken, KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ImportKeyMaterial", Dict{String, Any}("EncryptedKeyMaterial"=>EncryptedKeyMaterial, "ImportToken"=>ImportToken, "KeyId"=>KeyId); aws_config=aws_config)
-import_key_material(EncryptedKeyMaterial, ImportToken, KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ImportKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptedKeyMaterial"=>EncryptedKeyMaterial, "ImportToken"=>ImportToken, "KeyId"=>KeyId), params)); aws_config=aws_config)
+import_key_material(EncryptedKeyMaterial, ImportToken, KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ImportKeyMaterial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptedKeyMaterial"=>EncryptedKeyMaterial, "ImportToken"=>ImportToken, "KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     list_aliases()
@@ -1327,7 +1327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 list_aliases(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListAliases"; aws_config=aws_config)
-list_aliases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListAliases", params; aws_config=aws_config)
+list_aliases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListAliases", params; aws_config=aws_config)
 
 """
     list_grants(key_id)
@@ -1366,7 +1366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 list_grants(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListGrants", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-list_grants(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+list_grants(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     list_key_policies(key_id)
@@ -1397,7 +1397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 list_key_policies(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeyPolicies", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-list_key_policies(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeyPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+list_key_policies(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeyPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     list_keys()
@@ -1419,7 +1419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 list_keys(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeys"; aws_config=aws_config)
-list_keys(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeys", params; aws_config=aws_config)
+list_keys(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListKeys", params; aws_config=aws_config)
 
 """
     list_resource_tags(key_id)
@@ -1451,7 +1451,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   truncated response you just received.
 """
 list_resource_tags(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListResourceTags", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-list_resource_tags(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListResourceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+list_resource_tags(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListResourceTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     list_retirable_grants(retiring_principal)
@@ -1486,7 +1486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   received.
 """
 list_retirable_grants(RetiringPrincipal; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListRetirableGrants", Dict{String, Any}("RetiringPrincipal"=>RetiringPrincipal); aws_config=aws_config)
-list_retirable_grants(RetiringPrincipal, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListRetirableGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetiringPrincipal"=>RetiringPrincipal), params)); aws_config=aws_config)
+list_retirable_grants(RetiringPrincipal, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ListRetirableGrants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetiringPrincipal"=>RetiringPrincipal), params)); aws_config=aws_config)
 
 """
     put_key_policy(key_id, policy, policy_name)
@@ -1533,7 +1533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is false.
 """
 put_key_policy(KeyId, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = kms("PutKeyPolicy", Dict{String, Any}("KeyId"=>KeyId, "Policy"=>Policy, "PolicyName"=>PolicyName); aws_config=aws_config)
-put_key_policy(KeyId, Policy, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("PutKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Policy"=>Policy, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+put_key_policy(KeyId, Policy, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("PutKeyPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Policy"=>Policy, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     re_encrypt(ciphertext_blob, destination_key_id)
@@ -1642,7 +1642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
 """
 re_encrypt(CiphertextBlob, DestinationKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReEncrypt", Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId); aws_config=aws_config)
-re_encrypt(CiphertextBlob, DestinationKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReEncrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId), params)); aws_config=aws_config)
+re_encrypt(CiphertextBlob, DestinationKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReEncrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId), params)); aws_config=aws_config)
 
 """
     retire_grant()
@@ -1672,7 +1672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
 """
 retire_grant(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RetireGrant"; aws_config=aws_config)
-retire_grant(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RetireGrant", params; aws_config=aws_config)
+retire_grant(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RetireGrant", params; aws_config=aws_config)
 
 """
     revoke_grant(grant_id, key_id)
@@ -1695,7 +1695,7 @@ KeyId parameter.  Required permissions: kms:RevokeGrant (key policy)  Related op
 
 """
 revoke_grant(GrantId, KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RevokeGrant", Dict{String, Any}("GrantId"=>GrantId, "KeyId"=>KeyId); aws_config=aws_config)
-revoke_grant(GrantId, KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RevokeGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantId"=>GrantId, "KeyId"=>KeyId), params)); aws_config=aws_config)
+revoke_grant(GrantId, KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RevokeGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantId"=>GrantId, "KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     schedule_key_deletion(key_id)
@@ -1736,7 +1736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value, it defaults to 30.
 """
 schedule_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ScheduleKeyDeletion", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
-schedule_key_deletion(KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ScheduleKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
+schedule_key_deletion(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ScheduleKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     sign(key_id, message, signing_algorithm)
@@ -1795,7 +1795,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enter DIGEST.
 """
 sign(KeyId, Message, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Sign", Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "SigningAlgorithm"=>SigningAlgorithm); aws_config=aws_config)
-sign(KeyId, Message, SigningAlgorithm, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Sign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config)
+sign(KeyId, Message, SigningAlgorithm, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Sign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config)
 
 """
     tag_resource(key_id, tags)
@@ -1827,7 +1827,7 @@ policy)  Related operations     UntagResource     ListResourceTags
 
 """
 tag_resource(KeyId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = kms("TagResource", Dict{String, Any}("KeyId"=>KeyId, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(KeyId, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(KeyId, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(key_id, tag_keys)
@@ -1855,7 +1855,7 @@ operation on a CMK in a different AWS account.  Required permissions: kms:UntagR
 
 """
 untag_resource(KeyId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UntagResource", Dict{String, Any}("KeyId"=>KeyId, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(KeyId, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(KeyId, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_alias(alias_name, target_key_id)
@@ -1897,7 +1897,7 @@ access to aliases in the AWS Key Management Service Developer Guide.  Related op
 
 """
 update_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateAlias", Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId); aws_config=aws_config)
-update_alias(AliasName, TargetKeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config)
+update_alias(AliasName, TargetKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId), params)); aws_config=aws_config)
 
 """
     update_custom_key_store(custom_key_store_id)
@@ -1949,7 +1949,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you specify. The custom key store name must be unique in the AWS account.
 """
 update_custom_key_store(CustomKeyStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateCustomKeyStore", Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId); aws_config=aws_config)
-update_custom_key_store(CustomKeyStoreId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
+update_custom_key_store(CustomKeyStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateCustomKeyStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomKeyStoreId"=>CustomKeyStoreId), params)); aws_config=aws_config)
 
 """
     update_key_description(description, key_id)
@@ -1972,7 +1972,7 @@ kms:UpdateKeyDescription (key policy)  Related operations     CreateKey     Desc
 
 """
 update_key_description(Description, KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateKeyDescription", Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId); aws_config=aws_config)
-update_key_description(Description, KeyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateKeyDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId), params)); aws_config=aws_config)
+update_key_description(Description, KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateKeyDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId), params)); aws_config=aws_config)
 
 """
     verify(key_id, message, signature, signing_algorithm)
@@ -2032,4 +2032,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   verification operation can be compromised.
 """
 verify(KeyId, Message, Signature, SigningAlgorithm; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Verify", Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "Signature"=>Signature, "SigningAlgorithm"=>SigningAlgorithm); aws_config=aws_config)
-verify(KeyId, Message, Signature, SigningAlgorithm, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "Signature"=>Signature, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config)
+verify(KeyId, Message, Signature, SigningAlgorithm, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Verify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Message"=>Message, "Signature"=>Signature, "SigningAlgorithm"=>SigningAlgorithm), params)); aws_config=aws_config)

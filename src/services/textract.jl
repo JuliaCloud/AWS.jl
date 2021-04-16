@@ -41,7 +41,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   analyzing documents.
 """
 analyze_document(Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes); aws_config=aws_config)
-analyze_document(Document, FeatureTypes, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config)
+analyze_document(Document, FeatureTypes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config)
 
 """
     detect_document_text(document)
@@ -64,7 +64,7 @@ use StartDocumentTextDetection. For more information, see Document Text Detectio
 
 """
 detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}("Document"=>Document); aws_config=aws_config)
-detect_document_text(Document, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config)
+detect_document_text(Document, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config)
 
 """
     get_document_analysis(job_id)
@@ -110,7 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of blocks.
 """
 get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_document_analysis(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_document_analysis(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_document_text_detection(job_id)
@@ -150,7 +150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of blocks.
 """
 get_document_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_document_text_detection(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_document_text_detection(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     start_document_analysis(document_location, feature_types)
@@ -196,7 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.
 """
 start_document_analysis(DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes); aws_config=aws_config)
-start_document_analysis(DocumentLocation, FeatureTypes, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config)
+start_document_analysis(DocumentLocation, FeatureTypes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config)
 
 """
     start_document_text_detection(document_location)
@@ -237,4 +237,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GetDocumentTextDetection operation.
 """
 start_document_text_detection(DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}("DocumentLocation"=>DocumentLocation); aws_config=aws_config)
-start_document_text_detection(DocumentLocation, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), params)); aws_config=aws_config)
+start_document_text_detection(DocumentLocation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), params)); aws_config=aws_config)

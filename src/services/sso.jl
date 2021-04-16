@@ -18,7 +18,7 @@ Returns the STS short-term credentials for a given role name that is assigned to
 
 """
 get_role_credentials(account_id, role_name, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config)
-get_role_credentials(account_id, role_name, x_amz_sso_bearer_token, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config)
+get_role_credentials(account_id, role_name, x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config)
 
 """
     list_account_roles(account_id, x-amz-sso_bearer_token)
@@ -38,7 +38,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent pages.
 """
 list_account_roles(account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config)
-list_account_roles(account_id, x_amz_sso_bearer_token, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config)
+list_account_roles(account_id, x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config)
 
 """
     list_accounts(x-amz-sso_bearer_token)
@@ -59,7 +59,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the previous response output.
 """
 list_accounts(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config)
-list_accounts(x_amz_sso_bearer_token, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config)
+list_accounts(x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config)
 
 """
     logout(x-amz-sso_bearer_token)
@@ -73,4 +73,4 @@ Removes the client- and server-side session that is associated with the user.
 
 """
 logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config()) = sso("POST", "/logout", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config)
-logout(x_amz_sso_bearer_token, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso("POST", "/logout", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config)
+logout(x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso("POST", "/logout", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config)

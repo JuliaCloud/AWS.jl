@@ -19,7 +19,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the shadow.
 """
 delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow"; aws_config=aws_config)
-delete_thing_shadow(thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow", params; aws_config=aws_config)
+delete_thing_shadow(thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow", params; aws_config=aws_config)
 
 """
     get_thing_shadow(thing_name)
@@ -36,7 +36,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the shadow.
 """
 get_thing_shadow(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow"; aws_config=aws_config)
-get_thing_shadow(thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow", params; aws_config=aws_config)
+get_thing_shadow(thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/things/$(thingName)/shadow", params; aws_config=aws_config)
 
 """
     list_named_shadows_for_thing(thing_name)
@@ -53,7 +53,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The result page size.
 """
 list_named_shadows_for_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)"; aws_config=aws_config)
-list_named_shadows_for_thing(thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)", params; aws_config=aws_config)
+list_named_shadows_for_thing(thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)", params; aws_config=aws_config)
 
 """
     publish(topic)
@@ -71,7 +71,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"qos"`: The Quality of Service (QoS) level.
 """
 publish(topic; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)"; aws_config=aws_config)
-publish(topic, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)", params; aws_config=aws_config)
+publish(topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/topics/$(topic)", params; aws_config=aws_config)
 
 """
     update_thing_shadow(payload, thing_name)
@@ -89,4 +89,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the shadow.
 """
 update_thing_shadow(payload, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}("payload"=>payload); aws_config=aws_config)
-update_thing_shadow(payload, thingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload), params)); aws_config=aws_config)
+update_thing_shadow(payload, thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload), params)); aws_config=aws_config)

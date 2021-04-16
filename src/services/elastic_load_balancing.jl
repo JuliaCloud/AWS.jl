@@ -20,7 +20,7 @@ information, see Tag Your Classic Load Balancer in the Classic Load Balancers Gu
 
 """
 add_tags(LoadBalancerNames, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("AddTags", Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames, "Tags"=>Tags); aws_config=aws_config)
-add_tags(LoadBalancerNames, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames, "Tags"=>Tags), params)); aws_config=aws_config)
+add_tags(LoadBalancerNames, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     apply_security_groups_to_load_balancer(load_balancer_name, security_groups)
@@ -38,7 +38,7 @@ Balancers Guide.
 
 """
 apply_security_groups_to_load_balancer(LoadBalancerName, SecurityGroups; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ApplySecurityGroupsToLoadBalancer", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "SecurityGroups"=>SecurityGroups); aws_config=aws_config)
-apply_security_groups_to_load_balancer(LoadBalancerName, SecurityGroups, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ApplySecurityGroupsToLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "SecurityGroups"=>SecurityGroups), params)); aws_config=aws_config)
+apply_security_groups_to_load_balancer(LoadBalancerName, SecurityGroups, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ApplySecurityGroupsToLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "SecurityGroups"=>SecurityGroups), params)); aws_config=aws_config)
 
 """
     attach_load_balancer_to_subnets(load_balancer_name, subnets)
@@ -56,7 +56,7 @@ Balancers Guide.
 
 """
 attach_load_balancer_to_subnets(LoadBalancerName, Subnets; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("AttachLoadBalancerToSubnets", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "Subnets"=>Subnets); aws_config=aws_config)
-attach_load_balancer_to_subnets(LoadBalancerName, Subnets, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("AttachLoadBalancerToSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "Subnets"=>Subnets), params)); aws_config=aws_config)
+attach_load_balancer_to_subnets(LoadBalancerName, Subnets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("AttachLoadBalancerToSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "Subnets"=>Subnets), params)); aws_config=aws_config)
 
 """
     configure_health_check(health_check, load_balancer_name)
@@ -72,7 +72,7 @@ Classic Load Balancers Guide.
 
 """
 configure_health_check(HealthCheck, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ConfigureHealthCheck", Dict{String, Any}("HealthCheck"=>HealthCheck, "LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-configure_health_check(HealthCheck, LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ConfigureHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheck"=>HealthCheck, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+configure_health_check(HealthCheck, LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ConfigureHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheck"=>HealthCheck, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     create_app_cookie_stickiness_policy(cookie_name, load_balancer_name, policy_name)
@@ -97,7 +97,7 @@ Application-Controlled Session Stickiness in the Classic Load Balancers Guide.
 
 """
 create_app_cookie_stickiness_policy(CookieName, LoadBalancerName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateAppCookieStickinessPolicy", Dict{String, Any}("CookieName"=>CookieName, "LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName); aws_config=aws_config)
-create_app_cookie_stickiness_policy(CookieName, LoadBalancerName, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateAppCookieStickinessPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CookieName"=>CookieName, "LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+create_app_cookie_stickiness_policy(CookieName, LoadBalancerName, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateAppCookieStickinessPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CookieName"=>CookieName, "LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     create_lbcookie_stickiness_policy(load_balancer_name, policy_name)
@@ -128,7 +128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicates that the sticky session should last for the duration of the browser session.
 """
 create_lbcookie_stickiness_policy(LoadBalancerName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLBCookieStickinessPolicy", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName); aws_config=aws_config)
-create_lbcookie_stickiness_policy(LoadBalancerName, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLBCookieStickinessPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+create_lbcookie_stickiness_policy(LoadBalancerName, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLBCookieStickinessPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     create_load_balancer(listeners, load_balancer_name)
@@ -169,7 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Balancers Guide.
 """
 create_load_balancer(Listeners, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancer", Dict{String, Any}("Listeners"=>Listeners, "LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-create_load_balancer(Listeners, LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Listeners"=>Listeners, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+create_load_balancer(Listeners, LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Listeners"=>Listeners, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     create_load_balancer_listeners(listeners, load_balancer_name)
@@ -186,7 +186,7 @@ Listeners for Your Classic Load Balancer in the Classic Load Balancers Guide.
 
 """
 create_load_balancer_listeners(Listeners, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancerListeners", Dict{String, Any}("Listeners"=>Listeners, "LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-create_load_balancer_listeners(Listeners, LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancerListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Listeners"=>Listeners, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+create_load_balancer_listeners(Listeners, LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancerListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Listeners"=>Listeners, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     create_load_balancer_policy(load_balancer_name, policy_name, policy_type_name)
@@ -208,7 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyAttributes"`: The policy attributes.
 """
 create_load_balancer_policy(LoadBalancerName, PolicyName, PolicyTypeName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancerPolicy", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName, "PolicyTypeName"=>PolicyTypeName); aws_config=aws_config)
-create_load_balancer_policy(LoadBalancerName, PolicyName, PolicyTypeName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName, "PolicyTypeName"=>PolicyTypeName), params)); aws_config=aws_config)
+create_load_balancer_policy(LoadBalancerName, PolicyName, PolicyTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("CreateLoadBalancerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName, "PolicyTypeName"=>PolicyTypeName), params)); aws_config=aws_config)
 
 """
     delete_load_balancer(load_balancer_name)
@@ -226,7 +226,7 @@ DeleteLoadBalancer still succeeds.
 
 """
 delete_load_balancer(LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancer", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-delete_load_balancer(LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+delete_load_balancer(LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     delete_load_balancer_listeners(load_balancer_name, load_balancer_ports)
@@ -240,7 +240,7 @@ Deletes the specified listeners from the specified load balancer.
 
 """
 delete_load_balancer_listeners(LoadBalancerName, LoadBalancerPorts; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancerListeners", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPorts"=>LoadBalancerPorts); aws_config=aws_config)
-delete_load_balancer_listeners(LoadBalancerName, LoadBalancerPorts, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancerListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPorts"=>LoadBalancerPorts), params)); aws_config=aws_config)
+delete_load_balancer_listeners(LoadBalancerName, LoadBalancerPorts, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancerListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPorts"=>LoadBalancerPorts), params)); aws_config=aws_config)
 
 """
     delete_load_balancer_policy(load_balancer_name, policy_name)
@@ -255,7 +255,7 @@ enabled for any listeners.
 
 """
 delete_load_balancer_policy(LoadBalancerName, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancerPolicy", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName); aws_config=aws_config)
-delete_load_balancer_policy(LoadBalancerName, PolicyName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
+delete_load_balancer_policy(LoadBalancerName, PolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeleteLoadBalancerPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "PolicyName"=>PolicyName), params)); aws_config=aws_config)
 
 """
     deregister_instances_from_load_balancer(instances, load_balancer_name)
@@ -273,7 +273,7 @@ Balancers Guide.
 
 """
 deregister_instances_from_load_balancer(Instances, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeregisterInstancesFromLoadBalancer", Dict{String, Any}("Instances"=>Instances, "LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-deregister_instances_from_load_balancer(Instances, LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeregisterInstancesFromLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+deregister_instances_from_load_balancer(Instances, LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DeregisterInstancesFromLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     describe_account_limits()
@@ -289,7 +289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The maximum number of results to return with this call.
 """
 describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeAccountLimits"; aws_config=aws_config)
-describe_account_limits(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeAccountLimits", params; aws_config=aws_config)
+describe_account_limits(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeAccountLimits", params; aws_config=aws_config)
 
 """
     describe_instance_health(load_balancer_name)
@@ -309,7 +309,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Instances"`: The IDs of the instances.
 """
 describe_instance_health(LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeInstanceHealth", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-describe_instance_health(LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeInstanceHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+describe_instance_health(LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeInstanceHealth", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     describe_load_balancer_attributes(load_balancer_name)
@@ -322,7 +322,7 @@ Describes the attributes for the specified load balancer.
 
 """
 describe_load_balancer_attributes(LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerAttributes", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-describe_load_balancer_attributes(LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+describe_load_balancer_attributes(LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     describe_load_balancer_policies()
@@ -341,7 +341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyNames"`: The names of the policies.
 """
 describe_load_balancer_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerPolicies"; aws_config=aws_config)
-describe_load_balancer_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerPolicies", params; aws_config=aws_config)
+describe_load_balancer_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerPolicies", params; aws_config=aws_config)
 
 """
     describe_load_balancer_policy_types()
@@ -361,7 +361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all policy types defined by Elastic Load Balancing.
 """
 describe_load_balancer_policy_types(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerPolicyTypes"; aws_config=aws_config)
-describe_load_balancer_policy_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerPolicyTypes", params; aws_config=aws_config)
+describe_load_balancer_policy_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancerPolicyTypes", params; aws_config=aws_config)
 
 """
     describe_load_balancers()
@@ -379,7 +379,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   400). The default is 400.
 """
 describe_load_balancers(; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancers"; aws_config=aws_config)
-describe_load_balancers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancers", params; aws_config=aws_config)
+describe_load_balancers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeLoadBalancers", params; aws_config=aws_config)
 
 """
     describe_tags(load_balancer_names)
@@ -392,7 +392,7 @@ Describes the tags associated with the specified load balancers.
 
 """
 describe_tags(LoadBalancerNames; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeTags", Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames); aws_config=aws_config)
-describe_tags(LoadBalancerNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames), params)); aws_config=aws_config)
+describe_tags(LoadBalancerNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames), params)); aws_config=aws_config)
 
 """
     detach_load_balancer_from_subnets(load_balancer_name, subnets)
@@ -409,7 +409,7 @@ among the remaining routable subnets.
 
 """
 detach_load_balancer_from_subnets(LoadBalancerName, Subnets; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DetachLoadBalancerFromSubnets", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "Subnets"=>Subnets); aws_config=aws_config)
-detach_load_balancer_from_subnets(LoadBalancerName, Subnets, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DetachLoadBalancerFromSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "Subnets"=>Subnets), params)); aws_config=aws_config)
+detach_load_balancer_from_subnets(LoadBalancerName, Subnets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DetachLoadBalancerFromSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "Subnets"=>Subnets), params)); aws_config=aws_config)
 
 """
     disable_availability_zones_for_load_balancer(availability_zones, load_balancer_name)
@@ -430,7 +430,7 @@ Availability Zones in the Classic Load Balancers Guide.
 
 """
 disable_availability_zones_for_load_balancer(AvailabilityZones, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DisableAvailabilityZonesForLoadBalancer", Dict{String, Any}("AvailabilityZones"=>AvailabilityZones, "LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-disable_availability_zones_for_load_balancer(AvailabilityZones, LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DisableAvailabilityZonesForLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZones"=>AvailabilityZones, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+disable_availability_zones_for_load_balancer(AvailabilityZones, LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("DisableAvailabilityZonesForLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZones"=>AvailabilityZones, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     enable_availability_zones_for_load_balancer(availability_zones, load_balancer_name)
@@ -449,7 +449,7 @@ Remove Availability Zones in the Classic Load Balancers Guide.
 
 """
 enable_availability_zones_for_load_balancer(AvailabilityZones, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("EnableAvailabilityZonesForLoadBalancer", Dict{String, Any}("AvailabilityZones"=>AvailabilityZones, "LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-enable_availability_zones_for_load_balancer(AvailabilityZones, LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("EnableAvailabilityZonesForLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZones"=>AvailabilityZones, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+enable_availability_zones_for_load_balancer(AvailabilityZones, LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("EnableAvailabilityZonesForLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZones"=>AvailabilityZones, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     modify_load_balancer_attributes(load_balancer_attributes, load_balancer_name)
@@ -468,7 +468,7 @@ Load Balancing     Connection Draining     Access Logs     Idle Connection Timeo
 
 """
 modify_load_balancer_attributes(LoadBalancerAttributes, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ModifyLoadBalancerAttributes", Dict{String, Any}("LoadBalancerAttributes"=>LoadBalancerAttributes, "LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-modify_load_balancer_attributes(LoadBalancerAttributes, LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ModifyLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerAttributes"=>LoadBalancerAttributes, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+modify_load_balancer_attributes(LoadBalancerAttributes, LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("ModifyLoadBalancerAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerAttributes"=>LoadBalancerAttributes, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     register_instances_with_load_balancer(instances, load_balancer_name)
@@ -495,7 +495,7 @@ Instances in the Classic Load Balancers Guide.
 
 """
 register_instances_with_load_balancer(Instances, LoadBalancerName; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("RegisterInstancesWithLoadBalancer", Dict{String, Any}("Instances"=>Instances, "LoadBalancerName"=>LoadBalancerName); aws_config=aws_config)
-register_instances_with_load_balancer(Instances, LoadBalancerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("RegisterInstancesWithLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
+register_instances_with_load_balancer(Instances, LoadBalancerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("RegisterInstancesWithLoadBalancer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "LoadBalancerName"=>LoadBalancerName), params)); aws_config=aws_config)
 
 """
     remove_tags(load_balancer_names, tags)
@@ -510,7 +510,7 @@ Removes one or more tags from the specified load balancer.
 
 """
 remove_tags(LoadBalancerNames, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("RemoveTags", Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames, "Tags"=>Tags); aws_config=aws_config)
-remove_tags(LoadBalancerNames, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames, "Tags"=>Tags), params)); aws_config=aws_config)
+remove_tags(LoadBalancerNames, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerNames"=>LoadBalancerNames, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     set_load_balancer_listener_sslcertificate(load_balancer_name, load_balancer_port, sslcertificate_id)
@@ -528,7 +528,7 @@ the SSL Certificate for Your Load Balancer in the Classic Load Balancers Guide.
 
 """
 set_load_balancer_listener_sslcertificate(LoadBalancerName, LoadBalancerPort, SSLCertificateId; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerListenerSSLCertificate", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPort"=>LoadBalancerPort, "SSLCertificateId"=>SSLCertificateId); aws_config=aws_config)
-set_load_balancer_listener_sslcertificate(LoadBalancerName, LoadBalancerPort, SSLCertificateId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerListenerSSLCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPort"=>LoadBalancerPort, "SSLCertificateId"=>SSLCertificateId), params)); aws_config=aws_config)
+set_load_balancer_listener_sslcertificate(LoadBalancerName, LoadBalancerPort, SSLCertificateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerListenerSSLCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPort"=>LoadBalancerPort, "SSLCertificateId"=>SSLCertificateId), params)); aws_config=aws_config)
 
 """
     set_load_balancer_policies_for_backend_server(instance_port, load_balancer_name, policy_names)
@@ -554,7 +554,7 @@ Balancers Guide.
 
 """
 set_load_balancer_policies_for_backend_server(InstancePort, LoadBalancerName, PolicyNames; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerPoliciesForBackendServer", Dict{String, Any}("InstancePort"=>InstancePort, "LoadBalancerName"=>LoadBalancerName, "PolicyNames"=>PolicyNames); aws_config=aws_config)
-set_load_balancer_policies_for_backend_server(InstancePort, LoadBalancerName, PolicyNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerPoliciesForBackendServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstancePort"=>InstancePort, "LoadBalancerName"=>LoadBalancerName, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config)
+set_load_balancer_policies_for_backend_server(InstancePort, LoadBalancerName, PolicyNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerPoliciesForBackendServer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstancePort"=>InstancePort, "LoadBalancerName"=>LoadBalancerName, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config)
 
 """
     set_load_balancer_policies_of_listener(load_balancer_name, load_balancer_port, policy_names)
@@ -575,4 +575,4 @@ Application-Controlled Session Stickiness in the Classic Load Balancers Guide.
 
 """
 set_load_balancer_policies_of_listener(LoadBalancerName, LoadBalancerPort, PolicyNames; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerPoliciesOfListener", Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPort"=>LoadBalancerPort, "PolicyNames"=>PolicyNames); aws_config=aws_config)
-set_load_balancer_policies_of_listener(LoadBalancerName, LoadBalancerPort, PolicyNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerPoliciesOfListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPort"=>LoadBalancerPort, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config)
+set_load_balancer_policies_of_listener(LoadBalancerName, LoadBalancerPort, PolicyNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elastic_load_balancing("SetLoadBalancerPoliciesOfListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoadBalancerName"=>LoadBalancerName, "LoadBalancerPort"=>LoadBalancerPort, "PolicyNames"=>PolicyNames), params)); aws_config=aws_config)

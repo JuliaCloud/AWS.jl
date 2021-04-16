@@ -25,7 +25,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pair to use when tagging the resource.
 """
 create_connection(ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateConnection", Dict{String, Any}("ConnectionName"=>ConnectionName); aws_config=aws_config)
-create_connection(ConnectionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), params)); aws_config=aws_config)
+create_connection(ConnectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), params)); aws_config=aws_config)
 
 """
     create_host(name, provider_endpoint, provider_type)
@@ -54,7 +54,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the VPC.
 """
 create_host(Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateHost", Dict{String, Any}("Name"=>Name, "ProviderEndpoint"=>ProviderEndpoint, "ProviderType"=>ProviderType); aws_config=aws_config)
-create_host(Name, ProviderEndpoint, ProviderType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ProviderEndpoint"=>ProviderEndpoint, "ProviderType"=>ProviderType), params)); aws_config=aws_config)
+create_host(Name, ProviderEndpoint, ProviderType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("CreateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ProviderEndpoint"=>ProviderEndpoint, "ProviderType"=>ProviderType), params)); aws_config=aws_config)
 
 """
     delete_connection(connection_arn)
@@ -68,7 +68,7 @@ The connection to be deleted.
 
 """
 delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteConnection", Dict{String, Any}("ConnectionArn"=>ConnectionArn); aws_config=aws_config)
-delete_connection(ConnectionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), params)); aws_config=aws_config)
+delete_connection(ConnectionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), params)); aws_config=aws_config)
 
 """
     delete_host(host_arn)
@@ -83,7 +83,7 @@ VPC_CONFIG_DELETING state.
 
 """
 delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
-delete_host(HostArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), params)); aws_config=aws_config)
+delete_host(HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("DeleteHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), params)); aws_config=aws_config)
 
 """
     get_connection(connection_arn)
@@ -96,7 +96,7 @@ Returns the connection ARN and details such as status, owner, and provider type.
 
 """
 get_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetConnection", Dict{String, Any}("ConnectionArn"=>ConnectionArn); aws_config=aws_config)
-get_connection(ConnectionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), params)); aws_config=aws_config)
+get_connection(ConnectionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionArn"=>ConnectionArn), params)); aws_config=aws_config)
 
 """
     get_host(host_arn)
@@ -110,7 +110,7 @@ applicable, the VPC configuration.
 
 """
 get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
-get_host(HostArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), params)); aws_config=aws_config)
+get_host(HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("GetHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), params)); aws_config=aws_config)
 
 """
     list_connections()
@@ -130,7 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified provider, such as Bitbucket.
 """
 list_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListConnections"; aws_config=aws_config)
-list_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListConnections", params; aws_config=aws_config)
+list_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListConnections", params; aws_config=aws_config)
 
 """
     list_hosts()
@@ -146,7 +146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to return the next set of hosts in the list.
 """
 list_hosts(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListHosts"; aws_config=aws_config)
-list_hosts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListHosts", params; aws_config=aws_config)
+list_hosts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListHosts", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -160,7 +160,7 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -176,7 +176,7 @@ manage a resource.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -190,7 +190,7 @@ Removes tags from an AWS resource.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_host(host_arn)
@@ -209,4 +209,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the VPC.
 """
 update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}("HostArn"=>HostArn); aws_config=aws_config)
-update_host(HostArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), params)); aws_config=aws_config)
+update_host(HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar_connections("UpdateHost", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HostArn"=>HostArn), params)); aws_config=aws_config)

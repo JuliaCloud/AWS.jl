@@ -46,7 +46,7 @@ list all of the versions currently associated with a secret, use ListSecretVersi
 
 """
 cancel_rotate_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("CancelRotateSecret", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-cancel_rotate_secret(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("CancelRotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+cancel_rotate_secret(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("CancelRotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     create_secret(name)
@@ -181,7 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UTF-8, plus the following special characters: + - = . _ : / @.
 """
 create_secret(Name; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("CreateSecret", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_secret(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("CreateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_secret(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("CreateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_resource_policy(secret_id)
@@ -213,7 +213,7 @@ ListSecrets.
 
 """
 delete_resource_policy(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DeleteResourcePolicy", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-delete_resource_policy(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+delete_resource_policy(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     delete_secret(secret_id)
@@ -276,7 +276,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to 30 days with a default value of 30.
 """
 delete_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DeleteSecret", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-delete_secret(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DeleteSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+delete_secret(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DeleteSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     describe_secret(secret_id)
@@ -309,7 +309,7 @@ the AWS account, use ListSecrets.
 
 """
 describe_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DescribeSecret", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-describe_secret(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DescribeSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+describe_secret(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("DescribeSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     get_random_password()
@@ -350,7 +350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   True and the operation requires at least one of every character type.
 """
 get_random_password(; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetRandomPassword"; aws_config=aws_config)
-get_random_password(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetRandomPassword", params; aws_config=aws_config)
+get_random_password(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetRandomPassword", params; aws_config=aws_config)
 
 """
     get_resource_policy(secret_id)
@@ -384,7 +384,7 @@ ListSecrets.
 
 """
 get_resource_policy(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetResourcePolicy", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-get_resource_policy(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+get_resource_policy(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     get_secret_value(secret_id)
@@ -431,7 +431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the VersionStage value of AWSCURRENT.
 """
 get_secret_value(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetSecretValue", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-get_secret_value(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+get_secret_value(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("GetSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     list_secret_version_ids(secret_id)
@@ -484,7 +484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output should continue from.
 """
 list_secret_version_ids(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ListSecretVersionIds", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-list_secret_version_ids(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ListSecretVersionIds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+list_secret_version_ids(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ListSecretVersionIds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     list_secrets()
@@ -520,7 +520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: Lists secrets in the requested order.
 """
 list_secrets(; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ListSecrets"; aws_config=aws_config)
-list_secrets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ListSecrets", params; aws_config=aws_config)
+list_secrets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ListSecrets", params; aws_config=aws_config)
 
 """
     put_resource_policy(resource_policy, secret_id)
@@ -567,7 +567,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   then you block resource-based policies that allow broad access to the secret.
 """
 put_resource_policy(ResourcePolicy, SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("PutResourcePolicy", Dict{String, Any}("ResourcePolicy"=>ResourcePolicy, "SecretId"=>SecretId); aws_config=aws_config)
-put_resource_policy(ResourcePolicy, SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy, "SecretId"=>SecretId), params)); aws_config=aws_config)
+put_resource_policy(ResourcePolicy, SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy, "SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     put_secret_value(secret_id)
@@ -676,7 +676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new version.
 """
 put_secret_value(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("PutSecretValue", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-put_secret_value(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("PutSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+put_secret_value(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("PutSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     remove_regions_from_replication(remove_replica_regions, secret_id)
@@ -690,7 +690,7 @@ Remove regions from replication.
 
 """
 remove_regions_from_replication(RemoveReplicaRegions, SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RemoveRegionsFromReplication", Dict{String, Any}("RemoveReplicaRegions"=>RemoveReplicaRegions, "SecretId"=>SecretId); aws_config=aws_config)
-remove_regions_from_replication(RemoveReplicaRegions, SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RemoveRegionsFromReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RemoveReplicaRegions"=>RemoveReplicaRegions, "SecretId"=>SecretId), params)); aws_config=aws_config)
+remove_regions_from_replication(RemoveReplicaRegions, SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RemoveRegionsFromReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RemoveReplicaRegions"=>RemoveReplicaRegions, "SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     replicate_secret_to_regions(add_replica_regions, secret_id)
@@ -709,7 +709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overwrites a secret with the same name in the destination region.
 """
 replicate_secret_to_regions(AddReplicaRegions, SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ReplicateSecretToRegions", Dict{String, Any}("AddReplicaRegions"=>AddReplicaRegions, "SecretId"=>SecretId); aws_config=aws_config)
-replicate_secret_to_regions(AddReplicaRegions, SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ReplicateSecretToRegions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddReplicaRegions"=>AddReplicaRegions, "SecretId"=>SecretId), params)); aws_config=aws_config)
+replicate_secret_to_regions(AddReplicaRegions, SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ReplicateSecretToRegions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddReplicaRegions"=>AddReplicaRegions, "SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     restore_secret(secret_id)
@@ -739,7 +739,7 @@ operations    To delete a secret, use DeleteSecret.
 
 """
 restore_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RestoreSecret", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-restore_secret(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RestoreSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+restore_secret(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RestoreSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     rotate_secret(secret_id)
@@ -811,7 +811,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RotationRules"`: A structure that defines the rotation configuration for this secret.
 """
 rotate_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RotateSecret", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-rotate_secret(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+rotate_secret(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("RotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     stop_replication_to_replica(secret_id)
@@ -825,7 +825,7 @@ replica Region.
 
 """
 stop_replication_to_replica(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("StopReplicationToReplica", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
-stop_replication_to_replica(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("StopReplicationToReplica", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
+stop_replication_to_replica(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("StopReplicationToReplica", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), params)); aws_config=aws_config)
 
 """
     tag_resource(secret_id, tags)
@@ -875,7 +875,7 @@ a secret, use DescribeSecret.
 
 """
 tag_resource(SecretId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("TagResource", Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(SecretId, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(SecretId, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(secret_id, tag_keys)
@@ -915,7 +915,7 @@ attached to a secret, use DescribeSecret.
 
 """
 untag_resource(SecretId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UntagResource", Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(SecretId, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(SecretId, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_secret(secret_id)
@@ -1026,7 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"[{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]\"
 """
 update_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UpdateSecret", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-update_secret(SecretId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UpdateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+update_secret(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UpdateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     update_secret_version_stage(secret_id, version_stage)
@@ -1080,7 +1080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails.
 """
 update_secret_version_stage(SecretId, VersionStage; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UpdateSecretVersionStage", Dict{String, Any}("SecretId"=>SecretId, "VersionStage"=>VersionStage); aws_config=aws_config)
-update_secret_version_stage(SecretId, VersionStage, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UpdateSecretVersionStage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "VersionStage"=>VersionStage), params)); aws_config=aws_config)
+update_secret_version_stage(SecretId, VersionStage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UpdateSecretVersionStage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "VersionStage"=>VersionStage), params)); aws_config=aws_config)
 
 """
     validate_resource_policy(resource_policy)
@@ -1122,4 +1122,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ResourceNotFoundException or an AccessDeniedException error, depending on your permissions.
 """
 validate_resource_policy(ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ValidateResourcePolicy", Dict{String, Any}("ResourcePolicy"=>ResourcePolicy); aws_config=aws_config)
-validate_resource_policy(ResourcePolicy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ValidateResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy), params)); aws_config=aws_config)
+validate_resource_policy(ResourcePolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("ValidateResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy), params)); aws_config=aws_config)

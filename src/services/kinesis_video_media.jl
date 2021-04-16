@@ -41,4 +41,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   content. If you don't specify the streamName, you must specify the streamARN.
 """
 get_media(StartSelector; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}("StartSelector"=>StartSelector); aws_config=aws_config)
-get_media(StartSelector, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartSelector"=>StartSelector), params)); aws_config=aws_config)
+get_media(StartSelector, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_media("POST", "/getMedia", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartSelector"=>StartSelector), params)); aws_config=aws_config)

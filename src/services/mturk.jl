@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the presence or absence of the Qualification as the basis for a HIT requirement.
 """
 accept_qualification_request(QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AcceptQualificationRequest", Dict{String, Any}("QualificationRequestId"=>QualificationRequestId); aws_config=aws_config)
-accept_qualification_request(QualificationRequestId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AcceptQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), params)); aws_config=aws_config)
+accept_qualification_request(QualificationRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AcceptQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), params)); aws_config=aws_config)
 
 """
     approve_assignment(assignment_id)
@@ -53,7 +53,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   section of the web site.
 """
 approve_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ApproveAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId); aws_config=aws_config)
-approve_assignment(AssignmentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ApproveAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), params)); aws_config=aws_config)
+approve_assignment(AssignmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ApproveAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), params)); aws_config=aws_config)
 
 """
     associate_qualification_with_worker(qualification_type_id, worker_id)
@@ -84,7 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 """
 associate_qualification_with_worker(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AssociateQualificationWithWorker", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
-associate_qualification_with_worker(QualificationTypeId, WorkerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AssociateQualificationWithWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
+associate_qualification_with_worker(QualificationTypeId, WorkerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("AssociateQualificationWithWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
 
 """
     create_additional_assignments_for_hit(hitid, number_of_additional_assignments)
@@ -115,7 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request ID.
 """
 create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments); aws_config=aws_config)
-create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments), params)); aws_config=aws_config)
+create_additional_assignments_for_hit(HITId, NumberOfAdditionalAssignments, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateAdditionalAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "NumberOfAdditionalAssignments"=>NumberOfAdditionalAssignments), params)); aws_config=aws_config)
 
 """
     create_hit(assignment_duration_in_seconds, description, lifetime_in_seconds, reward, title)
@@ -204,7 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   made after the 24 hour limit could create duplicate HITs.
 """
 create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHIT", Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title); aws_config=aws_config)
-create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title), params)); aws_config=aws_config)
+create_hit(AssignmentDurationInSeconds, Description, LifetimeInSeconds, Reward, Title, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "LifetimeInSeconds"=>LifetimeInSeconds, "Reward"=>Reward, "Title"=>Title), params)); aws_config=aws_config)
 
 """
     create_hittype(assignment_duration_in_seconds, description, reward, title)
@@ -246,7 +246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   structure.
 """
 create_hittype(AssignmentDurationInSeconds, Description, Reward, Title; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITType", Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title); aws_config=aws_config)
-create_hittype(AssignmentDurationInSeconds, Description, Reward, Title, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title), params)); aws_config=aws_config)
+create_hittype(AssignmentDurationInSeconds, Description, Reward, Title, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentDurationInSeconds"=>AssignmentDurationInSeconds, "Description"=>Description, "Reward"=>Reward, "Title"=>Title), params)); aws_config=aws_config)
 
 """
     create_hitwith_hittype(hittype_id, lifetime_in_seconds)
@@ -305,7 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   made after the 24 hour limit could create duplicate HITs.
 """
 create_hitwith_hittype(HITTypeId, LifetimeInSeconds; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITWithHITType", Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds); aws_config=aws_config)
-create_hitwith_hittype(HITTypeId, LifetimeInSeconds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITWithHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds), params)); aws_config=aws_config)
+create_hitwith_hittype(HITTypeId, LifetimeInSeconds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateHITWithHITType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId, "LifetimeInSeconds"=>LifetimeInSeconds), params)); aws_config=aws_config)
 
 """
     create_qualification_type(description, name, qualification_type_status)
@@ -353,7 +353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Qualification test, starting from the time the Worker requests the Qualification.
 """
 create_qualification_type(Description, Name, QualificationTypeStatus; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateQualificationType", Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus); aws_config=aws_config)
-create_qualification_type(Description, Name, QualificationTypeStatus, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus), params)); aws_config=aws_config)
+create_qualification_type(Description, Name, QualificationTypeStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Name"=>Name, "QualificationTypeStatus"=>QualificationTypeStatus), params)); aws_config=aws_config)
 
 """
     create_worker_block(reason, worker_id)
@@ -370,7 +370,7 @@ For example, you can block a Worker who is producing poor quality work. You can 
 
 """
 create_worker_block(Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateWorkerBlock", Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId); aws_config=aws_config)
-create_worker_block(Reason, WorkerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
+create_worker_block(Reason, WorkerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("CreateWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Reason"=>Reason, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
 
 """
     delete_hit(hitid)
@@ -392,7 +392,7 @@ can improve the performance of operations such as ListReviewableHITs and ListHIT
 
 """
 delete_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
-delete_hit(HITId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
+delete_hit(HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
 
 """
     delete_qualification_type(qualification_type_id)
@@ -413,7 +413,7 @@ available for reuse with CreateQualificationType.
 
 """
 delete_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
-delete_qualification_type(QualificationTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
+delete_qualification_type(QualificationTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
 
 """
     delete_worker_block(worker_id)
@@ -434,7 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not see this message.
 """
 delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteWorkerBlock", Dict{String, Any}("WorkerId"=>WorkerId); aws_config=aws_config)
-delete_worker_block(WorkerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkerId"=>WorkerId), params)); aws_config=aws_config)
+delete_worker_block(WorkerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DeleteWorkerBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkerId"=>WorkerId), params)); aws_config=aws_config)
 
 """
     disassociate_qualification_from_worker(qualification_type_id, worker_id)
@@ -455,7 +455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   had the Qualification sees this message.
 """
 disassociate_qualification_from_worker(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DisassociateQualificationFromWorker", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
-disassociate_qualification_from_worker(QualificationTypeId, WorkerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DisassociateQualificationFromWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
+disassociate_qualification_from_worker(QualificationTypeId, WorkerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("DisassociateQualificationFromWorker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
 
 """
     get_account_balance()
@@ -466,7 +466,7 @@ Turk account.
 
 """
 get_account_balance(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAccountBalance"; aws_config=aws_config)
-get_account_balance(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAccountBalance", params; aws_config=aws_config)
+get_account_balance(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAccountBalance", params; aws_config=aws_config)
 
 """
     get_assignment(assignment_id)
@@ -479,7 +479,7 @@ get_account_balance(params::AbstractDict{String, <:Any}; aws_config::AbstractAWS
 
 """
 get_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId); aws_config=aws_config)
-get_assignment(AssignmentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), params)); aws_config=aws_config)
+get_assignment(AssignmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId), params)); aws_config=aws_config)
 
 """
     get_file_upload_url(assignment_id, question_identifier)
@@ -503,7 +503,7 @@ HITs asking Workers to upload files to use Amazon S3.
 
 """
 get_file_upload_url(AssignmentId, QuestionIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetFileUploadURL", Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier); aws_config=aws_config)
-get_file_upload_url(AssignmentId, QuestionIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetFileUploadURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier), params)); aws_config=aws_config)
+get_file_upload_url(AssignmentId, QuestionIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetFileUploadURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "QuestionIdentifier"=>QuestionIdentifier), params)); aws_config=aws_config)
 
 """
     get_hit(hitid)
@@ -516,7 +516,7 @@ get_file_upload_url(AssignmentId, QuestionIdentifier, params::AbstractDict{Strin
 
 """
 get_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
-get_hit(HITId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
+get_hit(HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
 
 """
     get_qualification_score(qualification_type_id, worker_id)
@@ -534,7 +534,7 @@ Qualification of that type.
 
 """
 get_qualification_score(QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationScore", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId); aws_config=aws_config)
-get_qualification_score(QualificationTypeId, WorkerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationScore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
+get_qualification_score(QualificationTypeId, WorkerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationScore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
 
 """
     get_qualification_type(qualification_type_id)
@@ -548,7 +548,7 @@ its ID.
 
 """
 get_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
-get_qualification_type(QualificationTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
+get_qualification_type(QualificationTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
 
 """
     list_assignments_for_hit(hitid)
@@ -578,7 +578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token
 """
 list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListAssignmentsForHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
-list_assignments_for_hit(HITId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
+list_assignments_for_hit(HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListAssignmentsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
 
 """
     list_bonus_payments()
@@ -599,7 +599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token
 """
 list_bonus_payments(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListBonusPayments"; aws_config=aws_config)
-list_bonus_payments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListBonusPayments", params; aws_config=aws_config)
+list_bonus_payments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListBonusPayments", params; aws_config=aws_config)
 
 """
     list_hits()
@@ -615,7 +615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token
 """
 list_hits(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITs"; aws_config=aws_config)
-list_hits(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITs", params; aws_config=aws_config)
+list_hits(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITs", params; aws_config=aws_config)
 
 """
     list_hits_for_qualification_type(qualification_type_id)
@@ -635,7 +635,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination Token
 """
 list_hits_for_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITsForQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
-list_hits_for_qualification_type(QualificationTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITsForQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
+list_hits_for_qualification_type(QualificationTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListHITsForQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
 
 """
     list_qualification_requests()
@@ -652,7 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QualificationTypeId"`: The ID of the QualificationType.
 """
 list_qualification_requests(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationRequests"; aws_config=aws_config)
-list_qualification_requests(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationRequests", params; aws_config=aws_config)
+list_qualification_requests(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationRequests", params; aws_config=aws_config)
 
 """
     list_qualification_types(must_be_requestable)
@@ -678,7 +678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Query"`:  A text query against all of the searchable attributes of Qualification types.
 """
 list_qualification_types(MustBeRequestable; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationTypes", Dict{String, Any}("MustBeRequestable"=>MustBeRequestable); aws_config=aws_config)
-list_qualification_types(MustBeRequestable, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MustBeRequestable"=>MustBeRequestable), params)); aws_config=aws_config)
+list_qualification_types(MustBeRequestable, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListQualificationTypes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MustBeRequestable"=>MustBeRequestable), params)); aws_config=aws_config)
 
 """
     list_review_policy_results_for_hit(hitid)
@@ -706,7 +706,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   computed by the Review Policies.
 """
 list_review_policy_results_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
-list_review_policy_results_for_hit(HITId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
+list_review_policy_results_for_hit(HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewPolicyResultsForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
 
 """
     list_reviewable_hits()
@@ -724,7 +724,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`:  Can be either Reviewable or Reviewing. Reviewable is the default value.
 """
 list_reviewable_hits(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewableHITs"; aws_config=aws_config)
-list_reviewable_hits(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewableHITs", params; aws_config=aws_config)
+list_reviewable_hits(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListReviewableHITs", params; aws_config=aws_config)
 
 """
     list_worker_blocks()
@@ -739,7 +739,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token
 """
 list_worker_blocks(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkerBlocks"; aws_config=aws_config)
-list_worker_blocks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkerBlocks", params; aws_config=aws_config)
+list_worker_blocks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkerBlocks", params; aws_config=aws_config)
 
 """
     list_workers_with_qualification_type(qualification_type_id)
@@ -758,7 +758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`:  The status of the Qualifications to return. Can be Granted | Revoked.
 """
 list_workers_with_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkersWithQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
-list_workers_with_qualification_type(QualificationTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkersWithQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
+list_workers_with_qualification_type(QualificationTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("ListWorkersWithQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
 
 """
     notify_workers(message_text, subject, worker_ids)
@@ -778,7 +778,7 @@ email to a Worker only if you have previously approved or rejected work from the
 
 """
 notify_workers(MessageText, Subject, WorkerIds; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("NotifyWorkers", Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds); aws_config=aws_config)
-notify_workers(MessageText, Subject, WorkerIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("NotifyWorkers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds), params)); aws_config=aws_config)
+notify_workers(MessageText, Subject, WorkerIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("NotifyWorkers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageText"=>MessageText, "Subject"=>Subject, "WorkerIds"=>WorkerIds), params)); aws_config=aws_config)
 
 """
     reject_assignment(assignment_id, requester_feedback)
@@ -799,7 +799,7 @@ reject an assignment for the HIT.
 
 """
 reject_assignment(AssignmentId, RequesterFeedback; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectAssignment", Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback); aws_config=aws_config)
-reject_assignment(AssignmentId, RequesterFeedback, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback), params)); aws_config=aws_config)
+reject_assignment(AssignmentId, RequesterFeedback, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "RequesterFeedback"=>RequesterFeedback), params)); aws_config=aws_config)
 
 """
     reject_qualification_request(qualification_request_id)
@@ -819,7 +819,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Worker who made the request.
 """
 reject_qualification_request(QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectQualificationRequest", Dict{String, Any}("QualificationRequestId"=>QualificationRequestId); aws_config=aws_config)
-reject_qualification_request(QualificationRequestId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), params)); aws_config=aws_config)
+reject_qualification_request(QualificationRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("RejectQualificationRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationRequestId"=>QualificationRequestId), params)); aws_config=aws_config)
 
 """
     send_bonus(assignment_id, bonus_amount, reason, worker_id)
@@ -853,7 +853,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request ID.
 """
 send_bonus(AssignmentId, BonusAmount, Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendBonus", Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId); aws_config=aws_config)
-send_bonus(AssignmentId, BonusAmount, Reason, WorkerId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendBonus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
+send_bonus(AssignmentId, BonusAmount, Reason, WorkerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendBonus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssignmentId"=>AssignmentId, "BonusAmount"=>BonusAmount, "Reason"=>Reason, "WorkerId"=>WorkerId), params)); aws_config=aws_config)
 
 """
     send_test_event_notification(notification, test_event_type)
@@ -875,7 +875,7 @@ the service attempts to send the test notification immediately.
 
 """
 send_test_event_notification(Notification, TestEventType; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendTestEventNotification", Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType); aws_config=aws_config)
-send_test_event_notification(Notification, TestEventType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendTestEventNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType), params)); aws_config=aws_config)
+send_test_event_notification(Notification, TestEventType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("SendTestEventNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Notification"=>Notification, "TestEventType"=>TestEventType), params)); aws_config=aws_config)
 
 """
     update_expiration_for_hit(expire_at, hitid)
@@ -890,7 +890,7 @@ you update it to a time in the past, the HIT will be immediately expired.
 
 """
 update_expiration_for_hit(ExpireAt, HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateExpirationForHIT", Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId); aws_config=aws_config)
-update_expiration_for_hit(ExpireAt, HITId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateExpirationForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId), params)); aws_config=aws_config)
+update_expiration_for_hit(ExpireAt, HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateExpirationForHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpireAt"=>ExpireAt, "HITId"=>HITId), params)); aws_config=aws_config)
 
 """
     update_hitreview_status(hitid)
@@ -910,7 +910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will only transition a HIT from Reviewing to Reviewable
 """
 update_hitreview_status(HITId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITReviewStatus", Dict{String, Any}("HITId"=>HITId); aws_config=aws_config)
-update_hitreview_status(HITId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITReviewStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
+update_hitreview_status(HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITReviewStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId), params)); aws_config=aws_config)
 
 """
     update_hittype_of_hit(hitid, hittype_id)
@@ -927,7 +927,7 @@ the old ones.
 
 """
 update_hittype_of_hit(HITId, HITTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITTypeOfHIT", Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId); aws_config=aws_config)
-update_hittype_of_hit(HITId, HITTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITTypeOfHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId), params)); aws_config=aws_config)
+update_hittype_of_hit(HITId, HITTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateHITTypeOfHIT", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITId"=>HITId, "HITTypeId"=>HITTypeId), params)); aws_config=aws_config)
 
 """
     update_notification_settings(hittype_id)
@@ -954,7 +954,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Notification"`:  The notification specification for the HIT type.
 """
 update_notification_settings(HITTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateNotificationSettings", Dict{String, Any}("HITTypeId"=>HITTypeId); aws_config=aws_config)
-update_notification_settings(HITTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateNotificationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId), params)); aws_config=aws_config)
+update_notification_settings(HITTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateNotificationSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HITTypeId"=>HITTypeId), params)); aws_config=aws_config)
 
 """
     update_qualification_type(qualification_type_id)
@@ -1011,4 +1011,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Qualification test, starting from the time the Worker requests the Qualification.
 """
 update_qualification_type(QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateQualificationType", Dict{String, Any}("QualificationTypeId"=>QualificationTypeId); aws_config=aws_config)
-update_qualification_type(QualificationTypeId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)
+update_qualification_type(QualificationTypeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("UpdateQualificationType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QualificationTypeId"=>QualificationTypeId), params)); aws_config=aws_config)

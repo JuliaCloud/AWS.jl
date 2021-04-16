@@ -38,7 +38,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests spanning hours or days.
 """
 batch_create_table_rows(rowsToCreate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate", Dict{String, Any}("rowsToCreate"=>rowsToCreate); aws_config=aws_config)
-batch_create_table_rows(rowsToCreate, tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToCreate"=>rowsToCreate), params)); aws_config=aws_config)
+batch_create_table_rows(rowsToCreate, tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToCreate"=>rowsToCreate), params)); aws_config=aws_config)
 
 """
     batch_delete_table_rows(row_ids, table_id, workbook_id)
@@ -67,7 +67,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours or days.
 """
 batch_delete_table_rows(rowIds, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete", Dict{String, Any}("rowIds"=>rowIds); aws_config=aws_config)
-batch_delete_table_rows(rowIds, tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowIds"=>rowIds), params)); aws_config=aws_config)
+batch_delete_table_rows(rowIds, tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowIds"=>rowIds), params)); aws_config=aws_config)
 
 """
     batch_update_table_rows(rows_to_update, table_id, workbook_id)
@@ -102,7 +102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours or days.
 """
 batch_update_table_rows(rowsToUpdate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate", Dict{String, Any}("rowsToUpdate"=>rowsToUpdate); aws_config=aws_config)
-batch_update_table_rows(rowsToUpdate, tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpdate"=>rowsToUpdate), params)); aws_config=aws_config)
+batch_update_table_rows(rowsToUpdate, tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpdate"=>rowsToUpdate), params)); aws_config=aws_config)
 
 """
     batch_upsert_table_rows(rows_to_upsert, table_id, workbook_id)
@@ -142,7 +142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours or days.
 """
 batch_upsert_table_rows(rowsToUpsert, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert", Dict{String, Any}("rowsToUpsert"=>rowsToUpsert); aws_config=aws_config)
-batch_upsert_table_rows(rowsToUpsert, tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpsert"=>rowsToUpsert), params)); aws_config=aws_config)
+batch_upsert_table_rows(rowsToUpsert, tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rowsToUpsert"=>rowsToUpsert), params)); aws_config=aws_config)
 
 """
     describe_table_data_import_job(job_id, table_id, workbook_id)
@@ -161,7 +161,7 @@ table data import job.
 
 """
 describe_table_data_import_job(jobId, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)"; aws_config=aws_config)
-describe_table_data_import_job(jobId, tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)", params; aws_config=aws_config)
+describe_table_data_import_job(jobId, tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)", params; aws_config=aws_config)
 
 """
     get_screen_data(app_id, screen_id, workbook_id)
@@ -190,7 +190,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   property, rawValue, which holds the value of the variable to be passed to the screen.
 """
 get_screen_data(appId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId); aws_config=aws_config)
-get_screen_data(appId, screenId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), params)); aws_config=aws_config)
+get_screen_data(appId, screenId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), params)); aws_config=aws_config)
 
 """
     invoke_screen_automation(app_id, automation_id, screen_id, workbook_id)
@@ -224,7 +224,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   variables defined in a screen are required to be passed in the call.
 """
 invoke_screen_automation(appId, automationId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)"; aws_config=aws_config)
-invoke_screen_automation(appId, automationId, screenId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", params; aws_config=aws_config)
+invoke_screen_automation(appId, automationId, screenId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", params; aws_config=aws_config)
 
 """
     list_table_columns(table_id, workbook_id)
@@ -247,7 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was returned more than an hour back, the API will throw ValidationException.
 """
 list_table_columns(tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/columns"; aws_config=aws_config)
-list_table_columns(tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/columns", params; aws_config=aws_config)
+list_table_columns(tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables/$(tableId)/columns", params; aws_config=aws_config)
 
 """
     list_table_rows(table_id, workbook_id)
@@ -274,7 +274,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified here, then all the rows in the table are returned.
 """
 list_table_rows(tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/list"; aws_config=aws_config)
-list_table_rows(tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/list", params; aws_config=aws_config)
+list_table_rows(tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/list", params; aws_config=aws_config)
 
 """
     list_tables(workbook_id)
@@ -294,7 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was returned more than an hour back, the API will throw ValidationException.
 """
 list_tables(workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables"; aws_config=aws_config)
-list_tables(workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables", params; aws_config=aws_config)
+list_tables(workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("GET", "/workbooks/$(workbookId)/tables", params; aws_config=aws_config)
 
 """
     query_table_rows(filter_formula, table_id, workbook_id)
@@ -319,7 +319,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was returned more than an hour back, the API will throw ValidationException.
 """
 query_table_rows(filterFormula, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/query", Dict{String, Any}("filterFormula"=>filterFormula); aws_config=aws_config)
-query_table_rows(filterFormula, tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterFormula"=>filterFormula), params)); aws_config=aws_config)
+query_table_rows(filterFormula, tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/rows/query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterFormula"=>filterFormula), params)); aws_config=aws_config)
 
 """
     start_table_data_import_job(client_request_token, data_format, data_source, import_options, table_id, workbook_id)
@@ -350,4 +350,4 @@ request, you need to call the DescribeTableDataImportJob API.
 
 """
 start_table_data_import_job(clientRequestToken, dataFormat, dataSource, importOptions, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/import", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "dataFormat"=>dataFormat, "dataSource"=>dataSource, "importOptions"=>importOptions); aws_config=aws_config)
-start_table_data_import_job(clientRequestToken, dataFormat, dataSource, importOptions, tableId, workbookId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "dataFormat"=>dataFormat, "dataSource"=>dataSource, "importOptions"=>importOptions), params)); aws_config=aws_config)
+start_table_data_import_job(clientRequestToken, dataFormat, dataSource, importOptions, tableId, workbookId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/tables/$(tableId)/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "dataFormat"=>dataFormat, "dataSource"=>dataSource, "importOptions"=>importOptions), params)); aws_config=aws_config)

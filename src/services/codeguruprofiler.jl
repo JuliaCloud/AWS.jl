@@ -17,7 +17,7 @@ Add up to 2 anomaly notifications channels for a profiling group.
 
 """
 add_notification_channels(channels, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/notificationConfiguration", Dict{String, Any}("channels"=>channels); aws_config=aws_config)
-add_notification_channels(channels, profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/notificationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channels"=>channels), params)); aws_config=aws_config)
+add_notification_channels(channels, profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/notificationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channels"=>channels), params)); aws_config=aws_config)
 
 """
     batch_get_frame_metric_data(profiling_group_name)
@@ -50,7 +50,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PT1H — 1 hour     PT5M — 5 minutes
 """
 batch_get_frame_metric_data(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/frames/-/metrics"; aws_config=aws_config)
-batch_get_frame_metric_data(profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/frames/-/metrics", params; aws_config=aws_config)
+batch_get_frame_metric_data(profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/frames/-/metrics", params; aws_config=aws_config)
 
 """
     configure_agent(profiling_group_name)
@@ -83,7 +83,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Lambda invocation.
 """
 configure_agent(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/configureAgent"; aws_config=aws_config)
-configure_agent(profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/configureAgent", params; aws_config=aws_config)
+configure_agent(profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/configureAgent", params; aws_config=aws_config)
 
 """
     create_profiling_group(client_token, profiling_group_name)
@@ -108,7 +108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  A list of tags to add to the created profiling group.
 """
 create_profiling_group(clientToken, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups", Dict{String, Any}("clientToken"=>clientToken, "profilingGroupName"=>profilingGroupName); aws_config=aws_config)
-create_profiling_group(clientToken, profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "profilingGroupName"=>profilingGroupName), params)); aws_config=aws_config)
+create_profiling_group(clientToken, profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "profilingGroupName"=>profilingGroupName), params)); aws_config=aws_config)
 
 """
     delete_profiling_group(profiling_group_name)
@@ -121,7 +121,7 @@ Deletes a profiling group.
 
 """
 delete_profiling_group(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)"; aws_config=aws_config)
-delete_profiling_group(profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)", params; aws_config=aws_config)
+delete_profiling_group(profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)", params; aws_config=aws_config)
 
 """
     describe_profiling_group(profiling_group_name)
@@ -135,7 +135,7 @@ profiling group.
 
 """
 describe_profiling_group(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)"; aws_config=aws_config)
-describe_profiling_group(profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)", params; aws_config=aws_config)
+describe_profiling_group(profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)", params; aws_config=aws_config)
 
 """
     get_findings_report_account_summary()
@@ -161,7 +161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
 get_findings_report_account_summary(; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/findingsReports"; aws_config=aws_config)
-get_findings_report_account_summary(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/findingsReports", params; aws_config=aws_config)
+get_findings_report_account_summary(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/findingsReports", params; aws_config=aws_config)
 
 """
     get_notification_configuration(profiling_group_name)
@@ -175,7 +175,7 @@ Get the current configuration for anomaly notifications for a profiling group.
 
 """
 get_notification_configuration(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/notificationConfiguration"; aws_config=aws_config)
-get_notification_configuration(profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/notificationConfiguration", params; aws_config=aws_config)
+get_notification_configuration(profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/notificationConfiguration", params; aws_config=aws_config)
 
 """
     get_policy(profiling_group_name)
@@ -188,7 +188,7 @@ get_notification_configuration(profilingGroupName, params::AbstractDict{String, 
 
 """
 get_policy(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/policy"; aws_config=aws_config)
-get_policy(profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/policy", params; aws_config=aws_config)
+get_policy(profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/policy", params; aws_config=aws_config)
 
 """
     get_profile(profiling_group_name)
@@ -261,7 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   &lt;/p&gt;
 """
 get_profile(profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profile"; aws_config=aws_config)
-get_profile(profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profile", params; aws_config=aws_config)
+get_profile(profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profile", params; aws_config=aws_config)
 
 """
     get_recommendations(end_time, profiling_group_name, start_time)
@@ -290,7 +290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Chinese, Taiwan
 """
 get_recommendations(endTime, profilingGroupName, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/profilingGroups/$(profilingGroupName)/recommendations", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime); aws_config=aws_config)
-get_recommendations(endTime, profilingGroupName, startTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/profilingGroups/$(profilingGroupName)/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config)
+get_recommendations(endTime, profilingGroupName, startTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/profilingGroups/$(profilingGroupName)/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config)
 
 """
     list_findings_reports(end_time, profiling_group_name, start_time)
@@ -325,7 +325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is only used to retrieve the next items in a list and not for other programmatic purposes.
 """
 list_findings_reports(endTime, profilingGroupName, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/profilingGroups/$(profilingGroupName)/findingsReports", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime); aws_config=aws_config)
-list_findings_reports(endTime, profilingGroupName, startTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/profilingGroups/$(profilingGroupName)/findingsReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config)
+list_findings_reports(endTime, profilingGroupName, startTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/internal/profilingGroups/$(profilingGroupName)/findingsReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime), params)); aws_config=aws_config)
 
 """
     list_profile_times(end_time, period, profiling_group_name, start_time)
@@ -358,7 +358,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing profiles. Defaults to TIMESTAMP_DESCENDING.
 """
 list_profile_times(endTime, period, profilingGroupName, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profileTimes", Dict{String, Any}("endTime"=>endTime, "period"=>period, "startTime"=>startTime); aws_config=aws_config)
-list_profile_times(endTime, period, profilingGroupName, startTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profileTimes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "period"=>period, "startTime"=>startTime), params)); aws_config=aws_config)
+list_profile_times(endTime, period, profilingGroupName, startTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profileTimes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "period"=>period, "startTime"=>startTime), params)); aws_config=aws_config)
 
 """
     list_profiling_groups()
@@ -385,7 +385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next items in a list and not for other programmatic purposes.
 """
 list_profiling_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups"; aws_config=aws_config)
-list_profiling_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups", params; aws_config=aws_config)
+list_profiling_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/profilingGroups", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -399,7 +399,7 @@ list_profiling_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractA
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     post_agent_profile(content-_type, agent_profile, profiling_group_name)
@@ -428,7 +428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   failures and retries.
 """
 post_agent_profile(Content_Type, agentProfile, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/agentProfile", Dict{String, Any}("agentProfile"=>agentProfile, "profileToken"=>string(uuid4()), "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
-post_agent_profile(Content_Type, agentProfile, profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/agentProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentProfile"=>agentProfile, "profileToken"=>string(uuid4()), "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)
+post_agent_profile(Content_Type, agentProfile, profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/agentProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentProfile"=>agentProfile, "profileToken"=>string(uuid4()), "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)
 
 """
     put_permission(action_group, principals, profiling_group_name)
@@ -471,7 +471,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify the revisionId.
 """
 put_permission(actionGroup, principals, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", Dict{String, Any}("principals"=>principals); aws_config=aws_config)
-put_permission(actionGroup, principals, profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principals"=>principals), params)); aws_config=aws_config)
+put_permission(actionGroup, principals, profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principals"=>principals), params)); aws_config=aws_config)
 
 """
     remove_notification_channel(channel_id, profiling_group_name)
@@ -486,7 +486,7 @@ Remove one anomaly notifications channel for a profiling group.
 
 """
 remove_notification_channel(channelId, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/notificationConfiguration/$(channelId)"; aws_config=aws_config)
-remove_notification_channel(channelId, profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/notificationConfiguration/$(channelId)", params; aws_config=aws_config)
+remove_notification_channel(channelId, profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/notificationConfiguration/$(channelId)", params; aws_config=aws_config)
 
 """
     remove_permission(action_group, profiling_group_name, revision_id)
@@ -508,7 +508,7 @@ ConfigureAgent , and  PostAgentProfile .
 
 """
 remove_permission(actionGroup, profilingGroupName, revisionId; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", Dict{String, Any}("revisionId"=>revisionId); aws_config=aws_config)
-remove_permission(actionGroup, profilingGroupName, revisionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("revisionId"=>revisionId), params)); aws_config=aws_config)
+remove_permission(actionGroup, profilingGroupName, revisionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("revisionId"=>revisionId), params)); aws_config=aws_config)
 
 """
     submit_feedback(anomaly_instance_id, profiling_group_name, type)
@@ -529,7 +529,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"comment"`: Optional feedback about this anomaly.
 """
 submit_feedback(anomalyInstanceId, profilingGroupName, type; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/internal/profilingGroups/$(profilingGroupName)/anomalies/$(anomalyInstanceId)/feedback", Dict{String, Any}("type"=>type); aws_config=aws_config)
-submit_feedback(anomalyInstanceId, profilingGroupName, type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/internal/profilingGroups/$(profilingGroupName)/anomalies/$(anomalyInstanceId)/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config)
+submit_feedback(anomalyInstanceId, profilingGroupName, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/internal/profilingGroups/$(profilingGroupName)/anomalies/$(anomalyInstanceId)/feedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -544,7 +544,7 @@ submit_feedback(anomalyInstanceId, profilingGroupName, type, params::AbstractDic
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -560,7 +560,7 @@ tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config:
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_profiling_group(agent_orchestration_config, profiling_group_name)
@@ -575,4 +575,4 @@ Updates a profiling group.
 
 """
 update_profiling_group(agentOrchestrationConfig, profilingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)", Dict{String, Any}("agentOrchestrationConfig"=>agentOrchestrationConfig); aws_config=aws_config)
-update_profiling_group(agentOrchestrationConfig, profilingGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentOrchestrationConfig"=>agentOrchestrationConfig), params)); aws_config=aws_config)
+update_profiling_group(agentOrchestrationConfig, profilingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentOrchestrationConfig"=>agentOrchestrationConfig), params)); aws_config=aws_config)

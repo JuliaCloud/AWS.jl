@@ -35,7 +35,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group association.
 """
 associate_firewall_rule_group(CreatorRequestId, FirewallRuleGroupId, Name, Priority, VpcId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateFirewallRuleGroup", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority, "VpcId"=>VpcId); aws_config=aws_config)
-associate_firewall_rule_group(CreatorRequestId, FirewallRuleGroupId, Name, Priority, VpcId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority, "VpcId"=>VpcId), params)); aws_config=aws_config)
+associate_firewall_rule_group(CreatorRequestId, FirewallRuleGroupId, Name, Priority, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority, "VpcId"=>VpcId), params)); aws_config=aws_config)
 
 """
     associate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id)
@@ -55,7 +55,7 @@ DisassociateResolverEndpointIpAddress.
 
 """
 associate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-associate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
+associate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
 
 """
     associate_resolver_query_log_config(resolver_query_log_config_id, resource_id)
@@ -77,7 +77,7 @@ DisassociateResolverQueryLogConfig.
 
 """
 associate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverQueryLogConfig", Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId); aws_config=aws_config)
-associate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
+associate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
     associate_resolver_rule(resolver_rule_id, vpcid)
@@ -99,7 +99,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC.
 """
 associate_resolver_rule(ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId); aws_config=aws_config)
-associate_resolver_rule(ResolverRuleId, VPCId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), params)); aws_config=aws_config)
+associate_resolver_rule(ResolverRuleId, VPCId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("AssociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), params)); aws_config=aws_config)
 
 """
     create_firewall_domain_list(creator_request_id, name)
@@ -121,7 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list.
 """
 create_firewall_domain_list(CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallDomainList", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name); aws_config=aws_config)
-create_firewall_domain_list(CreatorRequestId, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name), params)); aws_config=aws_config)
+create_firewall_domain_list(CreatorRequestId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_firewall_rule(action, creator_request_id, firewall_domain_list_id, firewall_rule_group_id, name, priority)
@@ -170,7 +170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   setting is required if the rule action setting is BLOCK.
 """
 create_firewall_rule(Action, CreatorRequestId, FirewallDomainListId, FirewallRuleGroupId, Name, Priority; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRule", Dict{String, Any}("Action"=>Action, "CreatorRequestId"=>CreatorRequestId, "FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority); aws_config=aws_config)
-create_firewall_rule(Action, CreatorRequestId, FirewallDomainListId, FirewallRuleGroupId, Name, Priority, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "CreatorRequestId"=>CreatorRequestId, "FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority), params)); aws_config=aws_config)
+create_firewall_rule(Action, CreatorRequestId, FirewallDomainListId, FirewallRuleGroupId, Name, Priority, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "CreatorRequestId"=>CreatorRequestId, "FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId, "Name"=>Name, "Priority"=>Priority), params)); aws_config=aws_config)
 
 """
     create_firewall_rule_group(creator_request_id, name)
@@ -191,7 +191,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group.
 """
 create_firewall_rule_group(CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRuleGroup", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name); aws_config=aws_config)
-create_firewall_rule_group(CreatorRequestId, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name), params)); aws_config=aws_config)
+create_firewall_rule_group(CreatorRequestId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_resolver_endpoint(creator_request_id, direction, ip_addresses, security_group_ids)
@@ -226,7 +226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
 """
 create_resolver_endpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverEndpoint", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds); aws_config=aws_config)
-create_resolver_endpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds), params)); aws_config=aws_config)
+create_resolver_endpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds), params)); aws_config=aws_config)
 
 """
     create_resolver_query_log_config(creator_request_id, destination_arn, name)
@@ -262,7 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   logging configuration.
 """
 create_resolver_query_log_config(CreatorRequestId, DestinationArn, Name; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverQueryLogConfig", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DestinationArn"=>DestinationArn, "Name"=>Name); aws_config=aws_config)
-create_resolver_query_log_config(CreatorRequestId, DestinationArn, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DestinationArn"=>DestinationArn, "Name"=>Name), params)); aws_config=aws_config)
+create_resolver_query_log_config(CreatorRequestId, DestinationArn, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DestinationArn"=>DestinationArn, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_resolver_rule(creator_request_id, domain_name, rule_type)
@@ -301,7 +301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of Rule type is FORWARD.
 """
 create_resolver_rule(CreatorRequestId, DomainName, RuleType; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType); aws_config=aws_config)
-create_resolver_rule(CreatorRequestId, DomainName, RuleType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType), params)); aws_config=aws_config)
+create_resolver_rule(CreatorRequestId, DomainName, RuleType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType), params)); aws_config=aws_config)
 
 """
     delete_firewall_domain_list(firewall_domain_list_id)
@@ -314,7 +314,7 @@ Deletes the specified domain list.
 
 """
 delete_firewall_domain_list(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallDomainList", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId); aws_config=aws_config)
-delete_firewall_domain_list(FirewallDomainListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
+delete_firewall_domain_list(FirewallDomainListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
 
 """
     delete_firewall_rule(firewall_domain_list_id, firewall_rule_group_id)
@@ -329,7 +329,7 @@ Deletes the specified firewall rule.
 
 """
 delete_firewall_rule(FirewallDomainListId, FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRule", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
-delete_firewall_rule(FirewallDomainListId, FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+delete_firewall_rule(FirewallDomainListId, FirewallRuleGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
 
 """
     delete_firewall_rule_group(firewall_rule_group_id)
@@ -343,7 +343,7 @@ Deletes the specified firewall rule group.
 
 """
 delete_firewall_rule_group(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRuleGroup", Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
-delete_firewall_rule_group(FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+delete_firewall_rule_group(FirewallRuleGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
 
 """
     delete_resolver_endpoint(resolver_endpoint_id)
@@ -359,7 +359,7 @@ from a VPC are no longer routed to your network.
 
 """
 delete_resolver_endpoint(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-delete_resolver_endpoint(ResolverEndpointId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
+delete_resolver_endpoint(ResolverEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
 
 """
     delete_resolver_query_log_config(resolver_query_log_config_id)
@@ -383,7 +383,7 @@ automatically disassociated from the configuration.
 
 """
 delete_resolver_query_log_config(ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverQueryLogConfig", Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId); aws_config=aws_config)
-delete_resolver_query_log_config(ResolverQueryLogConfigId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId), params)); aws_config=aws_config)
+delete_resolver_query_log_config(ResolverQueryLogConfigId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId), params)); aws_config=aws_config)
 
 """
     delete_resolver_rule(resolver_rule_id)
@@ -398,7 +398,7 @@ DisassociateResolverRule.
 
 """
 delete_resolver_rule(ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
-delete_resolver_rule(ResolverRuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config)
+delete_resolver_rule(ResolverRuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DeleteResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config)
 
 """
     disassociate_firewall_rule_group(firewall_rule_group_association_id)
@@ -411,7 +411,7 @@ Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the V
 
 """
 disassociate_firewall_rule_group(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateFirewallRuleGroup", Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId); aws_config=aws_config)
-disassociate_firewall_rule_group(FirewallRuleGroupAssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
+disassociate_firewall_rule_group(FirewallRuleGroupAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
 
 """
     disassociate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id)
@@ -429,7 +429,7 @@ AssociateResolverEndpointIpAddress.
 
 """
 disassociate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-disassociate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
+disassociate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
 
 """
     disassociate_resolver_query_log_config(resolver_query_log_config_id, resource_id)
@@ -450,7 +450,7 @@ configuration.   You can stop sharing the configuration.
 
 """
 disassociate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverQueryLogConfig", Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId); aws_config=aws_config)
-disassociate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
+disassociate_resolver_query_log_config(ResolverQueryLogConfigId, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
     disassociate_resolver_rule(resolver_rule_id, vpcid)
@@ -467,7 +467,7 @@ domain name that you specified in the Resolver rule.
 
 """
 disassociate_resolver_rule(ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId); aws_config=aws_config)
-disassociate_resolver_rule(ResolverRuleId, VPCId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), params)); aws_config=aws_config)
+disassociate_resolver_rule(ResolverRuleId, VPCId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("DisassociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), params)); aws_config=aws_config)
 
 """
     get_firewall_config(resource_id)
@@ -482,7 +482,7 @@ Amazon virtual private cloud (VPC).
 
 """
 get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallConfig", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-get_firewall_config(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
+get_firewall_config(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
     get_firewall_domain_list(firewall_domain_list_id)
@@ -495,7 +495,7 @@ Retrieves the specified firewall domain list.
 
 """
 get_firewall_domain_list(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallDomainList", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId); aws_config=aws_config)
-get_firewall_domain_list(FirewallDomainListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
+get_firewall_domain_list(FirewallDomainListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallDomainList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
 
 """
     get_firewall_rule_group(firewall_rule_group_id)
@@ -508,7 +508,7 @@ Retrieves the specified firewall rule group.
 
 """
 get_firewall_rule_group(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroup", Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
-get_firewall_rule_group(FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+get_firewall_rule_group(FirewallRuleGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
 
 """
     get_firewall_rule_group_association(firewall_rule_group_association_id)
@@ -523,7 +523,7 @@ can be associated with more than one VPC.
 
 """
 get_firewall_rule_group_association(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupAssociation", Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId); aws_config=aws_config)
-get_firewall_rule_group_association(FirewallRuleGroupAssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
+get_firewall_rule_group_association(FirewallRuleGroupAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
 
 """
     get_firewall_rule_group_policy(arn)
@@ -538,7 +538,7 @@ Manager (RAM).
 
 """
 get_firewall_rule_group_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupPolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-get_firewall_rule_group_policy(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+get_firewall_rule_group_policy(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallRuleGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
 
 """
     get_resolver_dnssec_config(resource_id)
@@ -551,7 +551,7 @@ Gets DNSSEC validation information for a specified resource.
 
 """
 get_resolver_dnssec_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverDnssecConfig", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-get_resolver_dnssec_config(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverDnssecConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
+get_resolver_dnssec_config(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverDnssecConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
     get_resolver_endpoint(resolver_endpoint_id)
@@ -566,7 +566,7 @@ outbound Resolver endpoint, and the current status of the endpoint.
 
 """
 get_resolver_endpoint(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-get_resolver_endpoint(ResolverEndpointId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
+get_resolver_endpoint(ResolverEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
 
 """
     get_resolver_query_log_config(resolver_query_log_config_id)
@@ -582,7 +582,7 @@ to.
 
 """
 get_resolver_query_log_config(ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfig", Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId); aws_config=aws_config)
-get_resolver_query_log_config(ResolverQueryLogConfigId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId), params)); aws_config=aws_config)
+get_resolver_query_log_config(ResolverQueryLogConfigId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigId"=>ResolverQueryLogConfigId), params)); aws_config=aws_config)
 
 """
     get_resolver_query_log_config_association(resolver_query_log_config_association_id)
@@ -598,7 +598,7 @@ configuration, Resolver logs DNS queries that originate in that VPC.
 
 """
 get_resolver_query_log_config_association(ResolverQueryLogConfigAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfigAssociation", Dict{String, Any}("ResolverQueryLogConfigAssociationId"=>ResolverQueryLogConfigAssociationId); aws_config=aws_config)
-get_resolver_query_log_config_association(ResolverQueryLogConfigAssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfigAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigAssociationId"=>ResolverQueryLogConfigAssociationId), params)); aws_config=aws_config)
+get_resolver_query_log_config_association(ResolverQueryLogConfigAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfigAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverQueryLogConfigAssociationId"=>ResolverQueryLogConfigAssociationId), params)); aws_config=aws_config)
 
 """
     get_resolver_query_log_config_policy(arn)
@@ -614,7 +614,7 @@ to be able to use.
 
 """
 get_resolver_query_log_config_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfigPolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-get_resolver_query_log_config_policy(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfigPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+get_resolver_query_log_config_policy(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverQueryLogConfigPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
 
 """
     get_resolver_rule(resolver_rule_id)
@@ -629,7 +629,7 @@ associated with.
 
 """
 get_resolver_rule(ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
-get_resolver_rule(ResolverRuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config)
+get_resolver_rule(ResolverRuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config)
 
 """
     get_resolver_rule_association(resolver_rule_association_id)
@@ -644,7 +644,7 @@ associate a Resolver rule and a VPC using AssociateResolverRule.
 
 """
 get_resolver_rule_association(ResolverRuleAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRuleAssociation", Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId); aws_config=aws_config)
-get_resolver_rule_association(ResolverRuleAssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRuleAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId), params)); aws_config=aws_config)
+get_resolver_rule_association(ResolverRuleAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRuleAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId), params)); aws_config=aws_config)
 
 """
     get_resolver_rule_policy(arn)
@@ -660,7 +660,7 @@ to use.
 
 """
 get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-get_resolver_rule_policy(Arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
+get_resolver_rule_policy(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), params)); aws_config=aws_config)
 
 """
     import_firewall_domains(domain_file_url, firewall_domain_list_id, operation)
@@ -685,7 +685,7 @@ must be from 1-255 characters in length.
 
 """
 import_firewall_domains(DomainFileUrl, FirewallDomainListId, Operation; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ImportFirewallDomains", Dict{String, Any}("DomainFileUrl"=>DomainFileUrl, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation); aws_config=aws_config)
-import_firewall_domains(DomainFileUrl, FirewallDomainListId, Operation, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ImportFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainFileUrl"=>DomainFileUrl, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation), params)); aws_config=aws_config)
+import_firewall_domains(DomainFileUrl, FirewallDomainListId, Operation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ImportFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainFileUrl"=>DomainFileUrl, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation), params)); aws_config=aws_config)
 
 """
     list_firewall_configs()
@@ -708,7 +708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 """
 list_firewall_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallConfigs"; aws_config=aws_config)
-list_firewall_configs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallConfigs", params; aws_config=aws_config)
+list_firewall_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallConfigs", params; aws_config=aws_config)
 
 """
     list_firewall_domain_lists()
@@ -732,7 +732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 """
 list_firewall_domain_lists(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomainLists"; aws_config=aws_config)
-list_firewall_domain_lists(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomainLists", params; aws_config=aws_config)
+list_firewall_domain_lists(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomainLists", params; aws_config=aws_config)
 
 """
     list_firewall_domains(firewall_domain_list_id)
@@ -758,7 +758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 """
 list_firewall_domains(FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomains", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId); aws_config=aws_config)
-list_firewall_domains(FirewallDomainListId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
+list_firewall_domains(FirewallDomainListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId), params)); aws_config=aws_config)
 
 """
     list_firewall_rule_group_associations()
@@ -792,7 +792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for. Leave this blank to retrieve associations for any VPC.
 """
 list_firewall_rule_group_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroupAssociations"; aws_config=aws_config)
-list_firewall_rule_group_associations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroupAssociations", params; aws_config=aws_config)
+list_firewall_rule_group_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroupAssociations", params; aws_config=aws_config)
 
 """
     list_firewall_rule_groups()
@@ -815,7 +815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 """
 list_firewall_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroups"; aws_config=aws_config)
-list_firewall_rule_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroups", params; aws_config=aws_config)
+list_firewall_rule_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRuleGroups", params; aws_config=aws_config)
 
 """
     list_firewall_rules(firewall_rule_group_id)
@@ -850,7 +850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rules in a rule group by order of priority, starting from the lowest setting.
 """
 list_firewall_rules(FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRules", Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
-list_firewall_rules(FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+list_firewall_rules(FirewallRuleGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListFirewallRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
 
 """
     list_resolver_dnssec_configs()
@@ -872,7 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken in the request.
 """
 list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverDnssecConfigs"; aws_config=aws_config)
-list_resolver_dnssec_configs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverDnssecConfigs", params; aws_config=aws_config)
+list_resolver_dnssec_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverDnssecConfigs", params; aws_config=aws_config)
 
 """
     list_resolver_endpoint_ip_addresses(resolver_endpoint_id)
@@ -895,7 +895,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next request, specify the value of NextToken from the previous response.
 """
 list_resolver_endpoint_ip_addresses(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-list_resolver_endpoint_ip_addresses(ResolverEndpointId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
+list_resolver_endpoint_ip_addresses(ResolverEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
 
 """
     list_resolver_endpoints()
@@ -918,7 +918,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of NextToken from the previous response.
 """
 list_resolver_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpoints"; aws_config=aws_config)
-list_resolver_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpoints", params; aws_config=aws_config)
+list_resolver_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverEndpoints", params; aws_config=aws_config)
 
 """
     list_resolver_query_log_config_associations()
@@ -965,7 +965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter, you must use the same value for SortOrder, if any, as in the previous request.
 """
 list_resolver_query_log_config_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigAssociations"; aws_config=aws_config)
-list_resolver_query_log_config_associations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigAssociations", params; aws_config=aws_config)
+list_resolver_query_log_config_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigAssociations", params; aws_config=aws_config)
 
 """
     list_resolver_query_log_configs()
@@ -1015,7 +1015,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must use the same value for SortOrder, if any, as in the previous request.
 """
 list_resolver_query_log_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigs"; aws_config=aws_config)
-list_resolver_query_log_configs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigs", params; aws_config=aws_config)
+list_resolver_query_log_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverQueryLogConfigs", params; aws_config=aws_config)
 
 """
     list_resolver_rule_associations()
@@ -1039,7 +1039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request, specify the value of NextToken from the previous response.
 """
 list_resolver_rule_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRuleAssociations"; aws_config=aws_config)
-list_resolver_rule_associations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRuleAssociations", params; aws_config=aws_config)
+list_resolver_rule_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRuleAssociations", params; aws_config=aws_config)
 
 """
     list_resolver_rules()
@@ -1062,7 +1062,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response.
 """
 list_resolver_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRules"; aws_config=aws_config)
-list_resolver_rules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRules", params; aws_config=aws_config)
+list_resolver_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListResolverRules", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -1085,7 +1085,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the previous response.
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     put_firewall_rule_group_policy(arn, firewall_rule_group_policy)
@@ -1101,7 +1101,7 @@ You can use the policy to share the rule group using AWS Resource Access Manager
 
 """
 put_firewall_rule_group_policy(Arn, FirewallRuleGroupPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutFirewallRuleGroupPolicy", Dict{String, Any}("Arn"=>Arn, "FirewallRuleGroupPolicy"=>FirewallRuleGroupPolicy); aws_config=aws_config)
-put_firewall_rule_group_policy(Arn, FirewallRuleGroupPolicy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutFirewallRuleGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "FirewallRuleGroupPolicy"=>FirewallRuleGroupPolicy), params)); aws_config=aws_config)
+put_firewall_rule_group_policy(Arn, FirewallRuleGroupPolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutFirewallRuleGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "FirewallRuleGroupPolicy"=>FirewallRuleGroupPolicy), params)); aws_config=aws_config)
 
 """
     put_resolver_query_log_config_policy(arn, resolver_query_log_config_policy)
@@ -1126,7 +1126,7 @@ account to be able to perform on the configuration.
 
 """
 put_resolver_query_log_config_policy(Arn, ResolverQueryLogConfigPolicy; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutResolverQueryLogConfigPolicy", Dict{String, Any}("Arn"=>Arn, "ResolverQueryLogConfigPolicy"=>ResolverQueryLogConfigPolicy); aws_config=aws_config)
-put_resolver_query_log_config_policy(Arn, ResolverQueryLogConfigPolicy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutResolverQueryLogConfigPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ResolverQueryLogConfigPolicy"=>ResolverQueryLogConfigPolicy), params)); aws_config=aws_config)
+put_resolver_query_log_config_policy(Arn, ResolverQueryLogConfigPolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutResolverQueryLogConfigPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ResolverQueryLogConfigPolicy"=>ResolverQueryLogConfigPolicy), params)); aws_config=aws_config)
 
 """
     put_resolver_rule_policy(arn, resolver_rule_policy)
@@ -1150,7 +1150,7 @@ perform on the rule.
 
 """
 put_resolver_rule_policy(Arn, ResolverRulePolicy; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutResolverRulePolicy", Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy); aws_config=aws_config)
-put_resolver_rule_policy(Arn, ResolverRulePolicy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy), params)); aws_config=aws_config)
+put_resolver_rule_policy(Arn, ResolverRulePolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("PutResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -1167,7 +1167,7 @@ Adds one or more tags to a specified resource.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1184,7 +1184,7 @@ Removes one or more tags from a specified resource.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_firewall_config(firewall_fail_open, resource_id)
@@ -1207,7 +1207,7 @@ Amazon virtual private cloud (VPC).
 
 """
 update_firewall_config(FirewallFailOpen, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallConfig", Dict{String, Any}("FirewallFailOpen"=>FirewallFailOpen, "ResourceId"=>ResourceId); aws_config=aws_config)
-update_firewall_config(FirewallFailOpen, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallFailOpen"=>FirewallFailOpen, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
+update_firewall_config(FirewallFailOpen, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallFailOpen"=>FirewallFailOpen, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
     update_firewall_domains(domains, firewall_domain_list_id, operation)
@@ -1229,7 +1229,7 @@ Updates the firewall domain list from an array of domain specifications.
 
 """
 update_firewall_domains(Domains, FirewallDomainListId, Operation; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallDomains", Dict{String, Any}("Domains"=>Domains, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation); aws_config=aws_config)
-update_firewall_domains(Domains, FirewallDomainListId, Operation, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domains"=>Domains, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation), params)); aws_config=aws_config)
+update_firewall_domains(Domains, FirewallDomainListId, Operation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallDomains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Domains"=>Domains, "FirewallDomainListId"=>FirewallDomainListId, "Operation"=>Operation), params)); aws_config=aws_config)
 
 """
     update_firewall_rule(firewall_domain_list_id, firewall_rule_group_id)
@@ -1269,7 +1269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any time.
 """
 update_firewall_rule(FirewallDomainListId, FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRule", Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId); aws_config=aws_config)
-update_firewall_rule(FirewallDomainListId, FirewallRuleGroupId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
+update_firewall_rule(FirewallDomainListId, FirewallRuleGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallDomainListId"=>FirewallDomainListId, "FirewallRuleGroupId"=>FirewallRuleGroupId), params)); aws_config=aws_config)
 
 """
     update_firewall_rule_group_association(firewall_rule_group_association_id)
@@ -1295,7 +1295,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create it.
 """
 update_firewall_rule_group_association(FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRuleGroupAssociation", Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId); aws_config=aws_config)
-update_firewall_rule_group_association(FirewallRuleGroupAssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRuleGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
+update_firewall_rule_group_association(FirewallRuleGroupAssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallRuleGroupAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallRuleGroupAssociationId"=>FirewallRuleGroupAssociationId), params)); aws_config=aws_config)
 
 """
     update_resolver_dnssec_config(resource_id, validation)
@@ -1313,7 +1313,7 @@ validation configuration, one is created.
 
 """
 update_resolver_dnssec_config(ResourceId, Validation; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverDnssecConfig", Dict{String, Any}("ResourceId"=>ResourceId, "Validation"=>Validation); aws_config=aws_config)
-update_resolver_dnssec_config(ResourceId, Validation, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverDnssecConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Validation"=>Validation), params)); aws_config=aws_config)
+update_resolver_dnssec_config(ResourceId, Validation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverDnssecConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Validation"=>Validation), params)); aws_config=aws_config)
 
 """
     update_resolver_endpoint(resolver_endpoint_id)
@@ -1329,7 +1329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the Resolver endpoint that you want to update.
 """
 update_resolver_endpoint(ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-update_resolver_endpoint(ResolverEndpointId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
+update_resolver_endpoint(ResolverEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), params)); aws_config=aws_config)
 
 """
     update_resolver_rule(config, resolver_rule_id)
@@ -1344,4 +1344,4 @@ parameters are optional. If you don't specify a parameter, it retains its curren
 
 """
 update_resolver_rule(Config, ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverRule", Dict{String, Any}("Config"=>Config, "ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
-update_resolver_rule(Config, ResolverRuleId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config, "ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config)
+update_resolver_rule(Config, ResolverRuleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config, "ResolverRuleId"=>ResolverRuleId), params)); aws_config=aws_config)

@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be associated with the application.
 """
 create_app(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("CreateApp"; aws_config=aws_config)
-create_app(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("CreateApp", params; aws_config=aws_config)
+create_app(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("CreateApp", params; aws_config=aws_config)
 
 """
     create_replication_job(seed_replication_time, server_id)
@@ -53,7 +53,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"runOnce"`: Indicates whether to run the replication job one time.
 """
 create_replication_job(seedReplicationTime, serverId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("CreateReplicationJob", Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId); aws_config=aws_config)
-create_replication_job(seedReplicationTime, serverId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("CreateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId), params)); aws_config=aws_config)
+create_replication_job(seedReplicationTime, serverId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("CreateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId), params)); aws_config=aws_config)
 
 """
     delete_app()
@@ -71,7 +71,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application while deleting the application.
 """
 delete_app(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteApp"; aws_config=aws_config)
-delete_app(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteApp", params; aws_config=aws_config)
+delete_app(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteApp", params; aws_config=aws_config)
 
 """
     delete_app_launch_configuration()
@@ -84,7 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 delete_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppLaunchConfiguration"; aws_config=aws_config)
-delete_app_launch_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppLaunchConfiguration", params; aws_config=aws_config)
+delete_app_launch_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppLaunchConfiguration", params; aws_config=aws_config)
 
 """
     delete_app_replication_configuration()
@@ -97,7 +97,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 delete_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppReplicationConfiguration"; aws_config=aws_config)
-delete_app_replication_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppReplicationConfiguration", params; aws_config=aws_config)
+delete_app_replication_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppReplicationConfiguration", params; aws_config=aws_config)
 
 """
     delete_app_validation_configuration(app_id)
@@ -110,7 +110,7 @@ Deletes the validation configuration for the specified application.
 
 """
 delete_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws_config=aws_config)
-delete_app_validation_configuration(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
+delete_app_validation_configuration(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
 
 """
     delete_replication_job(replication_job_id)
@@ -125,7 +125,7 @@ AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
 
 """
 delete_replication_job(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteReplicationJob", Dict{String, Any}("replicationJobId"=>replicationJobId); aws_config=aws_config)
-delete_replication_job(replicationJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config)
+delete_replication_job(replicationJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config)
 
 """
     delete_server_catalog()
@@ -135,7 +135,7 @@ Deletes all servers from your server catalog.
 
 """
 delete_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteServerCatalog"; aws_config=aws_config)
-delete_server_catalog(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteServerCatalog", params; aws_config=aws_config)
+delete_server_catalog(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DeleteServerCatalog", params; aws_config=aws_config)
 
 """
     disassociate_connector(connector_id)
@@ -149,7 +149,7 @@ is no longer available to support replication jobs.
 
 """
 disassociate_connector(connectorId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DisassociateConnector", Dict{String, Any}("connectorId"=>connectorId); aws_config=aws_config)
-disassociate_connector(connectorId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DisassociateConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorId"=>connectorId), params)); aws_config=aws_config)
+disassociate_connector(connectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("DisassociateConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorId"=>connectorId), params)); aws_config=aws_config)
 
 """
     generate_change_set()
@@ -164,7 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"changesetFormat"`: The format for the change set.
 """
 generate_change_set(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GenerateChangeSet"; aws_config=aws_config)
-generate_change_set(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GenerateChangeSet", params; aws_config=aws_config)
+generate_change_set(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GenerateChangeSet", params; aws_config=aws_config)
 
 """
     generate_template()
@@ -179,7 +179,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateFormat"`: The format for generating the AWS CloudFormation template.
 """
 generate_template(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GenerateTemplate"; aws_config=aws_config)
-generate_template(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GenerateTemplate", params; aws_config=aws_config)
+generate_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GenerateTemplate", params; aws_config=aws_config)
 
 """
     get_app()
@@ -192,7 +192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 get_app(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetApp"; aws_config=aws_config)
-get_app(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetApp", params; aws_config=aws_config)
+get_app(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetApp", params; aws_config=aws_config)
 
 """
     get_app_launch_configuration()
@@ -205,7 +205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 get_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppLaunchConfiguration"; aws_config=aws_config)
-get_app_launch_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppLaunchConfiguration", params; aws_config=aws_config)
+get_app_launch_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppLaunchConfiguration", params; aws_config=aws_config)
 
 """
     get_app_replication_configuration()
@@ -219,7 +219,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 get_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppReplicationConfiguration"; aws_config=aws_config)
-get_app_replication_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppReplicationConfiguration", params; aws_config=aws_config)
+get_app_replication_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppReplicationConfiguration", params; aws_config=aws_config)
 
 """
     get_app_validation_configuration(app_id)
@@ -232,7 +232,7 @@ Retrieves information about a configuration for validating an application.
 
 """
 get_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws_config=aws_config)
-get_app_validation_configuration(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
+get_app_validation_configuration(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
 
 """
     get_app_validation_output(app_id)
@@ -245,7 +245,7 @@ Retrieves output from validating an application.
 
 """
 get_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppValidationOutput", Dict{String, Any}("appId"=>appId); aws_config=aws_config)
-get_app_validation_output(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
+get_app_validation_output(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
 
 """
     get_connectors()
@@ -261,7 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 get_connectors(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetConnectors"; aws_config=aws_config)
-get_connectors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetConnectors", params; aws_config=aws_config)
+get_connectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetConnectors", params; aws_config=aws_config)
 
 """
     get_replication_jobs()
@@ -278,7 +278,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"replicationJobId"`: The ID of the replication job.
 """
 get_replication_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetReplicationJobs"; aws_config=aws_config)
-get_replication_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetReplicationJobs", params; aws_config=aws_config)
+get_replication_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetReplicationJobs", params; aws_config=aws_config)
 
 """
     get_replication_runs(replication_job_id)
@@ -297,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 get_replication_runs(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetReplicationRuns", Dict{String, Any}("replicationJobId"=>replicationJobId); aws_config=aws_config)
-get_replication_runs(replicationJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetReplicationRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config)
+get_replication_runs(replicationJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetReplicationRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config)
 
 """
     get_servers()
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vmServerAddressList"`: The server addresses.
 """
 get_servers(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetServers"; aws_config=aws_config)
-get_servers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetServers", params; aws_config=aws_config)
+get_servers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("GetServers", params; aws_config=aws_config)
 
 """
     import_app_catalog()
@@ -330,7 +330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide must have the policy and trust policy described in the AWS Migration Hub User Guide.
 """
 import_app_catalog(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ImportAppCatalog"; aws_config=aws_config)
-import_app_catalog(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ImportAppCatalog", params; aws_config=aws_config)
+import_app_catalog(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ImportAppCatalog", params; aws_config=aws_config)
 
 """
     import_server_catalog()
@@ -342,7 +342,7 @@ retrieve all the servers.
 
 """
 import_server_catalog(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ImportServerCatalog"; aws_config=aws_config)
-import_server_catalog(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ImportServerCatalog", params; aws_config=aws_config)
+import_server_catalog(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ImportServerCatalog", params; aws_config=aws_config)
 
 """
     launch_app()
@@ -355,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 launch_app(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("LaunchApp"; aws_config=aws_config)
-launch_app(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("LaunchApp", params; aws_config=aws_config)
+launch_app(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("LaunchApp", params; aws_config=aws_config)
 
 """
     list_apps()
@@ -372,7 +372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 """
 list_apps(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ListApps"; aws_config=aws_config)
-list_apps(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ListApps", params; aws_config=aws_config)
+list_apps(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("ListApps", params; aws_config=aws_config)
 
 """
     notify_app_validation_output(app_id)
@@ -388,7 +388,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"notificationContext"`: The notification information.
 """
 notify_app_validation_output(appId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("NotifyAppValidationOutput", Dict{String, Any}("appId"=>appId); aws_config=aws_config)
-notify_app_validation_output(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("NotifyAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
+notify_app_validation_output(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("NotifyAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
 
 """
     put_app_launch_configuration()
@@ -407,7 +407,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   server groups in the application.
 """
 put_app_launch_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppLaunchConfiguration"; aws_config=aws_config)
-put_app_launch_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppLaunchConfiguration", params; aws_config=aws_config)
+put_app_launch_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppLaunchConfiguration", params; aws_config=aws_config)
 
 """
     put_app_replication_configuration()
@@ -422,7 +422,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configurations for server groups in the application.
 """
 put_app_replication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppReplicationConfiguration"; aws_config=aws_config)
-put_app_replication_configuration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppReplicationConfiguration", params; aws_config=aws_config)
+put_app_replication_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppReplicationConfiguration", params; aws_config=aws_config)
 
 """
     put_app_validation_configuration(app_id)
@@ -439,7 +439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverGroupValidationConfigurations"`: The configuration for instance validation.
 """
 put_app_validation_configuration(appId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws_config=aws_config)
-put_app_validation_configuration(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
+put_app_validation_configuration(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("PutAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
 
 """
     start_app_replication()
@@ -453,7 +453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 start_app_replication(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartAppReplication"; aws_config=aws_config)
-start_app_replication(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartAppReplication", params; aws_config=aws_config)
+start_app_replication(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartAppReplication", params; aws_config=aws_config)
 
 """
     start_on_demand_app_replication(app_id)
@@ -469,7 +469,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the replication run.
 """
 start_on_demand_app_replication(appId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartOnDemandAppReplication", Dict{String, Any}("appId"=>appId); aws_config=aws_config)
-start_on_demand_app_replication(appId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartOnDemandAppReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
+start_on_demand_app_replication(appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartOnDemandAppReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), params)); aws_config=aws_config)
 
 """
     start_on_demand_replication_run(replication_job_id)
@@ -488,7 +488,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the replication run.
 """
 start_on_demand_replication_run(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartOnDemandReplicationRun", Dict{String, Any}("replicationJobId"=>replicationJobId); aws_config=aws_config)
-start_on_demand_replication_run(replicationJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartOnDemandReplicationRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config)
+start_on_demand_replication_run(replicationJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StartOnDemandReplicationRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config)
 
 """
     stop_app_replication()
@@ -502,7 +502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 stop_app_replication(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StopAppReplication"; aws_config=aws_config)
-stop_app_replication(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StopAppReplication", params; aws_config=aws_config)
+stop_app_replication(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("StopAppReplication", params; aws_config=aws_config)
 
 """
     terminate_app()
@@ -515,7 +515,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"appId"`: The ID of the application.
 """
 terminate_app(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("TerminateApp"; aws_config=aws_config)
-terminate_app(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("TerminateApp", params; aws_config=aws_config)
+terminate_app(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("TerminateApp", params; aws_config=aws_config)
 
 """
     update_app()
@@ -533,7 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to associate with the application.
 """
 update_app(; aws_config::AbstractAWSConfig=global_aws_config()) = sms("UpdateApp"; aws_config=aws_config)
-update_app(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("UpdateApp", params; aws_config=aws_config)
+update_app(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("UpdateApp", params; aws_config=aws_config)
 
 """
     update_replication_job(replication_job_id)
@@ -562,4 +562,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleName"`: The name of the IAM role to be used by AWS SMS.
 """
 update_replication_job(replicationJobId; aws_config::AbstractAWSConfig=global_aws_config()) = sms("UpdateReplicationJob", Dict{String, Any}("replicationJobId"=>replicationJobId); aws_config=aws_config)
-update_replication_job(replicationJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("UpdateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config)
+update_replication_job(replicationJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sms("UpdateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), params)); aws_config=aws_config)

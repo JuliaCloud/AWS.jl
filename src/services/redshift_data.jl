@@ -17,7 +17,7 @@ Cancels a running query. To be canceled, a query must be running.
 
 """
 cancel_statement(Id; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("CancelStatement", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-cancel_statement(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("CancelStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+cancel_statement(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("CancelStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
     describe_statement(id)
@@ -34,7 +34,7 @@ status, the number of rows returned, and the SQL statement.
 
 """
 describe_statement(Id; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("DescribeStatement", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-describe_statement(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("DescribeStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+describe_statement(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("DescribeStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
     describe_table(cluster_identifier, database)
@@ -77,7 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schemas in the database are returned
 """
 describe_table(ClusterIdentifier, Database; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("DescribeTable", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database); aws_config=aws_config)
-describe_table(ClusterIdentifier, Database, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config)
+describe_table(ClusterIdentifier, Database, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config)
 
 """
     execute_statement(cluster_identifier, sql)
@@ -110,7 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   event bus after the SQL statement runs.
 """
 execute_statement(ClusterIdentifier, Sql; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ExecuteStatement", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Sql"=>Sql); aws_config=aws_config)
-execute_statement(ClusterIdentifier, Sql, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Sql"=>Sql), params)); aws_config=aws_config)
+execute_statement(ClusterIdentifier, Sql, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Sql"=>Sql), params)); aws_config=aws_config)
 
 """
     get_statement_result(id)
@@ -133,7 +133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have been retrieved for the request.
 """
 get_statement_result(Id; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("GetStatementResult", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-get_statement_result(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("GetStatementResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+get_statement_result(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("GetStatementResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
     list_databases(cluster_identifier)
@@ -168,7 +168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when authenticating using AWS Secrets Manager.
 """
 list_databases(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListDatabases", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
-list_databases(ClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+list_databases(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
 
 """
     list_schemas(cluster_identifier, database)
@@ -208,7 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when authenticating using AWS Secrets Manager.
 """
 list_schemas(ClusterIdentifier, Database; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListSchemas", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database); aws_config=aws_config)
-list_schemas(ClusterIdentifier, Database, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config)
+list_schemas(ClusterIdentifier, Database, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config)
 
 """
     list_statements()
@@ -243,7 +243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   submitted, but not yet processed.
 """
 list_statements(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListStatements"; aws_config=aws_config)
-list_statements(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListStatements", params; aws_config=aws_config)
+list_statements(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListStatements", params; aws_config=aws_config)
 
 """
     list_tables(cluster_identifier, database)
@@ -292,4 +292,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   neither SchemaPattern or TablePattern are specified, then all tables are returned.
 """
 list_tables(ClusterIdentifier, Database; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListTables", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database); aws_config=aws_config)
-list_tables(ClusterIdentifier, Database, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config)
+list_tables(ClusterIdentifier, Database, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift_data("ListTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "Database"=>Database), params)); aws_config=aws_config)

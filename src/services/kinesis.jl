@@ -21,7 +21,7 @@ five transactions per second per account.
 
 """
 add_tags_to_stream(StreamName, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("AddTagsToStream", Dict{String, Any}("StreamName"=>StreamName, "Tags"=>Tags); aws_config=aws_config)
-add_tags_to_stream(StreamName, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("AddTagsToStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName, "Tags"=>Tags), params)); aws_config=aws_config)
+add_tags_to_stream(StreamName, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("AddTagsToStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     create_stream(shard_count, stream_name)
@@ -61,7 +61,7 @@ second per account.
 
 """
 create_stream(ShardCount, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("CreateStream", Dict{String, Any}("ShardCount"=>ShardCount, "StreamName"=>StreamName); aws_config=aws_config)
-create_stream(ShardCount, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("CreateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardCount"=>ShardCount, "StreamName"=>StreamName), params)); aws_config=aws_config)
+create_stream(ShardCount, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("CreateStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardCount"=>ShardCount, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     decrease_stream_retention_period(retention_period_hours, stream_name)
@@ -80,7 +80,7 @@ stream that is older than 24 hours is inaccessible.
 
 """
 decrease_stream_retention_period(RetentionPeriodHours, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DecreaseStreamRetentionPeriod", Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName); aws_config=aws_config)
-decrease_stream_retention_period(RetentionPeriodHours, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DecreaseStreamRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName), params)); aws_config=aws_config)
+decrease_stream_retention_period(RetentionPeriodHours, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DecreaseStreamRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     delete_stream(stream_name)
@@ -108,7 +108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ResourceInUseException.
 """
 delete_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DeleteStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-delete_stream(StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DeleteStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
+delete_stream(StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DeleteStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     deregister_stream_consumer()
@@ -134,7 +134,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
 """
 deregister_stream_consumer(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DeregisterStreamConsumer"; aws_config=aws_config)
-deregister_stream_consumer(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DeregisterStreamConsumer", params; aws_config=aws_config)
+deregister_stream_consumer(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DeregisterStreamConsumer", params; aws_config=aws_config)
 
 """
     describe_limits()
@@ -146,7 +146,7 @@ transaction per second per account.
 
 """
 describe_limits(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeLimits"; aws_config=aws_config)
-describe_limits(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeLimits", params; aws_config=aws_config)
+describe_limits(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeLimits", params; aws_config=aws_config)
 
 """
     describe_stream(stream_name)
@@ -174,7 +174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100. If you specify a value greater than 100, at most 100 shards are returned.
 """
 describe_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-describe_stream(StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
+describe_stream(StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     describe_stream_consumer()
@@ -197,7 +197,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
 """
 describe_stream_consumer(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStreamConsumer"; aws_config=aws_config)
-describe_stream_consumer(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStreamConsumer", params; aws_config=aws_config)
+describe_stream_consumer(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStreamConsumer", params; aws_config=aws_config)
 
 """
     describe_stream_summary(stream_name)
@@ -214,7 +214,7 @@ account.
 
 """
 describe_stream_summary(StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStreamSummary", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-describe_stream_summary(StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStreamSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
+describe_stream_summary(StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DescribeStreamSummary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     disable_enhanced_monitoring(shard_level_metrics, stream_name)
@@ -235,7 +235,7 @@ Disables enhanced monitoring.
 
 """
 disable_enhanced_monitoring(ShardLevelMetrics, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DisableEnhancedMonitoring", Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName); aws_config=aws_config)
-disable_enhanced_monitoring(ShardLevelMetrics, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DisableEnhancedMonitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName), params)); aws_config=aws_config)
+disable_enhanced_monitoring(ShardLevelMetrics, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("DisableEnhancedMonitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     enable_enhanced_monitoring(shard_level_metrics, stream_name)
@@ -255,7 +255,7 @@ Enables enhanced Kinesis data stream monitoring for shard-level metrics.
 
 """
 enable_enhanced_monitoring(ShardLevelMetrics, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("EnableEnhancedMonitoring", Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName); aws_config=aws_config)
-enable_enhanced_monitoring(ShardLevelMetrics, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("EnableEnhancedMonitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName), params)); aws_config=aws_config)
+enable_enhanced_monitoring(ShardLevelMetrics, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("EnableEnhancedMonitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardLevelMetrics"=>ShardLevelMetrics, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     get_records(shard_iterator)
@@ -314,7 +314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InvalidArgumentException. The default value is 10,000.
 """
 get_records(ShardIterator; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("GetRecords", Dict{String, Any}("ShardIterator"=>ShardIterator); aws_config=aws_config)
-get_records(ShardIterator, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("GetRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardIterator"=>ShardIterator), params)); aws_config=aws_config)
+get_records(ShardIterator, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("GetRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardIterator"=>ShardIterator), params)); aws_config=aws_config)
 
 """
     get_shard_iterator(shard_id, shard_iterator_type, stream_name)
@@ -373,7 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the oldest untrimmed data record (TRIM_HORIZON).
 """
 get_shard_iterator(ShardId, ShardIteratorType, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("GetShardIterator", Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamName"=>StreamName); aws_config=aws_config)
-get_shard_iterator(ShardId, ShardIteratorType, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("GetShardIterator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamName"=>StreamName), params)); aws_config=aws_config)
+get_shard_iterator(ShardId, ShardIteratorType, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("GetShardIterator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShardId"=>ShardId, "ShardIteratorType"=>ShardIteratorType, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     increase_stream_retention_period(retention_period_hours, stream_name)
@@ -395,7 +395,7 @@ is older than 24 hours remains inaccessible to consumer applications.
 
 """
 increase_stream_retention_period(RetentionPeriodHours, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("IncreaseStreamRetentionPeriod", Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName); aws_config=aws_config)
-increase_stream_retention_period(RetentionPeriodHours, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("IncreaseStreamRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName), params)); aws_config=aws_config)
+increase_stream_retention_period(RetentionPeriodHours, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("IncreaseStreamRetentionPeriod", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionPeriodHours"=>RetentionPeriodHours, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     list_shards()
@@ -443,7 +443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify this parameter if you specify the NextToken parameter.
 """
 list_shards(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListShards"; aws_config=aws_config)
-list_shards(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListShards", params; aws_config=aws_config)
+list_shards(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListShards", params; aws_config=aws_config)
 
 """
     list_stream_consumers(stream_arn)
@@ -484,7 +484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter if you specify the NextToken parameter.
 """
 list_stream_consumers(StreamARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListStreamConsumers", Dict{String, Any}("StreamARN"=>StreamARN); aws_config=aws_config)
-list_stream_consumers(StreamARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListStreamConsumers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamARN"=>StreamARN), params)); aws_config=aws_config)
+list_stream_consumers(StreamARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListStreamConsumers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamARN"=>StreamARN), params)); aws_config=aws_config)
 
 """
     list_streams()
@@ -508,7 +508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of streams to list.
 """
 list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListStreams"; aws_config=aws_config)
-list_streams(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListStreams", params; aws_config=aws_config)
+list_streams(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListStreams", params; aws_config=aws_config)
 
 """
     list_tags_for_stream(stream_name)
@@ -530,7 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ExclusiveStartTagKey to the last key in the response.
 """
 list_tags_for_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListTagsForStream", Dict{String, Any}("StreamName"=>StreamName); aws_config=aws_config)
-list_tags_for_stream(StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListTagsForStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
+list_tags_for_stream(StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("ListTagsForStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     merge_shards(adjacent_shard_to_merge, shard_to_merge, stream_name)
@@ -568,7 +568,7 @@ of five transactions per second per account.
 
 """
 merge_shards(AdjacentShardToMerge, ShardToMerge, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("MergeShards", Dict{String, Any}("AdjacentShardToMerge"=>AdjacentShardToMerge, "ShardToMerge"=>ShardToMerge, "StreamName"=>StreamName); aws_config=aws_config)
-merge_shards(AdjacentShardToMerge, ShardToMerge, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("MergeShards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdjacentShardToMerge"=>AdjacentShardToMerge, "ShardToMerge"=>ShardToMerge, "StreamName"=>StreamName), params)); aws_config=aws_config)
+merge_shards(AdjacentShardToMerge, ShardToMerge, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("MergeShards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdjacentShardToMerge"=>AdjacentShardToMerge, "ShardToMerge"=>ShardToMerge, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     put_record(data, partition_key, stream_name)
@@ -626,7 +626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ordered based on arrival time.
 """
 put_record(Data, PartitionKey, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("PutRecord", Dict{String, Any}("Data"=>Data, "PartitionKey"=>PartitionKey, "StreamName"=>StreamName); aws_config=aws_config)
-put_record(Data, PartitionKey, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("PutRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Data"=>Data, "PartitionKey"=>PartitionKey, "StreamName"=>StreamName), params)); aws_config=aws_config)
+put_record(Data, PartitionKey, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("PutRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Data"=>Data, "PartitionKey"=>PartitionKey, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     put_records(records, stream_name)
@@ -682,7 +682,7 @@ period.
 
 """
 put_records(Records, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("PutRecords", Dict{String, Any}("Records"=>Records, "StreamName"=>StreamName); aws_config=aws_config)
-put_records(Records, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("PutRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Records"=>Records, "StreamName"=>StreamName), params)); aws_config=aws_config)
+put_records(Records, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("PutRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Records"=>Records, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     register_stream_consumer(consumer_name, stream_arn)
@@ -708,7 +708,7 @@ LimitExceededException.
 
 """
 register_stream_consumer(ConsumerName, StreamARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("RegisterStreamConsumer", Dict{String, Any}("ConsumerName"=>ConsumerName, "StreamARN"=>StreamARN); aws_config=aws_config)
-register_stream_consumer(ConsumerName, StreamARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("RegisterStreamConsumer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerName"=>ConsumerName, "StreamARN"=>StreamARN), params)); aws_config=aws_config)
+register_stream_consumer(ConsumerName, StreamARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("RegisterStreamConsumer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerName"=>ConsumerName, "StreamARN"=>StreamARN), params)); aws_config=aws_config)
 
 """
     remove_tags_from_stream(stream_name, tag_keys)
@@ -725,7 +725,7 @@ account.
 
 """
 remove_tags_from_stream(StreamName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("RemoveTagsFromStream", Dict{String, Any}("StreamName"=>StreamName, "TagKeys"=>TagKeys); aws_config=aws_config)
-remove_tags_from_stream(StreamName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("RemoveTagsFromStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+remove_tags_from_stream(StreamName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("RemoveTagsFromStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     split_shard(new_starting_hash_key, shard_to_split, stream_name)
@@ -773,7 +773,7 @@ second per account.
 
 """
 split_shard(NewStartingHashKey, ShardToSplit, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("SplitShard", Dict{String, Any}("NewStartingHashKey"=>NewStartingHashKey, "ShardToSplit"=>ShardToSplit, "StreamName"=>StreamName); aws_config=aws_config)
-split_shard(NewStartingHashKey, ShardToSplit, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("SplitShard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewStartingHashKey"=>NewStartingHashKey, "ShardToSplit"=>ShardToSplit, "StreamName"=>StreamName), params)); aws_config=aws_config)
+split_shard(NewStartingHashKey, ShardToSplit, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("SplitShard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewStartingHashKey"=>NewStartingHashKey, "ShardToSplit"=>ShardToSplit, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     start_stream_encryption(encryption_type, key_id, stream_name)
@@ -806,7 +806,7 @@ PutRecord or PutRecords.
 
 """
 start_stream_encryption(EncryptionType, KeyId, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("StartStreamEncryption", Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName); aws_config=aws_config)
-start_stream_encryption(EncryptionType, KeyId, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("StartStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName), params)); aws_config=aws_config)
+start_stream_encryption(EncryptionType, KeyId, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("StartStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     stop_stream_encryption(encryption_type, key_id, stream_name)
@@ -839,7 +839,7 @@ response from PutRecord or PutRecords.
 
 """
 stop_stream_encryption(EncryptionType, KeyId, StreamName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("StopStreamEncryption", Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName); aws_config=aws_config)
-stop_stream_encryption(EncryptionType, KeyId, StreamName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("StopStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName), params)); aws_config=aws_config)
+stop_stream_encryption(EncryptionType, KeyId, StreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("StopStreamEncryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionType"=>EncryptionType, "KeyId"=>KeyId, "StreamName"=>StreamName), params)); aws_config=aws_config)
 
 """
     update_shard_count(scaling_type, stream_name, target_shard_count)
@@ -880,4 +880,4 @@ use the limits form.
 
 """
 update_shard_count(ScalingType, StreamName, TargetShardCount; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("UpdateShardCount", Dict{String, Any}("ScalingType"=>ScalingType, "StreamName"=>StreamName, "TargetShardCount"=>TargetShardCount); aws_config=aws_config)
-update_shard_count(ScalingType, StreamName, TargetShardCount, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("UpdateShardCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingType"=>ScalingType, "StreamName"=>StreamName, "TargetShardCount"=>TargetShardCount), params)); aws_config=aws_config)
+update_shard_count(ScalingType, StreamName, TargetShardCount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis("UpdateShardCount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingType"=>ScalingType, "StreamName"=>StreamName, "TargetShardCount"=>TargetShardCount), params)); aws_config=aws_config)

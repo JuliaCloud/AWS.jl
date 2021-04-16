@@ -15,7 +15,7 @@ Retrieves the raw content of an in-transit email message, in MIME format.
 
 """
 get_raw_message_content(messageId; aws_config::AbstractAWSConfig=global_aws_config()) = workmailmessageflow("GET", "/messages/$(messageId)"; aws_config=aws_config)
-get_raw_message_content(messageId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmailmessageflow("GET", "/messages/$(messageId)", params; aws_config=aws_config)
+get_raw_message_content(messageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workmailmessageflow("GET", "/messages/$(messageId)", params; aws_config=aws_config)
 
 """
     put_raw_message_content(content, message_id)
@@ -35,4 +35,4 @@ returns an updated message.
 
 """
 put_raw_message_content(content, messageId; aws_config::AbstractAWSConfig=global_aws_config()) = workmailmessageflow("POST", "/messages/$(messageId)", Dict{String, Any}("content"=>content); aws_config=aws_config)
-put_raw_message_content(content, messageId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workmailmessageflow("POST", "/messages/$(messageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("content"=>content), params)); aws_config=aws_config)
+put_raw_message_content(content, messageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workmailmessageflow("POST", "/messages/$(messageId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("content"=>content), params)); aws_config=aws_config)

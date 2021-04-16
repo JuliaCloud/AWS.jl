@@ -17,7 +17,7 @@ status. You'll have at least an hour after creating a cluster job to cancel it.
 
 """
 cancel_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-cancel_cluster(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
+cancel_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
     cancel_job(job_id)
@@ -33,7 +33,7 @@ as part of the response element data returned.
 
 """
 cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-cancel_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+cancel_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     create_address(address)
@@ -49,7 +49,7 @@ exception is thrown.
 
 """
 create_address(Address; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateAddress", Dict{String, Any}("Address"=>Address); aws_config=aws_config)
-create_address(Address, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address), params)); aws_config=aws_config)
+create_address(Address, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address), params)); aws_config=aws_config)
 
 """
     create_cluster(address_id, job_type, resources, role_arn, shipping_option)
@@ -99,7 +99,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TaxDocuments"`: The tax documents required in your AWS Region.
 """
 create_cluster(AddressId, JobType, Resources, RoleARN, ShippingOption; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateCluster", Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption); aws_config=aws_config)
-create_cluster(AddressId, JobType, Resources, RoleARN, ShippingOption, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption), params)); aws_config=aws_config)
+create_cluster(AddressId, JobType, Resources, RoleARN, ShippingOption, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption), params)); aws_config=aws_config)
 
 """
     create_job()
@@ -154,7 +154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TaxDocuments"`: The tax documents required in your AWS Region.
 """
 create_job(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateJob"; aws_config=aws_config)
-create_job(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateJob", params; aws_config=aws_config)
+create_job(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateJob", params; aws_config=aws_config)
 
 """
     create_return_shipping_label(job_id)
@@ -173,7 +173,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   destination while in transit. Regional shipping speeds are as follows:
 """
 create_return_shipping_label(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateReturnShippingLabel", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-create_return_shipping_label(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateReturnShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+create_return_shipping_label(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateReturnShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_address(address_id)
@@ -187,7 +187,7 @@ Address object.
 
 """
 describe_address(AddressId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddress", Dict{String, Any}("AddressId"=>AddressId); aws_config=aws_config)
-describe_address(AddressId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId), params)); aws_config=aws_config)
+describe_address(AddressId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId), params)); aws_config=aws_config)
 
 """
     describe_addresses()
@@ -205,7 +205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   starting point for your list of returned addresses.
 """
 describe_addresses(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddresses"; aws_config=aws_config)
-describe_addresses(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddresses", params; aws_config=aws_config)
+describe_addresses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddresses", params; aws_config=aws_config)
 
 """
     describe_cluster(cluster_id)
@@ -219,7 +219,7 @@ status, and other important metadata.
 
 """
 describe_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-describe_cluster(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
+describe_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
     describe_job(job_id)
@@ -234,7 +234,7 @@ other important metadata.
 
 """
 describe_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+describe_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     describe_return_shipping_label()
@@ -248,7 +248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   JID123e4567-e89b-12d3-a456-426655440000.
 """
 describe_return_shipping_label(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeReturnShippingLabel"; aws_config=aws_config)
-describe_return_shipping_label(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeReturnShippingLabel", params; aws_config=aws_config)
+describe_return_shipping_label(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeReturnShippingLabel", params; aws_config=aws_config)
 
 """
     get_job_manifest(job_id)
@@ -273,7 +273,7 @@ after the job is created.
 
 """
 get_job_manifest(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobManifest", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_job_manifest(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobManifest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_job_manifest(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobManifest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_job_unlock_code(job_id)
@@ -294,7 +294,7 @@ from gaining access to the Snow device associated with that job.
 
 """
 get_job_unlock_code(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobUnlockCode", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_job_unlock_code(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobUnlockCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_job_unlock_code(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobUnlockCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_snowball_usage()
@@ -307,7 +307,7 @@ limit, contact AWS Support.
 
 """
 get_snowball_usage(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSnowballUsage"; aws_config=aws_config)
-get_snowball_usage(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSnowballUsage", params; aws_config=aws_config)
+get_snowball_usage(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSnowballUsage", params; aws_config=aws_config)
 
 """
     get_software_updates(job_id)
@@ -321,7 +321,7 @@ Returns an Amazon S3 presigned URL for an update file associated with a specifie
 
 """
 get_software_updates(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSoftwareUpdates", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_software_updates(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSoftwareUpdates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_software_updates(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSoftwareUpdates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     list_cluster_jobs(cluster_id)
@@ -343,7 +343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   point for your returned list.
 """
 list_cluster_jobs(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusterJobs", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-list_cluster_jobs(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusterJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
+list_cluster_jobs(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusterJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
     list_clusters()
@@ -360,7 +360,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   starting point for your returned list.
 """
 list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusters"; aws_config=aws_config)
-list_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusters", params; aws_config=aws_config)
+list_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusters", params; aws_config=aws_config)
 
 """
     list_compatible_images()
@@ -380,7 +380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your list of returned images.
 """
 list_compatible_images(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListCompatibleImages"; aws_config=aws_config)
-list_compatible_images(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListCompatibleImages", params; aws_config=aws_config)
+list_compatible_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListCompatibleImages", params; aws_config=aws_config)
 
 """
     list_jobs()
@@ -399,7 +399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   point for your returned list.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListJobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListJobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListJobs", params; aws_config=aws_config)
 
 """
     update_cluster(cluster_id)
@@ -430,7 +430,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object.
 """
 update_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-update_cluster(ClusterId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
+update_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
 
 """
     update_job(job_id)
@@ -461,7 +461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   JobMetadata object. The 50 TB Snowballs are only available in the US regions.
 """
 update_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-update_job(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+update_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     update_job_shipment_state(job_id, shipment_state)
@@ -478,4 +478,4 @@ Updates the state when a the shipment states changes to a different state.
 
 """
 update_job_shipment_state(JobId, ShipmentState; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJobShipmentState", Dict{String, Any}("JobId"=>JobId, "ShipmentState"=>ShipmentState); aws_config=aws_config)
-update_job_shipment_state(JobId, ShipmentState, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJobShipmentState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ShipmentState"=>ShipmentState), params)); aws_config=aws_config)
+update_job_shipment_state(JobId, ShipmentState, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJobShipmentState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ShipmentState"=>ShipmentState), params)); aws_config=aws_config)

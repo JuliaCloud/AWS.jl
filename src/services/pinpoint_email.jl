@@ -31,7 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   emails that you send using the configuration set.
 """
 create_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/configuration-sets", Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName); aws_config=aws_config)
-create_configuration_set(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/configuration-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
+create_configuration_set(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/configuration-sets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationSetName"=>ConfigurationSetName), params)); aws_config=aws_config)
 
 """
     create_configuration_set_event_destination(configuration_set_name, event_destination, event_destination_name)
@@ -53,7 +53,7 @@ can include more than one event destination.
 
 """
 create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName); aws_config=aws_config)
-create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName), params)); aws_config=aws_config)
+create_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination, "EventDestinationName"=>EventDestinationName), params)); aws_config=aws_config)
 
 """
     create_dedicated_ip_pool(pool_name)
@@ -73,7 +73,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the pool.
 """
 create_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/dedicated-ip-pools", Dict{String, Any}("PoolName"=>PoolName); aws_config=aws_config)
-create_dedicated_ip_pool(PoolName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/dedicated-ip-pools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), params)); aws_config=aws_config)
+create_dedicated_ip_pool(PoolName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/dedicated-ip-pools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName), params)); aws_config=aws_config)
 
 """
     create_deliverability_test_report(content, from_email_address)
@@ -101,7 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associate with the predictive inbox placement test.
 """
 create_deliverability_test_report(Content, FromEmailAddress; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/deliverability-dashboard/test", Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress); aws_config=aws_config)
-create_deliverability_test_report(Content, FromEmailAddress, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/deliverability-dashboard/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress), params)); aws_config=aws_config)
+create_deliverability_test_report(Content, FromEmailAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/deliverability-dashboard/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "FromEmailAddress"=>FromEmailAddress), params)); aws_config=aws_config)
 
 """
     create_email_identity(email_identity)
@@ -128,7 +128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associate with the email identity.
 """
 create_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/identities", Dict{String, Any}("EmailIdentity"=>EmailIdentity); aws_config=aws_config)
-create_email_identity(EmailIdentity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/identities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailIdentity"=>EmailIdentity), params)); aws_config=aws_config)
+create_email_identity(EmailIdentity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/identities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailIdentity"=>EmailIdentity), params)); aws_config=aws_config)
 
 """
     delete_configuration_set(configuration_set_name)
@@ -145,7 +145,7 @@ applied to the email.
 
 """
 delete_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
-delete_configuration_set(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config)
+delete_configuration_set(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config)
 
 """
     delete_configuration_set_event_destination(configuration_set_name, event_destination_name)
@@ -164,7 +164,7 @@ Data Firehose to stream data to Amazon S3 for long-term storage.
 
 """
 delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)"; aws_config=aws_config)
-delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", params; aws_config=aws_config)
+delete_configuration_set_event_destination(ConfigurationSetName, EventDestinationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", params; aws_config=aws_config)
 
 """
     delete_dedicated_ip_pool(pool_name)
@@ -177,7 +177,7 @@ Delete a dedicated IP pool.
 
 """
 delete_dedicated_ip_pool(PoolName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/dedicated-ip-pools/$(PoolName)"; aws_config=aws_config)
-delete_dedicated_ip_pool(PoolName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/dedicated-ip-pools/$(PoolName)", params; aws_config=aws_config)
+delete_dedicated_ip_pool(PoolName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/dedicated-ip-pools/$(PoolName)", params; aws_config=aws_config)
 
 """
     delete_email_identity(email_identity)
@@ -192,7 +192,7 @@ identity can be either an email address or a domain name.
 
 """
 delete_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/identities/$(EmailIdentity)"; aws_config=aws_config)
-delete_email_identity(EmailIdentity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/identities/$(EmailIdentity)", params; aws_config=aws_config)
+delete_email_identity(EmailIdentity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/identities/$(EmailIdentity)", params; aws_config=aws_config)
 
 """
     get_account()
@@ -203,7 +203,7 @@ account in the current AWS Region.
 
 """
 get_account(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/account"; aws_config=aws_config)
-get_account(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/account", params; aws_config=aws_config)
+get_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/account", params; aws_config=aws_config)
 
 """
     get_blacklist_reports(blacklist_item_names)
@@ -218,7 +218,7 @@ Retrieve a list of the blacklists that your dedicated IP addresses appear on.
 
 """
 get_blacklist_reports(BlacklistItemNames; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/blacklist-report", Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames); aws_config=aws_config)
-get_blacklist_reports(BlacklistItemNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/blacklist-report", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames), params)); aws_config=aws_config)
+get_blacklist_reports(BlacklistItemNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/blacklist-report", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlacklistItemNames"=>BlacklistItemNames), params)); aws_config=aws_config)
 
 """
     get_configuration_set(configuration_set_name)
@@ -237,7 +237,7 @@ rules in that configuration set are applied to the email.
 
 """
 get_configuration_set(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
-get_configuration_set(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config)
+get_configuration_set(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)", params; aws_config=aws_config)
 
 """
     get_configuration_set_event_destinations(configuration_set_name)
@@ -256,7 +256,7 @@ to Amazon S3 for long-term storage.
 
 """
 get_configuration_set_event_destinations(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations"; aws_config=aws_config)
-get_configuration_set_event_destinations(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", params; aws_config=aws_config)
+get_configuration_set_event_destinations(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", params; aws_config=aws_config)
 
 """
     get_dedicated_ip(ip)
@@ -273,7 +273,7 @@ address.
 
 """
 get_dedicated_ip(IP; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips/$(IP)"; aws_config=aws_config)
-get_dedicated_ip(IP, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips/$(IP)", params; aws_config=aws_config)
+get_dedicated_ip(IP, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips/$(IP)", params; aws_config=aws_config)
 
 """
     get_dedicated_ips()
@@ -291,7 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
 get_dedicated_ips(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips"; aws_config=aws_config)
-get_dedicated_ips(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips", params; aws_config=aws_config)
+get_dedicated_ips(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ips", params; aws_config=aws_config)
 
 """
     get_deliverability_dashboard_options()
@@ -308,7 +308,7 @@ Pricing.
 
 """
 get_deliverability_dashboard_options(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard"; aws_config=aws_config)
-get_deliverability_dashboard_options(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard", params; aws_config=aws_config)
+get_deliverability_dashboard_options(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard", params; aws_config=aws_config)
 
 """
     get_deliverability_test_report(report_id)
@@ -321,7 +321,7 @@ Retrieve the results of a predictive inbox placement test.
 
 """
 get_deliverability_test_report(ReportId; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports/$(ReportId)"; aws_config=aws_config)
-get_deliverability_test_report(ReportId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports/$(ReportId)", params; aws_config=aws_config)
+get_deliverability_test_report(ReportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports/$(ReportId)", params; aws_config=aws_config)
 
 """
     get_domain_deliverability_campaign(campaign_id)
@@ -339,7 +339,7 @@ dashboard is enabled for (PutDeliverabilityDashboardOption operation).
 
 """
 get_domain_deliverability_campaign(CampaignId; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)"; aws_config=aws_config)
-get_domain_deliverability_campaign(CampaignId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)", params; aws_config=aws_config)
+get_domain_deliverability_campaign(CampaignId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)", params; aws_config=aws_config)
 
 """
     get_domain_statistics_report(domain, end_date, start_date)
@@ -357,7 +357,7 @@ Retrieve inbox placement and engagement rates for the domains that you use to se
 
 """
 get_domain_statistics_report(Domain, EndDate, StartDate; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate); aws_config=aws_config)
-get_domain_statistics_report(Domain, EndDate, StartDate, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), params)); aws_config=aws_config)
+get_domain_statistics_report(Domain, EndDate, StartDate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/statistics-report/$(Domain)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), params)); aws_config=aws_config)
 
 """
     get_email_identity(email_identity)
@@ -372,7 +372,7 @@ its custom Mail-From settings.
 
 """
 get_email_identity(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities/$(EmailIdentity)"; aws_config=aws_config)
-get_email_identity(EmailIdentity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities/$(EmailIdentity)", params; aws_config=aws_config)
+get_email_identity(EmailIdentity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities/$(EmailIdentity)", params; aws_config=aws_config)
 
 """
     list_configuration_sets()
@@ -394,7 +394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results.
 """
 list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets"; aws_config=aws_config)
-list_configuration_sets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets", params; aws_config=aws_config)
+list_configuration_sets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/configuration-sets", params; aws_config=aws_config)
 
 """
     list_dedicated_ip_pools()
@@ -412,7 +412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes a NextToken element, which you can use to obtain additional results.
 """
 list_dedicated_ip_pools(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ip-pools"; aws_config=aws_config)
-list_dedicated_ip_pools(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ip-pools", params; aws_config=aws_config)
+list_dedicated_ip_pools(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/dedicated-ip-pools", params; aws_config=aws_config)
 
 """
     list_deliverability_test_reports()
@@ -433,7 +433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more than 1000.
 """
 list_deliverability_test_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports"; aws_config=aws_config)
-list_deliverability_test_reports(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports", params; aws_config=aws_config)
+list_deliverability_test_reports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports", params; aws_config=aws_config)
 
 """
     list_domain_deliverability_campaigns(end_date, start_date, subscribed_domain)
@@ -463,7 +463,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you can use to obtain additional results.
 """
 list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate); aws_config=aws_config)
-list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), params)); aws_config=aws_config)
+list_domain_deliverability_campaigns(EndDate, StartDate, SubscribedDomain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndDate"=>EndDate, "StartDate"=>StartDate), params)); aws_config=aws_config)
 
 """
     list_email_identities()
@@ -483,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value you specify has to be at least 0, and can be no more than 1000.
 """
 list_email_identities(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities"; aws_config=aws_config)
-list_email_identities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities", params; aws_config=aws_config)
+list_email_identities(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/identities", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -501,7 +501,7 @@ tag value acts as a descriptor within a tag key.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("GET", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     put_account_dedicated_ip_warmup_attributes()
@@ -516,7 +516,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Set to true to enable the automatic warm-up feature, or set to false to disable it.
 """
 put_account_dedicated_ip_warmup_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup"; aws_config=aws_config)
-put_account_dedicated_ip_warmup_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup", params; aws_config=aws_config)
+put_account_dedicated_ip_warmup_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup", params; aws_config=aws_config)
 
 """
     put_account_sending_attributes()
@@ -532,7 +532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ability to send email.
 """
 put_account_sending_attributes(; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/sending"; aws_config=aws_config)
-put_account_sending_attributes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/sending", params; aws_config=aws_config)
+put_account_sending_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/account/sending", params; aws_config=aws_config)
 
 """
     put_configuration_set_delivery_options(configuration_set_name)
@@ -555,7 +555,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   plain text if a TLS connection can't be established.
 """
 put_configuration_set_delivery_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options"; aws_config=aws_config)
-put_configuration_set_delivery_options(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options", params; aws_config=aws_config)
+put_configuration_set_delivery_options(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options", params; aws_config=aws_config)
 
 """
     put_configuration_set_reputation_options(configuration_set_name)
@@ -575,7 +575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration set.
 """
 put_configuration_set_reputation_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options"; aws_config=aws_config)
-put_configuration_set_reputation_options(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options", params; aws_config=aws_config)
+put_configuration_set_reputation_options(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options", params; aws_config=aws_config)
 
 """
     put_configuration_set_sending_options(configuration_set_name)
@@ -594,7 +594,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   false, email sending is disabled for the configuration set.
 """
 put_configuration_set_sending_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/sending"; aws_config=aws_config)
-put_configuration_set_sending_options(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/sending", params; aws_config=aws_config)
+put_configuration_set_sending_options(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/sending", params; aws_config=aws_config)
 
 """
     put_configuration_set_tracking_options(configuration_set_name)
@@ -612,7 +612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CustomRedirectDomain"`: The domain that you want to use to track open and click events.
 """
 put_configuration_set_tracking_options(ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options"; aws_config=aws_config)
-put_configuration_set_tracking_options(ConfigurationSetName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options", params; aws_config=aws_config)
+put_configuration_set_tracking_options(ConfigurationSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options", params; aws_config=aws_config)
 
 """
     put_dedicated_ip_in_pool(destination_pool_name, ip)
@@ -632,7 +632,7 @@ by using the CreateDedicatedIpPool operation.
 
 """
 put_dedicated_ip_in_pool(DestinationPoolName, IP; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/pool", Dict{String, Any}("DestinationPoolName"=>DestinationPoolName); aws_config=aws_config)
-put_dedicated_ip_in_pool(DestinationPoolName, IP, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/pool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationPoolName"=>DestinationPoolName), params)); aws_config=aws_config)
+put_dedicated_ip_in_pool(DestinationPoolName, IP, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/pool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationPoolName"=>DestinationPoolName), params)); aws_config=aws_config)
 
 """
     put_dedicated_ip_warmup_attributes(ip, warmup_percentage)
@@ -647,7 +647,7 @@ put_dedicated_ip_in_pool(DestinationPoolName, IP, params::AbstractDict{String, <
 
 """
 put_dedicated_ip_warmup_attributes(IP, WarmupPercentage; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}("WarmupPercentage"=>WarmupPercentage); aws_config=aws_config)
-put_dedicated_ip_warmup_attributes(IP, WarmupPercentage, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WarmupPercentage"=>WarmupPercentage), params)); aws_config=aws_config)
+put_dedicated_ip_warmup_attributes(IP, WarmupPercentage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/warmup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WarmupPercentage"=>WarmupPercentage), params)); aws_config=aws_config)
 
 """
     put_deliverability_dashboard_option(dashboard_enabled)
@@ -671,7 +671,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   send email and enabled the Deliverability dashboard for.
 """
 put_deliverability_dashboard_option(DashboardEnabled; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/deliverability-dashboard", Dict{String, Any}("DashboardEnabled"=>DashboardEnabled); aws_config=aws_config)
-put_deliverability_dashboard_option(DashboardEnabled, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/deliverability-dashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardEnabled"=>DashboardEnabled), params)); aws_config=aws_config)
+put_deliverability_dashboard_option(DashboardEnabled, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/deliverability-dashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardEnabled"=>DashboardEnabled), params)); aws_config=aws_config)
 
 """
     put_email_identity_dkim_attributes(email_identity)
@@ -690,7 +690,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the identity aren't DKIM-signed.
 """
 put_email_identity_dkim_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/dkim"; aws_config=aws_config)
-put_email_identity_dkim_attributes(EmailIdentity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/dkim", params; aws_config=aws_config)
+put_email_identity_dkim_attributes(EmailIdentity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/dkim", params; aws_config=aws_config)
 
 """
     put_email_identity_feedback_attributes(email_identity)
@@ -724,7 +724,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   events occur (even if this setting is disabled).
 """
 put_email_identity_feedback_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/feedback"; aws_config=aws_config)
-put_email_identity_feedback_attributes(EmailIdentity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/feedback", params; aws_config=aws_config)
+put_email_identity_feedback_attributes(EmailIdentity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/feedback", params; aws_config=aws_config)
 
 """
     put_email_identity_mail_from_attributes(email_identity)
@@ -750,7 +750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.
 """
 put_email_identity_mail_from_attributes(EmailIdentity; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/mail-from"; aws_config=aws_config)
-put_email_identity_mail_from_attributes(EmailIdentity, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/mail-from", params; aws_config=aws_config)
+put_email_identity_mail_from_attributes(EmailIdentity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/mail-from", params; aws_config=aws_config)
 
 """
     send_email(content, destination)
@@ -784,7 +784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipient replies to the message, each Reply-to address receives the reply.
 """
 send_email(Content, Destination; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/outbound-emails", Dict{String, Any}("Content"=>Content, "Destination"=>Destination); aws_config=aws_config)
-send_email(Content, Destination, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/outbound-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Destination"=>Destination), params)); aws_config=aws_config)
+send_email(Content, Destination, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/outbound-emails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Destination"=>Destination), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -807,7 +807,7 @@ descriptor within a tag key.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("POST", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -826,7 +826,7 @@ Remove one or more tags (keys and values) from a specified resource.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/tags", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("DELETE", "/v1/email/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_configuration_set_event_destination(configuration_set_name, event_destination, event_destination_name)
@@ -847,4 +847,4 @@ S3 for long-term storage.
 
 """
 update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}("EventDestination"=>EventDestination); aws_config=aws_config)
-update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination), params)); aws_config=aws_config)
+update_configuration_set_event_destination(ConfigurationSetName, EventDestination, EventDestinationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventDestination"=>EventDestination), params)); aws_config=aws_config)

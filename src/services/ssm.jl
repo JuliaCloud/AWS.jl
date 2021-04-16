@@ -42,7 +42,7 @@ EC2 User Guide.
 
 """
 add_tags_to_resource(ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("AddTagsToResource", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags); aws_config=aws_config)
-add_tags_to_resource(ResourceId, ResourceType, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags), params)); aws_config=aws_config)
+add_tags_to_resource(ResourceId, ResourceType, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     cancel_command(command_id)
@@ -61,7 +61,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requested.
 """
 cancel_command(CommandId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CancelCommand", Dict{String, Any}("CommandId"=>CommandId); aws_config=aws_config)
-cancel_command(CommandId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CancelCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CommandId"=>CommandId), params)); aws_config=aws_config)
+cancel_command(CommandId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CancelCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CommandId"=>CommandId), params)); aws_config=aws_config)
 
 """
     cancel_maintenance_window_execution(window_execution_id)
@@ -76,7 +76,7 @@ to completion.)
 
 """
 cancel_maintenance_window_execution(WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CancelMaintenanceWindowExecution", Dict{String, Any}("WindowExecutionId"=>WindowExecutionId); aws_config=aws_config)
-cancel_maintenance_window_execution(WindowExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CancelMaintenanceWindowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
+cancel_maintenance_window_execution(WindowExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CancelMaintenanceWindowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
 
 """
     create_activation(iam_role)
@@ -126,7 +126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from your managed instances, see RemoveTagsFromResource.
 """
 create_activation(IamRole; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateActivation", Dict{String, Any}("IamRole"=>IamRole); aws_config=aws_config)
-create_activation(IamRole, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateActivation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRole"=>IamRole), params)); aws_config=aws_config)
+create_activation(IamRole, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateActivation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRole"=>IamRole), params)); aws_config=aws_config)
 
 """
     create_association(name)
@@ -213,7 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with State Manager associations in the AWS Systems Manager User Guide.
 """
 create_association(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateAssociation", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_association(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+create_association(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_association_batch(entries)
@@ -230,7 +230,7 @@ document, the system returns the AssociationAlreadyExists exception.
 
 """
 create_association_batch(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateAssociationBatch", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-create_association_batch(Entries, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateAssociationBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
+create_association_batch(Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateAssociationBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
 
 """
     create_document(content, name)
@@ -281,7 +281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   across all versions of a document, and cannot be changed.
 """
 create_document(Content, Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateDocument", Dict{String, Any}("Content"=>Content, "Name"=>Name); aws_config=aws_config)
-create_document(Content, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name), params)); aws_config=aws_config)
+create_document(Content, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_maintenance_window(allow_unassociated_targets, cutoff, duration, name, schedule)
@@ -336,7 +336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AddTagsToResource action.
 """
 create_maintenance_window(AllowUnassociatedTargets, Cutoff, Duration, Name, Schedule; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateMaintenanceWindow", Dict{String, Any}("AllowUnassociatedTargets"=>AllowUnassociatedTargets, "Cutoff"=>Cutoff, "Duration"=>Duration, "Name"=>Name, "Schedule"=>Schedule, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_maintenance_window(AllowUnassociatedTargets, Cutoff, Duration, Name, Schedule, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnassociatedTargets"=>AllowUnassociatedTargets, "Cutoff"=>Cutoff, "Duration"=>Duration, "Name"=>Name, "Schedule"=>Schedule, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_maintenance_window(AllowUnassociatedTargets, Cutoff, Duration, Name, Schedule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnassociatedTargets"=>AllowUnassociatedTargets, "Cutoff"=>Cutoff, "Duration"=>Duration, "Name"=>Name, "Schedule"=>Schedule, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_ops_item(description, source, title)
@@ -397,7 +397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AddTagsToResource action.
 """
 create_ops_item(Description, Source, Title; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsItem", Dict{String, Any}("Description"=>Description, "Source"=>Source, "Title"=>Title); aws_config=aws_config)
-create_ops_item(Description, Source, Title, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Source"=>Source, "Title"=>Title), params)); aws_config=aws_config)
+create_ops_item(Description, Source, Title, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Source"=>Source, "Title"=>Title), params)); aws_config=aws_config)
 
 """
     create_ops_metadata(resource_id)
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Key=Region,Value=us-east-2
 """
 create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-create_ops_metadata(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
+create_ops_metadata(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
 
 """
     create_patch_baseline(name)
@@ -473,7 +473,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AddTagsToResource action.
 """
 create_patch_baseline(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreatePatchBaseline", Dict{String, Any}("Name"=>Name, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_patch_baseline(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreatePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_patch_baseline(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreatePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_resource_data_sync(sync_name)
@@ -514,7 +514,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default value is SyncToDestination.
 """
 create_resource_data_sync(SyncName; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateResourceDataSync", Dict{String, Any}("SyncName"=>SyncName); aws_config=aws_config)
-create_resource_data_sync(SyncName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName), params)); aws_config=aws_config)
+create_resource_data_sync(SyncName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName), params)); aws_config=aws_config)
 
 """
     delete_activation(activation_id)
@@ -530,7 +530,7 @@ instances.
 
 """
 delete_activation(ActivationId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteActivation", Dict{String, Any}("ActivationId"=>ActivationId); aws_config=aws_config)
-delete_activation(ActivationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteActivation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationId"=>ActivationId), params)); aws_config=aws_config)
+delete_activation(ActivationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteActivation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationId"=>ActivationId), params)); aws_config=aws_config)
 
 """
     delete_association()
@@ -549,7 +549,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the Systems Manager document.
 """
 delete_association(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteAssociation"; aws_config=aws_config)
-delete_association(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteAssociation", params; aws_config=aws_config)
+delete_association(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteAssociation", params; aws_config=aws_config)
 
 """
     delete_document(name)
@@ -574,7 +574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, all versions of the document are deleted.
 """
 delete_document(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteDocument", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_document(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_document(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_inventory(type_name)
@@ -604,7 +604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schema later, if you want.
 """
 delete_inventory(TypeName; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteInventory", Dict{String, Any}("TypeName"=>TypeName, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-delete_inventory(TypeName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteInventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TypeName"=>TypeName, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+delete_inventory(TypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteInventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TypeName"=>TypeName, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_maintenance_window(window_id)
@@ -617,7 +617,7 @@ Deletes a maintenance window.
 
 """
 delete_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteMaintenanceWindow", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
-delete_maintenance_window(WindowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
+delete_maintenance_window(WindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
 
 """
     delete_ops_metadata(ops_metadata_arn)
@@ -630,7 +630,7 @@ Delete OpsMetadata related to an application.
 
 """
 delete_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
-delete_ops_metadata(OpsMetadataArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config)
+delete_ops_metadata(OpsMetadataArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config)
 
 """
     delete_parameter(name)
@@ -643,7 +643,7 @@ Delete a parameter from the system.
 
 """
 delete_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteParameter", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_parameter(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_parameter(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_parameters(names)
@@ -656,7 +656,7 @@ Delete a list of parameters.
 
 """
 delete_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteParameters", Dict{String, Any}("Names"=>Names); aws_config=aws_config)
-delete_parameters(Names, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config)
+delete_parameters(Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config)
 
 """
     delete_patch_baseline(baseline_id)
@@ -669,7 +669,7 @@ Deletes a patch baseline.
 
 """
 delete_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeletePatchBaseline", Dict{String, Any}("BaselineId"=>BaselineId); aws_config=aws_config)
-delete_patch_baseline(BaselineId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeletePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
+delete_patch_baseline(BaselineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeletePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
 
 """
     delete_resource_data_sync(sync_name)
@@ -687,7 +687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyncType"`: Specify the type of resource data sync to delete.
 """
 delete_resource_data_sync(SyncName; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteResourceDataSync", Dict{String, Any}("SyncName"=>SyncName); aws_config=aws_config)
-delete_resource_data_sync(SyncName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName), params)); aws_config=aws_config)
+delete_resource_data_sync(SyncName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName), params)); aws_config=aws_config)
 
 """
     deregister_managed_instance(instance_id)
@@ -703,7 +703,7 @@ server, we suggest uninstalling SSM Agent first.
 
 """
 deregister_managed_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterManagedInstance", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-deregister_managed_instance(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterManagedInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
+deregister_managed_instance(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterManagedInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
     deregister_patch_baseline_for_patch_group(baseline_id, patch_group)
@@ -718,7 +718,7 @@ Removes a patch group from a patch baseline.
 
 """
 deregister_patch_baseline_for_patch_group(BaselineId, PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterPatchBaselineForPatchGroup", Dict{String, Any}("BaselineId"=>BaselineId, "PatchGroup"=>PatchGroup); aws_config=aws_config)
-deregister_patch_baseline_for_patch_group(BaselineId, PatchGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId, "PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
+deregister_patch_baseline_for_patch_group(BaselineId, PatchGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId, "PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
 
 """
     deregister_target_from_maintenance_window(window_id, window_target_id)
@@ -737,7 +737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maintenance window.
 """
 deregister_target_from_maintenance_window(WindowId, WindowTargetId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterTargetFromMaintenanceWindow", Dict{String, Any}("WindowId"=>WindowId, "WindowTargetId"=>WindowTargetId); aws_config=aws_config)
-deregister_target_from_maintenance_window(WindowId, WindowTargetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterTargetFromMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTargetId"=>WindowTargetId), params)); aws_config=aws_config)
+deregister_target_from_maintenance_window(WindowId, WindowTargetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterTargetFromMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTargetId"=>WindowTargetId), params)); aws_config=aws_config)
 
 """
     deregister_task_from_maintenance_window(window_id, window_task_id)
@@ -751,7 +751,7 @@ Removes a task from a maintenance window.
 
 """
 deregister_task_from_maintenance_window(WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterTaskFromMaintenanceWindow", Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId); aws_config=aws_config)
-deregister_task_from_maintenance_window(WindowId, WindowTaskId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterTaskFromMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config)
+deregister_task_from_maintenance_window(WindowId, WindowTaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeregisterTaskFromMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config)
 
 """
     describe_activations()
@@ -769,7 +769,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 describe_activations(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeActivations"; aws_config=aws_config)
-describe_activations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeActivations", params; aws_config=aws_config)
+describe_activations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeActivations", params; aws_config=aws_config)
 
 """
     describe_association()
@@ -792,7 +792,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the Systems Manager document.
 """
 describe_association(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociation"; aws_config=aws_config)
-describe_association(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociation", params; aws_config=aws_config)
+describe_association(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociation", params; aws_config=aws_config)
 
 """
     describe_association_execution_targets(association_id, execution_id)
@@ -815,7 +815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 describe_association_execution_targets(AssociationId, ExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociationExecutionTargets", Dict{String, Any}("AssociationId"=>AssociationId, "ExecutionId"=>ExecutionId); aws_config=aws_config)
-describe_association_execution_targets(AssociationId, ExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociationExecutionTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ExecutionId"=>ExecutionId), params)); aws_config=aws_config)
+describe_association_execution_targets(AssociationId, ExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociationExecutionTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ExecutionId"=>ExecutionId), params)); aws_config=aws_config)
 
 """
     describe_association_executions(association_id)
@@ -835,7 +835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 describe_association_executions(AssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociationExecutions", Dict{String, Any}("AssociationId"=>AssociationId); aws_config=aws_config)
-describe_association_executions(AssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociationExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config)
+describe_association_executions(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAssociationExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config)
 
 """
     describe_automation_executions()
@@ -852,7 +852,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_automation_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationExecutions"; aws_config=aws_config)
-describe_automation_executions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationExecutions", params; aws_config=aws_config)
+describe_automation_executions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationExecutions", params; aws_config=aws_config)
 
 """
     describe_automation_step_executions(automation_execution_id)
@@ -876,7 +876,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   order by start time. The default value is 'false'.
 """
 describe_automation_step_executions(AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationStepExecutions", Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId); aws_config=aws_config)
-describe_automation_step_executions(AutomationExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationStepExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config)
+describe_automation_step_executions(AutomationExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationStepExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config)
 
 """
     describe_available_patches()
@@ -892,7 +892,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_available_patches(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAvailablePatches"; aws_config=aws_config)
-describe_available_patches(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAvailablePatches", params; aws_config=aws_config)
+describe_available_patches(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAvailablePatches", params; aws_config=aws_config)
 
 """
     describe_document(name)
@@ -912,7 +912,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of a document, and cannot be changed.
 """
 describe_document(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeDocument", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_document(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+describe_document(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_document_permission(name, permission_type)
@@ -934,7 +934,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_document_permission(Name, PermissionType; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeDocumentPermission", Dict{String, Any}("Name"=>Name, "PermissionType"=>PermissionType); aws_config=aws_config)
-describe_document_permission(Name, PermissionType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeDocumentPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionType"=>PermissionType), params)); aws_config=aws_config)
+describe_document_permission(Name, PermissionType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeDocumentPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionType"=>PermissionType), params)); aws_config=aws_config)
 
 """
     describe_effective_instance_associations(instance_id)
@@ -953,7 +953,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_effective_instance_associations(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeEffectiveInstanceAssociations", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-describe_effective_instance_associations(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeEffectiveInstanceAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
+describe_effective_instance_associations(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeEffectiveInstanceAssociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
     describe_effective_patches_for_patch_baseline(baseline_id)
@@ -972,7 +972,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_effective_patches_for_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeEffectivePatchesForPatchBaseline", Dict{String, Any}("BaselineId"=>BaselineId); aws_config=aws_config)
-describe_effective_patches_for_patch_baseline(BaselineId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeEffectivePatchesForPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
+describe_effective_patches_for_patch_baseline(BaselineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeEffectivePatchesForPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
 
 """
     describe_instance_associations_status(instance_id)
@@ -991,7 +991,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_instance_associations_status(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstanceAssociationsStatus", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-describe_instance_associations_status(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstanceAssociationsStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
+describe_instance_associations_status(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstanceAssociationsStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
     describe_instance_information()
@@ -1021,7 +1021,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_instance_information(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstanceInformation"; aws_config=aws_config)
-describe_instance_information(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstanceInformation", params; aws_config=aws_config)
+describe_instance_information(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstanceInformation", params; aws_config=aws_config)
 
 """
     describe_instance_patch_states(instance_ids)
@@ -1039,7 +1039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_instance_patch_states(InstanceIds; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatchStates", Dict{String, Any}("InstanceIds"=>InstanceIds); aws_config=aws_config)
-describe_instance_patch_states(InstanceIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatchStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), params)); aws_config=aws_config)
+describe_instance_patch_states(InstanceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatchStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceIds"=>InstanceIds), params)); aws_config=aws_config)
 
 """
     describe_instance_patch_states_for_patch_group(patch_group)
@@ -1061,7 +1061,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_instance_patch_states_for_patch_group(PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatchStatesForPatchGroup", Dict{String, Any}("PatchGroup"=>PatchGroup); aws_config=aws_config)
-describe_instance_patch_states_for_patch_group(PatchGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatchStatesForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
+describe_instance_patch_states_for_patch_group(PatchGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatchStatesForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
 
 """
     describe_instance_patches(instance_id)
@@ -1082,7 +1082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_instance_patches(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatches", Dict{String, Any}("InstanceId"=>InstanceId); aws_config=aws_config)
-describe_instance_patches(InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
+describe_instance_patches(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInstancePatches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
     describe_inventory_deletions()
@@ -1099,7 +1099,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 describe_inventory_deletions(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInventoryDeletions"; aws_config=aws_config)
-describe_inventory_deletions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInventoryDeletions", params; aws_config=aws_config)
+describe_inventory_deletions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeInventoryDeletions", params; aws_config=aws_config)
 
 """
     describe_maintenance_window_execution_task_invocations(task_id, window_execution_id)
@@ -1124,7 +1124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_maintenance_window_execution_task_invocations(TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutionTaskInvocations", Dict{String, Any}("TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId); aws_config=aws_config)
-describe_maintenance_window_execution_task_invocations(TaskId, WindowExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutionTaskInvocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
+describe_maintenance_window_execution_task_invocations(TaskId, WindowExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutionTaskInvocations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
 
 """
     describe_maintenance_window_execution_tasks(window_execution_id)
@@ -1147,7 +1147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_maintenance_window_execution_tasks(WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutionTasks", Dict{String, Any}("WindowExecutionId"=>WindowExecutionId); aws_config=aws_config)
-describe_maintenance_window_execution_tasks(WindowExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutionTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
+describe_maintenance_window_execution_tasks(WindowExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutionTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
 
 """
     describe_maintenance_window_executions(window_id)
@@ -1172,7 +1172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_maintenance_window_executions(WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutions", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
-describe_maintenance_window_executions(WindowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
+describe_maintenance_window_executions(WindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
 
 """
     describe_maintenance_window_schedule()
@@ -1195,7 +1195,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WindowId"`: The ID of the maintenance window to retrieve information about.
 """
 describe_maintenance_window_schedule(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowSchedule"; aws_config=aws_config)
-describe_maintenance_window_schedule(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowSchedule", params; aws_config=aws_config)
+describe_maintenance_window_schedule(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowSchedule", params; aws_config=aws_config)
 
 """
     describe_maintenance_window_targets(window_id)
@@ -1216,7 +1216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_maintenance_window_targets(WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowTargets", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
-describe_maintenance_window_targets(WindowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
+describe_maintenance_window_targets(WindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
 
 """
     describe_maintenance_window_tasks(window_id)
@@ -1240,7 +1240,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_maintenance_window_tasks(WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowTasks", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
-describe_maintenance_window_tasks(WindowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
+describe_maintenance_window_tasks(WindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
 
 """
     describe_maintenance_windows()
@@ -1258,7 +1258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_maintenance_windows(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindows"; aws_config=aws_config)
-describe_maintenance_windows(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindows", params; aws_config=aws_config)
+describe_maintenance_windows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindows", params; aws_config=aws_config)
 
 """
     describe_maintenance_windows_for_target(resource_type, targets)
@@ -1280,7 +1280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_maintenance_windows_for_target(ResourceType, Targets; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowsForTarget", Dict{String, Any}("ResourceType"=>ResourceType, "Targets"=>Targets); aws_config=aws_config)
-describe_maintenance_windows_for_target(ResourceType, Targets, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowsForTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "Targets"=>Targets), params)); aws_config=aws_config)
+describe_maintenance_windows_for_target(ResourceType, Targets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeMaintenanceWindowsForTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "Targets"=>Targets), params)); aws_config=aws_config)
 
 """
     describe_ops_items()
@@ -1310,7 +1310,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   {\"key\":\"key_name\",\"value\":\"a_value\"}
 """
 describe_ops_items(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeOpsItems"; aws_config=aws_config)
-describe_ops_items(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeOpsItems", params; aws_config=aws_config)
+describe_ops_items(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeOpsItems", params; aws_config=aws_config)
 
 """
     describe_parameters()
@@ -1333,7 +1333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParameterFilters"`: Filters to limit the request results.
 """
 describe_parameters(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeParameters"; aws_config=aws_config)
-describe_parameters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeParameters", params; aws_config=aws_config)
+describe_parameters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeParameters", params; aws_config=aws_config)
 
 """
     describe_patch_baselines()
@@ -1351,7 +1351,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_patch_baselines(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchBaselines"; aws_config=aws_config)
-describe_patch_baselines(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchBaselines", params; aws_config=aws_config)
+describe_patch_baselines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchBaselines", params; aws_config=aws_config)
 
 """
     describe_patch_group_state(patch_group)
@@ -1364,7 +1364,7 @@ Returns high-level aggregated patch compliance state for a patch group.
 
 """
 describe_patch_group_state(PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchGroupState", Dict{String, Any}("PatchGroup"=>PatchGroup); aws_config=aws_config)
-describe_patch_group_state(PatchGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchGroupState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
+describe_patch_group_state(PatchGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchGroupState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
 
 """
     describe_patch_groups()
@@ -1386,7 +1386,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_patch_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchGroups"; aws_config=aws_config)
-describe_patch_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchGroups", params; aws_config=aws_config)
+describe_patch_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchGroups", params; aws_config=aws_config)
 
 """
     describe_patch_properties(operating_system, property)
@@ -1420,7 +1420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Microsoft applications. Not applicable for the Linux or macOS operating systems.
 """
 describe_patch_properties(OperatingSystem, Property; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchProperties", Dict{String, Any}("OperatingSystem"=>OperatingSystem, "Property"=>Property); aws_config=aws_config)
-describe_patch_properties(OperatingSystem, Property, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperatingSystem"=>OperatingSystem, "Property"=>Property), params)); aws_config=aws_config)
+describe_patch_properties(OperatingSystem, Property, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribePatchProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperatingSystem"=>OperatingSystem, "Property"=>Property), params)); aws_config=aws_config)
 
 """
     describe_sessions(state)
@@ -1441,7 +1441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 describe_sessions(State; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeSessions", Dict{String, Any}("State"=>State); aws_config=aws_config)
-describe_sessions(State, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("State"=>State), params)); aws_config=aws_config)
+describe_sessions(State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("State"=>State), params)); aws_config=aws_config)
 
 """
     get_automation_execution(automation_execution_id)
@@ -1456,7 +1456,7 @@ Get detailed information about a particular Automation execution.
 
 """
 get_automation_execution(AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetAutomationExecution", Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId); aws_config=aws_config)
-get_automation_execution(AutomationExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config)
+get_automation_execution(AutomationExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config)
 
 """
     get_calendar_state(calendar_names)
@@ -1482,7 +1482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, in ISO 8601 format. If you do not add AtTime, the current time is assumed.
 """
 get_calendar_state(CalendarNames; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCalendarState", Dict{String, Any}("CalendarNames"=>CalendarNames); aws_config=aws_config)
-get_calendar_state(CalendarNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCalendarState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalendarNames"=>CalendarNames), params)); aws_config=aws_config)
+get_calendar_state(CalendarNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCalendarState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalendarNames"=>CalendarNames), params)); aws_config=aws_config)
 
 """
     get_command_invocation(command_id, instance_id)
@@ -1511,7 +1511,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Name attribute of the CommandPlugin object in the CommandPlugins list.
 """
 get_command_invocation(CommandId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCommandInvocation", Dict{String, Any}("CommandId"=>CommandId, "InstanceId"=>InstanceId); aws_config=aws_config)
-get_command_invocation(CommandId, InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCommandInvocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CommandId"=>CommandId, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
+get_command_invocation(CommandId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetCommandInvocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CommandId"=>CommandId, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
     get_connection_status(target)
@@ -1525,7 +1525,7 @@ running and ready to receive Session Manager connections.
 
 """
 get_connection_status(Target; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetConnectionStatus", Dict{String, Any}("Target"=>Target); aws_config=aws_config)
-get_connection_status(Target, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetConnectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config)
+get_connection_status(Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetConnectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config)
 
 """
     get_default_patch_baseline()
@@ -1542,7 +1542,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system.
 """
 get_default_patch_baseline(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDefaultPatchBaseline"; aws_config=aws_config)
-get_default_patch_baseline(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDefaultPatchBaseline", params; aws_config=aws_config)
+get_default_patch_baseline(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDefaultPatchBaseline", params; aws_config=aws_config)
 
 """
     get_deployable_patch_snapshot_for_instance(instance_id, snapshot_id)
@@ -1561,7 +1561,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BaselineOverride"`: Defines the basic information about a patch baseline override.
 """
 get_deployable_patch_snapshot_for_instance(InstanceId, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDeployablePatchSnapshotForInstance", Dict{String, Any}("InstanceId"=>InstanceId, "SnapshotId"=>SnapshotId); aws_config=aws_config)
-get_deployable_patch_snapshot_for_instance(InstanceId, SnapshotId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDeployablePatchSnapshotForInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "SnapshotId"=>SnapshotId), params)); aws_config=aws_config)
+get_deployable_patch_snapshot_for_instance(InstanceId, SnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDeployablePatchSnapshotForInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "SnapshotId"=>SnapshotId), params)); aws_config=aws_config)
 
 """
     get_document(name)
@@ -1582,7 +1582,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of a document and can't be changed.
 """
 get_document(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDocument", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_document(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_document(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_inventory()
@@ -1604,7 +1604,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResultAttributes"`: The list of inventory item types to return.
 """
 get_inventory(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetInventory"; aws_config=aws_config)
-get_inventory(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetInventory", params; aws_config=aws_config)
+get_inventory(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetInventory", params; aws_config=aws_config)
 
 """
     get_inventory_schema()
@@ -1626,7 +1626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TypeName"`: The type of inventory item to return.
 """
 get_inventory_schema(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetInventorySchema"; aws_config=aws_config)
-get_inventory_schema(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetInventorySchema", params; aws_config=aws_config)
+get_inventory_schema(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetInventorySchema", params; aws_config=aws_config)
 
 """
     get_maintenance_window(window_id)
@@ -1639,7 +1639,7 @@ Retrieves a maintenance window.
 
 """
 get_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindow", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
-get_maintenance_window(WindowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
+get_maintenance_window(WindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
 
 """
     get_maintenance_window_execution(window_execution_id)
@@ -1652,7 +1652,7 @@ Retrieves details about a specific a maintenance window execution.
 
 """
 get_maintenance_window_execution(WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecution", Dict{String, Any}("WindowExecutionId"=>WindowExecutionId); aws_config=aws_config)
-get_maintenance_window_execution(WindowExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
+get_maintenance_window_execution(WindowExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
 
 """
     get_maintenance_window_execution_task(task_id, window_execution_id)
@@ -1667,7 +1667,7 @@ Retrieves the details about a specific task run as part of a maintenance window 
 
 """
 get_maintenance_window_execution_task(TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecutionTask", Dict{String, Any}("TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId); aws_config=aws_config)
-get_maintenance_window_execution_task(TaskId, WindowExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecutionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
+get_maintenance_window_execution_task(TaskId, WindowExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecutionTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
 
 """
     get_maintenance_window_execution_task_invocation(invocation_id, task_id, window_execution_id)
@@ -1684,7 +1684,7 @@ Retrieves information about a specific task running on a specific target.
 
 """
 get_maintenance_window_execution_task_invocation(InvocationId, TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecutionTaskInvocation", Dict{String, Any}("InvocationId"=>InvocationId, "TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId); aws_config=aws_config)
-get_maintenance_window_execution_task_invocation(InvocationId, TaskId, WindowExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecutionTaskInvocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvocationId"=>InvocationId, "TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
+get_maintenance_window_execution_task_invocation(InvocationId, TaskId, WindowExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowExecutionTaskInvocation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvocationId"=>InvocationId, "TaskId"=>TaskId, "WindowExecutionId"=>WindowExecutionId), params)); aws_config=aws_config)
 
 """
     get_maintenance_window_task(window_id, window_task_id)
@@ -1701,7 +1701,7 @@ command. These values do not affect the running of your task and can be ignored.
 
 """
 get_maintenance_window_task(WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowTask", Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId); aws_config=aws_config)
-get_maintenance_window_task(WindowId, WindowTaskId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config)
+get_maintenance_window_task(WindowId, WindowTaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetMaintenanceWindowTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config)
 
 """
     get_ops_item(ops_item_id)
@@ -1719,7 +1719,7 @@ Systems Manager OpsCenter in the AWS Systems Manager User Guide.
 
 """
 get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsItem", Dict{String, Any}("OpsItemId"=>OpsItemId); aws_config=aws_config)
-get_ops_item(OpsItemId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), params)); aws_config=aws_config)
+get_ops_item(OpsItemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), params)); aws_config=aws_config)
 
 """
     get_ops_metadata(ops_metadata_arn)
@@ -1737,7 +1737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 get_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
-get_ops_metadata(OpsMetadataArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config)
+get_ops_metadata(OpsMetadataArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config)
 
 """
     get_ops_summary()
@@ -1757,7 +1757,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyncName"`: Specify the name of a resource data sync to get.
 """
 get_ops_summary(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsSummary"; aws_config=aws_config)
-get_ops_summary(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsSummary", params; aws_config=aws_config)
+get_ops_summary(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetOpsSummary", params; aws_config=aws_config)
 
 """
     get_parameter(name)
@@ -1775,7 +1775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignored for String and StringList parameter types.
 """
 get_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameter", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_parameter(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_parameter(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_parameter_history(name)
@@ -1796,7 +1796,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignored for String and StringList parameter types.
 """
 get_parameter_history(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameterHistory", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_parameter_history(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameterHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_parameter_history(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameterHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_parameters(names)
@@ -1813,7 +1813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   secure string parameters. This flag is ignored for String and StringList parameter types.
 """
 get_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameters", Dict{String, Any}("Names"=>Names); aws_config=aws_config)
-get_parameters(Names, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config)
+get_parameters(Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config)
 
 """
     get_parameters_by_path(path)
@@ -1850,7 +1850,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WithDecryption"`: Retrieve all parameters in a hierarchy with their value decrypted.
 """
 get_parameters_by_path(Path; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParametersByPath", Dict{String, Any}("Path"=>Path); aws_config=aws_config)
-get_parameters_by_path(Path, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParametersByPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Path"=>Path), params)); aws_config=aws_config)
+get_parameters_by_path(Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetParametersByPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Path"=>Path), params)); aws_config=aws_config)
 
 """
     get_patch_baseline(baseline_id)
@@ -1863,7 +1863,7 @@ Retrieves information about a patch baseline.
 
 """
 get_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetPatchBaseline", Dict{String, Any}("BaselineId"=>BaselineId); aws_config=aws_config)
-get_patch_baseline(BaselineId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
+get_patch_baseline(BaselineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
 
 """
     get_patch_baseline_for_patch_group(patch_group)
@@ -1880,7 +1880,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the patch baseline.
 """
 get_patch_baseline_for_patch_group(PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetPatchBaselineForPatchGroup", Dict{String, Any}("PatchGroup"=>PatchGroup); aws_config=aws_config)
-get_patch_baseline_for_patch_group(PatchGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
+get_patch_baseline_for_patch_group(PatchGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
 
 """
     get_service_setting(setting_id)
@@ -1907,7 +1907,7 @@ service team. Query the current service setting for the account.
 
 """
 get_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetServiceSetting", Dict{String, Any}("SettingId"=>SettingId); aws_config=aws_config)
-get_service_setting(SettingId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId), params)); aws_config=aws_config)
+get_service_setting(SettingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId), params)); aws_config=aws_config)
 
 """
     label_parameter_version(labels, name)
@@ -1940,7 +1940,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 label_parameter_version(Labels, Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("LabelParameterVersion", Dict{String, Any}("Labels"=>Labels, "Name"=>Name); aws_config=aws_config)
-label_parameter_version(Labels, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("LabelParameterVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels, "Name"=>Name), params)); aws_config=aws_config)
+label_parameter_version(Labels, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("LabelParameterVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     list_association_versions(association_id)
@@ -1958,7 +1958,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 list_association_versions(AssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListAssociationVersions", Dict{String, Any}("AssociationId"=>AssociationId); aws_config=aws_config)
-list_association_versions(AssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListAssociationVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config)
+list_association_versions(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListAssociationVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config)
 
 """
     list_associations()
@@ -1980,7 +1980,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 list_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListAssociations"; aws_config=aws_config)
-list_associations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListAssociations", params; aws_config=aws_config)
+list_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListAssociations", params; aws_config=aws_config)
 
 """
     list_command_invocations()
@@ -2006,7 +2006,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous call.)
 """
 list_command_invocations(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListCommandInvocations"; aws_config=aws_config)
-list_command_invocations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListCommandInvocations", params; aws_config=aws_config)
+list_command_invocations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListCommandInvocations", params; aws_config=aws_config)
 
 """
     list_commands()
@@ -2029,7 +2029,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous call.)
 """
 list_commands(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListCommands"; aws_config=aws_config)
-list_commands(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListCommands", params; aws_config=aws_config)
+list_commands(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListCommands", params; aws_config=aws_config)
 
 """
     list_compliance_items()
@@ -2052,7 +2052,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Currently, the only supported resource type is ManagedInstance.
 """
 list_compliance_items(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListComplianceItems"; aws_config=aws_config)
-list_compliance_items(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListComplianceItems", params; aws_config=aws_config)
+list_compliance_items(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListComplianceItems", params; aws_config=aws_config)
 
 """
     list_compliance_summaries()
@@ -2072,7 +2072,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 list_compliance_summaries(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListComplianceSummaries"; aws_config=aws_config)
-list_compliance_summaries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListComplianceSummaries", params; aws_config=aws_config)
+list_compliance_summaries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListComplianceSummaries", params; aws_config=aws_config)
 
 """
     list_document_metadata_history(metadata, name)
@@ -2094,7 +2094,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 list_document_metadata_history(Metadata, Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocumentMetadataHistory", Dict{String, Any}("Metadata"=>Metadata, "Name"=>Name); aws_config=aws_config)
-list_document_metadata_history(Metadata, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocumentMetadataHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Metadata"=>Metadata, "Name"=>Name), params)); aws_config=aws_config)
+list_document_metadata_history(Metadata, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocumentMetadataHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Metadata"=>Metadata, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     list_document_versions(name)
@@ -2113,7 +2113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 list_document_versions(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocumentVersions", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-list_document_versions(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocumentVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+list_document_versions(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocumentVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     list_documents()
@@ -2139,7 +2139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 list_documents(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocuments"; aws_config=aws_config)
-list_documents(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocuments", params; aws_config=aws_config)
+list_documents(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListDocuments", params; aws_config=aws_config)
 
 """
     list_inventory_entries(instance_id, type_name)
@@ -2160,7 +2160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 """
 list_inventory_entries(InstanceId, TypeName; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListInventoryEntries", Dict{String, Any}("InstanceId"=>InstanceId, "TypeName"=>TypeName); aws_config=aws_config)
-list_inventory_entries(InstanceId, TypeName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListInventoryEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "TypeName"=>TypeName), params)); aws_config=aws_config)
+list_inventory_entries(InstanceId, TypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListInventoryEntries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "TypeName"=>TypeName), params)); aws_config=aws_config)
 
 """
     list_ops_item_events()
@@ -2178,7 +2178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 list_ops_item_events(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsItemEvents"; aws_config=aws_config)
-list_ops_item_events(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsItemEvents", params; aws_config=aws_config)
+list_ops_item_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsItemEvents", params; aws_config=aws_config)
 
 """
     list_ops_metadata()
@@ -2196,7 +2196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 list_ops_metadata(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsMetadata"; aws_config=aws_config)
-list_ops_metadata(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsMetadata", params; aws_config=aws_config)
+list_ops_metadata(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsMetadata", params; aws_config=aws_config)
 
 """
     list_resource_compliance_summaries()
@@ -2214,7 +2214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to start the list. Use this token to get the next set of results.
 """
 list_resource_compliance_summaries(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListResourceComplianceSummaries"; aws_config=aws_config)
-list_resource_compliance_summaries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListResourceComplianceSummaries", params; aws_config=aws_config)
+list_resource_compliance_summaries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListResourceComplianceSummaries", params; aws_config=aws_config)
 
 """
     list_resource_data_sync()
@@ -2240,7 +2240,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Regions.
 """
 list_resource_data_sync(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListResourceDataSync"; aws_config=aws_config)
-list_resource_data_sync(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListResourceDataSync", params; aws_config=aws_config)
+list_resource_data_sync(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListResourceDataSync", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_id, resource_type)
@@ -2254,7 +2254,7 @@ Returns a list of the tags assigned to the specified resource.
 
 """
 list_tags_for_resource(ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListTagsForResource", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws_config=aws_config)
-list_tags_for_resource(ResourceId, ResourceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceId, ResourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
 
 """
     modify_document_permission(name, permission_type)
@@ -2280,7 +2280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the system choose the Default version to share.
 """
 modify_document_permission(Name, PermissionType; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ModifyDocumentPermission", Dict{String, Any}("Name"=>Name, "PermissionType"=>PermissionType); aws_config=aws_config)
-modify_document_permission(Name, PermissionType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ModifyDocumentPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionType"=>PermissionType), params)); aws_config=aws_config)
+modify_document_permission(Name, PermissionType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ModifyDocumentPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionType"=>PermissionType), params)); aws_config=aws_config)
 
 """
     put_compliance_items(compliance_type, execution_summary, items, resource_id, resource_type)
@@ -2332,7 +2332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   compliance.
 """
 put_compliance_items(ComplianceType, ExecutionSummary, Items, ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutComplianceItems", Dict{String, Any}("ComplianceType"=>ComplianceType, "ExecutionSummary"=>ExecutionSummary, "Items"=>Items, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws_config=aws_config)
-put_compliance_items(ComplianceType, ExecutionSummary, Items, ResourceId, ResourceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutComplianceItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComplianceType"=>ComplianceType, "ExecutionSummary"=>ExecutionSummary, "Items"=>Items, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
+put_compliance_items(ComplianceType, ExecutionSummary, Items, ResourceId, ResourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutComplianceItems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComplianceType"=>ComplianceType, "ExecutionSummary"=>ExecutionSummary, "Items"=>Items, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType), params)); aws_config=aws_config)
 
 """
     put_inventory(instance_id, items)
@@ -2347,7 +2347,7 @@ item, if it doesn't already exist, or updates an inventory item, if it does exis
 
 """
 put_inventory(InstanceId, Items; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutInventory", Dict{String, Any}("InstanceId"=>InstanceId, "Items"=>Items); aws_config=aws_config)
-put_inventory(InstanceId, Items, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutInventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "Items"=>Items), params)); aws_config=aws_config)
+put_inventory(InstanceId, Items, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutInventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "Items"=>Items), params)); aws_config=aws_config)
 
 """
     put_parameter(name, value)
@@ -2464,7 +2464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a parameter type when creating a parameter.
 """
 put_parameter(Name, Value; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutParameter", Dict{String, Any}("Name"=>Name, "Value"=>Value); aws_config=aws_config)
-put_parameter(Name, Value, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Value"=>Value), params)); aws_config=aws_config)
+put_parameter(Name, Value, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("PutParameter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Value"=>Value), params)); aws_config=aws_config)
 
 """
     register_default_patch_baseline(baseline_id)
@@ -2481,7 +2481,7 @@ pb-0574b43a65ea646ed.
 
 """
 register_default_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterDefaultPatchBaseline", Dict{String, Any}("BaselineId"=>BaselineId); aws_config=aws_config)
-register_default_patch_baseline(BaselineId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterDefaultPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
+register_default_patch_baseline(BaselineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterDefaultPatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
 
 """
     register_patch_baseline_for_patch_group(baseline_id, patch_group)
@@ -2496,7 +2496,7 @@ Registers a patch baseline for a patch group.
 
 """
 register_patch_baseline_for_patch_group(BaselineId, PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterPatchBaselineForPatchGroup", Dict{String, Any}("BaselineId"=>BaselineId, "PatchGroup"=>PatchGroup); aws_config=aws_config)
-register_patch_baseline_for_patch_group(BaselineId, PatchGroup, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId, "PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
+register_patch_baseline_for_patch_group(BaselineId, PatchGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterPatchBaselineForPatchGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId, "PatchGroup"=>PatchGroup), params)); aws_config=aws_config)
 
 """
     register_target_with_maintenance_window(resource_type, targets, window_id)
@@ -2534,7 +2534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   raised while running tasks for these targets in this maintenance window.
 """
 register_target_with_maintenance_window(ResourceType, Targets, WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterTargetWithMaintenanceWindow", Dict{String, Any}("ResourceType"=>ResourceType, "Targets"=>Targets, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-register_target_with_maintenance_window(ResourceType, Targets, WindowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterTargetWithMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "Targets"=>Targets, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+register_target_with_maintenance_window(ResourceType, Targets, WindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterTargetWithMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceType"=>ResourceType, "Targets"=>Targets, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     register_task_with_maintenance_window(task_arn, task_type, window_id)
@@ -2595,7 +2595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   window task types, see MaintenanceWindowTaskInvocationParameters.
 """
 register_task_with_maintenance_window(TaskArn, TaskType, WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterTaskWithMaintenanceWindow", Dict{String, Any}("TaskArn"=>TaskArn, "TaskType"=>TaskType, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-register_task_with_maintenance_window(TaskArn, TaskType, WindowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterTaskWithMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn, "TaskType"=>TaskType, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+register_task_with_maintenance_window(TaskArn, TaskType, WindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RegisterTaskWithMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn, "TaskType"=>TaskType, "WindowId"=>WindowId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     remove_tags_from_resource(resource_id, resource_type, tag_keys)
@@ -2622,7 +2622,7 @@ Removes tag keys from the specified resource.
 
 """
 remove_tags_from_resource(ResourceId, ResourceType, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RemoveTagsFromResource", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys); aws_config=aws_config)
-remove_tags_from_resource(ResourceId, ResourceType, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+remove_tags_from_resource(ResourceId, ResourceType, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     reset_service_setting(setting_id)
@@ -2651,7 +2651,7 @@ default value as provisioned by the AWS service team.
 
 """
 reset_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ResetServiceSetting", Dict{String, Any}("SettingId"=>SettingId); aws_config=aws_config)
-reset_service_setting(SettingId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ResetServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId), params)); aws_config=aws_config)
+reset_service_setting(SettingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ResetServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId), params)); aws_config=aws_config)
 
 """
     resume_session(session_id)
@@ -2667,7 +2667,7 @@ It is not intended for any other use.
 
 """
 resume_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ResumeSession", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config)
-resume_session(SessionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ResumeSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config)
+resume_session(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ResumeSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config)
 
 """
     send_automation_signal(automation_execution_id, signal_type)
@@ -2692,7 +2692,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StepExecutionId=\"97fff367-fc5a-4299-aed8-0123456789ab\"
 """
 send_automation_signal(AutomationExecutionId, SignalType; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("SendAutomationSignal", Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId, "SignalType"=>SignalType); aws_config=aws_config)
-send_automation_signal(AutomationExecutionId, SignalType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("SendAutomationSignal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId, "SignalType"=>SignalType), params)); aws_config=aws_config)
+send_automation_signal(AutomationExecutionId, SignalType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("SendAutomationSignal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId, "SignalType"=>SignalType), params)); aws_config=aws_config)
 
 """
     send_command(document_name)
@@ -2758,7 +2758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   running, it will not run.
 """
 send_command(DocumentName; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("SendCommand", Dict{String, Any}("DocumentName"=>DocumentName); aws_config=aws_config)
-send_command(DocumentName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("SendCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName), params)); aws_config=aws_config)
+send_command(DocumentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("SendCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName), params)); aws_config=aws_config)
 
 """
     start_associations_once(association_ids)
@@ -2772,7 +2772,7 @@ helpful when troubleshooting associations.
 
 """
 start_associations_once(AssociationIds; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartAssociationsOnce", Dict{String, Any}("AssociationIds"=>AssociationIds); aws_config=aws_config)
-start_associations_once(AssociationIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartAssociationsOnce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationIds"=>AssociationIds), params)); aws_config=aws_config)
+start_associations_once(AssociationIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartAssociationsOnce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationIds"=>AssociationIds), params)); aws_config=aws_config)
 
 """
     start_automation_execution(document_name)
@@ -2826,7 +2826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TargetParameterName.
 """
 start_automation_execution(DocumentName; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartAutomationExecution", Dict{String, Any}("DocumentName"=>DocumentName); aws_config=aws_config)
-start_automation_execution(DocumentName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName), params)); aws_config=aws_config)
+start_automation_execution(DocumentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName), params)); aws_config=aws_config)
 
 """
     start_change_request_execution(document_name, runbooks)
@@ -2870,7 +2870,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Key=Region,Value=us-east-2
 """
 start_change_request_execution(DocumentName, Runbooks; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartChangeRequestExecution", Dict{String, Any}("DocumentName"=>DocumentName, "Runbooks"=>Runbooks); aws_config=aws_config)
-start_change_request_execution(DocumentName, Runbooks, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartChangeRequestExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName, "Runbooks"=>Runbooks), params)); aws_config=aws_config)
+start_change_request_execution(DocumentName, Runbooks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartChangeRequestExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentName"=>DocumentName, "Runbooks"=>Runbooks), params)); aws_config=aws_config)
 
 """
     start_session(target)
@@ -2896,7 +2896,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: Reserved for future use.
 """
 start_session(Target; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartSession", Dict{String, Any}("Target"=>Target); aws_config=aws_config)
-start_session(Target, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config)
+start_session(Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Target"=>Target), params)); aws_config=aws_config)
 
 """
     stop_automation_execution(automation_execution_id)
@@ -2913,7 +2913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The default type is Cancel.
 """
 stop_automation_execution(AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StopAutomationExecution", Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId); aws_config=aws_config)
-stop_automation_execution(AutomationExecutionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StopAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config)
+stop_automation_execution(AutomationExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StopAutomationExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config)
 
 """
     terminate_session(session_id)
@@ -2927,7 +2927,7 @@ client and SSM Agent on the instance. A terminated session cannot be resumed.
 
 """
 terminate_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("TerminateSession", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config)
-terminate_session(SessionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("TerminateSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config)
+terminate_session(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("TerminateSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config)
 
 """
     unlabel_parameter_version(labels, name, parameter_version)
@@ -2943,7 +2943,7 @@ Remove a label or labels from a parameter.
 
 """
 unlabel_parameter_version(Labels, Name, ParameterVersion; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UnlabelParameterVersion", Dict{String, Any}("Labels"=>Labels, "Name"=>Name, "ParameterVersion"=>ParameterVersion); aws_config=aws_config)
-unlabel_parameter_version(Labels, Name, ParameterVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UnlabelParameterVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels, "Name"=>Name, "ParameterVersion"=>ParameterVersion), params)); aws_config=aws_config)
+unlabel_parameter_version(Labels, Name, ParameterVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UnlabelParameterVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels, "Name"=>Name, "ParameterVersion"=>ParameterVersion), params)); aws_config=aws_config)
 
 """
     update_association(association_id)
@@ -3027,7 +3027,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Targets"`: The targets of the association.
 """
 update_association(AssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateAssociation", Dict{String, Any}("AssociationId"=>AssociationId); aws_config=aws_config)
-update_association(AssociationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config)
+update_association(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config)
 
 """
     update_association_status(association_status, instance_id, name)
@@ -3042,7 +3042,7 @@ Updates the status of the Systems Manager document associated with the specified
 
 """
 update_association_status(AssociationStatus, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateAssociationStatus", Dict{String, Any}("AssociationStatus"=>AssociationStatus, "InstanceId"=>InstanceId, "Name"=>Name); aws_config=aws_config)
-update_association_status(AssociationStatus, InstanceId, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationStatus"=>AssociationStatus, "InstanceId"=>InstanceId, "Name"=>Name), params)); aws_config=aws_config)
+update_association_status(AssociationStatus, InstanceId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateAssociationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationStatus"=>AssociationStatus, "InstanceId"=>InstanceId, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_document(content, name)
@@ -3069,7 +3069,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   across all versions of a document, and cannot be changed.
 """
 update_document(Content, Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocument", Dict{String, Any}("Content"=>Content, "Name"=>Name); aws_config=aws_config)
-update_document(Content, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name), params)); aws_config=aws_config)
+update_document(Content, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_document_default_version(document_version, name)
@@ -3084,7 +3084,7 @@ Set the default version of a document.
 
 """
 update_document_default_version(DocumentVersion, Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocumentDefaultVersion", Dict{String, Any}("DocumentVersion"=>DocumentVersion, "Name"=>Name); aws_config=aws_config)
-update_document_default_version(DocumentVersion, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocumentDefaultVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentVersion"=>DocumentVersion, "Name"=>Name), params)); aws_config=aws_config)
+update_document_default_version(DocumentVersion, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocumentDefaultVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentVersion"=>DocumentVersion, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_document_metadata(document_reviews, name)
@@ -3101,7 +3101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DocumentVersion"`: The version of a document to update.
 """
 update_document_metadata(DocumentReviews, Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocumentMetadata", Dict{String, Any}("DocumentReviews"=>DocumentReviews, "Name"=>Name); aws_config=aws_config)
-update_document_metadata(DocumentReviews, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocumentMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentReviews"=>DocumentReviews, "Name"=>Name), params)); aws_config=aws_config)
+update_document_metadata(DocumentReviews, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocumentMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentReviews"=>DocumentReviews, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_maintenance_window(window_id)
@@ -3150,7 +3150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Zone Database on the IANA website.
 """
 update_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindow", Dict{String, Any}("WindowId"=>WindowId); aws_config=aws_config)
-update_maintenance_window(WindowId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
+update_maintenance_window(WindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId), params)); aws_config=aws_config)
 
 """
     update_maintenance_window_target(window_id, window_target_id)
@@ -3178,7 +3178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Targets"`: The targets to add or replace.
 """
 update_maintenance_window_target(WindowId, WindowTargetId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindowTarget", Dict{String, Any}("WindowId"=>WindowId, "WindowTargetId"=>WindowTargetId); aws_config=aws_config)
-update_maintenance_window_target(WindowId, WindowTargetId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindowTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTargetId"=>WindowTargetId), params)); aws_config=aws_config)
+update_maintenance_window_target(WindowId, WindowTargetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindowTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTargetId"=>WindowTargetId), params)); aws_config=aws_config)
 
 """
     update_maintenance_window_task(window_id, window_task_id)
@@ -3265,7 +3265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters
 """
 update_maintenance_window_task(WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindowTask", Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId); aws_config=aws_config)
-update_maintenance_window_task(WindowId, WindowTaskId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindowTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config)
+update_maintenance_window_task(WindowId, WindowTaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateMaintenanceWindowTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WindowId"=>WindowId, "WindowTaskId"=>WindowTaskId), params)); aws_config=aws_config)
 
 """
     update_managed_instance_role(iam_role, instance_id)
@@ -3281,7 +3281,7 @@ instances during the activation process. For more information, see CreateActivat
 
 """
 update_managed_instance_role(IamRole, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateManagedInstanceRole", Dict{String, Any}("IamRole"=>IamRole, "InstanceId"=>InstanceId); aws_config=aws_config)
-update_managed_instance_role(IamRole, InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateManagedInstanceRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRole"=>IamRole, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
+update_managed_instance_role(IamRole, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateManagedInstanceRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRole"=>IamRole, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
     update_ops_item(ops_item_id)
@@ -3339,7 +3339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 update_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsItem", Dict{String, Any}("OpsItemId"=>OpsItemId); aws_config=aws_config)
-update_ops_item(OpsItemId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), params)); aws_config=aws_config)
+update_ops_item(OpsItemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsItemId"=>OpsItemId), params)); aws_config=aws_config)
 
 """
     update_ops_metadata(ops_metadata_arn)
@@ -3356,7 +3356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MetadataToUpdate"`: Metadata to add to an OpsMetadata object.
 """
 update_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsMetadata", Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn); aws_config=aws_config)
-update_ops_metadata(OpsMetadataArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config)
+update_ops_metadata(OpsMetadataArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpsMetadataArn"=>OpsMetadataArn), params)); aws_config=aws_config)
 
 """
     update_patch_baseline(baseline_id)
@@ -3403,7 +3403,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   target operating systems and source repositories. Applies to Linux instances only.
 """
 update_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdatePatchBaseline", Dict{String, Any}("BaselineId"=>BaselineId); aws_config=aws_config)
-update_patch_baseline(BaselineId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdatePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
+update_patch_baseline(BaselineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdatePatchBaseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaselineId"=>BaselineId), params)); aws_config=aws_config)
 
 """
     update_resource_data_sync(sync_name, sync_source, sync_type)
@@ -3424,7 +3424,7 @@ SyncFromSource SyncType.
 
 """
 update_resource_data_sync(SyncName, SyncSource, SyncType; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateResourceDataSync", Dict{String, Any}("SyncName"=>SyncName, "SyncSource"=>SyncSource, "SyncType"=>SyncType); aws_config=aws_config)
-update_resource_data_sync(SyncName, SyncSource, SyncType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName, "SyncSource"=>SyncSource, "SyncType"=>SyncType), params)); aws_config=aws_config)
+update_resource_data_sync(SyncName, SyncSource, SyncType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName, "SyncSource"=>SyncSource, "SyncType"=>SyncType), params)); aws_config=aws_config)
 
 """
     update_service_setting(setting_id, setting_value)
@@ -3462,4 +3462,4 @@ service setting for the account.
 
 """
 update_service_setting(SettingId, SettingValue; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateServiceSetting", Dict{String, Any}("SettingId"=>SettingId, "SettingValue"=>SettingValue); aws_config=aws_config)
-update_service_setting(SettingId, SettingValue, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId, "SettingValue"=>SettingValue), params)); aws_config=aws_config)
+update_service_setting(SettingId, SettingValue, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateServiceSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SettingId"=>SettingId, "SettingValue"=>SettingValue), params)); aws_config=aws_config)

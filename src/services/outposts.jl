@@ -22,7 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to apply to the Outpost.
 """
 create_outpost(Name, SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId); aws_config=aws_config)
-create_outpost(Name, SiteId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId), params)); aws_config=aws_config)
+create_outpost(Name, SiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SiteId"=>SiteId), params)); aws_config=aws_config)
 
 """
     delete_outpost(outpost_id)
@@ -35,7 +35,7 @@ Deletes the Outpost.
 
 """
 delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/outposts/$(OutpostId)"; aws_config=aws_config)
-delete_outpost(OutpostId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/outposts/$(OutpostId)", params; aws_config=aws_config)
+delete_outpost(OutpostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/outposts/$(OutpostId)", params; aws_config=aws_config)
 
 """
     delete_site(site_id)
@@ -48,7 +48,7 @@ Deletes the site.
 
 """
 delete_site(SiteId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/sites/$(SiteId)"; aws_config=aws_config)
-delete_site(SiteId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/sites/$(SiteId)", params; aws_config=aws_config)
+delete_site(SiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/sites/$(SiteId)", params; aws_config=aws_config)
 
 """
     get_outpost(outpost_id)
@@ -61,7 +61,7 @@ Gets information about the specified Outpost.
 
 """
 get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)"; aws_config=aws_config)
-get_outpost(OutpostId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)", params; aws_config=aws_config)
+get_outpost(OutpostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)", params; aws_config=aws_config)
 
 """
     get_outpost_instance_types(outpost_id)
@@ -78,7 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 get_outpost_instance_types(OutpostId; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes"; aws_config=aws_config)
-get_outpost_instance_types(OutpostId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes", params; aws_config=aws_config)
+get_outpost_instance_types(OutpostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes", params; aws_config=aws_config)
 
 """
     list_outposts()
@@ -92,7 +92,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 list_outposts(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts"; aws_config=aws_config)
-list_outposts(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts", params; aws_config=aws_config)
+list_outposts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/outposts", params; aws_config=aws_config)
 
 """
     list_sites()
@@ -106,7 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 list_sites(; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites"; aws_config=aws_config)
-list_sites(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites", params; aws_config=aws_config)
+list_sites(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/sites", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -119,7 +119,7 @@ Lists the tags for the specified resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -133,7 +133,7 @@ Adds tags to the specified resource.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -147,4 +147,4 @@ Removes tags from the specified resource.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = outposts("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)

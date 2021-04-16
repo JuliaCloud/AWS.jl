@@ -31,7 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Items"`: A list of items on which to perform the operation.
 """
 batch_delete_attributes(DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchDeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws_config=aws_config)
-batch_delete_attributes(DomainName, Item, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchDeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), params)); aws_config=aws_config)
+batch_delete_attributes(DomainName, Item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchDeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), params)); aws_config=aws_config)
 
 """
     batch_put_attributes(domain_name, item)
@@ -76,7 +76,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Items"`: A list of items on which to perform the operation.
 """
 batch_put_attributes(DomainName, Item; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchPutAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws_config=aws_config)
-batch_put_attributes(DomainName, Item, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchPutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), params)); aws_config=aws_config)
+batch_put_attributes(DomainName, Item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("BatchPutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), params)); aws_config=aws_config)
 
 """
     create_domain(domain_name)
@@ -95,7 +95,7 @@ additional domains, go to  http://aws.amazon.com/contact-us/simpledb-limit-reque
 
 """
 create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("CreateDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-create_domain(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
+create_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
 
 """
     delete_attributes(domain_name, item_name)
@@ -124,7 +124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to be processed and the attributes to be deleted.
 """
 delete_attributes(DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
-delete_attributes(DomainName, ItemName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config)
+delete_attributes(DomainName, ItemName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config)
 
 """
     delete_domain(domain_name)
@@ -140,7 +140,7 @@ multiple times using the same domain name will not result in an error response.
 
 """
 delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteDomain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-delete_domain(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
+delete_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
 
 """
     domain_metadata(domain_name)
@@ -154,7 +154,7 @@ items and attributes in the domain, and the size of the attribute names and valu
 
 """
 domain_metadata(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DomainMetadata", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-domain_metadata(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
+domain_metadata(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("DomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
 
 """
     get_attributes(domain_name, item_name)
@@ -180,7 +180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was written immediately before your read.
 """
 get_attributes(DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("GetAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
-get_attributes(DomainName, ItemName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("GetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config)
+get_attributes(DomainName, ItemName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("GetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config)
 
 """
     list_domains()
@@ -200,7 +200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   names.
 """
 list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("ListDomains"; aws_config=aws_config)
-list_domains(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("ListDomains", params; aws_config=aws_config)
+list_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("ListDomains", params; aws_config=aws_config)
 
 """
     put_attributes(attribute, domain_name, item_name)
@@ -242,7 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to be processed and the attributes to be updated.
 """
 put_attributes(Attribute, DomainName, ItemName; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("PutAttributes", Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName); aws_config=aws_config)
-put_attributes(Attribute, DomainName, ItemName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config)
+put_attributes(Attribute, DomainName, ItemName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName), params)); aws_config=aws_config)
 
 """
     select(select_expression)
@@ -270,4 +270,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ItemNames.
 """
 select(SelectExpression; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("Select", Dict{String, Any}("SelectExpression"=>SelectExpression); aws_config=aws_config)
-select(SelectExpression, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("Select", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SelectExpression"=>SelectExpression), params)); aws_config=aws_config)
+select(SelectExpression, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = simpledb("Select", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SelectExpression"=>SelectExpression), params)); aws_config=aws_config)

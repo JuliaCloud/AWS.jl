@@ -26,7 +26,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of export jobs.
 """
 describe_recommendation_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("DescribeRecommendationExportJobs"; aws_config=aws_config)
-describe_recommendation_export_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("DescribeRecommendationExportJobs", params; aws_config=aws_config)
+describe_recommendation_export_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("DescribeRecommendationExportJobs", params; aws_config=aws_config)
 
 """
     export_auto_scaling_group_recommendations(s3_destination_config)
@@ -74,7 +74,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are not included in the export if this parameter, or the account IDs parameter, is omitted.
 """
 export_auto_scaling_group_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
-export_auto_scaling_group_recommendations(s3DestinationConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config)
+export_auto_scaling_group_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config)
 
 """
     export_ec2_instance_recommendations(s3_destination_config)
@@ -121,7 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   export if this parameter, or the account IDs parameter, is omitted.
 """
 export_ec2_instance_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
-export_ec2_instance_recommendations(s3DestinationConfig, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config)
+export_ec2_instance_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config)
 
 """
     get_auto_scaling_group_recommendations()
@@ -149,7 +149,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recommendations.
 """
 get_auto_scaling_group_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetAutoScalingGroupRecommendations"; aws_config=aws_config)
-get_auto_scaling_group_recommendations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetAutoScalingGroupRecommendations", params; aws_config=aws_config)
+get_auto_scaling_group_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetAutoScalingGroupRecommendations", params; aws_config=aws_config)
 
 """
     get_ebsvolume_recommendations()
@@ -176,7 +176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recommendations.
 """
 get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEBSVolumeRecommendations"; aws_config=aws_config)
-get_ebsvolume_recommendations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEBSVolumeRecommendations", params; aws_config=aws_config)
+get_ebsvolume_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEBSVolumeRecommendations", params; aws_config=aws_config)
 
 """
     get_ec2_instance_recommendations()
@@ -203,7 +203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of instance recommendations.
 """
 get_ec2_instance_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEC2InstanceRecommendations"; aws_config=aws_config)
-get_ec2_instance_recommendations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEC2InstanceRecommendations", params; aws_config=aws_config)
+get_ec2_instance_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEC2InstanceRecommendations", params; aws_config=aws_config)
 
 """
     get_ec2_recommendation_projected_metrics(end_time, instance_arn, period, start_time, stat)
@@ -225,7 +225,7 @@ Utilization with the CloudWatch Agent.
 
 """
 get_ec2_recommendation_projected_metrics(endTime, instanceArn, period, startTime, stat; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat); aws_config=aws_config)
-get_ec2_recommendation_projected_metrics(endTime, instanceArn, period, startTime, stat, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat), params)); aws_config=aws_config)
+get_ec2_recommendation_projected_metrics(endTime, instanceArn, period, startTime, stat, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat), params)); aws_config=aws_config)
 
 """
     get_enrollment_status()
@@ -237,7 +237,7 @@ enrollment status of member accounts within the organization.
 
 """
 get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEnrollmentStatus"; aws_config=aws_config)
-get_enrollment_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEnrollmentStatus", params; aws_config=aws_config)
+get_enrollment_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetEnrollmentStatus", params; aws_config=aws_config)
 
 """
     get_lambda_function_recommendations()
@@ -269,7 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of function recommendations.
 """
 get_lambda_function_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetLambdaFunctionRecommendations"; aws_config=aws_config)
-get_lambda_function_recommendations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetLambdaFunctionRecommendations", params; aws_config=aws_config)
+get_lambda_function_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetLambdaFunctionRecommendations", params; aws_config=aws_config)
 
 """
     get_recommendation_summaries()
@@ -293,7 +293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to advance to the next page of recommendation summaries.
 """
 get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetRecommendationSummaries"; aws_config=aws_config)
-get_recommendation_summaries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetRecommendationSummaries", params; aws_config=aws_config)
+get_recommendation_summaries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("GetRecommendationSummaries", params; aws_config=aws_config)
 
 """
     update_enrollment_status(status)
@@ -326,4 +326,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization if the account is the management account of an organization.
 """
 update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}("status"=>status); aws_config=aws_config)
-update_enrollment_status(status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config)
+update_enrollment_status(status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config)

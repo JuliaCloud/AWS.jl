@@ -31,7 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set, if it exists.
 """
 add_attachments_to_set(attachments; aws_config::AbstractAWSConfig=global_aws_config()) = support("AddAttachmentsToSet", Dict{String, Any}("attachments"=>attachments); aws_config=aws_config)
-add_attachments_to_set(attachments, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("AddAttachmentsToSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), params)); aws_config=aws_config)
+add_attachments_to_set(attachments, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("AddAttachmentsToSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), params)); aws_config=aws_config)
 
 """
     add_communication_to_case(communication_body)
@@ -59,7 +59,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   support case.
 """
 add_communication_to_case(communicationBody; aws_config::AbstractAWSConfig=global_aws_config()) = support("AddCommunicationToCase", Dict{String, Any}("communicationBody"=>communicationBody); aws_config=aws_config)
-add_communication_to_case(communicationBody, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("AddCommunicationToCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody), params)); aws_config=aws_config)
+add_communication_to_case(communicationBody, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("AddCommunicationToCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody), params)); aws_config=aws_config)
 
 """
     create_case(communication_body, subject)
@@ -110,7 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   availability of severity levels depends on the support plan for the AWS account.
 """
 create_case(communicationBody, subject; aws_config::AbstractAWSConfig=global_aws_config()) = support("CreateCase", Dict{String, Any}("communicationBody"=>communicationBody, "subject"=>subject); aws_config=aws_config)
-create_case(communicationBody, subject, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("CreateCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody, "subject"=>subject), params)); aws_config=aws_config)
+create_case(communicationBody, subject, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("CreateCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody, "subject"=>subject), params)); aws_config=aws_config)
 
 """
     describe_attachment(attachment_id)
@@ -131,7 +131,7 @@ appears. For information about changing your support plan, see AWS Support.
 
 """
 describe_attachment(attachmentId; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeAttachment", Dict{String, Any}("attachmentId"=>attachmentId); aws_config=aws_config)
-describe_attachment(attachmentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), params)); aws_config=aws_config)
+describe_attachment(attachmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), params)); aws_config=aws_config)
 
 """
     describe_cases()
@@ -169,7 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A resumption point for pagination.
 """
 describe_cases(; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeCases"; aws_config=aws_config)
-describe_cases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeCases", params; aws_config=aws_config)
+describe_cases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeCases", params; aws_config=aws_config)
 
 """
     describe_communications(case_id)
@@ -201,7 +201,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A resumption point for pagination.
 """
 describe_communications(caseId; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeCommunications", Dict{String, Any}("caseId"=>caseId); aws_config=aws_config)
-describe_communications(caseId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeCommunications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("caseId"=>caseId), params)); aws_config=aws_config)
+describe_communications(caseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeCommunications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("caseId"=>caseId), params)); aws_config=aws_config)
 
 """
     describe_services()
@@ -227,7 +227,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodeList"`: A JSON-formatted list of service codes available for AWS services.
 """
 describe_services(; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeServices"; aws_config=aws_config)
-describe_services(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeServices", params; aws_config=aws_config)
+describe_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeServices", params; aws_config=aws_config)
 
 """
     describe_severity_levels()
@@ -247,7 +247,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be passed explicitly for operations that take them.
 """
 describe_severity_levels(; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeSeverityLevels"; aws_config=aws_config)
-describe_severity_levels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeSeverityLevels", params; aws_config=aws_config)
+describe_severity_levels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeSeverityLevels", params; aws_config=aws_config)
 
 """
     describe_trusted_advisor_check_refresh_statuses(check_ids)
@@ -270,7 +270,7 @@ support plan, see AWS Support.
 
 """
 describe_trusted_advisor_check_refresh_statuses(checkIds; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckRefreshStatuses", Dict{String, Any}("checkIds"=>checkIds); aws_config=aws_config)
-describe_trusted_advisor_check_refresh_statuses(checkIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckRefreshStatuses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), params)); aws_config=aws_config)
+describe_trusted_advisor_check_refresh_statuses(checkIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckRefreshStatuses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), params)); aws_config=aws_config)
 
 """
     describe_trusted_advisor_check_result(check_id)
@@ -298,7 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be passed explicitly for operations that take them.
 """
 describe_trusted_advisor_check_result(checkId; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckResult", Dict{String, Any}("checkId"=>checkId); aws_config=aws_config)
-describe_trusted_advisor_check_result(checkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), params)); aws_config=aws_config)
+describe_trusted_advisor_check_result(checkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), params)); aws_config=aws_config)
 
 """
     describe_trusted_advisor_check_summaries(check_ids)
@@ -317,7 +317,7 @@ support plan, see AWS Support.
 
 """
 describe_trusted_advisor_check_summaries(checkIds; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckSummaries", Dict{String, Any}("checkIds"=>checkIds); aws_config=aws_config)
-describe_trusted_advisor_check_summaries(checkIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), params)); aws_config=aws_config)
+describe_trusted_advisor_check_summaries(checkIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorCheckSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), params)); aws_config=aws_config)
 
 """
     describe_trusted_advisor_checks(language)
@@ -339,7 +339,7 @@ information about changing your support plan, see AWS Support.
 
 """
 describe_trusted_advisor_checks(language; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorChecks", Dict{String, Any}("language"=>language); aws_config=aws_config)
-describe_trusted_advisor_checks(language, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorChecks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("language"=>language), params)); aws_config=aws_config)
+describe_trusted_advisor_checks(language, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("DescribeTrustedAdvisorChecks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("language"=>language), params)); aws_config=aws_config)
 
 """
     refresh_trusted_advisor_check(check_id)
@@ -361,7 +361,7 @@ error message appears. For information about changing your support plan, see AWS
 
 """
 refresh_trusted_advisor_check(checkId; aws_config::AbstractAWSConfig=global_aws_config()) = support("RefreshTrustedAdvisorCheck", Dict{String, Any}("checkId"=>checkId); aws_config=aws_config)
-refresh_trusted_advisor_check(checkId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("RefreshTrustedAdvisorCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), params)); aws_config=aws_config)
+refresh_trusted_advisor_check(checkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("RefreshTrustedAdvisorCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), params)); aws_config=aws_config)
 
 """
     resolve_case()
@@ -380,4 +380,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   case-12345678910-2013-c4c1d2bf33c5cf47
 """
 resolve_case(; aws_config::AbstractAWSConfig=global_aws_config()) = support("ResolveCase"; aws_config=aws_config)
-resolve_case(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = support("ResolveCase", params; aws_config=aws_config)
+resolve_case(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = support("ResolveCase", params; aws_config=aws_config)

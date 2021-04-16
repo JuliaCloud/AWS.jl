@@ -26,7 +26,7 @@ LATEST_WORKING will be listed as partial failure in the response.
 
 """
 batch_delete_recipe_version(RecipeVersions, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}("RecipeVersions"=>RecipeVersions); aws_config=aws_config)
-batch_delete_recipe_version(RecipeVersions, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecipeVersions"=>RecipeVersions), params)); aws_config=aws_config)
+batch_delete_recipe_version(RecipeVersions, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/batchDeleteRecipeVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecipeVersions"=>RecipeVersions), params)); aws_config=aws_config)
 
 """
     create_dataset(input, name)
@@ -48,7 +48,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Metadata tags to apply to this dataset.
 """
 create_dataset(Input, Name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}("Input"=>Input, "Name"=>Name); aws_config=aws_config)
-create_dataset(Input, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name), params)); aws_config=aws_config)
+create_dataset(Input, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_profile_job(dataset_name, name, output_location, role_arn)
@@ -85,7 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeout period ends with a status of TIMEOUT.
 """
 create_profile_job(DatasetName, Name, OutputLocation, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/profileJobs", Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_profile_job(DatasetName, Name, OutputLocation, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/profileJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+create_profile_job(DatasetName, Name, OutputLocation, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/profileJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     create_project(dataset_name, name, recipe_name, role_arn)
@@ -107,7 +107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Metadata tags to apply to this project.
 """
 create_project(DatasetName, Name, RecipeName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/projects", Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_project(DatasetName, Name, RecipeName, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+create_project(DatasetName, Name, RecipeName, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "Name"=>Name, "RecipeName"=>RecipeName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     create_recipe(name, steps)
@@ -127,7 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Metadata tags to apply to this recipe.
 """
 create_recipe(Name, Steps; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes", Dict{String, Any}("Name"=>Name, "Steps"=>Steps); aws_config=aws_config)
-create_recipe(Name, Steps, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Steps"=>Steps), params)); aws_config=aws_config)
+create_recipe(Name, Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Steps"=>Steps), params)); aws_config=aws_config)
 
 """
     create_recipe_job(name, outputs, role_arn)
@@ -164,7 +164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeout period ends with a status of TIMEOUT.
 """
 create_recipe_job(Name, Outputs, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_recipe_job(Name, Outputs, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+create_recipe_job(Name, Outputs, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     create_schedule(cron_expression, name)
@@ -185,7 +185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Metadata tags to apply to this schedule.
 """
 create_schedule(CronExpression, Name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/schedules", Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name); aws_config=aws_config)
-create_schedule(CronExpression, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/schedules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name), params)); aws_config=aws_config)
+create_schedule(CronExpression, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/schedules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_dataset(name)
@@ -198,7 +198,7 @@ Deletes a dataset from DataBrew.
 
 """
 delete_dataset(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/datasets/$(name)"; aws_config=aws_config)
-delete_dataset(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/datasets/$(name)", params; aws_config=aws_config)
+delete_dataset(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/datasets/$(name)", params; aws_config=aws_config)
 
 """
     delete_job(name)
@@ -211,7 +211,7 @@ Deletes the specified DataBrew job.
 
 """
 delete_job(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/jobs/$(name)"; aws_config=aws_config)
-delete_job(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/jobs/$(name)", params; aws_config=aws_config)
+delete_job(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/jobs/$(name)", params; aws_config=aws_config)
 
 """
     delete_project(name)
@@ -224,7 +224,7 @@ Deletes an existing DataBrew project.
 
 """
 delete_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/projects/$(name)"; aws_config=aws_config)
-delete_project(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/projects/$(name)", params; aws_config=aws_config)
+delete_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/projects/$(name)", params; aws_config=aws_config)
 
 """
     delete_recipe_version(name, recipe_version)
@@ -239,7 +239,7 @@ Deletes a single version of a DataBrew recipe.
 
 """
 delete_recipe_version(name, recipeVersion; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)"; aws_config=aws_config)
-delete_recipe_version(name, recipeVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)", params; aws_config=aws_config)
+delete_recipe_version(name, recipeVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/recipes/$(name)/recipeVersion/$(recipeVersion)", params; aws_config=aws_config)
 
 """
     delete_schedule(name)
@@ -252,7 +252,7 @@ Deletes the specified DataBrew schedule.
 
 """
 delete_schedule(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/schedules/$(name)"; aws_config=aws_config)
-delete_schedule(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/schedules/$(name)", params; aws_config=aws_config)
+delete_schedule(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/schedules/$(name)", params; aws_config=aws_config)
 
 """
     describe_dataset(name)
@@ -265,7 +265,7 @@ Returns the definition of a specific DataBrew dataset.
 
 """
 describe_dataset(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets/$(name)"; aws_config=aws_config)
-describe_dataset(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets/$(name)", params; aws_config=aws_config)
+describe_dataset(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets/$(name)", params; aws_config=aws_config)
 
 """
     describe_job(name)
@@ -278,7 +278,7 @@ Returns the definition of a specific DataBrew job.
 
 """
 describe_job(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)"; aws_config=aws_config)
-describe_job(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)", params; aws_config=aws_config)
+describe_job(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)", params; aws_config=aws_config)
 
 """
     describe_job_run(name, run_id)
@@ -292,7 +292,7 @@ Represents one run of a DataBrew job.
 
 """
 describe_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRun/$(runId)"; aws_config=aws_config)
-describe_job_run(name, runId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRun/$(runId)", params; aws_config=aws_config)
+describe_job_run(name, runId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRun/$(runId)", params; aws_config=aws_config)
 
 """
     describe_project(name)
@@ -305,7 +305,7 @@ Returns the definition of a specific DataBrew project.
 
 """
 describe_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects/$(name)"; aws_config=aws_config)
-describe_project(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects/$(name)", params; aws_config=aws_config)
+describe_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects/$(name)", params; aws_config=aws_config)
 
 """
     describe_recipe(name)
@@ -322,7 +322,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the latest published version is returned.
 """
 describe_recipe(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes/$(name)"; aws_config=aws_config)
-describe_recipe(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes/$(name)", params; aws_config=aws_config)
+describe_recipe(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes/$(name)", params; aws_config=aws_config)
 
 """
     describe_schedule(name)
@@ -335,7 +335,7 @@ Returns the definition of a specific DataBrew schedule.
 
 """
 describe_schedule(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules/$(name)"; aws_config=aws_config)
-describe_schedule(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules/$(name)", params; aws_config=aws_config)
+describe_schedule(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules/$(name)", params; aws_config=aws_config)
 
 """
     list_datasets()
@@ -349,7 +349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets"; aws_config=aws_config)
-list_datasets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets", params; aws_config=aws_config)
+list_datasets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/datasets", params; aws_config=aws_config)
 
 """
     list_job_runs(name)
@@ -366,7 +366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_job_runs(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns"; aws_config=aws_config)
-list_job_runs(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns", params; aws_config=aws_config)
+list_job_runs(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs/$(name)/jobRuns", params; aws_config=aws_config)
 
 """
     list_jobs()
@@ -386,7 +386,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   those jobs that are associated with the specified project.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/jobs", params; aws_config=aws_config)
 
 """
     list_projects()
@@ -400,7 +400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects"; aws_config=aws_config)
-list_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects", params; aws_config=aws_config)
+list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/projects", params; aws_config=aws_config)
 
 """
     list_recipe_versions(name)
@@ -417,7 +417,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_recipe_versions(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}("name"=>name); aws_config=aws_config)
-list_recipe_versions(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+list_recipe_versions(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipeVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
     list_recipes()
@@ -434,7 +434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED
 """
 list_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes"; aws_config=aws_config)
-list_recipes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes", params; aws_config=aws_config)
+list_recipes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/recipes", params; aws_config=aws_config)
 
 """
     list_schedules()
@@ -449,7 +449,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 list_schedules(; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules"; aws_config=aws_config)
-list_schedules(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules", params; aws_config=aws_config)
+list_schedules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/schedules", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -463,7 +463,7 @@ Lists all the tags for a DataBrew resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
 
 """
     publish_recipe(name)
@@ -480,7 +480,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipe.
 """
 publish_recipe(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/publishRecipe"; aws_config=aws_config)
-publish_recipe(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/publishRecipe", params; aws_config=aws_config)
+publish_recipe(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes/$(name)/publishRecipe", params; aws_config=aws_config)
 
 """
     send_project_session_action(name)
@@ -503,7 +503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ViewFrame"`:
 """
 send_project_session_action(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/sendProjectSessionAction"; aws_config=aws_config)
-send_project_session_action(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/sendProjectSessionAction", params; aws_config=aws_config)
+send_project_session_action(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/sendProjectSessionAction", params; aws_config=aws_config)
 
 """
     start_job_run(name)
@@ -516,7 +516,7 @@ Runs a DataBrew job.
 
 """
 start_job_run(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/startJobRun"; aws_config=aws_config)
-start_job_run(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/startJobRun", params; aws_config=aws_config)
+start_job_run(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/startJobRun", params; aws_config=aws_config)
 
 """
     start_project_session(name)
@@ -533,7 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a different client is currently accessing the project.
 """
 start_project_session(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/startProjectSession"; aws_config=aws_config)
-start_project_session(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/startProjectSession", params; aws_config=aws_config)
+start_project_session(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)/startProjectSession", params; aws_config=aws_config)
 
 """
     stop_job_run(name, run_id)
@@ -547,7 +547,7 @@ Stops a particular run of a job.
 
 """
 stop_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun"; aws_config=aws_config)
-stop_job_run(name, runId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun", params; aws_config=aws_config)
+stop_job_run(name, runId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/jobs/$(name)/jobRun/$(runId)/stopJobRun", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -564,7 +564,7 @@ schedule.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -579,7 +579,7 @@ Removes metadata tags from a DataBrew resource.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_dataset(input, name)
@@ -599,7 +599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dataset.
 """
 update_dataset(Input, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}("Input"=>Input); aws_config=aws_config)
-update_dataset(Input, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input), params)); aws_config=aws_config)
+update_dataset(Input, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input), params)); aws_config=aws_config)
 
 """
     update_profile_job(output_location, role_arn, name)
@@ -633,7 +633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeout period ends with a status of TIMEOUT.
 """
 update_profile_job(OutputLocation, RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn); aws_config=aws_config)
-update_profile_job(OutputLocation, RoleArn, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+update_profile_job(OutputLocation, RoleArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/profileJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputLocation"=>OutputLocation, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     update_project(role_arn, name)
@@ -650,7 +650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sample"`:
 """
 update_project(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
-update_project(RoleArn, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config)
+update_project(RoleArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/projects/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     update_recipe(name)
@@ -668,7 +668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, and the conditions under which the action should succeed.
 """
 update_recipe(name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipes/$(name)"; aws_config=aws_config)
-update_recipe(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipes/$(name)", params; aws_config=aws_config)
+update_recipe(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipes/$(name)", params; aws_config=aws_config)
 
 """
     update_recipe_job(outputs, role_arn, name)
@@ -698,7 +698,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeout period ends with a status of TIMEOUT.
 """
 update_recipe_job(Outputs, RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
-update_recipe_job(Outputs, RoleArn, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+update_recipe_job(Outputs, RoleArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     update_schedule(cron_expression, name)
@@ -716,4 +716,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobNames"`: The name or names of one or more jobs to be run for this schedule.
 """
 update_schedule(CronExpression, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/schedules/$(name)", Dict{String, Any}("CronExpression"=>CronExpression); aws_config=aws_config)
-update_schedule(CronExpression, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/schedules/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression), params)); aws_config=aws_config)
+update_schedule(CronExpression, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/schedules/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CronExpression"=>CronExpression), params)); aws_config=aws_config)

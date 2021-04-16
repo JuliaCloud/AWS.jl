@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
 batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-batch_grant_permissions(Entries, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
+batch_grant_permissions(Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
 
 """
     batch_revoke_permissions(entries)
@@ -40,7 +40,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
 batch_revoke_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-batch_revoke_permissions(Entries, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
+batch_revoke_permissions(Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
 
 """
     deregister_resource(resource_arn)
@@ -55,7 +55,7 @@ Formation removes the path from the inline policy attached to your service-linke
 
 """
 deregister_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-deregister_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+deregister_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     describe_resource(resource_arn)
@@ -69,7 +69,7 @@ Formation.
 
 """
 describe_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-describe_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+describe_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     get_data_lake_settings()
@@ -84,7 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
 get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings"; aws_config=aws_config)
-get_data_lake_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings", params; aws_config=aws_config)
+get_data_lake_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings", params; aws_config=aws_config)
 
 """
     get_effective_permissions_for_path(resource_arn)
@@ -107,7 +107,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
 get_effective_permissions_for_path(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_effective_permissions_for_path(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+get_effective_permissions_for_path(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     grant_permissions(permissions, principal, resource)
@@ -141,7 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions granted in the Privileges.
 """
 grant_permissions(Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource); aws_config=aws_config)
-grant_permissions(Permissions, Principal, Resource, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config)
+grant_permissions(Permissions, Principal, Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config)
 
 """
     list_permissions()
@@ -167,7 +167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: Specifies a resource type to filter the permissions returned.
 """
 list_permissions(; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListPermissions"; aws_config=aws_config)
-list_permissions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListPermissions", params; aws_config=aws_config)
+list_permissions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListPermissions", params; aws_config=aws_config)
 
 """
     list_resources()
@@ -184,7 +184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources.
 """
 list_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListResources"; aws_config=aws_config)
-list_resources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListResources", params; aws_config=aws_config)
+list_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListResources", params; aws_config=aws_config)
 
 """
     put_data_lake_settings(data_lake_settings)
@@ -207,7 +207,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
 put_data_lake_settings(DataLakeSettings; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}("DataLakeSettings"=>DataLakeSettings); aws_config=aws_config)
-put_data_lake_settings(DataLakeSettings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataLakeSettings"=>DataLakeSettings), params)); aws_config=aws_config)
+put_data_lake_settings(DataLakeSettings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataLakeSettings"=>DataLakeSettings), params)); aws_config=aws_config)
 
 """
     register_resource(resource_arn)
@@ -237,7 +237,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Using Service-Linked Roles for Lake Formation.
 """
 register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-register_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+register_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     revoke_permissions(permissions, principal, resource)
@@ -261,7 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   grant option allowing the principal to pass permissions to other principals.
 """
 revoke_permissions(Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource); aws_config=aws_config)
-revoke_permissions(Permissions, Principal, Resource, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config)
+revoke_permissions(Permissions, Principal, Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config)
 
 """
     update_resource(resource_arn, role_arn)
@@ -276,4 +276,4 @@ AWS Lake Formation.
 
 """
 update_resource(ResourceArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn); aws_config=aws_config)
-update_resource(ResourceArn, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+update_resource(ResourceArn, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn), params)); aws_config=aws_config)

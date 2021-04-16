@@ -20,7 +20,7 @@ a successful response.
 
 """
 batch_put_message(messages; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}("messages"=>messages); aws_config=aws_config)
-batch_put_message(messages, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("messages"=>messages), params)); aws_config=aws_config)
+batch_put_message(messages, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("POST", "/inputs/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("messages"=>messages), params)); aws_config=aws_config)
 
 """
     batch_update_detector(detectors)
@@ -34,7 +34,7 @@ of a specified detector model.
 
 """
 batch_update_detector(detectors; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}("detectors"=>detectors); aws_config=aws_config)
-batch_update_detector(detectors, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectors"=>detectors), params)); aws_config=aws_config)
+batch_update_detector(detectors, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("POST", "/detectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectors"=>detectors), params)); aws_config=aws_config)
 
 """
     describe_detector(detector_model_name)
@@ -52,7 +52,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the given key ID.
 """
 describe_detector(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/"; aws_config=aws_config)
-describe_detector(detectorModelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/", params; aws_config=aws_config)
+describe_detector(detectorModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/", params; aws_config=aws_config)
 
 """
     list_detectors(detector_model_name)
@@ -72,4 +72,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   state.
 """
 list_detectors(detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)"; aws_config=aws_config)
-list_detectors(detectorModelName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)", params; aws_config=aws_config)
+list_detectors(detectorModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_events_data("GET", "/detectors/$(detectorModelName)", params; aws_config=aws_config)

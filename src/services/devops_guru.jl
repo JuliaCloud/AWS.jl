@@ -24,7 +24,7 @@ CMK. For more information, see Permissions for AWS KMS–encrypted Amazon SNS to
 
 """
 add_notification_channel(Config; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/channels", Dict{String, Any}("Config"=>Config); aws_config=aws_config)
-add_notification_channel(Config, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config), params)); aws_config=aws_config)
+add_notification_channel(Config, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config), params)); aws_config=aws_config)
 
 """
     describe_account_health()
@@ -36,7 +36,7 @@ of operations in your AWS account.
 
 """
 describe_account_health(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health"; aws_config=aws_config)
-describe_account_health(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health", params; aws_config=aws_config)
+describe_account_health(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health", params; aws_config=aws_config)
 
 """
     describe_account_overview(from_time)
@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   day. If this is not specified, then the current day is used.
 """
 describe_account_overview(FromTime; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/accounts/overview", Dict{String, Any}("FromTime"=>FromTime); aws_config=aws_config)
-describe_account_overview(FromTime, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/accounts/overview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromTime"=>FromTime), params)); aws_config=aws_config)
+describe_account_overview(FromTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/accounts/overview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FromTime"=>FromTime), params)); aws_config=aws_config)
 
 """
     describe_anomaly(id)
@@ -71,7 +71,7 @@ describe_account_overview(FromTime, params::AbstractDict{String, <:Any}; aws_con
 
 """
 describe_anomaly(Id; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/anomalies/$(Id)"; aws_config=aws_config)
-describe_anomaly(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/anomalies/$(Id)", params; aws_config=aws_config)
+describe_anomaly(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/anomalies/$(Id)", params; aws_config=aws_config)
 
 """
     describe_feedback()
@@ -84,7 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InsightId"`:  The ID of the insight for which the feedback was provided.
 """
 describe_feedback(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/feedback"; aws_config=aws_config)
-describe_feedback(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/feedback", params; aws_config=aws_config)
+describe_feedback(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/feedback", params; aws_config=aws_config)
 
 """
     describe_insight(id)
@@ -97,7 +97,7 @@ describe_feedback(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSCo
 
 """
 describe_insight(Id; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/insights/$(Id)"; aws_config=aws_config)
-describe_insight(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/insights/$(Id)", params; aws_config=aws_config)
+describe_insight(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/insights/$(Id)", params; aws_config=aws_config)
 
 """
     describe_resource_collection_health(resource_collection_type)
@@ -121,7 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 describe_resource_collection_health(ResourceCollectionType; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health/resource-collection/$(ResourceCollectionType)"; aws_config=aws_config)
-describe_resource_collection_health(ResourceCollectionType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health/resource-collection/$(ResourceCollectionType)", params; aws_config=aws_config)
+describe_resource_collection_health(ResourceCollectionType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/accounts/health/resource-collection/$(ResourceCollectionType)", params; aws_config=aws_config)
 
 """
     describe_service_integration()
@@ -133,7 +133,7 @@ to create an OpsItem for each generated insight.
 
 """
 describe_service_integration(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations"; aws_config=aws_config)
-describe_service_integration(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations", params; aws_config=aws_config)
+describe_service_integration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations", params; aws_config=aws_config)
 
 """
     get_resource_collection(resource_collection_type)
@@ -153,7 +153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 get_resource_collection(ResourceCollectionType; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/resource-collections/$(ResourceCollectionType)"; aws_config=aws_config)
-get_resource_collection(ResourceCollectionType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/resource-collections/$(ResourceCollectionType)", params; aws_config=aws_config)
+get_resource_collection(ResourceCollectionType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/resource-collections/$(ResourceCollectionType)", params; aws_config=aws_config)
 
 """
     list_anomalies_for_insight(insight_id)
@@ -174,7 +174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   All returned anomalies started during this time range.
 """
 list_anomalies_for_insight(InsightId; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/anomalies/insight/$(InsightId)"; aws_config=aws_config)
-list_anomalies_for_insight(InsightId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/anomalies/insight/$(InsightId)", params; aws_config=aws_config)
+list_anomalies_for_insight(InsightId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/anomalies/insight/$(InsightId)", params; aws_config=aws_config)
 
 """
     list_events(filters)
@@ -194,7 +194,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_events(Filters; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/events", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
-list_events(Filters, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config)
+list_events(Filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config)
 
 """
     list_insights(status_filter)
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_insights(StatusFilter; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights", Dict{String, Any}("StatusFilter"=>StatusFilter); aws_config=aws_config)
-list_insights(StatusFilter, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatusFilter"=>StatusFilter), params)); aws_config=aws_config)
+list_insights(StatusFilter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatusFilter"=>StatusFilter), params)); aws_config=aws_config)
 
 """
     list_notification_channels()
@@ -232,7 +232,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_notification_channels(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/channels"; aws_config=aws_config)
-list_notification_channels(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/channels", params; aws_config=aws_config)
+list_notification_channels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/channels", params; aws_config=aws_config)
 
 """
     list_recommendations(insight_id)
@@ -250,7 +250,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 list_recommendations(InsightId; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/recommendations", Dict{String, Any}("InsightId"=>InsightId); aws_config=aws_config)
-list_recommendations(InsightId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), params)); aws_config=aws_config)
+list_recommendations(InsightId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), params)); aws_config=aws_config)
 
 """
     put_feedback()
@@ -264,7 +264,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   insight.
 """
 put_feedback(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback"; aws_config=aws_config)
-put_feedback(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback", params; aws_config=aws_config)
+put_feedback(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/feedback", params; aws_config=aws_config)
 
 """
     remove_notification_channel(id)
@@ -279,7 +279,7 @@ your operations.
 
 """
 remove_notification_channel(Id; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("DELETE", "/channels/$(Id)"; aws_config=aws_config)
-remove_notification_channel(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("DELETE", "/channels/$(Id)", params; aws_config=aws_config)
+remove_notification_channel(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("DELETE", "/channels/$(Id)", params; aws_config=aws_config)
 
 """
     search_insights(start_time_range, type)
@@ -306,7 +306,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 """
 search_insights(StartTimeRange, Type; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights/search", Dict{String, Any}("StartTimeRange"=>StartTimeRange, "Type"=>Type); aws_config=aws_config)
-search_insights(StartTimeRange, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartTimeRange"=>StartTimeRange, "Type"=>Type), params)); aws_config=aws_config)
+search_insights(StartTimeRange, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartTimeRange"=>StartTimeRange, "Type"=>Type), params)); aws_config=aws_config)
 
 """
     update_resource_collection(action, resource_collection)
@@ -324,7 +324,7 @@ the IAM role required for you to use DevOps Guru.
 
 """
 update_resource_collection(Action, ResourceCollection; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/resource-collections", Dict{String, Any}("Action"=>Action, "ResourceCollection"=>ResourceCollection); aws_config=aws_config)
-update_resource_collection(Action, ResourceCollection, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/resource-collections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "ResourceCollection"=>ResourceCollection), params)); aws_config=aws_config)
+update_resource_collection(Action, ResourceCollection, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/resource-collections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "ResourceCollection"=>ResourceCollection), params)); aws_config=aws_config)
 
 """
     update_service_integration(service_integration)
@@ -340,4 +340,4 @@ be used to create an OpsItem for each generated insight.
 
 """
 update_service_integration(ServiceIntegration; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/service-integrations", Dict{String, Any}("ServiceIntegration"=>ServiceIntegration); aws_config=aws_config)
-update_service_integration(ServiceIntegration, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/service-integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceIntegration"=>ServiceIntegration), params)); aws_config=aws_config)
+update_service_integration(ServiceIntegration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/service-integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceIntegration"=>ServiceIntegration), params)); aws_config=aws_config)

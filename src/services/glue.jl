@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this should be the AWS account ID.
 """
 batch_create_partition(DatabaseName, PartitionInputList, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchCreatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInputList"=>PartitionInputList, "TableName"=>TableName); aws_config=aws_config)
-batch_create_partition(DatabaseName, PartitionInputList, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchCreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInputList"=>PartitionInputList, "TableName"=>TableName), params)); aws_config=aws_config)
+batch_create_partition(DatabaseName, PartitionInputList, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchCreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInputList"=>PartitionInputList, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     batch_delete_connection(connection_name_list)
@@ -40,7 +40,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the AWS account ID is used by default.
 """
 batch_delete_connection(ConnectionNameList; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteConnection", Dict{String, Any}("ConnectionNameList"=>ConnectionNameList); aws_config=aws_config)
-batch_delete_connection(ConnectionNameList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNameList"=>ConnectionNameList), params)); aws_config=aws_config)
+batch_delete_connection(ConnectionNameList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNameList"=>ConnectionNameList), params)); aws_config=aws_config)
 
 """
     batch_delete_partition(database_name, partitions_to_delete, table_name)
@@ -60,7 +60,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is provided, the AWS account ID is used by default.
 """
 batch_delete_partition(DatabaseName, PartitionsToDelete, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeletePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToDelete"=>PartitionsToDelete, "TableName"=>TableName); aws_config=aws_config)
-batch_delete_partition(DatabaseName, PartitionsToDelete, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToDelete"=>PartitionsToDelete, "TableName"=>TableName), params)); aws_config=aws_config)
+batch_delete_partition(DatabaseName, PartitionsToDelete, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToDelete"=>PartitionsToDelete, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     batch_delete_table(database_name, tables_to_delete)
@@ -84,7 +84,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AWS account ID is used by default.
 """
 batch_delete_table(DatabaseName, TablesToDelete; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TablesToDelete"=>TablesToDelete); aws_config=aws_config)
-batch_delete_table(DatabaseName, TablesToDelete, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TablesToDelete"=>TablesToDelete), params)); aws_config=aws_config)
+batch_delete_table(DatabaseName, TablesToDelete, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TablesToDelete"=>TablesToDelete), params)); aws_config=aws_config)
 
 """
     batch_delete_table_version(database_name, table_name, version_ids)
@@ -106,7 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AWS account ID is used by default.
 """
 batch_delete_table_version(DatabaseName, TableName, VersionIds; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionIds"=>VersionIds); aws_config=aws_config)
-batch_delete_table_version(DatabaseName, TableName, VersionIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionIds"=>VersionIds), params)); aws_config=aws_config)
+batch_delete_table_version(DatabaseName, TableName, VersionIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchDeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionIds"=>VersionIds), params)); aws_config=aws_config)
 
 """
     batch_get_crawlers(crawler_names)
@@ -123,7 +123,7 @@ conditions that uses tags.
 
 """
 batch_get_crawlers(CrawlerNames; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetCrawlers", Dict{String, Any}("CrawlerNames"=>CrawlerNames); aws_config=aws_config)
-batch_get_crawlers(CrawlerNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetCrawlers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerNames"=>CrawlerNames), params)); aws_config=aws_config)
+batch_get_crawlers(CrawlerNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetCrawlers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerNames"=>CrawlerNames), params)); aws_config=aws_config)
 
 """
     batch_get_dev_endpoints(dev_endpoint_names)
@@ -140,7 +140,7 @@ including permission conditions that uses tags.
 
 """
 batch_get_dev_endpoints(DevEndpointNames; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetDevEndpoints", Dict{String, Any}("DevEndpointNames"=>DevEndpointNames); aws_config=aws_config)
-batch_get_dev_endpoints(DevEndpointNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetDevEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevEndpointNames"=>DevEndpointNames), params)); aws_config=aws_config)
+batch_get_dev_endpoints(DevEndpointNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetDevEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevEndpointNames"=>DevEndpointNames), params)); aws_config=aws_config)
 
 """
     batch_get_jobs(job_names)
@@ -157,7 +157,7 @@ conditions that uses tags.
 
 """
 batch_get_jobs(JobNames; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetJobs", Dict{String, Any}("JobNames"=>JobNames); aws_config=aws_config)
-batch_get_jobs(JobNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobNames"=>JobNames), params)); aws_config=aws_config)
+batch_get_jobs(JobNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobNames"=>JobNames), params)); aws_config=aws_config)
 
 """
     batch_get_partition(database_name, partitions_to_get, table_name)
@@ -176,7 +176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is supplied, the AWS account ID is used by default.
 """
 batch_get_partition(DatabaseName, PartitionsToGet, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetPartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToGet"=>PartitionsToGet, "TableName"=>TableName); aws_config=aws_config)
-batch_get_partition(DatabaseName, PartitionsToGet, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToGet"=>PartitionsToGet, "TableName"=>TableName), params)); aws_config=aws_config)
+batch_get_partition(DatabaseName, PartitionsToGet, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToGet"=>PartitionsToGet, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     batch_get_triggers(trigger_names)
@@ -193,7 +193,7 @@ conditions that uses tags.
 
 """
 batch_get_triggers(TriggerNames; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetTriggers", Dict{String, Any}("TriggerNames"=>TriggerNames); aws_config=aws_config)
-batch_get_triggers(TriggerNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TriggerNames"=>TriggerNames), params)); aws_config=aws_config)
+batch_get_triggers(TriggerNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TriggerNames"=>TriggerNames), params)); aws_config=aws_config)
 
 """
     batch_get_workflows(names)
@@ -214,7 +214,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource metadata.
 """
 batch_get_workflows(Names; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetWorkflows", Dict{String, Any}("Names"=>Names); aws_config=aws_config)
-batch_get_workflows(Names, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetWorkflows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config)
+batch_get_workflows(Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchGetWorkflows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), params)); aws_config=aws_config)
 
 """
     batch_stop_job_run(job_name, job_run_ids)
@@ -228,7 +228,7 @@ Stops one or more job runs for a specified job definition.
 
 """
 batch_stop_job_run(JobName, JobRunIds; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchStopJobRun", Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds); aws_config=aws_config)
-batch_stop_job_run(JobName, JobRunIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchStopJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds), params)); aws_config=aws_config)
+batch_stop_job_run(JobName, JobRunIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchStopJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds), params)); aws_config=aws_config)
 
 """
     batch_update_partition(database_name, entries, table_name)
@@ -248,7 +248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this should be the AWS account ID.
 """
 batch_update_partition(DatabaseName, Entries, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchUpdatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "Entries"=>Entries, "TableName"=>TableName); aws_config=aws_config)
-batch_update_partition(DatabaseName, Entries, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchUpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Entries"=>Entries, "TableName"=>TableName), params)); aws_config=aws_config)
+batch_update_partition(DatabaseName, Entries, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("BatchUpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Entries"=>Entries, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     cancel_mltask_run(task_run_id, transform_id)
@@ -265,7 +265,7 @@ transform's TransformID and the task run's TaskRunId.
 
 """
 cancel_mltask_run(TaskRunId, TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CancelMLTaskRun", Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId); aws_config=aws_config)
-cancel_mltask_run(TaskRunId, TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CancelMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), params)); aws_config=aws_config)
+cancel_mltask_run(TaskRunId, TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CancelMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     check_schema_version_validity(data_format, schema_definition)
@@ -281,7 +281,7 @@ no compatibility checks are performed.
 
 """
 check_schema_version_validity(DataFormat, SchemaDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition); aws_config=aws_config)
-check_schema_version_validity(DataFormat, SchemaDefinition, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition), params)); aws_config=aws_config)
+check_schema_version_validity(DataFormat, SchemaDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CheckSchemaVersionValidity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaDefinition"=>SchemaDefinition), params)); aws_config=aws_config)
 
 """
     create_classifier()
@@ -298,7 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"XMLClassifier"`: An XMLClassifier object specifying the classifier to create.
 """
 create_classifier(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateClassifier"; aws_config=aws_config)
-create_classifier(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateClassifier", params; aws_config=aws_config)
+create_classifier(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateClassifier", params; aws_config=aws_config)
 
 """
     create_connection(connection_input)
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the AWS account ID is used by default.
 """
 create_connection(ConnectionInput; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateConnection", Dict{String, Any}("ConnectionInput"=>ConnectionInput); aws_config=aws_config)
-create_connection(ConnectionInput, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput), params)); aws_config=aws_config)
+create_connection(ConnectionInput, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput), params)); aws_config=aws_config)
 
 """
     create_crawler(name, role, targets)
@@ -357,7 +357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   developer guide.
 """
 create_crawler(Name, Role, Targets; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateCrawler", Dict{String, Any}("Name"=>Name, "Role"=>Role, "Targets"=>Targets); aws_config=aws_config)
-create_crawler(Name, Role, Targets, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Role"=>Role, "Targets"=>Targets), params)); aws_config=aws_config)
+create_crawler(Name, Role, Targets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Role"=>Role, "Targets"=>Targets), params)); aws_config=aws_config)
 
 """
     create_database(database_input)
@@ -374,7 +374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the AWS account ID is used by default.
 """
 create_database(DatabaseInput; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateDatabase", Dict{String, Any}("DatabaseInput"=>DatabaseInput); aws_config=aws_config)
-create_database(DatabaseInput, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput), params)); aws_config=aws_config)
+create_database(DatabaseInput, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput), params)); aws_config=aws_config)
 
 """
     create_dev_endpoint(endpoint_name, role_arn)
@@ -438,7 +438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   memory, and a 64 GB disk.
 """
 create_dev_endpoint(EndpointName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_dev_endpoint(EndpointName, RoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+create_dev_endpoint(EndpointName, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     create_job(command, name, role)
@@ -508,7 +508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
 """
 create_job(Command, Name, Role; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateJob", Dict{String, Any}("Command"=>Command, "Name"=>Name, "Role"=>Role); aws_config=aws_config)
-create_job(Command, Name, Role, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "Name"=>Name, "Role"=>Role), params)); aws_config=aws_config)
+create_job(Command, Name, Role, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "Name"=>Name, "Role"=>Role), params)); aws_config=aws_config)
 
 """
     create_mltransform(input_record_tables, name, parameters, role)
@@ -582,7 +582,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
 """
 create_mltransform(InputRecordTables, Name, Parameters, Role; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateMLTransform", Dict{String, Any}("InputRecordTables"=>InputRecordTables, "Name"=>Name, "Parameters"=>Parameters, "Role"=>Role); aws_config=aws_config)
-create_mltransform(InputRecordTables, Name, Parameters, Role, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputRecordTables"=>InputRecordTables, "Name"=>Name, "Parameters"=>Parameters, "Role"=>Role), params)); aws_config=aws_config)
+create_mltransform(InputRecordTables, Name, Parameters, Role, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputRecordTables"=>InputRecordTables, "Name"=>Name, "Parameters"=>Parameters, "Role"=>Role), params)); aws_config=aws_config)
 
 """
     create_partition(database_name, partition_input, table_name)
@@ -601,7 +601,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The AWS account ID of the catalog in which the partition is to be created.
 """
 create_partition(DatabaseName, PartitionInput, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName); aws_config=aws_config)
-create_partition(DatabaseName, PartitionInput, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName), params)); aws_config=aws_config)
+create_partition(DatabaseName, PartitionInput, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     create_partition_index(database_name, partition_index, table_name)
@@ -621,7 +621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The catalog ID where the table resides.
 """
 create_partition_index(DatabaseName, PartitionIndex, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName); aws_config=aws_config)
-create_partition_index(DatabaseName, PartitionIndex, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName), params)); aws_config=aws_config)
+create_partition_index(DatabaseName, PartitionIndex, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreatePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionIndex"=>PartitionIndex, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     create_registry(registry_name)
@@ -641,7 +641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   line, or API.
 """
 create_registry(RegistryName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}("RegistryName"=>RegistryName); aws_config=aws_config)
-create_registry(RegistryName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryName"=>RegistryName), params)); aws_config=aws_config)
+create_registry(RegistryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryName"=>RegistryName), params)); aws_config=aws_config)
 
 """
     create_schema(data_format, schema_name)
@@ -699,7 +699,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   line, or API. If specified, follows the AWS tags-on-create pattern.
 """
 create_schema(DataFormat, SchemaName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName); aws_config=aws_config)
-create_schema(DataFormat, SchemaName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName), params)); aws_config=aws_config)
+create_schema(DataFormat, SchemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataFormat"=>DataFormat, "SchemaName"=>SchemaName), params)); aws_config=aws_config)
 
 """
     create_script()
@@ -714,7 +714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Language"`: The programming language of the resulting code from the DAG.
 """
 create_script(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateScript"; aws_config=aws_config)
-create_script(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateScript", params; aws_config=aws_config)
+create_script(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateScript", params; aws_config=aws_config)
 
 """
     create_security_configuration(encryption_configuration, name)
@@ -732,7 +732,7 @@ Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
 
 """
 create_security_configuration(EncryptionConfiguration, Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateSecurityConfiguration", Dict{String, Any}("EncryptionConfiguration"=>EncryptionConfiguration, "Name"=>Name); aws_config=aws_config)
-create_security_configuration(EncryptionConfiguration, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionConfiguration"=>EncryptionConfiguration, "Name"=>Name), params)); aws_config=aws_config)
+create_security_configuration(EncryptionConfiguration, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionConfiguration"=>EncryptionConfiguration, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     create_table(database_name, table_input)
@@ -754,7 +754,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the table.
 """
 create_table(DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput); aws_config=aws_config)
-create_table(DatabaseName, TableInput, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), params)); aws_config=aws_config)
+create_table(DatabaseName, TableInput, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), params)); aws_config=aws_config)
 
 """
     create_trigger(actions, name, type)
@@ -783,7 +783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkflowName"`: The name of the workflow associated with the trigger.
 """
 create_trigger(Actions, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateTrigger", Dict{String, Any}("Actions"=>Actions, "Name"=>Name, "Type"=>Type); aws_config=aws_config)
-create_trigger(Actions, Name, Type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
+create_trigger(Actions, Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
 
 """
     create_user_defined_function(database_name, function_input)
@@ -802,7 +802,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the AWS account ID is used by default.
 """
 create_user_defined_function(DatabaseName, FunctionInput; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput); aws_config=aws_config)
-create_user_defined_function(DatabaseName, FunctionInput, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput), params)); aws_config=aws_config)
+create_user_defined_function(DatabaseName, FunctionInput, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput), params)); aws_config=aws_config)
 
 """
     create_workflow(name)
@@ -825,7 +825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be used with this workflow.
 """
 create_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateWorkflow", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_workflow(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+create_workflow(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("CreateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_classifier(name)
@@ -838,7 +838,7 @@ Removes a classifier from the Data Catalog.
 
 """
 delete_classifier(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteClassifier", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_classifier(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_classifier(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_column_statistics_for_partition(column_name, database_name, partition_values, table_name)
@@ -859,7 +859,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is supplied, the AWS account ID is used by default.
 """
 delete_column_statistics_for_partition(ColumnName, DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteColumnStatisticsForPartition", Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
-delete_column_statistics_for_partition(ColumnName, DatabaseName, PartitionValues, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
+delete_column_statistics_for_partition(ColumnName, DatabaseName, PartitionValues, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     delete_column_statistics_for_table(column_name, database_name, table_name)
@@ -879,7 +879,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is supplied, the AWS account ID is used by default.
 """
 delete_column_statistics_for_table(ColumnName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteColumnStatisticsForTable", Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-delete_column_statistics_for_table(ColumnName, DatabaseName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+delete_column_statistics_for_table(ColumnName, DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     delete_connection(connection_name)
@@ -896,7 +896,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the AWS account ID is used by default.
 """
 delete_connection(ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteConnection", Dict{String, Any}("ConnectionName"=>ConnectionName); aws_config=aws_config)
-delete_connection(ConnectionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), params)); aws_config=aws_config)
+delete_connection(ConnectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), params)); aws_config=aws_config)
 
 """
     delete_crawler(name)
@@ -910,7 +910,7 @@ RUNNING.
 
 """
 delete_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_crawler(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_crawler(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_database(name)
@@ -935,7 +935,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the AWS account ID is used by default.
 """
 delete_database(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteDatabase", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_database(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_database(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_dev_endpoint(endpoint_name)
@@ -948,7 +948,7 @@ Deletes a specified development endpoint.
 
 """
 delete_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
-delete_dev_endpoint(EndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
+delete_dev_endpoint(EndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
 
 """
     delete_job(job_name)
@@ -962,7 +962,7 @@ thrown.
 
 """
 delete_job(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteJob", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
-delete_job(JobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
+delete_job(JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
 
 """
     delete_mltransform(transform_id)
@@ -980,7 +980,7 @@ will no longer succeed.
 
 """
 delete_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
-delete_mltransform(TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
+delete_mltransform(TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     delete_partition(database_name, partition_values, table_name)
@@ -999,7 +999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is provided, the AWS account ID is used by default.
 """
 delete_partition(DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeletePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
-delete_partition(DatabaseName, PartitionValues, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
+delete_partition(DatabaseName, PartitionValues, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     delete_partition_index(database_name, index_name, table_name)
@@ -1019,7 +1019,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The catalog ID where the table resides.
 """
 delete_partition_index(DatabaseName, IndexName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName); aws_config=aws_config)
-delete_partition_index(DatabaseName, IndexName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName), params)); aws_config=aws_config)
+delete_partition_index(DatabaseName, IndexName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeletePartitionIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "IndexName"=>IndexName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     delete_registry(registry_id)
@@ -1036,7 +1036,7 @@ UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
 
 """
 delete_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}("RegistryId"=>RegistryId); aws_config=aws_config)
-delete_registry(RegistryId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), params)); aws_config=aws_config)
+delete_registry(RegistryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), params)); aws_config=aws_config)
 
 """
     delete_resource_policy()
@@ -1050,7 +1050,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceArn"`: The ARN of the AWS Glue resource for the resource policy to be deleted.
 """
 delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteResourcePolicy"; aws_config=aws_config)
-delete_resource_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteResourcePolicy", params; aws_config=aws_config)
+delete_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteResourcePolicy", params; aws_config=aws_config)
 
 """
     delete_schema(schema_id)
@@ -1067,7 +1067,7 @@ GetSchemaByDefinition, and RegisterSchemaVersion APIs.
 
 """
 delete_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
-delete_schema(SchemaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config)
+delete_schema(SchemaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config)
 
 """
     delete_schema_versions(schema_id, versions)
@@ -1094,7 +1094,7 @@ returned.
 
 """
 delete_schema_versions(SchemaId, Versions; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions); aws_config=aws_config)
-delete_schema_versions(SchemaId, Versions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions), params)); aws_config=aws_config)
+delete_schema_versions(SchemaId, Versions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId, "Versions"=>Versions), params)); aws_config=aws_config)
 
 """
     delete_security_configuration(name)
@@ -1107,7 +1107,7 @@ Deletes a specified security configuration.
 
 """
 delete_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_security_configuration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_security_configuration(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_table(database_name, name)
@@ -1132,7 +1132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AWS account ID is used by default.
 """
 delete_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name); aws_config=aws_config)
-delete_table(DatabaseName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), params)); aws_config=aws_config)
+delete_table(DatabaseName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_table_version(database_name, table_name, version_id)
@@ -1154,7 +1154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AWS account ID is used by default.
 """
 delete_table_version(DatabaseName, TableName, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionId"=>VersionId); aws_config=aws_config)
-delete_table_version(DatabaseName, TableName, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionId"=>VersionId), params)); aws_config=aws_config)
+delete_table_version(DatabaseName, TableName, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionId"=>VersionId), params)); aws_config=aws_config)
 
 """
     delete_trigger(name)
@@ -1167,7 +1167,7 @@ Deletes a specified trigger. If the trigger is not found, no exception is thrown
 
 """
 delete_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTrigger", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_trigger(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_trigger(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_user_defined_function(database_name, function_name)
@@ -1185,7 +1185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is supplied, the AWS account ID is used by default.
 """
 delete_user_defined_function(DatabaseName, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName); aws_config=aws_config)
-delete_user_defined_function(DatabaseName, FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), params)); aws_config=aws_config)
+delete_user_defined_function(DatabaseName, FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), params)); aws_config=aws_config)
 
 """
     delete_workflow(name)
@@ -1198,7 +1198,7 @@ Deletes a workflow.
 
 """
 delete_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteWorkflow", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_workflow(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_workflow(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("DeleteWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_catalog_import_status()
@@ -1212,7 +1212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID.
 """
 get_catalog_import_status(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCatalogImportStatus"; aws_config=aws_config)
-get_catalog_import_status(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCatalogImportStatus", params; aws_config=aws_config)
+get_catalog_import_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCatalogImportStatus", params; aws_config=aws_config)
 
 """
     get_classifier(name)
@@ -1225,7 +1225,7 @@ Retrieve a classifier by name.
 
 """
 get_classifier(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetClassifier", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_classifier(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_classifier(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_classifiers()
@@ -1239,7 +1239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An optional continuation token.
 """
 get_classifiers(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetClassifiers"; aws_config=aws_config)
-get_classifiers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetClassifiers", params; aws_config=aws_config)
+get_classifiers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetClassifiers", params; aws_config=aws_config)
 
 """
     get_column_statistics_for_partition(column_names, database_name, partition_values, table_name)
@@ -1260,7 +1260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is supplied, the AWS account ID is used by default.
 """
 get_column_statistics_for_partition(ColumnNames, DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetColumnStatisticsForPartition", Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
-get_column_statistics_for_partition(ColumnNames, DatabaseName, PartitionValues, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
+get_column_statistics_for_partition(ColumnNames, DatabaseName, PartitionValues, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     get_column_statistics_for_table(column_names, database_name, table_name)
@@ -1280,7 +1280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is supplied, the AWS account ID is used by default.
 """
 get_column_statistics_for_table(ColumnNames, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetColumnStatisticsForTable", Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-get_column_statistics_for_table(ColumnNames, DatabaseName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+get_column_statistics_for_table(ColumnNames, DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     get_connection(name)
@@ -1302,7 +1302,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rest of the connection properties.
 """
 get_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_connection(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_connection(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_connections()
@@ -1324,7 +1324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 get_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetConnections"; aws_config=aws_config)
-get_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetConnections", params; aws_config=aws_config)
+get_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetConnections", params; aws_config=aws_config)
 
 """
     get_crawler(name)
@@ -1337,7 +1337,7 @@ Retrieves metadata for a specified crawler.
 
 """
 get_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_crawler(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_crawler(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_crawler_metrics()
@@ -1352,7 +1352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 get_crawler_metrics(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawlerMetrics"; aws_config=aws_config)
-get_crawler_metrics(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawlerMetrics", params; aws_config=aws_config)
+get_crawler_metrics(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawlerMetrics", params; aws_config=aws_config)
 
 """
     get_crawlers()
@@ -1366,7 +1366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
 get_crawlers(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawlers"; aws_config=aws_config)
-get_crawlers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawlers", params; aws_config=aws_config)
+get_crawlers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetCrawlers", params; aws_config=aws_config)
 
 """
     get_data_catalog_encryption_settings()
@@ -1380,7 +1380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is provided, the AWS account ID is used by default.
 """
 get_data_catalog_encryption_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDataCatalogEncryptionSettings"; aws_config=aws_config)
-get_data_catalog_encryption_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDataCatalogEncryptionSettings", params; aws_config=aws_config)
+get_data_catalog_encryption_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDataCatalogEncryptionSettings", params; aws_config=aws_config)
 
 """
     get_database(name)
@@ -1398,7 +1398,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the AWS account ID is used by default.
 """
 get_database(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDatabase", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_database(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_database(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_databases()
@@ -1418,7 +1418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with your account, as well as the databases in yor local account.
 """
 get_databases(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDatabases"; aws_config=aws_config)
-get_databases(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDatabases", params; aws_config=aws_config)
+get_databases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDatabases", params; aws_config=aws_config)
 
 """
     get_dataflow_graph()
@@ -1431,7 +1431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PythonScript"`: The Python script to transform.
 """
 get_dataflow_graph(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDataflowGraph"; aws_config=aws_config)
-get_dataflow_graph(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDataflowGraph", params; aws_config=aws_config)
+get_dataflow_graph(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDataflowGraph", params; aws_config=aws_config)
 
 """
     get_dev_endpoint(endpoint_name)
@@ -1447,7 +1447,7 @@ development endpoint, AWS Glue returns only a public IP address.
 
 """
 get_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
-get_dev_endpoint(EndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
+get_dev_endpoint(EndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
 
 """
     get_dev_endpoints()
@@ -1464,7 +1464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 get_dev_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDevEndpoints"; aws_config=aws_config)
-get_dev_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDevEndpoints", params; aws_config=aws_config)
+get_dev_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetDevEndpoints", params; aws_config=aws_config)
 
 """
     get_job(job_name)
@@ -1477,7 +1477,7 @@ Retrieves an existing job definition.
 
 """
 get_job(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJob", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
-get_job(JobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
+get_job(JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
 
 """
     get_job_bookmark(job_name)
@@ -1493,7 +1493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RunId"`: The unique run identifier associated with this job run.
 """
 get_job_bookmark(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobBookmark", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
-get_job_bookmark(JobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
+get_job_bookmark(JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
 
 """
     get_job_run(job_name, run_id)
@@ -1510,7 +1510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PredecessorsIncluded"`: True if a list of predecessor runs should be returned.
 """
 get_job_run(JobName, RunId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobRun", Dict{String, Any}("JobName"=>JobName, "RunId"=>RunId); aws_config=aws_config)
-get_job_run(JobName, RunId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "RunId"=>RunId), params)); aws_config=aws_config)
+get_job_run(JobName, RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "RunId"=>RunId), params)); aws_config=aws_config)
 
 """
     get_job_runs(job_name)
@@ -1527,7 +1527,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 get_job_runs(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobRuns", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
-get_job_runs(JobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
+get_job_runs(JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
 
 """
     get_jobs()
@@ -1541,7 +1541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 get_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobs"; aws_config=aws_config)
-get_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobs", params; aws_config=aws_config)
+get_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetJobs", params; aws_config=aws_config)
 
 """
     get_mapping(source)
@@ -1558,7 +1558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sinks"`: A list of target tables.
 """
 get_mapping(Source; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMapping", Dict{String, Any}("Source"=>Source); aws_config=aws_config)
-get_mapping(Source, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Source"=>Source), params)); aws_config=aws_config)
+get_mapping(Source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Source"=>Source), params)); aws_config=aws_config)
 
 """
     get_mltask_run(task_run_id, transform_id)
@@ -1575,7 +1575,7 @@ the TaskRunID and its parent transform's TransformID.
 
 """
 get_mltask_run(TaskRunId, TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTaskRun", Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId); aws_config=aws_config)
-get_mltask_run(TaskRunId, TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), params)); aws_config=aws_config)
+get_mltask_run(TaskRunId, TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     get_mltask_runs(transform_id)
@@ -1599,7 +1599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sort"`: The sorting criteria, in the TaskRunSortCriteria structure, for the task run.
 """
 get_mltask_runs(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTaskRuns", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
-get_mltask_runs(TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTaskRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
+get_mltask_runs(TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTaskRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     get_mltransform(transform_id)
@@ -1617,7 +1617,7 @@ metadata by calling GetMLTransform.
 
 """
 get_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
-get_mltransform(TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
+get_mltransform(TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     get_mltransforms()
@@ -1637,7 +1637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sort"`: The sorting criteria.
 """
 get_mltransforms(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTransforms"; aws_config=aws_config)
-get_mltransforms(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTransforms", params; aws_config=aws_config)
+get_mltransforms(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetMLTransforms", params; aws_config=aws_config)
 
 """
     get_partition(database_name, partition_values, table_name)
@@ -1656,7 +1656,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is provided, the AWS account ID is used by default.
 """
 get_partition(DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
-get_partition(DatabaseName, PartitionValues, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
+get_partition(DatabaseName, PartitionValues, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     get_partition_indexes(database_name, table_name)
@@ -1676,7 +1676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 """
 get_partition_indexes(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartitionIndexes", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-get_partition_indexes(DatabaseName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartitionIndexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+get_partition_indexes(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartitionIndexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     get_partitions(database_name, table_name)
@@ -1720,7 +1720,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Segment"`: The segment of the table's partitions to scan in this request.
 """
 get_partitions(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartitions", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-get_partitions(DatabaseName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+get_partitions(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPartitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     get_plan(mapping, source)
@@ -1744,7 +1744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sinks"`: The target tables.
 """
 get_plan(Mapping, Source; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPlan", Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source); aws_config=aws_config)
-get_plan(Mapping, Source, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source), params)); aws_config=aws_config)
+get_plan(Mapping, Source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source), params)); aws_config=aws_config)
 
 """
     get_registry(registry_id)
@@ -1758,7 +1758,7 @@ Describes the specified registry in detail.
 
 """
 get_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}("RegistryId"=>RegistryId); aws_config=aws_config)
-get_registry(RegistryId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), params)); aws_config=aws_config)
+get_registry(RegistryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistryId"=>RegistryId), params)); aws_config=aws_config)
 
 """
     get_resource_policies()
@@ -1775,7 +1775,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
 get_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetResourcePolicies"; aws_config=aws_config)
-get_resource_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetResourcePolicies", params; aws_config=aws_config)
+get_resource_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetResourcePolicies", params; aws_config=aws_config)
 
 """
     get_resource_policy()
@@ -1791,7 +1791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specifying AWS Glue Resource ARNs.
 """
 get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetResourcePolicy"; aws_config=aws_config)
-get_resource_policy(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetResourcePolicy", params; aws_config=aws_config)
+get_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetResourcePolicy", params; aws_config=aws_config)
 
 """
     get_schema(schema_id)
@@ -1807,7 +1807,7 @@ Describes the specified schema in detail.
 
 """
 get_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
-get_schema(SchemaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config)
+get_schema(SchemaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config)
 
 """
     get_schema_by_definition(schema_definition, schema_id)
@@ -1828,7 +1828,7 @@ statuses will not be included in the results.
 
 """
 get_schema_by_definition(SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId); aws_config=aws_config)
-get_schema_by_definition(SchemaDefinition, SchemaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), params)); aws_config=aws_config)
+get_schema_by_definition(SchemaDefinition, SchemaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaByDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), params)); aws_config=aws_config)
 
 """
     get_schema_version()
@@ -1849,7 +1849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
 get_schema_version(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersion"; aws_config=aws_config)
-get_schema_version(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersion", params; aws_config=aws_config)
+get_schema_version(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersion", params; aws_config=aws_config)
 
 """
     get_schema_versions_diff(first_schema_version_number, schema_diff_type, schema_id, second_schema_version_number)
@@ -1870,7 +1870,7 @@ between two schema definitions under the same schema.
 
 """
 get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber); aws_config=aws_config)
-get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber), params)); aws_config=aws_config)
+get_schema_versions_diff(FirstSchemaVersionNumber, SchemaDiffType, SchemaId, SecondSchemaVersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSchemaVersionsDiff", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirstSchemaVersionNumber"=>FirstSchemaVersionNumber, "SchemaDiffType"=>SchemaDiffType, "SchemaId"=>SchemaId, "SecondSchemaVersionNumber"=>SecondSchemaVersionNumber), params)); aws_config=aws_config)
 
 """
     get_security_configuration(name)
@@ -1883,7 +1883,7 @@ Retrieves a specified security configuration.
 
 """
 get_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_security_configuration(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_security_configuration(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_security_configurations()
@@ -1897,7 +1897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 get_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSecurityConfigurations"; aws_config=aws_config)
-get_security_configurations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSecurityConfigurations", params; aws_config=aws_config)
+get_security_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetSecurityConfigurations", params; aws_config=aws_config)
 
 """
     get_table(database_name, name)
@@ -1917,7 +1917,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AWS account ID is used by default.
 """
 get_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name); aws_config=aws_config)
-get_table(DatabaseName, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), params)); aws_config=aws_config)
+get_table(DatabaseName, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_table_version(database_name, table_name)
@@ -1939,7 +1939,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   representation of an integer. Each version is incremented by 1.
 """
 get_table_version(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-get_table_version(DatabaseName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+get_table_version(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     get_table_versions(database_name, table_name)
@@ -1961,7 +1961,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call.
 """
 get_table_versions(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTableVersions", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-get_table_versions(DatabaseName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTableVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+get_table_versions(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTableVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     get_tables(database_name)
@@ -1983,7 +1983,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 """
 get_tables(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTables", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
-get_tables(DatabaseName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config)
+get_tables(DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config)
 
 """
     get_tags(resource_arn)
@@ -1996,7 +1996,7 @@ Retrieves a list of tags associated with a resource.
 
 """
 get_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_tags(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+get_tags(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     get_trigger(name)
@@ -2009,7 +2009,7 @@ Retrieves the definition of a trigger.
 
 """
 get_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTrigger", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_trigger(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_trigger(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_triggers()
@@ -2025,7 +2025,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 get_triggers(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTriggers"; aws_config=aws_config)
-get_triggers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTriggers", params; aws_config=aws_config)
+get_triggers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetTriggers", params; aws_config=aws_config)
 
 """
     get_user_defined_function(database_name, function_name)
@@ -2043,7 +2043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If none is provided, the AWS account ID is used by default.
 """
 get_user_defined_function(DatabaseName, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName); aws_config=aws_config)
-get_user_defined_function(DatabaseName, FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), params)); aws_config=aws_config)
+get_user_defined_function(DatabaseName, FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), params)); aws_config=aws_config)
 
 """
     get_user_defined_functions(pattern)
@@ -2065,7 +2065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 get_user_defined_functions(Pattern; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetUserDefinedFunctions", Dict{String, Any}("Pattern"=>Pattern); aws_config=aws_config)
-get_user_defined_functions(Pattern, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetUserDefinedFunctions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Pattern"=>Pattern), params)); aws_config=aws_config)
+get_user_defined_functions(Pattern, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetUserDefinedFunctions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Pattern"=>Pattern), params)); aws_config=aws_config)
 
 """
     get_workflow(name)
@@ -2082,7 +2082,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource metadata.
 """
 get_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflow", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_workflow(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_workflow(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     get_workflow_run(name, run_id)
@@ -2099,7 +2099,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeGraph"`: Specifies whether to include the workflow graph in response or not.
 """
 get_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRun", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws_config=aws_config)
-get_workflow_run(Name, RunId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config)
+get_workflow_run(Name, RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config)
 
 """
     get_workflow_run_properties(name, run_id)
@@ -2113,7 +2113,7 @@ Retrieves the workflow run properties which were set during the run.
 
 """
 get_workflow_run_properties(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRunProperties", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws_config=aws_config)
-get_workflow_run_properties(Name, RunId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config)
+get_workflow_run_properties(Name, RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config)
 
 """
     get_workflow_runs(name)
@@ -2131,7 +2131,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The maximum size of the response.
 """
 get_workflow_runs(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRuns", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_workflow_runs(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+get_workflow_runs(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("GetWorkflowRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     import_catalog_to_glue()
@@ -2145,7 +2145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ID.
 """
 import_catalog_to_glue(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ImportCatalogToGlue"; aws_config=aws_config)
-import_catalog_to_glue(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ImportCatalogToGlue", params; aws_config=aws_config)
+import_catalog_to_glue(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ImportCatalogToGlue", params; aws_config=aws_config)
 
 """
     list_crawlers()
@@ -2164,7 +2164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies to return only these tagged resources.
 """
 list_crawlers(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListCrawlers"; aws_config=aws_config)
-list_crawlers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListCrawlers", params; aws_config=aws_config)
+list_crawlers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListCrawlers", params; aws_config=aws_config)
 
 """
     list_dev_endpoints()
@@ -2183,7 +2183,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies to return only these tagged resources.
 """
 list_dev_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListDevEndpoints"; aws_config=aws_config)
-list_dev_endpoints(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListDevEndpoints", params; aws_config=aws_config)
+list_dev_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListDevEndpoints", params; aws_config=aws_config)
 
 """
     list_jobs()
@@ -2202,7 +2202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies to return only these tagged resources.
 """
 list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListJobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListJobs", params; aws_config=aws_config)
+list_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListJobs", params; aws_config=aws_config)
 
 """
     list_mltransforms()
@@ -2223,7 +2223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies to return only these tagged resources.
 """
 list_mltransforms(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListMLTransforms"; aws_config=aws_config)
-list_mltransforms(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListMLTransforms", params; aws_config=aws_config)
+list_mltransforms(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListMLTransforms", params; aws_config=aws_config)
 
 """
     list_registries()
@@ -2240,7 +2240,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 list_registries(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListRegistries"; aws_config=aws_config)
-list_registries(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListRegistries", params; aws_config=aws_config)
+list_registries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListRegistries", params; aws_config=aws_config)
 
 """
     list_schema_versions(schema_id)
@@ -2263,7 +2263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
 list_schema_versions(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
-list_schema_versions(SchemaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config)
+list_schema_versions(SchemaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemaVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config)
 
 """
     list_schemas()
@@ -2283,7 +2283,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Resource Name (ARN).
 """
 list_schemas(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemas"; aws_config=aws_config)
-list_schemas(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemas", params; aws_config=aws_config)
+list_schemas(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListSchemas", params; aws_config=aws_config)
 
 """
     list_triggers()
@@ -2304,7 +2304,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Specifies to return only these tagged resources.
 """
 list_triggers(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListTriggers"; aws_config=aws_config)
-list_triggers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListTriggers", params; aws_config=aws_config)
+list_triggers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListTriggers", params; aws_config=aws_config)
 
 """
     list_workflows()
@@ -2318,7 +2318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
 list_workflows(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListWorkflows"; aws_config=aws_config)
-list_workflows(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListWorkflows", params; aws_config=aws_config)
+list_workflows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ListWorkflows", params; aws_config=aws_config)
 
 """
     put_data_catalog_encryption_settings(data_catalog_encryption_settings)
@@ -2336,7 +2336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is provided, the AWS account ID is used by default.
 """
 put_data_catalog_encryption_settings(DataCatalogEncryptionSettings; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutDataCatalogEncryptionSettings", Dict{String, Any}("DataCatalogEncryptionSettings"=>DataCatalogEncryptionSettings); aws_config=aws_config)
-put_data_catalog_encryption_settings(DataCatalogEncryptionSettings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutDataCatalogEncryptionSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataCatalogEncryptionSettings"=>DataCatalogEncryptionSettings), params)); aws_config=aws_config)
+put_data_catalog_encryption_settings(DataCatalogEncryptionSettings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutDataCatalogEncryptionSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataCatalogEncryptionSettings"=>DataCatalogEncryptionSettings), params)); aws_config=aws_config)
 
 """
     put_resource_policy(policy_in_json)
@@ -2363,7 +2363,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceArn"`: Do not use. For internal use only.
 """
 put_resource_policy(PolicyInJson; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutResourcePolicy", Dict{String, Any}("PolicyInJson"=>PolicyInJson); aws_config=aws_config)
-put_resource_policy(PolicyInJson, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInJson"=>PolicyInJson), params)); aws_config=aws_config)
+put_resource_policy(PolicyInJson, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInJson"=>PolicyInJson), params)); aws_config=aws_config)
 
 """
     put_schema_version_metadata(metadata_key_value)
@@ -2382,7 +2382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
 put_schema_version_metadata(MetadataKeyValue; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue); aws_config=aws_config)
-put_schema_version_metadata(MetadataKeyValue, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), params)); aws_config=aws_config)
+put_schema_version_metadata(MetadataKeyValue, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), params)); aws_config=aws_config)
 
 """
     put_workflow_run_properties(name, run_id, run_properties)
@@ -2399,7 +2399,7 @@ property to existing properties.
 
 """
 put_workflow_run_properties(Name, RunId, RunProperties; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutWorkflowRunProperties", Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties); aws_config=aws_config)
-put_workflow_run_properties(Name, RunId, RunProperties, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties), params)); aws_config=aws_config)
+put_workflow_run_properties(Name, RunId, RunProperties, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("PutWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties), params)); aws_config=aws_config)
 
 """
     query_schema_version_metadata()
@@ -2420,7 +2420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
 query_schema_version_metadata(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata"; aws_config=aws_config)
-query_schema_version_metadata(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata", params; aws_config=aws_config)
+query_schema_version_metadata(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("QuerySchemaVersionMetadata", params; aws_config=aws_config)
 
 """
     register_schema_version(schema_definition, schema_id)
@@ -2446,7 +2446,7 @@ of the existing schema is returned to the caller.
 
 """
 register_schema_version(SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId); aws_config=aws_config)
-register_schema_version(SchemaDefinition, SchemaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), params)); aws_config=aws_config)
+register_schema_version(SchemaDefinition, SchemaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RegisterSchemaVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaDefinition"=>SchemaDefinition, "SchemaId"=>SchemaId), params)); aws_config=aws_config)
 
 """
     remove_schema_version_metadata(metadata_key_value)
@@ -2466,7 +2466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
 remove_schema_version_metadata(MetadataKeyValue; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue); aws_config=aws_config)
-remove_schema_version_metadata(MetadataKeyValue, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), params)); aws_config=aws_config)
+remove_schema_version_metadata(MetadataKeyValue, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("RemoveSchemaVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetadataKeyValue"=>MetadataKeyValue), params)); aws_config=aws_config)
 
 """
     reset_job_bookmark(job_name)
@@ -2482,7 +2482,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RunId"`: The unique run identifier associated with this job run.
 """
 reset_job_bookmark(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ResetJobBookmark", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
-reset_job_bookmark(JobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ResetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
+reset_job_bookmark(JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ResetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
 
 """
     resume_workflow_run(name, node_ids, run_id)
@@ -2500,7 +2500,7 @@ are run.
 
 """
 resume_workflow_run(Name, NodeIds, RunId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ResumeWorkflowRun", Dict{String, Any}("Name"=>Name, "NodeIds"=>NodeIds, "RunId"=>RunId); aws_config=aws_config)
-resume_workflow_run(Name, NodeIds, RunId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ResumeWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "NodeIds"=>NodeIds, "RunId"=>RunId), params)); aws_config=aws_config)
+resume_workflow_run(Name, NodeIds, RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("ResumeWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "NodeIds"=>NodeIds, "RunId"=>RunId), params)); aws_config=aws_config)
 
 """
     search_tables()
@@ -2539,7 +2539,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ascending or descending order.
 """
 search_tables(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("SearchTables"; aws_config=aws_config)
-search_tables(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("SearchTables", params; aws_config=aws_config)
+search_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("SearchTables", params; aws_config=aws_config)
 
 """
     start_crawler(name)
@@ -2553,7 +2553,7 @@ is already running, returns a CrawlerRunningException.
 
 """
 start_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_crawler(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+start_crawler(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     start_crawler_schedule(crawler_name)
@@ -2567,7 +2567,7 @@ already running or the schedule state is already SCHEDULED.
 
 """
 start_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws_config=aws_config)
-start_crawler_schedule(CrawlerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config)
+start_crawler_schedule(CrawlerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config)
 
 """
     start_export_labels_task_run(output_s3_path, transform_id)
@@ -2588,7 +2588,7 @@ by calling the GetMLTaskRun API.
 
 """
 start_export_labels_task_run(OutputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartExportLabelsTaskRun", Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId); aws_config=aws_config)
-start_export_labels_task_run(OutputS3Path, TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartExportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config)
+start_export_labels_task_run(OutputS3Path, TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartExportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     start_import_labels_task_run(input_s3_path, transform_id)
@@ -2625,7 +2625,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplaceAllLabels"`: Indicates whether to overwrite your existing labels.
 """
 start_import_labels_task_run(InputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartImportLabelsTaskRun", Dict{String, Any}("InputS3Path"=>InputS3Path, "TransformId"=>TransformId); aws_config=aws_config)
-start_import_labels_task_run(InputS3Path, TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartImportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputS3Path"=>InputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config)
+start_import_labels_task_run(InputS3Path, TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartImportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputS3Path"=>InputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     start_job_run(job_name)
@@ -2678,7 +2678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   128GB disk, and 1 executor per worker.
 """
 start_job_run(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartJobRun", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
-start_job_run(JobName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
+start_job_run(JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), params)); aws_config=aws_config)
 
 """
     start_mlevaluation_task_run(transform_id)
@@ -2695,7 +2695,7 @@ of the EvaluationTaskRun.
 
 """
 start_mlevaluation_task_run(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartMLEvaluationTaskRun", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
-start_mlevaluation_task_run(TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartMLEvaluationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
+start_mlevaluation_task_run(TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartMLEvaluationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     start_mllabeling_set_generation_task_run(output_s3_path, transform_id)
@@ -2718,7 +2718,7 @@ use the new and improved labels and perform a higher-quality transformation.
 
 """
 start_mllabeling_set_generation_task_run(OutputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartMLLabelingSetGenerationTaskRun", Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId); aws_config=aws_config)
-start_mllabeling_set_generation_task_run(OutputS3Path, TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartMLLabelingSetGenerationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config)
+start_mllabeling_set_generation_task_run(OutputS3Path, TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartMLLabelingSetGenerationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     start_trigger(name)
@@ -2732,7 +2732,7 @@ of trigger are started.
 
 """
 start_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartTrigger", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_trigger(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+start_trigger(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     start_workflow_run(name)
@@ -2745,7 +2745,7 @@ Starts a new run of the specified workflow.
 
 """
 start_workflow_run(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartWorkflowRun", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_workflow_run(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+start_workflow_run(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StartWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     stop_crawler(name)
@@ -2758,7 +2758,7 @@ If the specified crawler is running, stops the crawl.
 
 """
 stop_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-stop_crawler(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+stop_crawler(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     stop_crawler_schedule(crawler_name)
@@ -2772,7 +2772,7 @@ crawler if it is already running.
 
 """
 stop_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws_config=aws_config)
-stop_crawler_schedule(CrawlerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config)
+stop_crawler_schedule(CrawlerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config)
 
 """
     stop_trigger(name)
@@ -2785,7 +2785,7 @@ Stops a specified trigger.
 
 """
 stop_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopTrigger", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-stop_trigger(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+stop_trigger(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     stop_workflow_run(name, run_id)
@@ -2799,7 +2799,7 @@ Stops the execution of the specified workflow run.
 
 """
 stop_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopWorkflowRun", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws_config=aws_config)
-stop_workflow_run(Name, RunId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config)
+stop_workflow_run(Name, RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("StopWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags_to_add)
@@ -2816,7 +2816,7 @@ AWS Tags in AWS Glue.
 
 """
 tag_resource(ResourceArn, TagsToAdd; aws_config::AbstractAWSConfig=global_aws_config()) = glue("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToAdd"=>TagsToAdd); aws_config=aws_config)
-tag_resource(ResourceArn, TagsToAdd, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToAdd"=>TagsToAdd), params)); aws_config=aws_config)
+tag_resource(ResourceArn, TagsToAdd, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToAdd"=>TagsToAdd), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tags_to_remove)
@@ -2831,7 +2831,7 @@ Removes tags from a resource.
 
 """
 untag_resource(ResourceArn, TagsToRemove; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToRemove"=>TagsToRemove); aws_config=aws_config)
-untag_resource(ResourceArn, TagsToRemove, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToRemove"=>TagsToRemove), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagsToRemove, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToRemove"=>TagsToRemove), params)); aws_config=aws_config)
 
 """
     update_classifier()
@@ -2848,7 +2848,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"XMLClassifier"`: An XMLClassifier object with updated fields.
 """
 update_classifier(; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateClassifier"; aws_config=aws_config)
-update_classifier(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateClassifier", params; aws_config=aws_config)
+update_classifier(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateClassifier", params; aws_config=aws_config)
 
 """
     update_column_statistics_for_partition(column_statistics_list, database_name, partition_values, table_name)
@@ -2869,7 +2869,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is supplied, the AWS account ID is used by default.
 """
 update_column_statistics_for_partition(ColumnStatisticsList, DatabaseName, PartitionValues, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateColumnStatisticsForPartition", Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
-update_column_statistics_for_partition(ColumnStatisticsList, DatabaseName, PartitionValues, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
+update_column_statistics_for_partition(ColumnStatisticsList, DatabaseName, PartitionValues, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     update_column_statistics_for_table(column_statistics_list, database_name, table_name)
@@ -2889,7 +2889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is supplied, the AWS account ID is used by default.
 """
 update_column_statistics_for_table(ColumnStatisticsList, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateColumnStatisticsForTable", Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-update_column_statistics_for_table(ColumnStatisticsList, DatabaseName, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+update_column_statistics_for_table(ColumnStatisticsList, DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     update_connection(connection_input, name)
@@ -2907,7 +2907,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the AWS account ID is used by default.
 """
 update_connection(ConnectionInput, Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateConnection", Dict{String, Any}("ConnectionInput"=>ConnectionInput, "Name"=>Name); aws_config=aws_config)
-update_connection(ConnectionInput, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput, "Name"=>Name), params)); aws_config=aws_config)
+update_connection(ConnectionInput, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_crawler(name)
@@ -2945,7 +2945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Targets"`: A list of targets to crawl.
 """
 update_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_crawler(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+update_crawler(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_crawler_schedule(crawler_name)
@@ -2963,7 +2963,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   would specify: cron(15 12 * * ? *).
 """
 update_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws_config=aws_config)
-update_crawler_schedule(CrawlerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config)
+update_crawler_schedule(CrawlerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), params)); aws_config=aws_config)
 
 """
     update_database(database_input, name)
@@ -2983,7 +2983,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is provided, the AWS account ID is used by default.
 """
 update_database(DatabaseInput, Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateDatabase", Dict{String, Any}("DatabaseInput"=>DatabaseInput, "Name"=>Name); aws_config=aws_config)
-update_database(DatabaseInput, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput, "Name"=>Name), params)); aws_config=aws_config)
+update_database(DatabaseInput, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     update_dev_endpoint(endpoint_name)
@@ -3012,7 +3012,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   development endpoint needs to be updated, or False if otherwise.
 """
 update_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
-update_dev_endpoint(EndpointName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
+update_dev_endpoint(EndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), params)); aws_config=aws_config)
 
 """
     update_job(job_name, job_update)
@@ -3026,7 +3026,7 @@ Updates an existing job definition.
 
 """
 update_job(JobName, JobUpdate; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateJob", Dict{String, Any}("JobName"=>JobName, "JobUpdate"=>JobUpdate); aws_config=aws_config)
-update_job(JobName, JobUpdate, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobUpdate"=>JobUpdate), params)); aws_config=aws_config)
+update_job(JobName, JobUpdate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobUpdate"=>JobUpdate), params)); aws_config=aws_config)
 
 """
     update_mltransform(transform_id)
@@ -3074,7 +3074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   memory and a 128GB disk, and 1 executor per worker.
 """
 update_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
-update_mltransform(TransformId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
+update_mltransform(TransformId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), params)); aws_config=aws_config)
 
 """
     update_partition(database_name, partition_input, partition_value_list, table_name)
@@ -3096,7 +3096,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is provided, the AWS account ID is used by default.
 """
 update_partition(DatabaseName, PartitionInput, PartitionValueList, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName); aws_config=aws_config)
-update_partition(DatabaseName, PartitionInput, PartitionValueList, TableName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName), params)); aws_config=aws_config)
+update_partition(DatabaseName, PartitionInput, PartitionValueList, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName), params)); aws_config=aws_config)
 
 """
     update_registry(description, registry_id)
@@ -3114,7 +3114,7 @@ registry.
 
 """
 update_registry(Description, RegistryId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId); aws_config=aws_config)
-update_registry(Description, RegistryId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId), params)); aws_config=aws_config)
+update_registry(Description, RegistryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateRegistry", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RegistryId"=>RegistryId), params)); aws_config=aws_config)
 
 """
     update_schema(schema_id)
@@ -3142,7 +3142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or Compatibility has to be provided.
 """
 update_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}("SchemaId"=>SchemaId); aws_config=aws_config)
-update_schema(SchemaId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config)
+update_schema(SchemaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaId"=>SchemaId), params)); aws_config=aws_config)
 
 """
     update_table(database_name, table_input)
@@ -3164,7 +3164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   archived version.
 """
 update_table(DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput); aws_config=aws_config)
-update_table(DatabaseName, TableInput, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), params)); aws_config=aws_config)
+update_table(DatabaseName, TableInput, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), params)); aws_config=aws_config)
 
 """
     update_trigger(name, trigger_update)
@@ -3178,7 +3178,7 @@ Updates a trigger definition.
 
 """
 update_trigger(Name, TriggerUpdate; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateTrigger", Dict{String, Any}("Name"=>Name, "TriggerUpdate"=>TriggerUpdate); aws_config=aws_config)
-update_trigger(Name, TriggerUpdate, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TriggerUpdate"=>TriggerUpdate), params)); aws_config=aws_config)
+update_trigger(Name, TriggerUpdate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TriggerUpdate"=>TriggerUpdate), params)); aws_config=aws_config)
 
 """
     update_user_defined_function(database_name, function_input, function_name)
@@ -3198,7 +3198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   none is provided, the AWS account ID is used by default.
 """
 update_user_defined_function(DatabaseName, FunctionInput, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput, "FunctionName"=>FunctionName); aws_config=aws_config)
-update_user_defined_function(DatabaseName, FunctionInput, FunctionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput, "FunctionName"=>FunctionName), params)); aws_config=aws_config)
+update_user_defined_function(DatabaseName, FunctionInput, FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput, "FunctionName"=>FunctionName), params)); aws_config=aws_config)
 
 """
     update_workflow(name)
@@ -3220,4 +3220,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   no limit to the number of concurrent workflow runs.
 """
 update_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateWorkflow", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_workflow(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+update_workflow(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = glue("UpdateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)

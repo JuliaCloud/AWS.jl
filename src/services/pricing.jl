@@ -26,7 +26,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve a list of all services, leave this blank.
 """
 describe_services(; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("DescribeServices"; aws_config=aws_config)
-describe_services(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("DescribeServices", params; aws_config=aws_config)
+describe_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("DescribeServices", params; aws_config=aws_config)
 
 """
     get_attribute_values(attribute_name, service_code)
@@ -49,7 +49,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to retrieve.
 """
 get_attribute_values(AttributeName, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetAttributeValues", Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode); aws_config=aws_config)
-get_attribute_values(AttributeName, ServiceCode, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetAttributeValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config)
+get_attribute_values(AttributeName, ServiceCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetAttributeValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode), params)); aws_config=aws_config)
 
 """
     get_products()
@@ -69,4 +69,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceCode"`: The code for the service whose products you want to retrieve.
 """
 get_products(; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetProducts"; aws_config=aws_config)
-get_products(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetProducts", params; aws_config=aws_config)
+get_products(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pricing("GetProducts", params; aws_config=aws_config)

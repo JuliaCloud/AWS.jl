@@ -28,7 +28,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It does not include dashes or spaces.
 """
 associate_external_connection(domain, external_connection, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository); aws_config=aws_config)
-associate_external_connection(domain, external_connection, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), params)); aws_config=aws_config)
+associate_external_connection(domain, external_connection, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     copy_package_versions(destination-repository, domain, format, package, source-repository)
@@ -72,7 +72,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versionRevisions. You cannot specify both.
 """
 copy_package_versions(destination_repository, domain, format, package, source_repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository); aws_config=aws_config)
-copy_package_versions(destination_repository, domain, format, package, source_repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository), params)); aws_config=aws_config)
+copy_package_versions(destination_repository, domain, format, package, source_repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository), params)); aws_config=aws_config)
 
 """
     create_domain(domain)
@@ -106,7 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: One or more tag key-value pairs for the domain.
 """
 create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domain", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-create_domain(domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
+create_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
 
 """
     create_repository(domain, repository)
@@ -130,7 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upstream repositories.
 """
 create_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config)
-create_repository(domain, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
+create_repository(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     delete_domain(domain)
@@ -148,7 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It does not include dashes or spaces.
 """
 delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-delete_domain(domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
+delete_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
 
 """
     delete_domain_permissions_policy(domain)
@@ -168,7 +168,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   changes to the domain's resource policy.
 """
 delete_domain_permissions_policy(domain; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-delete_domain_permissions_policy(domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
+delete_domain_permissions_policy(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
 
 """
     delete_package_versions(domain, format, package, repository, versions)
@@ -200,7 +200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain a corresponding component, so Python packages do not have a namespace.
 """
 delete_package_versions(domain, format, package, repository, versions; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions); aws_config=aws_config)
-delete_package_versions(domain, format, package, repository, versions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), params)); aws_config=aws_config)
+delete_package_versions(domain, format, package, repository, versions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), params)); aws_config=aws_config)
 
 """
     delete_repository(domain, repository)
@@ -218,7 +218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It does not include dashes or spaces.
 """
 delete_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config)
-delete_repository(domain, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
+delete_repository(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     delete_repository_permissions_policy(domain, repository)
@@ -246,7 +246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overwriting your changes to the repository's resource policy.
 """
 delete_repository_permissions_policy(domain, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config)
-delete_repository_permissions_policy(domain, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
+delete_repository_permissions_policy(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     describe_domain(domain)
@@ -263,7 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It does not include dashes or spaces.
 """
 describe_domain(domain; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/domain", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-describe_domain(domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
+describe_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
 
 """
     describe_package_version(domain, format, package, repository, version)
@@ -291,7 +291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain a corresponding component, so Python packages do not have a namespace.
 """
 describe_package_version(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
-describe_package_version(domain, format, package, repository, version, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
+describe_package_version(domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
 
 """
     describe_repository(domain, repository)
@@ -310,7 +310,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It does not include dashes or spaces.
 """
 describe_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config)
-describe_repository(domain, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
+describe_repository(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     disassociate_external_connection(domain, external-connection, repository)
@@ -332,7 +332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It does not include dashes or spaces.
 """
 disassociate_external_connection(domain, external_connection, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository); aws_config=aws_config)
-disassociate_external_connection(domain, external_connection, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), params)); aws_config=aws_config)
+disassociate_external_connection(domain, external_connection, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     dispose_package_versions(domain, format, package, repository, versions)
@@ -366,7 +366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionRevisions"`:  The revisions of the package versions you want to dispose.
 """
 dispose_package_versions(domain, format, package, repository, versions; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions); aws_config=aws_config)
-dispose_package_versions(domain, format, package, repository, versions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), params)); aws_config=aws_config)
+dispose_package_versions(domain, format, package, repository, versions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), params)); aws_config=aws_config)
 
 """
     get_authorization_token(domain)
@@ -400,7 +400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   role's temporary credentials.
 """
 get_authorization_token(domain; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-get_authorization_token(domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
+get_authorization_token(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
 
 """
     get_domain_permissions_policy(domain)
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It does not include dashes or spaces.
 """
 get_domain_permissions_policy(domain; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-get_domain_permissions_policy(domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
+get_domain_permissions_policy(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
 
 """
     get_package_version_asset(asset, domain, format, package, repository, version)
@@ -452,7 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   asset.
 """
 get_package_version_asset(asset, domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
-get_package_version_asset(asset, domain, format, package, repository, version, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
+get_package_version_asset(asset, domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
 
 """
     get_package_version_readme(domain, format, package, repository, version)
@@ -483,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain a corresponding component, so Python packages do not have a namespace.
 """
 get_package_version_readme(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
-get_package_version_readme(domain, format, package, repository, version, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
+get_package_version_readme(domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
 
 """
     get_repository_endpoint(domain, format, repository)
@@ -504,7 +504,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that contains the repository. It does not include dashes or spaces.
 """
 get_repository_endpoint(domain, format, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository); aws_config=aws_config)
-get_repository_endpoint(domain, format, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository), params)); aws_config=aws_config)
+get_repository_endpoint(domain, format, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     get_repository_permissions_policy(domain, repository)
@@ -524,7 +524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   It does not include dashes or spaces.
 """
 get_repository_permissions_policy(domain, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config)
-get_repository_permissions_policy(domain, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
+get_repository_permissions_policy(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     list_domains()
@@ -540,7 +540,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domains"; aws_config=aws_config)
-list_domains(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domains", params; aws_config=aws_config)
+list_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domains", params; aws_config=aws_config)
 
 """
     list_package_version_assets(domain, format, package, repository, version)
@@ -573,7 +573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 list_package_version_assets(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
-list_package_version_assets(domain, format, package, repository, version, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
+list_package_version_assets(domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
 
 """
     list_package_version_dependencies(domain, format, package, repository, version)
@@ -608,7 +608,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 list_package_version_dependencies(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config)
-list_package_version_dependencies(domain, format, package, repository, version, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
+list_package_version_dependencies(domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config)
 
 """
     list_package_versions(domain, format, package, repository)
@@ -645,7 +645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Archived     Disposed
 """
 list_package_versions(domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository); aws_config=aws_config)
-list_package_versions(domain, format, package, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository), params)); aws_config=aws_config)
+list_package_versions(domain, format, package, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     list_packages(domain, repository)
@@ -678,7 +678,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that start with packagePrefix are returned.
 """
 list_packages(domain, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/packages", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config)
-list_packages(domain, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
+list_packages(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     list_repositories()
@@ -696,7 +696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with names that start with repositoryPrefix are returned.
 """
 list_repositories(; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repositories"; aws_config=aws_config)
-list_repositories(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repositories", params; aws_config=aws_config)
+list_repositories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/repositories", params; aws_config=aws_config)
 
 """
     list_repositories_in_domain(domain)
@@ -721,7 +721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with names that start with repositoryPrefix are returned.
 """
 list_repositories_in_domain(domain; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}("domain"=>domain); aws_config=aws_config)
-list_repositories_in_domain(domain, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
+list_repositories_in_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -735,7 +735,7 @@ CodeArtifact.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     put_domain_permissions_policy(domain, policy_document)
@@ -760,7 +760,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain's resource policy.
 """
 put_domain_permissions_policy(domain, policyDocument; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument); aws_config=aws_config)
-put_domain_permissions_policy(domain, policyDocument, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument), params)); aws_config=aws_config)
+put_domain_permissions_policy(domain, policyDocument, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument), params)); aws_config=aws_config)
 
 """
     put_repository_permissions_policy(domain, policy_document, repository)
@@ -788,7 +788,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   others from overwriting your changes to the repository's resource policy.
 """
 put_repository_permissions_policy(domain, policyDocument, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository); aws_config=aws_config)
-put_repository_permissions_policy(domain, policyDocument, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository), params)); aws_config=aws_config)
+put_repository_permissions_policy(domain, policyDocument, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -803,7 +803,7 @@ Adds or updates tags for a resource in AWS CodeArtifact.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/tag", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -818,7 +818,7 @@ Removes tags from a resource in AWS CodeArtifact.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/untag", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_package_versions_status(domain, format, package, repository, target_status, versions)
@@ -854,7 +854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   revision.
 """
 update_package_versions_status(domain, format, package, repository, targetStatus, versions; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions); aws_config=aws_config)
-update_package_versions_status(domain, format, package, repository, targetStatus, versions, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions), params)); aws_config=aws_config)
+update_package_versions_status(domain, format, package, repository, targetStatus, versions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions), params)); aws_config=aws_config)
 
 """
     update_repository(domain, repository)
@@ -877,4 +877,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upstream repositories.
 """
 update_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config)
-update_repository(domain, repository, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)
+update_repository(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codeartifact("PUT", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config)

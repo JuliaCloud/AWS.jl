@@ -22,7 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 abort_document_version_upload(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
-abort_document_version_upload(DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
+abort_document_version_upload(DocumentId, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
 
 """
     activate_user(user_id)
@@ -39,7 +39,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 activate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation"; aws_config=aws_config)
-activate_user(UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation", params; aws_config=aws_config)
+activate_user(UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users/$(UserId)/activation", params; aws_config=aws_config)
 
 """
     add_resource_permissions(principals, resource_id)
@@ -59,7 +59,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationOptions"`: The notification options.
 """
 add_resource_permissions(Principals, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}("Principals"=>Principals); aws_config=aws_config)
-add_resource_permissions(Principals, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Principals"=>Principals), params)); aws_config=aws_config)
+add_resource_permissions(Principals, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Principals"=>Principals), params)); aws_config=aws_config)
 
 """
     create_comment(document_id, text, version_id)
@@ -85,7 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   where the comment is visible to document owners, co-owners, and contributors.
 """
 create_comment(DocumentId, Text, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}("Text"=>Text); aws_config=aws_config)
-create_comment(DocumentId, Text, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config)
+create_comment(DocumentId, Text, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config)
 
 """
     create_custom_metadata(custom_metadata, resource_id)
@@ -106,7 +106,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 """
 create_custom_metadata(CustomMetadata, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}("CustomMetadata"=>CustomMetadata); aws_config=aws_config)
-create_custom_metadata(CustomMetadata, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomMetadata"=>CustomMetadata), params)); aws_config=aws_config)
+create_custom_metadata(CustomMetadata, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomMetadata"=>CustomMetadata), params)); aws_config=aws_config)
 
 """
     create_folder(parent_folder_id)
@@ -124,7 +124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the new folder.
 """
 create_folder(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}("ParentFolderId"=>ParentFolderId); aws_config=aws_config)
-create_folder(ParentFolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), params)); aws_config=aws_config)
+create_folder(ParentFolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), params)); aws_config=aws_config)
 
 """
     create_labels(labels, resource_id)
@@ -142,7 +142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 create_labels(Labels, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}("Labels"=>Labels); aws_config=aws_config)
-create_labels(Labels, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels), params)); aws_config=aws_config)
+create_labels(Labels, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Labels"=>Labels), params)); aws_config=aws_config)
 
 """
     create_notification_subscription(endpoint, organization_id, protocol, subscription_type)
@@ -162,7 +162,7 @@ Subscribe to Notifications in the Amazon WorkDocs Developer Guide.
 
 """
 create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType); aws_config=aws_config)
-create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType), params)); aws_config=aws_config)
+create_notification_subscription(Endpoint, OrganizationId, Protocol, SubscriptionType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Endpoint"=>Endpoint, "Protocol"=>Protocol, "SubscriptionType"=>SubscriptionType), params)); aws_config=aws_config)
 
 """
     create_user(given_name, password, surname, username)
@@ -187,7 +187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeZoneId"`: The time zone ID of the user.
 """
 create_user(GivenName, Password, Surname, Username; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username); aws_config=aws_config)
-create_user(GivenName, Password, Surname, Username, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username), params)); aws_config=aws_config)
+create_user(GivenName, Password, Surname, Username, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GivenName"=>GivenName, "Password"=>Password, "Surname"=>Surname, "Username"=>Username), params)); aws_config=aws_config)
 
 """
     deactivate_user(user_id)
@@ -204,7 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 deactivate_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation"; aws_config=aws_config)
-deactivate_user(UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation", params; aws_config=aws_config)
+deactivate_user(UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation", params; aws_config=aws_config)
 
 """
     delete_comment(comment_id, document_id, version_id)
@@ -223,7 +223,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 delete_comment(CommentId, DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)"; aws_config=aws_config)
-delete_comment(CommentId, DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)", params; aws_config=aws_config)
+delete_comment(CommentId, DocumentId, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)", params; aws_config=aws_config)
 
 """
     delete_custom_metadata(resource_id)
@@ -245,7 +245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   document version.
 """
 delete_custom_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata"; aws_config=aws_config)
-delete_custom_metadata(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata", params; aws_config=aws_config)
+delete_custom_metadata(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata", params; aws_config=aws_config)
 
 """
     delete_document(document_id)
@@ -262,7 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 delete_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
-delete_document(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
+delete_document(DocumentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
 
 """
     delete_folder(folder_id)
@@ -279,7 +279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 delete_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
-delete_folder(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
+delete_folder(FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
 
 """
     delete_folder_contents(folder_id)
@@ -296,7 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 delete_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents"; aws_config=aws_config)
-delete_folder_contents(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents", params; aws_config=aws_config)
+delete_folder_contents(FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents", params; aws_config=aws_config)
 
 """
     delete_labels(resource_id)
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"labels"`: List of labels to delete from the resource.
 """
 delete_labels(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels"; aws_config=aws_config)
-delete_labels(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels", params; aws_config=aws_config)
+delete_labels(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels", params; aws_config=aws_config)
 
 """
     delete_notification_subscription(organization_id, subscription_id)
@@ -329,7 +329,7 @@ Deletes the specified subscription from the specified organization.
 
 """
 delete_notification_subscription(OrganizationId, SubscriptionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)"; aws_config=aws_config)
-delete_notification_subscription(OrganizationId, SubscriptionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)", params; aws_config=aws_config)
+delete_notification_subscription(OrganizationId, SubscriptionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)", params; aws_config=aws_config)
 
 """
     delete_user(user_id)
@@ -346,7 +346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using administrative API actions, as in accessing the API using AWS credentials.
 """
 delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)"; aws_config=aws_config)
-delete_user(UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)", params; aws_config=aws_config)
+delete_user(UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/users/$(UserId)", params; aws_config=aws_config)
 
 """
     describe_activities()
@@ -378,7 +378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrative API (SigV4) requests.
 """
 describe_activities(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities"; aws_config=aws_config)
-describe_activities(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities", params; aws_config=aws_config)
+describe_activities(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/activities", params; aws_config=aws_config)
 
 """
     describe_comments(document_id, version_id)
@@ -399,7 +399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 describe_comments(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments"; aws_config=aws_config)
-describe_comments(DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments", params; aws_config=aws_config)
+describe_comments(DocumentId, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments", params; aws_config=aws_config)
 
 """
     describe_document_versions(document_id)
@@ -424,7 +424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 """
 describe_document_versions(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions"; aws_config=aws_config)
-describe_document_versions(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions", params; aws_config=aws_config)
+describe_document_versions(DocumentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions", params; aws_config=aws_config)
 
 """
     describe_folder_contents(folder_id)
@@ -452,7 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of items.
 """
 describe_folder_contents(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents"; aws_config=aws_config)
-describe_folder_contents(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents", params; aws_config=aws_config)
+describe_folder_contents(FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents", params; aws_config=aws_config)
 
 """
     describe_groups(search_query)
@@ -474,7 +474,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"organizationId"`: The ID of the organization.
 """
 describe_groups(searchQuery; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}("searchQuery"=>searchQuery); aws_config=aws_config)
-describe_groups(searchQuery, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchQuery"=>searchQuery), params)); aws_config=aws_config)
+describe_groups(searchQuery, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchQuery"=>searchQuery), params)); aws_config=aws_config)
 
 """
     describe_notification_subscriptions(organization_id)
@@ -492,7 +492,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 """
 describe_notification_subscriptions(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions"; aws_config=aws_config)
-describe_notification_subscriptions(OrganizationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions", params; aws_config=aws_config)
+describe_notification_subscriptions(OrganizationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions", params; aws_config=aws_config)
 
 """
     describe_resource_permissions(resource_id)
@@ -513,7 +513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principalId"`: The ID of the principal to filter permissions by.
 """
 describe_resource_permissions(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions"; aws_config=aws_config)
-describe_resource_permissions(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions", params; aws_config=aws_config)
+describe_resource_permissions(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions", params; aws_config=aws_config)
 
 """
     describe_root_folders(authentication)
@@ -536,7 +536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.)
 """
 describe_root_folders(Authentication; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)); aws_config=aws_config)
-describe_root_folders(Authentication, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), params)); aws_config=aws_config)
+describe_root_folders(Authentication, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me/root", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), params)); aws_config=aws_config)
 
 """
     describe_users()
@@ -564,7 +564,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userIds"`: The IDs of the users.
 """
 describe_users(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users"; aws_config=aws_config)
-describe_users(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users", params; aws_config=aws_config)
+describe_users(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/users", params; aws_config=aws_config)
 
 """
     get_current_user(authentication)
@@ -581,7 +581,7 @@ in the Amazon WorkDocs Developer Guide.
 
 """
 get_current_user(Authentication; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)); aws_config=aws_config)
-get_current_user(Authentication, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), params)); aws_config=aws_config)
+get_current_user(Authentication, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/me", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("Authentication"=>Authentication)), params)); aws_config=aws_config)
 
 """
     get_document(document_id)
@@ -599,7 +599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeCustomMetadata"`: Set this to TRUE to include custom metadata in the response.
 """
 get_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
-get_document(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
+get_document(DocumentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
 
 """
     get_document_path(document_id)
@@ -623,7 +623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: This value is not supported.
 """
 get_document_path(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path"; aws_config=aws_config)
-get_document_path(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path", params; aws_config=aws_config)
+get_document_path(DocumentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path", params; aws_config=aws_config)
 
 """
     get_document_version(document_id, version_id)
@@ -644,7 +644,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeCustomMetadata"`: Set this to TRUE to include custom metadata in the response.
 """
 get_document_version(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
-get_document_version(DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
+get_document_version(DocumentId, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
 
 """
     get_folder(folder_id)
@@ -662,7 +662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeCustomMetadata"`: Set to TRUE to include custom metadata in the response.
 """
 get_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
-get_folder(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
+get_folder(FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
 
 """
     get_folder_path(folder_id)
@@ -686,7 +686,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: This value is not supported.
 """
 get_folder_path(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path"; aws_config=aws_config)
-get_folder_path(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path", params; aws_config=aws_config)
+get_folder_path(FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/folders/$(FolderId)/path", params; aws_config=aws_config)
 
 """
     get_resources()
@@ -707,7 +707,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accessing the API operation using IAM credentials.
 """
 get_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources"; aws_config=aws_config)
-get_resources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources", params; aws_config=aws_config)
+get_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("GET", "/api/v1/resources", params; aws_config=aws_config)
 
 """
     initiate_document_version_upload(parent_folder_id)
@@ -735,7 +735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the document.
 """
 initiate_document_version_upload(ParentFolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}("ParentFolderId"=>ParentFolderId); aws_config=aws_config)
-initiate_document_version_upload(ParentFolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), params)); aws_config=aws_config)
+initiate_document_version_upload(ParentFolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("POST", "/api/v1/documents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParentFolderId"=>ParentFolderId), params)); aws_config=aws_config)
 
 """
     remove_all_resource_permissions(resource_id)
@@ -752,7 +752,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator credentials to access the API.
 """
 remove_all_resource_permissions(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions"; aws_config=aws_config)
-remove_all_resource_permissions(ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions", params; aws_config=aws_config)
+remove_all_resource_permissions(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions", params; aws_config=aws_config)
 
 """
     remove_resource_permission(principal_id, resource_id)
@@ -771,7 +771,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The principal type of the resource.
 """
 remove_resource_permission(PrincipalId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)"; aws_config=aws_config)
-remove_resource_permission(PrincipalId, ResourceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)", params; aws_config=aws_config)
+remove_resource_permission(PrincipalId, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)", params; aws_config=aws_config)
 
 """
     update_document(document_id)
@@ -793,7 +793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported.
 """
 update_document(DocumentId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)"; aws_config=aws_config)
-update_document(DocumentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
+update_document(DocumentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)", params; aws_config=aws_config)
 
 """
     update_document_version(document_id, version_id)
@@ -814,7 +814,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionStatus"`: The status of the version.
 """
 update_document_version(DocumentId, VersionId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)"; aws_config=aws_config)
-update_document_version(DocumentId, VersionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
+update_document_version(DocumentId, VersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", params; aws_config=aws_config)
 
 """
     update_folder(folder_id)
@@ -836,7 +836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accepted values from the API.
 """
 update_folder(FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)"; aws_config=aws_config)
-update_folder(FolderId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
+update_folder(FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/folders/$(FolderId)", params; aws_config=aws_config)
 
 """
     update_user(user_id)
@@ -862,4 +862,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The type of the user.
 """
 update_user(UserId; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)"; aws_config=aws_config)
-update_user(UserId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)", params; aws_config=aws_config)
+update_user(UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workdocs("PATCH", "/api/v1/users/$(UserId)", params; aws_config=aws_config)

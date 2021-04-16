@@ -23,7 +23,7 @@ all assigned accounts.
 
 """
 attach_managed_policy_to_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("AttachManagedPolicyToPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-attach_managed_policy_to_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("AttachManagedPolicyToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+attach_managed_policy_to_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("AttachManagedPolicyToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
@@ -53,7 +53,7 @@ will need to call  ProvisionPermissionSet  to make these updates.
 
 """
 create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateAccountAssignment", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType); aws_config=aws_config)
-create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), params)); aws_config=aws_config)
+create_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), params)); aws_config=aws_config)
 
 """
     create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
@@ -75,7 +75,7 @@ the AWS SSO User Guide.
 
 """
 create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+create_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     create_permission_set(instance_arn, name)
@@ -100,7 +100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to attach to the new PermissionSet.
 """
 create_permission_set(InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreatePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name); aws_config=aws_config)
-create_permission_set(InstanceArn, Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreatePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name), params)); aws_config=aws_config)
+create_permission_set(InstanceArn, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("CreatePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "Name"=>Name), params)); aws_config=aws_config)
 
 """
     delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
@@ -123,7 +123,7 @@ Deletes a principal's access from a specified AWS account using a specified perm
 
 """
 delete_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteAccountAssignment", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType); aws_config=aws_config)
-delete_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), params)); aws_config=aws_config)
+delete_account_assignment(InstanceArn, PermissionSetArn, PrincipalId, PrincipalType, TargetId, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteAccountAssignment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "PrincipalId"=>PrincipalId, "PrincipalType"=>PrincipalType, "TargetId"=>TargetId, "TargetType"=>TargetType), params)); aws_config=aws_config)
 
 """
     delete_inline_policy_from_permission_set(instance_arn, permission_set_arn)
@@ -139,7 +139,7 @@ Deletes the inline policy from a specified permission set.
 
 """
 delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInlinePolicyFromPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInlinePolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+delete_inline_policy_from_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInlinePolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     delete_instance_access_control_attribute_configuration(instance_arn)
@@ -156,7 +156,7 @@ Attribute-Based Access Control in the AWS SSO User Guide.
 
 """
 delete_instance_access_control_attribute_configuration(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-delete_instance_access_control_attribute_configuration(InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+delete_instance_access_control_attribute_configuration(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeleteInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     delete_permission_set(instance_arn, permission_set_arn)
@@ -172,7 +172,7 @@ Deletes the specified permission set.
 
 """
 delete_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeletePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-delete_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeletePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+delete_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DeletePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn)
@@ -189,7 +189,7 @@ Describes the status of the assignment creation request.
 
 """
 describe_account_assignment_creation_status(AccountAssignmentCreationRequestId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentCreationStatus", Dict{String, Any}("AccountAssignmentCreationRequestId"=>AccountAssignmentCreationRequestId, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-describe_account_assignment_creation_status(AccountAssignmentCreationRequestId, InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentCreationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentCreationRequestId"=>AccountAssignmentCreationRequestId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+describe_account_assignment_creation_status(AccountAssignmentCreationRequestId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentCreationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentCreationRequestId"=>AccountAssignmentCreationRequestId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     describe_account_assignment_deletion_status(account_assignment_deletion_request_id, instance_arn)
@@ -206,7 +206,7 @@ Describes the status of the assignment deletion request.
 
 """
 describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+describe_account_assignment_deletion_status(AccountAssignmentDeletionRequestId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAssignmentDeletionRequestId"=>AccountAssignmentDeletionRequestId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     describe_instance_access_control_attribute_configuration(instance_arn)
@@ -222,7 +222,7 @@ information about ABAC, see Attribute-Based Access Control in the AWS SSO User G
 
 """
 describe_instance_access_control_attribute_configuration(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-describe_instance_access_control_attribute_configuration(InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+describe_instance_access_control_attribute_configuration(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribeInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     describe_permission_set(instance_arn, permission_set_arn)
@@ -238,7 +238,7 @@ Gets the details of the permission set.
 
 """
 describe_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-describe_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+describe_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     describe_permission_set_provisioning_status(instance_arn, provision_permission_set_request_id)
@@ -255,7 +255,7 @@ Describes the status for the given permission set provisioning request.
 
 """
 describe_permission_set_provisioning_status(InstanceArn, ProvisionPermissionSetRequestId; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSetProvisioningStatus", Dict{String, Any}("InstanceArn"=>InstanceArn, "ProvisionPermissionSetRequestId"=>ProvisionPermissionSetRequestId); aws_config=aws_config)
-describe_permission_set_provisioning_status(InstanceArn, ProvisionPermissionSetRequestId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSetProvisioningStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ProvisionPermissionSetRequestId"=>ProvisionPermissionSetRequestId), params)); aws_config=aws_config)
+describe_permission_set_provisioning_status(InstanceArn, ProvisionPermissionSetRequestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DescribePermissionSetProvisioningStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ProvisionPermissionSetRequestId"=>ProvisionPermissionSetRequestId), params)); aws_config=aws_config)
 
 """
     detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
@@ -273,7 +273,7 @@ Detaches the attached IAM managed policy ARN from the specified permission set.
 
 """
 detach_managed_policy_from_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DetachManagedPolicyFromPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-detach_managed_policy_from_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DetachManagedPolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+detach_managed_policy_from_permission_set(InstanceArn, ManagedPolicyArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("DetachManagedPolicyFromPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ManagedPolicyArn"=>ManagedPolicyArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     get_inline_policy_for_permission_set(instance_arn, permission_set_arn)
@@ -289,7 +289,7 @@ Obtains the inline policy assigned to the permission set.
 
 """
 get_inline_policy_for_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("GetInlinePolicyForPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-get_inline_policy_for_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("GetInlinePolicyForPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+get_inline_policy_for_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("GetInlinePolicyForPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     list_account_assignment_creation_status(instance_arn)
@@ -311,7 +311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 list_account_assignment_creation_status(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentCreationStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_account_assignment_creation_status(InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentCreationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+list_account_assignment_creation_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentCreationStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     list_account_assignment_deletion_status(instance_arn)
@@ -333,7 +333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 list_account_assignment_deletion_status(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentDeletionStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_account_assignment_deletion_status(InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+list_account_assignment_deletion_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignmentDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     list_account_assignments(account_id, instance_arn, permission_set_arn)
@@ -355,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 list_account_assignments(AccountId, InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignments", Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-list_account_assignments(AccountId, InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+list_account_assignments(AccountId, InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountAssignments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn)
@@ -378,7 +378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisioningStatus"`: The permission set provisioning status for an AWS account.
 """
 list_accounts_for_provisioned_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountsForProvisionedPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-list_accounts_for_provisioned_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountsForProvisionedPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+list_accounts_for_provisioned_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListAccountsForProvisionedPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     list_instances()
@@ -393,7 +393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 list_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListInstances"; aws_config=aws_config)
-list_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListInstances", params; aws_config=aws_config)
+list_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListInstances", params; aws_config=aws_config)
 
 """
     list_managed_policies_in_permission_set(instance_arn, permission_set_arn)
@@ -414,7 +414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 list_managed_policies_in_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListManagedPoliciesInPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-list_managed_policies_in_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListManagedPoliciesInPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+list_managed_policies_in_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListManagedPoliciesInPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     list_permission_set_provisioning_status(instance_arn)
@@ -435,7 +435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 list_permission_set_provisioning_status(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetProvisioningStatus", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_permission_set_provisioning_status(InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetProvisioningStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+list_permission_set_provisioning_status(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetProvisioningStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     list_permission_sets(instance_arn)
@@ -455,7 +455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 list_permission_sets(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSets", Dict{String, Any}("InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_permission_sets(InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+list_permission_sets(InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     list_permission_sets_provisioned_to_account(account_id, instance_arn)
@@ -477,7 +477,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProvisioningStatus"`: The status object for the permission set provisioning operation.
 """
 list_permission_sets_provisioned_to_account(AccountId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetsProvisionedToAccount", Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-list_permission_sets_provisioned_to_account(AccountId, InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetsProvisionedToAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+list_permission_sets_provisioned_to_account(AccountId, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListPermissionSetsProvisionedToAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     list_tags_for_resource(instance_arn, resource_arn)
@@ -497,7 +497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 """
 list_tags_for_resource(InstanceArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListTagsForResource", Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(InstanceArn, ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(InstanceArn, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     provision_permission_set(instance_arn, permission_set_arn, target_type)
@@ -518,7 +518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, 123456789012).
 """
 provision_permission_set(InstanceArn, PermissionSetArn, TargetType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ProvisionPermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "TargetType"=>TargetType); aws_config=aws_config)
-provision_permission_set(InstanceArn, PermissionSetArn, TargetType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ProvisionPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "TargetType"=>TargetType), params)); aws_config=aws_config)
+provision_permission_set(InstanceArn, PermissionSetArn, TargetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("ProvisionPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn, "TargetType"=>TargetType), params)); aws_config=aws_config)
 
 """
     put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn)
@@ -538,7 +538,7 @@ all assigned accounts.
 
 """
 put_inline_policy_to_permission_set(InlinePolicy, InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("PutInlinePolicyToPermissionSet", Dict{String, Any}("InlinePolicy"=>InlinePolicy, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-put_inline_policy_to_permission_set(InlinePolicy, InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("PutInlinePolicyToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InlinePolicy"=>InlinePolicy, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+put_inline_policy_to_permission_set(InlinePolicy, InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("PutInlinePolicyToPermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InlinePolicy"=>InlinePolicy, "InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
 
 """
     tag_resource(instance_arn, resource_arn, tags)
@@ -555,7 +555,7 @@ Associates a set of tags with a specified resource.
 
 """
 tag_resource(InstanceArn, ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("TagResource", Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(InstanceArn, ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(InstanceArn, ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(instance_arn, resource_arn, tag_keys)
@@ -572,7 +572,7 @@ Disassociates a set of tags from a specified resource.
 
 """
 untag_resource(InstanceArn, ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UntagResource", Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(InstanceArn, ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(InstanceArn, ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
@@ -593,7 +593,7 @@ AWS SSO User Guide.
 
 """
 update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn); aws_config=aws_config)
-update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
+update_instance_access_control_attribute_configuration(InstanceAccessControlAttributeConfiguration, InstanceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdateInstanceAccessControlAttributeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceAccessControlAttributeConfiguration"=>InstanceAccessControlAttributeConfiguration, "InstanceArn"=>InstanceArn), params)); aws_config=aws_config)
 
 """
     update_permission_set(instance_arn, permission_set_arn)
@@ -616,4 +616,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the ISO-8601 standard.
 """
 update_permission_set(InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdatePermissionSet", Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn); aws_config=aws_config)
-update_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdatePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)
+update_permission_set(InstanceArn, PermissionSetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin("UpdatePermissionSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceArn"=>InstanceArn, "PermissionSetArn"=>PermissionSetArn), params)); aws_config=aws_config)

@@ -16,7 +16,7 @@ request.
 
 """
 accept_inbound_cross_cluster_search_connection(ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept"; aws_config=aws_config)
-accept_inbound_cross_cluster_search_connection(ConnectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept", params; aws_config=aws_config)
+accept_inbound_cross_cluster_search_connection(ConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept", params; aws_config=aws_config)
 
 """
     add_tags(arn, tag_list)
@@ -32,7 +32,7 @@ Elasticsearch Service Domains for more information.
 
 """
 add_tags(ARN, TagList; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/tags", Dict{String, Any}("ARN"=>ARN, "TagList"=>TagList); aws_config=aws_config)
-add_tags(ARN, TagList, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ARN"=>ARN, "TagList"=>TagList), params)); aws_config=aws_config)
+add_tags(ARN, TagList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ARN"=>ARN, "TagList"=>TagList), params)); aws_config=aws_config)
 
 """
     associate_package(domain_name, package_id)
@@ -47,7 +47,7 @@ Associates a package with an Amazon ES domain.
 
 """
 associate_package(DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)"; aws_config=aws_config)
-associate_package(DomainName, PackageID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)", params; aws_config=aws_config)
+associate_package(DomainName, PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)", params; aws_config=aws_config)
 
 """
     cancel_elasticsearch_service_software_update(domain_name)
@@ -63,7 +63,7 @@ PENDING_UPDATE state.
 
 """
 cancel_elasticsearch_service_software_update(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/cancel", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-cancel_elasticsearch_service_software_update(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/cancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
+cancel_elasticsearch_service_software_update(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/cancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
 
 """
     create_elasticsearch_domain(domain_name)
@@ -109,7 +109,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Domains
 """
 create_elasticsearch_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-create_elasticsearch_domain(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
+create_elasticsearch_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
 
 """
     create_outbound_cross_cluster_search_connection(connection_alias, destination_domain_info, source_domain_info)
@@ -126,7 +126,7 @@ Creates a new cross-cluster search connection from a source domain to a destinat
 
 """
 create_outbound_cross_cluster_search_connection(ConnectionAlias, DestinationDomainInfo, SourceDomainInfo; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection", Dict{String, Any}("ConnectionAlias"=>ConnectionAlias, "DestinationDomainInfo"=>DestinationDomainInfo, "SourceDomainInfo"=>SourceDomainInfo); aws_config=aws_config)
-create_outbound_cross_cluster_search_connection(ConnectionAlias, DestinationDomainInfo, SourceDomainInfo, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionAlias"=>ConnectionAlias, "DestinationDomainInfo"=>DestinationDomainInfo, "SourceDomainInfo"=>SourceDomainInfo), params)); aws_config=aws_config)
+create_outbound_cross_cluster_search_connection(ConnectionAlias, DestinationDomainInfo, SourceDomainInfo, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionAlias"=>ConnectionAlias, "DestinationDomainInfo"=>DestinationDomainInfo, "SourceDomainInfo"=>SourceDomainInfo), params)); aws_config=aws_config)
 
 """
     create_package(package_name, package_source, package_type)
@@ -144,7 +144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PackageDescription"`: Description of the package.
 """
 create_package(PackageName, PackageSource, PackageType; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages", Dict{String, Any}("PackageName"=>PackageName, "PackageSource"=>PackageSource, "PackageType"=>PackageType); aws_config=aws_config)
-create_package(PackageName, PackageSource, PackageType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageName"=>PackageName, "PackageSource"=>PackageSource, "PackageType"=>PackageType), params)); aws_config=aws_config)
+create_package(PackageName, PackageSource, PackageType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageName"=>PackageName, "PackageSource"=>PackageSource, "PackageType"=>PackageType), params)); aws_config=aws_config)
 
 """
     delete_elasticsearch_domain(domain_name)
@@ -158,7 +158,7 @@ is deleted, it cannot be recovered.
 
 """
 delete_elasticsearch_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/domain/$(DomainName)"; aws_config=aws_config)
-delete_elasticsearch_domain(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/domain/$(DomainName)", params; aws_config=aws_config)
+delete_elasticsearch_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/domain/$(DomainName)", params; aws_config=aws_config)
 
 """
     delete_elasticsearch_service_role()
@@ -171,7 +171,7 @@ Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
 
 """
 delete_elasticsearch_service_role(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/role"; aws_config=aws_config)
-delete_elasticsearch_service_role(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/role", params; aws_config=aws_config)
+delete_elasticsearch_service_role(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/role", params; aws_config=aws_config)
 
 """
     delete_inbound_cross_cluster_search_connection(connection_id)
@@ -185,7 +185,7 @@ connection.
 
 """
 delete_inbound_cross_cluster_search_connection(ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)"; aws_config=aws_config)
-delete_inbound_cross_cluster_search_connection(ConnectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)", params; aws_config=aws_config)
+delete_inbound_cross_cluster_search_connection(ConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)", params; aws_config=aws_config)
 
 """
     delete_outbound_cross_cluster_search_connection(connection_id)
@@ -199,7 +199,7 @@ connection.
 
 """
 delete_outbound_cross_cluster_search_connection(ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)"; aws_config=aws_config)
-delete_outbound_cross_cluster_search_connection(ConnectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)", params; aws_config=aws_config)
+delete_outbound_cross_cluster_search_connection(ConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)", params; aws_config=aws_config)
 
 """
     delete_package(package_id)
@@ -213,7 +213,7 @@ Delete the package.
 
 """
 delete_package(PackageID; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/packages/$(PackageID)"; aws_config=aws_config)
-delete_package(PackageID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/packages/$(PackageID)", params; aws_config=aws_config)
+delete_package(PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("DELETE", "/2015-01-01/packages/$(PackageID)", params; aws_config=aws_config)
 
 """
     describe_domain_auto_tunes(domain_name)
@@ -233,7 +233,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken. It is used for pagination.
 """
 describe_domain_auto_tunes(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)/autoTunes"; aws_config=aws_config)
-describe_domain_auto_tunes(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)/autoTunes", params; aws_config=aws_config)
+describe_domain_auto_tunes(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)/autoTunes", params; aws_config=aws_config)
 
 """
     describe_elasticsearch_domain(domain_name)
@@ -247,7 +247,7 @@ including the domain ID, domain endpoint, and domain ARN.
 
 """
 describe_elasticsearch_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)"; aws_config=aws_config)
-describe_elasticsearch_domain(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)", params; aws_config=aws_config)
+describe_elasticsearch_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)", params; aws_config=aws_config)
 
 """
     describe_elasticsearch_domain_config(domain_name)
@@ -261,7 +261,7 @@ as the state, creation date, update version, and update date for cluster options
 
 """
 describe_elasticsearch_domain_config(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)/config"; aws_config=aws_config)
-describe_elasticsearch_domain_config(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)/config", params; aws_config=aws_config)
+describe_elasticsearch_domain_config(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)/config", params; aws_config=aws_config)
 
 """
     describe_elasticsearch_domains(domain_names)
@@ -275,7 +275,7 @@ including the domain ID, domain endpoint, and domain ARN.
 
 """
 describe_elasticsearch_domains(DomainNames; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain-info", Dict{String, Any}("DomainNames"=>DomainNames); aws_config=aws_config)
-describe_elasticsearch_domains(DomainNames, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain-info", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainNames"=>DomainNames), params)); aws_config=aws_config)
+describe_elasticsearch_domains(DomainNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain-info", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainNames"=>DomainNames), params)); aws_config=aws_config)
 
 """
     describe_elasticsearch_instance_type_limits(elasticsearch_version, instance_type)
@@ -297,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   existing domain.
 """
 describe_elasticsearch_instance_type_limits(ElasticsearchVersion, InstanceType; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)"; aws_config=aws_config)
-describe_elasticsearch_instance_type_limits(ElasticsearchVersion, InstanceType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)", params; aws_config=aws_config)
+describe_elasticsearch_instance_type_limits(ElasticsearchVersion, InstanceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)", params; aws_config=aws_config)
 
 """
     describe_inbound_cross_cluster_search_connections()
@@ -317,7 +317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken. It is used for pagination.
 """
 describe_inbound_cross_cluster_search_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/inboundConnection/search"; aws_config=aws_config)
-describe_inbound_cross_cluster_search_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/inboundConnection/search", params; aws_config=aws_config)
+describe_inbound_cross_cluster_search_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/inboundConnection/search", params; aws_config=aws_config)
 
 """
     describe_outbound_cross_cluster_search_connections()
@@ -338,7 +338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken. It is used for pagination.
 """
 describe_outbound_cross_cluster_search_connections(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection/search"; aws_config=aws_config)
-describe_outbound_cross_cluster_search_connections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection/search", params; aws_config=aws_config)
+describe_outbound_cross_cluster_search_connections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection/search", params; aws_config=aws_config)
 
 """
     describe_packages()
@@ -355,7 +355,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   non-null NextToken value. If provided, returns results for the next page.
 """
 describe_packages(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/describe"; aws_config=aws_config)
-describe_packages(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/describe", params; aws_config=aws_config)
+describe_packages(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/describe", params; aws_config=aws_config)
 
 """
     describe_reserved_elasticsearch_instance_offerings()
@@ -373,7 +373,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available offering that matches the specified reservation identifier.
 """
 describe_reserved_elasticsearch_instance_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstanceOfferings"; aws_config=aws_config)
-describe_reserved_elasticsearch_instance_offerings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstanceOfferings", params; aws_config=aws_config)
+describe_reserved_elasticsearch_instance_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstanceOfferings", params; aws_config=aws_config)
 
 """
     describe_reserved_elasticsearch_instances()
@@ -391,7 +391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   show only the reservation that matches the specified reserved Elasticsearch instance ID.
 """
 describe_reserved_elasticsearch_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstances"; aws_config=aws_config)
-describe_reserved_elasticsearch_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstances", params; aws_config=aws_config)
+describe_reserved_elasticsearch_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstances", params; aws_config=aws_config)
 
 """
     dissociate_package(domain_name, package_id)
@@ -406,7 +406,7 @@ Dissociates a package from the Amazon ES domain.
 
 """
 dissociate_package(DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)"; aws_config=aws_config)
-dissociate_package(DomainName, PackageID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)", params; aws_config=aws_config)
+dissociate_package(DomainName, PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)", params; aws_config=aws_config)
 
 """
     get_compatible_elasticsearch_versions()
@@ -420,7 +420,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`:
 """
 get_compatible_elasticsearch_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions"; aws_config=aws_config)
-get_compatible_elasticsearch_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions", params; aws_config=aws_config)
+get_compatible_elasticsearch_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions", params; aws_config=aws_config)
 
 """
     get_package_version_history(package_id)
@@ -439,7 +439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   non-null NextToken value. If provided, returns results for the next page.
 """
 get_package_version_history(PackageID; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/history"; aws_config=aws_config)
-get_package_version_history(PackageID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/history", params; aws_config=aws_config)
+get_package_version_history(PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/history", params; aws_config=aws_config)
 
 """
     get_upgrade_history(domain_name)
@@ -456,7 +456,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:
 """
 get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/history"; aws_config=aws_config)
-get_upgrade_history(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/history", params; aws_config=aws_config)
+get_upgrade_history(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/history", params; aws_config=aws_config)
 
 """
     get_upgrade_status(domain_name)
@@ -470,7 +470,7 @@ performed on the domain.
 
 """
 get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/status"; aws_config=aws_config)
-get_upgrade_status(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/status", params; aws_config=aws_config)
+get_upgrade_status(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/status", params; aws_config=aws_config)
 
 """
     list_domain_names()
@@ -480,7 +480,7 @@ Returns the name of all Elasticsearch domains owned by the current user's accoun
 
 """
 list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain"; aws_config=aws_config)
-list_domain_names(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain", params; aws_config=aws_config)
+list_domain_names(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain", params; aws_config=aws_config)
 
 """
     list_domains_for_package(package_id)
@@ -498,7 +498,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   non-null NextToken value. If provided, returns results for the next page.
 """
 list_domains_for_package(PackageID; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/domains"; aws_config=aws_config)
-list_domains_for_package(PackageID, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/domains", params; aws_config=aws_config)
+list_domains_for_package(PackageID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/domains", params; aws_config=aws_config)
 
 """
     list_elasticsearch_instance_types(elasticsearch_version)
@@ -521,7 +521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   containing NextToken. It is used for pagination.
 """
 list_elasticsearch_instance_types(ElasticsearchVersion; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)"; aws_config=aws_config)
-list_elasticsearch_instance_types(ElasticsearchVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)", params; aws_config=aws_config)
+list_elasticsearch_instance_types(ElasticsearchVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)", params; aws_config=aws_config)
 
 """
     list_elasticsearch_versions()
@@ -536,7 +536,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:
 """
 list_elasticsearch_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/versions"; aws_config=aws_config)
-list_elasticsearch_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/versions", params; aws_config=aws_config)
+list_elasticsearch_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/es/versions", params; aws_config=aws_config)
 
 """
     list_packages_for_domain(domain_name)
@@ -554,7 +554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   non-null NextToken value. If provided, returns results for the next page.
 """
 list_packages_for_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain/$(DomainName)/packages"; aws_config=aws_config)
-list_packages_for_domain(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain/$(DomainName)/packages", params; aws_config=aws_config)
+list_packages_for_domain(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/domain/$(DomainName)/packages", params; aws_config=aws_config)
 
 """
     list_tags(arn)
@@ -568,7 +568,7 @@ Returns all tags for the given Elasticsearch domain.
 
 """
 list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/tags/", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-list_tags(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/tags/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+list_tags(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("GET", "/2015-01-01/tags/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
 
 """
     purchase_reserved_elasticsearch_instance_offering(reservation_name, reserved_elasticsearch_instance_offering_id)
@@ -586,7 +586,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InstanceCount"`: The number of Elasticsearch instances to reserve.
 """
 purchase_reserved_elasticsearch_instance_offering(ReservationName, ReservedElasticsearchInstanceOfferingId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/purchaseReservedInstanceOffering", Dict{String, Any}("ReservationName"=>ReservationName, "ReservedElasticsearchInstanceOfferingId"=>ReservedElasticsearchInstanceOfferingId); aws_config=aws_config)
-purchase_reserved_elasticsearch_instance_offering(ReservationName, ReservedElasticsearchInstanceOfferingId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/purchaseReservedInstanceOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservationName"=>ReservationName, "ReservedElasticsearchInstanceOfferingId"=>ReservedElasticsearchInstanceOfferingId), params)); aws_config=aws_config)
+purchase_reserved_elasticsearch_instance_offering(ReservationName, ReservedElasticsearchInstanceOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/purchaseReservedInstanceOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservationName"=>ReservationName, "ReservedElasticsearchInstanceOfferingId"=>ReservedElasticsearchInstanceOfferingId), params)); aws_config=aws_config)
 
 """
     reject_inbound_cross_cluster_search_connection(connection_id)
@@ -600,7 +600,7 @@ request.
 
 """
 reject_inbound_cross_cluster_search_connection(ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject"; aws_config=aws_config)
-reject_inbound_cross_cluster_search_connection(ConnectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject", params; aws_config=aws_config)
+reject_inbound_cross_cluster_search_connection(ConnectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject", params; aws_config=aws_config)
 
 """
     remove_tags(arn, tag_keys)
@@ -616,7 +616,7 @@ Removes the specified set of tags from the specified Elasticsearch domain.
 
 """
 remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/tags-removal", Dict{String, Any}("ARN"=>ARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-remove_tags(ARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/tags-removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ARN"=>ARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+remove_tags(ARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/tags-removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ARN"=>ARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     start_elasticsearch_service_software_update(domain_name)
@@ -630,7 +630,7 @@ Schedules a service software update for an Amazon ES domain.
 
 """
 start_elasticsearch_service_software_update(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/start", Dict{String, Any}("DomainName"=>DomainName); aws_config=aws_config)
-start_elasticsearch_service_software_update(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
+start_elasticsearch_service_software_update(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), params)); aws_config=aws_config)
 
 """
     update_elasticsearch_domain_config(domain_name)
@@ -668,7 +668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Domains
 """
 update_elasticsearch_domain_config(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain/$(DomainName)/config"; aws_config=aws_config)
-update_elasticsearch_domain_config(DomainName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain/$(DomainName)/config", params; aws_config=aws_config)
+update_elasticsearch_domain_config(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/domain/$(DomainName)/config", params; aws_config=aws_config)
 
 """
     update_package(package_id, package_source)
@@ -687,7 +687,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PackageDescription"`: New description of the package.
 """
 update_package(PackageID, PackageSource; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/update", Dict{String, Any}("PackageID"=>PackageID, "PackageSource"=>PackageSource); aws_config=aws_config)
-update_package(PackageID, PackageSource, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageID"=>PackageID, "PackageSource"=>PackageSource), params)); aws_config=aws_config)
+update_package(PackageID, PackageSource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/packages/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PackageID"=>PackageID, "PackageSource"=>PackageSource), params)); aws_config=aws_config)
 
 """
     upgrade_elasticsearch_domain(domain_name, target_version)
@@ -706,4 +706,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Check needs to be performed. This will not actually perform the Upgrade.
 """
 upgrade_elasticsearch_domain(DomainName, TargetVersion; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/upgradeDomain", Dict{String, Any}("DomainName"=>DomainName, "TargetVersion"=>TargetVersion); aws_config=aws_config)
-upgrade_elasticsearch_domain(DomainName, TargetVersion, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/upgradeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "TargetVersion"=>TargetVersion), params)); aws_config=aws_config)
+upgrade_elasticsearch_domain(DomainName, TargetVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticsearch_service("POST", "/2015-01-01/es/upgradeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "TargetVersion"=>TargetVersion), params)); aws_config=aws_config)

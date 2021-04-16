@@ -27,4 +27,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous GetEntitlementsResult.
 """
 get_entitlements(ProductCode; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_entitlement_service("GetEntitlements", Dict{String, Any}("ProductCode"=>ProductCode); aws_config=aws_config)
-get_entitlements(ProductCode, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_entitlement_service("GetEntitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode), params)); aws_config=aws_config)
+get_entitlements(ProductCode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = marketplace_entitlement_service("GetEntitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode), params)); aws_config=aws_config)

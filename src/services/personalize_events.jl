@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The user associated with the event.
 """
 put_events(eventList, sessionId, trackingId; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/events", Dict{String, Any}("eventList"=>eventList, "sessionId"=>sessionId, "trackingId"=>trackingId); aws_config=aws_config)
-put_events(eventList, sessionId, trackingId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventList"=>eventList, "sessionId"=>sessionId, "trackingId"=>trackingId), params)); aws_config=aws_config)
+put_events(eventList, sessionId, trackingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventList"=>eventList, "sessionId"=>sessionId, "trackingId"=>trackingId), params)); aws_config=aws_config)
 
 """
     put_items(dataset_arn, items)
@@ -40,7 +40,7 @@ Incrementally.
 
 """
 put_items(datasetArn, items; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/items", Dict{String, Any}("datasetArn"=>datasetArn, "items"=>items); aws_config=aws_config)
-put_items(datasetArn, items, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/items", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn, "items"=>items), params)); aws_config=aws_config)
+put_items(datasetArn, items, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/items", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn, "items"=>items), params)); aws_config=aws_config)
 
 """
     put_users(dataset_arn, users)
@@ -56,4 +56,4 @@ Incrementally.
 
 """
 put_users(datasetArn, users; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/users", Dict{String, Any}("datasetArn"=>datasetArn, "users"=>users); aws_config=aws_config)
-put_users(datasetArn, users, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn, "users"=>users), params)); aws_config=aws_config)
+put_users(datasetArn, users, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_events("POST", "/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn, "users"=>users), params)); aws_config=aws_config)

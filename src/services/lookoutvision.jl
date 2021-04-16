@@ -39,7 +39,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   An idempotency token is active for 8 hours.
 """
 create_dataset(DatasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-create_dataset(DatasetType, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+create_dataset(DatasetType, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/datasets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetType"=>DatasetType, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_model(output_config, project_name)
@@ -77,7 +77,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency token is active for 8 hours.
 """
 create_model(OutputConfig, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-create_model(OutputConfig, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+create_model(OutputConfig, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_project(project_name)
@@ -101,7 +101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   An idempotency token is active for 8 hours.
 """
 create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-create_project(ProjectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+create_project(ProjectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_dataset(dataset_type, project_name)
@@ -133,7 +133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   An idempotency token is active for 8 hours.
 """
 delete_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-delete_dataset(datasetType, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+delete_dataset(datasetType, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_model(model_version, project_name)
@@ -160,7 +160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency token is active for 8 hours.
 """
 delete_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-delete_model(modelVersion, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+delete_model(modelVersion, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_project(project_name)
@@ -187,7 +187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   An idempotency token is active for 8 hours.
 """
 delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-delete_project(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+delete_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/projects/$(projectName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     describe_dataset(dataset_type, project_name)
@@ -205,7 +205,7 @@ perform the lookoutvision:DescribeDataset operation.
 
 """
 describe_dataset(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)"; aws_config=aws_config)
-describe_dataset(datasetType, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", params; aws_config=aws_config)
+describe_dataset(datasetType, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)", params; aws_config=aws_config)
 
 """
     describe_model(model_version, project_name)
@@ -221,7 +221,7 @@ permissions to perform the lookoutvision:DescribeModel operation.
 
 """
 describe_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)"; aws_config=aws_config)
-describe_model(modelVersion, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", params; aws_config=aws_config)
+describe_model(modelVersion, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)", params; aws_config=aws_config)
 
 """
     describe_project(project_name)
@@ -235,7 +235,7 @@ perform the lookoutvision:DescribeProject operation.
 
 """
 describe_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)"; aws_config=aws_config)
-describe_project(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)", params; aws_config=aws_config)
+describe_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)", params; aws_config=aws_config)
 
 """
     detect_anomalies(body, content-_type, model_version, project_name)
@@ -259,7 +259,7 @@ permissions to perform the lookoutvision:DetectAnomalies operation.
 
 """
 detect_anomalies(Body, Content_Type, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
-detect_anomalies(Body, Content_Type, modelVersion, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)
+detect_anomalies(Body, Content_Type, modelVersion, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/detect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)
 
 """
     list_dataset_entries(dataset_type, project_name)
@@ -298,7 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source-ref key value matches *IMG_17*.
 """
 list_dataset_entries(datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries"; aws_config=aws_config)
-list_dataset_entries(datasetType, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", params; aws_config=aws_config)
+list_dataset_entries(datasetType, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", params; aws_config=aws_config)
 
 """
     list_models(project_name)
@@ -321,7 +321,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this pagination token to retrieve the next set of models.
 """
 list_models(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models"; aws_config=aws_config)
-list_models(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models", params; aws_config=aws_config)
+list_models(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects/$(projectName)/models", params; aws_config=aws_config)
 
 """
     list_projects()
@@ -340,7 +340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this pagination token to retrieve the next set of projects.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects"; aws_config=aws_config)
-list_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects", params; aws_config=aws_config)
+list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/projects", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -355,7 +355,7 @@ operation requires permissions to perform the lookoutvision:ListTagsForResource 
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("GET", "/2020-11-20/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     start_model(min_inference_units, model_version, project_name)
@@ -387,7 +387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency token is active for 8 hours.
 """
 start_model(MinInferenceUnits, modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-start_model(MinInferenceUnits, modelVersion, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+start_model(MinInferenceUnits, modelVersion, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     stop_model(model_version, project_name)
@@ -413,7 +413,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is active for 8 hours.
 """
 stop_model(modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-stop_model(modelVersion, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+stop_model(modelVersion, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/projects/$(projectName)/models/$(modelVersion)/stop", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     tag_resource(tags, resource_arn)
@@ -429,7 +429,7 @@ operation requires permissions to perform the lookoutvision:TagResource operatio
 
 """
 tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(Tags, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("POST", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -446,7 +446,7 @@ permissions to perform the lookoutvision:UntagResource operation.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("DELETE", "/2020-11-20/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_dataset_entries(changes, dataset_type, project_name)
@@ -476,4 +476,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new call to UpdateDatasetEntries. An idempotency token is active for 8 hours.
 """
 update_dataset_entries(Changes, datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())); aws_config=aws_config)
-update_dataset_entries(Changes, datasetType, projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)
+update_dataset_entries(Changes, datasetType, projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutvision("PATCH", "/2020-11-20/projects/$(projectName)/datasets/$(datasetType)/entries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Changes"=>Changes, "X-Amzn-Client-Token"=>string(uuid4())), params)); aws_config=aws_config)

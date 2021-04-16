@@ -70,7 +70,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must meet to be included in the FaceMatches array.
 """
 compare_faces(SourceImage, TargetImage; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CompareFaces", Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage); aws_config=aws_config)
-compare_faces(SourceImage, TargetImage, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CompareFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage), params)); aws_config=aws_config)
+compare_faces(SourceImage, TargetImage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CompareFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceImage"=>SourceImage, "TargetImage"=>TargetImage), params)); aws_config=aws_config)
 
 """
     create_collection(collection_id)
@@ -92,7 +92,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the collection.
 """
 create_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
-create_collection(CollectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
+create_collection(CollectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
 
 """
     create_project(project_name)
@@ -107,7 +107,7 @@ This operation requires permissions to perform the rekognition:CreateProject act
 
 """
 create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProject", Dict{String, Any}("ProjectName"=>ProjectName); aws_config=aws_config)
-create_project(ProjectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName), params)); aws_config=aws_config)
+create_project(ProjectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName), params)); aws_config=aws_config)
 
 """
     create_project_version(output_config, project_arn, testing_data, training_data, version_name)
@@ -135,7 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the model.
 """
 create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName); aws_config=aws_config)
-create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName), params)); aws_config=aws_config)
+create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName), params)); aws_config=aws_config)
 
 """
     create_stream_processor(input, name, output, role_arn, settings)
@@ -170,7 +170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   processor.
 """
 create_stream_processor(Input, Name, Output, RoleArn, Settings; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings); aws_config=aws_config)
-create_stream_processor(Input, Name, Output, RoleArn, Settings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings), params)); aws_config=aws_config)
+create_stream_processor(Input, Name, Output, RoleArn, Settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input, "Name"=>Name, "Output"=>Output, "RoleArn"=>RoleArn, "Settings"=>Settings), params)); aws_config=aws_config)
 
 """
     delete_collection(collection_id)
@@ -185,7 +185,7 @@ permissions to perform the rekognition:DeleteCollection action.
 
 """
 delete_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
-delete_collection(CollectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
+delete_collection(CollectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
 
 """
     delete_faces(collection_id, face_ids)
@@ -201,7 +201,7 @@ rekognition:DeleteFaces action.
 
 """
 delete_faces(CollectionId, FaceIds; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteFaces", Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds); aws_config=aws_config)
-delete_faces(CollectionId, FaceIds, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds), params)); aws_config=aws_config)
+delete_faces(CollectionId, FaceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceIds"=>FaceIds), params)); aws_config=aws_config)
 
 """
     delete_project(project_arn)
@@ -216,7 +216,7 @@ This operation requires permissions to perform the rekognition:DeleteProject act
 
 """
 delete_project(ProjectArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProject", Dict{String, Any}("ProjectArn"=>ProjectArn); aws_config=aws_config)
-delete_project(ProjectArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), params)); aws_config=aws_config)
+delete_project(ProjectArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), params)); aws_config=aws_config)
 
 """
     delete_project_version(project_version_arn)
@@ -234,7 +234,7 @@ rekognition:DeleteProjectVersion action.
 
 """
 delete_project_version(ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProjectVersion", Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
-delete_project_version(ProjectVersionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config)
+delete_project_version(ProjectVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config)
 
 """
     delete_stream_processor(name)
@@ -249,7 +249,7 @@ same name for a stream processor for a few seconds after calling DeleteStreamPro
 
 """
 delete_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_stream_processor(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+delete_stream_processor(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DeleteStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     describe_collection(collection_id)
@@ -265,7 +265,7 @@ Amazon Rekognition Developer Guide.
 
 """
 describe_collection(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeCollection", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
-describe_collection(CollectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
+describe_collection(CollectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeCollection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
 
 """
     describe_project_versions(project_arn)
@@ -296,7 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   -21T09.10.15/1234567890123.
 """
 describe_project_versions(ProjectArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjectVersions", Dict{String, Any}("ProjectArn"=>ProjectArn); aws_config=aws_config)
-describe_project_versions(ProjectArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjectVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), params)); aws_config=aws_config)
+describe_project_versions(ProjectArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjectVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectArn"=>ProjectArn), params)); aws_config=aws_config)
 
 """
     describe_projects()
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can use this pagination token to retrieve the next set of results.
 """
 describe_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjects"; aws_config=aws_config)
-describe_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjects", params; aws_config=aws_config)
+describe_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeProjects", params; aws_config=aws_config)
 
 """
     describe_stream_processor(name)
@@ -330,7 +330,7 @@ recognition being performed, and the current status of the stream processor.
 
 """
 describe_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_stream_processor(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+describe_stream_processor(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DescribeStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     detect_custom_labels(image, project_version_arn)
@@ -371,7 +371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   thresholds that the model version applies.
 """
 detect_custom_labels(Image, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectCustomLabels", Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
-detect_custom_labels(Image, ProjectVersionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectCustomLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config)
+detect_custom_labels(Image, ProjectVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectCustomLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image, "ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config)
 
 """
     detect_faces(image)
@@ -409,7 +409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributes to return (in this case, all attributes).
 """
 detect_faces(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectFaces", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_faces(Image, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
+detect_faces(Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
 
 """
     detect_labels(image)
@@ -468,7 +468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values greater than or equal to 55 percent.
 """
 detect_labels(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectLabels", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_labels(Image, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
+detect_labels(Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
 
 """
     detect_moderation_labels(image)
@@ -501,7 +501,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   confidence values greater than or equal to 50 percent.
 """
 detect_moderation_labels(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectModerationLabels", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_moderation_labels(Image, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectModerationLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
+detect_moderation_labels(Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectModerationLabels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
 
 """
     detect_protective_equipment(image)
@@ -534,7 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SummarizationAttributes"`: An array of PPE types that you want to summarize.
 """
 detect_protective_equipment(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_protective_equipment(Image, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
+detect_protective_equipment(Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectProtectiveEquipment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
 
 """
     detect_text(image)
@@ -573,7 +573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be included in your response.
 """
 detect_text(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectText", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-detect_text(Image, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
+detect_text(Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("DetectText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
 
 """
     get_celebrity_info(id)
@@ -591,7 +591,7 @@ operation requires permissions to perform the rekognition:GetCelebrityInfo actio
 
 """
 get_celebrity_info(Id; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityInfo", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-get_celebrity_info(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+get_celebrity_info(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
     get_celebrity_recognition(job_id)
@@ -642,7 +642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recognized.
 """
 get_celebrity_recognition(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityRecognition", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_celebrity_recognition(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_celebrity_recognition(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_content_moderation(job_id)
@@ -688,7 +688,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   element are sorted by detection confidence. The default sort is by TIMESTAMP.
 """
 get_content_moderation(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetContentModeration", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_content_moderation(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_content_moderation(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_face_detection(job_id)
@@ -723,7 +723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this pagination token to retrieve the next set of faces.
 """
 get_face_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_face_detection(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_face_detection(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_face_search(job_id)
@@ -766,7 +766,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by the time that they are recognized. Use INDEX to sort by recognized faces.
 """
 get_face_search(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceSearch", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_face_search(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_face_search(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_label_detection(job_id)
@@ -810,7 +810,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   confidence. The default sort is by TIMESTAMP.
 """
 get_label_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetLabelDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_label_detection(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_label_detection(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_person_tracking(job_id)
@@ -854,7 +854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default sort is by TIMESTAMP.
 """
 get_person_tracking(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetPersonTracking", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_person_tracking(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_person_tracking(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_segment_detection(job_id)
@@ -894,7 +894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you can use in the subsequent request to retrieve the next set of text.
 """
 get_segment_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetSegmentDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_segment_detection(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_segment_detection(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     get_text_detection(job_id)
@@ -932,7 +932,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this pagination token to retrieve the next set of text.
 """
 get_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetTextDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_text_detection(JobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+get_text_detection(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("GetTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
 
 """
     index_faces(collection_id, image)
@@ -1028,7 +1028,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with version 3 of the face model or higher.
 """
 index_faces(CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("IndexFaces", Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image); aws_config=aws_config)
-index_faces(CollectionId, Image, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("IndexFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), params)); aws_config=aws_config)
+index_faces(CollectionId, Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("IndexFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), params)); aws_config=aws_config)
 
 """
     list_collections()
@@ -1046,7 +1046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token from the previous response.
 """
 list_collections(; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListCollections"; aws_config=aws_config)
-list_collections(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListCollections", params; aws_config=aws_config)
+list_collections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListCollections", params; aws_config=aws_config)
 
 """
     list_faces(collection_id)
@@ -1069,7 +1069,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token to retrieve the next set of faces.
 """
 list_faces(CollectionId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListFaces", Dict{String, Any}("CollectionId"=>CollectionId); aws_config=aws_config)
-list_faces(CollectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
+list_faces(CollectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId), params)); aws_config=aws_config)
 
 """
     list_stream_processors()
@@ -1086,7 +1086,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. You can use this pagination token to retrieve the next set of stream processors.
 """
 list_stream_processors(; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListStreamProcessors"; aws_config=aws_config)
-list_stream_processors(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListStreamProcessors", params; aws_config=aws_config)
+list_stream_processors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListStreamProcessors", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -1101,7 +1101,7 @@ Labels model.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     recognize_celebrities(image)
@@ -1136,7 +1136,7 @@ operation.
 
 """
 recognize_celebrities(Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("RecognizeCelebrities", Dict{String, Any}("Image"=>Image); aws_config=aws_config)
-recognize_celebrities(Image, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("RecognizeCelebrities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
+recognize_celebrities(Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("RecognizeCelebrities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Image"=>Image), params)); aws_config=aws_config)
 
 """
     search_faces(collection_id, face_id)
@@ -1167,7 +1167,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of faces with the highest confidence in the match.
 """
 search_faces(CollectionId, FaceId; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFaces", Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId); aws_config=aws_config)
-search_faces(CollectionId, FaceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId), params)); aws_config=aws_config)
+search_faces(CollectionId, FaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "FaceId"=>FaceId), params)); aws_config=aws_config)
 
 """
     search_faces_by_image(collection_id, image)
@@ -1224,7 +1224,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using must be associated with version 3 of the face model or higher.
 """
 search_faces_by_image(CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFacesByImage", Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image); aws_config=aws_config)
-search_faces_by_image(CollectionId, Image, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFacesByImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), params)); aws_config=aws_config)
+search_faces_by_image(CollectionId, Image, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("SearchFacesByImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Image"=>Image), params)); aws_config=aws_config)
 
 """
     start_celebrity_recognition(video)
@@ -1258,7 +1258,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to publish the completion status of the celebrity recognition analysis to.
 """
 start_celebrity_recognition(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_celebrity_recognition(Video, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
+start_celebrity_recognition(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
 
 """
     start_content_moderation(video)
@@ -1299,7 +1299,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to publish the completion status of the unsafe content analysis to.
 """
 start_content_moderation(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_content_moderation(Video, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
+start_content_moderation(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
 
 """
     start_face_detection(video)
@@ -1335,7 +1335,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Rekognition Video to publish the completion status of the face detection operation.
 """
 start_face_detection(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_face_detection(Video, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
+start_face_detection(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
 
 """
     start_face_search(collection_id, video)
@@ -1370,7 +1370,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Rekognition Video to publish the completion status of the search.
 """
 start_face_search(CollectionId, Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video); aws_config=aws_config)
-start_face_search(CollectionId, Video, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video), params)); aws_config=aws_config)
+start_face_search(CollectionId, Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video), params)); aws_config=aws_config)
 
 """
     start_label_detection(video)
@@ -1411,7 +1411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   publish the completion status of the label detection operation to.
 """
 start_label_detection(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_label_detection(Video, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
+start_label_detection(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
 
 """
     start_person_tracking(video)
@@ -1443,7 +1443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   publish the completion status of the people detection operation to.
 """
 start_person_tracking(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_person_tracking(Video, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
+start_person_tracking(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
 
 """
     start_project_version(min_inference_units, project_version_arn)
@@ -1466,7 +1466,7 @@ rekognition:StartProjectVersion action.
 
 """
 start_project_version(MinInferenceUnits, ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartProjectVersion", Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
-start_project_version(MinInferenceUnits, ProjectVersionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config)
+start_project_version(MinInferenceUnits, ProjectVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MinInferenceUnits"=>MinInferenceUnits, "ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config)
 
 """
     start_segment_detection(segment_types, video)
@@ -1506,7 +1506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Rekognition Video to publish the completion status of the segment detection operation.
 """
 start_segment_detection(SegmentTypes, Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video); aws_config=aws_config)
-start_segment_detection(SegmentTypes, Video, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video), params)); aws_config=aws_config)
+start_segment_detection(SegmentTypes, Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video), params)); aws_config=aws_config)
 
 """
     start_stream_processor(name)
@@ -1521,7 +1521,7 @@ the value of the Name field specified in the call to CreateStreamProcessor.
 
 """
 start_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_stream_processor(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+start_stream_processor(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     start_text_detection(video)
@@ -1553,7 +1553,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationChannel"`:
 """
 start_text_detection(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartTextDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
-start_text_detection(Video, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
+start_text_detection(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
 
 """
     stop_project_version(project_version_arn)
@@ -1569,7 +1569,7 @@ status, call DescribeProjectVersions.
 
 """
 stop_project_version(ProjectVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopProjectVersion", Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn); aws_config=aws_config)
-stop_project_version(ProjectVersionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config)
+stop_project_version(ProjectVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopProjectVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectVersionArn"=>ProjectVersionArn), params)); aws_config=aws_config)
 
 """
     stop_stream_processor(name)
@@ -1582,7 +1582,7 @@ Stops a running stream processor that was created by CreateStreamProcessor.
 
 """
 stop_stream_processor(Name; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-stop_stream_processor(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+stop_stream_processor(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StopStreamProcessor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -1598,7 +1598,7 @@ Custom Labels model. For more information, see Tagging AWS Resources.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1614,4 +1614,4 @@ Custom Labels model.
 
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)

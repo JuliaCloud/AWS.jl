@@ -34,7 +34,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list is used to restrict permissions when granting an access token.
 """
 create_token(clientId, clientSecret, deviceCode, grantType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType); aws_config=aws_config)
-create_token(clientId, clientSecret, deviceCode, grantType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType), params)); aws_config=aws_config)
+create_token(clientId, clientSecret, deviceCode, grantType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "deviceCode"=>deviceCode, "grantType"=>grantType), params)); aws_config=aws_config)
 
 """
     register_client(client_name, client_type)
@@ -54,7 +54,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list is used to restrict permissions when granting an access token.
 """
 register_client(clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType); aws_config=aws_config)
-register_client(clientName, clientType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType), params)); aws_config=aws_config)
+register_client(clientName, clientType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/client/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientName"=>clientName, "clientType"=>clientType), params)); aws_config=aws_config)
 
 """
     start_device_authorization(client_id, client_secret, start_url)
@@ -73,4 +73,4 @@ authorization service.
 
 """
 start_device_authorization(clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl); aws_config=aws_config)
-start_device_authorization(clientId, clientSecret, startUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl), params)); aws_config=aws_config)
+start_device_authorization(clientId, clientSecret, startUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sso_oidc("POST", "/device_authorization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientId"=>clientId, "clientSecret"=>clientSecret, "startUrl"=>startUrl), params)); aws_config=aws_config)

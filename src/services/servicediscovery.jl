@@ -27,7 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters, and tag values can have a maximum length of 256 characters.
 """
 create_http_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateHttpNamespace", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-create_http_namespace(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateHttpNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
+create_http_namespace(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateHttpNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_private_dns_namespace(name, vpc)
@@ -57,7 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters, and tag values can have a maximum length of 256 characters.
 """
 create_private_dns_namespace(Name, Vpc; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-create_private_dns_namespace(Name, Vpc, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
+create_private_dns_namespace(Name, Vpc, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_public_dns_namespace(name)
@@ -83,7 +83,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters, and tag values can have a maximum length of 256 characters.
 """
 create_public_dns_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-create_public_dns_namespace(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
+create_public_dns_namespace(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_service(name)
@@ -136,7 +136,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances. The only valid value is HTTP.
 """
 create_service(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateService", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-create_service(Name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
+create_service(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_namespace(id)
@@ -150,7 +150,7 @@ services, the request fails.
 
 """
 delete_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteNamespace", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-delete_namespace(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+delete_namespace(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
     delete_service(id)
@@ -164,7 +164,7 @@ instances, the request fails.
 
 """
 delete_service(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteService", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-delete_service(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+delete_service(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
     deregister_instance(instance_id, service_id)
@@ -179,7 +179,7 @@ created for the specified instance.
 
 """
 deregister_instance(InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeregisterInstance", Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId); aws_config=aws_config)
-deregister_instance(InstanceId, ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), params)); aws_config=aws_config)
+deregister_instance(InstanceId, ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DeregisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), params)); aws_config=aws_config)
 
 """
     discover_instances(namespace_name, service_name)
@@ -211,7 +211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pairs will be returned.
 """
 discover_instances(NamespaceName, ServiceName; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DiscoverInstances", Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName); aws_config=aws_config)
-discover_instances(NamespaceName, ServiceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DiscoverInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName), params)); aws_config=aws_config)
+discover_instances(NamespaceName, ServiceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DiscoverInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName), params)); aws_config=aws_config)
 
 """
     get_instance(instance_id, service_id)
@@ -225,7 +225,7 @@ Gets information about a specified instance.
 
 """
 get_instance(InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstance", Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId); aws_config=aws_config)
-get_instance(InstanceId, ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), params)); aws_config=aws_config)
+get_instance(InstanceId, ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId), params)); aws_config=aws_config)
 
 """
     get_instances_health_status(service_id)
@@ -254,7 +254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken from the previous response in the next request.
 """
 get_instances_health_status(ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstancesHealthStatus", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-get_instances_health_status(ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstancesHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config)
+get_instances_health_status(ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetInstancesHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config)
 
 """
     get_namespace(id)
@@ -267,7 +267,7 @@ Gets information about a namespace.
 
 """
 get_namespace(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetNamespace", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-get_namespace(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+get_namespace(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
     get_operation(operation_id)
@@ -282,7 +282,7 @@ ListOperations.
 
 """
 get_operation(OperationId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetOperation", Dict{String, Any}("OperationId"=>OperationId); aws_config=aws_config)
-get_operation(OperationId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config)
+get_operation(OperationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId), params)); aws_config=aws_config)
 
 """
     get_service(id)
@@ -295,7 +295,7 @@ Gets the settings for a specified service.
 
 """
 get_service(Id; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetService", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-get_service(Id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+get_service(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("GetService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
     list_instances(service_id)
@@ -318,7 +318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response in the next request.
 """
 list_instances(ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListInstances", Dict{String, Any}("ServiceId"=>ServiceId); aws_config=aws_config)
-list_instances(ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config)
+list_instances(ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceId"=>ServiceId), params)); aws_config=aws_config)
 
 """
     list_namespaces()
@@ -343,7 +343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   match the criteria.
 """
 list_namespaces(; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListNamespaces"; aws_config=aws_config)
-list_namespaces(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListNamespaces", params; aws_config=aws_config)
+list_namespaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListNamespaces", params; aws_config=aws_config)
 
 """
     list_operations()
@@ -369,7 +369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   match the criteria.
 """
 list_operations(; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListOperations"; aws_config=aws_config)
-list_operations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListOperations", params; aws_config=aws_config)
+list_operations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListOperations", params; aws_config=aws_config)
 
 """
     list_services()
@@ -395,7 +395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   criteria.
 """
 list_services(; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListServices"; aws_config=aws_config)
-list_services(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListServices", params; aws_config=aws_config)
+list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListServices", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -409,7 +409,7 @@ Lists tags for the specified resource.
 
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
 
 """
     register_instance(attributes, instance_id, service_id)
@@ -497,7 +497,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CreatorRequestId can be any unique string, for example, a date/time stamp.
 """
 register_instance(Attributes, InstanceId, ServiceId; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("RegisterInstance", Dict{String, Any}("Attributes"=>Attributes, "InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
-register_instance(Attributes, InstanceId, ServiceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
+register_instance(Attributes, InstanceId, ServiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("RegisterInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -514,7 +514,7 @@ Adds one or more tags to the specified resource.
 
 """
 tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -529,7 +529,7 @@ Removes one or more tags from the specified resource.
 
 """
 untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     update_instance_custom_health_status(instance_id, service_id, status)
@@ -549,7 +549,7 @@ define using HealthCheckConfig. For more information, see HealthCheckCustomConfi
 
 """
 update_instance_custom_health_status(InstanceId, ServiceId, Status; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateInstanceCustomHealthStatus", Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "Status"=>Status); aws_config=aws_config)
-update_instance_custom_health_status(InstanceId, ServiceId, Status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateInstanceCustomHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "Status"=>Status), params)); aws_config=aws_config)
+update_instance_custom_health_status(InstanceId, ServiceId, Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateInstanceCustomHealthStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "ServiceId"=>ServiceId, "Status"=>Status), params)); aws_config=aws_config)
 
 """
     update_service(id, service)
@@ -572,4 +572,4 @@ by using the specified service.
 
 """
 update_service(Id, Service; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateService", Dict{String, Any}("Id"=>Id, "Service"=>Service); aws_config=aws_config)
-update_service(Id, Service, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Service"=>Service), params)); aws_config=aws_config)
+update_service(Id, Service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Service"=>Service), params)); aws_config=aws_config)

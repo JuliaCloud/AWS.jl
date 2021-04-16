@@ -29,7 +29,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"numResults"`: The number of recommendations to retreive.
 """
 create_batch_inference_job(jobInput, jobName, jobOutput, roleArn, solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateBatchInferenceJob", Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
-create_batch_inference_job(jobInput, jobName, jobOutput, roleArn, solutionVersionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
+create_batch_inference_job(jobInput, jobName, jobOutput, roleArn, solutionVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
 
 """
     create_campaign(min_provisioned_tps, name, solution_version_arn)
@@ -65,7 +65,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"campaignConfig"`: The configuration details of a campaign.
 """
 create_campaign(minProvisionedTPS, name, solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateCampaign", Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
-create_campaign(minProvisionedTPS, name, solutionVersionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
+create_campaign(minProvisionedTPS, name, solutionVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
 
 """
     create_dataset(dataset_group_arn, dataset_type, name, schema_arn)
@@ -91,7 +91,7 @@ APIs     CreateDatasetGroup     ListDatasets     DescribeDataset     DeleteDatas
 
 """
 create_dataset(datasetGroupArn, datasetType, name, schemaArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDataset", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn); aws_config=aws_config)
-create_dataset(datasetGroupArn, datasetType, name, schemaArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn), params)); aws_config=aws_config)
+create_dataset(datasetGroupArn, datasetType, name, schemaArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn), params)); aws_config=aws_config)
 
 """
     create_dataset_group(name)
@@ -122,7 +122,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Supplying an IAM role is only valid when also specifying a KMS key.
 """
 create_dataset_group(name; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetGroup", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_dataset_group(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+create_dataset_group(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
     create_dataset_import_job(data_source, dataset_arn, job_name, role_arn)
@@ -151,7 +151,7 @@ ListDatasetImportJobs     DescribeDatasetImportJob
 
 """
 create_dataset_import_job(dataSource, datasetArn, jobName, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetImportJob", Dict{String, Any}("dataSource"=>dataSource, "datasetArn"=>datasetArn, "jobName"=>jobName, "roleArn"=>roleArn); aws_config=aws_config)
-create_dataset_import_job(dataSource, datasetArn, jobName, roleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "datasetArn"=>datasetArn, "jobName"=>jobName, "roleArn"=>roleArn), params)); aws_config=aws_config)
+create_dataset_import_job(dataSource, datasetArn, jobName, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "datasetArn"=>datasetArn, "jobName"=>jobName, "roleArn"=>roleArn), params)); aws_config=aws_config)
 
 """
     create_event_tracker(dataset_group_arn, name)
@@ -176,7 +176,7 @@ ListEventTrackers     DescribeEventTracker     DeleteEventTracker
 
 """
 create_event_tracker(datasetGroupArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateEventTracker", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name); aws_config=aws_config)
-create_event_tracker(datasetGroupArn, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), params)); aws_config=aws_config)
+create_event_tracker(datasetGroupArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), params)); aws_config=aws_config)
 
 """
     create_filter(dataset_group_arn, filter_expression, name)
@@ -193,7 +193,7 @@ Creates a recommendation filter. For more information, see filter.
 
 """
 create_filter(datasetGroupArn, filterExpression, name; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateFilter", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "filterExpression"=>filterExpression, "name"=>name); aws_config=aws_config)
-create_filter(datasetGroupArn, filterExpression, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "filterExpression"=>filterExpression, "name"=>name), params)); aws_config=aws_config)
+create_filter(datasetGroupArn, filterExpression, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "filterExpression"=>filterExpression, "name"=>name), params)); aws_config=aws_config)
 
 """
     create_schema(name, schema)
@@ -211,7 +211,7 @@ DescribeSchema     DeleteSchema
 
 """
 create_schema(name, schema; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSchema", Dict{String, Any}("name"=>name, "schema"=>schema); aws_config=aws_config)
-create_schema(name, schema, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "schema"=>schema), params)); aws_config=aws_config)
+create_schema(name, schema, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "schema"=>schema), params)); aws_config=aws_config)
 
 """
     create_solution(dataset_group_arn, name)
@@ -265,7 +265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time.
 """
 create_solution(datasetGroupArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSolution", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name); aws_config=aws_config)
-create_solution(datasetGroupArn, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), params)); aws_config=aws_config)
+create_solution(datasetGroupArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), params)); aws_config=aws_config)
 
 """
     create_solution_version(solution_arn)
@@ -298,7 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipe or the HRNN-Coldstart recipe.
 """
 create_solution_version(solutionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSolutionVersion", Dict{String, Any}("solutionArn"=>solutionArn); aws_config=aws_config)
-create_solution_version(solutionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config)
+create_solution_version(solutionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config)
 
 """
     delete_campaign(campaign_arn)
@@ -314,7 +314,7 @@ CreateCampaign.
 
 """
 delete_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
-delete_campaign(campaignArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config)
+delete_campaign(campaignArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config)
 
 """
     delete_dataset(dataset_arn)
@@ -329,7 +329,7 @@ datasets, see CreateDataset.
 
 """
 delete_dataset(datasetArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteDataset", Dict{String, Any}("datasetArn"=>datasetArn); aws_config=aws_config)
-delete_dataset(datasetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), params)); aws_config=aws_config)
+delete_dataset(datasetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), params)); aws_config=aws_config)
 
 """
     delete_dataset_group(dataset_group_arn)
@@ -344,7 +344,7 @@ group.
 
 """
 delete_dataset_group(datasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteDatasetGroup", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn); aws_config=aws_config)
-delete_dataset_group(datasetGroupArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), params)); aws_config=aws_config)
+delete_dataset_group(datasetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), params)); aws_config=aws_config)
 
 """
     delete_event_tracker(event_tracker_arn)
@@ -358,7 +358,7 @@ associated dataset group. For more information on event trackers, see CreateEven
 
 """
 delete_event_tracker(eventTrackerArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteEventTracker", Dict{String, Any}("eventTrackerArn"=>eventTrackerArn); aws_config=aws_config)
-delete_event_tracker(eventTrackerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), params)); aws_config=aws_config)
+delete_event_tracker(eventTrackerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), params)); aws_config=aws_config)
 
 """
     delete_filter(filter_arn)
@@ -371,7 +371,7 @@ Deletes a filter.
 
 """
 delete_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteFilter", Dict{String, Any}("filterArn"=>filterArn); aws_config=aws_config)
-delete_filter(filterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), params)); aws_config=aws_config)
+delete_filter(filterArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), params)); aws_config=aws_config)
 
 """
     delete_schema(schema_arn)
@@ -385,7 +385,7 @@ schema. For more information on schemas, see CreateSchema.
 
 """
 delete_schema(schemaArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteSchema", Dict{String, Any}("schemaArn"=>schemaArn); aws_config=aws_config)
-delete_schema(schemaArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), params)); aws_config=aws_config)
+delete_schema(schemaArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), params)); aws_config=aws_config)
 
 """
     delete_solution(solution_arn)
@@ -402,7 +402,7 @@ PENDING or IN PROGRESS state. For more information on solutions, see CreateSolut
 
 """
 delete_solution(solutionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteSolution", Dict{String, Any}("solutionArn"=>solutionArn); aws_config=aws_config)
-delete_solution(solutionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config)
+delete_solution(solutionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DeleteSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config)
 
 """
     describe_algorithm(algorithm_arn)
@@ -415,7 +415,7 @@ Describes the given algorithm.
 
 """
 describe_algorithm(algorithmArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeAlgorithm", Dict{String, Any}("algorithmArn"=>algorithmArn); aws_config=aws_config)
-describe_algorithm(algorithmArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("algorithmArn"=>algorithmArn), params)); aws_config=aws_config)
+describe_algorithm(algorithmArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("algorithmArn"=>algorithmArn), params)); aws_config=aws_config)
 
 """
     describe_batch_inference_job(batch_inference_job_arn)
@@ -430,7 +430,7 @@ generate the recommendations.
 
 """
 describe_batch_inference_job(batchInferenceJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeBatchInferenceJob", Dict{String, Any}("batchInferenceJobArn"=>batchInferenceJobArn); aws_config=aws_config)
-describe_batch_inference_job(batchInferenceJobArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batchInferenceJobArn"=>batchInferenceJobArn), params)); aws_config=aws_config)
+describe_batch_inference_job(batchInferenceJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batchInferenceJobArn"=>batchInferenceJobArn), params)); aws_config=aws_config)
 
 """
     describe_campaign(campaign_arn)
@@ -447,7 +447,7 @@ CreateCampaign.
 
 """
 describe_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
-describe_campaign(campaignArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config)
+describe_campaign(campaignArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config)
 
 """
     describe_dataset(dataset_arn)
@@ -460,7 +460,7 @@ Describes the given dataset. For more information on datasets, see CreateDataset
 
 """
 describe_dataset(datasetArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDataset", Dict{String, Any}("datasetArn"=>datasetArn); aws_config=aws_config)
-describe_dataset(datasetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), params)); aws_config=aws_config)
+describe_dataset(datasetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), params)); aws_config=aws_config)
 
 """
     describe_dataset_group(dataset_group_arn)
@@ -474,7 +474,7 @@ CreateDatasetGroup.
 
 """
 describe_dataset_group(datasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDatasetGroup", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn); aws_config=aws_config)
-describe_dataset_group(datasetGroupArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), params)); aws_config=aws_config)
+describe_dataset_group(datasetGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), params)); aws_config=aws_config)
 
 """
     describe_dataset_import_job(dataset_import_job_arn)
@@ -489,7 +489,7 @@ job status.
 
 """
 describe_dataset_import_job(datasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDatasetImportJob", Dict{String, Any}("datasetImportJobArn"=>datasetImportJobArn); aws_config=aws_config)
-describe_dataset_import_job(datasetImportJobArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetImportJobArn"=>datasetImportJobArn), params)); aws_config=aws_config)
+describe_dataset_import_job(datasetImportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetImportJobArn"=>datasetImportJobArn), params)); aws_config=aws_config)
 
 """
     describe_event_tracker(event_tracker_arn)
@@ -503,7 +503,7 @@ tracker. For more information on event trackers, see CreateEventTracker.
 
 """
 describe_event_tracker(eventTrackerArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeEventTracker", Dict{String, Any}("eventTrackerArn"=>eventTrackerArn); aws_config=aws_config)
-describe_event_tracker(eventTrackerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), params)); aws_config=aws_config)
+describe_event_tracker(eventTrackerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), params)); aws_config=aws_config)
 
 """
     describe_feature_transformation(feature_transformation_arn)
@@ -517,7 +517,7 @@ Describes the given feature transformation.
 
 """
 describe_feature_transformation(featureTransformationArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeFeatureTransformation", Dict{String, Any}("featureTransformationArn"=>featureTransformationArn); aws_config=aws_config)
-describe_feature_transformation(featureTransformationArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeFeatureTransformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("featureTransformationArn"=>featureTransformationArn), params)); aws_config=aws_config)
+describe_feature_transformation(featureTransformationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeFeatureTransformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("featureTransformationArn"=>featureTransformationArn), params)); aws_config=aws_config)
 
 """
     describe_filter(filter_arn)
@@ -530,7 +530,7 @@ Describes a filter's properties.
 
 """
 describe_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeFilter", Dict{String, Any}("filterArn"=>filterArn); aws_config=aws_config)
-describe_filter(filterArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), params)); aws_config=aws_config)
+describe_filter(filterArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), params)); aws_config=aws_config)
 
 """
     describe_recipe(recipe_arn)
@@ -549,7 +549,7 @@ GetRecommendations API.
 
 """
 describe_recipe(recipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeRecipe", Dict{String, Any}("recipeArn"=>recipeArn); aws_config=aws_config)
-describe_recipe(recipeArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recipeArn"=>recipeArn), params)); aws_config=aws_config)
+describe_recipe(recipeArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recipeArn"=>recipeArn), params)); aws_config=aws_config)
 
 """
     describe_schema(schema_arn)
@@ -562,7 +562,7 @@ Describes a schema. For more information on schemas, see CreateSchema.
 
 """
 describe_schema(schemaArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSchema", Dict{String, Any}("schemaArn"=>schemaArn); aws_config=aws_config)
-describe_schema(schemaArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), params)); aws_config=aws_config)
+describe_schema(schemaArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), params)); aws_config=aws_config)
 
 """
     describe_solution(solution_arn)
@@ -575,7 +575,7 @@ Describes a solution. For more information on solutions, see CreateSolution.
 
 """
 describe_solution(solutionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSolution", Dict{String, Any}("solutionArn"=>solutionArn); aws_config=aws_config)
-describe_solution(solutionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config)
+describe_solution(solutionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), params)); aws_config=aws_config)
 
 """
     describe_solution_version(solution_version_arn)
@@ -589,7 +589,7 @@ CreateSolution.
 
 """
 describe_solution_version(solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSolutionVersion", Dict{String, Any}("solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
-describe_solution_version(solutionVersionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
+describe_solution_version(solutionVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
 
 """
     get_solution_metrics(solution_version_arn)
@@ -603,7 +603,7 @@ Gets the metrics for the specified solution version.
 
 """
 get_solution_metrics(solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("GetSolutionMetrics", Dict{String, Any}("solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
-get_solution_metrics(solutionVersionArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("GetSolutionMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
+get_solution_metrics(solutionVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("GetSolutionMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
 
 """
     list_batch_inference_jobs()
@@ -620,7 +620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the batch inference jobs were created.
 """
 list_batch_inference_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListBatchInferenceJobs"; aws_config=aws_config)
-list_batch_inference_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListBatchInferenceJobs", params; aws_config=aws_config)
+list_batch_inference_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListBatchInferenceJobs", params; aws_config=aws_config)
 
 """
     list_campaigns()
@@ -641,7 +641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listed.
 """
 list_campaigns(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListCampaigns"; aws_config=aws_config)
-list_campaigns(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListCampaigns", params; aws_config=aws_config)
+list_campaigns(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListCampaigns", params; aws_config=aws_config)
 
 """
     list_dataset_groups()
@@ -658,7 +658,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of dataset groups (if they exist).
 """
 list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasetGroups"; aws_config=aws_config)
-list_dataset_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasetGroups", params; aws_config=aws_config)
+list_dataset_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasetGroups", params; aws_config=aws_config)
 
 """
     list_dataset_import_jobs()
@@ -679,7 +679,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of dataset import jobs (if they exist).
 """
 list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasetImportJobs"; aws_config=aws_config)
-list_dataset_import_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasetImportJobs", params; aws_config=aws_config)
+list_dataset_import_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasetImportJobs", params; aws_config=aws_config)
 
 """
     list_datasets()
@@ -698,7 +698,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of dataset import jobs (if they exist).
 """
 list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasets"; aws_config=aws_config)
-list_datasets(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasets", params; aws_config=aws_config)
+list_datasets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasets", params; aws_config=aws_config)
 
 """
     list_event_trackers()
@@ -716,7 +716,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of event trackers (if they exist).
 """
 list_event_trackers(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListEventTrackers"; aws_config=aws_config)
-list_event_trackers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListEventTrackers", params; aws_config=aws_config)
+list_event_trackers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListEventTrackers", params; aws_config=aws_config)
 
 """
     list_filters()
@@ -732,7 +732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of filters (if they exist).
 """
 list_filters(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListFilters"; aws_config=aws_config)
-list_filters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListFilters", params; aws_config=aws_config)
+list_filters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListFilters", params; aws_config=aws_config)
 
 """
     list_recipes()
@@ -749,7 +749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recipeProvider"`: The default is SERVICE.
 """
 list_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListRecipes"; aws_config=aws_config)
-list_recipes(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListRecipes", params; aws_config=aws_config)
+list_recipes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListRecipes", params; aws_config=aws_config)
 
 """
     list_schemas()
@@ -766,7 +766,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of schemas (if they exist).
 """
 list_schemas(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSchemas"; aws_config=aws_config)
-list_schemas(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSchemas", params; aws_config=aws_config)
+list_schemas(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSchemas", params; aws_config=aws_config)
 
 """
     list_solution_versions()
@@ -785,7 +785,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"solutionArn"`: The Amazon Resource Name (ARN) of the solution.
 """
 list_solution_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSolutionVersions"; aws_config=aws_config)
-list_solution_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSolutionVersions", params; aws_config=aws_config)
+list_solution_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSolutionVersions", params; aws_config=aws_config)
 
 """
     list_solutions()
@@ -804,7 +804,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of solutions (if they exist).
 """
 list_solutions(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSolutions"; aws_config=aws_config)
-list_solutions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSolutions", params; aws_config=aws_config)
+list_solutions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSolutions", params; aws_config=aws_config)
 
 """
     update_campaign(campaign_arn)
@@ -827,4 +827,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"solutionVersionArn"`: The ARN of a new solution version to deploy.
 """
 update_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("UpdateCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
-update_campaign(campaignArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("UpdateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config)
+update_campaign(campaignArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("UpdateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config)

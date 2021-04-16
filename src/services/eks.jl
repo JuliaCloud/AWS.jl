@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration.
 """
 associate_encryption_config(encryptionConfig, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/encryption-config/associate", Dict{String, Any}("encryptionConfig"=>encryptionConfig, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-associate_encryption_config(encryptionConfig, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/encryption-config/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("encryptionConfig"=>encryptionConfig, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+associate_encryption_config(encryptionConfig, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/encryption-config/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("encryptionConfig"=>encryptionConfig, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     associate_identity_provider_config(name, oidc)
@@ -49,7 +49,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization. Each tag consists of a key and an optional value, both of which you define.
 """
 associate_identity_provider_config(name, oidc; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/associate", Dict{String, Any}("oidc"=>oidc, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-associate_identity_provider_config(name, oidc, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("oidc"=>oidc, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+associate_identity_provider_config(name, oidc, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("oidc"=>oidc, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_addon(addon_name, name)
@@ -85,7 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization. Each tag consists of a key and an optional value, both of which you define.
 """
 create_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_addon(addonName, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_addon(addonName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("addonName"=>addonName, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_cluster(name, resources_vpc_config, role_arn)
@@ -137,7 +137,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value here, the latest version available in Amazon EKS is used.
 """
 create_cluster(name, resourcesVpcConfig, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters", Dict{String, Any}("name"=>name, "resourcesVpcConfig"=>resourcesVpcConfig, "roleArn"=>roleArn, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_cluster(name, resourcesVpcConfig, roleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "resourcesVpcConfig"=>resourcesVpcConfig, "roleArn"=>roleArn, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_cluster(name, resourcesVpcConfig, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "resourcesVpcConfig"=>resourcesVpcConfig, "roleArn"=>roleArn, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_fargate_profile(fargate_profile_name, name, pod_execution_role_arn)
@@ -189,7 +189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   profile, such as the pods that are scheduled with it.
 """
 create_fargate_profile(fargateProfileName, name, podExecutionRoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/fargate-profiles", Dict{String, Any}("fargateProfileName"=>fargateProfileName, "podExecutionRoleArn"=>podExecutionRoleArn, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_fargate_profile(fargateProfileName, name, podExecutionRoleArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/fargate-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fargateProfileName"=>fargateProfileName, "podExecutionRoleArn"=>podExecutionRoleArn, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_fargate_profile(fargateProfileName, name, podExecutionRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/fargate-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fargateProfileName"=>fargateProfileName, "podExecutionRoleArn"=>podExecutionRoleArn, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_nodegroup(name, node_role, nodegroup_name, subnets)
@@ -278,7 +278,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 """
 create_nodegroup(name, nodeRole, nodegroupName, subnets; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_nodegroup(name, nodeRole, nodegroupName, subnets, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_nodegroup(name, nodeRole, nodegroupName, subnets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_addon(addon_name, name)
@@ -294,7 +294,7 @@ cluster. You can always manually start an add-on on the cluster using the Kubern
 
 """
 delete_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)
-delete_addon(addonName, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)", params; aws_config=aws_config)
+delete_addon(addonName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/addons/$(addonName)", params; aws_config=aws_config)
 
 """
     delete_cluster(name)
@@ -313,7 +313,7 @@ information, see DeleteNodegroup and DeleteFargateProfile.
 
 """
 delete_cluster(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)"; aws_config=aws_config)
-delete_cluster(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)", params; aws_config=aws_config)
+delete_cluster(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)", params; aws_config=aws_config)
 
 """
     delete_fargate_profile(fargate_profile_name, name)
@@ -333,7 +333,7 @@ in that cluster.
 
 """
 delete_fargate_profile(fargateProfileName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)"; aws_config=aws_config)
-delete_fargate_profile(fargateProfileName, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", params; aws_config=aws_config)
+delete_fargate_profile(fargateProfileName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", params; aws_config=aws_config)
 
 """
     delete_nodegroup(name, nodegroup_name)
@@ -347,7 +347,7 @@ Deletes an Amazon EKS node group for a cluster.
 
 """
 delete_nodegroup(name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)"; aws_config=aws_config)
-delete_nodegroup(name, nodegroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)", params; aws_config=aws_config)
+delete_nodegroup(name, nodegroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)", params; aws_config=aws_config)
 
 """
     describe_addon(addon_name, name)
@@ -362,7 +362,7 @@ Describes an Amazon EKS add-on.
 
 """
 describe_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)"; aws_config=aws_config)
-describe_addon(addonName, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)", params; aws_config=aws_config)
+describe_addon(addonName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons/$(addonName)", params; aws_config=aws_config)
 
 """
     describe_addon_versions()
@@ -383,7 +383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only to retrieve the next items in a list and not for other programmatic purposes.
 """
 describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions"; aws_config=aws_config)
-describe_addon_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions", params; aws_config=aws_config)
+describe_addon_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/addons/supported-versions", params; aws_config=aws_config)
 
 """
     describe_cluster(name)
@@ -400,7 +400,7 @@ available until the cluster reaches the ACTIVE state.
 
 """
 describe_cluster(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)"; aws_config=aws_config)
-describe_cluster(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)", params; aws_config=aws_config)
+describe_cluster(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)", params; aws_config=aws_config)
 
 """
     describe_fargate_profile(fargate_profile_name, name)
@@ -414,7 +414,7 @@ Returns descriptive information about an AWS Fargate profile.
 
 """
 describe_fargate_profile(fargateProfileName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)"; aws_config=aws_config)
-describe_fargate_profile(fargateProfileName, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", params; aws_config=aws_config)
+describe_fargate_profile(fargateProfileName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", params; aws_config=aws_config)
 
 """
     describe_identity_provider_config(identity_provider_config, name)
@@ -428,7 +428,7 @@ Returns descriptive information about an identity provider configuration.
 
 """
 describe_identity_provider_config(identityProviderConfig, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/describe", Dict{String, Any}("identityProviderConfig"=>identityProviderConfig); aws_config=aws_config)
-describe_identity_provider_config(identityProviderConfig, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityProviderConfig"=>identityProviderConfig), params)); aws_config=aws_config)
+describe_identity_provider_config(identityProviderConfig, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/describe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityProviderConfig"=>identityProviderConfig), params)); aws_config=aws_config)
 
 """
     describe_nodegroup(name, nodegroup_name)
@@ -442,7 +442,7 @@ Returns descriptive information about an Amazon EKS node group.
 
 """
 describe_nodegroup(name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)"; aws_config=aws_config)
-describe_nodegroup(name, nodegroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)", params; aws_config=aws_config)
+describe_nodegroup(name, nodegroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)", params; aws_config=aws_config)
 
 """
     describe_update(name, update_id)
@@ -464,7 +464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nodegroupName"`: The name of the Amazon EKS node group associated with the update.
 """
 describe_update(name, updateId; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/updates/$(updateId)"; aws_config=aws_config)
-describe_update(name, updateId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/updates/$(updateId)", params; aws_config=aws_config)
+describe_update(name, updateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/updates/$(updateId)", params; aws_config=aws_config)
 
 """
     disassociate_identity_provider_config(identity_provider_config, name)
@@ -484,7 +484,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the request.
 """
 disassociate_identity_provider_config(identityProviderConfig, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/disassociate", Dict{String, Any}("identityProviderConfig"=>identityProviderConfig, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-disassociate_identity_provider_config(identityProviderConfig, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityProviderConfig"=>identityProviderConfig, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+disassociate_identity_provider_config(identityProviderConfig, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/identity-provider-configs/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityProviderConfig"=>identityProviderConfig, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     list_addons(name)
@@ -510,7 +510,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in a list and not for other programmatic purposes.
 """
 list_addons(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons"; aws_config=aws_config)
-list_addons(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons", params; aws_config=aws_config)
+list_addons(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/addons", params; aws_config=aws_config)
 
 """
     list_clusters()
@@ -533,7 +533,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next items in a list and not for other programmatic purposes.
 """
 list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters"; aws_config=aws_config)
-list_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters", params; aws_config=aws_config)
+list_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters", params; aws_config=aws_config)
 
 """
     list_fargate_profiles(name)
@@ -559,7 +559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_fargate_profiles(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/fargate-profiles"; aws_config=aws_config)
-list_fargate_profiles(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/fargate-profiles", params; aws_config=aws_config)
+list_fargate_profiles(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/fargate-profiles", params; aws_config=aws_config)
 
 """
     list_identity_provider_configs(name)
@@ -585,7 +585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the nextToken value.
 """
 list_identity_provider_configs(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/identity-provider-configs"; aws_config=aws_config)
-list_identity_provider_configs(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/identity-provider-configs", params; aws_config=aws_config)
+list_identity_provider_configs(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/identity-provider-configs", params; aws_config=aws_config)
 
 """
     list_nodegroups(name)
@@ -610,7 +610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
 list_nodegroups(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/node-groups"; aws_config=aws_config)
-list_nodegroups(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/node-groups", params; aws_config=aws_config)
+list_nodegroups(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/node-groups", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -625,7 +625,7 @@ List the tags for an Amazon EKS resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     list_updates(name)
@@ -652,7 +652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nodegroupName"`: The name of the Amazon EKS managed node group to list updates for.
 """
 list_updates(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/updates"; aws_config=aws_config)
-list_updates(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/updates", params; aws_config=aws_config)
+list_updates(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("GET", "/clusters/$(name)/updates", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -672,7 +672,7 @@ automatically propagate to the subnets and nodes associated with the cluster.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -687,7 +687,7 @@ Deletes specified tags from a resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_addon(addon_name, name)
@@ -717,7 +717,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   roles for service accounts on your cluster in the Amazon EKS User Guide.
 """
 update_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-update_addon(addonName, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+update_addon(addonName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/addons/$(addonName)/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     update_cluster_config(name)
@@ -756,7 +756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourcesVpcConfig"`:
 """
 update_cluster_config(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-update_cluster_config(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+update_cluster_config(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     update_cluster_version(name, version)
@@ -782,7 +782,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 update_cluster_version(name, version; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/updates", Dict{String, Any}("version"=>version, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-update_cluster_version(name, version, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/updates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("version"=>version, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+update_cluster_version(name, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/updates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("version"=>version, "clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     update_nodegroup_config(name, nodegroup_name)
@@ -807,7 +807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update.
 """
 update_nodegroup_config(name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-update_nodegroup_config(name, nodegroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+update_nodegroup_config(name, nodegroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     update_nodegroup_version(name, nodegroup_name)
@@ -861,4 +861,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Guide.
 """
 update_nodegroup_version(name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
-update_nodegroup_version(name, nodegroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+update_nodegroup_version(name, nodegroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)

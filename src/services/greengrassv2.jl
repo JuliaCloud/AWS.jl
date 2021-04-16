@@ -17,7 +17,7 @@ anything for that device.
 
 """
 cancel_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel"; aws_config=aws_config)
-cancel_deployment(deploymentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel", params; aws_config=aws_config)
+cancel_deployment(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments/$(deploymentId)/cancel", params; aws_config=aws_config)
 
 """
     create_component_version()
@@ -51,7 +51,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
 """
 create_component_version(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion"; aws_config=aws_config)
-create_component_version(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion", params; aws_config=aws_config)
+create_component_version(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/createComponentVersion", params; aws_config=aws_config)
 
 """
     create_deployment(target_arn)
@@ -89,7 +89,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tag your resources in the AWS IoT Greengrass V2 Developer Guide.
 """
 create_deployment(targetArn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}("targetArn"=>targetArn); aws_config=aws_config)
-create_deployment(targetArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetArn"=>targetArn), params)); aws_config=aws_config)
+create_deployment(targetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetArn"=>targetArn), params)); aws_config=aws_config)
 
 """
     delete_component(arn)
@@ -105,7 +105,7 @@ the component from the deployment or update the deployment to use a valid versio
 
 """
 delete_component(arn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)"; aws_config=aws_config)
-delete_component(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)", params; aws_config=aws_config)
+delete_component(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/components/$(arn)", params; aws_config=aws_config)
 
 """
     delete_core_device(core_device_thing_name)
@@ -122,7 +122,7 @@ AWS IoT API Reference.
 
 """
 delete_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)"; aws_config=aws_config)
-delete_core_device(coreDeviceThingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", params; aws_config=aws_config)
+delete_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", params; aws_config=aws_config)
 
 """
     describe_component(arn)
@@ -135,7 +135,7 @@ Retrieves metadata for a version of a component.
 
 """
 describe_component(arn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata"; aws_config=aws_config)
-describe_component(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata", params; aws_config=aws_config)
+describe_component(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/metadata", params; aws_config=aws_config)
 
 """
     get_component(arn)
@@ -152,7 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recipeOutputFormat"`: The format of the recipe.
 """
 get_component(arn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)"; aws_config=aws_config)
-get_component(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)", params; aws_config=aws_config)
+get_component(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)", params; aws_config=aws_config)
 
 """
     get_component_version_artifact(arn, artifact_name)
@@ -170,7 +170,7 @@ operation to identify the URL that they can use to download an artifact to insta
 
 """
 get_component_version_artifact(arn, artifactName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)"; aws_config=aws_config)
-get_component_version_artifact(arn, artifactName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)", params; aws_config=aws_config)
+get_component_version_artifact(arn, artifactName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/artifacts/$(artifactName)", params; aws_config=aws_config)
 
 """
     get_core_device(core_device_thing_name)
@@ -184,7 +184,7 @@ Retrieves metadata for a AWS IoT Greengrass core device.
 
 """
 get_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)"; aws_config=aws_config)
-get_core_device(coreDeviceThingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", params; aws_config=aws_config)
+get_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)", params; aws_config=aws_config)
 
 """
     get_deployment(deployment_id)
@@ -198,7 +198,7 @@ devices.
 
 """
 get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)"; aws_config=aws_config)
-get_deployment(deploymentId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)", params; aws_config=aws_config)
+get_deployment(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)", params; aws_config=aws_config)
 
 """
     list_component_versions(arn)
@@ -215,7 +215,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 list_component_versions(arn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions"; aws_config=aws_config)
-list_component_versions(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions", params; aws_config=aws_config)
+list_component_versions(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components/$(arn)/versions", params; aws_config=aws_config)
 
 """
     list_components()
@@ -231,7 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scope"`: The scope of the components to list. Default: PRIVATE
 """
 list_components(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components"; aws_config=aws_config)
-list_components(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components", params; aws_config=aws_config)
+list_components(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/components", params; aws_config=aws_config)
 
 """
     list_core_devices()
@@ -252,7 +252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter, the list includes only core devices that are members of this thing group.
 """
 list_core_devices(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices"; aws_config=aws_config)
-list_core_devices(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices", params; aws_config=aws_config)
+list_core_devices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices", params; aws_config=aws_config)
 
 """
     list_deployments()
@@ -270,7 +270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetArn"`: The ARN of the target AWS IoT thing or thing group.
 """
 list_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments"; aws_config=aws_config)
-list_deployments(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments", params; aws_config=aws_config)
+list_deployments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments", params; aws_config=aws_config)
 
 """
     list_effective_deployments(core_device_thing_name)
@@ -289,7 +289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 list_effective_deployments(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments"; aws_config=aws_config)
-list_effective_deployments(coreDeviceThingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments", params; aws_config=aws_config)
+list_effective_deployments(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/effectiveDeployments", params; aws_config=aws_config)
 
 """
     list_installed_components(core_device_thing_name)
@@ -307,7 +307,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 list_installed_components(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents"; aws_config=aws_config)
-list_installed_components(coreDeviceThingName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents", params; aws_config=aws_config)
+list_installed_components(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/installedComponents", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -320,7 +320,7 @@ Retrieves the list of tags for an AWS IoT Greengrass resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     resolve_component_candidates(component_candidates, platform)
@@ -345,7 +345,7 @@ Greengrass endpoints and quotas.
 
 """
 resolve_component_candidates(componentCandidates, platform; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", Dict{String, Any}("componentCandidates"=>componentCandidates, "platform"=>platform); aws_config=aws_config)
-resolve_component_candidates(componentCandidates, platform, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentCandidates"=>componentCandidates, "platform"=>platform), params)); aws_config=aws_config)
+resolve_component_candidates(componentCandidates, platform, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/resolveComponentCandidates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentCandidates"=>componentCandidates, "platform"=>platform), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -361,7 +361,7 @@ operation updates the tag's value.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -375,4 +375,4 @@ Removes a tag from an AWS IoT Greengrass resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)

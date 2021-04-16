@@ -78,7 +78,7 @@ scaling policy in the Application Auto Scaling User Guide.
 
 """
 delete_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScalingPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-delete_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+delete_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     delete_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace)
@@ -151,7 +151,7 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
 
 """
 delete_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScheduledAction", Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-delete_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+delete_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeleteScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     deregister_scalable_target(resource_id, scalable_dimension, service_namespace)
@@ -226,7 +226,7 @@ with it.
 
 """
 deregister_scalable_target(ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeregisterScalableTarget", Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-deregister_scalable_target(ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeregisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+deregister_scalable_target(ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DeregisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     describe_scalable_targets(service_namespace)
@@ -308,7 +308,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (in GiB) for brokers in an Amazon MSK cluster.
 """
 describe_scalable_targets(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalableTargets", Dict{String, Any}("ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-describe_scalable_targets(ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalableTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+describe_scalable_targets(ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalableTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     describe_scaling_activities(service_namespace)
@@ -390,7 +390,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (in GiB) for brokers in an Amazon MSK cluster.
 """
 describe_scaling_activities(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingActivities", Dict{String, Any}("ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-describe_scaling_activities(ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingActivities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+describe_scaling_activities(ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingActivities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     describe_scaling_policies(service_namespace)
@@ -474,7 +474,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (in GiB) for brokers in an Amazon MSK cluster.
 """
 describe_scaling_policies(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingPolicies", Dict{String, Any}("ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-describe_scaling_policies(ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+describe_scaling_policies(ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScalingPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     describe_scheduled_actions(service_namespace)
@@ -558,7 +558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
 describe_scheduled_actions(ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScheduledActions", Dict{String, Any}("ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-describe_scheduled_actions(ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScheduledActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+describe_scheduled_actions(ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("DescribeScheduledActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     put_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace)
@@ -662,7 +662,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating a policy and the policy type is TargetTrackingScaling.
 """
 put_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScalingPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-put_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+put_scaling_policy(PolicyName, ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     put_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace)
@@ -767,7 +767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pacific/Tahiti). For more information, see https://www.joda.org/joda-time/timezones.html.
 """
 put_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScheduledAction", Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-put_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+put_scheduled_action(ResourceId, ScalableDimension, ScheduledActionName, ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("PutScheduledAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScheduledActionName"=>ScheduledActionName, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
 
 """
     register_scalable_target(resource_id, scalable_dimension, service_namespace)
@@ -885,4 +885,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resuming scaling in the Application Auto Scaling User Guide.
 """
 register_scalable_target(ResourceId, ScalableDimension, ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("RegisterScalableTarget", Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
-register_scalable_target(ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("RegisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)
+register_scalable_target(ResourceId, ScalableDimension, ServiceNamespace, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = application_auto_scaling("RegisterScalableTarget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ServiceNamespace"=>ServiceNamespace), params)); aws_config=aws_config)

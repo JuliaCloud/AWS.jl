@@ -15,7 +15,7 @@ Deletes one or more builds.
 
 """
 batch_delete_builds(ids; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchDeleteBuilds", Dict{String, Any}("ids"=>ids); aws_config=aws_config)
-batch_delete_builds(ids, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchDeleteBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config)
+batch_delete_builds(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchDeleteBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config)
 
 """
     batch_get_build_batches(ids)
@@ -28,7 +28,7 @@ Retrieves information about one or more batch builds.
 
 """
 batch_get_build_batches(ids; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetBuildBatches", Dict{String, Any}("ids"=>ids); aws_config=aws_config)
-batch_get_build_batches(ids, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetBuildBatches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config)
+batch_get_build_batches(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetBuildBatches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config)
 
 """
     batch_get_builds(ids)
@@ -41,7 +41,7 @@ Gets information about one or more builds.
 
 """
 batch_get_builds(ids; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetBuilds", Dict{String, Any}("ids"=>ids); aws_config=aws_config)
-batch_get_builds(ids, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config)
+batch_get_builds(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config)
 
 """
     batch_get_projects(names)
@@ -56,7 +56,7 @@ Gets information about one or more build projects.
 
 """
 batch_get_projects(names; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}("names"=>names); aws_config=aws_config)
-batch_get_projects(names, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config)
+batch_get_projects(names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config)
 
 """
     batch_get_report_groups(report_group_arns)
@@ -70,7 +70,7 @@ batch_get_projects(names, params::AbstractDict{String, <:Any}; aws_config::Abstr
 
 """
 batch_get_report_groups(reportGroupArns; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetReportGroups", Dict{String, Any}("reportGroupArns"=>reportGroupArns); aws_config=aws_config)
-batch_get_report_groups(reportGroupArns, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetReportGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArns"=>reportGroupArns), params)); aws_config=aws_config)
+batch_get_report_groups(reportGroupArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetReportGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArns"=>reportGroupArns), params)); aws_config=aws_config)
 
 """
     batch_get_reports(report_arns)
@@ -83,7 +83,7 @@ batch_get_report_groups(reportGroupArns, params::AbstractDict{String, <:Any}; aw
 
 """
 batch_get_reports(reportArns; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetReports", Dict{String, Any}("reportArns"=>reportArns); aws_config=aws_config)
-batch_get_reports(reportArns, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArns"=>reportArns), params)); aws_config=aws_config)
+batch_get_reports(reportArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArns"=>reportArns), params)); aws_config=aws_config)
 
 """
     create_project(artifacts, environment, name, service_role, source)
@@ -152,7 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
 """
 create_project(artifacts, environment, name, serviceRole, source; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateProject", Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source); aws_config=aws_config)
-create_project(artifacts, environment, name, serviceRole, source, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source), params)); aws_config=aws_config)
+create_project(artifacts, environment, name, serviceRole, source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source), params)); aws_config=aws_config)
 
 """
     create_report_group(export_config, name, type)
@@ -172,7 +172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags are available for use by AWS services that support AWS CodeBuild report group tags.
 """
 create_report_group(exportConfig, name, type; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type); aws_config=aws_config)
-create_report_group(exportConfig, name, type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type), params)); aws_config=aws_config)
+create_report_group(exportConfig, name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type), params)); aws_config=aws_config)
 
 """
     create_webhook(project_name)
@@ -204,7 +204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must pass. For a filter group to pass, each of its filters must pass.
 """
 create_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
-create_webhook(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
+create_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
 
 """
     delete_build_batch(id)
@@ -217,7 +217,7 @@ Deletes a batch build.
 
 """
 delete_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteBuildBatch", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_build_batch(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+delete_build_batch(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
     delete_project(name)
@@ -230,7 +230,7 @@ delete_build_batch(id, params::AbstractDict{String, <:Any}; aws_config::Abstract
 
 """
 delete_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
-delete_project(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+delete_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
     delete_report(arn)
@@ -243,7 +243,7 @@ delete_project(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAW
 
 """
 delete_report(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReport", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_report(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+delete_report(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
 
 """
     delete_report_group(arn)
@@ -263,7 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reports, an exception is thrown.
 """
 delete_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_report_group(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+delete_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
 
 """
     delete_resource_policy(resource_arn)
@@ -276,7 +276,7 @@ delete_report_group(arn, params::AbstractDict{String, <:Any}; aws_config::Abstra
 
 """
 delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-delete_resource_policy(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+delete_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     delete_source_credentials(arn)
@@ -289,7 +289,7 @@ delete_resource_policy(resourceArn, params::AbstractDict{String, <:Any}; aws_con
 
 """
 delete_source_credentials(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteSourceCredentials", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-delete_source_credentials(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+delete_source_credentials(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
 
 """
     delete_webhook(project_name)
@@ -304,7 +304,7 @@ change is pushed to the repository.
 
 """
 delete_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
-delete_webhook(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
+delete_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
 
 """
     describe_code_coverages(report_arn)
@@ -329,7 +329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: Specifies if the results are sorted in ascending or descending order.
 """
 describe_code_coverages(reportArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeCodeCoverages", Dict{String, Any}("reportArn"=>reportArn); aws_config=aws_config)
-describe_code_coverages(reportArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeCodeCoverages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config)
+describe_code_coverages(reportArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeCodeCoverages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config)
 
 """
     describe_test_cases(report_arn)
@@ -354,7 +354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next tokens are returned.
 """
 describe_test_cases(reportArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}("reportArn"=>reportArn); aws_config=aws_config)
-describe_test_cases(reportArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config)
+describe_test_cases(reportArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config)
 
 """
     get_report_group_trend(report_group_arn, trend_field)
@@ -382,7 +382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed.
 """
 get_report_group_trend(reportGroupArn, trendField; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField); aws_config=aws_config)
-get_report_group_trend(reportGroupArn, trendField, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField), params)); aws_config=aws_config)
+get_report_group_trend(reportGroupArn, trendField, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField), params)); aws_config=aws_config)
 
 """
     get_resource_policy(resource_arn)
@@ -395,7 +395,7 @@ get_report_group_trend(reportGroupArn, trendField, params::AbstractDict{String, 
 
 """
 get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-get_resource_policy(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+get_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     import_source_credentials(auth_type, server_type, token)
@@ -421,7 +421,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not valid for other types of source providers or connections.
 """
 import_source_credentials(authType, serverType, token; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token); aws_config=aws_config)
-import_source_credentials(authType, serverType, token, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token), params)); aws_config=aws_config)
+import_source_credentials(authType, serverType, token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token), params)); aws_config=aws_config)
 
 """
     invalidate_project_cache(project_name)
@@ -434,7 +434,7 @@ Resets the cache for a project.
 
 """
 invalidate_project_cache(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("InvalidateProjectCache", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
-invalidate_project_cache(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("InvalidateProjectCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
+invalidate_project_cache(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("InvalidateProjectCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
 
 """
     list_build_batches()
@@ -454,7 +454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DESCENDING: List the batch build identifiers in descending order by identifier.
 """
 list_build_batches(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatches"; aws_config=aws_config)
-list_build_batches(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatches", params; aws_config=aws_config)
+list_build_batches(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatches", params; aws_config=aws_config)
 
 """
     list_build_batches_for_project()
@@ -475,7 +475,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DESCENDING: List the batch build identifiers in descending order by identifier.
 """
 list_build_batches_for_project(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatchesForProject"; aws_config=aws_config)
-list_build_batches_for_project(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatchesForProject", params; aws_config=aws_config)
+list_build_batches_for_project(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildBatchesForProject", params; aws_config=aws_config)
 
 """
     list_builds()
@@ -495,7 +495,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   order by build ID.
 """
 list_builds(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuilds"; aws_config=aws_config)
-list_builds(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuilds", params; aws_config=aws_config)
+list_builds(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuilds", params; aws_config=aws_config)
 
 """
     list_builds_for_project(project_name)
@@ -520,7 +520,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the project has more than 100 builds, setting the sort order will result in an error.
 """
 list_builds_for_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
-list_builds_for_project(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
+list_builds_for_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
 
 """
     list_curated_environment_images()
@@ -530,7 +530,7 @@ Gets information about Docker images that are managed by AWS CodeBuild.
 
 """
 list_curated_environment_images(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListCuratedEnvironmentImages"; aws_config=aws_config)
-list_curated_environment_images(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListCuratedEnvironmentImages", params; aws_config=aws_config)
+list_curated_environment_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListCuratedEnvironmentImages", params; aws_config=aws_config)
 
 """
     list_projects()
@@ -556,7 +556,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to specify the criterion to be used to list build project names.
 """
 list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListProjects"; aws_config=aws_config)
-list_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListProjects", params; aws_config=aws_config)
+list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListProjects", params; aws_config=aws_config)
 
 """
     list_report_groups()
@@ -583,7 +583,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid values are ASCENDING and DESCENDING.
 """
 list_report_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportGroups"; aws_config=aws_config)
-list_report_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportGroups", params; aws_config=aws_config)
+list_report_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportGroups", params; aws_config=aws_config)
 
 """
     list_reports()
@@ -609,7 +609,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   
 """
 list_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReports"; aws_config=aws_config)
-list_reports(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReports", params; aws_config=aws_config)
+list_reports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReports", params; aws_config=aws_config)
 
 """
     list_reports_for_report_group(report_group_arn)
@@ -637,7 +637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   descending order.
 """
 list_reports_for_report_group(reportGroupArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}("reportGroupArn"=>reportGroupArn); aws_config=aws_config)
-list_reports_for_report_group(reportGroupArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn), params)); aws_config=aws_config)
+list_reports_for_report_group(reportGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn), params)); aws_config=aws_config)
 
 """
     list_shared_projects()
@@ -663,7 +663,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
 list_shared_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedProjects"; aws_config=aws_config)
-list_shared_projects(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedProjects", params; aws_config=aws_config)
+list_shared_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedProjects", params; aws_config=aws_config)
 
 """
     list_shared_report_groups()
@@ -689,7 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
 list_shared_report_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedReportGroups"; aws_config=aws_config)
-list_shared_report_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedReportGroups", params; aws_config=aws_config)
+list_shared_report_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSharedReportGroups", params; aws_config=aws_config)
 
 """
     list_source_credentials()
@@ -699,7 +699,7 @@ list_shared_report_groups(params::AbstractDict{String, <:Any}; aws_config::Abstr
 
 """
 list_source_credentials(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSourceCredentials"; aws_config=aws_config)
-list_source_credentials(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSourceCredentials", params; aws_config=aws_config)
+list_source_credentials(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListSourceCredentials", params; aws_config=aws_config)
 
 """
     put_resource_policy(policy, resource_arn)
@@ -715,7 +715,7 @@ list_source_credentials(params::AbstractDict{String, <:Any}; aws_config::Abstrac
 
 """
 put_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("PutResourcePolicy", Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn); aws_config=aws_config)
-put_resource_policy(policy, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
+put_resource_policy(policy, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     retry_build()
@@ -732,7 +732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   change a parameter, AWS CodeBuild returns a parameter mismatch error.
 """
 retry_build(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuild"; aws_config=aws_config)
-retry_build(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuild", params; aws_config=aws_config)
+retry_build(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuild", params; aws_config=aws_config)
 
 """
     retry_build_batch()
@@ -750,7 +750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retryType"`: Specifies the type of retry to perform.
 """
 retry_build_batch(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuildBatch"; aws_config=aws_config)
-retry_build_batch(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuildBatch", params; aws_config=aws_config)
+retry_build_batch(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuildBatch", params; aws_config=aws_config)
 
 """
     start_build(project_name)
@@ -865,7 +865,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   build project.
 """
 start_build(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuild", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
-start_build(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
+start_build(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
 
 """
     start_build_batch(project_name)
@@ -976,7 +976,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the AWS CodeBuild User Guide.
 """
 start_build_batch(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
-start_build_batch(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
+start_build_batch(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
 
 """
     stop_build(id)
@@ -989,7 +989,7 @@ Attempts to stop running a build.
 
 """
 stop_build(id; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StopBuild", Dict{String, Any}("id"=>id); aws_config=aws_config)
-stop_build(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StopBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+stop_build(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StopBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
     stop_build_batch(id)
@@ -1002,7 +1002,7 @@ Stops a running batch build.
 
 """
 stop_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StopBuildBatch", Dict{String, Any}("id"=>id); aws_config=aws_config)
-stop_build_batch(id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StopBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+stop_build_batch(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StopBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
 
 """
     update_project(name)
@@ -1074,7 +1074,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
 """
 update_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
-update_project(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+update_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
     update_report_group(arn)
@@ -1095,7 +1095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags.
 """
 update_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
-update_report_group(arn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
+update_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
 
 """
     update_webhook(project_name)
@@ -1122,4 +1122,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rotateSecret is ignored.
 """
 update_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
-update_webhook(projectName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
+update_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)

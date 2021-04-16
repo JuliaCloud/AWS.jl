@@ -20,7 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 apply_archive_rule(analyzerArn, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-apply_archive_rule(analyzerArn, ruleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+apply_archive_rule(analyzerArn, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     cancel_policy_generation(job_id)
@@ -35,7 +35,7 @@ Cancels the requested policy generation.
 
 """
 cancel_policy_generation(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation/$(jobId)"; aws_config=aws_config)
-cancel_policy_generation(jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation/$(jobId)", params; aws_config=aws_config)
+cancel_policy_generation(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation/$(jobId)", params; aws_config=aws_config)
 
 """
     create_access_preview(analyzer_arn, configurations)
@@ -57,7 +57,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 create_access_preview(analyzerArn, configurations; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/access-preview", Dict{String, Any}("analyzerArn"=>analyzerArn, "configurations"=>configurations, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_access_preview(analyzerArn, configurations, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "configurations"=>configurations, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_access_preview(analyzerArn, configurations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "configurations"=>configurations, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_analyzer(analyzer_name, type)
@@ -79,7 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to apply to the analyzer.
 """
 create_analyzer(analyzerName, type; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_analyzer(analyzerName, type, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_analyzer(analyzerName, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerName"=>analyzerName, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_archive_rule(analyzer_name, filter, rule_name)
@@ -100,7 +100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 create_archive_rule(analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_archive_rule(analyzerName, filter, ruleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_archive_rule(analyzerName, filter, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "ruleName"=>ruleName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_analyzer(analyzer_name)
@@ -118,7 +118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 delete_analyzer(analyzerName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-delete_analyzer(analyzerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+delete_analyzer(analyzerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_archive_rule(analyzer_name, rule_name)
@@ -135,7 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 delete_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-delete_archive_rule(analyzerName, ruleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+delete_archive_rule(analyzerName, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     get_access_preview(access_preview_id, analyzer_arn)
@@ -149,7 +149,7 @@ Retrieves information about an access preview for the specified analyzer.
 
 """
 get_access_preview(accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview/$(accessPreviewId)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-get_access_preview(accessPreviewId, analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
+get_access_preview(accessPreviewId, analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
     get_analyzed_resource(analyzer_arn, resource_arn)
@@ -163,7 +163,7 @@ Retrieves information about a resource that was analyzed.
 
 """
 get_analyzed_resource(analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn); aws_config=aws_config)
-get_analyzed_resource(analyzerArn, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
+get_analyzed_resource(analyzerArn, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     get_analyzer(analyzer_name)
@@ -176,7 +176,7 @@ Retrieves information about the specified analyzer.
 
 """
 get_analyzer(analyzerName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)"; aws_config=aws_config)
-get_analyzer(analyzerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)", params; aws_config=aws_config)
+get_analyzer(analyzerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)", params; aws_config=aws_config)
 
 """
     get_archive_rule(analyzer_name, rule_name)
@@ -191,7 +191,7 @@ create an archive rule, see Access Analyzer filter keys in the IAM User Guide.
 
 """
 get_archive_rule(analyzerName, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)"; aws_config=aws_config)
-get_archive_rule(analyzerName, ruleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", params; aws_config=aws_config)
+get_archive_rule(analyzerName, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", params; aws_config=aws_config)
 
 """
     get_finding(analyzer_arn, id)
@@ -205,7 +205,7 @@ Retrieves information about the specified finding.
 
 """
 get_finding(analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-get_finding(analyzerArn, id, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
+get_finding(analyzerArn, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/finding/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
     get_generated_policy(job_id)
@@ -231,7 +231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service-level template.
 """
 get_generated_policy(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation/$(jobId)"; aws_config=aws_config)
-get_generated_policy(jobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation/$(jobId)", params; aws_config=aws_config)
+get_generated_policy(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation/$(jobId)", params; aws_config=aws_config)
 
 """
     list_access_preview_findings(access_preview_id, analyzer_arn)
@@ -250,7 +250,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 list_access_preview_findings(accessPreviewId, analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/access-preview/$(accessPreviewId)", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-list_access_preview_findings(accessPreviewId, analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
+list_access_preview_findings(accessPreviewId, analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/access-preview/$(accessPreviewId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
     list_access_previews(analyzer_arn)
@@ -267,7 +267,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 list_access_previews(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-list_access_previews(analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
+list_access_previews(analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/access-preview", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
     list_analyzed_resources(analyzer_arn)
@@ -286,7 +286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: The type of resource.
 """
 list_analyzed_resources(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-list_analyzed_resources(analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
+list_analyzed_resources(analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/analyzed-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
     list_analyzers()
@@ -301,7 +301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of analyzer.
 """
 list_analyzers(; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer"; aws_config=aws_config)
-list_analyzers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer", params; aws_config=aws_config)
+list_analyzers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer", params; aws_config=aws_config)
 
 """
     list_archive_rules(analyzer_name)
@@ -318,7 +318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 list_archive_rules(analyzerName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule"; aws_config=aws_config)
-list_archive_rules(analyzerName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule", params; aws_config=aws_config)
+list_archive_rules(analyzerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule", params; aws_config=aws_config)
 
 """
     list_findings(analyzer_arn)
@@ -339,7 +339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: The sort order for the findings returned.
 """
 list_findings(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn); aws_config=aws_config)
-list_findings(analyzerArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
+list_findings(analyzerArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn), params)); aws_config=aws_config)
 
 """
     list_policy_generations()
@@ -356,7 +356,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for a specific principal.
 """
 list_policy_generations(; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation"; aws_config=aws_config)
-list_policy_generations(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation", params; aws_config=aws_config)
+list_policy_generations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/policy/generation", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -369,7 +369,7 @@ Retrieves a list of tags applied to the specified resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     start_policy_generation(policy_generation_details)
@@ -393,7 +393,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you want to analyze to generate policies.
 """
 start_policy_generation(policyGenerationDetails; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation", Dict{String, Any}("policyGenerationDetails"=>policyGenerationDetails, "clientToken"=>string(uuid4())); aws_config=aws_config)
-start_policy_generation(policyGenerationDetails, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyGenerationDetails"=>policyGenerationDetails, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+start_policy_generation(policyGenerationDetails, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/policy/generation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyGenerationDetails"=>policyGenerationDetails, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_resource_scan(analyzer_arn, resource_arn)
@@ -408,7 +408,7 @@ Immediately starts a scan of the policies applied to the specified resource.
 
 """
 start_resource_scan(analyzerArn, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn); aws_config=aws_config)
-start_resource_scan(analyzerArn, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
+start_resource_scan(analyzerArn, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/resource/scan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -422,7 +422,7 @@ Adds a tag to the specified resource.
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -436,7 +436,7 @@ Removes a tag from the specified resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_archive_rule(analyzer_name, filter, rule_name)
@@ -455,7 +455,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A client token.
 """
 update_archive_rule(analyzerName, filter, ruleName; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_archive_rule(analyzerName, filter, ruleName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+update_archive_rule(analyzerName, filter, ruleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     update_findings(analyzer_arn, status)
@@ -476,7 +476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The ARN of the resource identified in the finding.
 """
 update_findings(analyzerArn, status; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())); aws_config=aws_config)
-update_findings(analyzerArn, status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+update_findings(analyzerArn, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("PUT", "/finding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analyzerArn"=>analyzerArn, "status"=>status, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     validate_policy(policy_document, policy_type)
@@ -503,4 +503,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used for pagination of results returned.
 """
 validate_policy(policyDocument, policyType; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType); aws_config=aws_config)
-validate_policy(policyDocument, policyType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType), params)); aws_config=aws_config)
+validate_policy(policyDocument, policyType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = accessanalyzer("POST", "/policy/validation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policyDocument"=>policyDocument, "policyType"=>policyType), params)); aws_config=aws_config)

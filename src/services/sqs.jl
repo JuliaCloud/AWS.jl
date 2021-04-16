@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ChangeMessageVisibilityBatch.
 """
 add_permission(AWSAccountId, ActionName, Label, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("AddPermission", Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "QueueUrl"=>QueueUrl); aws_config=aws_config)
-add_permission(AWSAccountId, ActionName, Label, QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("AddPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+add_permission(AWSAccountId, ActionName, Label, QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("AddPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     change_message_visibility(queue_url, receipt_handle, visibility_timeout)
@@ -105,7 +105,7 @@ ChangeMessageVisibility action) the next time the message is received.
 
 """
 change_message_visibility(QueueUrl, ReceiptHandle, VisibilityTimeout; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ChangeMessageVisibility", Dict{String, Any}("QueueUrl"=>QueueUrl, "ReceiptHandle"=>ReceiptHandle, "VisibilityTimeout"=>VisibilityTimeout); aws_config=aws_config)
-change_message_visibility(QueueUrl, ReceiptHandle, VisibilityTimeout, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ChangeMessageVisibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "ReceiptHandle"=>ReceiptHandle, "VisibilityTimeout"=>VisibilityTimeout), params)); aws_config=aws_config)
+change_message_visibility(QueueUrl, ReceiptHandle, VisibilityTimeout, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ChangeMessageVisibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "ReceiptHandle"=>ReceiptHandle, "VisibilityTimeout"=>VisibilityTimeout), params)); aws_config=aws_config)
 
 """
     change_message_visibility_batch(change_message_visibility_batch_request_entry, queue_url)
@@ -133,7 +133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be changed.
 """
 change_message_visibility_batch(ChangeMessageVisibilityBatchRequestEntry, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ChangeMessageVisibilityBatch", Dict{String, Any}("ChangeMessageVisibilityBatchRequestEntry"=>ChangeMessageVisibilityBatchRequestEntry, "QueueUrl"=>QueueUrl); aws_config=aws_config)
-change_message_visibility_batch(ChangeMessageVisibilityBatchRequestEntry, QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ChangeMessageVisibilityBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeMessageVisibilityBatchRequestEntry"=>ChangeMessageVisibilityBatchRequestEntry, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+change_message_visibility_batch(ChangeMessageVisibilityBatchRequestEntry, QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ChangeMessageVisibilityBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeMessageVisibilityBatchRequestEntry"=>ChangeMessageVisibilityBatchRequestEntry, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     create_queue(queue_name)
@@ -259,7 +259,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide.
 """
 create_queue(QueueName; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("CreateQueue", Dict{String, Any}("QueueName"=>QueueName); aws_config=aws_config)
-create_queue(QueueName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("CreateQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueName"=>QueueName), params)); aws_config=aws_config)
+create_queue(QueueName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("CreateQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueName"=>QueueName), params)); aws_config=aws_config)
 
 """
     delete_message(queue_url, receipt_handle)
@@ -288,7 +288,7 @@ not cause issues.
 
 """
 delete_message(QueueUrl, ReceiptHandle; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteMessage", Dict{String, Any}("QueueUrl"=>QueueUrl, "ReceiptHandle"=>ReceiptHandle); aws_config=aws_config)
-delete_message(QueueUrl, ReceiptHandle, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "ReceiptHandle"=>ReceiptHandle), params)); aws_config=aws_config)
+delete_message(QueueUrl, ReceiptHandle, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "ReceiptHandle"=>ReceiptHandle), params)); aws_config=aws_config)
 
 """
     delete_message_batch(delete_message_batch_request_entry, queue_url)
@@ -314,7 +314,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Entries"`: A list of receipt handles for the messages to be deleted.
 """
 delete_message_batch(DeleteMessageBatchRequestEntry, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteMessageBatch", Dict{String, Any}("DeleteMessageBatchRequestEntry"=>DeleteMessageBatchRequestEntry, "QueueUrl"=>QueueUrl); aws_config=aws_config)
-delete_message_batch(DeleteMessageBatchRequestEntry, QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteMessageBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteMessageBatchRequestEntry"=>DeleteMessageBatchRequestEntry, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+delete_message_batch(DeleteMessageBatchRequestEntry, QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteMessageBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteMessageBatchRequestEntry"=>DeleteMessageBatchRequestEntry, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     delete_queue(queue_url)
@@ -336,7 +336,7 @@ user name in the Amazon Simple Queue Service Developer Guide.
 
 """
 delete_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteQueue", Dict{String, Any}("QueueUrl"=>QueueUrl); aws_config=aws_config)
-delete_queue(QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+delete_queue(QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("DeleteQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     get_queue_attributes(queue_url)
@@ -416,7 +416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Service Developer Guide.
 """
 get_queue_attributes(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("GetQueueAttributes", Dict{String, Any}("QueueUrl"=>QueueUrl); aws_config=aws_config)
-get_queue_attributes(QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("GetQueueAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+get_queue_attributes(QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("GetQueueAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     get_queue_url(queue_name)
@@ -438,7 +438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueueOwnerAWSAccountId"`: The AWS account ID of the account that created the queue.
 """
 get_queue_url(QueueName; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("GetQueueUrl", Dict{String, Any}("QueueName"=>QueueName); aws_config=aws_config)
-get_queue_url(QueueName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("GetQueueUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueName"=>QueueName), params)); aws_config=aws_config)
+get_queue_url(QueueName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("GetQueueUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueName"=>QueueName), params)); aws_config=aws_config)
 
 """
     list_dead_letter_source_queues(queue_url)
@@ -464,7 +464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token to request the next set of results.
 """
 list_dead_letter_source_queues(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListDeadLetterSourceQueues", Dict{String, Any}("QueueUrl"=>QueueUrl); aws_config=aws_config)
-list_dead_letter_source_queues(QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListDeadLetterSourceQueues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+list_dead_letter_source_queues(QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListDeadLetterSourceQueues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     list_queue_tags(queue_url)
@@ -481,7 +481,7 @@ Developer Guide.
 
 """
 list_queue_tags(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListQueueTags", Dict{String, Any}("QueueUrl"=>QueueUrl); aws_config=aws_config)
-list_queue_tags(QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListQueueTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+list_queue_tags(QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListQueueTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     list_queues()
@@ -509,7 +509,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   case-sensitive.
 """
 list_queues(; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListQueues"; aws_config=aws_config)
-list_queues(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListQueues", params; aws_config=aws_config)
+list_queues(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ListQueues", params; aws_config=aws_config)
 
 """
     purge_queue(queue_url)
@@ -528,7 +528,7 @@ PurgeQueue might be deleted while the queue is being purged.
 
 """
 purge_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("PurgeQueue", Dict{String, Any}("QueueUrl"=>QueueUrl); aws_config=aws_config)
-purge_queue(QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("PurgeQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+purge_queue(QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("PurgeQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     receive_message(queue_url)
@@ -632,7 +632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   clients.
 """
 receive_message(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ReceiveMessage", Dict{String, Any}("QueueUrl"=>QueueUrl); aws_config=aws_config)
-receive_message(QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ReceiveMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+receive_message(QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("ReceiveMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     remove_permission(label, queue_url)
@@ -653,7 +653,7 @@ RemovePermission, and SetQueueAttributes actions in your IAM policy.
 
 """
 remove_permission(Label, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("RemovePermission", Dict{String, Any}("Label"=>Label, "QueueUrl"=>QueueUrl); aws_config=aws_config)
-remove_permission(Label, QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+remove_permission(Label, QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     send_message(message_body, queue_url)
@@ -732,7 +732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   doesn't count towards the total size of a message.
 """
 send_message(MessageBody, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SendMessage", Dict{String, Any}("MessageBody"=>MessageBody, "QueueUrl"=>QueueUrl); aws_config=aws_config)
-send_message(MessageBody, QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SendMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageBody"=>MessageBody, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+send_message(MessageBody, QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SendMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageBody"=>MessageBody, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     send_message_batch(queue_url, send_message_batch_request_entry)
@@ -764,7 +764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Entries"`: A list of  SendMessageBatchRequestEntry  items.
 """
 send_message_batch(QueueUrl, SendMessageBatchRequestEntry; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SendMessageBatch", Dict{String, Any}("QueueUrl"=>QueueUrl, "SendMessageBatchRequestEntry"=>SendMessageBatchRequestEntry); aws_config=aws_config)
-send_message_batch(QueueUrl, SendMessageBatchRequestEntry, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SendMessageBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "SendMessageBatchRequestEntry"=>SendMessageBatchRequestEntry), params)); aws_config=aws_config)
+send_message_batch(QueueUrl, SendMessageBatchRequestEntry, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SendMessageBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "SendMessageBatchRequestEntry"=>SendMessageBatchRequestEntry), params)); aws_config=aws_config)
 
 """
     set_queue_attributes(attribute, queue_url)
@@ -857,7 +857,7 @@ IAM policy.
 
 """
 set_queue_attributes(Attribute, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SetQueueAttributes", Dict{String, Any}("Attribute"=>Attribute, "QueueUrl"=>QueueUrl); aws_config=aws_config)
-set_queue_attributes(Attribute, QueueUrl, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SetQueueAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
+set_queue_attributes(Attribute, QueueUrl, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("SetQueueAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "QueueUrl"=>QueueUrl), params)); aws_config=aws_config)
 
 """
     tag_queue(queue_url, tags)
@@ -879,7 +879,7 @@ permissions to a role and a user name in the Amazon Simple Queue Service Develop
 
 """
 tag_queue(QueueUrl, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("TagQueue", Dict{String, Any}("QueueUrl"=>QueueUrl, "Tags"=>Tags); aws_config=aws_config)
-tag_queue(QueueUrl, Tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("TagQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "Tags"=>Tags), params)); aws_config=aws_config)
+tag_queue(QueueUrl, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("TagQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_queue(queue_url, tag_key)
@@ -900,4 +900,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagKeys"`: The list of tags to be removed from the specified queue.
 """
 untag_queue(QueueUrl, TagKey; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("UntagQueue", Dict{String, Any}("QueueUrl"=>QueueUrl, "TagKey"=>TagKey); aws_config=aws_config)
-untag_queue(QueueUrl, TagKey, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("UntagQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "TagKey"=>TagKey), params)); aws_config=aws_config)
+untag_queue(QueueUrl, TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sqs("UntagQueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueueUrl"=>QueueUrl, "TagKey"=>TagKey), params)); aws_config=aws_config)

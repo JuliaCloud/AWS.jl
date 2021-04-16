@@ -21,4 +21,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 list_realtime_contact_analysis_segments(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect_contact_lens("POST", "/realtime-contact-analysis/analysis-segments", Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
-list_realtime_contact_analysis_segments(ContactId, InstanceId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = connect_contact_lens("POST", "/realtime-contact-analysis/analysis-segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
+list_realtime_contact_analysis_segments(ContactId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect_contact_lens("POST", "/realtime-contact-analysis/analysis-segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId), params)); aws_config=aws_config)

@@ -37,7 +37,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with this prefix. Tags with this prefix do not count against your tags per resource limit.
 """
 create_capacity_provider(autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
-create_capacity_provider(autoScalingGroupProvider, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config)
+create_capacity_provider(autoScalingGroupProvider, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config)
 
 """
     create_cluster()
@@ -93,7 +93,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with this prefix. Tags with this prefix do not count against your tags per resource limit.
 """
 create_cluster(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCluster"; aws_config=aws_config)
-create_cluster(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCluster", params; aws_config=aws_config)
+create_cluster(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateCluster", params; aws_config=aws_config)
 
 """
     create_service(service_name)
@@ -316,7 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ECS or CODE_DEPLOY deployment controllers.
 """
 create_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateService", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-create_service(serviceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
+create_service(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
 
 """
     create_task_set(cluster, service, task_definition)
@@ -384,7 +384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   count against your tags per resource limit.
 """
 create_task_set(cluster, service, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateTaskSet", Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition); aws_config=aws_config)
-create_task_set(cluster, service, taskDefinition, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+create_task_set(cluster, service, taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("CreateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
 
 """
     delete_account_setting(name)
@@ -410,7 +410,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user.
 """
 delete_account_setting(name; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAccountSetting", Dict{String, Any}("name"=>name); aws_config=aws_config)
-delete_account_setting(name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+delete_account_setting(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
 
 """
     delete_attributes(attributes)
@@ -431,7 +431,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster is assumed.
 """
 delete_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
-delete_attributes(attributes, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config)
+delete_attributes(attributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config)
 
 """
     delete_capacity_provider(capacity_provider)
@@ -455,7 +455,7 @@ PutClusterCapacityProviders or delete the cluster.
 
 """
 delete_capacity_provider(capacityProvider; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCapacityProvider", Dict{String, Any}("capacityProvider"=>capacityProvider); aws_config=aws_config)
-delete_capacity_provider(capacityProvider, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProvider"=>capacityProvider), params)); aws_config=aws_config)
+delete_capacity_provider(capacityProvider, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProvider"=>capacityProvider), params)); aws_config=aws_config)
 
 """
     delete_cluster(cluster)
@@ -473,7 +473,7 @@ ListContainerInstances and deregister them with DeregisterContainerInstance.
 
 """
 delete_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCluster", Dict{String, Any}("cluster"=>cluster); aws_config=aws_config)
-delete_cluster(cluster, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config)
+delete_cluster(cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config)
 
 """
     delete_service(service)
@@ -505,7 +505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   strategy.
 """
 delete_service(service; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteService", Dict{String, Any}("service"=>service); aws_config=aws_config)
-delete_service(service, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), params)); aws_config=aws_config)
+delete_service(service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), params)); aws_config=aws_config)
 
 """
     delete_task_set(cluster, service, task_set)
@@ -528,7 +528,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   down to zero.
 """
 delete_task_set(cluster, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteTaskSet", Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet); aws_config=aws_config)
-delete_task_set(cluster, service, taskSet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet), params)); aws_config=aws_config)
+delete_task_set(cluster, service, taskSet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeleteTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet), params)); aws_config=aws_config)
 
 """
     deregister_container_instance(container_instance)
@@ -568,7 +568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   according to the settings on the load balancer or target group.
 """
 deregister_container_instance(containerInstance; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterContainerInstance", Dict{String, Any}("containerInstance"=>containerInstance); aws_config=aws_config)
-deregister_container_instance(containerInstance, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterContainerInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), params)); aws_config=aws_config)
+deregister_container_instance(containerInstance, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterContainerInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), params)); aws_config=aws_config)
 
 """
     deregister_task_definition(task_definition)
@@ -592,7 +592,7 @@ the lifecycle of any associated tasks and services.
 
 """
 deregister_task_definition(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterTaskDefinition", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-deregister_task_definition(taskDefinition, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+deregister_task_definition(taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DeregisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
 
 """
     describe_capacity_providers()
@@ -621,7 +621,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only used to retrieve the next items in a list and not for other programmatic purposes.
 """
 describe_capacity_providers(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeCapacityProviders"; aws_config=aws_config)
-describe_capacity_providers(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeCapacityProviders", params; aws_config=aws_config)
+describe_capacity_providers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeCapacityProviders", params; aws_config=aws_config)
 
 """
     describe_clusters()
@@ -644,7 +644,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is specified, the metadata tags associated with the cluster are included.
 """
 describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters"; aws_config=aws_config)
-describe_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters", params; aws_config=aws_config)
+describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters", params; aws_config=aws_config)
 
 """
     describe_container_instances(container_instances)
@@ -668,7 +668,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   omitted, tags are not included in the response.
 """
 describe_container_instances(containerInstances; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeContainerInstances", Dict{String, Any}("containerInstances"=>containerInstances); aws_config=aws_config)
-describe_container_instances(containerInstances, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeContainerInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances), params)); aws_config=aws_config)
+describe_container_instances(containerInstances, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeContainerInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances), params)); aws_config=aws_config)
 
 """
     describe_services(services)
@@ -691,7 +691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response.
 """
 describe_services(services; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeServices", Dict{String, Any}("services"=>services); aws_config=aws_config)
-describe_services(services, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("services"=>services), params)); aws_config=aws_config)
+describe_services(services, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("services"=>services), params)); aws_config=aws_config)
 
 """
     describe_task_definition(task_definition)
@@ -714,7 +714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response.
 """
 describe_task_definition(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskDefinition", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-describe_task_definition(taskDefinition, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+describe_task_definition(taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
 
 """
     describe_task_sets(cluster, service)
@@ -738,7 +738,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskSets"`: The ID or full Amazon Resource Name (ARN) of task sets to describe.
 """
 describe_task_sets(cluster, service; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskSets", Dict{String, Any}("cluster"=>cluster, "service"=>service); aws_config=aws_config)
-describe_task_sets(cluster, service, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service), params)); aws_config=aws_config)
+describe_task_sets(cluster, service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTaskSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service), params)); aws_config=aws_config)
 
 """
     describe_tasks(tasks)
@@ -760,7 +760,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response.
 """
 describe_tasks(tasks; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTasks", Dict{String, Any}("tasks"=>tasks); aws_config=aws_config)
-describe_tasks(tasks, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tasks"=>tasks), params)); aws_config=aws_config)
+describe_tasks(tasks, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tasks"=>tasks), params)); aws_config=aws_config)
 
 """
     discover_poll_endpoint()
@@ -780,7 +780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
 """
 discover_poll_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint"; aws_config=aws_config)
-discover_poll_endpoint(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint", params; aws_config=aws_config)
+discover_poll_endpoint(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint", params; aws_config=aws_config)
 
 """
     execute_command(command, interactive, task)
@@ -801,7 +801,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   needs to be specified for tasks containing multiple containers.
 """
 execute_command(command, interactive, task; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ExecuteCommand", Dict{String, Any}("command"=>command, "interactive"=>interactive, "task"=>task); aws_config=aws_config)
-execute_command(command, interactive, task, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ExecuteCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("command"=>command, "interactive"=>interactive, "task"=>task), params)); aws_config=aws_config)
+execute_command(command, interactive, task, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ExecuteCommand", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("command"=>command, "interactive"=>interactive, "task"=>task), params)); aws_config=aws_config)
 
 """
     list_account_settings()
@@ -835,7 +835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify an account setting name to use this parameter.
 """
 list_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAccountSettings"; aws_config=aws_config)
-list_account_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAccountSettings", params; aws_config=aws_config)
+list_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAccountSettings", params; aws_config=aws_config)
 
 """
     list_attributes(target_type)
@@ -871,7 +871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in a list and not for other programmatic purposes.
 """
 list_attributes(targetType; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAttributes", Dict{String, Any}("targetType"=>targetType); aws_config=aws_config)
-list_attributes(targetType, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetType"=>targetType), params)); aws_config=aws_config)
+list_attributes(targetType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetType"=>targetType), params)); aws_config=aws_config)
 
 """
     list_clusters()
@@ -894,7 +894,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in a list and not for other programmatic purposes.
 """
 list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListClusters"; aws_config=aws_config)
-list_clusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListClusters", params; aws_config=aws_config)
+list_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListClusters", params; aws_config=aws_config)
 
 """
     list_container_instances()
@@ -931,7 +931,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is to include container instances set to all states other than INACTIVE.
 """
 list_container_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListContainerInstances"; aws_config=aws_config)
-list_container_instances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListContainerInstances", params; aws_config=aws_config)
+list_container_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListContainerInstances", params; aws_config=aws_config)
 
 """
     list_services()
@@ -958,7 +958,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedulingStrategy"`: The scheduling strategy for services to list.
 """
 list_services(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListServices"; aws_config=aws_config)
-list_services(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListServices", params; aws_config=aws_config)
+list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListServices", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -973,7 +973,7 @@ List the tags for an Amazon ECS resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
 
 """
     list_task_definition_families()
@@ -1011,7 +1011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in each subsequent request.
 """
 list_task_definition_families(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitionFamilies"; aws_config=aws_config)
-list_task_definition_families(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitionFamilies", params; aws_config=aws_config)
+list_task_definition_families(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitionFamilies", params; aws_config=aws_config)
 
 """
     list_task_definitions()
@@ -1050,7 +1050,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   status value constant in each subsequent request.
 """
 list_task_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitions"; aws_config=aws_config)
-list_task_definitions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitions", params; aws_config=aws_config)
+list_task_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTaskDefinitions", params; aws_config=aws_config)
 
 """
     list_tasks()
@@ -1097,7 +1097,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   startedBy value limits the results to tasks that were started with that value.
 """
 list_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTasks"; aws_config=aws_config)
-list_tasks(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTasks", params; aws_config=aws_config)
+list_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListTasks", params; aws_config=aws_config)
 
 """
     put_account_setting(name, value)
@@ -1145,7 +1145,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user.
 """
 put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
-put_account_setting(name, value, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config)
+put_account_setting(name, value, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config)
 
 """
     put_account_setting_default(name, value)
@@ -1167,7 +1167,7 @@ setting has been specified. Account settings are set on a per-Region basis.
 
 """
 put_account_setting_default(name, value; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSettingDefault", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
-put_account_setting_default(name, value, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSettingDefault", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config)
+put_account_setting_default(name, value, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSettingDefault", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config)
 
 """
     put_attributes(attributes)
@@ -1189,7 +1189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster is assumed.
 """
 put_attributes(attributes; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
-put_attributes(attributes, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config)
+put_attributes(attributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), params)); aws_config=aws_config)
 
 """
     put_cluster_capacity_providers(capacity_providers, cluster, default_capacity_provider_strategy)
@@ -1233,7 +1233,7 @@ cluster, however you may specify an empty array ([]) to bypass defining a defaul
 
 """
 put_cluster_capacity_providers(capacityProviders, cluster, defaultCapacityProviderStrategy; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutClusterCapacityProviders", Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy); aws_config=aws_config)
-put_cluster_capacity_providers(capacityProviders, cluster, defaultCapacityProviderStrategy, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutClusterCapacityProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy), params)); aws_config=aws_config)
+put_cluster_capacity_providers(capacityProviders, cluster, defaultCapacityProviderStrategy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutClusterCapacityProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy), params)); aws_config=aws_config)
 
 """
     register_container_instance()
@@ -1277,7 +1277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   daemon running on the container instance.
 """
 register_container_instance(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterContainerInstance"; aws_config=aws_config)
-register_container_instance(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterContainerInstance", params; aws_config=aws_config)
+register_container_instance(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterContainerInstance", params; aws_config=aws_config)
 
 """
     register_task_definition(container_definitions, family)
@@ -1424,7 +1424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use.
 """
 register_task_definition(containerDefinitions, family; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterTaskDefinition", Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family); aws_config=aws_config)
-register_task_definition(containerDefinitions, family, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family), params)); aws_config=aws_config)
+register_task_definition(containerDefinitions, family, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RegisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family), params)); aws_config=aws_config)
 
 """
     run_task(task_definition)
@@ -1526,7 +1526,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with this prefix. Tags with this prefix do not count against your tags per resource limit.
 """
 run_task(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RunTask", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-run_task(taskDefinition, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RunTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+run_task(taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("RunTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
 
 """
     start_task(container_instances, task_definition)
@@ -1588,7 +1588,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with this prefix. Tags with this prefix do not count against your tags per resource limit.
 """
 start_task(containerInstances, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StartTask", Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition); aws_config=aws_config)
-start_task(containerInstances, taskDefinition, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StartTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
+start_task(containerInstances, taskDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StartTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition), params)); aws_config=aws_config)
 
 """
     stop_task(task)
@@ -1616,7 +1616,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Up to 255 characters are allowed in this message.
 """
 stop_task(task; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StopTask", Dict{String, Any}("task"=>task); aws_config=aws_config)
-stop_task(task, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StopTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("task"=>task), params)); aws_config=aws_config)
+stop_task(task, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("StopTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("task"=>task), params)); aws_config=aws_config)
 
 """
     submit_attachment_state_changes(attachments)
@@ -1634,7 +1634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the attachment belongs to.
 """
 submit_attachment_state_changes(attachments; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}("attachments"=>attachments); aws_config=aws_config)
-submit_attachment_state_changes(attachments, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), params)); aws_config=aws_config)
+submit_attachment_state_changes(attachments, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), params)); aws_config=aws_config)
 
 """
     submit_container_state_change()
@@ -1656,7 +1656,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   container.
 """
 submit_container_state_change(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitContainerStateChange"; aws_config=aws_config)
-submit_container_state_change(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitContainerStateChange", params; aws_config=aws_config)
+submit_container_state_change(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitContainerStateChange", params; aws_config=aws_config)
 
 """
     submit_task_state_change()
@@ -1680,7 +1680,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"task"`: The task ID or full ARN of the task in the state change request.
 """
 submit_task_state_change(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitTaskStateChange"; aws_config=aws_config)
-submit_task_state_change(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitTaskStateChange", params; aws_config=aws_config)
+submit_task_state_change(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("SubmitTaskStateChange", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -1708,7 +1708,7 @@ a resource is deleted, the tags associated with that resource are deleted as wel
 
 """
 tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1724,7 +1724,7 @@ Deletes specified tags from a resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_capacity_provider(auto_scaling_group_provider, name)
@@ -1739,7 +1739,7 @@ Modifies the parameters for a capacity provider.
 
 """
 update_capacity_provider(autoScalingGroupProvider, name; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
-update_capacity_provider(autoScalingGroupProvider, name, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config)
+update_capacity_provider(autoScalingGroupProvider, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), params)); aws_config=aws_config)
 
 """
     update_cluster(cluster)
@@ -1756,7 +1756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"settings"`: The cluster settings for your cluster.
 """
 update_cluster(cluster; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCluster", Dict{String, Any}("cluster"=>cluster); aws_config=aws_config)
-update_cluster(cluster, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config)
+update_cluster(cluster, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), params)); aws_config=aws_config)
 
 """
     update_cluster_settings(cluster, settings)
@@ -1772,7 +1772,7 @@ Modifies the settings to use for a cluster.
 
 """
 update_cluster_settings(cluster, settings; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateClusterSettings", Dict{String, Any}("cluster"=>cluster, "settings"=>settings); aws_config=aws_config)
-update_cluster_settings(cluster, settings, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateClusterSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "settings"=>settings), params)); aws_config=aws_config)
+update_cluster_settings(cluster, settings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateClusterSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "settings"=>settings), params)); aws_config=aws_config)
 
 """
     update_container_agent(container_instance)
@@ -1798,7 +1798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assumed.
 """
 update_container_agent(containerInstance; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerAgent", Dict{String, Any}("containerInstance"=>containerInstance); aws_config=aws_config)
-update_container_agent(containerInstance, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), params)); aws_config=aws_config)
+update_container_agent(containerInstance, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), params)); aws_config=aws_config)
 
 """
     update_container_instances_state(container_instances, status)
@@ -1851,7 +1851,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assumed.
 """
 update_container_instances_state(containerInstances, status; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerInstancesState", Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status); aws_config=aws_config)
-update_container_instances_state(containerInstances, status, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerInstancesState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status), params)); aws_config=aws_config)
+update_container_instances_state(containerInstances, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateContainerInstancesState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status), params)); aws_config=aws_config)
 
 """
     update_service(service)
@@ -1988,7 +1988,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version is running.
 """
 update_service(service; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateService", Dict{String, Any}("service"=>service); aws_config=aws_config)
-update_service(service, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), params)); aws_config=aws_config)
+update_service(service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), params)); aws_config=aws_config)
 
 """
     update_service_primary_task_set(cluster, primary_task_set, service)
@@ -2009,7 +2009,7 @@ Amazon ECS Deployment Types in the Amazon Elastic Container Service Developer Gu
 
 """
 update_service_primary_task_set(cluster, primaryTaskSet, service; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service); aws_config=aws_config)
-update_service_primary_task_set(cluster, primaryTaskSet, service, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service), params)); aws_config=aws_config)
+update_service_primary_task_set(cluster, primaryTaskSet, service, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service), params)); aws_config=aws_config)
 
 """
     update_task_set(cluster, scale, service, task_set)
@@ -2029,4 +2029,4 @@ Service Developer Guide.
 
 """
 update_task_set(cluster, scale, service, taskSet; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateTaskSet", Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet); aws_config=aws_config)
-update_task_set(cluster, scale, service, taskSet, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet), params)); aws_config=aws_config)
+update_task_set(cluster, scale, service, taskSet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("UpdateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet), params)); aws_config=aws_config)

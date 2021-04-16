@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to apply to the lifecycle policy during creation.
 """
 create_lifecycle_policy(Description, ExecutionRoleArn, PolicyDetails, State; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("POST", "/policies", Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "PolicyDetails"=>PolicyDetails, "State"=>State); aws_config=aws_config)
-create_lifecycle_policy(Description, ExecutionRoleArn, PolicyDetails, State, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("POST", "/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "PolicyDetails"=>PolicyDetails, "State"=>State), params)); aws_config=aws_config)
+create_lifecycle_policy(Description, ExecutionRoleArn, PolicyDetails, State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("POST", "/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "PolicyDetails"=>PolicyDetails, "State"=>State), params)); aws_config=aws_config)
 
 """
     delete_lifecycle_policy(policy_id)
@@ -38,7 +38,7 @@ specified.
 
 """
 delete_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("DELETE", "/policies/$(policyId)/"; aws_config=aws_config)
-delete_lifecycle_policy(policyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("DELETE", "/policies/$(policyId)/", params; aws_config=aws_config)
+delete_lifecycle_policy(policyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("DELETE", "/policies/$(policyId)/", params; aws_config=aws_config)
 
 """
     get_lifecycle_policies()
@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetTags"`: The target tag for a policy. Tags are strings in the format key=value.
 """
 get_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies"; aws_config=aws_config)
-get_lifecycle_policies(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies", params; aws_config=aws_config)
+get_lifecycle_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies", params; aws_config=aws_config)
 
 """
     get_lifecycle_policy(policy_id)
@@ -71,7 +71,7 @@ Gets detailed information about the specified lifecycle policy.
 
 """
 get_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies/$(policyId)/"; aws_config=aws_config)
-get_lifecycle_policy(policyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies/$(policyId)/", params; aws_config=aws_config)
+get_lifecycle_policy(policyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/policies/$(policyId)/", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -84,7 +84,7 @@ Lists the tags for the specified resource.
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
     tag_resource(tags, resource_arn)
@@ -98,7 +98,7 @@ Adds the specified tags to the specified resource.
 
 """
 tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(Tags, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -112,7 +112,7 @@ Removes the specified tags from the specified resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
 
 """
     update_lifecycle_policy(policy_id)
@@ -133,4 +133,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: The desired activation state of the lifecycle policy after creation.
 """
 update_lifecycle_policy(policyId; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("PATCH", "/policies/$(policyId)"; aws_config=aws_config)
-update_lifecycle_policy(policyId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("PATCH", "/policies/$(policyId)", params; aws_config=aws_config)
+update_lifecycle_policy(policyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = dlm("PATCH", "/policies/$(policyId)", params; aws_config=aws_config)

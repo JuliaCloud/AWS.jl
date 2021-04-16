@@ -27,7 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that matches an existing backup plan, that plan is returned. This parameter is optional.
 """
 create_backup_plan(BackupPlan; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/", Dict{String, Any}("BackupPlan"=>BackupPlan); aws_config=aws_config)
-create_backup_plan(BackupPlan, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), params)); aws_config=aws_config)
+create_backup_plan(BackupPlan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), params)); aws_config=aws_config)
 
 """
     create_backup_selection(backup_selection, backup_plan_id)
@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests to be retried without the risk of running the operation twice.
 """
 create_backup_selection(BackupSelection, backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/", Dict{String, Any}("BackupSelection"=>BackupSelection); aws_config=aws_config)
-create_backup_selection(BackupSelection, backupPlanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupSelection"=>BackupSelection), params)); aws_config=aws_config)
+create_backup_selection(BackupSelection, backupPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupSelection"=>BackupSelection), params)); aws_config=aws_config)
 
 """
     create_backup_vault(backup_vault_name)
@@ -85,7 +85,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
 """
 create_backup_vault(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
-create_backup_vault(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)", params; aws_config=aws_config)
+create_backup_vault(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)", params; aws_config=aws_config)
 
 """
     delete_backup_plan(backup_plan_id)
@@ -100,7 +100,7 @@ plan. Previous versions, if any, will still exist.
 
 """
 delete_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)"; aws_config=aws_config)
-delete_backup_plan(backupPlanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)", params; aws_config=aws_config)
+delete_backup_plan(backupPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)", params; aws_config=aws_config)
 
 """
     delete_backup_selection(backup_plan_id, selection_id)
@@ -116,7 +116,7 @@ SelectionId.
 
 """
 delete_backup_selection(backupPlanId, selectionId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)"; aws_config=aws_config)
-delete_backup_selection(backupPlanId, selectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", params; aws_config=aws_config)
+delete_backup_selection(backupPlanId, selectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", params; aws_config=aws_config)
 
 """
     delete_backup_vault(backup_vault_name)
@@ -131,7 +131,7 @@ Deletes the backup vault identified by its name. A vault can be deleted only if 
 
 """
 delete_backup_vault(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
-delete_backup_vault(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)", params; aws_config=aws_config)
+delete_backup_vault(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)", params; aws_config=aws_config)
 
 """
     delete_backup_vault_access_policy(backup_vault_name)
@@ -146,7 +146,7 @@ Deletes the policy document that manages permissions on a backup vault.
 
 """
 delete_backup_vault_access_policy(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
-delete_backup_vault_access_policy(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy", params; aws_config=aws_config)
+delete_backup_vault_access_policy(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy", params; aws_config=aws_config)
 
 """
     delete_backup_vault_notifications(backup_vault_name)
@@ -161,7 +161,7 @@ Deletes event notifications for the specified backup vault.
 
 """
 delete_backup_vault_notifications(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration"; aws_config=aws_config)
-delete_backup_vault_notifications(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration", params; aws_config=aws_config)
+delete_backup_vault_notifications(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration", params; aws_config=aws_config)
 
 """
     delete_recovery_point(backup_vault_name, recovery_point_arn)
@@ -181,7 +181,7 @@ backup and stops future continuous backup.
 
 """
 delete_recovery_point(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
-delete_recovery_point(backupVaultName, recoveryPointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", params; aws_config=aws_config)
+delete_recovery_point(backupVaultName, recoveryPointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", params; aws_config=aws_config)
 
 """
     describe_backup_job(backup_job_id)
@@ -194,7 +194,7 @@ Returns backup job details for the specified BackupJobId.
 
 """
 describe_backup_job(backupJobId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/$(backupJobId)"; aws_config=aws_config)
-describe_backup_job(backupJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/$(backupJobId)", params; aws_config=aws_config)
+describe_backup_job(backupJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/$(backupJobId)", params; aws_config=aws_config)
 
 """
     describe_backup_vault(backup_vault_name)
@@ -209,7 +209,7 @@ Returns metadata about a backup vault specified by its name.
 
 """
 describe_backup_vault(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)"; aws_config=aws_config)
-describe_backup_vault(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)", params; aws_config=aws_config)
+describe_backup_vault(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)", params; aws_config=aws_config)
 
 """
     describe_copy_job(copy_job_id)
@@ -222,7 +222,7 @@ Returns metadata associated with creating a copy of a resource.
 
 """
 describe_copy_job(copyJobId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/$(copyJobId)"; aws_config=aws_config)
-describe_copy_job(copyJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/$(copyJobId)", params; aws_config=aws_config)
+describe_copy_job(copyJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/$(copyJobId)", params; aws_config=aws_config)
 
 """
     describe_global_settings()
@@ -233,7 +233,7 @@ cross-account backup.
 
 """
 describe_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings"; aws_config=aws_config)
-describe_global_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings", params; aws_config=aws_config)
+describe_global_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/global-settings", params; aws_config=aws_config)
 
 """
     describe_protected_resource(resource_arn)
@@ -248,7 +248,7 @@ Amazon Resource Name (ARN), and the AWS service type of the saved resource.
 
 """
 describe_protected_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)"; aws_config=aws_config)
-describe_protected_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)", params; aws_config=aws_config)
+describe_protected_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)", params; aws_config=aws_config)
 
 """
     describe_recovery_point(backup_vault_name, recovery_point_arn)
@@ -267,7 +267,7 @@ lifecycle.
 
 """
 describe_recovery_point(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
-describe_recovery_point(backupVaultName, recoveryPointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", params; aws_config=aws_config)
+describe_recovery_point(backupVaultName, recoveryPointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", params; aws_config=aws_config)
 
 """
     describe_region_settings()
@@ -281,7 +281,7 @@ try to protect that service's resources in this Region.
 
 """
 describe_region_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/account-settings"; aws_config=aws_config)
-describe_region_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/account-settings", params; aws_config=aws_config)
+describe_region_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/account-settings", params; aws_config=aws_config)
 
 """
     describe_restore_job(restore_job_id)
@@ -294,7 +294,7 @@ Returns metadata associated with a restore job that is specified by a job ID.
 
 """
 describe_restore_job(restoreJobId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/$(restoreJobId)"; aws_config=aws_config)
-describe_restore_job(restoreJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/$(restoreJobId)", params; aws_config=aws_config)
+describe_restore_job(restoreJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/$(restoreJobId)", params; aws_config=aws_config)
 
 """
     disassociate_recovery_point(backup_vault_name, recovery_point_arn)
@@ -312,7 +312,7 @@ specified in your original backup plan. Does not support snapshot backup recover
 
 """
 disassociate_recovery_point(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate"; aws_config=aws_config)
-disassociate_recovery_point(backupVaultName, recoveryPointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate", params; aws_config=aws_config)
+disassociate_recovery_point(backupVaultName, recoveryPointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate", params; aws_config=aws_config)
 
 """
     export_backup_plan_template(backup_plan_id)
@@ -325,7 +325,7 @@ Returns the backup plan that is specified by the plan ID as a backup template.
 
 """
 export_backup_plan_template(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/"; aws_config=aws_config)
-export_backup_plan_template(backupPlanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/", params; aws_config=aws_config)
+export_backup_plan_template(backupPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/", params; aws_config=aws_config)
 
 """
     get_backup_plan(backup_plan_id)
@@ -343,7 +343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   most 1,024 bytes long. Version IDs cannot be edited.
 """
 get_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/"; aws_config=aws_config)
-get_backup_plan(backupPlanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/", params; aws_config=aws_config)
+get_backup_plan(backupPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/", params; aws_config=aws_config)
 
 """
     get_backup_plan_from_json(backup_plan_template_json)
@@ -356,7 +356,7 @@ Returns a valid JSON document specifying a backup plan or an error.
 
 """
 get_backup_plan_from_json(BackupPlanTemplateJson; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/template/json/toPlan", Dict{String, Any}("BackupPlanTemplateJson"=>BackupPlanTemplateJson); aws_config=aws_config)
-get_backup_plan_from_json(BackupPlanTemplateJson, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/template/json/toPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlanTemplateJson"=>BackupPlanTemplateJson), params)); aws_config=aws_config)
+get_backup_plan_from_json(BackupPlanTemplateJson, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/template/json/toPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlanTemplateJson"=>BackupPlanTemplateJson), params)); aws_config=aws_config)
 
 """
     get_backup_plan_from_template(template_id)
@@ -369,7 +369,7 @@ Returns the template specified by its templateId as a backup plan.
 
 """
 get_backup_plan_from_template(templateId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans/$(templateId)/toPlan"; aws_config=aws_config)
-get_backup_plan_from_template(templateId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans/$(templateId)/toPlan", params; aws_config=aws_config)
+get_backup_plan_from_template(templateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans/$(templateId)/toPlan", params; aws_config=aws_config)
 
 """
     get_backup_selection(backup_plan_id, selection_id)
@@ -385,7 +385,7 @@ that are associated with a backup plan.
 
 """
 get_backup_selection(backupPlanId, selectionId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)"; aws_config=aws_config)
-get_backup_selection(backupPlanId, selectionId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", params; aws_config=aws_config)
+get_backup_selection(backupPlanId, selectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", params; aws_config=aws_config)
 
 """
     get_backup_vault_access_policy(backup_vault_name)
@@ -400,7 +400,7 @@ Returns the access policy document that is associated with the named backup vaul
 
 """
 get_backup_vault_access_policy(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
-get_backup_vault_access_policy(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy", params; aws_config=aws_config)
+get_backup_vault_access_policy(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy", params; aws_config=aws_config)
 
 """
     get_backup_vault_notifications(backup_vault_name)
@@ -415,7 +415,7 @@ Returns event notifications for the specified backup vault.
 
 """
 get_backup_vault_notifications(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration"; aws_config=aws_config)
-get_backup_vault_notifications(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration", params; aws_config=aws_config)
+get_backup_vault_notifications(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration", params; aws_config=aws_config)
 
 """
     get_recovery_point_restore_metadata(backup_vault_name, recovery_point_arn)
@@ -433,7 +433,7 @@ Returns a set of metadata key-value pairs that were used to create the backup.
 
 """
 get_recovery_point_restore_metadata(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata"; aws_config=aws_config)
-get_recovery_point_restore_metadata(backupVaultName, recoveryPointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata", params; aws_config=aws_config)
+get_recovery_point_restore_metadata(backupVaultName, recoveryPointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata", params; aws_config=aws_config)
 
 """
     get_supported_resource_types()
@@ -443,7 +443,7 @@ Returns the AWS resource types supported by AWS Backup.
 
 """
 get_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types"; aws_config=aws_config)
-get_supported_resource_types(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types", params; aws_config=aws_config)
+get_supported_resource_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/supported-resource-types", params; aws_config=aws_config)
 
 """
     list_backup_jobs()
@@ -476,7 +476,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: Returns only backup jobs that are in the specified state.
 """
 list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/"; aws_config=aws_config)
-list_backup_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/", params; aws_config=aws_config)
+list_backup_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-jobs/", params; aws_config=aws_config)
 
 """
     list_backup_plan_templates()
@@ -493,7 +493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_backup_plan_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans"; aws_config=aws_config)
-list_backup_plan_templates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans", params; aws_config=aws_config)
+list_backup_plan_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/template/plans", params; aws_config=aws_config)
 
 """
     list_backup_plan_versions(backup_plan_id)
@@ -513,7 +513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_backup_plan_versions(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/versions/"; aws_config=aws_config)
-list_backup_plan_versions(backupPlanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/versions/", params; aws_config=aws_config)
+list_backup_plan_versions(backupPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/versions/", params; aws_config=aws_config)
 
 """
     list_backup_plans()
@@ -534,7 +534,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_backup_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/"; aws_config=aws_config)
-list_backup_plans(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/", params; aws_config=aws_config)
+list_backup_plans(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/", params; aws_config=aws_config)
 
 """
     list_backup_selections(backup_plan_id)
@@ -554,7 +554,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_backup_selections(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/"; aws_config=aws_config)
-list_backup_selections(backupPlanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/", params; aws_config=aws_config)
+list_backup_selections(backupPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup/plans/$(backupPlanId)/selections/", params; aws_config=aws_config)
 
 """
     list_backup_vaults()
@@ -570,7 +570,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_backup_vaults(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/"; aws_config=aws_config)
-list_backup_vaults(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/", params; aws_config=aws_config)
+list_backup_vaults(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/", params; aws_config=aws_config)
 
 """
     list_copy_jobs()
@@ -600,7 +600,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: Returns only copy jobs that are in the specified state.
 """
 list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/"; aws_config=aws_config)
-list_copy_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/", params; aws_config=aws_config)
+list_copy_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/copy-jobs/", params; aws_config=aws_config)
 
 """
     list_protected_resources()
@@ -617,7 +617,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_protected_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/"; aws_config=aws_config)
-list_protected_resources(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/", params; aws_config=aws_config)
+list_protected_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/", params; aws_config=aws_config)
 
 """
     list_recovery_points_by_backup_vault(backup_vault_name)
@@ -646,7 +646,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: Returns only recovery points that match the specified resource type.
 """
 list_recovery_points_by_backup_vault(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/"; aws_config=aws_config)
-list_recovery_points_by_backup_vault(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/", params; aws_config=aws_config)
+list_recovery_points_by_backup_vault(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/", params; aws_config=aws_config)
 
 """
     list_recovery_points_by_resource(resource_arn)
@@ -667,7 +667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_recovery_points_by_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)/recovery-points/"; aws_config=aws_config)
-list_recovery_points_by_resource(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)/recovery-points/", params; aws_config=aws_config)
+list_recovery_points_by_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/resources/$(resourceArn)/recovery-points/", params; aws_config=aws_config)
 
 """
     list_restore_jobs()
@@ -689,7 +689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Returns only restore jobs associated with the specified job status.
 """
 list_restore_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/"; aws_config=aws_config)
-list_restore_jobs(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/", params; aws_config=aws_config)
+list_restore_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/restore-jobs/", params; aws_config=aws_config)
 
 """
     list_tags(resource_arn)
@@ -711,7 +711,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in your list starting at the location pointed to by the next token.
 """
 list_tags(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/tags/$(resourceArn)/"; aws_config=aws_config)
-list_tags(resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/tags/$(resourceArn)/", params; aws_config=aws_config)
+list_tags(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("GET", "/tags/$(resourceArn)/", params; aws_config=aws_config)
 
 """
     put_backup_vault_access_policy(backup_vault_name)
@@ -730,7 +730,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Policy"`: The backup vault access policy document in JSON format.
 """
 put_backup_vault_access_policy(backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy"; aws_config=aws_config)
-put_backup_vault_access_policy(backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy", params; aws_config=aws_config)
+put_backup_vault_access_policy(backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy", params; aws_config=aws_config)
 
 """
     put_backup_vault_notifications(backup_vault_events, snstopic_arn, backup_vault_name)
@@ -749,7 +749,7 @@ Turns on notifications on a backup vault for the specified topic and events.
 
 """
 put_backup_vault_notifications(BackupVaultEvents, SNSTopicArn, backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration", Dict{String, Any}("BackupVaultEvents"=>BackupVaultEvents, "SNSTopicArn"=>SNSTopicArn); aws_config=aws_config)
-put_backup_vault_notifications(BackupVaultEvents, SNSTopicArn, backupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultEvents"=>BackupVaultEvents, "SNSTopicArn"=>SNSTopicArn), params)); aws_config=aws_config)
+put_backup_vault_notifications(BackupVaultEvents, SNSTopicArn, backupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultEvents"=>BackupVaultEvents, "SNSTopicArn"=>SNSTopicArn), params)); aws_config=aws_config)
 
 """
     start_backup_job(backup_vault_name, iam_role_arn, resource_arn)
@@ -794,7 +794,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours.
 """
 start_backup_job(BackupVaultName, IamRoleArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-start_backup_job(BackupVaultName, IamRoleArn, ResourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+start_backup_job(BackupVaultName, IamRoleArn, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/backup-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupVaultName"=>BackupVaultName, "IamRoleArn"=>IamRoleArn, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
     start_copy_job(destination_backup_vault_arn, iam_role_arn, recovery_point_arn, source_backup_vault_name)
@@ -824,7 +824,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Lifecycle"`:
 """
 start_copy_job(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/copy-jobs", Dict{String, Any}("DestinationBackupVaultArn"=>DestinationBackupVaultArn, "IamRoleArn"=>IamRoleArn, "RecoveryPointArn"=>RecoveryPointArn, "SourceBackupVaultName"=>SourceBackupVaultName); aws_config=aws_config)
-start_copy_job(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/copy-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationBackupVaultArn"=>DestinationBackupVaultArn, "IamRoleArn"=>IamRoleArn, "RecoveryPointArn"=>RecoveryPointArn, "SourceBackupVaultName"=>SourceBackupVaultName), params)); aws_config=aws_config)
+start_copy_job(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/copy-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationBackupVaultArn"=>DestinationBackupVaultArn, "IamRoleArn"=>IamRoleArn, "RecoveryPointArn"=>RecoveryPointArn, "SourceBackupVaultName"=>SourceBackupVaultName), params)); aws_config=aws_config)
 
 """
     start_restore_job(iam_role_arn, metadata, recovery_point_arn)
@@ -868,7 +868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Gateway
 """
 start_restore_job(IamRoleArn, Metadata, RecoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn); aws_config=aws_config)
-start_restore_job(IamRoleArn, Metadata, RecoveryPointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn), params)); aws_config=aws_config)
+start_restore_job(IamRoleArn, Metadata, RecoveryPointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/restore-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamRoleArn"=>IamRoleArn, "Metadata"=>Metadata, "RecoveryPointArn"=>RecoveryPointArn), params)); aws_config=aws_config)
 
 """
     stop_backup_job(backup_job_id)
@@ -881,7 +881,7 @@ Attempts to cancel a job to create a one-time backup of a resource.
 
 """
 stop_backup_job(backupJobId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-jobs/$(backupJobId)"; aws_config=aws_config)
-stop_backup_job(backupJobId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-jobs/$(backupJobId)", params; aws_config=aws_config)
+stop_backup_job(backupJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-jobs/$(backupJobId)", params; aws_config=aws_config)
 
 """
     tag_resource(tags, resource_arn)
@@ -898,7 +898,7 @@ identified by an Amazon Resource Name (ARN).
 
 """
 tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(Tags, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
 
 """
     untag_resource(tag_key_list, resource_arn)
@@ -914,7 +914,7 @@ identified by an Amazon Resource Name (ARN)
 
 """
 untag_resource(TagKeyList, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/untag/$(resourceArn)", Dict{String, Any}("TagKeyList"=>TagKeyList); aws_config=aws_config)
-untag_resource(TagKeyList, resourceArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/untag/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeyList"=>TagKeyList), params)); aws_config=aws_config)
+untag_resource(TagKeyList, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/untag/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeyList"=>TagKeyList), params)); aws_config=aws_config)
 
 """
     update_backup_plan(backup_plan, backup_plan_id)
@@ -930,7 +930,7 @@ JSON format. The new version is uniquely identified by a VersionId.
 
 """
 update_backup_plan(BackupPlan, backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/plans/$(backupPlanId)", Dict{String, Any}("BackupPlan"=>BackupPlan); aws_config=aws_config)
-update_backup_plan(BackupPlan, backupPlanId, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/plans/$(backupPlanId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), params)); aws_config=aws_config)
+update_backup_plan(BackupPlan, backupPlanId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup/plans/$(backupPlanId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPlan"=>BackupPlan), params)); aws_config=aws_config)
 
 """
     update_global_settings()
@@ -944,7 +944,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GlobalSettings"`: A list of resources along with the opt-in preferences for the account.
 """
 update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings"; aws_config=aws_config)
-update_global_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings", params; aws_config=aws_config)
+update_global_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/global-settings", params; aws_config=aws_config)
 
 """
     update_recovery_point_lifecycle(backup_vault_name, recovery_point_arn)
@@ -979,7 +979,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transitioned to cold.
 """
 update_recovery_point_lifecycle(backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)"; aws_config=aws_config)
-update_recovery_point_lifecycle(backupVaultName, recoveryPointArn, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", params; aws_config=aws_config)
+update_recovery_point_lifecycle(backupVaultName, recoveryPointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", params; aws_config=aws_config)
 
 """
     update_region_settings()
@@ -997,4 +997,4 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   preferences for the Region.
 """
 update_region_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/account-settings"; aws_config=aws_config)
-update_region_settings(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/account-settings", params; aws_config=aws_config)
+update_region_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = backup("PUT", "/account-settings", params; aws_config=aws_config)

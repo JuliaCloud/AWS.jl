@@ -21,7 +21,7 @@ Adds a source identifier to an existing event notification subscription.
 
 """
 add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("AddSourceIdentifierToSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+add_source_identifier_to_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     add_tags_to_resource(resource_name, tag)
@@ -42,7 +42,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the Amazon DocumentDB resource.
 """
 add_tags_to_resource(ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws_config=aws_config)
-add_tags_to_resource(ResourceName, Tag, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config)
+add_tags_to_resource(ResourceName, Tag, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), params)); aws_config=aws_config)
 
 """
     apply_pending_maintenance_action(apply_action, opt_in_type, resource_identifier)
@@ -64,7 +64,7 @@ instance).
 
 """
 apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier); aws_config=aws_config)
-apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config)
+apply_pending_maintenance_action(ApplyAction, OptInType, ResourceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), params)); aws_config=aws_config)
 
 """
     copy_dbcluster_parameter_group(source_dbcluster_parameter_group_identifier, target_dbcluster_parameter_group_description, target_dbcluster_parameter_group_identifier)
@@ -92,7 +92,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags that are to be assigned to the parameter group.
 """
 copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CopyDBClusterParameterGroup", Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier); aws_config=aws_config)
-copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), params)); aws_config=aws_config)
+copy_dbcluster_parameter_group(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), params)); aws_config=aws_config)
 
 """
     copy_dbcluster_snapshot(source_dbcluster_snapshot_identifier, target_dbcluster_snapshot_identifier)
@@ -155,7 +155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the cluster snapshot.
 """
 copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CopyDBClusterSnapshot", Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier); aws_config=aws_config)
-copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     create_dbcluster(dbcluster_identifier, engine, master_user_password, master_username)
@@ -226,7 +226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster.
 """
 create_dbcluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername); aws_config=aws_config)
-create_dbcluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername), params)); aws_config=aws_config)
+create_dbcluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername), params)); aws_config=aws_config)
 
 """
     create_dbcluster_parameter_group(dbcluster_parameter_group_name, dbparameter_group_family, description)
@@ -255,7 +255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the cluster parameter group.
 """
 create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description); aws_config=aws_config)
-create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), params)); aws_config=aws_config)
+create_dbcluster_parameter_group(DBClusterParameterGroupName, DBParameterGroupFamily, Description, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), params)); aws_config=aws_config)
 
 """
     create_dbcluster_snapshot(dbcluster_identifier, dbcluster_snapshot_identifier)
@@ -277,7 +277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the cluster snapshot.
 """
 create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBClusterSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
-create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+create_dbcluster_snapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     create_dbinstance(dbcluster_identifier, dbinstance_class, dbinstance_identifier, engine)
@@ -315,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.
 """
 create_dbinstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBInstance", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine); aws_config=aws_config)
-create_dbinstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), params)); aws_config=aws_config)
+create_dbinstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), params)); aws_config=aws_config)
 
 """
     create_dbsubnet_group(dbsubnet_group_description, dbsubnet_group_name, subnet_identifier)
@@ -337,7 +337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the subnet group.
 """
 create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBSubnetGroup", Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
-create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
+create_dbsubnet_group(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
 
 """
     create_event_subscription(sns_topic_arn, subscription_name)
@@ -388,7 +388,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the event subscription.
 """
 create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     delete_dbcluster(dbcluster_identifier)
@@ -416,7 +416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: false
 """
 delete_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-delete_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+delete_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     delete_dbcluster_parameter_group(dbcluster_parameter_group_name)
@@ -432,7 +432,7 @@ can't be associated with any clusters.
 
 """
 delete_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
-delete_dbcluster_parameter_group(DBClusterParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
+delete_dbcluster_parameter_group(DBClusterParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
 
 """
     delete_dbcluster_snapshot(dbcluster_snapshot_identifier)
@@ -447,7 +447,7 @@ terminated.  The cluster snapshot must be in the available state to be deleted.
 
 """
 delete_dbcluster_snapshot(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBClusterSnapshot", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
-delete_dbcluster_snapshot(DBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+delete_dbcluster_snapshot(DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     delete_dbinstance(dbinstance_identifier)
@@ -462,7 +462,7 @@ Deletes a previously provisioned instance.
 
 """
 delete_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-delete_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+delete_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     delete_dbsubnet_group(dbsubnet_group_name)
@@ -478,7 +478,7 @@ any DB instances.
 
 """
 delete_dbsubnet_group(DBSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName); aws_config=aws_config)
-delete_dbsubnet_group(DBSubnetGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config)
+delete_dbsubnet_group(DBSubnetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), params)); aws_config=aws_config)
 
 """
     delete_event_subscription(subscription_name)
@@ -492,7 +492,7 @@ Deletes an Amazon DocumentDB event notification subscription.
 
 """
 delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-delete_event_subscription(SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+delete_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     describe_certificates()
@@ -517,7 +517,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum: 20   Maximum: 100
 """
 describe_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeCertificates"; aws_config=aws_config)
-describe_certificates(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeCertificates", params; aws_config=aws_config)
+describe_certificates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeCertificates", params; aws_config=aws_config)
 
 """
     describe_dbcluster_parameter_groups()
@@ -542,7 +542,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbcluster_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterParameterGroups"; aws_config=aws_config)
-describe_dbcluster_parameter_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterParameterGroups", params; aws_config=aws_config)
+describe_dbcluster_parameter_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterParameterGroups", params; aws_config=aws_config)
 
 """
     describe_dbcluster_parameters(dbcluster_parameter_group_name)
@@ -569,7 +569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Parameter sources can be engine, service, or customer.
 """
 describe_dbcluster_parameters(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterParameters", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
-describe_dbcluster_parameters(DBClusterParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
+describe_dbcluster_parameters(DBClusterParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
 
 """
     describe_dbcluster_snapshot_attributes(dbcluster_snapshot_identifier)
@@ -588,7 +588,7 @@ is public and can be copied or restored by all AWS accounts.
 
 """
 describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
-describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+describe_dbcluster_snapshot_attributes(DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     describe_dbcluster_snapshots()
@@ -635,7 +635,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is set to public.
 """
 describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterSnapshots"; aws_config=aws_config)
-describe_dbcluster_snapshots(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterSnapshots", params; aws_config=aws_config)
+describe_dbcluster_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusterSnapshots", params; aws_config=aws_config)
 
 """
     describe_dbclusters()
@@ -664,7 +664,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbclusters(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusters"; aws_config=aws_config)
-describe_dbclusters(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusters", params; aws_config=aws_config)
+describe_dbclusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBClusters", params; aws_config=aws_config)
 
 """
     describe_dbengine_versions()
@@ -696,7 +696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbengine_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBEngineVersions"; aws_config=aws_config)
-describe_dbengine_versions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBEngineVersions", params; aws_config=aws_config)
+describe_dbengine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBEngineVersions", params; aws_config=aws_config)
 
 """
     describe_dbinstances()
@@ -726,7 +726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbinstances(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBInstances"; aws_config=aws_config)
-describe_dbinstances(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBInstances", params; aws_config=aws_config)
+describe_dbinstances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBInstances", params; aws_config=aws_config)
 
 """
     describe_dbsubnet_groups()
@@ -748,7 +748,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBSubnetGroups"; aws_config=aws_config)
-describe_dbsubnet_groups(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBSubnetGroups", params; aws_config=aws_config)
+describe_dbsubnet_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeDBSubnetGroups", params; aws_config=aws_config)
 
 """
     describe_engine_default_cluster_parameters(dbparameter_group_family)
@@ -772,7 +772,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 """
 describe_engine_default_cluster_parameters(DBParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws_config=aws_config)
-describe_engine_default_cluster_parameters(DBParameterGroupFamily, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config)
+describe_engine_default_cluster_parameters(DBParameterGroupFamily, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), params)); aws_config=aws_config)
 
 """
     describe_event_categories()
@@ -788,7 +788,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   db-instance, db-parameter-group, db-security-group, db-snapshot
 """
 describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventCategories"; aws_config=aws_config)
-describe_event_categories(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventCategories", params; aws_config=aws_config)
+describe_event_categories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventCategories", params; aws_config=aws_config)
 
 """
     describe_event_subscriptions()
@@ -813,7 +813,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that you want to describe.
 """
 describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventSubscriptions"; aws_config=aws_config)
-describe_event_subscriptions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventSubscriptions", params; aws_config=aws_config)
+describe_event_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEventSubscriptions", params; aws_config=aws_config)
 
 """
     describe_events()
@@ -853,7 +853,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ISO 8601 format.  Example: 2009-07-08T18:00Z
 """
 describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEvents"; aws_config=aws_config)
-describe_events(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEvents", params; aws_config=aws_config)
+describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEvents", params; aws_config=aws_config)
 
 """
     describe_orderable_dbinstance_options(engine)
@@ -884,7 +884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only the available VPC or non-VPC offerings.
 """
 describe_orderable_dbinstance_options(Engine; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}("Engine"=>Engine); aws_config=aws_config)
-describe_orderable_dbinstance_options(Engine, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), params)); aws_config=aws_config)
+describe_orderable_dbinstance_options(Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), params)); aws_config=aws_config)
 
 """
     describe_pending_maintenance_actions()
@@ -911,7 +911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceIdentifier"`: The ARN of a resource to return pending maintenance actions for.
 """
 describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribePendingMaintenanceActions"; aws_config=aws_config)
-describe_pending_maintenance_actions(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribePendingMaintenanceActions", params; aws_config=aws_config)
+describe_pending_maintenance_actions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribePendingMaintenanceActions", params; aws_config=aws_config)
 
 """
     failover_dbcluster()
@@ -932,7 +932,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster. For example, mydbcluster-replica1.
 """
 failover_dbcluster(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("FailoverDBCluster"; aws_config=aws_config)
-failover_dbcluster(params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("FailoverDBCluster", params; aws_config=aws_config)
+failover_dbcluster(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("FailoverDBCluster", params; aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_name)
@@ -949,7 +949,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: This parameter is not currently supported.
 """
 list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ListTagsForResource", Dict{String, Any}("ResourceName"=>ResourceName); aws_config=aws_config)
-list_tags_for_resource(ResourceName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config)
+list_tags_for_resource(ResourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), params)); aws_config=aws_config)
 
 """
     modify_dbcluster(dbcluster_identifier)
@@ -1014,7 +1014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster will belong to.
 """
 modify_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-modify_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+modify_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbcluster_parameter_group(dbcluster_parameter_group_name, parameter)
@@ -1041,7 +1041,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Parameters"`: A list of parameters in the cluster parameter group to modify.
 """
 modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter); aws_config=aws_config)
-modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config)
+modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config)
 
 """
     modify_dbcluster_snapshot_attribute(attribute_name, dbcluster_snapshot_identifier)
@@ -1081,7 +1081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   added to the restore attribute can still copy or restore a manual cluster snapshot.
 """
 modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
-modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
+modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbinstance(dbinstance_identifier)
@@ -1135,7 +1135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: 1 Valid values: 0-15
 """
 modify_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-modify_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+modify_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     modify_dbsubnet_group(dbsubnet_group_name, subnet_identifier)
@@ -1156,7 +1156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetIds"`: The Amazon EC2 subnet IDs for the subnet group.
 """
 modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
-modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
+modify_dbsubnet_group(DBSubnetGroupName, SubnetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), params)); aws_config=aws_config)
 
 """
     modify_event_subscription(subscription_name)
@@ -1180,7 +1180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   db-parameter-group, db-security-group, db-snapshot
 """
 modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-modify_event_subscription(SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+modify_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     reboot_dbinstance(dbinstance_identifier)
@@ -1202,7 +1202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Constraint: You can't specify true if the instance is not configured for Multi-AZ.
 """
 reboot_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RebootDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
-reboot_dbinstance(DBInstanceIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+reboot_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
 
 """
     remove_source_identifier_from_subscription(source_identifier, subscription_name)
@@ -1219,7 +1219,7 @@ subscription.
 
 """
 remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveSourceIdentifierFromSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
-remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+remove_source_identifier_from_subscription(SourceIdentifier, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
     remove_tags_from_resource(resource_name, tag_keys)
@@ -1234,7 +1234,7 @@ Removes metadata tags from an Amazon DocumentDB resource.
 
 """
 remove_tags_from_resource(ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveTagsFromResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws_config=aws_config)
-remove_tags_from_resource(ResourceName, TagKeys, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+remove_tags_from_resource(ResourceName, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
     reset_dbcluster_parameter_group(dbcluster_parameter_group_name)
@@ -1260,7 +1260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter if there is a list of parameter names specified for the Parameters parameter.
 """
 reset_dbcluster_parameter_group(DBClusterParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ResetDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
-reset_dbcluster_parameter_group(DBClusterParameterGroupName, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
+reset_dbcluster_parameter_group(DBClusterParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), params)); aws_config=aws_config)
 
 """
     restore_dbcluster_from_snapshot(dbcluster_identifier, engine, snapshot_identifier)
@@ -1315,7 +1315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new cluster will belong to.
 """
 restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
-restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
+restore_dbcluster_from_snapshot(DBClusterIdentifier, Engine, SnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), params)); aws_config=aws_config)
 
 """
     restore_dbcluster_to_point_in_time(dbcluster_identifier, source_dbcluster_identifier)
@@ -1371,7 +1371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new cluster belongs to.
 """
 restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RestoreDBClusterToPointInTime", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier); aws_config=aws_config)
-restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), params)); aws_config=aws_config)
+restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     start_dbcluster(dbcluster_identifier)
@@ -1386,7 +1386,7 @@ information, see Stopping and Starting an Amazon DocumentDB Cluster.
 
 """
 start_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("StartDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-start_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+start_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
 
 """
     stop_dbcluster(dbcluster_identifier)
@@ -1402,4 +1402,4 @@ Cluster.
 
 """
 stop_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("StopDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
-stop_dbcluster(DBClusterIdentifier, params::AbstractDict{String, <:Any}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
+stop_dbcluster(DBClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), params)); aws_config=aws_config)
