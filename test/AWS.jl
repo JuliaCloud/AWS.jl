@@ -10,7 +10,7 @@ end
 
         @test AWS.global_aws_config().region == region
     finally
-        AWS.aws_config[] = AWSConfig()
+        AWS.AWS_CONFIG[] = AWSConfig()
     end
 end
 
@@ -31,9 +31,9 @@ end
 @testset "set user agent" begin
     new_user_agent = "new user agent"
 
-    @test AWS.user_agent[] == "AWS.jl/1.0.0"
+    @test AWS.USER_AGENT[] == "AWS.jl/1.0.0"
     set_user_agent(new_user_agent)
-    @test AWS.user_agent[] == new_user_agent
+    @test AWS.USER_AGENT[] == new_user_agent
 end
 
 @testset "sign" begin
@@ -149,12 +149,13 @@ end
     end
 
     @testset "return raw" begin
+        set_return_raw(true)
+
         request = Request(
             service="s3",
             api_version="api_version",
             request_method="GET",
-            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-            return_raw=true
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
 
         @testset "body" begin
@@ -175,6 +176,8 @@ end
                 @test headers == Patches.headers
             end
         end
+
+        set_return_raw(false)
     end
 
     @testset "MIME" begin

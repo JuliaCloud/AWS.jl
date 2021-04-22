@@ -9,16 +9,19 @@ using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Retry
 using Sockets
+using Suppressor
 using UUIDs: UUIDs
 using XMLDict
 import URIs
 
 export @service
 export _merge, AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
-export global_aws_config, generate_service_url, set_user_agent, sign!, sign_aws2!, sign_aws4!
+export global_aws_config, set_user_agent, set_return_raw
+export generate_service_url, sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("utilities.jl")
+include("request.jl")
 include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
@@ -28,27 +31,32 @@ include("AWSMetadata.jl")
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
-const user_agent = Ref("AWS.jl/1.0.0")
-const aws_config = Ref{AbstractAWSConfig}()
+const ENV_RETURN_RAW = "AWS_JL_RAW"
+
+const USER_AGENT = Ref("AWS.jl/1.0.0")
+const AWS_CONFIG = Ref{AbstractAWSConfig}()
+const RETURN_RAW = Ref{Bool}(false)
+
+
+function __init__()
+    if haskey(ENV, ENV_RETURN_RAW)
+        set_return_raw(ENV[ENV_RETURN_RAW])
+    end
+end
+
 
 """
     global_aws_config()
 
 Retrieve the global AWS configuration.
 If one is not set, create one with default configuration options.
-
-# Keywords
-- `kwargs...`: AWSConfig kwargs to be passed along if the global configuration is not already set
-
-# Returns
-- `AWSConfig`: The global AWS configuration
 """
 function global_aws_config(; kwargs...)
-    if !isassigned(aws_config) || !isempty(kwargs)
-        aws_config[] = AWSConfig(; kwargs...)
+    if !isassigned(AWS_CONFIG) || !isempty(kwargs)
+        AWS_CONFIG[] = AWSConfig(; kwargs...)
     end
 
-    return aws_config[]
+    return AWS_CONFIG[]
 end
 
 
@@ -56,15 +64,9 @@ end
     global_aws_config(config::AbstractAWSConfig)
 
 Set the global AWSConfig.
-
-# Arguments
-- `config::AWSConfig`: The AWSConfig to set in the global state
-
-# Returns
-- `AWSConfig`: Global AWSConfig
 """
 function global_aws_config(config::AbstractAWSConfig)
-    return aws_config[] = config
+    return AWS_CONFIG[] = config
 end
 
 
@@ -72,14 +74,17 @@ end
     set_user_agent(new_user_agent::String)
 
 Set the global user agent when making HTTP requests.
-
-# Arguments
-- `new_user_agent::String`: User agent to set when making HTTP requests
-
-# Return
-- `String`: The global user agent
 """
-set_user_agent(new_user_agent::String) = return user_agent[] = new_user_agent
+set_user_agent(new_user_agent::String) = return USER_AGENT[] = new_user_agent
+
+
+
+"""
+    set_return_raw(b::Bool)
+
+Return raw requests from AWS.
+"""
+set_return_raw(b::Bool) = return RETURN_RAW[] = b
 
 
 """
@@ -151,26 +156,9 @@ end
 
 RestJSONService(name::String, api_version::String) = RestJSONService(name, api_version, LittleDict{String, String}())
 
-Base.@kwdef mutable struct Request
-    service::String
-    api_version::String
-    request_method::String
-
-    headers::AbstractDict{String, String}=LittleDict{String, String}()
-    content::Union{String, Vector{UInt8}}=""
-    resource::String=""
-    url::String=""
-
-    return_stream::Bool=false
-    response_stream::Union{<:IO, Nothing}=nothing
-    http_options::Array{String}=[]
-    return_raw::Bool=false
-    response_dict_type::Type{<:AbstractDict}=LittleDict
-end
-
 # use this until the threed arg pop! is available for LittleDict
 # https://github.com/JuliaCollections/OrderedCollections.jl/pull/59
-function _pop!(dict::AbstractDict{String, <: Any},kw,default)
+function _pop!(dict::AbstractDict{String, <: Any}, kw, default)
     if haskey(dict,kw)
         val = dict[kw]
         delete!(dict,kw)
@@ -389,7 +377,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         "PriorRequestNotComplete"
     ]
 
-    request.headers["User-Agent"] = user_agent[]
+    request.headers["User-Agent"] = USER_AGENT[]
     request.headers["Host"] = HTTP.URI(request.url).host
 
     @repeat 3 try
@@ -445,8 +433,10 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     end
 
     # Return raw data if requested...
-    if request.return_raw
-        return (return_headers ? (response.body, response.headers) : response.body)
+    @suppress begin
+        if RETURN_RAW[] || request.return_raw
+            return (return_headers ? (response.body, response.headers) : response.body)
+        end
     end
 
     # Parse response data according to mimetype...
@@ -554,7 +544,7 @@ end
 """
     (service::RestXMLService)(
         request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-        aws::AbstractAWSConfig=aws_config
+        aws_config::AbstractAWSConfig=global_aws_config()
     )
 
 Perform a RestXML request to AWS.
@@ -565,7 +555,7 @@ Perform a RestXML request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws_config::AbstractAWSConfig=global_aws_config()`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
@@ -605,7 +595,7 @@ end
 """
     (service::QueryService)(
         operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-        aws::AbstractAWSConfig=aws_config
+        aws_config::AbstractAWSConfig=global_aws_config()
     )
 
 Perform a Query request to AWS.
@@ -615,7 +605,7 @@ Perform a Query request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws_config::AbstractAWSConfig=glboal_aws_config()`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
@@ -646,7 +636,7 @@ end
 """
     (service::JSONService)(
         operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-        aws::AbstractAWSConfig=aws_config
+        aws_config::AbstractAWSConfig=global_aws_config()
     )
 
 Perform a JSON request to AWS.
@@ -656,7 +646,7 @@ Perform a JSON request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws_config::AbstractAWSConfig=global_aws_config()`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
@@ -685,7 +675,7 @@ end
 """
     (service::RestJSONService)(
         request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-        aws::AbstractAWSConfig=aws_config
+        aws_config::AbstractAWSConfig=global_aws_config()
     )
 
 Perform a RestJSON request to AWS.
@@ -696,7 +686,7 @@ Perform a RestJSON request to AWS.
 - `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `aws_config::AbstractAWSConfig=global_aws_config()`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
