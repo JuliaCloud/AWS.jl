@@ -441,6 +441,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters contain a list of other filters. The AttributeFilter parameter enables you to
   create a set of filtering rules that a document must satisfy to be included in the query
   results.
+- `"DocumentRelevanceOverrideConfigurations"`: Overrides relevance tuning configurations of
+  fields or attributes set at the index level. If you use this API to override the relevance
+  tuning configured at the index level, but there is no relevance tuning configured at the
+  index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance
+  tuning configured at the index level, but you do not use this API to override any relevance
+  tuning in the index, then Amazon Kendra uses the relevance tuning that is configured at the
+  index level. If there is relevance tuning configured for fields at the index level, but you
+  use this API to override only some of these fields, then for the fields you did not
+  override, the importance is set to 1.
 - `"Facets"`: An array of documents attributes. Amazon Kendra returns a count for each
   attribute key specified. You can use this information to help narrow the search for your
   user.

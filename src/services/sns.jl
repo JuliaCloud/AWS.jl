@@ -426,7 +426,7 @@ Use this request to opt in a phone number that is opted out, which enables you t
 sending SMS messages to the number. You can opt in a phone number only once every 30 days.
 
 # Arguments
-- `phone_number`: The phone number to opt in.
+- `phone_number`: The phone number to opt in. Use E.164 format.
 
 """
 opt_in_phone_number(phoneNumber; aws_config::AbstractAWSConfig=global_aws_config()) = sns("OptInPhoneNumber", Dict{String, Any}("phoneNumber"=>phoneNumber); aws_config=aws_config)

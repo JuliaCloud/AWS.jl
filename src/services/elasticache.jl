@@ -242,12 +242,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Version), but you cannot downgrade to an earlier engine version. If you want to use an
   earlier engine version, you must delete the existing cluster or replication group and
   create it anew with the earlier engine version.
+- `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple
   Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic
   owner must be the same as the cluster owner.
 - `"NumCacheNodes"`: The initial number of cache nodes that the cluster has. For clusters
   running Redis, this value must be 1. For clusters running Memcached, this value must be
-  between 1 and 20. If you need more than 20 nodes for your Memcached cluster, please fill
+  between 1 and 40. If you need more than 20 nodes for your Memcached cluster, please fill
   out the ElastiCache Limit Increase Request form at
   http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
 - `"OutpostMode"`: Specifies whether the nodes in the cluster are created in a single
@@ -516,6 +517,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the earlier engine version.
 - `"GlobalReplicationGroupId"`: The name of the Global datastore
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the disk in the cluster.
+- `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 - `"MultiAZEnabled"`: A flag indicating if you have Multi-AZ enabled to enhance fault
   tolerance. For more information, see Minimizing Downtime: Multi-AZ.
 - `"NodeGroupConfiguration"`: A list of node group (shard) configuration options. Each node
@@ -684,14 +686,14 @@ Decreases the number of node groups in a Global datastore
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"GlobalNodeGroupsToRemove"`: If the value of NodeGroupCount is less than the current
   number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
-  required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster.
-  ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove
-  from the cluster.
+  required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster.
+  ElastiCache for Redis will attempt to remove all node groups listed by
+  GlobalNodeGroupsToRemove from the cluster.
 - `"GlobalNodeGroupsToRetain"`: If the value of NodeGroupCount is less than the current
   number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
-  required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster.
-  ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove
-  from the cluster.
+  required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster.
+  ElastiCache for Redis will attempt to retain all node groups listed by
+  GlobalNodeGroupsToRetain from the cluster.
 """
 decrease_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DecreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount); aws_config=aws_config)
 decrease_node_groups_in_global_replication_group(ApplyImmediately, GlobalReplicationGroupId, NodeGroupCount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("DecreaseNodeGroupsInGlobalReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyImmediately"=>ApplyImmediately, "GlobalReplicationGroupId"=>GlobalReplicationGroupId, "NodeGroupCount"=>NodeGroupCount), params)); aws_config=aws_config)
@@ -1570,19 +1572,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Version), but you cannot downgrade to an earlier engine version. If you want to use an
   earlier engine version, you must delete the existing cluster and create it anew with the
   earlier engine version.
-- `"NewAvailabilityZones"`: The list of Availability Zones where the new Memcached cache
-  nodes are created. This parameter is only valid when NumCacheNodes in the request is
-  greater than the sum of the number of active cache nodes and the number of cache nodes
-  pending creation (which may be zero). The number of Availability Zones supplied in this
-  list must match the cache nodes being added in this request. This option is only supported
-  on Memcached clusters. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2
-  nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for
-  the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation
-  (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) +
-  1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to
-  cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.
-  The Availability Zone placement of nodes pending creation cannot be modified. If you wish
-  to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of
+- `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
+- `"NewAvailabilityZones"`:  This option is only supported on Memcached clusters.  The list
+  of Availability Zones where the new Memcached cache nodes are created. This parameter is
+  only valid when NumCacheNodes in the request is greater than the sum of the number of
+  active cache nodes and the number of cache nodes pending creation (which may be zero). The
+  number of Availability Zones supplied in this list must match the cache nodes being added
+  in this request. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes.
+  Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two
+  new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the
+  scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and
+  optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel
+  all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The
+  Availability Zone placement of nodes pending creation cannot be modified. If you wish to
+  cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of
   current nodes. If cross-az is specified, existing Memcached nodes remain in their current
   Availability Zone. Only newly created nodes can be located in different Availability Zones.
   For guidance on how to move existing Memcached nodes to different Availability Zones, see
@@ -1607,7 +1610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   equal to the number of current cache nodes, any pending add or remove requests are
   canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter
   to provide the IDs of the specific cache nodes to remove. For clusters running Redis, this
-  value must be 1. For clusters running Memcached, this value must be between 1 and 20.
+  value must be 1. For clusters running Memcached, this value must be between 1 and 40.
   Adding or removing Memcached cache nodes can be applied immediately or as a pending
   operation (see ApplyImmediately). A pending operation to modify the number of cache nodes
   in a cluster during its maintenance window, whether by adding or removing nodes in
@@ -1757,6 +1760,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you
   want to use an earlier engine version, you must delete the existing replication group and
   create it anew with the earlier engine version.
+- `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
 - `"MultiAZEnabled"`: A list of tags to be added to this resource. A tag is a key-value
   pair. A tag key must be accompanied by a tag value, although null is accepted.
 - `"NodeGroupId"`: Deprecated. This parameter is not used.
