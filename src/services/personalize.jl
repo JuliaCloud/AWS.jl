@@ -17,7 +17,7 @@ input file must be in JSON format. For more information, see recommendations-bat
 - `job_name`: The name of the batch inference job to create.
 - `job_output`: The path to the Amazon S3 bucket where the job's output will be stored.
 - `role_arn`: The ARN of the Amazon Identity and Access Management role that has
-  permissions to read and write to your input and out Amazon S3 buckets respectively.
+  permissions to read and write to your input and output Amazon S3 buckets respectively.
 - `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version that will
   be used to generate the batch inference recommendations.
 
@@ -25,7 +25,7 @@ input file must be in JSON format. For more information, see recommendations-bat
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"batchInferenceJobConfig"`: The configuration details of a batch inference job.
 - `"filterArn"`: The ARN of the filter to apply to the batch inference job. For more
-  information on using filters, see Using Filters with Amazon Personalize.
+  information on using filters, see Filtering Batch Recommendations..
 - `"numResults"`: The number of recommendations to retreive.
 """
 create_batch_inference_job(jobInput, jobName, jobOutput, roleArn, solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateBatchInferenceJob", Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
@@ -94,6 +94,39 @@ create_dataset(datasetGroupArn, datasetType, name, schemaArn; aws_config::Abstra
 create_dataset(datasetGroupArn, datasetType, name, schemaArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn), params)); aws_config=aws_config)
 
 """
+    create_dataset_export_job(dataset_arn, job_name, job_output, role_arn)
+    create_dataset_export_job(dataset_arn, job_name, job_output, role_arn, params::Dict{String,<:Any})
+
+ Creates a job that exports data from your dataset to an Amazon S3 bucket. To allow Amazon
+Personalize to export the training data, you must specify an service-linked AWS Identity
+and Access Management (IAM) role that gives Amazon Personalize PutObject permissions for
+your Amazon S3 bucket. For information, see Dataset export job permissions requirements in
+the Amazon Personalize developer guide.   Status  A dataset export job can be in one of the
+following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+ To get the status of the export job, call DescribeDatasetExportJob, and specify the Amazon
+Resource Name (ARN) of the dataset export job. The dataset export is complete when the
+status shows as ACTIVE. If the status shows as CREATE FAILED, the response includes a
+failureReason key, which describes why the job failed.
+
+# Arguments
+- `dataset_arn`: The Amazon Resource Name (ARN) of the dataset that contains the data to
+  export.
+- `job_name`: The name for the dataset export job.
+- `job_output`: The path to the Amazon S3 bucket where the job's output is stored.
+- `role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  service role that has permissions to add data to your output Amazon S3 bucket.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ingestionMode"`: The data to export, based on how you imported the data. You can choose
+  to export only BULK data that you imported using a dataset import job, only PUT data that
+  you imported incrementally (using the console, PutEvents, PutUsers and PutItems
+  operations), or ALL for both types. The default value is PUT.
+"""
+create_dataset_export_job(datasetArn, jobName, jobOutput, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetExportJob", Dict{String, Any}("datasetArn"=>datasetArn, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn); aws_config=aws_config)
+create_dataset_export_job(datasetArn, jobName, jobOutput, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn), params)); aws_config=aws_config)
+
+"""
     create_dataset_group(name)
     create_dataset_group(name, params::Dict{String,<:Any})
 
@@ -130,17 +163,19 @@ create_dataset_group(name, params::AbstractDict{String}; aws_config::AbstractAWS
 
 Creates a job that imports training data from your data source (an Amazon S3 bucket) to an
 Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you
-must specify an AWS Identity and Access Management (IAM) role that has permission to read
-from the data source, as Amazon Personalize makes a copy of your data and processes it in
-an internal AWS system.  The dataset import job replaces any existing data in the dataset
-that you imported in bulk.   Status  A dataset import job can be in one of the following
-states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   To get
-the status of the import job, call DescribeDatasetImportJob, providing the Amazon Resource
-Name (ARN) of the dataset import job. The dataset import is complete when the status shows
-as ACTIVE. If the status shows as CREATE FAILED, the response includes a failureReason key,
-which describes why the job failed.  Importing takes time. You must wait until the status
-shows as ACTIVE before training a model using the dataset.   Related APIs
-ListDatasetImportJobs     DescribeDatasetImportJob
+must specify an AWS Identity and Access Management (IAM) service role that has permission
+to read from the data source, as Amazon Personalize makes a copy of your data and processes
+it in an internal AWS system. For information on granting access to your Amazon S3 bucket,
+see Giving Amazon Personalize Access to Amazon S3 Resources.   The dataset import job
+replaces any existing data in the dataset that you imported in bulk.   Status  A dataset
+import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS
+&gt; ACTIVE -or- CREATE FAILED   To get the status of the import job, call
+DescribeDatasetImportJob, providing the Amazon Resource Name (ARN) of the dataset import
+job. The dataset import is complete when the status shows as ACTIVE. If the status shows as
+CREATE FAILED, the response includes a failureReason key, which describes why the job
+failed.  Importing takes time. You must wait until the status shows as ACTIVE before
+training a model using the dataset.   Related APIs     ListDatasetImportJobs
+DescribeDatasetImportJob
 
 # Arguments
 - `data_source`: The Amazon S3 bucket that contains the training data to import.
@@ -463,6 +498,21 @@ describe_dataset(datasetArn; aws_config::AbstractAWSConfig=global_aws_config()) 
 describe_dataset(datasetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), params)); aws_config=aws_config)
 
 """
+    describe_dataset_export_job(dataset_export_job_arn)
+    describe_dataset_export_job(dataset_export_job_arn, params::Dict{String,<:Any})
+
+Describes the dataset export job created by CreateDatasetExportJob, including the export
+job status.
+
+# Arguments
+- `dataset_export_job_arn`: The Amazon Resource Name (ARN) of the dataset export job to
+  describe.
+
+"""
+describe_dataset_export_job(datasetExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDatasetExportJob", Dict{String, Any}("datasetExportJobArn"=>datasetExportJobArn); aws_config=aws_config)
+describe_dataset_export_job(datasetExportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("DescribeDatasetExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetExportJobArn"=>datasetExportJobArn), params)); aws_config=aws_config)
+
+"""
     describe_dataset_group(dataset_group_arn)
     describe_dataset_group(dataset_group_arn, params::Dict{String,<:Any})
 
@@ -642,6 +692,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_campaigns(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListCampaigns"; aws_config=aws_config)
 list_campaigns(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListCampaigns", params; aws_config=aws_config)
+
+"""
+    list_dataset_export_jobs()
+    list_dataset_export_jobs(params::Dict{String,<:Any})
+
+Returns a list of dataset export jobs that use the given dataset. When a dataset is not
+specified, all the dataset export jobs associated with the account are listed. The response
+provides the properties for each dataset export job, including the Amazon Resource Name
+(ARN). For more information on dataset export jobs, see CreateDatasetExportJob. For more
+information on datasets, see CreateDataset.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"datasetArn"`: The Amazon Resource Name (ARN) of the dataset to list the dataset export
+  jobs for.
+- `"maxResults"`: The maximum number of dataset export jobs to return.
+- `"nextToken"`: A token returned from the previous call to ListDatasetExportJobs for
+  getting the next set of dataset export jobs (if they exist).
+"""
+list_dataset_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasetExportJobs"; aws_config=aws_config)
+list_dataset_export_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListDatasetExportJobs", params; aws_config=aws_config)
 
 """
     list_dataset_groups()

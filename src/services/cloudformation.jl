@@ -435,14 +435,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group
   AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User
    AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in
-  AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If
-  your stack template contains one or more macros, and you choose to create a stack directly
-  from the processed template, without first reviewing the resulting changes in a change set,
-  you must acknowledge this capability. For more information, see Using AWS CloudFormation
-  Macros to Perform Custom Processing on Templates.  Stack sets do not currently support
-  macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms,
-  which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you
-  include a macro in your template the stack set operation will fail.
+  AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates reference macros.
+  If your stack set template references one or more macros, you must create the stack set
+  directly from the processed template, without first reviewing the resulting changes in a
+  change set. To create the stack set directly, you must acknowledge this capability. For
+  more information, see Using AWS CloudFormation Macros to Perform Custom Processing on
+  Templates.  Stack sets with service-managed permissions do not currently support the use of
+  macros in templates. (This includes the AWS::Include and AWS::Serverless transforms, which
+  are macros hosted by AWS CloudFormation.) Even if you specify this capability for a stack
+  set with service-managed permissions, if you reference a macro in your template the stack
+  set operation will fail.
 - `"ClientRequestToken"`: A unique identifier for this CreateStackSet request. Specify this
   token if you plan to retry requests so that AWS CloudFormation knows that you're not
   attempting to create another stack set with the same name. You might retry CreateStackSet
@@ -1925,14 +1927,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group
   AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User
    AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM Resources in
-  AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates contain macros. If
-  your stack template contains one or more macros, and you choose to update a stack directly
-  from the processed template, without first reviewing the resulting changes in a change set,
-  you must acknowledge this capability. For more information, see Using AWS CloudFormation
-  Macros to Perform Custom Processing on Templates.  Stack sets do not currently support
-  macros in stack templates. (This includes the AWS::Include and AWS::Serverless transforms,
-  which are macros hosted by AWS CloudFormation.) Even if you specify this capability, if you
-  include a macro in your template the stack set operation will fail.
+  AWS CloudFormation Templates.    CAPABILITY_AUTO_EXPAND  Some templates reference macros.
+  If your stack set template references one or more macros, you must update the stack set
+  directly from the processed template, without first reviewing the resulting changes in a
+  change set. To update the stack set directly, you must acknowledge this capability. For
+  more information, see Using AWS CloudFormation Macros to Perform Custom Processing on
+  Templates.  Stack sets with service-managed permissions do not currently support the use of
+  macros in templates. (This includes the AWS::Include and AWS::Serverless transforms, which
+  are macros hosted by AWS CloudFormation.) Even if you specify this capability for a stack
+  set with service-managed permissions, if you reference a macro in your template the stack
+  set operation will fail.
 - `"DeploymentTargets"`: [Service-managed permissions] The AWS Organizations accounts in
   which to update associated stack instances. To update all the stack instances associated
   with this stack set, do not specify DeploymentTargets or Regions. If the stack set update

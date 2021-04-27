@@ -158,8 +158,8 @@ Analytics application, see Creating an Application.
 
 # Arguments
 - `application_name`: The name of your application (for example, sample-app).
-- `runtime_environment`: The runtime environment for the application (SQL-1.0, FLINK-1_6,
-  or FLINK-1_8).
+- `runtime_environment`: The runtime environment for the application (SQL-1_0, FLINK-1_6,
+  FLINK-1_8, or FLINK-1_11).
 - `service_execution_role`: The IAM role used by the application to access Kinesis data
   streams, Kinesis Data Firehose delivery streams, Amazon S3 objects, and other external
   resources.
@@ -184,12 +184,15 @@ create_application(ApplicationName, RuntimeEnvironment, ServiceExecutionRole, pa
 
 Creates and returns a URL that you can use to connect to an application's extension.
 Currently, the only available extension is the Apache Flink dashboard. The IAM role or user
-used to call this API defines the permissions to access the extension. Once the presigned
+used to call this API defines the permissions to access the extension. After the presigned
 URL is created, no additional permission is required to access this URL. IAM authorization
 policies for this API are also enforced for every HTTP request that attempts to connect to
-the extension.   The URL that you get from a call to CreateApplicationPresignedUrl must be
-used within 3 minutes to be valid. If you first try to use the URL after the 3-minute limit
-expires, the service returns an HTTP 403 Forbidden error.
+the extension.  You control the amount of time that the URL will be valid using the
+SessionExpirationDurationInSeconds parameter. If you do not provide this parameter, the
+returned URL is valid for twelve hours.  The URL that you get from a call to
+CreateApplicationPresignedUrl must be used within 3 minutes to be valid. If you first try
+to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden
+error.
 
 # Arguments
 - `application_name`: The name of the application.
@@ -559,3 +562,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_application(ApplicationName, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
 update_application(ApplicationName, CurrentApplicationVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)
+
+"""
+    update_application_maintenance_configuration(application_maintenance_configuration_update, application_name)
+    update_application_maintenance_configuration(application_maintenance_configuration_update, application_name, params::Dict{String,<:Any})
+
+Updates the configuration for the automatic maintenance that Kinesis Data Analytics
+performs on the application. For information about automatic application maintenance, see
+Kinesis Data Analytics for Apache Flink Maintenance.
+
+# Arguments
+- `application_maintenance_configuration_update`: Describes the application maintenance
+  configuration update.
+- `application_name`: The name of the application for which you want to update the
+  maintenance time window.
+
+"""
+update_application_maintenance_configuration(ApplicationMaintenanceConfigurationUpdate, ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplicationMaintenanceConfiguration", Dict{String, Any}("ApplicationMaintenanceConfigurationUpdate"=>ApplicationMaintenanceConfigurationUpdate, "ApplicationName"=>ApplicationName); aws_config=aws_config)
+update_application_maintenance_configuration(ApplicationMaintenanceConfigurationUpdate, ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplicationMaintenanceConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationMaintenanceConfigurationUpdate"=>ApplicationMaintenanceConfigurationUpdate, "ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
