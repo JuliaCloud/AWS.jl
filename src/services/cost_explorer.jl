@@ -176,8 +176,8 @@ get_anomaly_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) =
 get_anomaly_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetAnomalySubscriptions", params; aws_config=aws_config)
 
 """
-    get_cost_and_usage(metrics, time_period)
-    get_cost_and_usage(metrics, time_period, params::Dict{String,<:Any})
+    get_cost_and_usage(granularity, metrics, time_period)
+    get_cost_and_usage(granularity, metrics, time_period, params::Dict{String,<:Any})
 
 Retrieves cost and usage metrics for your account. You can specify which cost and
 usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to
@@ -188,6 +188,9 @@ have access to all member accounts. For information about filter limitations, se
 and restrictions in the Billing and Cost Management User Guide.
 
 # Arguments
+- `granularity`: Sets the AWS cost granularity to MONTHLY or DAILY, or HOURLY. If
+  Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY
+  or DAILY, or HOURLY.
 - `metrics`: Which metrics are returned in the query. For more information about blended
   and unblended rates, see Why does the \"blended\" annotation appear on some line items in
   my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost,
@@ -208,9 +211,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage
   of that service. You can nest Expression objects to define any combination of dimension
   filters. For more information, see Expression.
-- `"Granularity"`: Sets the AWS cost granularity to MONTHLY or DAILY, or HOURLY. If
-  Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY
-  or DAILY, or HOURLY.
 - `"GroupBy"`: You can group AWS costs using up to two different groups, either dimensions,
   tag keys, cost categories, or any two group by types. When you group by tag key, you get
   all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE,
@@ -219,12 +219,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextPageToken"`: The token to retrieve the next set of results. AWS provides the token
   when the response from a previous call has more results than the maximum page size.
 """
-get_cost_and_usage(Metrics, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}("Metrics"=>Metrics, "TimePeriod"=>TimePeriod); aws_config=aws_config)
-get_cost_and_usage(Metrics, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Metrics"=>Metrics, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config)
+get_cost_and_usage(Granularity, Metrics, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}("Granularity"=>Granularity, "Metrics"=>Metrics, "TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_cost_and_usage(Granularity, Metrics, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metrics"=>Metrics, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config)
 
 """
-    get_cost_and_usage_with_resources(filter, time_period)
-    get_cost_and_usage_with_resources(filter, time_period, params::Dict{String,<:Any})
+    get_cost_and_usage_with_resources(filter, granularity, time_period)
+    get_cost_and_usage_with_resources(filter, granularity, time_period, params::Dict{String,<:Any})
 
 Retrieves cost and usage metrics with resources for your account. You can specify which
 cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the
@@ -245,6 +245,8 @@ Management User Guide.
   GetCostAndUsageWithResources operation requires that you either group by or filter by a
   ResourceId. It requires the Expression \"SERVICE = Amazon Elastic Compute Cloud - Compute\"
   in the filter.
+- `granularity`: Sets the AWS cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity
+  isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
 - `time_period`: Sets the start and end dates for retrieving Amazon Web Services costs. The
   range must be within the last 14 days (the start date cannot be earlier than 14 days ago).
   The start date is inclusive, but the end date is exclusive. For example, if start is
@@ -253,9 +255,6 @@ Management User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Granularity"`: Sets the AWS cost granularity to MONTHLY, DAILY, or HOURLY. If
-  Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY,
-  or HOURLY.
 - `"GroupBy"`: You can group Amazon Web Services costs using up to two different groups:
   DIMENSION, TAG, COST_CATEGORY.
 - `"Metrics"`: Which metrics are returned in the query. For more information about blended
@@ -271,8 +270,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextPageToken"`: The token to retrieve the next set of results. AWS provides the token
   when the response from a previous call has more results than the maximum page size.
 """
-get_cost_and_usage_with_resources(Filter, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}("Filter"=>Filter, "TimePeriod"=>TimePeriod); aws_config=aws_config)
-get_cost_and_usage_with_resources(Filter, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config)
+get_cost_and_usage_with_resources(Filter, Granularity, TimePeriod; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}("Filter"=>Filter, "Granularity"=>Granularity, "TimePeriod"=>TimePeriod); aws_config=aws_config)
+get_cost_and_usage_with_resources(Filter, Granularity, TimePeriod, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filter"=>Filter, "Granularity"=>Granularity, "TimePeriod"=>TimePeriod), params)); aws_config=aws_config)
 
 """
     get_cost_categories(time_period)

@@ -5,18 +5,41 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    accept_administrator_invitation(administrator_id, invitation_id)
+    accept_administrator_invitation(administrator_id, invitation_id, params::Dict{String,<:Any})
+
+Accepts the invitation to be a member account and be monitored by the Security Hub
+administrator account that the invitation was sent from. This operation is only used by
+member accounts that are not added through Organizations. When the member account accepts
+the invitation, permission is granted to the administrator account to view findings
+generated in the member account.
+
+# Arguments
+- `administrator_id`: The account ID of the Security Hub administrator account that sent
+  the invitation.
+- `invitation_id`: The identifier of the invitation sent from the Security Hub
+  administrator account.
+
+"""
+accept_administrator_invitation(AdministratorId, InvitationId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/administrator", Dict{String, Any}("AdministratorId"=>AdministratorId, "InvitationId"=>InvitationId); aws_config=aws_config)
+accept_administrator_invitation(AdministratorId, InvitationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/administrator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdministratorId"=>AdministratorId, "InvitationId"=>InvitationId), params)); aws_config=aws_config)
+
+"""
     accept_invitation(invitation_id, master_id)
     accept_invitation(invitation_id, master_id, params::Dict{String,<:Any})
 
-Accepts the invitation to be a member account and be monitored by the Security Hub master
+This method is deprecated. Instead, use AcceptAdministratorInvitation. Accepts the
+invitation to be a member account and be monitored by the Security Hub administrator
 account that the invitation was sent from. This operation is only used by member accounts
 that are not added through Organizations. When the member account accepts the invitation,
-permission is granted to the master account to view findings generated in the member
+permission is granted to the administrator account to view findings generated in the member
 account.
 
 # Arguments
-- `invitation_id`: The ID of the invitation sent from the Security Hub master account.
-- `master_id`: The account ID of the Security Hub master account that sent the invitation.
+- `invitation_id`: The identifier of the invitation sent from the Security Hub
+  administrator account.
+- `master_id`: The account ID of the Security Hub administrator account that sent the
+  invitation.
 
 """
 accept_invitation(InvitationId, MasterId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master", Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId); aws_config=aws_config)
@@ -78,11 +101,11 @@ batch_import_findings(Findings, params::AbstractDict{String}; aws_config::Abstra
     batch_update_findings(finding_identifiers, params::Dict{String,<:Any})
 
 Used by Security Hub customers to update information about their investigation into a
-finding. Requested by master accounts or member accounts. Master accounts can update
-findings for their account and their member accounts. Member accounts can update findings
-for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt
-for a finding. Master and member accounts can use BatchUpdateFindings to update the
-following finding fields and objects.    Confidence     Criticality     Note
+finding. Requested by administrator accounts or member accounts. Administrator accounts can
+update findings for their account and their member accounts. Member accounts can update
+findings for their account. Updates from BatchUpdateFindings do not affect the value of
+UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to
+update the following finding fields and objects.    Confidence     Criticality     Note
 RelatedFindings     Severity     Types     UserDefinedFields     VerificationState
 Workflow    You can configure IAM policies to restrict access to fields and field values.
 For example, you might not want member accounts to be able to suppress findings or change
@@ -164,26 +187,26 @@ create_insight(Filters, GroupByAttribute, Name, params::AbstractDict{String}; aw
     create_members(account_details, params::Dict{String,<:Any})
 
 Creates a member association in Security Hub between the specified accounts and the account
-used to make the request, which is the master account. If you are integrated with
-Organizations, then the master account is the Security Hub administrator account that is
-designated by the organization management account.  CreateMembers is always used to add
-accounts that are not organization members. For accounts that are part of an organization,
-CreateMembers is only used in the following cases:   Security Hub is not configured to
-automatically add new accounts in an organization.   The account was disassociated or
-deleted in Security Hub.   This action can only be used by an account that has Security Hub
-enabled. To enable Security Hub, you can use the  EnableSecurityHub  operation. For
-accounts that are not organization members, you create the account association and then
-send an invitation to the member account. To send the invitation, you use the
-InviteMembers  operation. If the account owner accepts the invitation, the account becomes
-a member account in Security Hub. Accounts that are part of an organization do not receive
-an invitation. They automatically become a member account in Security Hub. A permissions
-policy is added that permits the master account to view the findings generated in the
-member account. When Security Hub is enabled in a member account, findings are sent to both
-the member and master accounts.  To remove the association between the master and member
-accounts, use the  DisassociateFromMasterAccount  or  DisassociateMembers  operation.
+used to make the request, which is the administrator account. If you are integrated with
+Organizations, then the administrator account is designated by the organization management
+account.  CreateMembers is always used to add accounts that are not organization members.
+For accounts that are part of an organization, CreateMembers is only used in the following
+cases:   Security Hub is not configured to automatically add new accounts in an
+organization.   The account was disassociated or deleted in Security Hub.   This action can
+only be used by an account that has Security Hub enabled. To enable Security Hub, you can
+use the  EnableSecurityHub  operation. For accounts that are not organization members, you
+create the account association and then send an invitation to the member account. To send
+the invitation, you use the  InviteMembers  operation. If the account owner accepts the
+invitation, the account becomes a member account in Security Hub. Accounts that are part of
+an organization do not receive an invitation. They automatically become a member account in
+Security Hub. A permissions policy is added that permits the administrator account to view
+the findings generated in the member account. When Security Hub is enabled in a member
+account, the member account findings are also visible to the administrator account.  To
+remove the association between the administrator and member accounts, use the
+DisassociateFromMasterAccount  or  DisassociateMembers  operation.
 
 # Arguments
-- `account_details`: The list of accounts to associate with the Security Hub master
+- `account_details`: The list of accounts to associate with the Security Hub administrator
   account. For each account, the list includes the account ID and optionally the email
   address.
 
@@ -406,25 +429,37 @@ disable_organization_admin_account(AdminAccountId, params::AbstractDict{String};
 
 Disables Security Hub in your account only in the current Region. To disable Security Hub
 in all Regions, you must submit one request per Region where you have enabled Security Hub.
-When you disable Security Hub for a master account, it doesn't disable Security Hub for any
-associated member accounts. When you disable Security Hub, your existing findings and
-insights and any Security Hub configuration settings are deleted after 90 days and cannot
-be recovered. Any standards that were enabled are disabled, and your master and member
-account associations are removed. If you want to save your existing findings, you must
-export them before you disable Security Hub.
+When you disable Security Hub for an administrator account, it doesn't disable Security Hub
+for any associated member accounts. When you disable Security Hub, your existing findings
+and insights and any Security Hub configuration settings are deleted after 90 days and
+cannot be recovered. Any standards that were enabled are disabled, and your administrator
+and member account associations are removed. If you want to save your existing findings,
+you must export them before you disable Security Hub.
 
 """
 disable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts"; aws_config=aws_config)
 disable_security_hub(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/accounts", params; aws_config=aws_config)
 
 """
+    disassociate_from_administrator_account()
+    disassociate_from_administrator_account(params::Dict{String,<:Any})
+
+Disassociates the current Security Hub member account from the associated administrator
+account. This operation is only used by accounts that are not part of an organization. For
+organization accounts, only the administrator account can disassociate a member account.
+
+"""
+disassociate_from_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/administrator/disassociate"; aws_config=aws_config)
+disassociate_from_administrator_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/administrator/disassociate", params; aws_config=aws_config)
+
+"""
     disassociate_from_master_account()
     disassociate_from_master_account(params::Dict{String,<:Any})
 
-Disassociates the current Security Hub member account from the associated master account.
-This operation is only used by accounts that are not part of an organization. For
-organization accounts, only the master account (the designated Security Hub administrator)
-can disassociate a member account.
+This method is deprecated. Instead, use DisassociateFromAdministratorAccount. Disassociates
+the current Security Hub member account from the associated administrator account. This
+operation is only used by accounts that are not part of an organization. For organization
+accounts, only the administrator account can disassociate a member account.
 
 """
 disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate"; aws_config=aws_config)
@@ -434,13 +469,13 @@ disassociate_from_master_account(params::AbstractDict{String}; aws_config::Abstr
     disassociate_members(account_ids)
     disassociate_members(account_ids, params::Dict{String,<:Any})
 
-Disassociates the specified member accounts from the associated master account. Can be used
-to disassociate both accounts that are in an organization and accounts that were invited
-manually.
+Disassociates the specified member accounts from the associated administrator account. Can
+be used to disassociate both accounts that are managed using Organizations and accounts
+that were invited manually.
 
 # Arguments
-- `account_ids`: The account IDs of the member accounts to disassociate from the master
-  account.
+- `account_ids`: The account IDs of the member accounts to disassociate from the
+  administrator account.
 
 """
 disassociate_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/disassociate", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
@@ -501,6 +536,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 enable_security_hub(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/accounts"; aws_config=aws_config)
 enable_security_hub(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/accounts", params; aws_config=aws_config)
+
+"""
+    get_administrator_account()
+    get_administrator_account(params::Dict{String,<:Any})
+
+Provides the details for the Security Hub administrator account for the current member
+account. Can be used by both member accounts that are managed using Organizations and
+accounts that were invited manually.
+
+"""
+get_administrator_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/administrator"; aws_config=aws_config)
+get_administrator_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/administrator", params; aws_config=aws_config)
 
 """
     get_enabled_standards()
@@ -591,9 +638,10 @@ get_invitations_count(params::AbstractDict{String}; aws_config::AbstractAWSConfi
     get_master_account()
     get_master_account(params::Dict{String,<:Any})
 
-Provides the details for the Security Hub master account for the current member account.
-Can be used by both member accounts that are in an organization and accounts that were
-invited manually.
+This method is deprecated. Instead, use GetAdministratorAccount. Provides the details for
+the Security Hub administrator account for the current member account. Can be used by both
+member accounts that are managed using Organizations and accounts that were invited
+manually.
 
 """
 get_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/master"; aws_config=aws_config)
@@ -603,10 +651,11 @@ get_master_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
     get_members(account_ids)
     get_members(account_ids, params::Dict{String,<:Any})
 
-Returns the details for the Security Hub member accounts for the specified account IDs. A
-master account can be either a delegated Security Hub administrator account for an
-organization or a master account that enabled Security Hub manually. The results include
-both member accounts that are in an organization and accounts that were invited manually.
+Returns the details for the Security Hub member accounts for the specified account IDs. An
+administrator account can be either the delegated Security Hub administrator account for an
+organization or an administrator account that enabled Security Hub manually. The results
+include both member accounts that are managed using Organizations and accounts that were
+invited manually.
 
 # Arguments
 - `account_ids`: The list of account IDs for the Security Hub member accounts to return the
@@ -620,13 +669,13 @@ get_members(AccountIds, params::AbstractDict{String}; aws_config::AbstractAWSCon
     invite_members(account_ids)
     invite_members(account_ids, params::Dict{String,<:Any})
 
-Invites other AWS accounts to become member accounts for the Security Hub master account
-that the invitation is sent from. This operation is only used to invite accounts that do
-not belong to an organization. Organization accounts do not receive invitations. Before you
-can use this action to invite a member, you must first use the  CreateMembers  action to
-create the member account in Security Hub. When the account owner enables Security Hub and
-accepts the invitation to become a member account, the master account can view the findings
-generated from the member account.
+Invites other AWS accounts to become member accounts for the Security Hub administrator
+account that the invitation is sent from. This operation is only used to invite accounts
+that do not belong to an organization. Organization accounts do not receive invitations.
+Before you can use this action to invite a member, you must first use the  CreateMembers
+action to create the member account in Security Hub. When the account owner enables
+Security Hub and accepts the invitation to become a member account, the administrator
+account can view the findings generated from the member account.
 
 # Arguments
 - `account_ids`: The list of account IDs of the AWS accounts to invite to Security Hub as
@@ -659,8 +708,8 @@ list_enabled_products_for_import(params::AbstractDict{String}; aws_config::Abstr
     list_invitations(params::Dict{String,<:Any})
 
 Lists all Security Hub membership invitations that were sent to the current AWS account.
-This operation is only used by accounts that do not belong to an organization. Organization
-accounts do not receive invitations.
+This operation is only used by accounts that are managed by invitation. Accounts that are
+managed using the integration with AWS Organizations do not receive invitations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -677,8 +726,8 @@ list_invitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=glo
     list_members()
     list_members(params::Dict{String,<:Any})
 
-Lists details about all member accounts for the current Security Hub master account. The
-results include both member accounts that belong to an organization and member accounts
+Lists details about all member accounts for the current Security Hub administrator account.
+The results include both member accounts that belong to an organization and member accounts
 that were invited manually.
 
 # Optional Parameters
@@ -689,10 +738,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation, to continue listing data, set the value of this parameter to the value returned
   from the previous response.
 - `"OnlyAssociated"`: Specifies which member accounts to include in the response based on
-  their relationship status with the master account. The default value is TRUE. If
+  their relationship status with the administrator account. The default value is TRUE. If
   OnlyAssociated is set to TRUE, the response includes member accounts whose relationship
-  status with the master is set to ENABLED. If OnlyAssociated is set to FALSE, the response
-  includes all existing member accounts.
+  status with the administrator account is set to ENABLED. If OnlyAssociated is set to FALSE,
+  the response includes all existing member accounts.
 """
 list_members(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members"; aws_config=aws_config)
 list_members(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/members", params; aws_config=aws_config)

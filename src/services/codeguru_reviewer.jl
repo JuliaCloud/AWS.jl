@@ -16,11 +16,11 @@ console. For more information, see Recommendations in Amazon CodeGuru Reviewer i
 Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit repository, it must be
 in the same AWS Region and AWS account where its CodeGuru Reviewer code reviews are
 configured. Bitbucket and GitHub Enterprise Server repositories are managed by AWS CodeStar
-Connections to connect to CodeGuru Reviewer. For more information, see Connect to a
-repository source provider in the Amazon CodeGuru Reviewer User Guide.    You cannot use
-the CodeGuru Reviewer SDK or the AWS CLI to associate a GitHub repository with Amazon
-CodeGuru Reviewer. To associate a GitHub repository, use the console. For more information,
-see Getting started with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.
+Connections to connect to CodeGuru Reviewer. For more information, see Associate a
+repository in the Amazon CodeGuru Reviewer User Guide.    You cannot use the CodeGuru
+Reviewer SDK or the AWS CLI to associate a GitHub repository with Amazon CodeGuru Reviewer.
+To associate a GitHub repository, use the console. For more information, see Getting
+started with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.
 
 # Arguments
 - `repository`: The repository to associate.
@@ -29,6 +29,10 @@ see Getting started with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: Amazon CodeGuru Reviewer uses this value to prevent the
   accidental creation of duplicate repository associations if there are failures and retries.
+- `"KMSKeyDetails"`: A KMSKeyDetails object that contains:   The encryption option for this
+  repository association. It is either owned by AWS Key Management Service (KMS)
+  (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the AWS KMS key
+  that is associated with this respository association.
 - `"Tags"`:  An array of key-value pairs used to tag an associated repository. A tag is a
   custom attribute label with two parts:    A tag key (for example, CostCenter, Environment,
   Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value

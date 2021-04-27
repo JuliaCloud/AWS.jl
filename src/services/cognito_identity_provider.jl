@@ -551,11 +551,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   app client is configured with client secret).    ADMIN_NO_SRP_AUTH: PASSWORD, USERNAME,
   SECRET_HASH (if app client is configured with client secret).     NEW_PASSWORD_REQUIRED:
   NEW_PASSWORD, any other required attributes, USERNAME, SECRET_HASH (if app client is
-  configured with client secret).    The value of the USERNAME attribute must be the user's
-  actual username, not an alias (such as email address or phone number). To make this easier,
-  the AdminInitiateAuth response includes the actual username value in the
-  USERNAMEUSER_ID_FOR_SRP attribute, even if you specified an alias in your call to
-  AdminInitiateAuth.
+  configured with client secret).     MFA_SETUP requires USERNAME, plus you need to use the
+  session value returned by VerifySoftwareToken in the Session parameter.   The value of the
+  USERNAME attribute must be the user's actual username, not an alias (such as email address
+  or phone number). To make this easier, the AdminInitiateAuth response includes the actual
+  username value in the USERNAMEUSER_ID_FOR_SRP attribute, even if you specified an alias in
+  your call to AdminInitiateAuth.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API
@@ -1158,8 +1159,7 @@ create_user_pool_domain(Domain, UserPoolId, params::AbstractDict{String}; aws_co
     delete_group(group_name, user_pool_id)
     delete_group(group_name, user_pool_id, params::Dict{String,<:Any})
 
-Deletes a group. Currently only groups with no members can be deleted. Calling this action
-requires developer credentials.
+Deletes a group. Calling this action requires developer credentials.
 
 # Arguments
 - `group_name`: The name of the group.
@@ -1921,7 +1921,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any other required attributes, USERNAME.     SOFTWARE_TOKEN_MFA: USERNAME and
   SOFTWARE_TOKEN_MFA_CODE are required attributes.    DEVICE_SRP_AUTH requires USERNAME,
   DEVICE_KEY, SRP_A (and SECRET_HASH).    DEVICE_PASSWORD_VERIFIER requires everything that
-  PASSWORD_VERIFIER requires plus DEVICE_KEY.
+  PASSWORD_VERIFIER requires plus DEVICE_KEY.    MFA_SETUP requires USERNAME, plus you need
+  to use the session value returned by VerifySoftwareToken in the Session parameter.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  You create custom workflows by assigning AWS
   Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action,
@@ -2040,9 +2041,11 @@ Set the user pool multi-factor authentication (MFA) configuration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MfaConfiguration"`: The MFA configuration. Valid values include:    OFF MFA will not be
-  used for any users.    ON MFA is required for all users to sign in.    OPTIONAL MFA will be
-  required only for individual users who have an MFA factor enabled.
+- `"MfaConfiguration"`: The MFA configuration. Users who don't have an MFA factor set up
+  won't be able to sign-in if you set the MfaConfiguration value to ‘ON’. See Adding
+  Multi-Factor Authentication (MFA) to a User Pool to learn more. Valid values include:
+  OFF MFA will not be used for any users.    ON MFA is required for all users to sign in.
+  OPTIONAL MFA will be required only for individual users who have an MFA factor enabled.
 - `"SmsMfaConfiguration"`: The SMS text message MFA configuration.
 - `"SoftwareTokenMfaConfiguration"`: The software token MFA configuration.
 """
@@ -2340,8 +2343,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user pool.
 - `"MfaConfiguration"`: Can be one of the following values:    OFF - MFA tokens are not
   required and cannot be specified during user registration.    ON - MFA tokens are required
-  for all user registrations. You can only specify required when you are initially creating a
-  user pool.    OPTIONAL - Users have the option when registering to create an MFA token.
+  for all user registrations. You can only specify ON when you are initially creating a user
+  pool. You can use the SetUserPoolMfaConfig API operation to turn MFA \"ON\" for existing
+  user pools.     OPTIONAL - Users have the option when registering to create an MFA token.
 - `"Policies"`: A container with the policies you wish to update in a user pool.
 - `"SmsAuthenticationMessage"`: The contents of the SMS authentication message.
 - `"SmsConfiguration"`: SMS configuration.

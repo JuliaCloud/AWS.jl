@@ -23,6 +23,25 @@ accept_reserved_node_exchange(ReservedNodeId, TargetReservedNodeOfferingId; aws_
 accept_reserved_node_exchange(ReservedNodeId, TargetReservedNodeOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AcceptReservedNodeExchange", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodeId"=>ReservedNodeId, "TargetReservedNodeOfferingId"=>TargetReservedNodeOfferingId), params)); aws_config=aws_config)
 
 """
+    add_partner(account_id, cluster_identifier, database_name, partner_name)
+    add_partner(account_id, cluster_identifier, database_name, partner_name, params::Dict{String,<:Any})
+
+Adds a partner integration to a cluster. This operation authorizes a partner to push status
+updates for the specified database. To complete the integration, you also set up the
+integration on the partner website.
+
+# Arguments
+- `account_id`: The AWS account ID that owns the cluster.
+- `cluster_identifier`: The cluster identifier of the cluster that receives data from the
+  partner.
+- `database_name`: The name of the database that receives data from the partner.
+- `partner_name`: The name of the partner that is authorized to send data.
+
+"""
+add_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AddPartner", Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName); aws_config=aws_config)
+add_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AddPartner", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName), params)); aws_config=aws_config)
+
+"""
     authorize_cluster_security_group_ingress(cluster_security_group_name)
     authorize_cluster_security_group_ingress(cluster_security_group_name, params::Dict{String,<:Any})
 
@@ -870,6 +889,24 @@ delete_hsm_configuration(HsmConfigurationIdentifier; aws_config::AbstractAWSConf
 delete_hsm_configuration(HsmConfigurationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteHsmConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmConfigurationIdentifier"=>HsmConfigurationIdentifier), params)); aws_config=aws_config)
 
 """
+    delete_partner(account_id, cluster_identifier, database_name, partner_name)
+    delete_partner(account_id, cluster_identifier, database_name, partner_name, params::Dict{String,<:Any})
+
+Deletes a partner integration from a cluster. Data can still flow to the cluster until the
+integration is deleted at the partner's website.
+
+# Arguments
+- `account_id`: The AWS account ID that owns the cluster.
+- `cluster_identifier`: The cluster identifier of the cluster that receives data from the
+  partner.
+- `database_name`: The name of the database that receives data from the partner.
+- `partner_name`: The name of the partner that is authorized to send data.
+
+"""
+delete_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeletePartner", Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName); aws_config=aws_config)
+delete_partner(AccountId, ClusterIdentifier, DatabaseName, PartnerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeletePartner", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName), params)); aws_config=aws_config)
+
+"""
     delete_scheduled_action(scheduled_action_name)
     delete_scheduled_action(scheduled_action_name, params::Dict{String,<:Any})
 
@@ -1345,8 +1382,12 @@ Describes a Redshift-managed VPC endpoint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClusterIdentifier"`: The cluster identifier associated with the described endpoint.
 - `"EndpointName"`: The name of the endpoint to be described.
-- `"Marker"`: Reserved for Amazon Redshift internal use.
-- `"MaxRecords"`: Reserved for Amazon Redshift internal use.
+- `"Marker"`: An optional pagination token provided by a previous DescribeEndpointAccess
+  request. If this parameter is specified, the response includes only records beyond the
+  marker, up to the value specified by the MaxRecords parameter.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a Marker is included
+  in the response so that the remaining results can be retrieved.
 - `"ResourceOwner"`: The AWS account ID of the owner of the cluster.
 - `"VpcId"`: The virtual private cloud (VPC) identifier with access to the cluster.
 """
@@ -1367,8 +1408,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Grantee"`: Indicates whether to check authorization from a grantor or grantee point of
   view. If true, Amazon Redshift returns endpoint authorizations that you've been granted. If
   false (default), checks authorization from a grantor point of view.
-- `"Marker"`: Reserved for Amazon Redshift internal use.
-- `"MaxRecords"`: Reserved for Amazon Redshift internal use.
+- `"Marker"`: An optional pagination token provided by a previous
+  DescribeEndpointAuthorization request. If this parameter is specified, the response
+  includes only records beyond the marker, up to the value specified by the MaxRecords
+  parameter.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a Marker is included
+  in the response so that the remaining results can be retrieved.
 """
 describe_endpoint_authorization(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAuthorization"; aws_config=aws_config)
 describe_endpoint_authorization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAuthorization", params; aws_config=aws_config)
@@ -1650,6 +1696,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_orderable_cluster_options(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeOrderableClusterOptions"; aws_config=aws_config)
 describe_orderable_cluster_options(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeOrderableClusterOptions", params; aws_config=aws_config)
+
+"""
+    describe_partners(account_id, cluster_identifier)
+    describe_partners(account_id, cluster_identifier, params::Dict{String,<:Any})
+
+Returns information about the partner integrations defined for a cluster.
+
+# Arguments
+- `account_id`: The AWS account ID that owns the cluster.
+- `cluster_identifier`: The cluster identifier of the cluster whose partner integration is
+  being described.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DatabaseName"`: The name of the database whose partner integration is being described.
+  If database name is not specified, then all databases in the cluster are described.
+- `"PartnerName"`: The name of the partner that is being described. If partner name is not
+  specified, then all partner integrations are described.
+"""
+describe_partners(AccountId, ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribePartners", Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
+describe_partners(AccountId, ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribePartners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
 
 """
     describe_reserved_node_offerings()
@@ -2924,3 +2991,25 @@ Rotates the encryption keys for a cluster.
 """
 rotate_encryption_key(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RotateEncryptionKey", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
 rotate_encryption_key(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RotateEncryptionKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+
+"""
+    update_partner_status(account_id, cluster_identifier, database_name, partner_name, status)
+    update_partner_status(account_id, cluster_identifier, database_name, partner_name, status, params::Dict{String,<:Any})
+
+Updates the status of a partner integration.
+
+# Arguments
+- `account_id`: The AWS account ID that owns the cluster.
+- `cluster_identifier`: The cluster identifier of the cluster whose partner integration
+  status is being updated.
+- `database_name`: The name of the database whose partner integration status is being
+  updated.
+- `partner_name`: The name of the partner whose integration status is being updated.
+- `status`: The value of the updated status.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StatusMessage"`: The status message provided by the partner.
+"""
+update_partner_status(AccountId, ClusterIdentifier, DatabaseName, PartnerName, Status; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("UpdatePartnerStatus", Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName, "Status"=>Status); aws_config=aws_config)
+update_partner_status(AccountId, ClusterIdentifier, DatabaseName, PartnerName, Status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("UpdatePartnerStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ClusterIdentifier"=>ClusterIdentifier, "DatabaseName"=>DatabaseName, "PartnerName"=>PartnerName, "Status"=>Status), params)); aws_config=aws_config)
