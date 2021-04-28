@@ -291,29 +291,29 @@ end
 
 
 """
-    _ec2_metadata(metadata_endpoint::String) -> Union{String, Nothing}
+    ec2_instance_metadata(path::AbstractString) -> Union{String, Nothing}
 
-Retrieve the EC2 meta data from the local AWS endpoint. Return the EC2 metadata request
-body, or `nothing` if not running on an EC2 instance.
+Retrieve the AWS EC2 instance metadata as a string using the provided `path`. If no instance
+metadata is available (typically due to not running within an EC2 instance) then `nothing`
+will be returned. See the AWS documentation for details on what metadata is available:
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
 
 # Arguments
-- `metadata_endpoint::String`: AWS internal meta data endpoint to hit
-    https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#instance-metadata-ex-1
-
-# Throws
-- `StatusError`: If the response status is >= 300, except for 404
-- `ParsingError`: Invalid HTTP request target
+- `path`: The URI path to used to specify that metadata to return
 """
-function _ec2_metadata(metadata_endpoint::String)
-    try
-        request = @mock HTTP.request("GET", "http://169.254.169.254/latest/meta-data/$metadata_endpoint")
-
-        return request === nothing ? nothing : String(request.body)
+function ec2_instance_metadata(path::AbstractString)
+    uri = HTTP.URI(scheme="http", host="169.254.169.254", path=path)
+    request = try
+        @mock HTTP.request("GET", uri; connect_timeout=1)
     catch e
-        e isa HTTP.IOError || e isa HTTP.StatusError && e.status == 404 || rethrow(e)
+        if e isa HTTP.ConnectionPool.ConnectTimeout
+            nothing
+        else
+            rethrow()
+        end
     end
 
-    return nothing
+    return request !== nothing ? String(request.body) : nothing
 end
 
 
@@ -323,7 +323,7 @@ end
 Parse the EC2 metadata to retrieve AWSCredentials.
 """
 function ec2_instance_credentials()
-    info = _ec2_metadata("iam/info")
+    info = ec2_instance_metadata("/latest/meta-data/iam/info")
 
     if info === nothing
         return nothing
@@ -331,8 +331,8 @@ function ec2_instance_credentials()
 
     info = JSON.parse(info)
 
-    name = _ec2_metadata("iam/security-credentials/")
-    creds = _ec2_metadata("iam/security-credentials/$name")
+    name = ec2_instance_metadata("/latest/meta-data/iam/security-credentials/")
+    creds = ec2_instance_metadata("/latest/meta-data/iam/security-credentials/$name")
     new_creds = JSON.parse(creds)
 
     expiry = DateTime(rstrip(new_creds["Expiration"], 'Z'))

@@ -23,7 +23,7 @@ XMLDict = "228000da-037f-5747-90a9-8195ccbf91a5"
 [compat]
 Compat = "3"
 GitHub = "5"
-HTTP = "0.8, 0.9"
+HTTP = "0.9.6"
 IniFile = "0.5"
 JSON = "0.18, 0.19, 0.20, 0.21"
 MbedTLS = "0.6, 0.7, 1"

@@ -44,6 +44,18 @@ end
     @test AWS._role_session_name("a" ^ 22, "b" ^ 22, "c" ^ 22) == "a" ^ 22 * "b" ^ 20 * "c" ^ 22
 end
 
+@testset "ec2_instance_metadata" begin
+    @testset "connect timeout" begin
+        patch = @patch function HTTP.request(method::String, url; kwargs...)
+            throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
+        end
+
+        apply(patch) do
+            @test AWS.ec2_instance_metadata("/latest/meta-data") === nothing
+        end
+    end
+end
+
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
         creds = AWSCredentials("access_key_id" ,"secret_key")
@@ -328,9 +340,10 @@ end
         "Security-Credentials" => "Test-Security-Credentials"
     )
 
-    _http_request_patch = @patch function HTTP.request(method::String, url::String)
+    _http_request_patch = @patch function HTTP.request(method::String, url; kwargs...)
         security_credentials = test_values["Security-Credentials"]
         uri = test_values["URI"]
+        url = string(url)
 
         if url == "http://169.254.169.254/latest/meta-data/iam/info"
             instance_profile_arn = test_values["InstanceProfileArn"]
@@ -533,7 +546,7 @@ end
     end
 
     @testset "Credentials Not Found" begin
-        _http_request_patch = @patch function HTTP.request(method::String, url::String)
+        _http_request_patch = @patch function HTTP.request(method::String, url; kwargs...)
             return nothing
         end
 
