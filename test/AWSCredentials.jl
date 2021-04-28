@@ -13,6 +13,10 @@ macro test_ecode(error_codes, expr)
     end
 end
 
+metadata_timeout_patch = @patch function HTTP.request(method::String, url; kwargs...)
+    throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
+end
+
 @testset "Load Credentials" begin
     user = aws_user_arn(aws)
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
@@ -46,12 +50,26 @@ end
 
 @testset "ec2_instance_metadata" begin
     @testset "connect timeout" begin
+        apply(metadata_timeout_patch) do
+            @test AWS.ec2_instance_metadata("/latest/meta-data") === nothing
+        end
+    end
+end
+
+@testset "ec2_instance_region" begin
+    @testset "available" begin
         patch = @patch function HTTP.request(method::String, url; kwargs...)
-            throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
+            return HTTP.Response("ap-atlantis-1a")  # Fake availability zone
         end
 
         apply(patch) do
-            @test AWS.ec2_instance_metadata("/latest/meta-data") === nothing
+            @test AWS.ec2_instance_region() == "ap-atlantis-1"
+        end
+    end
+
+    @testset "unavailable" begin
+        apply(metadata_timeout_patch) do
+            @test AWS.ec2_instance_region() === nothing
         end
     end
 end
