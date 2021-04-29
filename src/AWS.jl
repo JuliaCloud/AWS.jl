@@ -19,6 +19,8 @@ export ec2_instance_metadata, ec2_instance_region
 export global_aws_config, generate_service_url, set_user_agent, sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService
 
+const DEFAULT_REGION = "us-east-1"
+
 include("utilities.jl")
 include("AWSExceptions.jl")
 include("AWSCredentials.jl")
@@ -319,7 +321,7 @@ function generate_service_url(aws::AbstractAWSConfig, service::String, resource:
 
     regionless_services = ("iam", "route53")
 
-    if service in regionless_services || (service == "sdb" && reg == "us-east-1")
+    if service in regionless_services || (service == "sdb" && reg == DEFAULT_REGION)
         reg = ""
     end
 
