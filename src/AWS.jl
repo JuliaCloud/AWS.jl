@@ -24,7 +24,6 @@ export JSONService, RestJSONService, RestXMLService, QueryService
 include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
-include("AWSMetadataUtilities.jl")
 include("AWSMetadata.jl")
 
 include(joinpath("utilities", "request.jl"))
