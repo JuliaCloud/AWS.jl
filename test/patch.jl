@@ -101,4 +101,8 @@ _github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
     end
 end
 
+_instance_metadata_timeout_patch = @patch function HTTP.request(method::String, url; kwargs...)
+    throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
+end
+
 end

@@ -323,10 +323,7 @@ end
 Determine the AWS region of the machine executing this code if running inside of an EC2
 instance, otherwise `nothing` is returned.
 """
-function ec2_instance_region()
-    az = ec2_instance_metadata("/latest/meta-data/placement/availability-zone")
-    return az !== nothing ? chop(az) : nothing
-end
+ec2_instance_region() = ec2_instance_metadata("/latest/meta-data/placement/region")
 
 
 """
