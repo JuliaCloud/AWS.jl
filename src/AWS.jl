@@ -15,6 +15,7 @@ import URIs
 
 export @service
 export _merge, AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
+export ec2_instance_metadata, ec2_instance_region
 export global_aws_config, generate_service_url, set_user_agent, sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService
 

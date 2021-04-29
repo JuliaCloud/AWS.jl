@@ -44,6 +44,32 @@ end
     @test AWS._role_session_name("a" ^ 22, "b" ^ 22, "c" ^ 22) == "a" ^ 22 * "b" ^ 20 * "c" ^ 22
 end
 
+@testset "ec2_instance_metadata" begin
+    @testset "connect timeout" begin
+        apply(Patches._instance_metadata_timeout_patch) do
+            @test AWS.ec2_instance_metadata("/latest/meta-data") === nothing
+        end
+    end
+end
+
+@testset "ec2_instance_region" begin
+    @testset "available" begin
+        patch = @patch function HTTP.request(method::String, url; kwargs...)
+            return HTTP.Response("ap-atlantis-1")  # Made up region
+        end
+
+        apply(patch) do
+            @test AWS.ec2_instance_region() == "ap-atlantis-1"
+        end
+    end
+
+    @testset "unavailable" begin
+        apply(Patches._instance_metadata_timeout_patch) do
+            @test AWS.ec2_instance_region() === nothing
+        end
+    end
+end
+
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
         creds = AWSCredentials("access_key_id" ,"secret_key")
@@ -328,9 +354,10 @@ end
         "Security-Credentials" => "Test-Security-Credentials"
     )
 
-    _http_request_patch = @patch function HTTP.request(method::String, url::String)
+    _http_request_patch = @patch function HTTP.request(method::String, url; kwargs...)
         security_credentials = test_values["Security-Credentials"]
         uri = test_values["URI"]
+        url = string(url)
 
         if url == "http://169.254.169.254/latest/meta-data/iam/info"
             instance_profile_arn = test_values["InstanceProfileArn"]
@@ -533,30 +560,18 @@ end
     end
 
     @testset "Credentials Not Found" begin
-        _http_request_patch = @patch function HTTP.request(method::String, url::String)
-            return nothing
-        end
+        patches = [
+            @patch HTTP.request(method::String, url; kwargs...) = nothing
+            Patches._cred_file_patch
+            Patches._config_file_patch
+        ]
 
-        ACCESS_KEY = "AWS_ACCESS_KEY_ID"
-        CONTAINER_URI = "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"
-
-        old_aws_access_key_id = get(ENV, ACCESS_KEY, "")
-        old_container_uri = get(ENV, CONTAINER_URI, "")
-
-        try
-            delete!(ENV, "AWS_ACCESS_KEY_ID")
-            delete!(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
-
-            apply([_http_request_patch, Patches._cred_file_patch, Patches._config_file_patch]) do
+        withenv(
+            "AWS_ACCESS_KEY_ID" => nothing,
+            "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => nothing,
+        ) do
+            apply(patches) do
                 @test_throws NoCredentials AWSConfig()
-            end
-        finally
-            if !isempty(old_aws_access_key_id)
-                ENV[ACCESS_KEY] = old_aws_access_key_id
-            end
-
-            if !isempty(old_container_uri)
-                ENV[CONTAINER_URI] = old_container_uri
             end
         end
     end
