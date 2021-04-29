@@ -1616,21 +1616,23 @@ update_queue_hours_of_operation(HoursOfOperationId, InstanceId, QueueId; aws_con
 update_queue_hours_of_operation(HoursOfOperationId, InstanceId, QueueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/queues/$(InstanceId)/$(QueueId)/hours-of-operation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HoursOfOperationId"=>HoursOfOperationId), params)); aws_config=aws_config)
 
 """
-    update_queue_max_contacts(instance_id, max_contacts, queue_id)
-    update_queue_max_contacts(instance_id, max_contacts, queue_id, params::Dict{String,<:Any})
+    update_queue_max_contacts(instance_id, queue_id)
+    update_queue_max_contacts(instance_id, queue_id, params::Dict{String,<:Any})
 
 This API is in preview release for Amazon Connect and is subject to change. Updates the
 maximum number of contacts allowed in a queue before it is considered full.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
-- `max_contacts`: The maximum number of contacts that can be in the queue before it is
-  considered full.
 - `queue_id`: The identifier for the queue.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxContacts"`: The maximum number of contacts that can be in the queue before it is
+  considered full.
 """
-update_queue_max_contacts(InstanceId, MaxContacts, QueueId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/queues/$(InstanceId)/$(QueueId)/max-contacts", Dict{String, Any}("MaxContacts"=>MaxContacts); aws_config=aws_config)
-update_queue_max_contacts(InstanceId, MaxContacts, QueueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/queues/$(InstanceId)/$(QueueId)/max-contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxContacts"=>MaxContacts), params)); aws_config=aws_config)
+update_queue_max_contacts(InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/queues/$(InstanceId)/$(QueueId)/max-contacts"; aws_config=aws_config)
+update_queue_max_contacts(InstanceId, QueueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/queues/$(InstanceId)/$(QueueId)/max-contacts", params; aws_config=aws_config)
 
 """
     update_queue_name(instance_id, queue_id)
