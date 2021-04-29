@@ -1158,6 +1158,13 @@ exist, a ValidationError is returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account
+  administrator in the organization's management account or as a delegated administrator in a
+  member account. By default, SELF is specified. Use SELF for stack sets with self-managed
+  permissions.   If you are signed in to the management account, specify SELF.   If you are
+  signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your AWS account
+  must be registered as a delegated administrator in the management account. For more
+  information, see Register a delegated administrator in the AWS CloudFormation User Guide.
 - `"StackName"`: The name or the stack ID that is associated with the stack, which are not
   always interchangeable. For running stacks, you can specify either the stack's name or its
   unique stack ID. For deleted stack, you must specify the unique stack ID. Conditional: You

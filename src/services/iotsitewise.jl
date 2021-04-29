@@ -685,6 +685,46 @@ get_asset_property_value_history(; aws_config::AbstractAWSConfig=global_aws_conf
 get_asset_property_value_history(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/history", params; aws_config=aws_config)
 
 """
+    get_interpolated_asset_property_values(end_time_in_seconds, interval_in_seconds, quality, start_time_in_seconds, type)
+    get_interpolated_asset_property_values(end_time_in_seconds, interval_in_seconds, quality, start_time_in_seconds, type, params::Dict{String,<:Any})
+
+Get interpolated values for an asset property for a specified time interval, during a
+period of time. For example, you can use the this operation to return the interpolated
+temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify
+an asset property, you must specify one of the following:   The assetId and propertyId of
+an asset property.   A propertyAlias, which is a data stream alias (for example,
+/company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see
+UpdateAssetProperty.
+
+# Arguments
+- `end_time_in_seconds`: The inclusive end of the range from which to interpolate data,
+  expressed in seconds in Unix epoch time.
+- `interval_in_seconds`: The time interval in seconds over which to interpolate data. Each
+  interval starts when the previous one ends.
+- `quality`: The quality of the asset property value. You can use this parameter as a
+  filter to choose only the asset property values that have a specific quality.
+- `start_time_in_seconds`: The exclusive start of the range from which to interpolate data,
+  expressed in seconds in Unix epoch time.
+- `type`: The interpolation type. Valid values: LINEAR_INTERPOLATION
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"assetId"`: The ID of the asset.
+- `"endTimeOffsetInNanos"`: The nanosecond offset converted from endTimeInSeconds.
+- `"maxResults"`: The maximum number of results to be returned per paginated request. If
+  not specified, the default value is 10.
+- `"nextToken"`: The token to be used for the next set of paginated results.
+- `"propertyAlias"`: The property alias that identifies the property, such as an OPC-UA
+  server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more
+  information, see Mapping industrial data streams to asset properties in the AWS IoT
+  SiteWise User Guide.
+- `"propertyId"`: The ID of the asset property.
+- `"startTimeOffsetInNanos"`: The nanosecond offset converted from startTimeInSeconds.
+"""
+get_interpolated_asset_property_values(endTimeInSeconds, intervalInSeconds, quality, startTimeInSeconds, type; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/interpolated", Dict{String, Any}("endTimeInSeconds"=>endTimeInSeconds, "intervalInSeconds"=>intervalInSeconds, "quality"=>quality, "startTimeInSeconds"=>startTimeInSeconds, "type"=>type); aws_config=aws_config)
+get_interpolated_asset_property_values(endTimeInSeconds, intervalInSeconds, quality, startTimeInSeconds, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/interpolated", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTimeInSeconds"=>endTimeInSeconds, "intervalInSeconds"=>intervalInSeconds, "quality"=>quality, "startTimeInSeconds"=>startTimeInSeconds, "type"=>type), params)); aws_config=aws_config)
+
+"""
     list_access_policies()
     list_access_policies(params::Dict{String,<:Any})
 
