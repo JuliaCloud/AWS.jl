@@ -24,6 +24,10 @@ export AWSCredentials,
        localhost_is_lambda,
        credentials_from_webtoken
 
+localhost_maybe_ec2() = localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
+localhost_is_lambda() = haskey(ENV, "LAMBDA_TASK_ROOT")
+
+
 """
     AWSCredentials
 
@@ -76,49 +80,8 @@ mutable struct AWSCredentials
     end
 end
 
-
-function Base.show(io::IO, c::AWSCredentials)
-    print(io,
-        c.user_arn,
-        isempty(c.user_arn) ? "" : " ",
-        "(",
-        c.account_number,
-        isempty(c.account_number) ? "" : ", ",
-        c.access_key_id,
-        isempty(c.secret_key) ? "" : ", $(c.secret_key[1:3])...",
-        isempty(c.token) ? "" : ", $(c.token[1:3])...",
-        ", ",
-        c.expiry,
-        ")"
-    )
-end
-
-
-function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
-    for f in fieldnames(typeof(dest))
-        setfield!(dest, f, getfield(src, f))
-    end
-end
-
-
-function dot_aws_config_file()
-    get(ENV, "AWS_CONFIG_FILE") do
-        joinpath(homedir(), ".aws", "config")
-    end
-end
-function dot_aws_credentials_file()
-    get(ENV, "AWS_SHARED_CREDENTIALS_FILE") do
-        joinpath(homedir(), ".aws", "credentials")
-    end
-end
-localhost_maybe_ec2() = localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
-localhost_is_lambda() = haskey(ENV, "LAMBDA_TASK_ROOT")
-function _aws_get_profile()
-    get(ENV, "AWS_DEFAULT_PROFILE") do
-        get(ENV, "AWS_PROFILE", "default")
-    end
-end
-
+# Needs to be included after struct AWSCredentials for compilation
+include(joinpath("utilities", "credentials.jl"))
 
 """
     AWSCredentials(; profile=nothing) -> Union{AWSCredentials, Nothing}
@@ -178,72 +141,27 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
     return creds
 end
 
-
-"""
-    localhost_is_ec2() -> Bool
-
-Determine if the machine executing this code is running on an EC2 instance.
-"""
-function localhost_is_ec2()
-    # Checking to see if you are running on an EC2 instance is a complicated problem due to
-    # a large amount of caveats. Below is a list of methods to implement to work through
-    # most of these problems:
-    #
-    # 1. Check the `hostname -d`; this will not work if using non-Amazon DNS
-    # 2. Check metadata with EC2 internal domain name `curl -s
-    # http://instance-data.ec2.internal`; this will not work with a VPC (legacy EC2 only)
-    # 3. Check `sudo dmidecode -s bios-version`; this requires `dmidecode` on the instance
-    # 4. Check `/sys/devices/virtual/dmi/id/bios_version`; this may not work depending on
-    # the instance, Amazon does not document this file however so it's quite unreliable
-    # 5. Check `http://169.254.169.254`; This is a link-local address for metadata,
-    # apparently other cloud providers make this metadata URL available now as well so it's
-    # not guaranteed that you're on an EC2 instance
-    #    Or check a specific endpoint of the instance metadata such as:
-    #         ims_local_hostname = String(HTTP.get("http://169.254.169.254/latest/meta-data/local-hostname").body)
-    #    but with a fast timeout and cache the result.
-    #    See https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html
-    # 6. When checking the UUID, check for little-endian representation,
-    # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify_ec2_instances.html
-
-    # This is not guarenteed to work on Windows as RNG can make the UUID begin with EC2 on a
-    # non-EC2 instance
-    if @mock Sys.iswindows()
-        command = `wmic path win32_computersystemproduct get uuid`
-        result = @mock Base.read(command, String)
-        instance_uuid = strip(split(result, "\n")[2])
-
-        return instance_uuid[1:3] == "EC2"
-    end
-
-    # Note: try catch required for open calls on files of mode 400 (-r--------)
-    # Note: This will not work on new m5 and c5 instances because they use a new hypervisor
-    # stack and the kernel does not create files in sysfs
-    hypervisor_uuid = "/sys/hypervisor/uuid"
-    if _can_read_file(hypervisor_uuid)
-        return true
-    end
-
-    # Note: Works if you are running as root
-    product_uuid = "/sys/devices/virtual/dmi/id/product_uuid"
-    if _can_read_file(product_uuid) && _begins_with_ec2(product_uuid)
-        return true
-    end
-
-    # Check additional values under /sys/devices/virtual/dmi/id for the key "EC2"
-    # These work for the new m5 and c5 (nitro hypervisor) when root isn't available
-    # filenames = ["bios_vendor", "board_vendor", "chassis_asset_tag", "chassis_version", "sys_vendor", "uevent", "modalias"]
-    # all return "Amazon EC2" except the last two
-    sys_vendor = "/sys/devices/virtual/dmi/id/sys_vendor"
-    if _can_read_file(sys_vendor) && _ends_with_ec2(sys_vendor)
-        return true
-    end
-
-    return false
+function Base.show(io::IO, c::AWSCredentials)
+    print(io,
+        c.user_arn,
+        isempty(c.user_arn) ? "" : " ",
+        "(",
+        c.account_number,
+        isempty(c.account_number) ? "" : ", ",
+        c.access_key_id,
+        isempty(c.secret_key) ? "" : ", $(c.secret_key[1:3])...",
+        isempty(c.token) ? "" : ", $(c.token[1:3])...",
+        ", ",
+        c.expiry,
+        ")"
+    )
 end
 
-_can_read_file(file_name::String) = return isfile(file_name) && try isreadable(open(file_name, "r")) catch e; false; end
-_begins_with_ec2(file_name::String) = return uppercase(String(read(file_name, 3))) == "EC2"
-_ends_with_ec2(file_name::String) = return endswith(strip(uppercase(read(file_name, String))), "EC2")
+function Base.copyto!(dest::AWSCredentials, src::AWSCredentials)
+    for f in fieldnames(typeof(dest))
+        setfield!(dest, f, getfield(src, f))
+    end
+end
 
 
 """
@@ -280,14 +198,7 @@ function check_credentials(aws_creds::AWSCredentials; force_refresh::Bool=false)
 
     return aws_creds
 end
-
 check_credentials(aws_creds::Nothing) = aws_creds
-
-
-function _will_expire(aws_creds::AWSCredentials)
-    # Credentials will expire in <= 5 minutes from now
-    return aws_creds.expiry - now(UTC) <= Minute(5)
-end
 
 
 """
@@ -443,6 +354,12 @@ function dot_aws_credentials(profile=nothing)
     return nothing
 end
 
+function dot_aws_credentials_file()
+    get(ENV, "AWS_SHARED_CREDENTIALS_FILE") do
+        joinpath(homedir(), ".aws", "credentials")
+    end
+end
+
 
 """
     dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
@@ -471,8 +388,82 @@ function dot_aws_config(profile=nothing)
     return nothing
 end
 
+function dot_aws_config_file()
+    get(ENV, "AWS_CONFIG_FILE") do
+        joinpath(homedir(), ".aws", "config")
+    end
+end
 
-# https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc
+
+"""
+    localhost_is_ec2() -> Bool
+
+Determine if the machine executing this code is running on an EC2 instance.
+"""
+function localhost_is_ec2()
+    # Checking to see if you are running on an EC2 instance is a complicated problem due to
+    # a large amount of caveats. Below is a list of methods to implement to work through
+    # most of these problems:
+    #
+    # 1. Check the `hostname -d`; this will not work if using non-Amazon DNS
+    # 2. Check metadata with EC2 internal domain name `curl -s
+    # http://instance-data.ec2.internal`; this will not work with a VPC (legacy EC2 only)
+    # 3. Check `sudo dmidecode -s bios-version`; this requires `dmidecode` on the instance
+    # 4. Check `/sys/devices/virtual/dmi/id/bios_version`; this may not work depending on
+    # the instance, Amazon does not document this file however so it's quite unreliable
+    # 5. Check `http://169.254.169.254`; This is a link-local address for metadata,
+    # apparently other cloud providers make this metadata URL available now as well so it's
+    # not guaranteed that you're on an EC2 instance
+    #    Or check a specific endpoint of the instance metadata such as:
+    #         ims_local_hostname = String(HTTP.get("http://169.254.169.254/latest/meta-data/local-hostname").body)
+    #    but with a fast timeout and cache the result.
+    #    See https://docs.aws.amazon.com/en_us/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html
+    # 6. When checking the UUID, check for little-endian representation,
+    # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/identify_ec2_instances.html
+
+    # This is not guarenteed to work on Windows as RNG can make the UUID begin with EC2 on a
+    # non-EC2 instance
+    if @mock Sys.iswindows()
+        command = `wmic path win32_computersystemproduct get uuid`
+        result = @mock Base.read(command, String)
+        instance_uuid = strip(split(result, "\n")[2])
+
+        return instance_uuid[1:3] == "EC2"
+    end
+
+    # Note: try catch required for open calls on files of mode 400 (-r--------)
+    # Note: This will not work on new m5 and c5 instances because they use a new hypervisor
+    # stack and the kernel does not create files in sysfs
+    hypervisor_uuid = "/sys/hypervisor/uuid"
+    if _can_read_file(hypervisor_uuid)
+        return true
+    end
+
+    # Note: Works if you are running as root
+    product_uuid = "/sys/devices/virtual/dmi/id/product_uuid"
+    if _can_read_file(product_uuid) && _begins_with_ec2(product_uuid)
+        return true
+    end
+
+    # Check additional values under /sys/devices/virtual/dmi/id for the key "EC2"
+    # These work for the new m5 and c5 (nitro hypervisor) when root isn't available
+    # filenames = ["bios_vendor", "board_vendor", "chassis_asset_tag", "chassis_version", "sys_vendor", "uevent", "modalias"]
+    # all return "Amazon EC2" except the last two
+    sys_vendor = "/sys/devices/virtual/dmi/id/sys_vendor"
+    if _can_read_file(sys_vendor) && _ends_with_ec2(sys_vendor)
+        return true
+    end
+
+    return false
+end
+
+
+"""
+    credentials_from_webtoken()
+
+Assume role via web identity.
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc
+"""
 function credentials_from_webtoken()
     token_role_arn = "AWS_ROLE_ARN"
     token_web_identity_file = "AWS_WEB_IDENTITY_TOKEN_FILE"
@@ -517,26 +508,6 @@ end
 
 
 """
-    _aws_get_credential_details(profile::AbstractString, ini::Inifile) -> Tuple
-
-Get `AWSCredentials` for the specified `profile` from the `inifile`. If targeting the
-`~/.aws/config` file, with a non-default `profile`, you must specify `config=true` otherwise
-the default credentials will be returned.
-
-# Arguments
-- `profile::AbstractString`: Specific profile used to get AWSCredentials
-- `ini::Inifile`: Inifile to look into for the `profile` credentials
-"""
-function _aws_get_credential_details(profile::AbstractString, ini::Inifile)
-    access_key = _get_ini_value(ini, profile, "aws_access_key_id")
-    secret_key = _get_ini_value(ini, profile, "aws_secret_access_key")
-    token = _get_ini_value(ini, profile, "aws_session_token"; default_value="")
-
-    return (access_key, secret_key, token)
-end
-
-
-"""
     aws_get_region(profile::AbstractString, ini::Inifile) -> String
 
 Retrieve the AWS Region for a given profile, returns "$DEFAULT_REGION" as a default.
@@ -555,47 +526,6 @@ end
 
 
 """
-    _aws_get_role(role::AbstractString, ini::Inifile) -> Union{AWSCredentials, Nothing}
-
-Retrieve the `AWSCredentials` for a given role from Security Token Services (STS).
-
-# Arguments
-- `role::AbstractString`: Name of the `role`
-- `ini::Inifile`: Inifile to look into to find the `role`
-"""
-function _aws_get_role(role::AbstractString, ini::Inifile)
-    source_profile, role_arn = aws_get_role_details(role, ini)
-    source_profile === nothing && return nothing
-    credentials = nothing
-
-    for f in (dot_aws_credentials, dot_aws_config)
-        credentials = f(source_profile)
-        credentials === nothing || break
-    end
-
-    credentials === nothing && return nothing
-    config = AWSConfig(creds=credentials, region=aws_get_region(source_profile, ini))
-
-    # RoleSessionName Documentation
-    # https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
-    role = AWSServices.sts(
-        "AssumeRole",
-        LittleDict("RoleArn" => role_arn, "RoleSessionName" => replace(role, r"[^\w+=,.@-]" => s"-"));
-        aws_config=config
-    )
-
-    role_creds = role["AssumeRoleResult"]["Credentials"]
-
-    return AWSCredentials(
-        role_creds["AccessKeyId"],
-        role_creds["SecretAccessKey"],
-        role_creds["SessionToken"];
-        expiry=DateTime(rstrip(role_creds["Expiration"], 'Z'))
-    )
-end
-
-
-"""
     aws_get_role_details(profile::AbstractString, ini::Inifile) -> Tuple
 
 Return a tuple of `profile` details and the `role arn`.
@@ -609,51 +539,4 @@ function aws_get_role_details(profile::AbstractString, ini::Inifile)
     source_profile = _get_ini_value(ini, profile, "source_profile")
 
     return (source_profile, role_arn)
-end
-
-
-"""
-    _get_ini_value(
-        ini::Inifile, profile::AbstractString, key::AbstractString;
-        default_value=nothing
-    ) -> String
-
-Get the value for `key` in the `ini` file for a given `profile`.
-
-# Arguments
-- `ini::Inifile`: Inifile to look for `key` in
-- `profile::AbstractString`: Given profile to find the `key` for
-- `key::AbstractString`: Name of the `key` to get
-
-# Keywords
-- `default_value`: If the `key` is not found, default to this value
-"""
-function _get_ini_value(
-    ini::Inifile, profile::AbstractString, key::AbstractString;
-    default_value=nothing
-)
-    value = get(ini, "profile $profile", key)
-    value === :notfound && (value = get(ini, profile, key))
-    value === :notfound && (value = default_value)
-
-    return value
-end
-
-
-"""
-    _role_session_name(
-        prefix::AbstractString,
-        name::AbstractString,
-        suffix::AbstractString,
-    ) -> String
-
-Generate a valid role session name. Currently only ensures that the session name is
-64-characters or less.
-"""
-function _role_session_name(prefix, name, suffix)
-    b = IOBuffer()
-    write(b, prefix, name)
-    truncate(b, min(64 - length(suffix), b.size))  # Assumes ASCII
-    write(b, suffix)
-    return String(take!(b))
 end
