@@ -83,9 +83,13 @@ end
 """
 Get the default AWS profile
 """
-function _aws_get_profile()
-    get(ENV, "AWS_DEFAULT_PROFILE") do
-        get(ENV, "AWS_PROFILE", "default")
+function _aws_get_profile(profile=nothing; fallback="default")
+    if profile !== nothing
+        profile
+    else
+        get(ENV, "AWS_PROFILE") do
+            get(ENV, "AWS_DEFAULT_PROFILE", fallback)
+        end
     end
 end
 

@@ -104,10 +104,7 @@ Checks credential locations in the order:
 function AWSCredentials(; profile=nothing, throw_cred_error=true)
     creds = nothing
     credential_function = () -> nothing
-
-    if profile === nothing
-        profile = get(ENV, "AWS_PROFILE", get(ENV, "AWS_DEFAULT_PROFILE", nothing))
-    end
+    profile = _aws_get_profile(profile, fallback=nothing)
 
     # Define our search options, expected to be callable with no arguments.
     # Throw NoCredentials if none are found
@@ -343,7 +340,7 @@ function dot_aws_credentials(profile=nothing)
 
     if isfile(credential_file)
         ini = read(Inifile(), credential_file)
-        p = profile === nothing ? _aws_get_profile() : profile
+        p = _aws_get_profile(profile)
         access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
         if access_key !== nothing
@@ -375,7 +372,7 @@ function dot_aws_config(profile=nothing)
 
     if isfile(config_file)
         ini = read(Inifile(), config_file)
-        p = profile === nothing ? _aws_get_profile() : profile
+        p = _aws_get_profile(profile)
         access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
         if access_key !== nothing
