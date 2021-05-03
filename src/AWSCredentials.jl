@@ -510,7 +510,7 @@ end
 """
     aws_get_region(profile::AbstractString, ini::Inifile) -> String
 
-Retrieve the AWS Region for a given profile, returns `us-east-1` as a default.
+Retrieve the AWS Region for a given profile, returns "$DEFAULT_REGION" as a default.
 
 # Arguments
 - `profile::AbstractString`: Specific profile used to get the region
@@ -518,7 +518,7 @@ Retrieve the AWS Region for a given profile, returns `us-east-1` as a default.
 """
 function aws_get_region(profile::AbstractString, ini::Inifile)
     region = get(ENV, "AWS_DEFAULT_REGION") do
-        _get_ini_value(ini, profile, "region"; default_value="us-east-1")
+        _get_ini_value(ini, profile, "region"; default_value=DEFAULT_REGION)
     end
 
     return region
