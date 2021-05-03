@@ -12,9 +12,16 @@ region(aws::AWSConfig) = aws.region
 function AWSConfig(;
     profile=nothing,
     creds=AWSCredentials(profile=profile),
-    region=get(ENV, "AWS_DEFAULT_REGION", DEFAULT_REGION),
+    region=nothing,
     output="json",
 )
+    region = @something(
+        region,
+        get(ENV, "AWS_DEFAULT_REGION", nothing),
+        dot_aws_region(profile),
+        DEFAULT_REGION,
+    )
+
     return AWSConfig(creds, region, output)
 end
 

@@ -598,3 +598,49 @@ end
         end
     end
 end
+
+@testset "dot_aws_region" begin
+     test_values = Dict{String, Any}(
+        "Default-Profile" => "default",
+        "Test-Profile" => "test",
+        "Region" => "us-west-2",
+    )
+
+    @testset "~/.aws/config - Default Profile" begin
+        mktemp() do config_file, config_io
+            write(
+                config_io,
+                """
+                [$(test_values["Default-Profile"])]
+                region = $(test_values["Region"])
+                """
+            )
+            close(config_io)
+
+            withenv(
+                "AWS_CONFIG_FILE" => config_file,
+                "AWS_PROFILE" => nothing,
+                "AWS_DEFAULT_PROFILE" => nothing,
+            ) do
+                @test dot_aws_region() == test_values["Region"]
+            end
+        end
+    end
+
+    @testset "~/.aws/config - Specified Profile" begin
+        mktemp() do config_file, config_io
+            write(
+                config_io,
+                """
+                [profile $(test_values["Test-Profile"])]
+                region = $(test_values["Region"])
+                """
+            )
+            close(config_io)
+
+            withenv("AWS_CONFIG_FILE" => config_file) do
+                @test dot_aws_region(test_values["Test-Profile"]) == test_values["Region"]
+            end
+        end
+    end
+end

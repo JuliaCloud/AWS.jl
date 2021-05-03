@@ -14,6 +14,7 @@ export AWSCredentials,
        check_credentials,
        dot_aws_config,
        dot_aws_credentials,
+       dot_aws_region,
        dot_aws_credentials_file,
        dot_aws_config_file,
        ec2_instance_credentials,
@@ -389,6 +390,29 @@ function dot_aws_config_file()
     get(ENV, "AWS_CONFIG_FILE") do
         joinpath(homedir(), ".aws", "config")
     end
+end
+
+
+"""
+    dot_aws_region(profile=nothing) -> Union{String, Nothing}
+
+Retrieve the region for the default or specified profile from the `~/.aws/config` file.
+If no region is specified then `nothing` is returned.
+
+# Arguments
+- `profile`: Specific profile used to get the region, default is `nothing`
+"""
+function dot_aws_region(profile=nothing)
+    region = nothing
+    config_file = dot_aws_config_file()
+
+    if isfile(config_file)
+        ini = read(Inifile(), config_file)
+        p = _aws_get_profile(profile)
+        region = _get_ini_value(ini, p, "region")
+    end
+
+    return region
 end
 
 
