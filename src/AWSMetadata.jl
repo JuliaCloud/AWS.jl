@@ -1,6 +1,7 @@
 module AWSMetadata
 
 using Base64
+using ..AWSExceptions
 using GitHub
 using HTTP
 using JSON
@@ -9,7 +10,7 @@ using OrderedCollections: LittleDict, OrderedDict
 
 const services_path = joinpath(@__DIR__, "AWSServices.jl")
 
-include(joinpath("utilities", "api_generation.jl"))
+include(joinpath("api_generation", "utilities.jl"))
 include(joinpath("api_generation", "high_level.jl"))
 include(joinpath("api_generation", "low_level.jl"))
 
