@@ -62,3 +62,13 @@ end
 
     @test AWS._merge("a", "b") == expected
 end
+
+@testset "@something" begin
+    @test_throws ArgumentError AWS.@something()
+    @test_throws ArgumentError AWS.@something(nothing)
+    @test AWS.@something(1) === 1
+    @test AWS.@something(Some(nothing)) === nothing
+
+    @test AWS.@something(1, error("failed")) === 1
+    @test_throws ErrorException AWS.@something(nothing, error("failed"))
+end

@@ -84,13 +84,12 @@ end
 Get the default AWS profile
 """
 function _aws_get_profile(profile=nothing; fallback="default")
-    if profile !== nothing
-        profile
-    else
-        get(ENV, "AWS_PROFILE") do
-            get(ENV, "AWS_DEFAULT_PROFILE", fallback)
-        end
-    end
+    @something(
+        profile,
+        get(ENV, "AWS_PROFILE", nothing),
+        get(ENV, "AWS_DEFAULT_PROFILE", nothing),
+        Some(fallback),
+    )
 end
 
 
