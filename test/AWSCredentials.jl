@@ -599,47 +599,77 @@ end
     end
 end
 
-@testset "dot_aws_region" begin
-     test_values = Dict{String, Any}(
-        "Default-Profile" => "default",
-        "Test-Profile" => "test",
-        "Region" => "us-west-2",
-    )
+@testset "aws_get_region" begin
+    mktempdir() do dir
+        config_str = """
+            [default]
+            region = us-west-2
 
-    @testset "~/.aws/config - Default Profile" begin
-        mktemp() do config_file, config_io
-            write(
-                config_io,
-                """
-                [$(test_values["Default-Profile"])]
-                region = $(test_values["Region"])
-                """
-            )
-            close(config_io)
+            [profile test]
+            region = ap-northeast-1
+            """
+        config_file = joinpath(dir, "config")
+        write(config_file, config_str)
+        ini = read(Inifile(), IOBuffer(config_str))
+
+        @testset "environmental variable" begin
+            withenv("AWS_DEFAULT_REGION" => "us-gov-east-1") do
+                @test aws_get_region(config=ini, profile="default") == "us-gov-east-1"
+                @test aws_get_region() == "us-gov-east-1"
+            end
+        end
+
+        @testset "default profile" begin
+            @test aws_get_region(config=ini, profile="default") == "us-west-2"
+            @test aws_get_region(config=config_file, profile="default") == "us-west-2"
 
             withenv(
+                "AWS_DEFAULT_REGION" => nothing,
                 "AWS_CONFIG_FILE" => config_file,
                 "AWS_PROFILE" => nothing,
                 "AWS_DEFAULT_PROFILE" => nothing,
             ) do
-                @test dot_aws_region() == test_values["Region"]
+                @test aws_get_region() == "us-west-2"
             end
         end
-    end
 
-    @testset "~/.aws/config - Specified Profile" begin
-        mktemp() do config_file, config_io
-            write(
-                config_io,
-                """
-                [profile $(test_values["Test-Profile"])]
-                region = $(test_values["Region"])
-                """
-            )
-            close(config_io)
+        @testset "specified profile" begin
+            @test aws_get_region(config=ini, profile="test") == "ap-northeast-1"
+            @test aws_get_region(config=config_file, profile="test") == "ap-northeast-1"
 
-            withenv("AWS_CONFIG_FILE" => config_file) do
-                @test dot_aws_region(test_values["Test-Profile"]) == test_values["Region"]
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_CONFIG_FILE" => config_file,
+                "AWS_PROFILE" => "test",
+            ) do
+                @test aws_get_region() == "ap-northeast-1"
+            end
+        end
+
+        @testset "unknown profile" begin
+            @test aws_get_region(config=ini, profile="unknown") == AWS.DEFAULT_REGION
+            @test aws_get_region(config=config_file, profile="unknown") == AWS.DEFAULT_REGION
+
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_CONFIG_FILE" => config_file,
+                "AWS_PROFILE" => "unknown",
+            ) do
+                @test aws_get_region() == AWS.DEFAULT_REGION
+            end
+        end
+
+        @testset "default keyword" begin
+            default = nothing
+            @test aws_get_region(config=ini, profile="unknown", default=default) === default
+            @test aws_get_region(config=config_file, profile="unknown", default=default) === default
+
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_CONFIG_FILE" => config_file,
+                "AWS_PROFILE" => "unknown",
+            ) do
+                @test aws_get_region(default=default) === default
             end
         end
     end

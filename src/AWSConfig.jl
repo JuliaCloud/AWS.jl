@@ -15,13 +15,7 @@ function AWSConfig(;
     region=nothing,
     output="json",
 )
-    region = @something(
-        region,
-        get(ENV, "AWS_DEFAULT_REGION", nothing),
-        dot_aws_region(profile),
-        DEFAULT_REGION,
-    )
-
+    region = @something region aws_get_region(profile=profile)
     return AWSConfig(creds, region, output)
 end
 

@@ -14,7 +14,6 @@ export AWSCredentials,
        check_credentials,
        dot_aws_config,
        dot_aws_credentials,
-       dot_aws_region,
        dot_aws_credentials_file,
        dot_aws_config_file,
        ec2_instance_credentials,
@@ -105,7 +104,7 @@ Checks credential locations in the order:
 function AWSCredentials(; profile=nothing, throw_cred_error=true)
     creds = nothing
     credential_function = () -> nothing
-    profile = _aws_get_profile(profile, fallback=nothing)
+    profile = @something profile _aws_get_profile()
 
     # Define our search options, expected to be callable with no arguments.
     # Throw NoCredentials if none are found
@@ -341,7 +340,7 @@ function dot_aws_credentials(profile=nothing)
 
     if isfile(credential_file)
         ini = read(Inifile(), credential_file)
-        p = _aws_get_profile(profile)
+        p = @something profile _aws_get_profile()
         access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
         if access_key !== nothing
@@ -373,7 +372,7 @@ function dot_aws_config(profile=nothing)
 
     if isfile(config_file)
         ini = read(Inifile(), config_file)
-        p = _aws_get_profile(profile)
+        p = @something profile _aws_get_profile()
         access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
         if access_key !== nothing
@@ -390,29 +389,6 @@ function dot_aws_config_file()
     get(ENV, "AWS_CONFIG_FILE") do
         joinpath(homedir(), ".aws", "config")
     end
-end
-
-
-"""
-    dot_aws_region(profile=nothing) -> Union{String, Nothing}
-
-Retrieve the region for the default or specified profile from the `~/.aws/config` file.
-If no region is specified then `nothing` is returned.
-
-# Arguments
-- `profile`: Specific profile used to get the region, default is `nothing`
-"""
-function dot_aws_region(profile=nothing)
-    region = nothing
-    config_file = dot_aws_config_file()
-
-    if isfile(config_file)
-        ini = read(Inifile(), config_file)
-        p = _aws_get_profile(profile)
-        region = _get_ini_value(ini, p, "region")
-    end
-
-    return region
 end
 
 
@@ -529,21 +505,33 @@ end
 
 
 """
-    aws_get_region(profile::AbstractString, ini::Inifile) -> String
+    aws_get_region(; profile=nothing, config=nothing, default="$DEFAULT_REGION")
 
-Retrieve the AWS Region for a given profile, returns "$DEFAULT_REGION" as a default.
+Determine the current AWS region that should be used for AWS requests. The order of
+precedence mirrors what is [used by the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-precedence):
 
-# Arguments
-- `profile::AbstractString`: Specific profile used to get the region
-- `ini::Inifile`: Inifile to look in for the region
+1. Environmental variable: as specified by the `AWS_DEFAULT_REGION` environmental variable.
+2. AWS configuration file: `region` as specified by the `profile` in the configuration
+   file, typically "~/.aws/config".
+3. Default region: use the specified `default`, typically "$DEFAULT_REGION".
+
+# Keywords
+- `profile`: Name of the AWS configuration profile, if any. Defaults to `nothing` which
+  falls back to using `AWS._aws_get_profile()`
+- `config`: AWS configuration loaded as an `Inifile` or a path to a configuration file.
+  Defaults to `nothing` which falls back to using `dot_aws_config_file()`
+- `default`: The region to return if no high-precedence was found. Can be useful to set
+  this to `nothing` if you want to know that no current AWS region was defined.
 """
-function aws_get_region(profile::AbstractString, ini::Inifile)
-    region = get(ENV, "AWS_DEFAULT_REGION") do
-        _get_ini_value(ini, profile, "region"; default_value=DEFAULT_REGION)
-    end
-
-    return region
+function aws_get_region(; profile=nothing, config=nothing, default=DEFAULT_REGION)
+    @something(
+        get(ENV, "AWS_DEFAULT_REGION", nothing),
+        get(_aws_profile_config(config, profile), "region", nothing),
+        Some(default),
+    )
 end
+
+@deprecate aws_get_region(profile::AbstractString, ini::Inifile) aws_get_region(; profile=profile, config=ini)
 
 
 """
