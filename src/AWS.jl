@@ -24,6 +24,8 @@ export JSONService, RestJSONService, RestXMLService, QueryService
 
 const DEFAULT_REGION = "us-east-1"
 
+include(joinpath("utilities", "utilities.jl"))
+
 include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
@@ -31,7 +33,7 @@ include("AWSMetadata.jl")
 
 include(joinpath("utilities", "request.jl"))
 include(joinpath("utilities", "sign.jl"))
-include(joinpath("utilities", "utilities.jl"))
+
 
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
