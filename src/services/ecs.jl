@@ -187,7 +187,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   run your service. If you do not specify a cluster, the default cluster is assumed.
 - `"deploymentConfiguration"`: Optional deployment parameters that control how many tasks
   run during the deployment and the ordering of stopping and starting tasks.
-- `"deploymentController"`: The deployment controller to use for the service.
+- `"deploymentController"`: The deployment controller to use for the service. If no
+  deployment controller is specified, the default value of ECS is used.
 - `"desiredCount"`: The number of instantiations of the specified task definition to place
   and keep running on your cluster. This is required if schedulingStrategy is REPLICA or is
   not specified. If schedulingStrategy is DAEMON then this is not required.
@@ -293,10 +294,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tasks, a task placement strategy, or use Service Auto Scaling policies.  Tasks using the
   Fargate launch type or the CODE_DEPLOY or EXTERNAL deployment controller types don't
   support the DAEMON scheduling strategy.
-- `"serviceRegistries"`: The details of the service discovery registries to assign to this
-  service. For more information, see Service discovery.  Service discovery is supported for
-  Fargate tasks if you are using platform version v1.1.0 or later. For more information, see
-  AWS Fargate platform versions.
+- `"serviceRegistries"`: The details of the service discovery registry to associate with
+  this service. For more information, see Service discovery.  Each service may be associated
+  with one service registry. Multiple service registries per service isn't supported.
 - `"tags"`: The metadata that you apply to the service to help you categorize and organize
   them. Each tag consists of a key and an optional value, both of which you define. When a
   service is deleted, the tags are deleted as well. The following basic restrictions apply to
@@ -362,11 +362,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"loadBalancers"`: A load balancer object representing the load balancer to use with the
   task set. The supported load balancer types are either an Application Load Balancer or a
   Network Load Balancer.
-- `"networkConfiguration"`:
+- `"networkConfiguration"`: An object representing the network configuration for a task set.
 - `"platformVersion"`: The platform version that the tasks in the task set should use. A
   platform version is specified only for tasks using the Fargate launch type. If one isn't
   specified, the LATEST platform version is used by default.
-- `"scale"`:
+- `"scale"`: A floating-point percentage of the desired number of tasks to place and keep
+  running in the task set.
 - `"serviceRegistries"`: The details of the service discovery registries to assign to this
   task set. For more information, see Service Discovery.
 - `"tags"`: The metadata that you apply to the task set to help you categorize and organize
@@ -830,7 +831,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   items in a list and not for other programmatic purposes.
 - `"principalArn"`: The ARN of the principal, which can be an IAM user, IAM role, or the
   root user. If this field is omitted, the account settings are listed only for the
-  authenticated user.
+  authenticated user.  Federated users assume the account setting of the root user and can't
+  have explicit account settings set for them.
 - `"value"`: The value of the account settings with which to filter results. You must also
   specify an account setting name to use this parameter.
 """
@@ -1142,7 +1144,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   root user. If you specify the root user, it modifies the account setting for all IAM users,
   IAM roles, and the root user of the account unless an IAM user or role explicitly overrides
   these settings. If this field is omitted, the setting is changed only for the authenticated
-  user.
+  user.  Federated users assume the account setting of the root user and can't have explicit
+  account settings set for them.
 """
 put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
 put_account_setting(name, value, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), params)); aws_config=aws_config)
@@ -1324,6 +1327,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) -
   Available memory values: Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)
   
+- `"ephemeralStorage"`: The amount of ephemeral storage to allocate for the task. This
+  parameter is used to expand the total amount of ephemeral storage available, beyond the
+  default amount, for tasks hosted on AWS Fargate. For more information, see Fargate task
+  storage in the Amazon ECS User Guide for AWS Fargate.  This parameter is only supported for
+  tasks hosted on AWS Fargate using platform version 1.4.0 or later.
 - `"executionRoleArn"`: The Amazon Resource Name (ARN) of the task execution role that
   grants the Amazon ECS container agent permission to make AWS API calls on your behalf. The
   task execution IAM role is required depending on the requirements of your task. For more
@@ -1399,7 +1407,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"placementConstraints"`: An array of placement constraint objects to use for the task.
   You can specify a maximum of 10 constraints per task (this limit includes constraints in
   the task definition and those specified at runtime).
-- `"proxyConfiguration"`:
+- `"proxyConfiguration"`: The configuration details for the App Mesh proxy. For tasks
+  hosted on Amazon EC2 instances, the container instances require at least version 1.26.0 of
+  the container agent and at least version 1.26.0-1 of the ecs-init package to enable a proxy
+  configuration. If your container instances are launched from the Amazon ECS-optimized AMI
+  version 20190301 or later, then they contain the required versions of the container agent
+  and ecs-init. For more information, see Amazon ECS-optimized AMI versions in the Amazon
+  Elastic Container Service Developer Guide.
 - `"requiresCompatibilities"`: The task launch type that Amazon ECS should validate the
   task definition against. A client exception is returned if the task definition doesn't
   validate against the compatibilities specified. If no value is specified, the parameter is
@@ -1781,10 +1795,14 @@ update_cluster_settings(cluster, settings, params::AbstractDict{String}; aws_con
 Updates the Amazon ECS container agent on a specified container instance. Updating the
 Amazon ECS container agent does not interrupt running tasks or services on the container
 instance. The process for updating the agent differs depending on whether your container
-instance was launched with the Amazon ECS-optimized AMI or another operating system.
-UpdateContainerAgent requires the Amazon ECS-optimized AMI or Amazon Linux with the
+instance was launched with the Amazon ECS-optimized AMI or another operating system.  The
+UpdateContainerAgent API isn't supported for container instances using the Amazon
+ECS-optimized Amazon Linux 2 (arm64) AMI. To update the container agent, you can update the
+ecs-init package which will update the agent. For more information, see Updating the Amazon
+ECS container agent in the Amazon Elastic Container Service Developer Guide.  The
+UpdateContainerAgent API requires an Amazon ECS-optimized AMI or Amazon Linux AMI with the
 ecs-init service installed and running. For help updating the Amazon ECS container agent on
-other operating systems, see Manually Updating the Amazon ECS Container Agent in the Amazon
+other operating systems, see Manually updating the Amazon ECS container agent in the Amazon
 Elastic Container Service Developer Guide.
 
 # Arguments
@@ -1964,7 +1982,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   seconds. During that time, the Amazon ECS service scheduler ignores the Elastic Load
   Balancing health check status. This grace period can prevent the ECS service scheduler from
   marking tasks as unhealthy and stopping them before they have time to come up.
-- `"networkConfiguration"`:
+- `"networkConfiguration"`: An object representing the network configuration for the
+  service.
 - `"placementConstraints"`: An array of task placement constraint objects to update the
   service to use. If no value is specified, the existing placement constraints for the
   service will remain unchanged. If this value is specified, it will override any existing
@@ -2022,7 +2041,8 @@ Service Developer Guide.
 # Arguments
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster that hosts
   the service that the task set exists in.
-- `scale`:
+- `scale`: A floating-point percentage of the desired number of tasks to place and keep
+  running in the task set.
 - `service`: The short name or full Amazon Resource Name (ARN) of the service that the task
   set exists in.
 - `task_set`: The short name or full Amazon Resource Name (ARN) of the task set to update.

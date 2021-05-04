@@ -98,7 +98,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   words. Each ignore word can contain 4 - 90 characters. Ignore words are case sensitive.
 - `"keywords"`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
-  array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters.
+  array can contain as many as 50 keywords. Each keyword can contain 3 - 90 characters.
   Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between text
   that matches the regex pattern and the character sequences specified by the keywords array.
@@ -820,7 +820,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   words. Each ignore word can contain 4 - 90 characters. Ignore words are case sensitive.
 - `"keywords"`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
-  array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters.
+  array can contain as many as 50 keywords. Each keyword can contain 3 - 90 characters.
   Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between text
   that matches the regex pattern and the character sequences specified by the keywords array.

@@ -522,6 +522,28 @@ delete_predictor_backtest_export_job(PredictorBacktestExportJobArn; aws_config::
 delete_predictor_backtest_export_job(PredictorBacktestExportJobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeletePredictorBacktestExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorBacktestExportJobArn"=>PredictorBacktestExportJobArn), params)); aws_config=aws_config)
 
 """
+    delete_resource_tree(resource_arn)
+    delete_resource_tree(resource_arn, params::Dict{String,<:Any})
+
+Deletes an entire resource tree. This operation will delete the parent resource and its
+child resources. Child resources are resources that were created from another resource. For
+example, when a forecast is generated from a predictor, the forecast is the child resource
+and the predictor is the parent resource. Amazon Forecast resources possess the following
+parent-child resource hierarchies:    Dataset Group: predictors, predictor backtest export
+jobs, forecasts, forecast export jobs    Dataset: dataset import jobs    Predictor:
+predictor backtest export jobs, forecasts, forecast export jobs    Forecast: forecast
+export jobs     DeleteResourceTree will only delete Amazon Forecast resources, and will not
+delete datasets or exported files stored in Amazon S3.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the parent resource to delete. All
+  child resources of the parent resource will also be deleted.
+
+"""
+delete_resource_tree(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteResourceTree", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+delete_resource_tree(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = forecast("DeleteResourceTree", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+
+"""
     describe_dataset(dataset_arn)
     describe_dataset(dataset_arn, params::Dict{String,<:Any})
 

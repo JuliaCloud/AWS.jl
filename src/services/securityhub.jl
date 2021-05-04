@@ -28,7 +28,12 @@ accept_administrator_invitation(AdministratorId, InvitationId, params::AbstractD
     accept_invitation(invitation_id, master_id)
     accept_invitation(invitation_id, master_id, params::Dict{String,<:Any})
 
-This method is deprecated. Instead, use AcceptAdministratorInvitation. Accepts the
+This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub
+console continues to use AcceptInvitation. It will eventually change to use
+AcceptAdministratorInvitation. Any IAM policies that specifically control access to this
+function must continue to use AcceptInvitation. You should also add
+AcceptAdministratorInvitation to your policies to ensure that the correct permissions are
+in place after the console begins to use AcceptAdministratorInvitation. Accepts the
 invitation to be a member account and be monitored by the Security Hub administrator
 account that the invitation was sent from. This operation is only used by member accounts
 that are not added through Organizations. When the member account accepts the invitation,
@@ -456,10 +461,16 @@ disassociate_from_administrator_account(params::AbstractDict{String}; aws_config
     disassociate_from_master_account()
     disassociate_from_master_account(params::Dict{String,<:Any})
 
-This method is deprecated. Instead, use DisassociateFromAdministratorAccount. Disassociates
-the current Security Hub member account from the associated administrator account. This
-operation is only used by accounts that are not part of an organization. For organization
-accounts, only the administrator account can disassociate a member account.
+This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security
+Hub console continues to use DisassociateFromMasterAccount. It will eventually change to
+use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access
+to this function must continue to use DisassociateFromMasterAccount. You should also add
+DisassociateFromAdministratorAccount to your policies to ensure that the correct
+permissions are in place after the console begins to use
+DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account
+from the associated administrator account. This operation is only used by accounts that are
+not part of an organization. For organization accounts, only the administrator account can
+disassociate a member account.
 
 """
 disassociate_from_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/master/disassociate"; aws_config=aws_config)
@@ -638,10 +649,14 @@ get_invitations_count(params::AbstractDict{String}; aws_config::AbstractAWSConfi
     get_master_account()
     get_master_account(params::Dict{String,<:Any})
 
-This method is deprecated. Instead, use GetAdministratorAccount. Provides the details for
-the Security Hub administrator account for the current member account. Can be used by both
-member accounts that are managed using Organizations and accounts that were invited
-manually.
+This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console
+continues to use GetMasterAccount. It will eventually change to use
+GetAdministratorAccount. Any IAM policies that specifically control access to this function
+must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your
+policies to ensure that the correct permissions are in place after the console begins to
+use GetAdministratorAccount. Provides the details for the Security Hub administrator
+account for the current member account. Can be used by both member accounts that are
+managed using Organizations and accounts that were invited manually.
 
 """
 get_master_account(; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("GET", "/master"; aws_config=aws_config)

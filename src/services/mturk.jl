@@ -461,8 +461,11 @@ disassociate_qualification_from_worker(QualificationTypeId, WorkerId, params::Ab
     get_account_balance()
     get_account_balance(params::Dict{String,<:Any})
 
-The GetAccountBalance operation retrieves the amount of money in your Amazon Mechanical
-Turk account.
+The GetAccountBalance operation retrieves the Prepaid HITs balance in your Amazon
+Mechanical Turk account if you are a Prepaid Requester. Alternatively, this operation will
+retrieve the remaining available AWS Billing usage if you have enabled AWS Billing. Note:
+If you have enabled AWS Billing and still have a remaining Prepaid HITs balance, this
+balance can be viewed on the My Account page in the Requester console.
 
 """
 get_account_balance(; aws_config::AbstractAWSConfig=global_aws_config()) = mturk("GetAccountBalance"; aws_config=aws_config)

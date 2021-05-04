@@ -46,6 +46,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultEncryptionKey"`: The default encryption key, which is an AWS managed key, is
   used when no specific type of encryption key is specified. It is used to encrypt all data
   before it is placed in permanent or semi-permanent storage.
+- `"Matching"`: The process of matching duplicate profiles. This process runs every
+  Saturday at 12AM.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 create_domain(DefaultExpirationDays, DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)", Dict{String, Any}("DefaultExpirationDays"=>DefaultExpirationDays); aws_config=aws_config)
@@ -64,7 +66,8 @@ customer profile in a domain.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountNumber"`: A unique account number that you have given to the customer.
-- `"AdditionalInformation"`: Any additional information relevant to the customer's profile.
+- `"AdditionalInformation"`: Any additional information relevant to the customer’s
+  profile.
 - `"Address"`: A generic address associated with the customer that is not mailing,
   shipping, or billing.
 - `"Attributes"`: A key value pair of attributes of a customer profile.
@@ -73,7 +76,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BusinessEmailAddress"`: The customer’s business email address.
 - `"BusinessName"`: The name of the customer’s business.
 - `"BusinessPhoneNumber"`: The customer’s business phone number.
-- `"EmailAddress"`: The customer's email address, which has not been specified as a
+- `"EmailAddress"`: The customer’s email address, which has not been specified as a
   personal or business address.
 - `"FirstName"`: The customer’s first name.
 - `"Gender"`: The gender with which the customer identifies.
@@ -84,7 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MobilePhoneNumber"`: The customer’s mobile phone number.
 - `"PartyType"`: The type of profile used to describe the customer.
 - `"PersonalEmailAddress"`: The customer’s personal email address.
-- `"PhoneNumber"`: The customer's phone number, which has not been specified as a mobile,
+- `"PhoneNumber"`: The customer’s phone number, which has not been specified as a mobile,
   home, or business number.
 - `"ShippingAddress"`: The customer’s shipping address.
 """
@@ -190,7 +193,7 @@ delete_profile_object_type(DomainName, ObjectTypeName, params::AbstractDict{Stri
 Returns information about a specific domain.
 
 # Arguments
-- `domain_name`: A unique name for the domain.
+- `domain_name`: The unique name of the domain.
 
 """
 get_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)"; aws_config=aws_config)
@@ -209,6 +212,31 @@ Returns an integration for a domain.
 """
 get_integration(DomainName, Uri; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", Dict{String, Any}("Uri"=>Uri); aws_config=aws_config)
 get_integration(DomainName, Uri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/integrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Uri"=>Uri), params)); aws_config=aws_config)
+
+"""
+    get_matches(domain_name)
+    get_matches(domain_name, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and subject to change. Before calling
+this API, use CreateDomain or UpdateDomain to enable identity resolution: set Matching to
+true. GetMatches returns potentially matching profiles, based on the results of the latest
+run of a machine learning process.   Amazon Connect runs a batch process every Saturday at
+12AM UTC to identify matching profiles. The results are returned up to seven days after the
+Saturday run.  Amazon Connect uses the following profile attributes to identify matches:
+PhoneNumber   HomePhoneNumber   BusinessPhoneNumber   MobilePhoneNumber   EmailAddress
+PersonalEmailAddress   BusinessEmailAddress   FullName   BusinessName
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to return per page.
+- `"next-token"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+get_matches(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/matches"; aws_config=aws_config)
+get_matches(DomainName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/domains/$(DomainName)/matches", params; aws_config=aws_config)
 
 """
     get_profile_object_type(domain_name, object_type_name)
@@ -353,6 +381,38 @@ list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_con
 list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
+    merge_profiles(domain_name, main_profile_id, profile_ids_to_be_merged)
+    merge_profiles(domain_name, main_profile_id, profile_ids_to_be_merged, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and subject to change. Runs an AWS Lambda
+job that does the following:   All the profileKeys in the ProfileToBeMerged will be moved
+to the main profile.   All the objects in the ProfileToBeMerged will be moved to the main
+profile.   All the ProfileToBeMerged will be deleted at the end.   All the profileKeys in
+the ProfileIdsToBeMerged will be moved to the main profile.   Standard fields are merged as
+follows:   Fields are always \"union\"-ed if there are no conflicts in standard fields or
+attributeKeys.   When there are conflicting fields:   If no SourceProfileIds entry is
+specified, the main Profile value is always taken.    If a SourceProfileIds entry is
+specified, the specified profileId is always taken, even if it is a NULL value.       You
+can use MergeProfiles together with GetMatches, which returns potentially matching
+profiles, or use it with the results of another matching system. After profiles have been
+merged, they cannot be separated (unmerged).
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `main_profile_id`: The identifier of the profile to be taken.
+- `profile_ids_to_be_merged`: The identifier of the profile to be merged into MainProfileId.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FieldSourceProfileIds"`: The identifiers of the fields in the profile that has the
+  information you want to apply to the merge. For example, say you want to merge EmailAddress
+  from Profile1 into MainProfile. This would be the identifier of the EmailAddress field in
+  Profile1.
+"""
+merge_profiles(DomainName, MainProfileId, ProfileIdsToBeMerged; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/merge", Dict{String, Any}("MainProfileId"=>MainProfileId, "ProfileIdsToBeMerged"=>ProfileIdsToBeMerged); aws_config=aws_config)
+merge_profiles(DomainName, MainProfileId, ProfileIdsToBeMerged, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("POST", "/domains/$(DomainName)/profiles/objects/merge", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MainProfileId"=>MainProfileId, "ProfileIdsToBeMerged"=>ProfileIdsToBeMerged), params)); aws_config=aws_config)
+
+"""
     put_integration(domain_name, object_type_name)
     put_integration(domain_name, object_type_name, params::Dict{String,<:Any})
 
@@ -490,10 +550,10 @@ untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::A
     update_domain(domain_name, params::Dict{String,<:Any})
 
 Updates the properties of a domain, including creating or selecting a dead letter queue or
-an encryption key. Once a domain is created, the name can’t be changed.
+an encryption key. After a domain is created, the name can’t be changed.
 
 # Arguments
-- `domain_name`: The unique name for the domain.
+- `domain_name`: The unique name of the domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -508,6 +568,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   string, it will clear any existing value.
 - `"DefaultExpirationDays"`: The default number of days until the data within the domain
   expires.
+- `"Matching"`: The process of matching duplicate profiles. This process runs every
+  Saturday at 12AM.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 update_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) = customer_profiles("PUT", "/domains/$(DomainName)"; aws_config=aws_config)
@@ -529,7 +591,8 @@ already there will be kept.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountNumber"`: A unique account number that you have given to the customer.
-- `"AdditionalInformation"`: Any additional information relevant to the customer's profile.
+- `"AdditionalInformation"`: Any additional information relevant to the customer’s
+  profile.
 - `"Address"`: A generic address associated with the customer that is not mailing,
   shipping, or billing.
 - `"Attributes"`: A key value pair of attributes of a customer profile.
@@ -538,7 +601,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BusinessEmailAddress"`: The customer’s business email address.
 - `"BusinessName"`: The name of the customer’s business.
 - `"BusinessPhoneNumber"`: The customer’s business phone number.
-- `"EmailAddress"`: The customer's email address, which has not been specified as a
+- `"EmailAddress"`: The customer’s email address, which has not been specified as a
   personal or business address.
 - `"FirstName"`: The customer’s first name.
 - `"Gender"`: The gender with which the customer identifies.
@@ -549,7 +612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MobilePhoneNumber"`: The customer’s mobile phone number.
 - `"PartyType"`: The type of profile used to describe the customer.
 - `"PersonalEmailAddress"`: The customer’s personal email address.
-- `"PhoneNumber"`: The customer's phone number, which has not been specified as a mobile,
+- `"PhoneNumber"`: The customer’s phone number, which has not been specified as a mobile,
   home, or business number.
 - `"ShippingAddress"`: The customer’s shipping address.
 """

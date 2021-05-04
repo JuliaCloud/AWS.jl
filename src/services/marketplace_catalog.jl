@@ -109,8 +109,9 @@ when a ChangeSet is running, all the entities targeted by the different changes 
 until the ChangeSet has completed (either succeeded, cancelled, or failed). If you try to
 start a ChangeSet containing a change against an entity that is already locked, you will
 receive a ResourceInUseException. For example, you cannot start the ChangeSet described in
-the example below because it contains two changes to execute the same change type
-(AddRevisions) against the same entity (entity-id@1).
+the example later in this topic, because it contains two changes to execute the same change
+type (AddRevisions) against the same entity (entity-id@1). For more information about
+working with change sets, see  Working with change sets.
 
 # Arguments
 - `catalog`: The catalog related to the request. Fixed value: AWSMarketplace
