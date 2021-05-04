@@ -39,16 +39,18 @@ function _aws_profile_config(ini::Inifile, profile::AbstractString)
     return get(sections(ini), profile, Dict())
 end
 
-function _aws_profile_config(ini::Inifile, profile::Nothing=nothing)
+function _aws_profile_config(ini::Inifile, profile::Nothing)
     _aws_profile_config(ini, _aws_get_profile())
 end
 
-function _aws_profile_config(config_file::AbstractString=dot_aws_config_file(), args...)
+function _aws_profile_config(config_file::AbstractString, profile)
     isfile(config_file) || return Dict()
-    return _aws_profile_config(read(Inifile(), config_file), args...)
+    return _aws_profile_config(read(Inifile(), config_file), profile)
 end
 
-_aws_profile_config(config_file::Nothing, args...) = _aws_profile_config(args...)
+function _aws_profile_config(config_file::Nothing, profile)
+    return _aws_profile_config(dot_aws_config_file(), profile)
+end
 
 
 """
