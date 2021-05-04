@@ -44,6 +44,7 @@ function _aws_profile_config(ini::Inifile, profile::Nothing=nothing)
 end
 
 function _aws_profile_config(config_file::AbstractString=dot_aws_config_file(), args...)
+    isfile(config_file) || return Dict()
     return _aws_profile_config(read(Inifile(), config_file), args...)
 end
 

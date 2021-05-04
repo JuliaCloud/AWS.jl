@@ -620,8 +620,10 @@ end
         end
 
         @testset "default profile" begin
-            @test aws_get_region(config=ini, profile="default") == "us-west-2"
-            @test aws_get_region(config=config_file, profile="default") == "us-west-2"
+            withenv("AWS_DEFAULT_REGION" => nothing) do
+                @test aws_get_region(config=ini, profile="default") == "us-west-2"
+                @test aws_get_region(config=config_file, profile="default") == "us-west-2"
+            end
 
             withenv(
                 "AWS_DEFAULT_REGION" => nothing,
@@ -634,8 +636,10 @@ end
         end
 
         @testset "specified profile" begin
-            @test aws_get_region(config=ini, profile="test") == "ap-northeast-1"
-            @test aws_get_region(config=config_file, profile="test") == "ap-northeast-1"
+            withenv("AWS_DEFAULT_REGION" => nothing) do
+                @test aws_get_region(config=ini, profile="test") == "ap-northeast-1"
+                @test aws_get_region(config=config_file, profile="test") == "ap-northeast-1"
+            end
 
             withenv(
                 "AWS_DEFAULT_REGION" => nothing,
@@ -647,8 +651,10 @@ end
         end
 
         @testset "unknown profile" begin
-            @test aws_get_region(config=ini, profile="unknown") == AWS.DEFAULT_REGION
-            @test aws_get_region(config=config_file, profile="unknown") == AWS.DEFAULT_REGION
+            withenv("AWS_DEFAULT_REGION" => nothing) do
+                @test aws_get_region(config=ini, profile="unknown") == AWS.DEFAULT_REGION
+                @test aws_get_region(config=config_file, profile="unknown") == AWS.DEFAULT_REGION
+            end
 
             withenv(
                 "AWS_DEFAULT_REGION" => nothing,
@@ -661,8 +667,10 @@ end
 
         @testset "default keyword" begin
             default = nothing
-            @test aws_get_region(config=ini, profile="unknown", default=default) === default
-            @test aws_get_region(config=config_file, profile="unknown", default=default) === default
+            withenv("AWS_DEFAULT_REGION" => nothing) do
+                @test aws_get_region(config=ini, profile="unknown", default=default) === default
+                @test aws_get_region(config=config_file, profile="unknown", default=default) === default
+            end
 
             withenv(
                 "AWS_DEFAULT_REGION" => nothing,
@@ -670,6 +678,15 @@ end
                 "AWS_PROFILE" => "unknown",
             ) do
                 @test aws_get_region(default=default) === default
+            end
+        end
+
+        @testset "no such config file" begin
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_CONFIG_FILE" => tempname(),
+            ) do
+                @test aws_get_region() == AWS.DEFAULT_REGION
             end
         end
     end
