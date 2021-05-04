@@ -95,8 +95,8 @@ the request, do one of the following:   Use the Id member of the CreateAccountSt
 response element from this operation to provide as a parameter to the
 DescribeCreateAccountStatus operation.   Check the AWS CloudTrail log for the
 CreateAccountResult event. For information on using AWS CloudTrail with AWS Organizations,
-see Monitoring the Activity in Your Organization in the AWS Organizations User Guide.
-The user who calls the API to create an account must have the organizations:CreateAccount
+see Logging and monitoring in AWS Organizations in the AWS Organizations User Guide.    The
+user who calls the API to create an account must have the organizations:CreateAccount
 permission. If you enabled all features in the organization, AWS Organizations creates the
 required service-linked role named AWSServiceRoleForOrganizations. For more information,
 see AWS Organizations and Service-Linked Roles in the AWS Organizations User Guide. If the
@@ -868,7 +868,9 @@ enable IAM user access to billing in your account. For more information, see Act
 Access to the Billing and Cost Management Console in the AWS Billing and Cost Management
 User Guide.    After the account leaves the organization, all tags that were attached to
 the account object in the organization are deleted. AWS accounts outside of an organization
-do not support tags.
+do not support tags.   A newly created account has a waiting period before it can be
+removed from its organization. If you get an error that indicates that a wait period is
+required, then try again in a few days.
 
 """
 leave_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations("LeaveOrganization"; aws_config=aws_config)

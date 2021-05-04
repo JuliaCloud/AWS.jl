@@ -88,6 +88,27 @@ batch_create_attendee(Attendees, meetingId; aws_config::AbstractAWSConfig=global
 batch_create_attendee(Attendees, meetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/attendees?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attendees"=>Attendees), params)); aws_config=aws_config)
 
 """
+    batch_create_channel_membership(member_arns, channel_arn)
+    batch_create_channel_membership(member_arns, channel_arn, params::Dict{String,<:Any})
+
+Adds a specified number of users to a channel.
+
+# Arguments
+- `member_arns`: The ARNs of the members you want to add to the channel.
+- `channel_arn`: The ARN of the channel to which you're adding users.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Type"`: The membership type of a user, DEFAULT or HIDDEN. Default members are always
+  returned as part of ListChannelMemberships. Hidden members are only returned if the type
+  filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
+  This is only supported by moderators.
+- `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
+"""
+batch_create_channel_membership(MemberArns, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/memberships?operation=batch-create", Dict{String, Any}("MemberArns"=>MemberArns); aws_config=aws_config)
+batch_create_channel_membership(MemberArns, channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/memberships?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberArns"=>MemberArns), params)); aws_config=aws_config)
+
+"""
     batch_create_room_membership(membership_item_list, account_id, room_id)
     batch_create_room_membership(membership_item_list, account_id, room_id, params::Dict{String,<:Any})
 
@@ -585,8 +606,9 @@ Creates an outbound call to a phone number from the phone number specified in th
 and it invokes the endpoint of the specified sipMediaApplicationId.
 
 # Arguments
-- `from_phone_number`: The phone number that a user calls from.
-- `to_phone_number`: The phone number that the user dials in order to connect to a meeting.
+- `from_phone_number`: The phone number that a user calls from. This is a phone number in
+  your Amazon Chime phone number inventory.
+- `to_phone_number`: The phone number that the service should call.
 - `sip_media_application_id`: The ID of the SIP media application.
 
 """
@@ -691,7 +713,7 @@ account. You can use the BatchSuspendUser action to dodo. For EnterpriseLWA and
 EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account
 before deletion. As soon as you release the domain, all users under that account are
 suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore
-deleted account from your Disabled accounts list, you must contact AWS Support.  After 90
+deleted account from your Disabled accounts list, you must contact AWS Support. After 90
 days, deleted accounts are permanently removed from your Disabled accounts list.
 
 # Arguments
@@ -758,10 +780,10 @@ delete_app_instance_user(appInstanceUserArn, params::AbstractDict{String}; aws_c
     delete_attendee(attendee_id, meeting_id)
     delete_attendee(attendee_id, meeting_id, params::Dict{String,<:Any})
 
- Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
-JoinToken . Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
+Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
+JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
 For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the
-Amazon Chime Developer Guide .
+Amazon Chime Developer Guide.
 
 # Arguments
 - `attendee_id`: The Amazon Chime SDK attendee ID.
@@ -882,10 +904,10 @@ delete_events_configuration(accountId, botId, params::AbstractDict{String}; aws_
     delete_meeting(meeting_id)
     delete_meeting(meeting_id, params::Dict{String,<:Any})
 
-Deletes the specified Amazon Chime SDK meeting. When a meeting is deleted, its attendees
-are also deleted, clients connected to the meeting are disconnected, and clients can no
-longer join the meeting. For more information about the Amazon Chime SDK, see Using the
-Amazon Chime SDK in the Amazon Chime Developer Guide.
+Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees,
+disconnects all clients, and prevents new clients from joining the meeting. For more
+information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
+Developer Guide.
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
@@ -1011,8 +1033,8 @@ delete_voice_connector_emergency_calling_configuration(voiceConnectorId, params:
     delete_voice_connector_group(voice_connector_group_id)
     delete_voice_connector_group(voice_connector_group_id, params::Dict{String,<:Any})
 
- Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and
-phone numbers associated with the group must be removed before it can be deleted.
+Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone
+numbers associated with the group must be removed before it can be deleted.
 
 # Arguments
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
@@ -1761,7 +1783,7 @@ invite_users(UserEmailList, accountId, params::AbstractDict{String}; aws_config:
 
 Lists the Amazon Chime accounts under the administrator's AWS account. You can filter
 accounts by account name prefix. To find out which Amazon Chime account a user belongs to,
-toucan filter by the user's email address, which returns one account result.
+you can filter by the user's email address, which returns one account result.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1994,8 +2016,8 @@ list_channel_moderators(channelArn, params::AbstractDict{String}; aws_config::Ab
     list_channels(app-instance-arn, params::Dict{String,<:Any})
 
 Lists all Channels created under a single Chime App as a paginated list. You can specify
-filters to narrow results.  Functionality &amp; restrictions     Use privacy = PUBLIC to
-retrieve all public channels in the account    Only an AppInstanceAdmin can set privacy =
+filters to narrow results.  Functionality &amp; restrictions    Use privacy = PUBLIC to
+retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy =
 PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request
 header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
 value in the header.
@@ -2008,7 +2030,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of channels that you want to return.
 - `"next-token"`: The token passed by previous API calls until all requested channels are
   returned.
-- `"privacy"`:  The privacy setting. PUBLIC retrieves all the public channels. PRIVATE
+- `"privacy"`: The privacy setting. PUBLIC retrieves all the public channels. PRIVATE
   retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
@@ -3048,7 +3070,7 @@ Amazon Chime Voice Connector priority ranking.
 
 # Arguments
 - `name`: The name of the Amazon Chime Voice Connector group.
-- `voice_connector_items`:  The VoiceConnectorItems to associate with the group.
+- `voice_connector_items`: The VoiceConnectorItems to associate with the group.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """

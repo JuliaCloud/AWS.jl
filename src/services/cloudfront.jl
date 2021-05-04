@@ -109,6 +109,31 @@ create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfi
 create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), params)); aws_config=aws_config)
 
 """
+    create_function2020_05_31(function_code, function_config, name)
+    create_function2020_05_31(function_code, function_config, name, params::Dict{String,<:Any})
+
+Creates a CloudFront function. To create a function, you provide the function code and some
+configuration information about the function. The response contains an Amazon Resource Name
+(ARN) that uniquely identifies the function. When you create a function, it’s in the
+DEVELOPMENT stage. In this stage, you can test the function with TestFunction, and update
+it with UpdateFunction. When you’re ready to use your function with a CloudFront
+distribution, use PublishFunction to copy the function from the DEVELOPMENT stage to LIVE.
+When it’s live, you can attach the function to a distribution’s cache behavior, using
+the function’s ARN.
+
+# Arguments
+- `function_code`: The function code. For more information about writing a CloudFront
+  function, see Writing function code for CloudFront Functions in the Amazon CloudFront
+  Developer Guide.
+- `function_config`: Configuration information about the function, including an optional
+  comment and the function’s runtime.
+- `name`: A name to identify the function.
+
+"""
+create_function2020_05_31(FunctionCode, FunctionConfig, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function", Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "Name"=>Name); aws_config=aws_config)
+create_function2020_05_31(FunctionCode, FunctionConfig, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "Name"=>Name), params)); aws_config=aws_config)
+
+"""
     create_invalidation2020_05_31(distribution_id, invalidation_batch)
     create_invalidation2020_05_31(distribution_id, invalidation_batch, params::Dict{String,<:Any})
 
@@ -351,6 +376,25 @@ delete_field_level_encryption_profile2020_05_31(Id; aws_config::AbstractAWSConfi
 delete_field_level_encryption_profile2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", params; aws_config=aws_config)
 
 """
+    delete_function2020_05_31(if-_match, name)
+    delete_function2020_05_31(if-_match, name, params::Dict{String,<:Any})
+
+Deletes a CloudFront function. You cannot delete a function if it’s associated with a
+cache behavior. First, update your distributions to remove the function association from
+all cache behaviors, then delete the function. To delete a function, you must provide the
+function’s name and version (ETag value). To get these values, you can use ListFunctions
+and DescribeFunction.
+
+# Arguments
+- `if-_match`: The current version (ETag value) of the function that you are deleting,
+  which you can get using DescribeFunction.
+- `name`: The name of the function that you are deleting.
+
+"""
+delete_function2020_05_31(If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/function/$(Name)", Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)); aws_config=aws_config)
+delete_function2020_05_31(If_Match, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/function/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config)
+
+"""
     delete_key_group2020_05_31(id)
     delete_key_group2020_05_31(id, params::Dict{String,<:Any})
 
@@ -479,6 +523,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 delete_streaming_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
 delete_streaming_distribution2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)", params; aws_config=aws_config)
+
+"""
+    describe_function2020_05_31(name)
+    describe_function2020_05_31(name, params::Dict{String,<:Any})
+
+Gets configuration information and metadata about a CloudFront function, but not the
+function’s code. To get a function’s code, use GetFunction. To get configuration
+information and metadata about a function, you must provide the function’s name and
+stage. To get these values, you can use ListFunctions.
+
+# Arguments
+- `name`: The name of the function that you are getting information about.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Stage"`: The function’s stage, either DEVELOPMENT or LIVE.
+"""
+describe_function2020_05_31(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function/$(Name)/describe"; aws_config=aws_config)
+describe_function2020_05_31(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function/$(Name)/describe", params; aws_config=aws_config)
 
 """
     get_cache_policy2020_05_31(id)
@@ -626,6 +689,24 @@ Get the field-level encryption profile configuration information.
 """
 get_field_level_encryption_profile_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config"; aws_config=aws_config)
 get_field_level_encryption_profile_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config", params; aws_config=aws_config)
+
+"""
+    get_function2020_05_31(name)
+    get_function2020_05_31(name, params::Dict{String,<:Any})
+
+Gets the code of a CloudFront function. To get configuration information and metadata about
+a function, use DescribeFunction. To get a function’s code, you must provide the
+function’s name and stage. To get these values, you can use ListFunctions.
+
+# Arguments
+- `name`: The name of the function whose code you are getting.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Stage"`: The function’s stage, either DEVELOPMENT or LIVE.
+"""
+get_function2020_05_31(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function/$(Name)"; aws_config=aws_config)
+get_function2020_05_31(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function/$(Name)", params; aws_config=aws_config)
 
 """
     get_invalidation2020_05_31(distribution_id, id)
@@ -1033,6 +1114,31 @@ list_field_level_encryption_profiles2020_05_31(; aws_config::AbstractAWSConfig=g
 list_field_level_encryption_profiles2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile", params; aws_config=aws_config)
 
 """
+    list_functions2020_05_31()
+    list_functions2020_05_31(params::Dict{String,<:Any})
+
+Gets a list of all CloudFront functions in your AWS account. You can optionally apply a
+filter to return only the functions that are in the specified stage, either DEVELOPMENT or
+LIVE. You can optionally specify the maximum number of items to receive in the response. If
+the total number of items in the list exceeds the maximum that you specify, or the default
+maximum, the response is paginated. To get the next page of items, send a subsequent
+request that specifies the NextMarker value from the current response as the Marker value
+in the subsequent request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this field when paginating results to indicate where to begin in your
+  list of functions. The response includes functions in the list that occur after the marker.
+  To get the next page of the list, set this field’s value to the value of NextMarker from
+  the current page’s response.
+- `"MaxItems"`: The maximum number of functions that you want in the response.
+- `"Stage"`: An optional filter to return only the functions that are in the specified
+  stage, either DEVELOPMENT or LIVE.
+"""
+list_functions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function"; aws_config=aws_config)
+list_functions2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function", params; aws_config=aws_config)
+
+"""
     list_invalidations2020_05_31(distribution_id)
     list_invalidations2020_05_31(distribution_id, params::Dict{String,<:Any})
 
@@ -1169,6 +1275,27 @@ list_tags_for_resource2020_05_31(Resource; aws_config::AbstractAWSConfig=global_
 list_tags_for_resource2020_05_31(Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config)
 
 """
+    publish_function2020_05_31(if-_match, name)
+    publish_function2020_05_31(if-_match, name, params::Dict{String,<:Any})
+
+Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to
+LIVE. This automatically updates all cache behaviors that are using this function to use
+the newly published copy in the LIVE stage. When a function is published to the LIVE stage,
+you can attach the function to a distribution’s cache behavior, using the function’s
+Amazon Resource Name (ARN). To publish a function, you must provide the function’s name
+and version (ETag value). To get these values, you can use ListFunctions and
+DescribeFunction.
+
+# Arguments
+- `if-_match`: The current version (ETag value) of the function that you are publishing,
+  which you can get using DescribeFunction.
+- `name`: The name of the function that you are publishing.
+
+"""
+publish_function2020_05_31(If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function/$(Name)/publish", Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)); aws_config=aws_config)
+publish_function2020_05_31(If_Match, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function/$(Name)/publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config)
+
+"""
     tag_resource2020_05_31(resource, tags)
     tag_resource2020_05_31(resource, tags, params::Dict{String,<:Any})
 
@@ -1181,6 +1308,35 @@ Add tags to a CloudFront resource.
 """
 tag_resource2020_05_31(Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags); aws_config=aws_config)
 tag_resource2020_05_31(Resource, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    test_function2020_05_31(event_object, if-_match, name)
+    test_function2020_05_31(event_object, if-_match, name, params::Dict{String,<:Any})
+
+Tests a CloudFront function. To test a function, you provide an event object that
+represents an HTTP request or response that your CloudFront distribution could receive in
+production. CloudFront runs the function, passing it the event object that you provided,
+and returns the function’s result (the modified event object) in the response. The
+response also contains function logs and error messages, if any exist. For more information
+about testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To
+test a function, you provide the function’s name and version (ETag value) along with the
+event object. To get the function’s name and version, you can use ListFunctions and
+DescribeFunction.
+
+# Arguments
+- `event_object`: The event object to test the function with. For more information about
+  the structure of the event object, see Testing functions in the Amazon CloudFront Developer
+  Guide.
+- `if-_match`: The current version (ETag value) of the function that you are testing, which
+  you can get using DescribeFunction.
+- `name`: The name of the function that you are testing.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Stage"`: The stage of the function that you are testing, either DEVELOPMENT or LIVE.
+"""
+test_function2020_05_31(EventObject, If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function/$(Name)/test", Dict{String, Any}("EventObject"=>EventObject, "headers"=>Dict{String, Any}("If-Match"=>If_Match)); aws_config=aws_config)
+test_function2020_05_31(EventObject, If_Match, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function/$(Name)/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventObject"=>EventObject, "headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config)
 
 """
     untag_resource2020_05_31(resource, tag_keys)
@@ -1327,6 +1483,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
 update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), params)); aws_config=aws_config)
+
+"""
+    update_function2020_05_31(function_code, function_config, if-_match, name)
+    update_function2020_05_31(function_code, function_config, if-_match, name, params::Dict{String,<:Any})
+
+Updates a CloudFront function. You can update a function’s code or the comment that
+describes the function. You cannot update a function’s name. To update a function, you
+provide the function’s name and version (ETag value) along with the updated function
+code. To get the name and version, you can use ListFunctions and DescribeFunction.
+
+# Arguments
+- `function_code`: The function code. For more information about writing a CloudFront
+  function, see Writing function code for CloudFront Functions in the Amazon CloudFront
+  Developer Guide.
+- `function_config`: Configuration information about the function.
+- `if-_match`: The current version (ETag value) of the function that you are updating,
+  which you can get using DescribeFunction.
+- `name`: The name of the function that you are updating.
+
+"""
+update_function2020_05_31(FunctionCode, FunctionConfig, If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/function/$(Name)", Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "headers"=>Dict{String, Any}("If-Match"=>If_Match)); aws_config=aws_config)
+update_function2020_05_31(FunctionCode, FunctionConfig, If_Match, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/function/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config)
 
 """
     update_key_group2020_05_31(id, key_group_config)
