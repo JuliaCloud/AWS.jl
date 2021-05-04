@@ -11,6 +11,7 @@ using Compat: mergewith
 using Dates
 using GitHub
 using HTTP
+using IniFile: Inifile
 using JSON
 using OrderedCollections: LittleDict, OrderedDict
 using MbedTLS: digest, MD_SHA256, MD_MD5

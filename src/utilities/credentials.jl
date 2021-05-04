@@ -31,6 +31,28 @@ function _get_ini_value(
 end
 
 
+function _aws_profile_config(ini::Inifile, profile::AbstractString)
+    if profile != "default"
+        profile = "profile $profile"
+    end
+
+    return get(sections(ini), profile, Dict())
+end
+
+function _aws_profile_config(ini::Inifile, profile::Nothing)
+    _aws_profile_config(ini, _aws_get_profile())
+end
+
+function _aws_profile_config(config_file::AbstractString, profile)
+    isfile(config_file) || return Dict()
+    return _aws_profile_config(read(Inifile(), config_file), profile)
+end
+
+function _aws_profile_config(config_file::Nothing, profile)
+    return _aws_profile_config(dot_aws_config_file(), profile)
+end
+
+
 """
 Retrieve the `AWSCredentials` for a given role from Security Token Services (STS).
 """
@@ -45,7 +67,7 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
     end
 
     credentials === nothing && return nothing
-    config = AWSConfig(creds=credentials, region=aws_get_region(source_profile, ini))
+    config = AWSConfig(creds=credentials, region=aws_get_region(config=ini, profile=source_profile))
 
     # RoleSessionName Documentation
     # https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
@@ -83,10 +105,12 @@ end
 """
 Get the default AWS profile
 """
-function _aws_get_profile()
-    get(ENV, "AWS_DEFAULT_PROFILE") do
-        get(ENV, "AWS_PROFILE", "default")
-    end
+function _aws_get_profile(; default="default")
+    @something(
+        get(ENV, "AWS_PROFILE", nothing),
+        get(ENV, "AWS_DEFAULT_PROFILE", nothing),
+        Some(default),
+    )
 end
 
 

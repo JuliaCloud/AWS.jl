@@ -98,3 +98,40 @@ function _generate_rest_resource(request_uri::String, args::AbstractDict{String,
 
     return request_uri
 end
+
+
+"""
+    @something(x, y...)
+
+Short-circuiting version of [`something`](@ref something).
+
+# Examples
+```
+julia> f(x) = (println("f(\$x)"); nothing);
+
+julia> a = 1;
+
+julia> a = @something a f(2) f(3) error("Unable to find default for `a`")
+1
+
+julia> b = nothing;
+
+julia> b = @something b f(2) f(3) error("Unable to find default for `b`")
+f(2)
+f(3)
+ERROR: Unable to find default for `b`
+...
+
+julia> b = @something b f(2) f(3) Some(nothing)
+f(2)
+f(3)
+
+```
+"""
+macro something(args...)
+    expr = :(nothing)
+    for arg in reverse(args)
+        expr = :((val = $arg) !== nothing ? val : $expr)
+    end
+    return esc(:(something(let val; $expr; end)))
+end
