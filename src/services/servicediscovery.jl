@@ -19,12 +19,12 @@ see AWS Cloud Map quotas in the AWS Cloud Map Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
-  CreateHttpNamespace requests to be retried without the risk of executing the operation
-  twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+  CreateHttpNamespace requests to be retried without the risk of running the operation twice.
+  CreatorRequestId can be any unique string, for example, a date/time stamp.
 - `"Description"`: A description for the namespace.
 - `"Tags"`: The tags to add to the namespace. Each tag consists of a key and an optional
-  value, both of which you define. Tag keys can have a maximum character length of 128
-  characters, and tag values can have a maximum length of 256 characters.
+  value that you define. Tags keys can be up to 128 characters in length, and tag values can
+  be up to 256 characters in length.
 """
 create_http_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateHttpNamespace", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
 create_http_namespace(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreateHttpNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
@@ -33,10 +33,10 @@ create_http_namespace(Name, params::AbstractDict{String}; aws_config::AbstractAW
     create_private_dns_namespace(name, vpc)
     create_private_dns_namespace(name, vpc, params::Dict{String,<:Any})
 
-Creates a private namespace based on DNS, which will be visible only inside a specified
-Amazon VPC. The namespace defines your service naming scheme. For example, if you name your
+Creates a private namespace based on DNS, which is visible only inside a specified Amazon
+VPC. The namespace defines your service naming scheme. For example, if you name your
 namespace example.com and name your service backend, the resulting DNS name for the service
-will be backend.example.com. For the current quota on the number of namespaces that you can
+is backend.example.com. For the current quota on the number of namespaces that you can
 create using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer
 Guide.
 
@@ -49,12 +49,12 @@ Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
-  CreatePrivateDnsNamespace requests to be retried without the risk of executing the
-  operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+  CreatePrivateDnsNamespace requests to be retried without the risk of running the operation
+  twice. CreatorRequestId can be any unique string, for example, a date/timestamp.
 - `"Description"`: A description for the namespace.
 - `"Tags"`: The tags to add to the namespace. Each tag consists of a key and an optional
-  value, both of which you define. Tag keys can have a maximum character length of 128
-  characters, and tag values can have a maximum length of 256 characters.
+  value that you define. Tags keys can be up to 128 characters in length, and tag values can
+  be up to 256 characters in length.
 """
 create_private_dns_namespace(Name, Vpc; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
 create_private_dns_namespace(Name, Vpc, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePrivateDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Vpc"=>Vpc, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
@@ -63,11 +63,11 @@ create_private_dns_namespace(Name, Vpc, params::AbstractDict{String}; aws_config
     create_public_dns_namespace(name)
     create_public_dns_namespace(name, params::Dict{String,<:Any})
 
-Creates a public namespace based on DNS, which will be visible on the internet. The
-namespace defines your service naming scheme. For example, if you name your namespace
-example.com and name your service backend, the resulting DNS name for the service will be
-backend.example.com. For the current quota on the number of namespaces that you can create
-using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
+Creates a public namespace based on DNS, which is visible on the internet. The namespace
+defines your service naming scheme. For example, if you name your namespace example.com and
+name your service backend, the resulting DNS name for the service is backend.example.com.
+For the current quota on the number of namespaces that you can create using the same AWS
+account, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
 
 # Arguments
 - `name`: The name that you want to assign to this namespace.
@@ -75,12 +75,12 @@ using the same AWS account, see AWS Cloud Map Limits in the AWS Cloud Map Develo
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
-  CreatePublicDnsNamespace requests to be retried without the risk of executing the operation
-  twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+  CreatePublicDnsNamespace requests to be retried without the risk of running the operation
+  twice. CreatorRequestId can be any unique string, for example, a date/timestamp.
 - `"Description"`: A description for the namespace.
 - `"Tags"`: The tags to add to the namespace. Each tag consists of a key and an optional
-  value, both of which you define. Tag keys can have a maximum character length of 128
-  characters, and tag values can have a maximum length of 256 characters.
+  value that you define. Tags keys can be up to 128 characters in length, and tag values can
+  be up to 256 characters in length.
 """
 create_public_dns_namespace(Name; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())); aws_config=aws_config)
 create_public_dns_namespace(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("CreatePublicDnsNamespace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "CreatorRequestId"=>string(uuid4())), params)); aws_config=aws_config)
@@ -99,21 +99,22 @@ the same service, see AWS Cloud Map Limits in the AWS Cloud Map Developer Guide.
 
 # Arguments
 - `name`: The name that you want to assign to the service. If you want AWS Cloud Map to
-  create an SRV record when you register an instance, and if you're using a system that
-  requires a specific SRV format, such as HAProxy, specify the following for Name:   Start
-  the name with an underscore (_), such as _exampleservice    End the name with ._protocol,
-  such as ._tcp    When you register an instance, AWS Cloud Map creates an SRV record and
-  assigns a name to the record by concatenating the service name and the namespace name, for
-  example:  _exampleservice._tcp.example.com   For a single DNS namespace, you cannot create
-  two services with names that differ only by case (such as EXAMPLE and example). Otherwise,
-  these services will have the same DNS name. However, you can create multiple HTTP services
-  with names that differ only by case because HTTP services are case sensitive.
+  create an SRV record when you register an instance and you're using a system that requires
+  a specific SRV format, such as HAProxy, specify the following for Name:   Start the name
+  with an underscore (_), such as _exampleservice.   End the name with ._protocol, such as
+  ._tcp.   When you register an instance, AWS Cloud Map creates an SRV record and assigns a
+  name to the record by concatenating the service name and the namespace name, for example:
+  _exampleservice._tcp.example.com   For services that are accessible by DNS queries, you
+  can't create multiple services with names that differ only by case (such as EXAMPLE and
+  example). Otherwise, these services have the same DNS name and can't be distinguished.
+  However, if you use a namespace that's only accessible by API calls, then you can create
+  services that with names that differ only by case.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CreatorRequestId"`: A unique string that identifies the request and that allows failed
-  CreateService requests to be retried without the risk of executing the operation twice.
-  CreatorRequestId can be any unique string, for example, a date/time stamp.
+  CreateService requests to be retried without the risk of running the operation twice.
+  CreatorRequestId can be any unique string, for example, a date/timestamp.
 - `"Description"`: A description for the service.
 - `"DnsConfig"`: A complex type that contains information about the Amazon Route 53
   records that you want AWS Cloud Map to create when you register an instance.
@@ -127,10 +128,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   custom health check.  If you specify a health check configuration, you can specify either
   HealthCheckCustomConfig or HealthCheckConfig but not both.  You can't add, update, or
   delete a HealthCheckCustomConfig configuration from an existing service.
-- `"NamespaceId"`: The ID of the namespace that you want to use to create the service.
+- `"NamespaceId"`: The ID of the namespace that you want to use to create the service. The
+  namespace ID must be specified, but it can be specified either here or in the DnsConfig
+  object.
 - `"Tags"`: The tags to add to the service. Each tag consists of a key and an optional
-  value, both of which you define. Tag keys can have a maximum character length of 128
-  characters, and tag values can have a maximum length of 256 characters.
+  value that you define. Tags keys can be up to 128 characters in length, and tag values can
+  be up to 256 characters in length.
 - `"Type"`: If present, specifies that the service instances are only discoverable using
   the DiscoverInstances API operation. No DNS records will be registered for the service
   instances. The only valid value is HTTP.
@@ -190,8 +193,8 @@ DiscoverInstances to discover instances for any type of namespace. For public an
 DNS namespaces, you can also use DNS queries to discover instances.
 
 # Arguments
-- `namespace_name`: The name of the namespace that you specified when you registered the
-  instance.
+- `namespace_name`: The HttpName name of the namespace, found in the HttpProperties member
+  of the Properties member of the namespace.
 - `service_name`: The name of the service that you specified when you registered the
   instance.
 
@@ -208,7 +211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter are returned.
 - `"QueryParameters"`: Filters to scope the results based on custom attributes for the
   instance. For example, {version=v1, az=1a}. Only instances that match all the specified
-  key-value pairs will be returned.
+  key-value pairs are returned.
 """
 discover_instances(NamespaceName, ServiceName; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DiscoverInstances", Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName); aws_config=aws_config)
 discover_instances(NamespaceName, ServiceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = servicediscovery("DiscoverInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamespaceName"=>NamespaceName, "ServiceName"=>ServiceName), params)); aws_config=aws_config)
@@ -443,7 +446,7 @@ Map Limits in the AWS Cloud Map Developer Guide.
   ServiceId must include settings for an A record, an AAAA record, or both.   In the service
   that is specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.   If the
   service that is specified by ServiceId includes HealthCheckConfig settings, AWS Cloud Map
-  will create the Route 53 health check, but it won't associate the health check with the
+  will create the Route 53 health check, but it doesn't associate the health check with the
   alias record.   Auto naming currently doesn't support creating alias records that route
   traffic to AWS resources other than Elastic Load Balancing load balancers.   If you specify
   a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE
@@ -561,10 +564,10 @@ specified service  You can't add, update, or delete a HealthCheckCustomConfig
 configuration.    For public and private DNS namespaces, note the following:   If you omit
 any existing DnsRecords or HealthCheckConfig configurations from an UpdateService request,
 the configurations are deleted from the service.   If you omit an existing
-HealthCheckCustomConfig configuration from an UpdateService request, the configuration is
-not deleted from the service.   When you update settings for a service, AWS Cloud Map also
-updates the corresponding settings in all the records and health checks that were created
-by using the specified service.
+HealthCheckCustomConfig configuration from an UpdateService request, the configuration
+isn't deleted from the service.   When you update settings for a service, AWS Cloud Map
+also updates the corresponding settings in all the records and health checks that were
+created by using the specified service.
 
 # Arguments
 - `id`: The ID of the service that you want to update.

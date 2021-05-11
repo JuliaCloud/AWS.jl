@@ -107,13 +107,14 @@ describe_insight(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig
 to Recover (MTTR) for all closed insights in resource collections in your account. You
 specify the type of AWS resources collection. The one type of AWS resource collection
 supported is AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the
-AWS resources that are defined in the stacks.
+AWS resources that are defined in the stacks. You can specify up to 500 AWS CloudFormation
+stacks.
 
 # Arguments
 - `resource_collection_type`:  An AWS resource collection type. This type specifies how
   analyzed AWS resources are defined. The one type of AWS resource collection supported is
   AWS CloudFormation stacks. DevOps Guru can be configured to analyze only the AWS resources
-  that are defined in the stacks.
+  that are defined in the stacks. You can specify up to 500 AWS CloudFormation stacks.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -136,12 +137,28 @@ describe_service_integration(; aws_config::AbstractAWSConfig=global_aws_config()
 describe_service_integration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/service-integrations", params; aws_config=aws_config)
 
 """
+    get_cost_estimation()
+    get_cost_estimation(params::Dict{String,<:Any})
+
+Returns an estimate of the monthly cost for DevOps Guru to analyze your AWS resources. For
+more information, see Estimate your Amazon DevOps Guru costs and Amazon DevOps Guru pricing.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: The pagination token to use to retrieve the next page of results for this
+  operation. If this value is null, it retrieves the first page.
+"""
+get_cost_estimation(; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/cost-estimation"; aws_config=aws_config)
+get_cost_estimation(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("GET", "/cost-estimation", params; aws_config=aws_config)
+
+"""
     get_resource_collection(resource_collection_type)
     get_resource_collection(resource_collection_type, params::Dict{String,<:Any})
 
  Returns lists AWS resources that are of the specified resource collection type. The one
 type of AWS resource collection supported is AWS CloudFormation stacks. DevOps Guru can be
-configured to analyze only the AWS resources that are defined in the stacks.
+configured to analyze only the AWS resources that are defined in the stacks. You can
+specify up to 500 AWS CloudFormation stacks.
 
 # Arguments
 - `resource_collection_type`:  The type of AWS resource collections to return. The one
@@ -246,6 +263,7 @@ list of related metrics and a list of related events.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Locale"`: A locale that specifies the language to use for recommendations.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
@@ -309,13 +327,31 @@ search_insights(StartTimeRange, Type; aws_config::AbstractAWSConfig=global_aws_c
 search_insights(StartTimeRange, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("POST", "/insights/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartTimeRange"=>StartTimeRange, "Type"=>Type), params)); aws_config=aws_config)
 
 """
+    start_cost_estimation(resource_collection)
+    start_cost_estimation(resource_collection, params::Dict{String,<:Any})
+
+Starts the creation of an estimate of the monthly cost to analyze your AWS resources.
+
+# Arguments
+- `resource_collection`: The collection of AWS resources used to create a monthly DevOps
+  Guru cost estimate.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The idempotency token used to identify each cost estimate request.
+"""
+start_cost_estimation(ResourceCollection; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/cost-estimation", Dict{String, Any}("ResourceCollection"=>ResourceCollection, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+start_cost_estimation(ResourceCollection, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = devops_guru("PUT", "/cost-estimation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceCollection"=>ResourceCollection, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
     update_resource_collection(action, resource_collection)
     update_resource_collection(action, resource_collection, params::Dict{String,<:Any})
 
  Updates the collection of resources that DevOps Guru analyzes. The one type of AWS
 resource collection supported is AWS CloudFormation stacks. DevOps Guru can be configured
-to analyze only the AWS resources that are defined in the stacks. This method also creates
-the IAM role required for you to use DevOps Guru.
+to analyze only the AWS resources that are defined in the stacks. You can specify up to 500
+AWS CloudFormation stacks. This method also creates the IAM role required for you to use
+DevOps Guru.
 
 # Arguments
 - `action`:  Specifies if the resource collection in the request is added or deleted to the

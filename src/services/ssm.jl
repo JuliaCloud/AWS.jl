@@ -45,6 +45,30 @@ add_tags_to_resource(ResourceId, ResourceType, Tags; aws_config::AbstractAWSConf
 add_tags_to_resource(ResourceId, ResourceType, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags), params)); aws_config=aws_config)
 
 """
+    associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri)
+    associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri, params::Dict{String,<:Any})
+
+Associates a related resource to a Systems Manager OpsCenter OpsItem. For example, you can
+associate an Incident Manager incident or analysis with an OpsItem. Incident Manager is a
+capability of AWS Systems Manager.
+
+# Arguments
+- `association_type`: The type of association that you want to create between an OpsItem
+  and a resource. OpsCenter supports IsParentOf and RelatesTo association types.
+- `ops_item_id`: The ID of the OpsItem to which you want to associate a resource as a
+  related item.
+- `resource_type`: The type of resource that you want to associate with an OpsItem.
+  OpsCenter supports the following types:  AWS::SSMIncidents::IncidentRecord: an Incident
+  Manager incident. Incident Manager is a capability of AWS Systems Manager.
+  AWS::SSM::Document: a Systems Manager (SSM) document.
+- `resource_uri`: The Amazon Resource Name (ARN) of the AWS resource that you want to
+  associate with the OpsItem.
+
+"""
+associate_ops_item_related_item(AssociationType, OpsItemId, ResourceType, ResourceUri; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("AssociateOpsItemRelatedItem", Dict{String, Any}("AssociationType"=>AssociationType, "OpsItemId"=>OpsItemId, "ResourceType"=>ResourceType, "ResourceUri"=>ResourceUri); aws_config=aws_config)
+associate_ops_item_related_item(AssociationType, OpsItemId, ResourceType, ResourceUri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("AssociateOpsItemRelatedItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationType"=>AssociationType, "OpsItemId"=>OpsItemId, "ResourceType"=>ResourceType, "ResourceUri"=>ResourceUri), params)); aws_config=aws_config)
+
+"""
     cancel_command(command_id)
     cancel_command(command_id, params::Dict{String,<:Any})
 
@@ -156,7 +180,7 @@ association might instruct State Manager to start the service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplyOnlyAtCronInterval"`: By default, when you create a new associations, the system
+- `"ApplyOnlyAtCronInterval"`: By default, when you create a new association, the system
   runs it immediately after it is created and then according to the schedule you specified.
   Specify this option if you don't want an association to run immediately after you create
   it. This parameter is not supported for rate expressions.
@@ -164,6 +188,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutomationTargetParameterName"`: Specify the target for the association. This target is
   required for associations that use an Automation document and target resources by using
   rate controls.
+- `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Systems Manager
+  Change Calendar type documents you want to gate your associations under. The associations
+  only run when that Change Calendar is open. For more information, see AWS Systems Manager
+  Change Calendar.
 - `"ComplianceSeverity"`: The severity level to assign to the association.
 - `"DocumentVersion"`: The document version you want to associate with the target(s). Can
   be a specific version or the default version.
@@ -255,6 +283,9 @@ Manager Documents in the AWS Systems Manager User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Attachments"`: A list of key and value pairs that describe attachments to a version of
   a document.
+- `"DisplayName"`: An optional field where you can specify a friendly name for the Systems
+  Manager document. This value can differ for each version of the document. You can update
+  this value at a later time using the UpdateDocument action.
 - `"DocumentFormat"`: Specify the document format for the request. The document format can
   be JSON, YAML, or TEXT. JSON is the default format.
 - `"DocumentType"`: The type of document to create.
@@ -872,8 +903,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"ReverseOrder"`: A boolean that indicates whether to list step executions in reverse
-  order by start time. The default value is 'false'.
+- `"ReverseOrder"`: Indicates whether to list step executions in reverse order by start
+  time. The default value is 'false'.
 """
 describe_automation_step_executions(AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationStepExecutions", Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId); aws_config=aws_config)
 describe_automation_step_executions(AutomationExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeAutomationStepExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomationExecutionId"=>AutomationExecutionId), params)); aws_config=aws_config)
@@ -1442,6 +1473,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_sessions(State; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeSessions", Dict{String, Any}("State"=>State); aws_config=aws_config)
 describe_sessions(State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("State"=>State), params)); aws_config=aws_config)
+
+"""
+    disassociate_ops_item_related_item(association_id, ops_item_id)
+    disassociate_ops_item_related_item(association_id, ops_item_id, params::Dict{String,<:Any})
+
+Deletes the association between an OpsItem and a related resource. For example, this API
+action can delete an Incident Manager incident from an OpsItem. Incident Manager is a
+capability of AWS Systems Manager.
+
+# Arguments
+- `association_id`: The ID of the association for which you want to delete an association
+  between the OpsItem and a related resource.
+- `ops_item_id`: The ID of the OpsItem for which you want to delete an association between
+  the OpsItem and a related resource.
+
+"""
+disassociate_ops_item_related_item(AssociationId, OpsItemId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DisassociateOpsItemRelatedItem", Dict{String, Any}("AssociationId"=>AssociationId, "OpsItemId"=>OpsItemId); aws_config=aws_config)
+disassociate_ops_item_related_item(AssociationId, OpsItemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DisassociateOpsItemRelatedItem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "OpsItemId"=>OpsItemId), params)); aws_config=aws_config)
 
 """
     get_automation_execution(automation_execution_id)
@@ -2179,6 +2228,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_ops_item_events(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsItemEvents"; aws_config=aws_config)
 list_ops_item_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsItemEvents", params; aws_config=aws_config)
+
+"""
+    list_ops_item_related_items()
+    list_ops_item_related_items(params::Dict{String,<:Any})
+
+Lists all related-item resources associated with an OpsItem.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: One or more OpsItem filters. Use a filter to return a more specific list of
+  results.
+- `"MaxResults"`: The maximum number of items to return for this call. The call also
+  returns a token that you can specify in a subsequent call to get the next set of results.
+- `"NextToken"`: The token for the next set of items to return. (You received this token
+  from a previous call.)
+- `"OpsItemId"`: The ID of the OpsItem for which you want to list all related-item
+  resources.
+"""
+list_ops_item_related_items(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsItemRelatedItems"; aws_config=aws_config)
+list_ops_item_related_items(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListOpsItemRelatedItems", params; aws_config=aws_config)
 
 """
     list_ops_metadata()
@@ -2978,6 +3047,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutomationTargetParameterName"`: Specify the target for the association. This target is
   required for associations that use an Automation document and target resources by using
   rate controls.
+- `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Systems Manager
+  Change Calendar type documents you want to gate your associations under. The associations
+  only run when that Change Calendar is open. For more information, see AWS Systems Manager
+  Change Calendar.
 - `"ComplianceSeverity"`: The severity level to assign to the association.
 - `"DocumentVersion"`: The document version you want update for the association.
 - `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
@@ -3052,12 +3125,16 @@ Updates one or more values for an SSM document.
 
 # Arguments
 - `content`: A valid JSON or YAML string.
-- `name`: The name of the document that you want to update.
+- `name`: The name of the Systems Manager document that you want to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Attachments"`: A list of key and value pairs that describe attachments to a version of
   a document.
+- `"DisplayName"`: The friendly name of the Systems Manager document that you want to
+  update. This value can differ for each version of the document. If you do not specify a
+  value for this parameter in your request, the existing value is applied to the new document
+  version.
 - `"DocumentFormat"`: Specify the document format for the new document version. Systems
   Manager supports JSON and YAML documents. JSON is the default format.
 - `"DocumentVersion"`: The version of the document that you want to update. Currently,

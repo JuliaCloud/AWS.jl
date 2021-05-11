@@ -16,7 +16,7 @@ private key, the type of signing algorithm that the CA uses, and X.500 subject i
 The CRL configuration specifies the CRL expiration period in days (the validity period of
 the CRL), the Amazon S3 bucket that will contain the CRL, and a CNAME alias for the S3
 bucket that is included in certificates issued by the CA. If successful, this action
-returns the Amazon Resource Name (ARN) of the CA. ACM Private CAA assets that are stored in
+returns the Amazon Resource Name (ARN) of the CA. ACM Private CA assets that are stored in
 Amazon S3 can be protected with encryption. For more information, see Encrypting Your CRLs.
  Both PCA and the IAM principal must have permission to write to the S3 bucket that you
 specify. If the IAM principal making the call does not have permission to write to the
@@ -37,6 +37,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requesting only certificate authority and will issue only one. If you change the
   idempotency token for each call, PCA recognizes that you are requesting multiple
   certificate authorities.
+- `"KeyStorageSecurityStandard"`: Specifies a cryptographic key management compliance
+  standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: AWS Region
+  ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this
+  parameter and value when creating a CA in that Region. Specifying a different value (or no
+  value) results in an InvalidArgsException with the message \"A certificate authority cannot
+  be created in this region with the specified security standard.\"
 - `"RevocationConfiguration"`: Contains a Boolean value that you can use to enable a
   certification revocation list (CRL) for the CA, the name of the S3 bucket to which ACM
   Private CA will write the CRL, and an optional CNAME alias that you can use to hide the
@@ -58,9 +64,9 @@ is saved in the Amazon S3 bucket that you specify on input. The IssueCertificate
 RevokeCertificate actions use the private key.   Both PCA and the IAM principal must have
 permission to write to the S3 bucket that you specify. If the IAM principal making the call
 does not have permission to write to the bucket, then an exception is thrown. For more
-information, see Configure Access to ACM Private CA.  ACM Private CAA assets that are
-stored in Amazon S3 can be protected with encryption. For more information, see Encrypting
-Your Audit Reports.
+information, see Configure Access to ACM Private CA.  ACM Private CA assets that are stored
+in Amazon S3 can be protected with encryption. For more information, see Encrypting Your
+Audit Reports.
 
 # Arguments
 - `audit_report_response_format`: The format in which to create the report. This can be
