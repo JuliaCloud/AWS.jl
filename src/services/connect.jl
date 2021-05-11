@@ -147,6 +147,10 @@ This API is in preview release for Amazon Connect and is subject to change. Init
 Amazon Connect instance with all the supported channels enabled. It does not attach any
 storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does
 not allow for any configurations on features, such as Contact Lens for Amazon Connect.
+Amazon Connect enforces a limit on the total number of instances that you can create or
+delete in 30 days. If you exceed this limit, you will get an error message indicating there
+has been an excessive number of attempts at creating or deleting instances. You must wait
+30 days before you can restart creating and deleting instances in your account.
 
 # Arguments
 - `identity_management_type`: The type of identity management for your Amazon Connect users.
@@ -166,8 +170,7 @@ create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnable
     create_integration_association(instance_id, integration_arn, integration_type, source_application_name, source_application_url, source_type)
     create_integration_association(instance_id, integration_arn, integration_type, source_application_name, source_application_url, source_type, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Create an
-AppIntegration association with an Amazon Connect instance.
+Create an AppIntegration association with an Amazon Connect instance.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -177,6 +180,9 @@ AppIntegration association with an Amazon Connect instance.
 - `source_application_url`: The URL for the external application.
 - `source_type`: The type of the data source.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: One or more tags.
 """
 create_integration_association(InstanceId, IntegrationArn, IntegrationType, SourceApplicationName, SourceApplicationUrl, SourceType; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType, "SourceApplicationName"=>SourceApplicationName, "SourceApplicationUrl"=>SourceApplicationUrl, "SourceType"=>SourceType); aws_config=aws_config)
 create_integration_association(InstanceId, IntegrationArn, IntegrationType, SourceApplicationName, SourceApplicationUrl, SourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IntegrationArn"=>IntegrationArn, "IntegrationType"=>IntegrationType, "SourceApplicationName"=>SourceApplicationName, "SourceApplicationUrl"=>SourceApplicationUrl, "SourceType"=>SourceType), params)); aws_config=aws_config)
@@ -252,8 +258,7 @@ create_routing_profile(DefaultOutboundQueueId, Description, InstanceId, MediaCon
     create_use_case(instance_id, integration_association_id, use_case_type)
     create_use_case(instance_id, integration_association_id, use_case_type, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Creates a use
-case for an AppIntegration association.
+Creates a use case for an AppIntegration association.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -261,6 +266,9 @@ case for an AppIntegration association.
 - `use_case_type`: The type of use case to associate to the AppIntegration association.
   Each AppIntegration association can have only one of each use case type.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: One or more tags.
 """
 create_use_case(InstanceId, IntegrationAssociationId, UseCaseType; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", Dict{String, Any}("UseCaseType"=>UseCaseType); aws_config=aws_config)
 create_use_case(InstanceId, IntegrationAssociationId, UseCaseType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UseCaseType"=>UseCaseType), params)); aws_config=aws_config)
@@ -324,7 +332,11 @@ create_user_hierarchy_group(InstanceId, Name, params::AbstractDict{String}; aws_
     delete_instance(instance_id, params::Dict{String,<:Any})
 
 This API is in preview release for Amazon Connect and is subject to change. Deletes the
-Amazon Connect instance.
+Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances
+that you can create or delete in 30 days. If you exceed this limit, you will get an error
+message indicating there has been an excessive number of attempts at creating or deleting
+instances. You must wait 30 days before you can restart creating and deleting instances in
+your account.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -337,9 +349,8 @@ delete_instance(InstanceId, params::AbstractDict{String}; aws_config::AbstractAW
     delete_integration_association(instance_id, integration_association_id)
     delete_integration_association(instance_id, integration_association_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Deletes an
-AppIntegration association from an Amazon Connect instance. The association must not have
-any use cases associated with it.
+Deletes an AppIntegration association from an Amazon Connect instance. The association must
+not have any use cases associated with it.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -368,8 +379,7 @@ delete_quick_connect(InstanceId, QuickConnectId, params::AbstractDict{String}; a
     delete_use_case(instance_id, integration_association_id, use_case_id)
     delete_use_case(instance_id, integration_association_id, use_case_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Deletes a use
-case from an AppIntegration association.
+Deletes a use case from an AppIntegration association.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -754,7 +764,10 @@ get_current_metric_data(CurrentMetrics, Filters, InstanceId, params::AbstractDic
     get_federation_token(instance_id)
     get_federation_token(instance_id, params::Dict{String,<:Any})
 
-Retrieves a token for federation.
+Retrieves a token for federation.  This API doesn't support root users. If you try to
+invoke GetFederationToken with root credentials, an error message similar to the following
+one appears:   Provided identity: Principal: .... User: .... cannot be used for federation
+with Amazon Connect
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -779,7 +792,8 @@ Administrator Guide.
 - `filters`: The queues, up to 100, or channels, to use to filter the metrics returned.
   Metric data is retrieved only for the resources associated with the queues or channels
   included in the filter. You can include both queue IDs and queue ARNs in the same request.
-  VOICE, CHAT, and TASK channels are supported.
+  VOICE, CHAT, and TASK channels are supported.  To filter by Queues, enter the queue ID/ARN,
+  not the name of the queue.
 - `historical_metrics`: The metrics to retrieve. Specify the name, unit, and statistic for
   each metric. The following historical metrics are available. For a description of each
   metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
@@ -797,9 +811,9 @@ Administrator Guide.
   SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG
   INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG
   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX
-  SERVICE_LEVEL  Unit: PERCENT Statistic: AVG Threshold: Only \"Less than\" comparisons are
-  supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120,
-  180, 240, 300, 600
+  SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT
+  Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800
+  (inclusive), in seconds. For Comparison, you must enter LT (for \"Less than\").
 - `instance_id`: The identifier of the Amazon Connect instance.
 - `start_time`: The timestamp, in UNIX Epoch time format, at which to start the reporting
   interval for the retrieval of historical metrics data. The time must be specified using a
@@ -810,9 +824,8 @@ Administrator Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Groupings"`: The grouping applied to the metrics returned. For example, when results
   are grouped by queue, the metrics returned are grouped by queue. The values returned apply
-  to the metrics for each queue rather than aggregated for all queues. The only supported
-  grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is
-  returned.
+  to the metrics for each queue rather than aggregated for all queues. If no grouping is
+  specified, a summary of metrics for all queues is returned.
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -942,9 +955,8 @@ list_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=globa
     list_integration_associations(instance_id)
     list_integration_associations(instance_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Provides
-summary information about the AppIntegration associations for the specified Amazon Connect
-instance.
+Provides summary information about the AppIntegration associations for the specified Amazon
+Connect instance.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -1061,9 +1073,11 @@ list_queue_quick_connects(InstanceId, QueueId, params::AbstractDict{String}; aws
     list_queues(instance_id)
     list_queues(instance_id, params::Dict{String,<:Any})
 
-Provides information about the queues for the specified Amazon Connect instance. For more
-information about queues, see Queues: Standard and Agent in the Amazon Connect
-Administrator Guide.
+Provides information about the queues for the specified Amazon Connect instance. If you do
+not specify a QueueTypes parameter, both standard and agent queues are returned. This might
+cause an unexpected truncation of results if you have more than 1000 agents and you limit
+the number of results of the API call in code. For more information about queues, see
+Queues: Standard and Agent in the Amazon Connect Administrator Guide.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -1196,8 +1210,7 @@ list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::Ab
     list_use_cases(instance_id, integration_association_id)
     list_use_cases(instance_id, integration_association_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Lists the use
-cases.
+Lists the use cases.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance.
@@ -1278,8 +1291,8 @@ the Amazon Connect Participant Service. When a new chat contact is successfully 
 clients must subscribe to the participant’s connection for the created chat within 5
 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and
 CONNECTION_CREDENTIALS.  A 429 error occurs in two situations:   API rate limit is
-exceeded. API TPS throttling returns a TooManyRequests exception from the API Gateway.
-The quota for concurrent active chats is exceeded. Active chat throttling returns a
+exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for
+concurrent active chats is exceeded. Active chat throttling returns a
 LimitExceededException.   For more information about chat, see Chat in the Amazon Connect
 Administrator Guide.
 
@@ -1500,14 +1513,16 @@ untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::A
     update_contact_attributes(attributes, initial_contact_id, instance_id)
     update_contact_attributes(attributes, initial_contact_id, instance_id, params::Dict{String,<:Any})
 
-Creates or updates the contact attributes associated with the specified contact. You can
-add or update attributes for both ongoing and completed contacts. For example, while the
-call is active, you can update the customer's name or the reason the customer called. You
-can add notes about steps that the agent took during the call that display to the next
-agent that takes the call. You can also update attributes for a contact using data from
-your CRM application and save the data with the contact in Amazon Connect. You could also
-flag calls for additional analysis, such as legal review or to identify abusive callers.
-Contact attributes are available in Amazon Connect for 24 months, and are then deleted.
+Creates or updates user-defined contact attributes associated with the specified contact.
+You can create or update user-defined attributes for both ongoing and completed contacts.
+For example, while the call is active, you can update the customer's name or the reason the
+customer called. You can add notes about steps that the agent took during the call that
+display to the next agent that takes the call. You can also update attributes for a contact
+using data from your CRM application and save the data with the contact in Amazon Connect.
+You could also flag calls for additional analysis, such as legal review or to identify
+abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are
+then deleted. For information about CTR retention and the maximum size of the CTR
+attributes section, see Feature specifications in the Amazon Connect Administrator Guide.
 Important: You cannot use the operation to update attributes for contacts that occurred
 prior to the release of the API, which was September 12, 2018. You can update attributes
 only for contacts that started after the release of the API. If you attempt to update

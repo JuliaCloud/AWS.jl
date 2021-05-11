@@ -5,8 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, current_application_version_id)
-    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, current_application_version_id, params::Dict{String,<:Any})
+    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option)
+    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, params::Dict{String,<:Any})
 
 Adds an Amazon CloudWatch log stream to monitor application configuration errors.
 
@@ -14,12 +14,18 @@ Adds an Amazon CloudWatch log stream to monitor application configuration errors
 - `application_name`: The Kinesis Data Analytics application name.
 - `cloud_watch_logging_option`: Provides the Amazon CloudWatch log stream Amazon Resource
   Name (ARN).
-- `current_application_version_id`: The version ID of the Kinesis Data Analytics
-  application. You can retrieve the application version ID using DescribeApplication.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
+  application's current ConditionalToken using DescribeApplication.
+- `"CurrentApplicationVersionId"`: The version ID of the Kinesis Data Analytics
+  application. You must provide the ApplicationVersionID or the ConditionalToken.You can
+  retrieve the application version ID using DescribeApplication.
 """
-add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, CurrentApplicationVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)
+add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption); aws_config=aws_config)
+add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption), params)); aws_config=aws_config)
 
 """
     add_application_input(application_name, current_application_version_id, input)
@@ -35,8 +41,9 @@ operation to find the current application version.
 # Arguments
 - `application_name`: The name of your existing application to which you want to add the
   streaming source.
-- `current_application_version_id`: The current version of your application. You can use
-  the DescribeApplication operation to find the current application version.
+- `current_application_version_id`: The current version of your application. You must
+  provide the ApplicationVersionID or the ConditionalToken.You can use the
+  DescribeApplication operation to find the current application version.
 - `input`: The Input to add.
 
 """
@@ -55,8 +62,9 @@ executes. Currently, the only input processor available is AWS Lambda.
 - `application_name`: The name of the application to which you want to add the input
   processing configuration.
 - `current_application_version_id`: The version of the application to which you want to add
-  the input processing configuration. You can use the DescribeApplication operation to get
-  the current application version. If the version specified is not the current version, the
+  the input processing configuration. You must provide the ApplicationVersionID or the
+  ConditionalToken. You can use the DescribeApplication operation to get the current
+  application version. If the version specified is not the current version, the
   ConcurrentModificationException is returned.
 - `input_id`: The ID of the input configuration to add the input processing configuration
   to. You can get a list of the input IDs for an application using the DescribeApplication
@@ -88,7 +96,8 @@ to find the current application version.
 - `application_name`: The name of the application to which you want to add the output
   configuration.
 - `current_application_version_id`: The version of the application to which you want to add
-  the output configuration. You can use the DescribeApplication operation to get the current
+  the output configuration. You must provide the ApplicationVersionID or the
+  ConditionalToken. You can use the DescribeApplication operation to get the current
   application version. If the version specified is not the current version, the
   ConcurrentModificationException is returned.
 - `output`: An array of objects, each describing one output configuration. In the output
@@ -127,8 +136,8 @@ add_application_reference_data_source(ApplicationName, CurrentApplicationVersion
 add_application_reference_data_source(ApplicationName, CurrentApplicationVersionId, ReferenceDataSource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationReferenceDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "ReferenceDataSource"=>ReferenceDataSource), params)); aws_config=aws_config)
 
 """
-    add_application_vpc_configuration(application_name, current_application_version_id, vpc_configuration)
-    add_application_vpc_configuration(application_name, current_application_version_id, vpc_configuration, params::Dict{String,<:Any})
+    add_application_vpc_configuration(application_name, vpc_configuration)
+    add_application_vpc_configuration(application_name, vpc_configuration, params::Dict{String,<:Any})
 
 Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use
 VPCs to store and access resources securely. Note the following about VPC configurations
@@ -139,15 +148,21 @@ to the application, add an Internet gateway to your VPC.
 
 # Arguments
 - `application_name`: The name of an existing application.
-- `current_application_version_id`: The version of the application to which you want to add
-  the VPC configuration. You can use the DescribeApplication operation to get the current
-  application version. If the version specified is not the current version, the
-  ConcurrentModificationException is returned.
 - `vpc_configuration`: Description of the VPC to add to the application.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
+  application's current ConditionalToken using DescribeApplication.
+- `"CurrentApplicationVersionId"`: The version of the application to which you want to add
+  the VPC configuration. You must provide the ApplicationVersionID or the ConditionalToken.
+  You can use the DescribeApplication operation to get the current application version. If
+  the version specified is not the current version, the ConcurrentModificationException is
+  returned.
 """
-add_application_vpc_configuration(ApplicationName, CurrentApplicationVersionId, VpcConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationVpcConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "VpcConfiguration"=>VpcConfiguration); aws_config=aws_config)
-add_application_vpc_configuration(ApplicationName, CurrentApplicationVersionId, VpcConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationVpcConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "VpcConfiguration"=>VpcConfiguration), params)); aws_config=aws_config)
+add_application_vpc_configuration(ApplicationName, VpcConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationVpcConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "VpcConfiguration"=>VpcConfiguration); aws_config=aws_config)
+add_application_vpc_configuration(ApplicationName, VpcConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationVpcConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VpcConfiguration"=>VpcConfiguration), params)); aws_config=aws_config)
 
 """
     create_application(application_name, runtime_environment, service_execution_role)
@@ -237,8 +252,8 @@ delete_application(ApplicationName, CreateTimestamp; aws_config::AbstractAWSConf
 delete_application(ApplicationName, CreateTimestamp, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CreateTimestamp"=>CreateTimestamp), params)); aws_config=aws_config)
 
 """
-    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id, current_application_version_id)
-    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id, current_application_version_id, params::Dict{String,<:Any})
+    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id)
+    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id, params::Dict{String,<:Any})
 
 Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics application.
 
@@ -247,12 +262,18 @@ Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics applicati
 - `cloud_watch_logging_option_id`: The CloudWatchLoggingOptionId of the Amazon CloudWatch
   logging option to delete. You can get the CloudWatchLoggingOptionId by using the
   DescribeApplication operation.
-- `current_application_version_id`: The version ID of the application. You can retrieve the
-  application version ID using DescribeApplication.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
+  application's current ConditionalToken using DescribeApplication.
+- `"CurrentApplicationVersionId"`: The version ID of the application. You must provide the
+  ApplicationVersionID or the ConditionalToken. You can retrieve the application version ID
+  using DescribeApplication.
 """
-delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, CurrentApplicationVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)
+delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId); aws_config=aws_config)
+delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId), params)); aws_config=aws_config)
 
 """
     delete_application_input_processing_configuration(application_name, current_application_version_id, input_id)
@@ -335,20 +356,26 @@ delete_application_snapshot(ApplicationName, SnapshotCreationTimestamp, Snapshot
 delete_application_snapshot(ApplicationName, SnapshotCreationTimestamp, SnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "SnapshotCreationTimestamp"=>SnapshotCreationTimestamp, "SnapshotName"=>SnapshotName), params)); aws_config=aws_config)
 
 """
-    delete_application_vpc_configuration(application_name, current_application_version_id, vpc_configuration_id)
-    delete_application_vpc_configuration(application_name, current_application_version_id, vpc_configuration_id, params::Dict{String,<:Any})
+    delete_application_vpc_configuration(application_name, vpc_configuration_id)
+    delete_application_vpc_configuration(application_name, vpc_configuration_id, params::Dict{String,<:Any})
 
 Removes a VPC configuration from a Kinesis Data Analytics application.
 
 # Arguments
 - `application_name`: The name of an existing application.
-- `current_application_version_id`: The current application version ID. You can retrieve
-  the application version ID using DescribeApplication.
 - `vpc_configuration_id`: The ID of the VPC configuration to delete.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
+  application's current ConditionalToken using DescribeApplication.
+- `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
+  ApplicationVersionID or the ConditionalToken.You can retrieve the application version ID
+  using DescribeApplication.
 """
-delete_application_vpc_configuration(ApplicationName, CurrentApplicationVersionId, VpcConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationVpcConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "VpcConfigurationId"=>VpcConfigurationId); aws_config=aws_config)
-delete_application_vpc_configuration(ApplicationName, CurrentApplicationVersionId, VpcConfigurationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationVpcConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId, "VpcConfigurationId"=>VpcConfigurationId), params)); aws_config=aws_config)
+delete_application_vpc_configuration(ApplicationName, VpcConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationVpcConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "VpcConfigurationId"=>VpcConfigurationId); aws_config=aws_config)
+delete_application_vpc_configuration(ApplicationName, VpcConfigurationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationVpcConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VpcConfigurationId"=>VpcConfigurationId), params)); aws_config=aws_config)
 
 """
     describe_application(application_name)
@@ -382,6 +409,24 @@ Returns information about a snapshot of application state data.
 """
 describe_application_snapshot(ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DescribeApplicationSnapshot", Dict{String, Any}("ApplicationName"=>ApplicationName, "SnapshotName"=>SnapshotName); aws_config=aws_config)
 describe_application_snapshot(ApplicationName, SnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DescribeApplicationSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "SnapshotName"=>SnapshotName), params)); aws_config=aws_config)
+
+"""
+    describe_application_version(application_name, application_version_id)
+    describe_application_version(application_name, application_version_id, params::Dict{String,<:Any})
+
+Provides a detailed description of a specified version of the application. To see a list of
+all the versions of an application, invoke the ListApplicationVersions operation.  This
+operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+
+# Arguments
+- `application_name`: The name of the application for which you want to get the version
+  description.
+- `application_version_id`: The ID of the application version for which you want to get the
+  description.
+
+"""
+describe_application_version(ApplicationName, ApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DescribeApplicationVersion", Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationVersionId"=>ApplicationVersionId); aws_config=aws_config)
+describe_application_version(ApplicationName, ApplicationVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DescribeApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "ApplicationVersionId"=>ApplicationVersionId), params)); aws_config=aws_config)
 
 """
     discover_input_schema(service_execution_role)
@@ -431,6 +476,29 @@ list_application_snapshots(ApplicationName; aws_config::AbstractAWSConfig=global
 list_application_snapshots(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("ListApplicationSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
+    list_application_versions(application_name)
+    list_application_versions(application_name, params::Dict{String,<:Any})
+
+Lists all the versions for the specified application, including versions that were rolled
+back. The response also includes a summary of the configuration associated with each
+version. To get the complete description of a specific application version, invoke the
+DescribeApplicationVersion operation.  This operation is supported only for Amazon Kinesis
+Data Analytics for Apache Flink.
+
+# Arguments
+- `application_name`: The name of the application for which you want to list all versions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of versions to list in this invocation of the operation.
+- `"NextToken"`: If a previous invocation of this operation returned a pagination token,
+  pass it into this value to retrieve the next set of results. For more information about
+  pagination, see Using the AWS Command Line Interface's Pagination Options.
+"""
+list_application_versions(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("ListApplicationVersions", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
+list_application_versions(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("ListApplicationVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
+
+"""
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
@@ -462,6 +530,26 @@ Using Tagging.
 """
 list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
 list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+
+"""
+    rollback_application(application_name, current_application_version_id)
+    rollback_application(application_name, current_application_version_id, params::Dict{String,<:Any})
+
+Reverts the application to the previous running version. You can roll back an application
+if you suspect it is stuck in a transient status.  You can roll back an application only if
+it is in the UPDATING or AUTOSCALING status. When you rollback an application, it loads
+state data from the last successful snapshot. If the application has no snapshots, Kinesis
+Data Analytics rejects the rollback request. This action is not supported for Kinesis Data
+Analytics for SQL applications.
+
+# Arguments
+- `application_name`: The name of the application.
+- `current_application_version_id`: The current application version ID. You can retrieve
+  the application version ID using DescribeApplication.
+
+"""
+rollback_application(ApplicationName, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("RollbackApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
+rollback_application(ApplicationName, CurrentApplicationVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("RollbackApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)
 
 """
     start_application(application_name, run_configuration)
@@ -537,8 +625,8 @@ untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_co
 untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
-    update_application(application_name, current_application_version_id)
-    update_application(application_name, current_application_version_id, params::Dict{String,<:Any})
+    update_application(application_name)
+    update_application(application_name, params::Dict{String,<:Any})
 
 Updates an existing Kinesis Data Analytics application. Using this operation, you can
 update application code, input configuration, and output configuration.  Kinesis Data
@@ -548,8 +636,6 @@ application's RuntimeEnvironment, you must delete the application and create it 
 
 # Arguments
 - `application_name`: The name of the application to update.
-- `current_application_version_id`: The current application version ID. You can retrieve
-  the application version ID using DescribeApplication.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -557,25 +643,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CloudWatchLoggingOptionUpdates"`: Describes application Amazon CloudWatch logging
   option updates. You can only update existing CloudWatch logging options with this action.
   To add a new CloudWatch logging option, use AddApplicationCloudWatchLoggingOption.
+- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
+  application's current ConditionalToken using DescribeApplication.
+- `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
+  ApplicationVersionID or the ConditionalToken.You can retrieve the application version ID
+  using DescribeApplication.
 - `"RunConfigurationUpdate"`: Describes updates to the application's starting parameters.
 - `"ServiceExecutionRoleUpdate"`: Describes updates to the service execution role.
 """
-update_application(ApplicationName, CurrentApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId); aws_config=aws_config)
-update_application(ApplicationName, CurrentApplicationVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)
+update_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
+update_application(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
     update_application_maintenance_configuration(application_maintenance_configuration_update, application_name)
     update_application_maintenance_configuration(application_maintenance_configuration_update, application_name, params::Dict{String,<:Any})
 
-Updates the configuration for the automatic maintenance that Kinesis Data Analytics
-performs on the application. For information about automatic application maintenance, see
-Kinesis Data Analytics for Apache Flink Maintenance.
+Updates the maintenance configuration of the Kinesis Data Analytics application.  You can
+invoke this operation on an application that is in one of the two following states: READY
+or RUNNING. If you invoke it when the application is in a state other than these two
+states, it throws a ResourceInUseException. The service makes use of the updated
+configuration the next time it schedules maintenance for the application. If you invoke
+this operation after the service schedules maintenance, the service will apply the
+configuration update the next time it schedules maintenance for the application. This means
+that you might not see the maintenance configuration update applied to the maintenance
+process that follows a successful invocation of this operation, but to the following
+maintenance process instead. To see the current maintenance configuration of your
+application, invoke the DescribeApplication operation. For information about application
+maintenance, see Kinesis Data Analytics for Apache Flink Maintenance.  This operation is
+supported only for Amazon Kinesis Data Analytics for Apache Flink.
 
 # Arguments
 - `application_maintenance_configuration_update`: Describes the application maintenance
   configuration update.
 - `application_name`: The name of the application for which you want to update the
-  maintenance time window.
+  maintenance configuration.
 
 """
 update_application_maintenance_configuration(ApplicationMaintenanceConfigurationUpdate, ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("UpdateApplicationMaintenanceConfiguration", Dict{String, Any}("ApplicationMaintenanceConfigurationUpdate"=>ApplicationMaintenanceConfigurationUpdate, "ApplicationName"=>ApplicationName); aws_config=aws_config)

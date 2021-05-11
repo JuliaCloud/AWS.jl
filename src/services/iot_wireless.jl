@@ -794,7 +794,9 @@ Updates properties of a wireless gateway.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A new description of the resource.
+- `"JoinEuiFilters"`:
 - `"Name"`: The new name of the resource.
+- `"NetIdFilters"`:
 """
 update_wireless_gateway(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/wireless-gateways/$(Id)"; aws_config=aws_config)
 update_wireless_gateway(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/wireless-gateways/$(Id)", params; aws_config=aws_config)

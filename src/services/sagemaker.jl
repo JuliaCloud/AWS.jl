@@ -47,7 +47,13 @@ training jobs that the hyperparameter tuning job launched before you called this
 make sure that the tags associated with a hyperparameter tuning job are also added to all
 training jobs that the hyperparameter tuning job launches, add the tags when you first
 create the tuning job by specifying them in the Tags parameter of
-CreateHyperParameterTuningJob
+CreateHyperParameterTuningJob    Tags that you add to a SageMaker Studio Domain or User
+Profile by calling this API are also added to any Apps that the Domain or User Profile
+launches after you call this API, but not to Apps that the Domain or User Profile launched
+before you called this API. To make sure that the tags associated with a Domain or User
+Profile are also added to all Apps that the Domain or User Profile launches, add the tags
+when you first create the Domain or User Profile by specifying them in the Tags parameter
+of CreateDomain or CreateUserProfile.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -82,7 +88,10 @@ associate_trial_component(TrialComponentName, TrialName, params::AbstractDict{St
 Creates an action. An action is a lineage tracking entity that represents an action or
 activity. For example, a model deployment or an HPO job. Generally, an action involves at
 least one input or output artifact. For more information, see Amazon SageMaker ML Lineage
-Tracking.
+Tracking.   CreateAction can only be invoked from within an SageMaker managed environment.
+This includes SageMaker training jobs, processing jobs, transform jobs, and SageMaker
+notebooks. A call to CreateAction from outside one of these environments results in an
+error.
 
 # Arguments
 - `action_name`: The name of the action. Must be unique to your account in an AWS Region.
@@ -190,6 +199,9 @@ create_app_image_config(AppImageConfigName, params::AbstractDict{String}; aws_co
 Creates an artifact. An artifact is a lineage tracking entity that represents a URI
 addressable object or data. Some examples are the S3 URI of a dataset and the ECR registry
 path of an image. For more information, see Amazon SageMaker ML Lineage Tracking.
+CreateArtifact can only be invoked from within an SageMaker managed environment. This
+includes SageMaker training jobs, processing jobs, transform jobs, and SageMaker notebooks.
+A call to CreateArtifact from outside one of these environments results in an error.
 
 # Arguments
 - `artifact_type`: The artifact type.
@@ -222,18 +234,24 @@ Amazon SageMaker Autopilot.
   Format(s) supported: CSV. Minimum of 500 rows.
 - `output_data_config`: Provides information about encryption and the Amazon S3 output path
   needed to store artifacts from an AutoML job. Format(s) supported: CSV.
-- `role_arn`: The ARN of the role that is used to access the data.
+  &lt;para&gt;Specifies whether to automatically deploy the best &amp;ATP; model to an
+  endpoint and the name of that endpoint if deployed automatically.&lt;/para&gt;
+- `role_arn`: The ARN of the role that is used to access the data. &lt;para&gt;Specifies
+  whether to automatically deploy the best &amp;ATP; model to an endpoint and the name of
+  that endpoint if deployed automatically.&lt;/para&gt;
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoMLJobConfig"`: Contains CompletionCriteria and SecurityConfig settings for the
   AutoML job.
 - `"AutoMLJobObjective"`: Defines the objective metric used to measure the predictive
-  quality of an AutoML job. You provide a AutoMLJobObjectiveMetricName and Autopilot infers
+  quality of an AutoML job. You provide an AutoMLJobObjectiveMetricName and Autopilot infers
   whether to minimize or maximize it.
 - `"GenerateCandidateDefinitionsOnly"`: Generates possible candidates without training the
   models. A candidate is a combination of data preprocessors, algorithms, and algorithm
   parameter settings.
+- `"ModelDeployConfig"`: Specifies how to generate the endpoint name for an automatic
+  one-click Autopilot model deployment.
 - `"ProblemType"`: Defines the type of supervised learning available for the candidates.
   Options include: BinaryClassification, MulticlassClassification, and Regression. For more
   information, see  Amazon SageMaker Autopilot problem types and algorithm support.
@@ -323,6 +341,9 @@ create_compilation_job(CompilationJobName, InputConfig, OutputConfig, RoleArn, S
 Creates a context. A context is a lineage tracking entity that represents a logical
 grouping of other tracking or experiment entities. Some examples are an endpoint and a
 model package. For more information, see Amazon SageMaker ML Lineage Tracking.
+CreateContext can only be invoked from within an SageMaker managed environment. This
+includes SageMaker training jobs, processing jobs, transform jobs, and SageMaker notebooks.
+A call to CreateContext from outside one of these environments results in an error.
 
 # Arguments
 - `context_name`: The name of the context. Must be unique to your account in an AWS Region.
@@ -436,7 +457,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with an AWS managed customer master key (CMK) by default. For more control, specify a
   customer managed CMK.
 - `"Tags"`: Tags to associated with the Domain. Each tag consists of a key and an optional
-  value. Tag keys must be unique per resource. Tags are searchable using the Search API.
+  value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags
+  that you specify for the Domain are also added to all Apps that the Domain launches.
 """
 create_domain(AuthMode, DefaultUserSettings, DomainName, SubnetIds, VpcId; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateDomain", Dict{String, Any}("AuthMode"=>AuthMode, "DefaultUserSettings"=>DefaultUserSettings, "DomainName"=>DomainName, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId); aws_config=aws_config)
 create_domain(AuthMode, DefaultUserSettings, DomainName, SubnetIds, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "DefaultUserSettings"=>DefaultUserSettings, "DomainName"=>DomainName, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId), params)); aws_config=aws_config)
@@ -598,12 +620,12 @@ compared and evaluated as a group. A trial is a set of steps, called trial compo
 produce a machine learning model. The goal of an experiment is to determine the components
 that produce the best model. Multiple trials are performed, each one isolating and
 measuring the impact of a change to one or more inputs, while keeping the remaining inputs
-constant. When you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all
-experiments, trials, and trial components are automatically tracked, logged, and indexed.
-When you use the AWS SDK for Python (Boto), you must use the logging APIs provided by the
-SDK. You can add tags to experiments, trials, trial components and then use the Search API
-to search for the tags. To add a description to an experiment, specify the optional
-Description parameter. To add a description later, or to change the description, call the
+constant. When you use SageMaker Studio or the SageMaker Python SDK, all experiments,
+trials, and trial components are automatically tracked, logged, and indexed. When you use
+the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can
+add tags to experiments, trials, trial components and then use the Search API to search for
+the tags. To add a description to an experiment, specify the optional Description
+parameter. To add a description later, or to change the description, call the
 UpdateExperiment API. To get a list of all your experiments, call the ListExperiments API.
 To view an experiment's properties, call the DescribeExperiment API. To get a list of all
 the trials associated with an experiment, call the ListTrials API. To create a trial call
@@ -1200,11 +1222,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this repository. For more information, see Associating Git Repositories with Amazon
   SageMaker Notebook Instances.
 - `"DirectInternetAccess"`: Sets whether Amazon SageMaker provides internet access to the
-  notebook instance. If you set this to Disabled this notebook instance will be able to
-  access resources only in your VPC, and will not be able to connect to Amazon SageMaker
-  training and endpoint services unless your configure a NAT Gateway in your VPC. For more
-  information, see Notebook Instances Are Internet-Enabled by Default. You can set the value
-  of this parameter to Disabled only if you set a value for the SubnetId parameter.
+  notebook instance. If you set this to Disabled this notebook instance is able to access
+  resources only in your VPC, and is not be able to connect to Amazon SageMaker training and
+  endpoint services unless you configure a NAT Gateway in your VPC. For more information, see
+  Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter
+  to Disabled only if you set a value for the SubnetId parameter.
 - `"KmsKeyId"`: The Amazon Resource Name (ARN) of a AWS Key Management Service key that
   Amazon SageMaker uses to encrypt data on the storage volume attached to your notebook
   instance. The KMS key you provide must be enabled. For information, see Enabling and
@@ -1410,17 +1432,18 @@ optimize this learning process. For a list of hyperparameters for each training 
 provided by Amazon SageMaker, see Algorithms.     InputDataConfig - Describes the training
 dataset and the Amazon S3, EFS, or FSx location where it is stored.    OutputDataConfig -
 Identifies the Amazon S3 bucket where you want Amazon SageMaker to save the results of
-model training.      ResourceConfig - Identifies the resources, ML compute instances, and
-ML storage volumes to deploy for model training. In distributed training, you specify more
+model training.     ResourceConfig - Identifies the resources, ML compute instances, and ML
+storage volumes to deploy for model training. In distributed training, you specify more
 than one instance.     EnableManagedSpotTraining - Optimize the cost of training machine
 learning models by up to 80% by using Amazon EC2 Spot instances. For more information, see
 Managed Spot Training.     RoleArn - The Amazon Resource Name (ARN) that Amazon SageMaker
 assumes to perform tasks on your behalf during model training. You must grant this role the
 necessary permissions so that Amazon SageMaker can successfully complete model training.
  StoppingCondition - To help cap training costs, use MaxRuntimeInSeconds to set a time
-limit for training. Use MaxWaitTimeInSeconds to specify how long you are willing to wait
-for a managed spot training job to complete.     Environment - The environment variables to
-set in the Docker container.    For more information about Amazon SageMaker, see How It
+limit for training. Use MaxWaitTimeInSeconds to specify how long a managed spot training
+job has to complete.     Environment - The environment variables to set in the Docker
+container.    RetryStrategy - The number of times to retry the job when the job fails due
+to an InternalServerError.    For more information about Amazon SageMaker, see How It
 Works.
 
 # Arguments
@@ -1443,11 +1466,12 @@ Works.
   and publish metrics to Amazon CloudWatch. You grant permissions for all of these tasks to
   an IAM role. For more information, see Amazon SageMaker Roles.   To be able to pass this
   role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission.
-- `stopping_condition`: Specifies a limit to how long a model training job can run. When
-  the job reaches the time limit, Amazon SageMaker ends the training job. Use this API to cap
-  model training costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM
-  signal, which delays job termination for 120 seconds. Algorithms can use this 120-second
-  window to save the model artifacts, so the results of training are not lost.
+- `stopping_condition`: Specifies a limit to how long a model training job can run. It also
+  specifies how long a managed Spot training job has to complete. When the job reaches the
+  time limit, Amazon SageMaker ends the training job. Use this API to cap model training
+  costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays
+  job termination for 120 seconds. Algorithms can use this 120-second window to save the
+  model artifacts, so the results of training are not lost.
 - `training_job_name`: The name of the training job. The name must be unique within an AWS
   Region in an AWS account.
 
@@ -1498,6 +1522,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfilerConfig"`:
 - `"ProfilerRuleConfigurations"`: Configuration information for Debugger rules for
   profiling system and framework metrics.
+- `"RetryStrategy"`: The number of times to retry the job when the job fails due to an
+  InternalServerError.
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
   in different ways, for example, by purpose, owner, or environment. For more information,
   see Tagging AWS Resources.
@@ -1582,14 +1608,14 @@ create_transform_job(ModelName, TransformInput, TransformJobName, TransformOutpu
     create_trial(experiment_name, trial_name)
     create_trial(experiment_name, trial_name, params::Dict{String,<:Any})
 
-Creates an Amazon SageMaker trial. A trial is a set of steps called trial components that
-produce a machine learning model. A trial is part of a single Amazon SageMaker experiment.
-When you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all experiments,
-trials, and trial components are automatically tracked, logged, and indexed. When you use
-the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can
-add tags to a trial and then use the Search API to search for the tags. To get a list of
-all your trials, call the ListTrials API. To view a trial's properties, call the
-DescribeTrial API. To create a trial component, call the CreateTrialComponent API.
+Creates an SageMaker trial. A trial is a set of steps called trial components that produce
+a machine learning model. A trial is part of a single SageMaker experiment. When you use
+SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components
+are automatically tracked, logged, and indexed. When you use the AWS SDK for Python (Boto),
+you must use the logging APIs provided by the SDK. You can add tags to a trial and then use
+the Search API to search for the tags. To get a list of all your trials, call the
+ListTrials API. To view a trial's properties, call the DescribeTrial API. To create a trial
+component, call the CreateTrialComponent API.
 
 # Arguments
 - `experiment_name`: The name of the experiment to associate the trial with.
@@ -1614,14 +1640,13 @@ create_trial(ExperimentName, TrialName, params::AbstractDict{String}; aws_config
 Creates a trial component, which is a stage of a machine learning trial. A trial is
 composed of one or more trial components. A trial component can be used in multiple trials.
 Trial components include pre-processing jobs, training jobs, and batch transform jobs. When
-you use Amazon SageMaker Studio or the Amazon SageMaker Python SDK, all experiments,
-trials, and trial components are automatically tracked, logged, and indexed. When you use
-the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can
-add tags to a trial component and then use the Search API to search for the tags.
-CreateTrialComponent can only be invoked from within an Amazon SageMaker managed
-environment. This includes Amazon SageMaker training jobs, processing jobs, transform jobs,
-and Amazon SageMaker notebooks. A call to CreateTrialComponent from outside one of these
-environments results in an error.
+you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial
+components are automatically tracked, logged, and indexed. When you use the AWS SDK for
+Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a
+trial component and then use the Search API to search for the tags.   CreateTrialComponent
+can only be invoked from within an SageMaker managed environment. This includes SageMaker
+training jobs, processing jobs, transform jobs, and SageMaker notebooks. A call to
+CreateTrialComponent from outside one of these environments results in an error.
 
 # Arguments
 - `trial_component_name`: The name of the component. The name must be unique in your AWS
@@ -1661,7 +1686,7 @@ home directory.
 
 # Arguments
 - `domain_id`: The ID of the associated Domain.
-- `user_profile_name`: A name for the UserProfile.
+- `user_profile_name`: A name for the UserProfile. This value is not case sensitive.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1674,7 +1699,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid username of a user in your directory. If the Domain's AuthMode is not SSO, this field
   cannot be specified.
 - `"Tags"`: Each tag consists of a key and an optional value. Tag keys must be unique per
-  resource.
+  resource. Tags that you specify for the User Profile are also added to all Apps that the
+  User Profile launches.
 - `"UserSettings"`: A collection of settings.
 """
 create_user_profile(DomainId, UserProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
@@ -1943,9 +1969,8 @@ delete_endpoint_config(EndpointConfigName, params::AbstractDict{String}; aws_con
     delete_experiment(experiment_name)
     delete_experiment(experiment_name, params::Dict{String,<:Any})
 
-Deletes an Amazon SageMaker experiment. All trials associated with the experiment must be
-deleted first. Use the ListTrials API to get a list of the trials associated with the
-experiment.
+Deletes an SageMaker experiment. All trials associated with the experiment must be deleted
+first. Use the ListTrials API to get a list of the trials associated with the experiment.
 
 # Arguments
 - `experiment_name`: The name of the experiment to delete.
@@ -2174,7 +2199,9 @@ delete_notebook_instance_lifecycle_config(NotebookInstanceLifecycleConfigName, p
     delete_pipeline(client_request_token, pipeline_name)
     delete_pipeline(client_request_token, pipeline_name, params::Dict{String,<:Any})
 
-Deletes a pipeline if there are no in-progress executions.
+Deletes a pipeline if there are no running instances of the pipeline. To delete a pipeline,
+you must stop all running instances of the pipeline using the StopPipelineExecution API.
+When you delete a pipeline, all instances of the pipeline are deleted.
 
 # Arguments
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
@@ -2205,7 +2232,9 @@ delete_project(ProjectName, params::AbstractDict{String}; aws_config::AbstractAW
 Deletes the specified tags from an Amazon SageMaker resource. To list a resource's tags,
 use the ListTags API.   When you call this API to delete tags from a hyperparameter tuning
 job, the deleted tags are not removed from training jobs that the hyperparameter tuning job
-launched before you called this API.
+launched before you called this API.   When you call this API to delete tags from a
+SageMaker Studio Domain or User Profile, the deleted tags are not removed from Apps that
+the SageMaker Studio Domain or User Profile launched before you called this API.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
@@ -2908,7 +2937,7 @@ Describes a user profile. For more information, see CreateUserProfile.
 
 # Arguments
 - `domain_id`: The domain ID.
-- `user_profile_name`: The user profile name.
+- `user_profile_name`: The user profile name. This value is not case sensitive.
 
 """
 describe_user_profile(DomainId, UserProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DescribeUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
@@ -3212,7 +3241,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: Request a list of jobs, using a search filter for name.
 - `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
   your next request to receive the next set of results.
-- `"SortBy"`: The parameter by which to sort the results. The default is AutoMLJobName.
+- `"SortBy"`: The parameter by which to sort the results. The default is Name.
 - `"SortOrder"`: The sort order for the results. The default is Descending.
 - `"StatusEquals"`: Request a list of jobs, using a filter for status.
 """
@@ -3474,7 +3503,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified timestamp.
 - `"LastModifiedTimeBefore"`:  A filter that returns only endpoints that were modified
   before the specified timestamp.
-- `"MaxResults"`: The maximum number of endpoints to return in the response.
+- `"MaxResults"`: The maximum number of endpoints to return in the response. This value
+  defaults to 10.
 - `"NameContains"`: A string in endpoint names. This filter returns only endpoints whose
   name contains the specified string.
 - `"NextToken"`: If the result of a ListEndpoints request was truncated, the response
@@ -4212,11 +4242,11 @@ Lists training jobs.  When StatusEquals and MaxResults are set at the same time,
 MaxResults number of training jobs are first retrieved ignoring the StatusEquals parameter
 and then they are filtered by the StatusEquals parameter, which is returned as a response.
 For example, if ListTrainingJobs is invoked with the following parameters:  { ...
-MaxResults: 100, StatusEquals: InProgress ... }  Then, 100 trainings jobs with any status
-including those other than InProgress are selected first (sorted according the creation
-time, from the latest to the oldest) and those with status InProgress are returned. You can
-quickly test the API using the following AWS CLI code.  aws sagemaker list-training-jobs
---max-results 100 --status-equals InProgress
+MaxResults: 100, StatusEquals: InProgress ... }  First, 100 trainings jobs with any status,
+including those other than InProgress, are selected (sorted according to the creation time,
+from the most current to the oldest). Next, those with a status of InProgress are returned.
+You can quickly test the API using the following AWS CLI code.  aws sagemaker
+list-training-jobs --max-results 100 --status-equals InProgress
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

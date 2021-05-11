@@ -185,11 +185,11 @@ batch_unsuspend_user(UserIdList, accountId, params::AbstractDict{String}; aws_co
     batch_update_phone_number(update_phone_number_request_items)
     batch_update_phone_number(update_phone_number_request_items, params::Dict{String,<:Any})
 
- Updates phone number product types or calling names. You can update one attribute at a
-time for each UpdatePhoneNumberRequestItem . For example, you can update either the product
-type or the calling name.  For product types, choose from Amazon Chime Business Calling and
-Amazon Chime Voice Connector. For toll-free numbers, you must use the Amazon Chime Voice
-Connector product type. Updates to outbound calling names can take up to 72 hours to
+Updates phone number product types or calling names. You can update one attribute at a time
+for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the
+calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling
+product type. For numbers outside the US, you must use the Amazon Chime SIP Media
+Application Dial-In product type. Updates to outbound calling names can take 72 hours to
 complete. Pending updates to outbound calling names must be complete before you can request
 another update.
 
@@ -508,9 +508,9 @@ create_meeting_with_attendees(ClientRequestToken, params::AbstractDict{String}; 
     create_phone_number_order(e164_phone_numbers, product_type)
     create_phone_number_order(e164_phone_numbers, product_type, params::Dict{String,<:Any})
 
-Creates an order for phone numbers to be provisioned. Choose from Amazon Chime Business
-Calling and Amazon Chime Voice Connector product types. For toll-free numbers, you must use
-the Amazon Chime Voice Connector product type.
+Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use
+the Amazon Chime Business Calling product type. For numbers outside the US, you must use
+the Amazon Chime SIP Media Application Dial-In product type.
 
 # Arguments
 - `e164_phone_numbers`: List of phone numbers, in E.164 format.
@@ -920,7 +920,7 @@ delete_meeting(meetingId, params::AbstractDict{String}; aws_config::AbstractAWSC
     delete_phone_number(phone_number_id)
     delete_phone_number(phone_number_id, params::Dict{String,<:Any})
 
-Moves the specified phone number into the Deletionqueue. A phone number must be
+Moves the specified phone number into the Deletion queue. A phone number must be
 disassociated from any users or Amazon Chime Voice Connectors before it can be deleted.
 Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted
 permanently.
@@ -1967,11 +1967,11 @@ list_channel_memberships_for_app_instance_user(params::AbstractDict{String}; aws
     list_channel_messages(channel_arn, params::Dict{String,<:Any})
 
 List all the messages in a channel. Returns a paginated list of ChannelMessages. By
-default, sorted by creation timestamp in descending order .  Redacted messages appear in
-the results as empty, since they are only redacted, not deleted. Deleted messages do not
-appear in the results. This action always returns the latest version of an edited message.
-Also, the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the
-user that makes the API call as the value in the header.
+default, sorted by creation timestamp in descending order.  Redacted messages appear in the
+results as empty, since they are only redacted, not deleted. Deleted messages do not appear
+in the results. This action always returns the latest version of an edited message. Also,
+the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user
+that makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -2204,6 +2204,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_sip_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules"; aws_config=aws_config)
 list_sip_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/sip-rules", params; aws_config=aws_config)
+
+"""
+    list_supported_phone_number_countries(product-type)
+    list_supported_phone_number_countries(product-type, params::Dict{String,<:Any})
+
+Lists supported phone number countries.
+
+# Arguments
+- `product-type`: The phone number product type.
+
+"""
+list_supported_phone_number_countries(product_type; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/phone-number-countries", Dict{String, Any}("product-type"=>product_type); aws_config=aws_config)
+list_supported_phone_number_countries(product_type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/phone-number-countries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("product-type"=>product_type), params)); aws_config=aws_config)
 
 """
     list_tags_for_resource(arn)
@@ -2594,17 +2607,25 @@ restore_phone_number(phoneNumberId, params::AbstractDict{String}; aws_config::Ab
     search_available_phone_numbers()
     search_available_phone_numbers(params::Dict{String,<:Any})
 
-Searches phone numbers that can be ordered.
+Searches for phone numbers that can be ordered. For US numbers, provide at least one of the
+following search filters: AreaCode, City, State, or TollFreePrefix. If you provide City,
+you must also provide State. Numbers outside the US only support the PhoneNumberType
+filter, which you must use.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"area-code"`: The area code used to filter results.
-- `"city"`: The city used to filter results.
-- `"country"`: The country used to filter results.
+- `"area-code"`: The area code used to filter results. Only applies to the US.
+- `"city"`: The city used to filter results. Only applies to the US.
+- `"country"`: The country used to filter results. Defaults to the US Format: ISO 3166-1
+  alpha-2.
 - `"max-results"`: The maximum number of results to return in a single call.
-- `"next-token"`: The token to use to retrieve the next page of results.
-- `"state"`: The state used to filter results.
-- `"toll-free-prefix"`: The toll-free prefix that you use to filter results.
+- `"next-token"`: The token used to retrieve the next page of results.
+- `"phone-number-type"`: The phone number type used to filter results. Required for non-US
+  numbers.
+- `"state"`: The state used to filter results. Required only if you provide City. Only
+  applies to the US.
+- `"toll-free-prefix"`: The toll-free prefix that you use to filter results. Only applies
+  to the US.
 """
 search_available_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/search?type=phone-numbers"; aws_config=aws_config)
 search_available_phone_numbers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/search?type=phone-numbers", params; aws_config=aws_config)
@@ -2886,10 +2907,11 @@ update_global_settings(BusinessCalling, VoiceConnector, params::AbstractDict{Str
 
 Updates phone number details, such as product type or calling name, for the specified phone
 number ID. You can update one phone number detail at a time. For example, you can update
-either the product type or the calling name in one action. For toll-free numbers, you must
-use the Amazon Chime Voice Connector product type. Updates to outbound calling names can
-take up to 72 hours to complete. Pending updates to outbound calling names must be complete
-before you can request another update.
+either the product type or the calling name in one action. For toll-free numbers, you
+cannot use the Amazon Chime Business Calling product type. For numbers outside the U.S.,
+you must use the Amazon Chime SIP Media Application Dial-In product type. Updates to
+outbound calling names can take 72 hours to complete. Pending updates to outbound calling
+names must be complete before you can request another update.
 
 # Arguments
 - `phone_number_id`: The phone number ID.

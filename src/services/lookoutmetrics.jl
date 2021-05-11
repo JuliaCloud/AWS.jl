@@ -130,7 +130,9 @@ delete_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String}; aws_co
     describe_alert(alert_arn)
     describe_alert(alert_arn, params::Dict{String,<:Any})
 
-Describes an alert.
+Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If
+you do a read operation on a resource immediately after creating or modifying it, use
+retries to allow time for the write operation to complete.
 
 # Arguments
 - `alert_arn`: The ARN of the alert to describe.
@@ -162,7 +164,9 @@ describe_anomaly_detection_executions(AnomalyDetectorArn, params::AbstractDict{S
     describe_anomaly_detector(anomaly_detector_arn)
     describe_anomaly_detector(anomaly_detector_arn, params::Dict{String,<:Any})
 
-Describes a detector.
+Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If
+you do a read operation on a resource immediately after creating or modifying it, use
+retries to allow time for the write operation to complete.
 
 # Arguments
 - `anomaly_detector_arn`: The ARN of the detector to describe.
@@ -175,7 +179,9 @@ describe_anomaly_detector(AnomalyDetectorArn, params::AbstractDict{String}; aws_
     describe_metric_set(metric_set_arn)
     describe_metric_set(metric_set_arn, params::Dict{String,<:Any})
 
-Describes a dataset.
+Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If
+you do a read operation on a resource immediately after creating or modifying it, use
+retries to allow time for the write operation to complete.
 
 # Arguments
 - `metric_set_arn`: The ARN of the dataset.
@@ -234,7 +240,9 @@ get_sample_data(params::AbstractDict{String}; aws_config::AbstractAWSConfig=glob
     list_alerts()
     list_alerts(params::Dict{String,<:Any})
 
-Lists the alerts attached to a detector.
+Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are
+eventually consistent. If you do a read operation on a resource immediately after creating
+or modifying it, use retries to allow time for the write operation to complete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -251,7 +259,9 @@ list_alerts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_a
     list_anomaly_detectors()
     list_anomaly_detectors(params::Dict{String,<:Any})
 
-Lists the detectors in the current AWS Region.
+Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are
+eventually consistent. If you do a read operation on a resource immediately after creating
+or modifying it, use retries to allow time for the write operation to complete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -306,7 +316,9 @@ list_anomaly_group_time_series(AnomalyDetectorArn, AnomalyGroupId, MetricName, p
     list_metric_sets()
     list_metric_sets(params::Dict{String,<:Any})
 
-Lists the datasets in the current AWS Region.
+Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are
+eventually consistent. If you do a read operation on a resource immediately after creating
+or modifying it, use retries to allow time for the write operation to complete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
