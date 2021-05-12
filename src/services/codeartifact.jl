@@ -252,7 +252,7 @@ delete_repository_permissions_policy(domain, repository, params::AbstractDict{St
     describe_domain(domain)
     describe_domain(domain, params::Dict{String,<:Any})
 
- Returns a  DomainDescription  object that contains information about the requested domain.
+ Returns a DomainDescription object that contains information about the requested domain.
 
 # Arguments
 - `domain`:  A string that specifies the name of the requested domain.
@@ -269,7 +269,7 @@ describe_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSCon
     describe_package_version(domain, format, package, repository, version)
     describe_package_version(domain, format, package, repository, version, params::Dict{String,<:Any})
 
- Returns a  PackageVersionDescription  object that contains information about the requested
+ Returns a PackageVersionDescription object that contains information about the requested
 package version.
 
 # Arguments
@@ -340,9 +340,9 @@ disassociate_external_connection(domain, external_connection, repository, params
 
  Deletes the assets in package versions and sets the package versions' status to Disposed.
 A disposed package version cannot be restored in your repository because its assets are
-deleted.   To view all disposed package versions in a repository, use  ListPackageVersions
-and set the  status  parameter to Disposed.   To view information about a disposed package
-version, use  DescribePackageVersion ..
+deleted.   To view all disposed package versions in a repository, use ListPackageVersions
+and set the status parameter to Disposed.   To view information about a disposed package
+version, use DescribePackageVersion.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository you want to dispose.
@@ -546,7 +546,7 @@ list_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_
     list_package_version_assets(domain, format, package, repository, version)
     list_package_version_assets(domain, format, package, repository, version, params::Dict{String,<:Any})
 
- Returns a list of  AssetSummary  objects for assets in a package version.
+ Returns a list of AssetSummary objects for assets in a package version.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository associated with the
@@ -580,7 +580,7 @@ list_package_version_assets(domain, format, package, repository, version, params
     list_package_version_dependencies(domain, format, package, repository, version, params::Dict{String,<:Any})
 
  Returns the direct dependencies for a package version. The dependencies are returned as
-PackageDependency  objects. CodeArtifact extracts the dependencies for a package version
+PackageDependency objects. CodeArtifact extracts the dependencies for a package version
 from the metadata file for the package format (for example, the package.json file for npm
 packages and the pom.xml file for Maven). Any package version dependencies that are not
 listed in the configuration file are not returned.
@@ -614,8 +614,8 @@ list_package_version_dependencies(domain, format, package, repository, version, 
     list_package_versions(domain, format, package, repository)
     list_package_versions(domain, format, package, repository, params::Dict{String,<:Any})
 
- Returns a list of  PackageVersionSummary  objects for package versions in a repository
-that match the request parameters.
+ Returns a list of PackageVersionSummary objects for package versions in a repository that
+match the request parameters.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository that contains the returned
@@ -651,7 +651,7 @@ list_package_versions(domain, format, package, repository, params::AbstractDict{
     list_packages(domain, repository)
     list_packages(domain, repository, params::Dict{String,<:Any})
 
- Returns a list of  PackageSummary  objects for packages in a repository that match the
+ Returns a list of PackageSummary objects for packages in a repository that match the
 request parameters.
 
 # Arguments
@@ -684,7 +684,7 @@ list_packages(domain, repository, params::AbstractDict{String}; aws_config::Abst
     list_repositories()
     list_repositories(params::Dict{String,<:Any})
 
- Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information
+ Returns a list of RepositorySummary objects. Each RepositorySummary contains information
 about a repository in the specified AWS account and that matches the input parameters.
 
 # Optional Parameters
@@ -702,7 +702,7 @@ list_repositories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     list_repositories_in_domain(domain)
     list_repositories_in_domain(domain, params::Dict{String,<:Any})
 
- Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information
+ Returns a list of RepositorySummary objects. Each RepositorySummary contains information
 about a repository in the specified domain and that matches the input parameters.
 
 # Arguments

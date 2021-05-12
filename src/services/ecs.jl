@@ -68,7 +68,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 - `"clusterName"`: The name of your cluster. If you do not specify a name for your cluster,
   you create a cluster named default. Up to 255 letters (uppercase and lowercase), numbers,
-  and hyphens are allowed.
+  underscores, and hyphens are allowed.
 - `"configuration"`: The execute command configuration for the cluster.
 - `"defaultCapacityProviderStrategy"`: The capacity provider strategy to set as the default
   for the cluster. When a default capacity provider strategy is set for a cluster, when
@@ -171,9 +171,9 @@ instances with the fewest number of running tasks for this service.
 
 # Arguments
 - `service_name`: The name of your service. Up to 255 letters (uppercase and lowercase),
-  numbers, and hyphens are allowed. Service names must be unique within a cluster, but you
-  can have similarly named services in multiple clusters within a Region or across multiple
-  Regions.
+  numbers, underscores, and hyphens are allowed. Service names must be unique within a
+  cluster, but you can have similarly named services in multiple clusters within a Region or
+  across multiple Regions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1307,7 +1307,8 @@ Guide.
   different containers that make up your task.
 - `family`: You must specify a family for a task definition, which allows you to track
   multiple versions of the same task definition. The family is used as a name for your task
-  definition. Up to 255 letters (uppercase and lowercase), numbers, and hyphens are allowed.
+  definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens
+  are allowed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

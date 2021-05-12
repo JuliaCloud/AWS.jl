@@ -16,9 +16,9 @@ operation from your organization's management account.  This API operation uses 
 Specify the nextToken parameter in the next request to return more results.
 
 # Arguments
-- `event_arn`: The unique identifier for the event. Format:
-  arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example:
-  Example:
+- `event_arn`: The unique identifier for the event. The event ARN has the
+  arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For
+  example, an event ARN might look like the following:
   arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMEN
   T_SCHEDULED_ABC123-DEF456
 
@@ -152,8 +152,8 @@ describe_event_aggregates(aggregateField, params::AbstractDict{String}; aws_conf
 Returns detailed information about one or more specified events. Information includes
 standard event data (AWS Region, service, and so on, as returned by DescribeEvents), a
 detailed event description, and possible additional metadata that depends upon the nature
-of the event. Affected entities are not included. To retrieve those, use the
-DescribeAffectedEntities operation. If a specified event cannot be retrieved, an error
+of the event. Affected entities are not included. To retrieve the entities, use the
+DescribeAffectedEntities operation. If a specified event can't be retrieved, an error
 message is returned for that event.  This operation supports resource-level permissions.
 You can use this operation to allow or deny access to specific AWS Health events. For more
 information, see Resource- and action-based conditions in the AWS Health User Guide.
@@ -177,26 +177,26 @@ describe_event_details(eventArns, params::AbstractDict{String}; aws_config::Abst
     describe_event_details_for_organization(organization_event_detail_filters)
     describe_event_details_for_organization(organization_event_detail_filters, params::Dict{String,<:Any})
 
-Returns detailed information about one or more specified events for one or more accounts in
-your organization. Information includes standard event data (AWS Region, service, and so
-on, as returned by DescribeEventsForOrganization), a detailed event description, and
-possible additional metadata that depends upon the nature of the event. Affected entities
-are not included; to retrieve those, use the DescribeAffectedEntitiesForOrganization
-operation. Before you can call this operation, you must first enable AWS Health to work
+Returns detailed information about one or more specified events for one or more AWS
+accounts in your organization. This information includes standard event data (such as the
+AWS Region and service), an event description, and (depending on the event) possible
+metadata. This operation doesn't return affected entities, such as the resources related to
+the event. To return affected entities, use the DescribeAffectedEntitiesForOrganization
+operation.  Before you can call this operation, you must first enable AWS Health to work
 with AWS Organizations. To do this, call the EnableHealthServiceAccessForOrganization
-operation from your organization's management account. When you call the
-DescribeEventDetailsForOrganization operation, you specify the
-organizationEventDetailFilters object in the request. Depending on the AWS Health event
-type, note the following differences:   If the event is public, the awsAccountId parameter
-must be empty. If you specify an account ID for a public event, then an error message is
-returned. That's because the event might apply to all AWS accounts and isn't specific to an
-account in your organization.   If the event is specific to an account, then you must
-specify the awsAccountId parameter in the request. If you don't specify an account ID, an
-error message returns because the event is specific to an AWS account in your organization.
-   For more information, see Event.  This operation doesn't support resource-level
-permissions. You can't use this operation to allow or deny access to specific AWS Health
-events. For more information, see Resource- and action-based conditions in the AWS Health
-User Guide.
+operation from your organization's management account.  When you call the
+DescribeEventDetailsForOrganization operation, specify the organizationEventDetailFilters
+object in the request. Depending on the AWS Health event type, note the following
+differences:   To return event details for a public event, you must specify a null value
+for the awsAccountId parameter. If you specify an account ID for a public event, AWS Health
+returns an error message because public events aren't specific to an account.   To return
+event details for an event that is specific to an account in your organization, you must
+specify the awsAccountId parameter in the request. If you don't specify an account ID, AWS
+Health returns an error message because the event is specific to an account in your
+organization.    For more information, see Event.  This operation doesn't support
+resource-level permissions. You can't use this operation to allow or deny access to
+specific AWS Health events. For more information, see Resource- and action-based conditions
+in the AWS Health User Guide.
 
 # Arguments
 - `organization_event_detail_filters`: A set of JSON elements that includes the
@@ -344,9 +344,9 @@ Enables AWS Health to work with AWS Organizations. You can use the organizationa
 feature to aggregate events from all AWS accounts in your organization in a centralized
 location.  This operation also creates a service-linked role for the management account in
 the organization.   To call this operation, you must meet the following requirements:   You
-must have a Business or Enterprise support plan from AWS Support to use the AWS Health API.
+must have a Business or Enterprise Support plan from AWS Support to use the AWS Health API.
 If you call the AWS Health API from an AWS account that doesn't have a Business or
-Enterprise support plan, you receive a SubscriptionRequiredException error.   You must have
+Enterprise Support plan, you receive a SubscriptionRequiredException error.   You must have
 permission to call this operation from the organization's management account. For example
 IAM policies, see AWS Health identity-based policy examples.    If you don't have the
 required support plan, you can instead use the AWS Health console to enable the

@@ -218,11 +218,9 @@ the Amazon EKS User Guide.
   see Launch template support in the Amazon EKS User Guide.
 - `nodegroup_name`: The unique name to give your node group.
 - `subnets`: The subnets to use for the Auto Scaling group that is created for your node
-  group. These subnets must have the tag key kubernetes.io/cluster/CLUSTER_NAME with a value
-  of shared, where CLUSTER_NAME is replaced with the name of your cluster. If you specify
-  launchTemplate, then don't specify  SubnetId  in your launch template, or the node group
-  deployment will fail. For more information about using launch templates with Amazon EKS,
-  see Launch template support in the Amazon EKS User Guide.
+  group. If you specify launchTemplate, then don't specify  SubnetId  in your launch
+  template, or the node group deployment will fail. For more information about using launch
+  templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -271,6 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization. Each tag consists of a key and an optional value, both of which you define.
   Node group tags do not propagate to any other resources associated with the node group,
   such as the Amazon EC2 instances or subnets.
+- `"taints"`: The Kubernetes taints to be applied to the nodes in the node group.
 - `"version"`: The Kubernetes version to use for your managed nodes. By default, the
   Kubernetes version of the cluster is used, and this is the only accepted specified value.
   If you specify launchTemplate, and your launch template uses a custom AMI, then don't
@@ -734,11 +733,11 @@ exported control plane logs. For more information, see Amazon CloudWatch Pricing
 also use this API operation to enable or disable public and private access to your
 cluster's Kubernetes API server endpoint. By default, public access is enabled, and private
 access is disabled. For more information, see Amazon EKS Cluster Endpoint Access Control in
-the  Amazon EKS User Guide .   At this time, you can not update the subnets or security
-group IDs for an existing cluster.  Cluster updates are asynchronous, and they should
-finish within a few minutes. During an update, the cluster status moves to UPDATING (this
-status transition is eventually consistent). When the update is complete (either Failed or
-Successful), the cluster status moves to Active.
+the  Amazon EKS User Guide .   You can't update the subnets or security group IDs for an
+existing cluster.  Cluster updates are asynchronous, and they should finish within a few
+minutes. During an update, the cluster status moves to UPDATING (this status transition is
+eventually consistent). When the update is complete (either Failed or Successful), the
+cluster status moves to Active.
 
 # Arguments
 - `name`: The name of the Amazon EKS cluster to update.
@@ -804,6 +803,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"labels"`: The Kubernetes labels to be applied to the nodes in the node group after the
   update.
 - `"scalingConfig"`: The scaling configuration details for the Auto Scaling group after the
+  update.
+- `"taints"`: The Kubernetes taints to be applied to the nodes in the node group after the
   update.
 """
 update_nodegroup_config(name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
