@@ -9,16 +9,16 @@ using AWS.UUIDs
     create_access_point(bucket, name, x-amz-account-id, params::Dict{String,<:Any})
 
 Creates an access point and associates it with the specified bucket. For more information,
-see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service
-User Guide.   S3 on Outposts only supports VPC-style Access Points.  For more information,
-see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only Access Points
-in the Amazon Simple Storage Service User Guide.  All Amazon S3 on Outposts REST API
-requests for this action require an additional parameter of x-amz-outpost-id to be passed
-with the request and an S3 on Outposts endpoint hostname prefix instead of s3-control. For
-an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
-endpoint hostname prefix and the x-amz-outpost-id derived using the access point ARN, see
-the Examples section.  The following actions are related to CreateAccessPoint:
-GetAccessPoint     DeleteAccessPoint     ListAccessPoints
+see Managing Data Access with Amazon S3 Access Points in the Amazon S3 User Guide.   S3 on
+Outposts only supports VPC-style access points.  For more information, see  Accessing
+Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3
+User Guide.  All Amazon S3 on Outposts REST API requests for this action require an
+additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
+Outposts endpoint hostname prefix instead of s3-control. For an example of the request
+syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
+the x-amz-outpost-id derived using the access point ARN, see the Examples section.  The
+following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint
+    ListAccessPoints
 
 # Arguments
 - `bucket`: The name of the bucket that you want to associate this access point with. For
@@ -50,10 +50,9 @@ create_access_point(Bucket, name, x_amz_account_id, params::AbstractDict{String}
     create_access_point_for_object_lambda(configuration, name, x-amz-account-id, params::Dict{String,<:Any})
 
 Creates an Object Lambda Access Point. For more information, see Transforming objects with
-Object Lambda Access Points in the Amazon Simple Storage Service User Guide. The following
-actions are related to CreateAccessPointForObjectLambda:
-DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda
-ListAccessPointsForObjectLambda
+Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related
+to CreateAccessPointForObjectLambda:    DeleteAccessPointForObjectLambda
+GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
 
 # Arguments
 - `configuration`: Object Lambda Access Point configuration as a JSON document.
@@ -70,17 +69,17 @@ create_access_point_for_object_lambda(Configuration, name, x_amz_account_id, par
     create_bucket(name, params::Dict{String,<:Any})
 
  This action creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see Create
-Bucket in the Amazon Simple Storage Service API.   Creates a new Outposts bucket. By
-creating the bucket, you become the bucket owner. To create an Outposts bucket, you must
-have S3 on Outposts. For more information, see Using Amazon S3 on Outposts in Amazon Simple
-Storage Service User Guide. Not every string is an acceptable bucket name. For information
-on bucket naming restrictions, see Working with Amazon S3 Buckets. S3 on Outposts buckets
-support:   Tags   LifecycleConfigurations for deleting expired objects   For a complete
-list of restrictions and Amazon S3 feature limitations on S3 on Outposts, see  Amazon S3 on
-Outposts Restrictions and Limitations. For an example of the request syntax for Amazon S3
-on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in
-your API request, see the Examples section. The following actions are related to
-CreateBucket for Amazon S3 on Outposts:    PutObject     GetBucket     DeleteBucket
+Bucket in the Amazon S3 API Reference.   Creates a new Outposts bucket. By creating the
+bucket, you become the bucket owner. To create an Outposts bucket, you must have S3 on
+Outposts. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide.
+Not every string is an acceptable bucket name. For information on bucket naming
+restrictions, see Working with Amazon S3 Buckets. S3 on Outposts buckets support:   Tags
+LifecycleConfigurations for deleting expired objects   For a complete list of restrictions
+and Amazon S3 feature limitations on S3 on Outposts, see  Amazon S3 on Outposts
+Restrictions and Limitations. For an example of the request syntax for Amazon S3 on
+Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your
+API request, see the Examples section. The following actions are related to CreateBucket
+for Amazon S3 on Outposts:    PutObject     GetBucket     DeleteBucket
 CreateAccessPoint     PutAccessPointPolicy
 
 # Arguments
@@ -116,17 +115,17 @@ create_bucket(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=
 
 You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects.
 Batch Operations can run a single action on lists of Amazon S3 objects that you specify.
-For more information, see S3 Batch Operations in the Amazon Simple Storage Service User
-Guide. This action creates a S3 Batch Operations job.  Related actions include:
-DescribeJob     ListJobs     UpdateJobPriority     UpdateJobStatus     JobOperation
+For more information, see S3 Batch Operations in the Amazon S3 User Guide. This action
+creates a S3 Batch Operations job.  Related actions include:    DescribeJob     ListJobs
+ UpdateJobPriority     UpdateJobStatus     JobOperation
 
 # Arguments
 - `client_request_token`: An idempotency token to ensure that you don't accidentally submit
   the same request twice. You can use any string up to the maximum length.
 - `manifest`: Configuration parameters for the manifest.
 - `operation`: The action that you want this job to perform on every object listed in the
-  manifest. For more information about the available actions, see Operations in the Amazon
-  Simple Storage Service User Guide.
+  manifest. For more information about the available actions, see Operations in the Amazon S3
+  User Guide.
 - `priority`: The numerical priority for this job. Higher numbers indicate higher priority.
 - `report`: Configuration parameters for the optional job-completion report.
 - `role_arn`: The Amazon Resource Name (ARN) for the AWS Identity and Access Management
@@ -241,16 +240,15 @@ delete_access_point_policy_for_object_lambda(name, x_amz_account_id, params::Abs
     delete_bucket(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action deletes an Amazon S3 on Outposts bucket. To delete an S3 bucket, see
-DeleteBucket in the Amazon Simple Storage Service API.   Deletes the Amazon S3 on Outposts
-bucket. All objects (including all object versions and delete markers) in the bucket must
-be deleted before the bucket itself can be deleted. For more information, see Using Amazon
-S3 on Outposts in Amazon Simple Storage Service User Guide. All Amazon S3 on Outposts REST
-API requests for this action require an additional parameter of x-amz-outpost-id to be
-passed with the request and an S3 on Outposts endpoint hostname prefix instead of
-s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3
-on Outposts endpoint hostname prefix and the x-amz-outpost-id derived using the access
-point ARN, see the Examples section.  Related Resources     CreateBucket     GetBucket
-DeleteObject
+DeleteBucket in the Amazon S3 API Reference.   Deletes the Amazon S3 on Outposts bucket.
+All objects (including all object versions and delete markers) in the bucket must be
+deleted before the bucket itself can be deleted. For more information, see Using Amazon S3
+on Outposts in Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this
+action require an additional parameter of x-amz-outpost-id to be passed with the request
+and an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the
+request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname
+prefix and the x-amz-outpost-id derived using the access point ARN, see the Examples
+section.  Related Resources     CreateBucket     GetBucket     DeleteObject
 
 # Arguments
 - `name`: Specifies the bucket being deleted. For using this parameter with Amazon S3 on
@@ -273,19 +271,19 @@ delete_bucket(name, x_amz_account_id, params::AbstractDict{String}; aws_config::
     delete_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete
-an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon Simple
-Storage Service API.   Deletes the lifecycle configuration from the specified Outposts
-bucket. Amazon S3 on Outposts removes all the lifecycle configuration rules in the
-lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3
-on Outposts no longer automatically deletes any objects on the basis of rules contained in
-the deleted lifecycle configuration. For more information, see Using Amazon S3 on Outposts
-in Amazon Simple Storage Service User Guide. To use this action, you must have permission
-to perform the s3-outposts:DeleteLifecycleConfiguration action. By default, the bucket
-owner has this permission and the Outposts bucket owner can grant this permission to
-others. All Amazon S3 on Outposts REST API requests for this action require an additional
-parameter of x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint
-hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3
-on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
+an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon S3 API
+Reference.   Deletes the lifecycle configuration from the specified Outposts bucket. Amazon
+S3 on Outposts removes all the lifecycle configuration rules in the lifecycle subresource
+associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer
+automatically deletes any objects on the basis of rules contained in the deleted lifecycle
+configuration. For more information, see Using Amazon S3 on Outposts in Amazon S3 User
+Guide. To use this action, you must have permission to perform the
+s3-outposts:DeleteLifecycleConfiguration action. By default, the bucket owner has this
+permission and the Outposts bucket owner can grant this permission to others. All Amazon S3
+on Outposts REST API requests for this action require an additional parameter of
+x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
+prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
+Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
 derived using the access point ARN, see the Examples section. For more information about
 object expiration, see Elements to Describe Lifecycle Actions. Related actions include:
 PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
@@ -311,25 +309,25 @@ delete_bucket_lifecycle_configuration(name, x_amz_account_id, params::AbstractDi
     delete_bucket_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy,
-see DeleteBucketPolicy in the Amazon Simple Storage Service API.   This implementation of
-the DELETE action uses the policy subresource to delete the policy of a specified Amazon S3
-on Outposts bucket. If you are using an identity other than the root user of the AWS
-account that owns the bucket, the calling identity must have the
-s3-outposts:DeleteBucketPolicy permissions on the specified Outposts bucket and belong to
-the bucket owner's account to use this action. For more information, see Using Amazon S3 on
-Outposts in Amazon Simple Storage Service User Guide. If you don't have DeleteBucketPolicy
-permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct
-permissions, but you're not using an identity that belongs to the bucket owner's account,
-Amazon S3 returns a 405 Method Not Allowed error.   As a security precaution, the root user
-of the AWS account that owns a bucket can always use this action, even if the policy
-explicitly denies the root user the ability to perform this action.  For more information
-about bucket policies, see Using Bucket Policies and User Policies.  All Amazon S3 on
-Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. The following actions are
-related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
+see DeleteBucketPolicy in the Amazon S3 API Reference.   This implementation of the DELETE
+action uses the policy subresource to delete the policy of a specified Amazon S3 on
+Outposts bucket. If you are using an identity other than the root user of the AWS account
+that owns the bucket, the calling identity must have the s3-outposts:DeleteBucketPolicy
+permissions on the specified Outposts bucket and belong to the bucket owner's account to
+use this action. For more information, see Using Amazon S3 on Outposts in Amazon S3 User
+Guide. If you don't have DeleteBucketPolicy permissions, Amazon S3 returns a 403 Access
+Denied error. If you have the correct permissions, but you're not using an identity that
+belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error.
+As a security precaution, the root user of the AWS account that owns a bucket can always
+use this action, even if the policy explicitly denies the root user the ability to perform
+this action.  For more information about bucket policies, see Using Bucket Policies and
+User Policies.  All Amazon S3 on Outposts REST API requests for this action require an
+additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
+Outposts endpoint hostname prefix instead of s3-control. For an example of the request
+syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
+the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
+following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
+
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -352,17 +350,16 @@ delete_bucket_policy(name, x_amz_account_id, params::AbstractDict{String}; aws_c
     delete_bucket_tagging(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags,
-see DeleteBucketTagging in the Amazon Simple Storage Service API.   Deletes the tags from
-the Outposts bucket. For more information, see Using Amazon S3 on Outposts in Amazon Simple
-Storage Service User Guide. To use this action, you must have permission to perform the
-PutBucketTagging action. By default, the bucket owner has this permission and can grant
-this permission to others.  All Amazon S3 on Outposts REST API requests for this action
-require an additional parameter of x-amz-outpost-id to be passed with the request and an S3
-on Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to DeleteBucketTagging:    GetBucketTagging
-PutBucketTagging
+see DeleteBucketTagging in the Amazon S3 API Reference.   Deletes the tags from the
+Outposts bucket. For more information, see Using Amazon S3 on Outposts in Amazon S3 User
+Guide. To use this action, you must have permission to perform the PutBucketTagging action.
+By default, the bucket owner has this permission and can grant this permission to others.
+All Amazon S3 on Outposts REST API requests for this action require an additional parameter
+of x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
+prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
+Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
+derived using the access point ARN, see the Examples section. The following actions are
+related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
 
 # Arguments
 - `name`: The bucket ARN that has the tag set to be removed. For using this parameter with
@@ -386,9 +383,8 @@ delete_bucket_tagging(name, x_amz_account_id, params::AbstractDict{String}; aws_
 
 Removes the entire tag set from the specified S3 Batch Operations job. To use this
 operation, you must have permission to perform the s3:DeleteJobTagging action. For more
-information, see Controlling access and labeling jobs using tags in the Amazon Simple
-Storage Service User Guide.  Related actions include:    CreateJob     GetJobTagging
-PutJobTagging
+information, see Controlling access and labeling jobs using tags in the Amazon S3 User
+Guide.  Related actions include:    CreateJob     GetJobTagging     PutJobTagging
 
 # Arguments
 - `id`: The ID for the S3 Batch Operations job whose tags you want to delete.
@@ -420,9 +416,9 @@ delete_public_access_block(x_amz_account_id, params::AbstractDict{String}; aws_c
 
 Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage
 Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the
-Amazon Simple Storage Service User Guide.  To use this action, you must have permission to
-perform the s3:DeleteStorageLensConfiguration action. For more information, see Setting
-permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service User Guide.
+Amazon S3 User Guide.  To use this action, you must have permission to perform the
+s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to
+use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
@@ -438,10 +434,9 @@ delete_storage_lens_configuration(storagelensid, x_amz_account_id, params::Abstr
 
 Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3
 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in
-the Amazon Simple Storage Service User Guide.  To use this action, you must have permission
-to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see
-Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service User
-Guide.
+the Amazon S3 User Guide.  To use this action, you must have permission to perform the
+s3:DeleteStorageLensConfigurationTagging action. For more information, see Setting
+permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
@@ -456,9 +451,8 @@ delete_storage_lens_configuration_tagging(storagelensid, x_amz_account_id, param
     describe_job(id, x-amz-account-id, params::Dict{String,<:Any})
 
 Retrieves the configuration parameters and status for a Batch Operations job. For more
-information, see S3 Batch Operations in the Amazon Simple Storage Service User Guide.
-Related actions include:    CreateJob     ListJobs     UpdateJobPriority
-UpdateJobStatus
+information, see S3 Batch Operations in the Amazon S3 User Guide.  Related actions include:
+   CreateJob     ListJobs     UpdateJobPriority     UpdateJobStatus
 
 # Arguments
 - `id`: The ID for the job whose information you want to retrieve.
@@ -581,7 +575,7 @@ get_access_point_policy_for_object_lambda(name, x_amz_account_id, params::Abstra
 
 Indicates whether the specified access point currently has a policy that allows public
 access. For more information about public access through access points, see Managing Data
-Access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide.
+Access with Amazon S3 access points in the Amazon S3 User Guide.
 
 # Arguments
 - `name`: The name of the access point whose policy status you want to retrieve.
@@ -611,15 +605,15 @@ get_access_point_policy_status_for_object_lambda(name, x_amz_account_id, params:
     get_bucket(name, x-amz-account-id, params::Dict{String,<:Any})
 
 Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on
-Outposts in the Amazon Simple Storage Service User Guide. If you are using an identity
-other than the root user of the AWS account that owns the Outposts bucket, the calling
-identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket
-and belong to the Outposts bucket owner's account in order to use this action. Only users
-from Outposts bucket owner account with the right permissions can perform actions on an
-Outposts bucket.   If you don't have s3-outposts:GetBucket permissions or you're not using
-an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access
-Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All
-Amazon S3 on Outposts REST API requests for this action require an additional parameter of
+Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user
+of the AWS account that owns the Outposts bucket, the calling identity must have the
+s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the
+Outposts bucket owner's account in order to use this action. Only users from Outposts
+bucket owner account with the right permissions can perform actions on an Outposts bucket.
+ If you don't have s3-outposts:GetBucket permissions or you're not using an identity that
+belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The
+following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on
+Outposts REST API requests for this action require an additional parameter of
 x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
 prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
 Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
@@ -647,24 +641,24 @@ get_bucket(name, x_amz_account_id, params::AbstractDict{String}; aws_config::Abs
     get_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3
-bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon Simple
-Storage Service API.   Returns the lifecycle configuration information set on the Outposts
-bucket. For more information, see Using Amazon S3 on Outposts and for information about
-lifecycle configuration, see  Object Lifecycle Management in Amazon Simple Storage Service
-User Guide. To use this action, you must have permission to perform the
-s3-outposts:GetLifecycleConfiguration action. The Outposts bucket owner has this
-permission, by default. The bucket owner can grant this permission to others. For more
-information about permissions, see Permissions Related to Bucket Subresource Operations and
-Managing Access Permissions to Your Amazon S3 Resources. All Amazon S3 on Outposts REST API
-requests for this action require an additional parameter of x-amz-outpost-id to be passed
-with the request and an S3 on Outposts endpoint hostname prefix instead of s3-control. For
-an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
-endpoint hostname prefix and the x-amz-outpost-id derived using the access point ARN, see
-the Examples section.  GetBucketLifecycleConfiguration has the following special error:
-Error code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does
-not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The
-following actions are related to GetBucketLifecycleConfiguration:
-PutBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
+bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API
+Reference.   Returns the lifecycle configuration information set on the Outposts bucket.
+For more information, see Using Amazon S3 on Outposts and for information about lifecycle
+configuration, see  Object Lifecycle Management in Amazon S3 User Guide. To use this
+action, you must have permission to perform the s3-outposts:GetLifecycleConfiguration
+action. The Outposts bucket owner has this permission, by default. The bucket owner can
+grant this permission to others. For more information about permissions, see Permissions
+Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3
+Resources. All Amazon S3 on Outposts REST API requests for this action require an
+additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
+Outposts endpoint hostname prefix instead of s3-control. For an example of the request
+syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
+the x-amz-outpost-id derived using the access point ARN, see the Examples section.
+GetBucketLifecycleConfiguration has the following special error:   Error code:
+NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.
+HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following actions
+are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleConfiguration
+DeleteBucketLifecycleConfiguration
 
 # Arguments
 - `name`: The Amazon Resource Name (ARN) of the bucket. For using this parameter with
@@ -687,19 +681,19 @@ get_bucket_lifecycle_configuration(name, x_amz_account_id, params::AbstractDict{
     get_bucket_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for
-an S3 bucket, see GetBucketPolicy in the Amazon Simple Storage Service API.   Returns the
-policy of a specified Outposts bucket. For more information, see Using Amazon S3 on
-Outposts in the Amazon Simple Storage Service User Guide. If you are using an identity
-other than the root user of the AWS account that owns the bucket, the calling identity must
-have the GetBucketPolicy permissions on the specified bucket and belong to the bucket
-owner's account in order to use this action. Only users from Outposts bucket owner account
-with the right permissions can perform actions on an Outposts bucket. If you don't have
-s3-outposts:GetBucketPolicy permissions or you're not using an identity that belongs to the
-bucket owner's account, Amazon S3 returns a 403 Access Denied error.  As a security
-precaution, the root user of the AWS account that owns a bucket can always use this action,
-even if the policy explicitly denies the root user the ability to perform this action.  For
-more information about bucket policies, see Using Bucket Policies and User Policies. All
-Amazon S3 on Outposts REST API requests for this action require an additional parameter of
+an S3 bucket, see GetBucketPolicy in the Amazon S3 API Reference.   Returns the policy of a
+specified Outposts bucket. For more information, see Using Amazon S3 on Outposts in the
+Amazon S3 User Guide. If you are using an identity other than the root user of the AWS
+account that owns the bucket, the calling identity must have the GetBucketPolicy
+permissions on the specified bucket and belong to the bucket owner's account in order to
+use this action. Only users from Outposts bucket owner account with the right permissions
+can perform actions on an Outposts bucket. If you don't have s3-outposts:GetBucketPolicy
+permissions or you're not using an identity that belongs to the bucket owner's account,
+Amazon S3 returns a 403 Access Denied error.  As a security precaution, the root user of
+the AWS account that owns a bucket can always use this action, even if the policy
+explicitly denies the root user the ability to perform this action.  For more information
+about bucket policies, see Using Bucket Policies and User Policies. All Amazon S3 on
+Outposts REST API requests for this action require an additional parameter of
 x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
 prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
 Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
@@ -727,19 +721,18 @@ get_bucket_policy(name, x_amz_account_id, params::AbstractDict{String}; aws_conf
     get_bucket_tagging(name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action gets an Amazon S3 on Outposts bucket's tags. To get an S3 bucket tags, see
-GetBucketTagging in the Amazon Simple Storage Service API.   Returns the tag set associated
-with the Outposts bucket. For more information, see Using Amazon S3 on Outposts in the
-Amazon Simple Storage Service User Guide. To use this action, you must have permission to
-perform the GetBucketTagging action. By default, the bucket owner has this permission and
-can grant this permission to others.  GetBucketTagging has the following special error:
-Error code: NoSuchTagSetError    Description: There is no tag set associated with the
-bucket.     All Amazon S3 on Outposts REST API requests for this action require an
-additional parameter of x-amz-outpost-id to be passed with the request and an S3 on
-Outposts endpoint hostname prefix instead of s3-control. For an example of the request
-syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
-the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
-following actions are related to GetBucketTagging:    PutBucketTagging
-DeleteBucketTagging
+GetBucketTagging in the Amazon S3 API Reference.   Returns the tag set associated with the
+Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3
+User Guide. To use this action, you must have permission to perform the GetBucketTagging
+action. By default, the bucket owner has this permission and can grant this permission to
+others.  GetBucketTagging has the following special error:   Error code: NoSuchTagSetError
+  Description: There is no tag set associated with the bucket.     All Amazon S3 on
+Outposts REST API requests for this action require an additional parameter of
+x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
+prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
+Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
+derived using the access point ARN, see the Examples section. The following actions are
+related to GetBucketTagging:    PutBucketTagging     DeleteBucketTagging
 
 # Arguments
 - `name`: Specifies the bucket. For using this parameter with Amazon S3 on Outposts with
@@ -763,8 +756,8 @@ get_bucket_tagging(name, x_amz_account_id, params::AbstractDict{String}; aws_con
 
 Returns the tags on an S3 Batch Operations job. To use this operation, you must have
 permission to perform the s3:GetJobTagging action. For more information, see Controlling
-access and labeling jobs using tags in the Amazon Simple Storage Service User Guide.
-Related actions include:    CreateJob     PutJobTagging     DeleteJobTagging
+access and labeling jobs using tags in the Amazon S3 User Guide.  Related actions include:
+  CreateJob     PutJobTagging     DeleteJobTagging
 
 # Arguments
 - `id`: The ID for the S3 Batch Operations job whose tags you want to retrieve.
@@ -795,10 +788,10 @@ get_public_access_block(x_amz_account_id, params::AbstractDict{String}; aws_conf
     get_storage_lens_configuration(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your
-storage activity and usage with Amazon S3 Storage Lens  in the Amazon Simple Storage
-Service User Guide.  To use this action, you must have permission to perform the
-s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use
-Amazon S3 Storage Lens in the Amazon Simple Storage Service User Guide.
+storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To
+use this action, you must have permission to perform the s3:GetStorageLensConfiguration
+action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
+Amazon S3 User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the Amazon S3 Storage Lens configuration.
@@ -814,10 +807,9 @@ get_storage_lens_configuration(storagelensid, x_amz_account_id, params::Abstract
 
 Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3
 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in
-the Amazon Simple Storage Service User Guide.  To use this action, you must have permission
-to perform the s3:GetStorageLensConfigurationTagging action. For more information, see
-Setting permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service User
-Guide.
+the Amazon S3 User Guide.  To use this action, you must have permission to perform the
+s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions
+to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the Amazon S3 Storage Lens configuration.
@@ -903,8 +895,8 @@ list_access_points_for_object_lambda(x_amz_account_id, params::AbstractDict{Stri
 
 Lists current S3 Batch Operations jobs and jobs that have ended within the last 30 days for
 the AWS account making the request. For more information, see S3 Batch Operations in the
-Amazon Simple Storage Service User Guide. Related actions include:     CreateJob
-DescribeJob     UpdateJobPriority     UpdateJobStatus
+Amazon S3 User Guide. Related actions include:     CreateJob     DescribeJob
+UpdateJobPriority     UpdateJobStatus
 
 # Arguments
 - `x-amz-account-id`: The AWS account ID associated with the S3 Batch Operations job.
@@ -929,9 +921,9 @@ list_jobs(x_amz_account_id, params::AbstractDict{String}; aws_config::AbstractAW
 
 Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated
 sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon
-Simple Storage Service User Guide. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your
-request, see the Examples section.
+S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the
+S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the
+Examples section.
 
 # Arguments
 - `x-amz-account-id`: The AWS account ID of the Outposts bucket.
@@ -952,9 +944,9 @@ list_regional_buckets(x_amz_account_id, params::AbstractDict{String}; aws_config
 
 Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage
 Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the
-Amazon Simple Storage Service User Guide.  To use this action, you must have permission to
-perform the s3:ListStorageLensConfigurations action. For more information, see Setting
-permissions to use Amazon S3 Storage Lens in the Amazon Simple Storage Service User Guide.
+Amazon S3 User Guide.  To use this action, you must have permission to perform the
+s3:ListStorageLensConfigurations action. For more information, see Setting permissions to
+use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 # Arguments
 - `x-amz-account-id`: The account ID of the requester.
@@ -1000,8 +992,8 @@ DeleteAccessPointPolicy
 
 # Arguments
 - `policy`: The policy that you want to apply to the specified access point. For more
-  information about access point policies, see Managing data access with Amazon S3 Access
-  Points in the Amazon Simple Storage Service User Guide.
+  information about access point policies, see Managing data access with Amazon S3 access
+  points in the Amazon S3 User Guide.
 - `name`: The name of the access point that you want to associate with the specified
   policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must
   specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on
@@ -1024,8 +1016,8 @@ put_access_point_policy(Policy, name, x_amz_account_id, params::AbstractDict{Str
     put_access_point_policy_for_object_lambda(policy, name, x-amz-account-id, params::Dict{String,<:Any})
 
 Creates or replaces resource policy for an Object Lambda Access Point. For an example
-policy, see Creating Object Lambda Access Points in the Amazon Simple Storage Service User
-Guide. The following actions are related to PutAccessPointPolicyForObjectLambda:
+policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide. The following
+actions are related to PutAccessPointPolicyForObjectLambda:
 DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda
 
 # Arguments
@@ -1044,15 +1036,15 @@ put_access_point_policy_for_object_lambda(Policy, name, x_amz_account_id, params
 
  This action puts a lifecycle configuration to an Amazon S3 on Outposts bucket. To put a
 lifecycle configuration to an S3 bucket, see PutBucketLifecycleConfiguration in the Amazon
-Simple Storage Service API.   Creates a new lifecycle configuration for the S3 on Outposts
-bucket or replaces an existing lifecycle configuration. Outposts buckets only support
-lifecycle configurations that delete/expire objects after a certain period of time and
-abort incomplete multipart uploads.  All Amazon S3 on Outposts REST API requests for this
-action require an additional parameter of x-amz-outpost-id to be passed with the request
-and an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the
-request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname
-prefix and the x-amz-outpost-id derived using the access point ARN, see the Examples
-section. The following actions are related to PutBucketLifecycleConfiguration:
+S3 API Reference.   Creates a new lifecycle configuration for the S3 on Outposts bucket or
+replaces an existing lifecycle configuration. Outposts buckets only support lifecycle
+configurations that delete/expire objects after a certain period of time and abort
+incomplete multipart uploads.  All Amazon S3 on Outposts REST API requests for this action
+require an additional parameter of x-amz-outpost-id to be passed with the request and an S3
+on Outposts endpoint hostname prefix instead of s3-control. For an example of the request
+syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
+the x-amz-outpost-id derived using the access point ARN, see the Examples section. The
+following actions are related to PutBucketLifecycleConfiguration:
 GetBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
 
 # Arguments
@@ -1072,24 +1064,24 @@ put_bucket_lifecycle_configuration(name, x_amz_account_id, params::AbstractDict{
     put_bucket_policy(policy, name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action puts a bucket policy to an Amazon S3 on Outposts bucket. To put a policy on an
-S3 bucket, see PutBucketPolicy in the Amazon Simple Storage Service API.   Applies an
-Amazon S3 bucket policy to an Outposts bucket. For more information, see Using Amazon S3 on
-Outposts in the Amazon Simple Storage Service User Guide. If you are using an identity
-other than the root user of the AWS account that owns the Outposts bucket, the calling
-identity must have the PutBucketPolicy permissions on the specified Outposts bucket and
-belong to the bucket owner's account in order to use this action. If you don't have
-PutBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the
-correct permissions, but you're not using an identity that belongs to the bucket owner's
-account, Amazon S3 returns a 405 Method Not Allowed error.   As a security precaution, the
-root user of the AWS account that owns a bucket can always use this action, even if the
-policy explicitly denies the root user the ability to perform this action.   For more
-information about bucket policies, see Using Bucket Policies and User Policies. All Amazon
-S3 on Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived using the access point ARN, see the Examples section. The following actions are
-related to PutBucketPolicy:    GetBucketPolicy     DeleteBucketPolicy
+S3 bucket, see PutBucketPolicy in the Amazon S3 API Reference.   Applies an Amazon S3
+bucket policy to an Outposts bucket. For more information, see Using Amazon S3 on Outposts
+in the Amazon S3 User Guide. If you are using an identity other than the root user of the
+AWS account that owns the Outposts bucket, the calling identity must have the
+PutBucketPolicy permissions on the specified Outposts bucket and belong to the bucket
+owner's account in order to use this action. If you don't have PutBucketPolicy permissions,
+Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but
+you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns
+a 405 Method Not Allowed error.   As a security precaution, the root user of the AWS
+account that owns a bucket can always use this action, even if the policy explicitly denies
+the root user the ability to perform this action.   For more information about bucket
+policies, see Using Bucket Policies and User Policies. All Amazon S3 on Outposts REST API
+requests for this action require an additional parameter of x-amz-outpost-id to be passed
+with the request and an S3 on Outposts endpoint hostname prefix instead of s3-control. For
+an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived using the access point ARN, see
+the Examples section. The following actions are related to PutBucketPolicy:
+GetBucketPolicy     DeleteBucketPolicy
 
 # Arguments
 - `policy`: The bucket policy as a JSON document.
@@ -1118,29 +1110,29 @@ put_bucket_policy(Policy, name, x_amz_account_id, params::AbstractDict{String}; 
     put_bucket_tagging(tagging, name, x-amz-account-id, params::Dict{String,<:Any})
 
  This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see
-PutBucketTagging in the Amazon Simple Storage Service API.   Sets the tags for an S3 on
-Outposts bucket. For more information, see Using Amazon S3 on Outposts in the Amazon Simple
-Storage Service User Guide. Use tags to organize your AWS bill to reflect your own cost
-structure. To do this, sign up to get your AWS account bill with tag key values included.
-Then, to see the cost of combined resources, organize your billing information according to
-resources with the same tag key values. For example, you can tag several resources with a
-specific application name, and then organize your billing information to see the total cost
-of that application across several services. For more information, see Cost allocation and
-tagging.  Within a bucket, if you add a tag that has the same key as an existing tag, the
-new value overwrites the old value. For more information, see  Using cost allocation in
-Amazon S3 bucket tags.  To use this action, you must have permissions to perform the
-s3-outposts:PutBucketTagging action. The Outposts bucket owner has this permission by
-default and can grant this permission to others. For more information about permissions,
-see  Permissions Related to Bucket Subresource Operations and Managing access permissions
-to your Amazon S3 resources.  PutBucketTagging has the following special errors:   Error
-code: InvalidTagError    Description: The tag provided was not a valid tag. This error can
-occur if the tag did not pass input validation. For information about tag restrictions, see
- User-Defined Tag Restrictions and  AWS-Generated Cost Allocation Tag Restrictions.
-Error code: MalformedXMLError    Description: The XML provided does not match the schema.
-  Error code: OperationAbortedError     Description: A conflicting conditional action is
-currently in progress against this resource. Try again.     Error code: InternalError
-Description: The service was unable to apply the provided tag to the bucket.     All Amazon
-S3 on Outposts REST API requests for this action require an additional parameter of
+PutBucketTagging in the Amazon S3 API Reference.   Sets the tags for an S3 on Outposts
+bucket. For more information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide.
+Use tags to organize your AWS bill to reflect your own cost structure. To do this, sign up
+to get your AWS account bill with tag key values included. Then, to see the cost of
+combined resources, organize your billing information according to resources with the same
+tag key values. For example, you can tag several resources with a specific application
+name, and then organize your billing information to see the total cost of that application
+across several services. For more information, see Cost allocation and tagging.  Within a
+bucket, if you add a tag that has the same key as an existing tag, the new value overwrites
+the old value. For more information, see  Using cost allocation in Amazon S3 bucket tags.
+To use this action, you must have permissions to perform the s3-outposts:PutBucketTagging
+action. The Outposts bucket owner has this permission by default and can grant this
+permission to others. For more information about permissions, see  Permissions Related to
+Bucket Subresource Operations and Managing access permissions to your Amazon S3 resources.
+PutBucketTagging has the following special errors:   Error code: InvalidTagError
+Description: The tag provided was not a valid tag. This error can occur if the tag did not
+pass input validation. For information about tag restrictions, see  User-Defined Tag
+Restrictions and  AWS-Generated Cost Allocation Tag Restrictions.     Error code:
+MalformedXMLError    Description: The XML provided does not match the schema.     Error
+code: OperationAbortedError     Description: A conflicting conditional action is currently
+in progress against this resource. Try again.     Error code: InternalError    Description:
+The service was unable to apply the provided tag to the bucket.     All Amazon S3 on
+Outposts REST API requests for this action require an additional parameter of
 x-amz-outpost-id to be passed with the request and an S3 on Outposts endpoint hostname
 prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
 Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
@@ -1174,20 +1166,19 @@ tagging subresource that is associated with the job. To modify the existing tag 
 can either replace the existing tag set entirely, or make changes within the existing tag
 set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use
 this action to replace the tag set with the one you modified. For more information, see
-Controlling access and labeling jobs using tags in the Amazon Simple Storage Service User
-Guide.      If you send this request with an empty tag set, Amazon S3 deletes the existing
-tag set on the Batch Operations job. If you use this method, you are charged for a Tier 1
-Request (PUT). For more information, see Amazon S3 pricing.   For deleting existing tags
-for your Batch Operations job, a DeleteJobTagging request is preferred because it achieves
-the same result without incurring charges.   A few things to consider about using tags:
-Amazon S3 limits the maximum number of tags to 50 tags per job.   You can associate up to
-50 tags with a job as long as they have unique tag keys.   A tag key can be up to 128
-Unicode characters in length, and tag values can be up to 256 Unicode characters in length.
-  The key and values are case sensitive.   For tagging-related restrictions related to
-characters and encodings, see User-Defined Tag Restrictions in the AWS Billing and Cost
-Management User Guide.       To use this action, you must have permission to perform the
-s3:PutJobTagging action. Related actions include:    CreatJob     GetJobTagging
-DeleteJobTagging
+Controlling access and labeling jobs using tags in the Amazon S3 User Guide.      If you
+send this request with an empty tag set, Amazon S3 deletes the existing tag set on the
+Batch Operations job. If you use this method, you are charged for a Tier 1 Request (PUT).
+For more information, see Amazon S3 pricing.   For deleting existing tags for your Batch
+Operations job, a DeleteJobTagging request is preferred because it achieves the same result
+without incurring charges.   A few things to consider about using tags:   Amazon S3 limits
+the maximum number of tags to 50 tags per job.   You can associate up to 50 tags with a job
+as long as they have unique tag keys.   A tag key can be up to 128 Unicode characters in
+length, and tag values can be up to 256 Unicode characters in length.   The key and values
+are case sensitive.   For tagging-related restrictions related to characters and encodings,
+see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide.
+To use this action, you must have permission to perform the s3:PutJobTagging action.
+Related actions include:    CreatJob     GetJobTagging     DeleteJobTagging
 
 # Arguments
 - `tags`: The set of tags to associate with the S3 Batch Operations job.
@@ -1221,10 +1212,10 @@ put_public_access_block(PublicAccessBlockConfiguration, x_amz_account_id, params
     put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens,
-see Working with Amazon S3 Storage Lens in the Amazon Simple Storage Service User Guide.
-To use this action, you must have permission to perform the s3:PutStorageLensConfiguration
-action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
-Amazon Simple Storage Service User Guide.
+see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide.  To use this action,
+you must have permission to perform the s3:PutStorageLensConfiguration action. For more
+information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User
+Guide.
 
 # Arguments
 - `storage_lens_configuration`: The S3 Storage Lens configuration.
@@ -1245,10 +1236,10 @@ put_storage_lens_configuration(StorageLensConfiguration, storagelensid, x_amz_ac
 
 Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more
 information about S3 Storage Lens, see Assessing your storage activity and usage with
-Amazon S3 Storage Lens  in the Amazon Simple Storage Service User Guide.  To use this
-action, you must have permission to perform the s3:PutStorageLensConfigurationTagging
-action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
-Amazon Simple Storage Service User Guide.
+Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have
+permission to perform the s3:PutStorageLensConfigurationTagging action. For more
+information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User
+Guide.
 
 # Arguments
 - `tag`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum of
@@ -1269,8 +1260,8 @@ put_storage_lens_configuration_tagging(Tag, storagelensid, x_amz_account_id, par
     update_job_priority(id, priority, x-amz-account-id, params::Dict{String,<:Any})
 
 Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch
-Operations in the Amazon Simple Storage Service User Guide.  Related actions include:
-CreateJob     ListJobs     DescribeJob     UpdateJobStatus
+Operations in the Amazon S3 User Guide.  Related actions include:    CreateJob     ListJobs
+    DescribeJob     UpdateJobStatus
 
 # Arguments
 - `id`: The ID for the job whose priority you want to update.
@@ -1287,8 +1278,8 @@ update_job_priority(id, priority, x_amz_account_id, params::AbstractDict{String}
 
 Updates the status for the specified job. Use this action to confirm that you want to run a
 job or to cancel an existing job. For more information, see S3 Batch Operations in the
-Amazon Simple Storage Service User Guide.  Related actions include:    CreateJob
-ListJobs     DescribeJob     UpdateJobStatus
+Amazon S3 User Guide.  Related actions include:    CreateJob     ListJobs     DescribeJob
+  UpdateJobStatus
 
 # Arguments
 - `id`: The ID of the job whose status you want to update.
