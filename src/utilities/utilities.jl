@@ -49,6 +49,7 @@ function _clean_s3_uri(uri::AbstractString)
         '*' => "%2A",
         '+' => "%2B",
         '=' => "%3D",
+        '@' => "%40",
     )
     parsed_uri = URIs.URI(uri)
     cleaned_path = reduce(replace, chars_to_clean, init=parsed_uri.path)
