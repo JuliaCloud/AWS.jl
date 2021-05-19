@@ -26,7 +26,7 @@ create_suite_definition(params::AbstractDict{String}; aws_config::AbstractAWSCon
 Deletes a Device Advisor test suite.
 
 # Arguments
-- `suite_definition_id`: Deletes a Device Advisor test suite with defined suite Id.
+- `suite_definition_id`: Suite definition Id of the test suite to be deleted.
 
 """
 delete_suite_definition(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("DELETE", "/suiteDefinitions/$(suiteDefinitionId)"; aws_config=aws_config)
@@ -39,11 +39,11 @@ delete_suite_definition(suiteDefinitionId, params::AbstractDict{String}; aws_con
 Gets information about a Device Advisor test suite.
 
 # Arguments
-- `suite_definition_id`: Requests suite definition Id with GetSuiteDefinition API call.
+- `suite_definition_id`: Suite definition Id of the test suite to get.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"suiteDefinitionVersion"`: Requests the suite definition version of a test suite.
+- `"suiteDefinitionVersion"`: Suite definition version of the test suite to get.
 """
 get_suite_definition(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)"; aws_config=aws_config)
 get_suite_definition(suiteDefinitionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)", params; aws_config=aws_config)
@@ -55,10 +55,8 @@ get_suite_definition(suiteDefinitionId, params::AbstractDict{String}; aws_config
 Gets information about a Device Advisor test suite run.
 
 # Arguments
-- `suite_definition_id`: Requests the information about Device Advisor test suite run based
-  on suite definition Id.
-- `suite_run_id`: Requests the information about Device Advisor test suite run based on
-  suite run Id.
+- `suite_definition_id`: Suite definition Id for the test suite run.
+- `suite_run_id`: Suite run Id for the test suite run.
 
 """
 get_suite_run(suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)"; aws_config=aws_config)
@@ -71,8 +69,8 @@ get_suite_run(suiteDefinitionId, suiteRunId, params::AbstractDict{String}; aws_c
 Gets a report download link for a successful Device Advisor qualifying test suite run.
 
 # Arguments
-- `suite_definition_id`: Device Advisor suite definition Id.
-- `suite_run_id`: Device Advisor suite run Id.
+- `suite_definition_id`: Suite definition Id of the test suite.
+- `suite_run_id`: Suite run Id of the test suite run.
 
 """
 get_suite_run_report(suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report"; aws_config=aws_config)
@@ -86,8 +84,8 @@ Lists the Device Advisor test suites you have created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Request the list of all the Device Advisor test suites.
-- `"nextToken"`: Requests the Device Advisor test suites next token.
+- `"maxResults"`: The maximum number of results to return at once.
+- `"nextToken"`: A token used to get the next set of results.
 """
 list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions"; aws_config=aws_config)
 list_suite_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteDefinitions", params; aws_config=aws_config)
@@ -101,12 +99,12 @@ test suite, or the runs of a specific version of the test suite.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: MaxResults for list suite run API request.
-- `"nextToken"`: Next pagination token for list suite run request.
-- `"suiteDefinitionId"`: Lists the runs of the specified Device Advisor test suite based on
+- `"maxResults"`: The maximum number of results to return at once.
+- `"nextToken"`: A token to retrieve the next set of results.
+- `"suiteDefinitionId"`: Lists the test suite runs of the specified test suite based on
   suite definition Id.
-- `"suiteDefinitionVersion"`: Lists the runs of the specified Device Advisor test suite
-  based on suite definition version.
+- `"suiteDefinitionVersion"`: Must be passed along with suiteDefinitionId. Lists the test
+  suite runs of the specified test suite based on suite definition version.
 """
 list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns"; aws_config=aws_config)
 list_suite_runs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/suiteRuns", params; aws_config=aws_config)
@@ -125,37 +123,36 @@ list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_con
 list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
 
 """
-    list_test_cases()
-    list_test_cases(params::Dict{String,<:Any})
-
-Lists all the test cases in the test suite.
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"intendedForQualification"`: Lists all the qualification test cases in the test suite.
-- `"maxResults"`: Requests the test cases max results.
-- `"nextToken"`: Requests the test cases next token.
-"""
-list_test_cases(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/testCases"; aws_config=aws_config)
-list_test_cases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("GET", "/testCases", params; aws_config=aws_config)
-
-"""
     start_suite_run(suite_definition_id)
     start_suite_run(suite_definition_id, params::Dict{String,<:Any})
 
 Starts a Device Advisor test suite run.
 
 # Arguments
-- `suite_definition_id`: Request to start suite run based on suite definition Id.
+- `suite_definition_id`: Suite definition Id of the test suite.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"suiteDefinitionVersion"`: Request to start suite run based on suite definition version.
-- `"suiteRunConfiguration"`: Request to start suite run based on suite configuration.
+- `"suiteDefinitionVersion"`: Suite definition version of the test suite.
+- `"suiteRunConfiguration"`: Suite run configuration.
 - `"tags"`: The tags to be attached to the suite run.
 """
 start_suite_run(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns"; aws_config=aws_config)
 start_suite_run(suiteDefinitionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns", params; aws_config=aws_config)
+
+"""
+    stop_suite_run(suite_definition_id, suite_run_id)
+    stop_suite_run(suite_definition_id, suite_run_id, params::Dict{String,<:Any})
+
+Stops a Device Advisor test suite run that is currently running.
+
+# Arguments
+- `suite_definition_id`: Suite definition Id of the test suite run to be stopped.
+- `suite_run_id`: Suite run Id of the test suite run to be stopped.
+
+"""
+stop_suite_run(suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/stop"; aws_config=aws_config)
+stop_suite_run(suiteDefinitionId, suiteRunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor("POST", "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/stop", params; aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -192,7 +189,7 @@ untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::A
 Updates a Device Advisor test suite.
 
 # Arguments
-- `suite_definition_id`: Updates a Device Advisor test suite with suite definition id.
+- `suite_definition_id`: Suite definition Id of the test suite to be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

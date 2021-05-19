@@ -67,14 +67,60 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Auto Scaling group recommendations.
 - `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
   all member accounts of the organization if your account is the management account of an
-  organization. The member accounts must also be opted in to Compute Optimizer.
-  Recommendations for member accounts of the organization are not included in the export file
-  if this parameter is omitted. This parameter cannot be specified together with the account
-  IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts
-  are not included in the export if this parameter, or the account IDs parameter, is omitted.
+  organization. The member accounts must also be opted in to Compute Optimizer, and trusted
+  access for Compute Optimizer must be enabled in the organization account. For more
+  information, see Compute Optimizer and AWS Organizations trusted access in the AWS Compute
+  Optimizer User Guide. Recommendations for member accounts of the organization are not
+  included in the export file if this parameter is omitted. This parameter cannot be
+  specified together with the account IDs parameter. The parameters are mutually exclusive.
+  Recommendations for member accounts are not included in the export if this parameter, or
+  the account IDs parameter, is omitted.
 """
 export_auto_scaling_group_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
 export_auto_scaling_group_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config)
+
+"""
+    export_ebsvolume_recommendations(s3_destination_config)
+    export_ebsvolume_recommendations(s3_destination_config, params::Dict{String,<:Any})
+
+Exports optimization recommendations for Amazon EBS volumes. Recommendations are exported
+in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation
+(.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you
+specify. For more information, see Exporting Recommendations in the Compute Optimizer User
+Guide. You can have only one Amazon EBS volume export job in progress per AWS Region.
+
+# Arguments
+- `s3_destination_config`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIds"`: The IDs of the AWS accounts for which to export Amazon EBS volume
+  recommendations. If your account is the management account of an organization, use this
+  parameter to specify the member account for which you want to export recommendations. This
+  parameter cannot be specified together with the include member accounts parameter. The
+  parameters are mutually exclusive. Recommendations for member accounts are not included in
+  the export if this parameter, or the include member accounts parameter, is omitted. You can
+  specify multiple account IDs per request.
+- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+  information about the fields that can be exported, see Exported files in the Compute
+  Optimizer User Guide.
+- `"fileFormat"`: The format of the export file. The only export file format currently
+  supported is Csv.
+- `"filters"`: An array of objects that describe a filter to export a more specific set of
+  Amazon EBS volume recommendations.
+- `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
+  all member accounts of the organization if your account is the management account of an
+  organization. The member accounts must also be opted in to Compute Optimizer, and trusted
+  access for Compute Optimizer must be enabled in the organization account. For more
+  information, see Compute Optimizer and AWS Organizations trusted access in the AWS Compute
+  Optimizer User Guide. Recommendations for member accounts of the organization are not
+  included in the export file if this parameter is omitted. This parameter cannot be
+  specified together with the account IDs parameter. The parameters are mutually exclusive.
+  Recommendations for member accounts are not included in the export if this parameter, or
+  the account IDs parameter, is omitted.
+"""
+export_ebsvolume_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEBSVolumeRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
+export_ebsvolume_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEBSVolumeRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config)
 
 """
     export_ec2_instance_recommendations(s3_destination_config)
@@ -115,13 +161,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance recommendations.
 - `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
   all member accounts of the organization if your account is the management account of an
-  organization. The member accounts must also be opted in to Compute Optimizer.
-  Recommendations for member accounts of the organization are not included in the export file
-  if this parameter is omitted. Recommendations for member accounts are not included in the
-  export if this parameter, or the account IDs parameter, is omitted.
+  organization. The member accounts must also be opted in to Compute Optimizer, and trusted
+  access for Compute Optimizer must be enabled in the organization account. For more
+  information, see Compute Optimizer and AWS Organizations trusted access in the AWS Compute
+  Optimizer User Guide. Recommendations for member accounts of the organization are not
+  included in the export file if this parameter is omitted. Recommendations for member
+  accounts are not included in the export if this parameter, or the account IDs parameter, is
+  omitted.
 """
 export_ec2_instance_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
 export_ec2_instance_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config)
+
+"""
+    export_lambda_function_recommendations(s3_destination_config)
+    export_lambda_function_recommendations(s3_destination_config, params::Dict{String,<:Any})
+
+Exports optimization recommendations for AWS Lambda functions. Recommendations are exported
+in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation
+(.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you
+specify. For more information, see Exporting Recommendations in the Compute Optimizer User
+Guide. You can have only one Lambda function export job in progress per AWS Region.
+
+# Arguments
+- `s3_destination_config`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIds"`: The IDs of the AWS accounts for which to export Lambda function
+  recommendations. If your account is the management account of an organization, use this
+  parameter to specify the member account for which you want to export recommendations. This
+  parameter cannot be specified together with the include member accounts parameter. The
+  parameters are mutually exclusive. Recommendations for member accounts are not included in
+  the export if this parameter, or the include member accounts parameter, is omitted. You can
+  specify multiple account IDs per request.
+- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+  information about the fields that can be exported, see Exported files in the Compute
+  Optimizer User Guide.
+- `"fileFormat"`: The format of the export file. The only export file format currently
+  supported is Csv.
+- `"filters"`: An array of objects that describe a filter to export a more specific set of
+  Lambda function recommendations.
+- `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
+  all member accounts of the organization if your account is the management account of an
+  organization. The member accounts must also be opted in to Compute Optimizer, and trusted
+  access for Compute Optimizer must be enabled in the organization account. For more
+  information, see Compute Optimizer and AWS Organizations trusted access in the AWS Compute
+  Optimizer User Guide. Recommendations for member accounts of the organization are not
+  included in the export file if this parameter is omitted. This parameter cannot be
+  specified together with the account IDs parameter. The parameters are mutually exclusive.
+  Recommendations for member accounts are not included in the export if this parameter, or
+  the account IDs parameter, is omitted.
+"""
+export_lambda_function_recommendations(s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportLambdaFunctionRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
+export_lambda_function_recommendations(s3DestinationConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = compute_optimizer("ExportLambdaFunctionRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), params)); aws_config=aws_config)
 
 """
     get_auto_scaling_group_recommendations()
@@ -304,9 +396,9 @@ Optimizer service. If the account is a management account of an organization, th
 can also be used to enroll member accounts within the organization. You must have the
 appropriate permissions to opt in to Compute Optimizer, to view its recommendations, and to
 opt out. For more information, see Controlling access with AWS Identity and Access
-Management in the Compute Optimizer User Guide. When you opt in, Compute Optimizer
+Management in the AWS Compute Optimizer User Guide. When you opt in, Compute Optimizer
 automatically creates a Service-Linked Role in your account to access its data. For more
-information, see Using Service-Linked Roles for AWS Compute Optimizer in the Compute
+information, see Using Service-Linked Roles for AWS Compute Optimizer in the AWS Compute
 Optimizer User Guide.
 
 # Arguments
@@ -314,7 +406,7 @@ Optimizer User Guide.
   available:    Active - Opts in your account to the Compute Optimizer service. Compute
   Optimizer begins analyzing the configuration and utilization metrics of your AWS resources
   after you opt in. For more information, see Metrics analyzed by AWS Compute Optimizer in
-  the Compute Optimizer User Guide.    Inactive - Opts out your account from the Compute
+  the AWS Compute Optimizer User Guide.    Inactive - Opts out your account from the Compute
   Optimizer service. Your account's recommendations and related metrics data will be deleted
   from Compute Optimizer after you opt out.    The Pending and Failed options cannot be used
   to update the enrollment status of an account. They are returned in the response of a

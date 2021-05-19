@@ -116,7 +116,8 @@ create_distribution_configuration(clientToken, distributions, name, params::Abst
     create_image(client_token, infrastructure_configuration_arn, params::Dict{String,<:Any})
 
  Creates a new image. This request will create a new image along with all of the configured
-output resources defined in the distribution configuration.
+output resources defined in the distribution configuration. You must specify exactly one
+recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
 
 # Arguments
 - `client_token`:  The idempotency token used to make this request idempotent.
@@ -187,9 +188,9 @@ assessed.
 - `name`:  The name of the image recipe.
 - `parent_image`: The parent image of the image recipe. The value of the string can be the
   ARN of the parent image or an AMI ID. The format for the ARN follows this example:
-  arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/xxxx.x.x
-  . You can provide the specific version that you want to use, or you can use a wildcard in
-  all of the fields. If you enter an AMI ID for the string value, you must have access to the
+  arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/x.x.x.
+  You can provide the specific version that you want to use, or you can use a wildcard in all
+  of the fields. If you enter an AMI ID for the string value, you must have access to the
   AMI, and the AMI must be in the same Region in which you are using Image Builder.
 - `semantic_version`: The semantic version of the image recipe.
 
@@ -890,8 +891,10 @@ update_distribution_configuration(clientToken, distributionConfigurationArn, dis
     update_image_pipeline(client_token, image_pipeline_arn, infrastructure_configuration_arn)
     update_image_pipeline(client_token, image_pipeline_arn, infrastructure_configuration_arn, params::Dict{String,<:Any})
 
- Updates a new image pipeline. Image pipelines enable you to automate the creation and
-distribution of images.
+ Updates an image pipeline. Image pipelines enable you to automate the creation and
+distribution of images.  UpdateImagePipeline does not support selective updates for the
+pipeline. You must specify all of the required properties in the update request, not just
+the properties that have changed.
 
 # Arguments
 - `client_token`: The idempotency token used to make this request idempotent.

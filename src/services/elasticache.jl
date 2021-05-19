@@ -248,7 +248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owner must be the same as the cluster owner.
 - `"NumCacheNodes"`: The initial number of cache nodes that the cluster has. For clusters
   running Redis, this value must be 1. For clusters running Memcached, this value must be
-  between 1 and 40. If you need more than 20 nodes for your Memcached cluster, please fill
+  between 1 and 40. If you need more than 40 nodes for your Memcached cluster, please fill
   out the ElastiCache Limit Increase Request form at
   http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
 - `"OutpostMode"`: Specifies whether the nodes in the cluster are created in a single
@@ -597,7 +597,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon
   VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you
   must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
-- `"UserGroupIds"`: The list of user groups to associate with the replication group.
+- `"UserGroupIds"`: The user group to associate with the replication group.
 """
 create_replication_group(ReplicationGroupDescription, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateReplicationGroup", Dict{String, Any}("ReplicationGroupDescription"=>ReplicationGroupDescription, "ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 create_replication_group(ReplicationGroupDescription, ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("CreateReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupDescription"=>ReplicationGroupDescription, "ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)
@@ -1797,9 +1797,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshottingClusterId"`: The cluster ID that is used as the daily snapshot source for
   the replication group. This parameter cannot be set for Redis (cluster mode enabled)
   replication groups.
-- `"UserGroupIdsToAdd"`: A list of user group IDs.
-- `"UserGroupIdsToRemove"`: A list of users groups to remove, meaning the users in the
-  group no longer can access thereplication group.
+- `"UserGroupIdsToAdd"`: The user group you are associating with the replication group.
+- `"UserGroupIdsToRemove"`: The user group to remove, meaning the users in the group no
+  longer can access the replication group.
 """
 modify_replication_group(ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroup", Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId); aws_config=aws_config)
 modify_replication_group(ReplicationGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = elasticache("ModifyReplicationGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationGroupId"=>ReplicationGroupId), params)); aws_config=aws_config)

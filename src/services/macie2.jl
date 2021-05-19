@@ -782,6 +782,26 @@ put_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aw
 put_findings_publication_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/findings-publication-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
+    search_resources()
+    search_resources(params::Dict{String,<:Any})
+
+Retrieves (queries) statistical data and other information about AWS resources that Amazon
+Macie monitors and analyzes.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"bucketCriteria"`: The filter conditions that determine which S3 buckets to include or
+  exclude from the query results.
+- `"maxResults"`: The maximum number of items to include in each page of the response. The
+  default value is 50.
+- `"nextToken"`: The nextToken string that specifies which page of results to return in a
+  paginated response.
+- `"sortCriteria"`: The criteria to use to sort the results.
+"""
+search_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/search-resources"; aws_config=aws_config)
+search_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/search-resources", params; aws_config=aws_config)
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
