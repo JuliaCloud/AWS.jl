@@ -18,8 +18,7 @@ into multiple locales. At runtime the locale is used to choose a specific build 
   bot.
 - `locale_id`: The identifier of the language and locale that the bot will be used in. The
   string must match one of the supported locales. All of the intents, slot types, and slots
-  used in the bot must have the same locale. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  used in the bot must have the same locale. For more information, see Supported languages.
 
 """
 build_bot_locale(botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/"; aws_config=aws_config)
@@ -105,8 +104,7 @@ locale to a bot before you can add intents and slot types to the bot.
   draft version of the bot.
 - `locale_id`: The identifier of the language and locale that the bot will be used in. The
   string must match one of the supported locales. All of the intents, slot types, and slots
-  used in the bot must have the same locale. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  used in the bot must have the same locale. For more information, see Supported languages.
 - `nlu_intent_confidence_threshold`: Determines the threshold where Amazon Lex will insert
   the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative
   intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are
@@ -151,6 +149,31 @@ create_bot_version(botId, botVersionLocaleSpecification; aws_config::AbstractAWS
 create_bot_version(botId, botVersionLocaleSpecification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("botVersionLocaleSpecification"=>botVersionLocaleSpecification), params)); aws_config=aws_config)
 
 """
+    create_export(file_format, resource_specification)
+    create_export(file_format, resource_specification, params::Dict{String,<:Any})
+
+Creates a zip archive containing the contents of a bot or a bot locale. The archive
+contains a directory structure that contains JSON files that define the bot. You can create
+an archive that contains the complete definition of a bot, or you can specify that the
+archive contain only the definition of a single bot locale. For more information about
+exporting bots, and about the structure of the export archive, see  Importing and exporting
+bots
+
+# Arguments
+- `file_format`: The file format of the bot or bot locale definition files.
+- `resource_specification`: Specifies the type of resource to export, either a bot or a bot
+  locale. You can only specify one type of resource to export.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filePassword"`: An password to use to encrypt the exported archive. Using a password is
+  optional, but you should encrypt the archive to protect the data in transit between Amazon
+  Lex and your local computer.
+"""
+create_export(fileFormat, resourceSpecification; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/exports/", Dict{String, Any}("fileFormat"=>fileFormat, "resourceSpecification"=>resourceSpecification); aws_config=aws_config)
+create_export(fileFormat, resourceSpecification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/exports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fileFormat"=>fileFormat, "resourceSpecification"=>resourceSpecification), params)); aws_config=aws_config)
+
+"""
     create_intent(bot_id, bot_version, intent_name, locale_id)
     create_intent(bot_id, bot_version, intent_name, locale_id, params::Dict{String,<:Any})
 
@@ -175,7 +198,8 @@ additional activity. For example, \"Do you want a drink with your pizza?\"
 - `intent_name`: The name of the intent. Intent names must be unique in the locale that
   contains the intent and cannot match the name of any built-in intent.
 - `locale_id`: The identifier of the language and locale where this intent is used. All of
-  the bots, slot types, and slots used by the intent must have the same locale.
+  the bots, slot types, and slots used by the intent must have the same locale. For more
+  information, see Supported languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -242,8 +266,7 @@ you define one or more utterances that Amazon Lex uses to elicit a response from
 - `intent_id`: The identifier of the intent that contains the slot.
 - `locale_id`: The identifier of the language and locale that the slot will be used in. The
   string must match one of the supported locales. All of the bots, intents, slot types used
-  by the slot must have the same locale. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  by the slot must have the same locale. For more information, see Supported languages.
 - `slot_name`: The name of the slot. Slot names must be unique within the bot that contains
   the slot.
 - `slot_type_id`: The unique identifier for the slot type associated with this slot. The
@@ -274,8 +297,8 @@ and a set of enumeration values, the values that a slot of this type can assume.
 - `bot_version`: The identifier of the bot version associated with this slot type.
 - `locale_id`: The identifier of the language and locale that the slot type will be used
   in. The string must match one of the supported locales. All of the bots, intents, and slots
-  used by the slot type must have the same locale. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  used by the slot type must have the same locale. For more information, see Supported
+  languages.
 - `slot_type_name`: The name for the slot. A slot type name must be unique within the
   account.
 - `value_selection_setting`: Determines the strategy that Amazon Lex uses to select a value
@@ -298,6 +321,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_slot_type(botId, botVersion, localeId, slotTypeName, valueSelectionSetting; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/", Dict{String, Any}("slotTypeName"=>slotTypeName, "valueSelectionSetting"=>valueSelectionSetting); aws_config=aws_config)
 create_slot_type(botId, botVersion, localeId, slotTypeName, valueSelectionSetting, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("slotTypeName"=>slotTypeName, "valueSelectionSetting"=>valueSelectionSetting), params)); aws_config=aws_config)
+
+"""
+    create_upload_url()
+    create_upload_url(params::Dict{String,<:Any})
+
+Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot
+or a bot locale.
+
+"""
+create_upload_url(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/createuploadurl/"; aws_config=aws_config)
+create_upload_url(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/createuploadurl/", params; aws_config=aws_config)
 
 """
     delete_bot(bot_id)
@@ -350,8 +384,7 @@ defined for the locale are also deleted.
 - `bot_id`: The unique identifier of the bot that contains the locale.
 - `bot_version`: The version of the bot that contains the locale.
 - `locale_id`: The identifier of the language and locale that will be deleted. The string
-  must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  must match one of the supported locales. For more information, see Supported languages.
 
 """
 delete_bot_locale(botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/"; aws_config=aws_config)
@@ -379,6 +412,32 @@ delete_bot_version(botId, botVersion; aws_config::AbstractAWSConfig=global_aws_c
 delete_bot_version(botId, botVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/", params; aws_config=aws_config)
 
 """
+    delete_export(export_id)
+    delete_export(export_id, params::Dict{String,<:Any})
+
+Removes a previous export and the associated files stored in an S3 bucket.
+
+# Arguments
+- `export_id`: The unique identifier of the export to delete.
+
+"""
+delete_export(exportId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/exports/$(exportId)/"; aws_config=aws_config)
+delete_export(exportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/exports/$(exportId)/", params; aws_config=aws_config)
+
+"""
+    delete_import(import_id)
+    delete_import(import_id, params::Dict{String,<:Any})
+
+Removes a previous import and the associated file stored in an S3 bucket.
+
+# Arguments
+- `import_id`: The unique identifier of the import to delete.
+
+"""
+delete_import(importId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/imports/$(importId)/"; aws_config=aws_config)
+delete_import(importId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/imports/$(importId)/", params; aws_config=aws_config)
+
+"""
     delete_intent(bot_id, bot_version, intent_id, locale_id)
     delete_intent(bot_id, bot_version, intent_id, locale_id, params::Dict{String,<:Any})
 
@@ -390,8 +449,8 @@ intent.
 - `bot_version`: The version of the bot associated with the intent.
 - `intent_id`: The unique identifier of the intent to delete.
 - `locale_id`: The identifier of the language and locale where the bot will be deleted. The
-  string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  string must match one of the supported locales. For more information, see Supported
+  languages.
 
 """
 delete_intent(botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/"; aws_config=aws_config)
@@ -409,7 +468,7 @@ Deletes the specified slot from an intent.
 - `intent_id`: The identifier of the intent associated with the slot.
 - `locale_id`: The identifier of the language and locale that the slot will be deleted
   from. The string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  Supported languages.
 - `slot_id`: The identifier of the slot to delete.
 
 """
@@ -429,7 +488,7 @@ parameter to true.
 - `bot_version`: The version of the bot associated with the slot type.
 - `locale_id`: The identifier of the language and locale that the slot type will be deleted
   from. The string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  Supported languages.
 - `slot_type_id`: The identifier of the slot type to delete.
 
 # Optional Parameters
@@ -479,8 +538,7 @@ Describes the settings that a bot has for a specific locale.
 - `bot_id`: The identifier of the bot associated with the locale.
 - `bot_version`: The identifier of the version of the bot associated with the locale.
 - `locale_id`: The unique identifier of the locale to describe. The string must match one
-  of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  of the supported locales. For more information, see Supported languages.
 
 """
 describe_bot_locale(botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/"; aws_config=aws_config)
@@ -501,6 +559,32 @@ describe_bot_version(botId, botVersion; aws_config::AbstractAWSConfig=global_aws
 describe_bot_version(botId, botVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/", params; aws_config=aws_config)
 
 """
+    describe_export(export_id)
+    describe_export(export_id, params::Dict{String,<:Any})
+
+Gets information about a specific export.
+
+# Arguments
+- `export_id`: The unique identifier of the export to describe.
+
+"""
+describe_export(exportId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/exports/$(exportId)/"; aws_config=aws_config)
+describe_export(exportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/exports/$(exportId)/", params; aws_config=aws_config)
+
+"""
+    describe_import(import_id)
+    describe_import(import_id, params::Dict{String,<:Any})
+
+Gets information about a specific import.
+
+# Arguments
+- `import_id`: The unique identifier of the import to describe.
+
+"""
+describe_import(importId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/imports/$(importId)/"; aws_config=aws_config)
+describe_import(importId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/imports/$(importId)/", params; aws_config=aws_config)
+
+"""
     describe_intent(bot_id, bot_version, intent_id, locale_id)
     describe_intent(bot_id, bot_version, intent_id, locale_id, params::Dict{String,<:Any})
 
@@ -511,8 +595,8 @@ Returns metadata about an intent.
 - `bot_version`: The version of the bot associated with the intent.
 - `intent_id`: The identifier of the intent to describe.
 - `locale_id`: The identifier of the language and locale of the intent to describe. The
-  string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  string must match one of the supported locales. For more information, see Supported
+  languages.
 
 """
 describe_intent(botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/"; aws_config=aws_config)
@@ -529,8 +613,8 @@ Gets metadata information about a slot.
 - `bot_version`: The version of the bot associated with the slot.
 - `intent_id`: The identifier of the intent that contains the slot.
 - `locale_id`: The identifier of the language and locale of the slot to describe. The
-  string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  string must match one of the supported locales. For more information, see Supported
+  languages.
 - `slot_id`: The unique identifier for the slot.
 
 """
@@ -547,8 +631,8 @@ Gets metadata information about a slot type.
 - `bot_id`: The identifier of the bot associated with the slot type.
 - `bot_version`: The version of the bot associated with the slot type.
 - `locale_id`: The identifier of the language and locale of the slot type to describe. The
-  string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  string must match one of the supported locales. For more information, see Supported
+  languages.
 - `slot_type_id`: The identifier of the slot type.
 
 """
@@ -662,8 +746,7 @@ For more information, see CreateIntent.
 
 # Arguments
 - `locale_id`: The identifier of the language and locale of the intents to list. The string
-  must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  must match one of the supported locales. For more information, see Supported languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -688,8 +771,8 @@ Gets a list of built-in slot types that meet the specified criteria.
 
 # Arguments
 - `locale_id`: The identifier of the language and locale of the slot types to list. The
-  string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  string must match one of the supported locales. For more information, see Supported
+  languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -707,6 +790,54 @@ list_built_in_slot_types(localeId; aws_config::AbstractAWSConfig=global_aws_conf
 list_built_in_slot_types(localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/builtins/locales/$(localeId)/slottypes/", params; aws_config=aws_config)
 
 """
+    list_exports()
+    list_exports(params::Dict{String,<:Any})
+
+Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"botId"`: The unique identifier that Amazon Lex assigned to the bot.
+- `"botVersion"`: The version of the bot to list exports for.
+- `"filters"`: Provides the specification of a filter used to limit the exports in the
+  response to only those that match the filter specification. You can only specify one filter
+  and one string to filter on.
+- `"maxResults"`: The maximum number of exports to return in each page of results. If there
+  are fewer results than the max page size, only the actual number of results are returned.
+- `"nextToken"`: If the response from the ListExports operation contans more results that
+  specified in the maxResults parameter, a token is returned in the response. Use that token
+  in the nextToken parameter to return the next page of results.
+- `"sortBy"`: Determines the field that the list of exports is sorted by. You can sort by
+  the LastUpdatedDateTime field in ascending or descending order.
+"""
+list_exports(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/exports/"; aws_config=aws_config)
+list_exports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/exports/", params; aws_config=aws_config)
+
+"""
+    list_imports()
+    list_imports(params::Dict{String,<:Any})
+
+Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"botId"`: The unique identifier that Amazon Lex assigned to the bot.
+- `"botVersion"`: The version of the bot to list imports for.
+- `"filters"`: Provides the specification of a filter used to limit the bots in the
+  response to only those that match the filter specification. You can only specify one filter
+  and one string to filter on.
+- `"maxResults"`: The maximum number of imports to return in each page of results. If there
+  are fewer results than the max page size, only the actual number of results are returned.
+- `"nextToken"`: If the response from the ListImports operation contains more results than
+  specified in the maxResults parameter, a token is returned in the response. Use that token
+  in the nextToken parameter to return the next page of results.
+- `"sortBy"`: Determines the field that the list of imports is sorted by. You can sort by
+  the LastUpdatedDateTime field in ascending or descending order.
+"""
+list_imports(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/imports/"; aws_config=aws_config)
+list_imports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/imports/", params; aws_config=aws_config)
+
+"""
     list_intents(bot_id, bot_version, locale_id)
     list_intents(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
 
@@ -716,8 +847,7 @@ Get a list of intents that meet the specified criteria.
 - `bot_id`: The unique identifier of the bot that contains the intent.
 - `bot_version`: The version of the bot that contains the intent.
 - `locale_id`: The identifier of the language and locale of the intents to list. The string
-  must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  must match one of the supported locales. For more information, see Supported languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -746,8 +876,8 @@ Gets a list of slot types that match the specified criteria.
 - `bot_id`: The unique identifier of the bot that contains the slot types.
 - `bot_version`: The version of the bot that contains the slot type.
 - `locale_id`: The identifier of the language and locale of the slot types to list. The
-  string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  string must match one of the supported locales. For more information, see Supported
+  languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -778,8 +908,7 @@ Gets a list of slots that match the specified criteria.
 - `bot_version`: The version of the bot that contains the slot.
 - `intent_id`: The unique identifier of the intent that contains the slot.
 - `locale_id`: The identifier of the language and locale of the slots to list. The string
-  must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  must match one of the supported locales. For more information, see Supported languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -811,6 +940,29 @@ can have tags associated with them.
 """
 list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/tags/$(resourceARN)"; aws_config=aws_config)
 list_tags_for_resource(resourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/tags/$(resourceARN)", params; aws_config=aws_config)
+
+"""
+    start_import(import_id, merge_strategy, resource_specification)
+    start_import(import_id, merge_strategy, resource_specification, params::Dict{String,<:Any})
+
+Starts importing a bot or bot locale from a zip archive that you uploaded to an S3 bucket.
+
+# Arguments
+- `import_id`: The unique identifier for the import. It is included in the response from
+  the operation.
+- `merge_strategy`: The strategy to use when there is a name conflict between the imported
+  resource and an existing resource. When the merge strategy is FailOnConflict existing
+  resources are not overwritten and the import fails.
+- `resource_specification`: Parameters for creating the bot or bot locale.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filePassword"`: The password used to encrypt the zip archive that contains the bot or
+  bot locale definition. You should always encrypt the zip archive to protect it during
+  transit between your site and Amazon Lex.
+"""
+start_import(importId, mergeStrategy, resourceSpecification; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/imports/", Dict{String, Any}("importId"=>importId, "mergeStrategy"=>mergeStrategy, "resourceSpecification"=>resourceSpecification); aws_config=aws_config)
+start_import(importId, mergeStrategy, resourceSpecification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/imports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("importId"=>importId, "mergeStrategy"=>mergeStrategy, "resourceSpecification"=>resourceSpecification), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
@@ -907,8 +1059,7 @@ Updates the settings that a bot has for a specific locale.
 - `bot_version`: The version of the bot that contains the locale to be updated. The version
   can only be the DRAFT version.
 - `locale_id`: The identifier of the language and locale to update. The string must match
-  one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  one of the supported locales. For more information, see Supported languages.
 - `nlu_intent_confidence_threshold`: The new confidence threshold where Amazon Lex inserts
   the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible
   intents for an utterance.
@@ -923,6 +1074,22 @@ update_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold; aws
 update_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nluIntentConfidenceThreshold"=>nluIntentConfidenceThreshold), params)); aws_config=aws_config)
 
 """
+    update_export(export_id)
+    update_export(export_id, params::Dict{String,<:Any})
+
+Updates the password used to encrypt an export zip archive.
+
+# Arguments
+- `export_id`: The unique identifier Amazon Lex assigned to the export.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filePassword"`: The new password to use to encrypt the export zip archive.
+"""
+update_export(exportId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/exports/$(exportId)/"; aws_config=aws_config)
+update_export(exportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/exports/$(exportId)/", params; aws_config=aws_config)
+
+"""
     update_intent(bot_id, bot_version, intent_id, intent_name, locale_id)
     update_intent(bot_id, bot_version, intent_id, intent_name, locale_id, params::Dict{String,<:Any})
 
@@ -934,8 +1101,8 @@ Updates the settings for an intent.
 - `intent_id`: The unique identifier of the intent to update.
 - `intent_name`: The new name for the intent.
 - `locale_id`: The identifier of the language and locale where this intent is used. The
-  string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  string must match one of the supported locales. For more information, see Supported
+  languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -974,8 +1141,7 @@ Updates the settings for a slot.
 - `bot_version`: The version of the bot that contains the slot. Must always be DRAFT.
 - `intent_id`: The identifier of the intent that contains the slot.
 - `locale_id`: The identifier of the language and locale that contains the slot. The string
-  must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  must match one of the supported locales. For more information, see Supported languages.
 - `slot_id`: The unique identifier for the slot to update.
 - `slot_name`: The new name for the slot.
 - `slot_type_id`: The unique identifier of the new slot type to associate with this slot.
@@ -1001,8 +1167,8 @@ Updates the configuration of an existing slot type.
 - `bot_id`: The identifier of the bot that contains the slot type.
 - `bot_version`: The version of the bot that contains the slot type. Must be DRAFT.
 - `locale_id`: The identifier of the language and locale that contains the slot type. The
-  string must match one of the supported locales. For more information, see
-  https://docs.aws.amazon.com/lex/latest/dg/supported-locales.html.
+  string must match one of the supported locales. For more information, see Supported
+  languages.
 - `slot_type_id`: The unique identifier of the slot type to update.
 - `slot_type_name`: The new name of the slot type.
 - `value_selection_setting`: The strategy that Amazon Lex should use when deciding on a

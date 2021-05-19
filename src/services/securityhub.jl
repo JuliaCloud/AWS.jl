@@ -800,7 +800,9 @@ Adds one or more tags to a resource.
 
 # Arguments
 - `resource_arn`: The ARN of the resource to apply the tags to.
-- `tags`: The tags to add to the resource.
+- `tags`: The tags to add to the resource. You can add up to 50 tags at a time. The tag
+  keys can be no longer than 128 characters. The tag values can be no longer than 256
+  characters.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
@@ -814,7 +816,8 @@ Removes one or more tags from a resource.
 
 # Arguments
 - `resource_arn`: The ARN of the resource to remove the tags from.
-- `tag_keys`: The tag keys associated with the tags to remove from the resource.
+- `tag_keys`: The tag keys associated with the tags to remove from the resource. You can
+  remove up to 50 tags at a time.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)

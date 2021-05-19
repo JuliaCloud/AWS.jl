@@ -8,7 +8,8 @@ using AWS.UUIDs
     delete_human_loop(human_loop_name)
     delete_human_loop(human_loop_name, params::Dict{String,<:Any})
 
-Deletes the specified human loop for a flow definition.
+Deletes the specified human loop for a flow definition. If the human loop was deleted, this
+operation will return a ResourceNotFoundException.
 
 # Arguments
 - `human_loop_name`: The name of the human loop that you want to delete.
@@ -21,7 +22,8 @@ delete_human_loop(HumanLoopName, params::AbstractDict{String}; aws_config::Abstr
     describe_human_loop(human_loop_name)
     describe_human_loop(human_loop_name, params::Dict{String,<:Any})
 
-Returns information about the specified human loop.
+Returns information about the specified human loop. If the human loop was deleted, this
+operation will return a ResourceNotFoundException error.
 
 # Arguments
 - `human_loop_name`: The name of the human loop that you want information about.

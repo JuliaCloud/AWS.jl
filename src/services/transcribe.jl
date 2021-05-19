@@ -64,7 +64,8 @@ Creates a new custom vocabulary that you can use to change the way Amazon Transc
 handles transcription of an audio file.
 
 # Arguments
-- `language_code`: The language code of the vocabulary entries.
+- `language_code`: The language code of the vocabulary entries. For a list of languages and
+  their corresponding language codes, see what-is-transcribe.
 - `vocabulary_name`: The name of the vocabulary. The name must be unique within an AWS
   account. The name is case sensitive. If you try to create a vocabulary with the same name
   as a previous vocabulary you will receive a ConflictException error.
@@ -448,6 +449,9 @@ Starts a batch job to transcribe medical speech to text.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ContentIdentificationType"`: You can configure Amazon Transcribe Medical to label
+  content in the transcription output. If you specify PHI, Amazon Transcribe Medical labels
+  the personal health information (PHI) that it identifies in the transcription output.
 - `"MediaFormat"`: The audio format of the input media file.
 - `"MediaSampleRateHertz"`: The sample rate, in Hertz, of the audio track in the input
   media file. If you do not specify the media sample rate, Amazon Transcribe Medical
@@ -505,7 +509,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JobExecutionSettings"`: Provides information about how a transcription job is executed.
   Use this field to indicate that the job can be queued for deferred execution if the
   concurrency limit is reached and there are no slots available to immediately run the job.
-- `"LanguageCode"`: The language code for the language used in the input media file.
+- `"LanguageCode"`: The language code for the language used in the input media file. To
+  transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be
+  encoded at a sample rate of 16000 Hz or higher.
 - `"LanguageOptions"`: An object containing a list of languages that might be present in
   your collection of audio files. Automatic language identification chooses a language that
   best matches the source audio from that list.
@@ -596,7 +602,8 @@ Updates an existing vocabulary with new values. The UpdateVocabulary operation o
 all of the existing information with the values that you provide in the request.
 
 # Arguments
-- `language_code`: The language code of the vocabulary entries.
+- `language_code`: The language code of the vocabulary entries. For a list of languages and
+  their corresponding language codes, see what-is-transcribe.
 - `vocabulary_name`: The name of the vocabulary to update. The name is case sensitive. If
   you try to update a vocabulary with the same name as a previous vocabulary you will receive
   a ConflictException error.

@@ -95,10 +95,10 @@ Copies the specified DB cluster parameter group.
 - `source_dbcluster_parameter_group_identifier`: The identifier or Amazon Resource Name
   (ARN) for the source DB cluster parameter group. For information about creating an ARN, see
    Constructing an Amazon Resource Name (ARN). Constraints:   Must specify a valid DB cluster
-  parameter group.   If the source DB cluster parameter group is in the same AWS Region as
+  parameter group.   If the source DB cluster parameter group is in the same Amazon Region as
   the copy, specify a valid DB parameter group identifier, for example
   my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a
-  different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for
+  different Amazon Region than the copy, specify a valid DB cluster parameter group ARN, for
   example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.
 - `target_dbcluster_parameter_group_description`: A description for the copied DB cluster
   parameter group.
@@ -124,9 +124,9 @@ of the shared DB cluster snapshot.
 
 # Arguments
 - `source_dbcluster_snapshot_identifier`: The identifier of the DB cluster snapshot to
-  copy. This parameter is not case-sensitive. You can't copy from one AWS Region to another.
-  Constraints:   Must specify a valid system snapshot in the \"available\" state.   Specify a
-  valid DB snapshot identifier.   Example: my-cluster-snapshot1
+  copy. This parameter is not case-sensitive. Constraints:   Must specify a valid system
+  snapshot in the \"available\" state.   Specify a valid DB snapshot identifier.   Example:
+  my-cluster-snapshot1
 - `target_dbcluster_snapshot_identifier`: The identifier of the new DB cluster snapshot to
   create from the source DB cluster snapshot. This parameter is not case-sensitive.
   Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character
@@ -137,17 +137,18 @@ of the shared DB cluster snapshot.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CopyTags"`: True to copy all tags from the source DB cluster snapshot to the target DB
   cluster snapshot, and otherwise false. The default is false.
-- `"KmsKeyId"`: The AWS AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID
-  is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS
-  encryption key. If you copy an encrypted DB cluster snapshot from your AWS account, you can
-  specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you
-  don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted
-  with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB
-  cluster snapshot that is shared from another AWS account, then you must specify a value for
-  KmsKeyId.  KMS encryption keys are specific to the AWS Region that they are created in, and
-  you can't use encryption keys from one AWS Region in another AWS Region. You cannot encrypt
-  an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB
-  cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+- `"KmsKeyId"`: The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS
+  key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the
+  KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account,
+  you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If
+  you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is
+  encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted
+  DB cluster snapshot that is shared from another Amazon account, then you must specify a
+  value for KmsKeyId.  KMS encryption keys are specific to the Amazon Region that they are
+  created in, and you can't use encryption keys from one Amazon Region in another Amazon
+  Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try
+  to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter,
+  an error is returned.
 - `"PreSignedUrl"`: Not currently supported.
 - `"Tags"`: The tags to assign to the new DB cluster snapshot copy.
 """
@@ -205,6 +206,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to
   35
 - `"CharacterSetName"`:  (Not supported by Neptune)
+- `"CopyTagsToSnapshot"`:  If set to true, tags are copied to any snapshot of the DB
+  cluster that is created.
 - `"DBClusterParameterGroupName"`:  The name of the DB cluster parameter group to associate
   with this DB cluster. If this argument is omitted, the default is used. Constraints:   If
   supplied, must match the name of an existing DBClusterParameterGroup.
@@ -219,43 +222,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, deletion protection is enabled.
 - `"EnableCloudwatchLogsExports"`: The list of log types that need to be enabled for
   exporting to CloudWatch Logs.
-- `"EnableIAMDatabaseAuthentication"`: Not supported by Neptune.
+- `"EnableIAMDatabaseAuthentication"`: If set to true, enables Amazon Identity and Access
+  Management (IAM) authentication for the entire DB cluster (this cannot be set at an
+  instance level). Default: false.
 - `"EngineVersion"`: The version number of the database engine to use for the new DB
   cluster. Example: 1.0.2.1
-- `"KmsKeyId"`: The AWS KMS key identifier for an encrypted DB cluster. The KMS key
+- `"KmsKeyId"`: The Amazon KMS key identifier for an encrypted DB cluster. The KMS key
   identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are
-  creating a DB cluster with the same AWS account that owns the KMS encryption key used to
+  creating a DB cluster with the same Amazon account that owns the KMS encryption key used to
   encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the
   KMS encryption key. If an encryption key is not specified in KmsKeyId:   If
   ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use
   the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your
   default encryption key.   If the StorageEncrypted parameter is true and
   ReplicationSourceIdentifier is not specified, then Amazon Neptune will use your default
-  encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS
-  account has a different default encryption key for each AWS Region. If you create a Read
-  Replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS
-  key ID that is valid in the destination AWS Region. This key is used to encrypt the Read
-  Replica in that AWS Region.
-- `"MasterUserPassword"`: The password for the master database user. This password can
-  contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
-  contain from 8 to 41 characters.
-- `"MasterUsername"`: The name of the master user for the DB cluster. Constraints:   Must
-  be 1 to 16 letters or numbers.   First character must be a letter.   Cannot be a reserved
-  word for the chosen database engine.
+  encryption key.   Amazon KMS creates the default encryption key for your Amazon account.
+  Your Amazon account has a different default encryption key for each Amazon Region. If you
+  create a Read Replica of an encrypted DB cluster in another Amazon Region, you must set
+  KmsKeyId to a KMS key ID that is valid in the destination Amazon Region. This key is used
+  to encrypt the Read Replica in that Amazon Region.
+- `"MasterUserPassword"`: Not supported by Neptune.
+- `"MasterUsername"`: Not supported by Neptune.
 - `"OptionGroupName"`:  (Not supported by Neptune)
 - `"Port"`: The port number on which the instances in the DB cluster accept connections.
   Default: 8182
 - `"PreSignedUrl"`: This parameter is not currently supported.
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled using the BackupRetentionPeriod parameter. The
-  default is a 30-minute window selected at random from an 8-hour block of time for each AWS
-  Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window
-  in the Amazon Neptune User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.
-  Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred
-  maintenance window.   Must be at least 30 minutes.
+  default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Region. To see the time blocks available, see  Adjusting the Preferred Maintenance
+  Window in the Amazon Neptune User Guide.  Constraints:   Must be in the format
+  hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with
+  the preferred maintenance window.   Must be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
-  a 30-minute window selected at random from an 8-hour block of time for each AWS Region,
+  a 30-minute window selected at random from an 8-hour block of time for each Amazon Region,
   occurring on a random day of the week. To see the time blocks available, see  Adjusting the
   Preferred Maintenance Window in the Amazon Neptune User Guide.  Valid Days: Mon, Tue, Wed,
   Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
@@ -363,7 +364,7 @@ Creates a new DB instance.
 
 # Arguments
 - `dbinstance_class`: The compute and memory capacity of the DB instance, for example,
-  db.m4.large. Not all DB instance classes are available in all AWS Regions.
+  db.m4.large. Not all DB instance classes are available in all Amazon Regions.
 - `dbinstance_identifier`: The DB instance identifier. This parameter is stored as a
   lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.
   First character must be a letter.   Cannot end with a hyphen or contain two consecutive
@@ -373,17 +374,14 @@ Creates a new DB instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllocatedStorage"`: The amount of storage (in gibibytes) to allocate for the DB
-  instance. Type: Integer Not applicable. Neptune cluster volumes automatically grow as the
-  amount of data in your database increases, though you are only charged for the space that
-  you use in a Neptune cluster volume.
+- `"AllocatedStorage"`: Not supported by Neptune.
 - `"AutoMinorVersionUpgrade"`: Indicates that minor engine upgrades are applied
   automatically to the DB instance during the maintenance window. Default: true
 - `"AvailabilityZone"`:  The EC2 Availability Zone that the DB instance is created in
-  Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example:
-  us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the MultiAZ
-  parameter is set to true. The specified Availability Zone must be in the same AWS Region as
-  the current endpoint.
+  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Region.
+  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the
+  MultiAZ parameter is set to true. The specified Availability Zone must be in the same
+  Amazon Region as the current endpoint.
 - `"BackupRetentionPeriod"`: The number of days for which automated backups are retained.
   Not applicable. The retention period for automated backups is managed by the DB cluster.
   For more information, see CreateDBCluster. Default: 1 Constraints:   Must be a value from 0
@@ -411,27 +409,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the Directory Service.
 - `"EnableCloudwatchLogsExports"`: The list of log types that need to be enabled for
   exporting to CloudWatch Logs.
-- `"EnableIAMDatabaseAuthentication"`: True to enable AWS Identity and Access Management
-  (IAM) authentication for Neptune. Default: false
+- `"EnableIAMDatabaseAuthentication"`: Not supported by Neptune (ignored).
 - `"EnablePerformanceInsights"`:  (Not supported by Neptune)
 - `"EngineVersion"`: The version number of the database engine to use. Currently, setting
   this parameter has no effect.
 - `"Iops"`: The amount of Provisioned IOPS (input/output operations per second) to be
   initially allocated for the DB instance.
-- `"KmsKeyId"`: The AWS KMS key identifier for an encrypted DB instance. The KMS key
+- `"KmsKeyId"`: The Amazon KMS key identifier for an encrypted DB instance. The KMS key
   identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are
-  creating a DB instance with the same AWS account that owns the KMS encryption key used to
-  encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the
-  KM encryption key. Not applicable. The KMS key identifier is managed by the DB cluster. For
-  more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and you
-  do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your
-  default encryption key. AWS KMS creates the default encryption key for your AWS account.
-  Your AWS account has a different default encryption key for each AWS Region.
+  creating a DB instance with the same Amazon account that owns the KMS encryption key used
+  to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for
+  the KM encryption key. Not applicable. The KMS key identifier is managed by the DB cluster.
+  For more information, see CreateDBCluster. If the StorageEncrypted parameter is true, and
+  you do not specify a value for the KmsKeyId parameter, then Amazon Neptune will use your
+  default encryption key. Amazon KMS creates the default encryption key for your Amazon
+  account. Your Amazon account has a different default encryption key for each Amazon Region.
 - `"LicenseModel"`: License model information for this DB instance.  Valid values:
   license-included | bring-your-own-license | general-public-license
-- `"MasterUserPassword"`: The password for the master user. The password can include any
-  printable ASCII character except \"/\", \"\"\", or \"@\".  Not used.
-- `"MasterUsername"`: The name for the master user. Not used.
+- `"MasterUserPassword"`: Not supported by Neptune.
+- `"MasterUsername"`: Not supported by Neptune.
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the DB instance. To disable collecting Enhanced Monitoring
   metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also
@@ -452,9 +448,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the DB cluster. For more information, see CreateDBCluster.
 - `"PreferredMaintenanceWindow"`: The time range each week during which system maintenance
   can occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  The
-  default is a 30-minute window selected at random from an 8-hour block of time for each AWS
-  Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat,
-  Sun. Constraints: Minimum 30-minute window.
+  default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri,
+  Sat, Sun. Constraints: Minimum 30-minute window.
 - `"PromotionTier"`: A value that specifies the order in which an Read Replica is promoted
   to the primary instance after a failure of the existing primary instance.  Default: 1 Valid
   Values: 0 - 15
@@ -520,7 +516,7 @@ create_dbparameter_group(DBParameterGroupFamily, DBParameterGroupName, Descripti
     create_dbsubnet_group(dbsubnet_group_description, dbsubnet_group_name, subnet_identifier, params::Dict{String,<:Any})
 
 Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at
-least two AZs in the AWS Region.
+least two AZs in the Amazon Region.
 
 # Arguments
 - `dbsubnet_group_description`: The description for the DB subnet group.
@@ -835,14 +831,14 @@ describe_dbcluster_parameters(DBClusterParameterGroupName, params::AbstractDict{
     describe_dbcluster_snapshot_attributes(dbcluster_snapshot_identifier, params::Dict{String,<:Any})
 
 Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster
-snapshot. When sharing snapshots with other AWS accounts,
+snapshot. When sharing snapshots with other Amazon accounts,
 DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the
-AWS accounts that are authorized to copy or restore the manual DB cluster snapshot. If all
-is included in the list of values for the restore attribute, then the manual DB cluster
-snapshot is public and can be copied or restored by all AWS accounts. To add or remove
-access for an AWS account to copy or restore a manual DB cluster snapshot, or to make the
-manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute API
-action.
+Amazon accounts that are authorized to copy or restore the manual DB cluster snapshot. If
+all is included in the list of values for the restore attribute, then the manual DB cluster
+snapshot is public and can be copied or restored by all Amazon accounts. To add or remove
+access for an Amazon account to copy or restore a manual DB cluster snapshot, or to make
+the manual DB cluster snapshot public or private, use the ModifyDBClusterSnapshotAttribute
+API action.
 
 # Arguments
 - `dbcluster_snapshot_identifier`: The identifier for the DB cluster snapshot to describe
@@ -871,13 +867,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshot, the SnapshotType parameter must also be specified.
 - `"Filters"`: This parameter is not currently supported.
 - `"IncludePublic"`: True to include manual DB cluster snapshots that are public and can be
-  copied or restored by any AWS account, and otherwise false. The default is false. The
+  copied or restored by any Amazon account, and otherwise false. The default is false. The
   default is false. You can share a manual DB cluster snapshot as public by using the
   ModifyDBClusterSnapshotAttribute API action.
-- `"IncludeShared"`: True to include shared manual DB cluster snapshots from other AWS
+- `"IncludeShared"`: True to include shared manual DB cluster snapshots from other Amazon
   accounts that this AWS account has been given permission to copy or restore, and otherwise
-  false. The default is false. You can give an AWS account permission to restore a manual DB
-  cluster snapshot from another AWS account by the ModifyDBClusterSnapshotAttribute API
+  false. The default is false. You can give an Amazon account permission to restore a manual
+  DB cluster snapshot from another Amazon account by the ModifyDBClusterSnapshotAttribute API
   action.
 - `"Marker"`: An optional pagination token provided by a previous
   DescribeDBClusterSnapshots request. If this parameter is specified, the response includes
@@ -888,17 +884,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Minimum 20, maximum 100.
 - `"SnapshotType"`: The type of DB cluster snapshots to be returned. You can specify one of
   the following values:    automated - Return all DB cluster snapshots that have been
-  automatically taken by Amazon Neptune for my AWS account.    manual - Return all DB cluster
-  snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster
-  snapshots that have been shared to my AWS account.    public - Return all DB cluster
-  snapshots that have been marked as public.   If you don't specify a SnapshotType value,
-  then both automated and manual DB cluster snapshots are returned. You can include shared DB
-  cluster snapshots with these results by setting the IncludeShared parameter to true. You
-  can include public DB cluster snapshots with these results by setting the IncludePublic
-  parameter to true. The IncludeShared and IncludePublic parameters don't apply for
-  SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when
-  SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType
-  is set to public.
+  automatically taken by Amazon Neptune for my Amazon account.    manual - Return all DB
+  cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB
+  cluster snapshots that have been shared to my Amazon account.    public - Return all DB
+  cluster snapshots that have been marked as public.   If you don't specify a SnapshotType
+  value, then both automated and manual DB cluster snapshots are returned. You can include
+  shared DB cluster snapshots with these results by setting the IncludeShared parameter to
+  true. You can include public DB cluster snapshots with these results by setting the
+  IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply
+  for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply
+  when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when
+  SnapshotType is set to public.
 """
 describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) = neptune("DescribeDBClusterSnapshots"; aws_config=aws_config)
 describe_dbcluster_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = neptune("DescribeDBClusterSnapshots", params; aws_config=aws_config)
@@ -920,7 +916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Names (ARNs). The results list will only include information about the DB clusters
   identified by these ARNs.    engine - Accepts an engine name (such as neptune), and
   restricts the results list to DB clusters created by that engine.   For example, to invoke
-  this API from the AWS CLI and filter so that only Neptune DB clusters are returned, you
+  this API from the Amazon CLI and filter so that only Neptune DB clusters are returned, you
   could use the following command:
 - `"Marker"`: An optional pagination token provided by a previous DescribeDBClusters
   request. If this parameter is specified, the response includes only records beyond the
@@ -983,8 +979,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Names (ARNs). The results list will only include information about the DB instances
   associated with the DB clusters identified by these ARNs.    engine - Accepts an engine
   name (such as neptune), and restricts the results list to DB instances created by that
-  engine.   For example, to invoke this API from the AWS CLI and filter so that only Neptune
-  DB instances are returned, you could use the following command:
+  engine.   For example, to invoke this API from the Amazon CLI and filter so that only
+  Neptune DB instances are returned, you could use the following command:
 - `"Marker"`:  An optional pagination token provided by a previous DescribeDBInstances
   request. If this parameter is specified, the response includes only records beyond the
   marker, up to the value specified by MaxRecords.
@@ -1331,47 +1327,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and any pending modifications are asynchronously applied as soon as possible, regardless of
   the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to
   false, changes to the DB cluster are applied during the next maintenance window. The
-  ApplyImmediately parameter only affects the NewDBClusterIdentifier and MasterUserPassword
-  values. If you set the ApplyImmediately parameter value to false, then changes to the
-  NewDBClusterIdentifier and MasterUserPassword values are applied during the next
-  maintenance window. All other changes are applied immediately, regardless of the value of
-  the ApplyImmediately parameter. Default: false
+  ApplyImmediately parameter only affects NewDBClusterIdentifier values. If you set the
+  ApplyImmediately parameter value to false, then changes to NewDBClusterIdentifier values
+  are applied during the next maintenance window. All other changes are applied immediately,
+  regardless of the value of the ApplyImmediately parameter. Default: false
 - `"BackupRetentionPeriod"`: The number of days for which automated backups are retained.
   You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to
   35
 - `"CloudwatchLogsExportConfiguration"`: The configuration setting for the log types to be
   enabled for export to CloudWatch Logs for a specific DB cluster.
+- `"CopyTagsToSnapshot"`:  If set to true, tags are copied to any snapshot of the DB
+  cluster that is created.
 - `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to use for
   the DB cluster.
 - `"DeletionProtection"`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is disabled.
-- `"EnableIAMDatabaseAuthentication"`: True to enable mapping of AWS Identity and Access
+- `"EnableIAMDatabaseAuthentication"`: True to enable mapping of Amazon Identity and Access
   Management (IAM) accounts to database accounts, and otherwise false. Default: false
 - `"EngineVersion"`: The version number of the database engine to which you want to
   upgrade. Changing this parameter results in an outage. The change is applied during the
   next maintenance window unless the ApplyImmediately parameter is set to true. For a list of
   valid engine versions, see Engine Releases for Amazon Neptune, or call
   DescribeDBEngineVersions.
-- `"MasterUserPassword"`: The new password for the master database user. This password can
-  contain any printable ASCII character except \"/\", \"\"\", or \"@\". Constraints: Must
-  contain from 8 to 41 characters.
+- `"MasterUserPassword"`: Not supported by Neptune.
 - `"NewDBClusterIdentifier"`: The new DB cluster identifier for the DB cluster when
   renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must
   contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter
   Cannot end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
-- `"OptionGroupName"`:  (Not supported by Neptune)
+- `"OptionGroupName"`:  Not supported by Neptune.
 - `"Port"`: The port number on which the DB cluster accepts connections. Constraints: Value
   must be 1150-65535  Default: The same port as the original DB cluster.
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled, using the BackupRetentionPeriod parameter. The
-  default is a 30-minute window selected at random from an 8-hour block of time for each AWS
-  Region. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
+  default is a 30-minute window selected at random from an 8-hour block of time for each
+  Amazon Region. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal
   Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must
   be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
-  a 30-minute window selected at random from an 8-hour block of time for each AWS Region,
+  a 30-minute window selected at random from an 8-hour block of time for each Amazon Region,
   occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
   Constraints: Minimum 30-minute window.
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the DB cluster will belong to.
@@ -1436,39 +1431,39 @@ modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter, params:
     modify_dbcluster_snapshot_attribute(attribute_name, dbcluster_snapshot_identifier, params::Dict{String,<:Any})
 
 Adds an attribute and values to, or removes an attribute and values from, a manual DB
-cluster snapshot. To share a manual DB cluster snapshot with other AWS accounts, specify
+cluster snapshot. To share a manual DB cluster snapshot with other Amazon accounts, specify
 restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the
-AWS accounts that are authorized to restore the manual DB cluster snapshot. Use the value
-all to make the manual DB cluster snapshot public, which means that it can be copied or
-restored by all AWS accounts. Do not add the all value for any manual DB cluster snapshots
-that contain private information that you don't want available to all AWS accounts. If a
-manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of
-authorized AWS account IDs for the ValuesToAdd parameter. You can't use all as a value for
-that parameter in this case. To view which AWS accounts have access to copy or restore a
-manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use
-the DescribeDBClusterSnapshotAttributes API action.
+Amazon accounts that are authorized to restore the manual DB cluster snapshot. Use the
+value all to make the manual DB cluster snapshot public, which means that it can be copied
+or restored by all Amazon accounts. Do not add the all value for any manual DB cluster
+snapshots that contain private information that you don't want available to all Amazon
+accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by
+specifying a list of authorized Amazon account IDs for the ValuesToAdd parameter. You can't
+use all as a value for that parameter in this case. To view which Amazon accounts have
+access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster
+snapshot public or private, use the DescribeDBClusterSnapshotAttributes API action.
 
 # Arguments
 - `attribute_name`: The name of the DB cluster snapshot attribute to modify. To manage
-  authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set
-  this value to restore.
+  authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot,
+  set this value to restore.
 - `dbcluster_snapshot_identifier`: The identifier for the DB cluster snapshot to modify the
   attributes for.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ValuesToAdd"`: A list of DB cluster snapshot attributes to add to the attribute
-  specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB
-  cluster snapshot, set this list to include one or more AWS account IDs, or all to make the
-  manual DB cluster snapshot restorable by any AWS account. Do not add the all value for any
-  manual DB cluster snapshots that contain private information that you don't want available
-  to all AWS accounts.
+  specified by AttributeName. To authorize other Amazon accounts to copy or restore a manual
+  DB cluster snapshot, set this list to include one or more Amazon account IDs, or all to
+  make the manual DB cluster snapshot restorable by any Amazon account. Do not add the all
+  value for any manual DB cluster snapshots that contain private information that you don't
+  want available to all AWS accounts.
 - `"ValuesToRemove"`: A list of DB cluster snapshot attributes to remove from the attribute
-  specified by AttributeName. To remove authorization for other AWS accounts to copy or
-  restore a manual DB cluster snapshot, set this list to include one or more AWS account
-  identifiers, or all to remove authorization for any AWS account to copy or restore the DB
-  cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added
-  to the restore attribute can still copy or restore a manual DB cluster snapshot.
+  specified by AttributeName. To remove authorization for other Amazon accounts to copy or
+  restore a manual DB cluster snapshot, set this list to include one or more Amazon account
+  identifiers, or all to remove authorization for any Amazon account to copy or restore the
+  DB cluster snapshot. If you specify all, an Amazon account whose account ID is explicitly
+  added to the restore attribute can still copy or restore a manual DB cluster snapshot.
 """
 modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = neptune("ModifyDBClusterSnapshotAttribute", Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
 modify_dbcluster_snapshot_attribute(AttributeName, DBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = neptune("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), params)); aws_config=aws_config)
@@ -1488,8 +1483,7 @@ before you call ModifyDBInstance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllocatedStorage"`: The new amount of storage (in gibibytes) to allocate for the DB
-  instance. Not applicable. Storage is managed by the DB Cluster.
+- `"AllocatedStorage"`: Not supported by Neptune.
 - `"AllowMajorVersionUpgrade"`: Indicates that major version upgrades are allowed. Changing
   this parameter doesn't result in an outage and the change is asynchronously applied as soon
   as possible.
@@ -1544,10 +1538,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, deletion protection is disabled. See Deleting a DB Instance.
 - `"Domain"`: Not supported.
 - `"DomainIAMRoleName"`: Not supported
-- `"EnableIAMDatabaseAuthentication"`: True to enable mapping of AWS Identity and Access
+- `"EnableIAMDatabaseAuthentication"`: True to enable mapping of Amazon Identity and Access
   Management (IAM) accounts to database accounts, and otherwise false. You can enable IAM
-  database authentication for the following database engines Not applicable. Mapping AWS IAM
-  accounts to database accounts is managed by the DB cluster. For more information, see
+  database authentication for the following database engines Not applicable. Mapping Amazon
+  IAM accounts to database accounts is managed by the DB cluster. For more information, see
   ModifyDBCluster. Default: false
 - `"EnablePerformanceInsights"`:  (Not supported by Neptune)
 - `"EngineVersion"`: The version number of the database engine to upgrade to. Currently,
@@ -1557,8 +1551,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Changing this setting doesn't result in an outage and the change is applied during the next
   maintenance window unless the ApplyImmediately parameter is set to true for this request.
   Default: Uses existing setting
-- `"LicenseModel"`: Not supported.
-- `"MasterUserPassword"`: Not applicable.
+- `"LicenseModel"`: Not supported by Neptune.
+- `"MasterUserPassword"`: Not supported by Neptune.
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the DB instance. To disable collecting Enhanced Monitoring
   metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also
@@ -1659,7 +1653,7 @@ modify_dbparameter_group(DBParameterGroupName, Parameter, params::AbstractDict{S
     modify_dbsubnet_group(dbsubnet_group_name, subnet_identifier, params::Dict{String,<:Any})
 
 Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in
-at least two AZs in the AWS Region.
+at least two AZs in the Amazon Region.
 
 # Arguments
 - `dbsubnet_group_name`: The name for the DB subnet group. This value is stored as a
@@ -1871,6 +1865,8 @@ default security group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AvailabilityZones"`: Provides the list of EC2 Availability Zones that instances in the
   restored DB cluster can be created in.
+- `"CopyTagsToSnapshot"`:  If set to true, tags are copied to any snapshot of the restored
+  DB cluster that is created.
 - `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to associate
   with the new DB cluster. Constraints:   If supplied, must match the name of an existing
   DBClusterParameterGroup.
@@ -1883,18 +1879,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, deletion protection is disabled.
 - `"EnableCloudwatchLogsExports"`: The list of logs that the restored DB cluster is to
   export to Amazon CloudWatch Logs.
-- `"EnableIAMDatabaseAuthentication"`: True to enable mapping of AWS Identity and Access
+- `"EnableIAMDatabaseAuthentication"`: True to enable mapping of Amazon Identity and Access
   Management (IAM) accounts to database accounts, and otherwise false. Default: false
 - `"EngineVersion"`: The version of the database engine to use for the new DB cluster.
-- `"KmsKeyId"`: The AWS KMS key identifier to use when restoring an encrypted DB cluster
+- `"KmsKeyId"`: The Amazon KMS key identifier to use when restoring an encrypted DB cluster
   from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource
-  Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS
-  account that owns the KMS encryption key used to encrypt the new DB cluster, then you can
-  use the KMS key alias instead of the ARN for the KMS encryption key. If you do not specify
-  a value for the KmsKeyId parameter, then the following will occur:   If the DB snapshot or
-  DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is
-  encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster
-  snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not
+  Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same
+  Amazon account that owns the KMS encryption key used to encrypt the new DB cluster, then
+  you can use the KMS key alias instead of the ARN for the KMS encryption key. If you do not
+  specify a value for the KmsKeyId parameter, then the following will occur:   If the DB
+  snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB
+  cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB
+  cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is not
   encrypted, then the restored DB cluster is not encrypted.
 - `"OptionGroupName"`:  (Not supported by Neptune)
 - `"Port"`: The port number on which the new DB cluster accepts connections. Constraints:
@@ -1940,11 +1936,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default, deletion protection is disabled.
 - `"EnableCloudwatchLogsExports"`: The list of logs that the restored DB cluster is to
   export to CloudWatch Logs.
-- `"EnableIAMDatabaseAuthentication"`: True to enable mapping of AWS Identity and Access
+- `"EnableIAMDatabaseAuthentication"`: True to enable mapping of Amazon Identity and Access
   Management (IAM) accounts to database accounts, and otherwise false. Default: false
-- `"KmsKeyId"`: The AWS KMS key identifier to use when restoring an encrypted DB cluster
+- `"KmsKeyId"`: The Amazon KMS key identifier to use when restoring an encrypted DB cluster
   from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for
-  the KMS encryption key. If you are restoring a DB cluster with the same AWS account that
+  the KMS encryption key. If you are restoring a DB cluster with the same Amazon account that
   owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS
   key alias instead of the ARN for the KMS encryption key. You can restore to a new DB
   cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key
@@ -1982,7 +1978,7 @@ restore_dbcluster_to_point_in_time(DBClusterIdentifier, SourceDBClusterIdentifie
     start_dbcluster(dbcluster_identifier)
     start_dbcluster(dbcluster_identifier, params::Dict{String,<:Any})
 
-Starts an Amazon Neptune DB cluster that was stopped using the AWS console, the AWS CLI
+Starts an Amazon Neptune DB cluster that was stopped using the AWS console, the Amazon CLI
 stop-db-cluster command, or the StopDBCluster API.
 
 # Arguments

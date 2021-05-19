@@ -40,8 +40,9 @@ graph.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: The tags to assign to the new behavior graph. For each tag, you provide the tag
-  key and the tag value.
+- `"Tags"`: The tags to assign to the new behavior graph. You can add up to 50 tags. For
+  each tag, you provide the tag key and the tag value. Each tag key can contain up to 128
+  characters. Each tag value can contain up to 256 characters.
 """
 create_graph(; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph"; aws_config=aws_config)
 create_graph(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph", params; aws_config=aws_config)
@@ -64,8 +65,8 @@ were already invited to be member accounts in the behavior graph.
 
 # Arguments
 - `accounts`: The list of AWS accounts to invite to become member accounts in the behavior
-  graph. For each invited account, the account list contains the account identifier and the
-  AWS account root user email address.
+  graph. You can invite up to 50 accounts at a time. For each invited account, the account
+  list contains the account identifier and the AWS account root user email address.
 - `graph_arn`: The ARN of the behavior graph to invite the member accounts to contribute
   their data to.
 
@@ -106,7 +107,7 @@ graph, the administrator account uses the DeleteGraph API method.
 
 # Arguments
 - `account_ids`: The list of AWS account identifiers for the member accounts to delete from
-  the behavior graph.
+  the behavior graph. You can delete up to 50 member accounts at a time.
 - `graph_arn`: The ARN of the behavior graph to delete members from.
 
 """
@@ -136,8 +137,9 @@ Returns the membership details for specified member accounts for a behavior grap
 
 # Arguments
 - `account_ids`: The list of AWS account identifiers for the member account for which to
-  return member details. You cannot use GetMembers to retrieve information about member
-  accounts that were removed from the behavior graph.
+  return member details. You can request details for up to 50 member accounts at a time. You
+  cannot use GetMembers to retrieve information about member accounts that were removed from
+  the behavior graph.
 - `graph_arn`: The ARN of the behavior graph for which to request the member details.
 
 """
@@ -263,7 +265,9 @@ Applies tag values to a behavior graph.
 
 # Arguments
 - `resource_arn`: The ARN of the behavior graph to assign the tags to.
-- `tags`: The tag values to assign to the behavior graph.
+- `tags`: The tags to assign to the behavior graph. You can add up to 50 tags. For each
+  tag, you provide the tag key and the tag value. Each tag key can contain up to 128
+  characters. Each tag value can contain up to 256 characters.
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
@@ -277,7 +281,8 @@ Removes tags from a behavior graph.
 
 # Arguments
 - `resource_arn`: The ARN of the behavior graph to remove the tags from.
-- `tag_keys`: The tag keys of the tags to remove from the behavior graph.
+- `tag_keys`: The tag keys of the tags to remove from the behavior graph. You can remove up
+  to 50 tags at a time.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = detective("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)

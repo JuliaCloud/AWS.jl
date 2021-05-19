@@ -5,6 +5,21 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    add_flow_media_streams(flow_arn, media_streams)
+    add_flow_media_streams(flow_arn, media_streams, params::Dict{String,<:Any})
+
+Adds media streams to an existing flow. After you add a media stream to a flow, you can
+associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
+
+# Arguments
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
+- `media_streams`: The media streams that you want to add to the flow.
+
+"""
+add_flow_media_streams(flowArn, mediaStreams; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/mediaStreams", Dict{String, Any}("mediaStreams"=>mediaStreams); aws_config=aws_config)
+add_flow_media_streams(flowArn, mediaStreams, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/flows/$(flowArn)/mediaStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mediaStreams"=>mediaStreams), params)); aws_config=aws_config)
+
+"""
     add_flow_outputs(flow_arn, outputs)
     add_flow_outputs(flow_arn, outputs, params::Dict{String,<:Any})
 
@@ -61,6 +76,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"availabilityZone"`: The Availability Zone that you want to create the flow in. These
   options are limited to the Availability Zones within the current AWS Region.
 - `"entitlements"`: The entitlements that you want to grant on a flow.
+- `"mediaStreams"`: The media streams that you want to add to the flow. You can associate
+  these media streams with sources and outputs on the flow.
 - `"outputs"`: The outputs that you want to add to this flow.
 - `"source"`:
 - `"sourceFailoverConfig"`:
@@ -272,6 +289,21 @@ purchase_offering(offeringArn, reservationName, start; aws_config::AbstractAWSCo
 purchase_offering(offeringArn, reservationName, start, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("POST", "/v1/offerings/$(offeringArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reservationName"=>reservationName, "start"=>start), params)); aws_config=aws_config)
 
 """
+    remove_flow_media_stream(flow_arn, media_stream_name)
+    remove_flow_media_stream(flow_arn, media_stream_name, params::Dict{String,<:Any})
+
+Removes a media stream from a flow. This action is only available if the media stream is
+not associated with a source or output.
+
+# Arguments
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
+- `media_stream_name`: The name of the media stream that you want to remove.
+
+"""
+remove_flow_media_stream(flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)"; aws_config=aws_config)
+remove_flow_media_stream(flowArn, mediaStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)", params; aws_config=aws_config)
+
+"""
     remove_flow_output(flow_arn, output_arn)
     remove_flow_output(flow_arn, output_arn, params::Dict{String,<:Any})
 
@@ -440,6 +472,29 @@ update_flow_entitlement(entitlementArn, flowArn; aws_config::AbstractAWSConfig=g
 update_flow_entitlement(entitlementArn, flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", params; aws_config=aws_config)
 
 """
+    update_flow_media_stream(flow_arn, media_stream_name)
+    update_flow_media_stream(flow_arn, media_stream_name, params::Dict{String,<:Any})
+
+Updates an existing media stream.
+
+# Arguments
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
+- `media_stream_name`: The name of the media stream that you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"attributes"`: The attributes that you want to assign to the media stream.
+- `"clockRate"`: The sample rate (in Hz) for the stream. If the media stream type is video
+  or ancillary data, set this value to 90000. If the media stream type is audio, set this
+  value to either 48000 or 96000.
+- `"description"`: Description
+- `"mediaStreamType"`: The type of media stream.
+- `"videoFormat"`: The resolution of the video.
+"""
+update_flow_media_stream(flowArn, mediaStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)"; aws_config=aws_config)
+update_flow_media_stream(flowArn, mediaStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediaconnect("PUT", "/v1/flows/$(flowArn)/mediaStreams/$(mediaStreamName)", params; aws_config=aws_config)
+
+"""
     update_flow_output(flow_arn, output_arn)
     update_flow_output(flow_arn, output_arn, params::Dict{String,<:Any})
 
@@ -460,6 +515,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"encryption"`: The type of key used for the encryption. If no keyType is provided, the
   service will use the default setting (static-key).
 - `"maxLatency"`: The maximum latency in milliseconds for Zixi-based streams.
+- `"mediaStreamOutputConfigurations"`: The media streams that are associated with the
+  output, and the parameters for those associations.
 - `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams
   that use the SRT protocol, this value that you set on your MediaConnect source or output
   represents the minimal potential latency of that connection. The latency of the stream is
@@ -500,6 +557,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxBitrate"`: The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
 - `"maxLatency"`: The maximum latency in milliseconds. This parameter applies only to
   RIST-based and Zixi-based streams.
+- `"maxSyncBuffer"`: The size of the buffer (in milliseconds) to use to sync incoming
+  source data.
+- `"mediaStreamSourceConfigurations"`: The media streams that are associated with the
+  source, and the parameters for those associations.
 - `"minLatency"`: The minimum latency in milliseconds for SRT-based streams. In streams
   that use the SRT protocol, this value that you set on your MediaConnect source or output
   represents the minimal potential latency of that connection. The latency of the stream is
@@ -508,7 +569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"protocol"`: The protocol that is used by the source.
 - `"streamId"`: The stream ID that you want to use for this transport. This parameter
   applies only to Zixi-based streams.
-- `"vpcInterfaceName"`: The name of the VPC Interface to configure this Source with.
+- `"vpcInterfaceName"`: The name of the VPC interface to use for this source.
 - `"whitelistCidr"`: The range of IP addresses that should be allowed to contribute content
   to your source. These IP addresses should be in the form of a Classless Inter-Domain
   Routing (CIDR) block; for example, 10.0.0.0/16.

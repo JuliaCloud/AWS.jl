@@ -188,6 +188,32 @@ create_license_configuration(LicenseCountingType, Name; aws_config::AbstractAWSC
 create_license_configuration(LicenseCountingType, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseCountingType"=>LicenseCountingType, "Name"=>Name), params)); aws_config=aws_config)
 
 """
+    create_license_manager_report_generator(client_token, report_context, report_frequency, report_generator_name, type)
+    create_license_manager_report_generator(client_token, report_context, report_frequency, report_generator_name, type, params::Dict{String,<:Any})
+
+Creates a new report generator.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `report_context`: Defines the type of license configuration the report generator tracks.
+- `report_frequency`: Frequency by which reports are generated. Reports can be generated
+  daily, monthly, or weekly.
+- `report_generator_name`: Name of the report generator.
+- `type`: Type of reports to generate. The following report types an be generated:
+  License configuration report - Reports on the number and details of consumed licenses for a
+  license configuration.   Resource report - Reports on the tracked licenses and resource
+  consumption for a license configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Description of the report generator.
+- `"Tags"`: Tags to add to the report generator.
+"""
+create_license_manager_report_generator(ClientToken, ReportContext, ReportFrequency, ReportGeneratorName, Type; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseManagerReportGenerator", Dict{String, Any}("ClientToken"=>ClientToken, "ReportContext"=>ReportContext, "ReportFrequency"=>ReportFrequency, "ReportGeneratorName"=>ReportGeneratorName, "Type"=>Type); aws_config=aws_config)
+create_license_manager_report_generator(ClientToken, ReportContext, ReportFrequency, ReportGeneratorName, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateLicenseManagerReportGenerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "ReportContext"=>ReportContext, "ReportFrequency"=>ReportFrequency, "ReportGeneratorName"=>ReportGeneratorName, "Type"=>Type), params)); aws_config=aws_config)
+
+"""
     create_license_version(client_token, consumption_configuration, entitlements, home_region, issuer, license_arn, license_name, product_name, status, validity)
     create_license_version(client_token, consumption_configuration, entitlements, home_region, issuer, license_arn, license_name, product_name, status, validity, params::Dict{String,<:Any})
 
@@ -284,6 +310,22 @@ delete_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSCon
 delete_license_configuration(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
 
 """
+    delete_license_manager_report_generator(license_manager_report_generator_arn)
+    delete_license_manager_report_generator(license_manager_report_generator_arn, params::Dict{String,<:Any})
+
+Delete an existing report generator. This action deletes the report generator, which stops
+it from generating future reports and cannot be reversed. However, the previous reports
+from this generator will remain in your S3 bucket.
+
+# Arguments
+- `license_manager_report_generator_arn`: Amazon Resource Number (ARN) of the report
+  generator that will be deleted.
+
+"""
+delete_license_manager_report_generator(LicenseManagerReportGeneratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicenseManagerReportGenerator", Dict{String, Any}("LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn); aws_config=aws_config)
+delete_license_manager_report_generator(LicenseManagerReportGeneratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteLicenseManagerReportGenerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn), params)); aws_config=aws_config)
+
+"""
     delete_token(token_id)
     delete_token(token_id, params::Dict{String,<:Any})
 
@@ -377,6 +419,20 @@ get_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig
 get_license_configuration(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
 
 """
+    get_license_manager_report_generator(license_manager_report_generator_arn)
+    get_license_manager_report_generator(license_manager_report_generator_arn, params::Dict{String,<:Any})
+
+Gets information on the specified report generator.
+
+# Arguments
+- `license_manager_report_generator_arn`: mazon Resource Number (ARN) of the report
+  generator to retrieve information on.
+
+"""
+get_license_manager_report_generator(LicenseManagerReportGeneratorArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseManagerReportGenerator", Dict{String, Any}("LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn); aws_config=aws_config)
+get_license_manager_report_generator(LicenseManagerReportGeneratorArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("GetLicenseManagerReportGenerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn), params)); aws_config=aws_config)
+
+"""
     get_license_usage(license_arn)
     get_license_usage(license_arn, params::Dict{String,<:Any})
 
@@ -427,7 +483,7 @@ Lists the grants distributed for the specified license.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Filters to scope the results. The following filters are supported:
-  LicenseARN     Status     PrincipalARN     ParentARN
+  LicenseArn     GrantStatus     GranteePrincipalARN     ProductSKU     LicenseIssuerName
 - `"GrantArns"`: Amazon Resource Names (ARNs) of the grants.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -475,6 +531,22 @@ list_license_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
 list_license_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseConfigurations", params; aws_config=aws_config)
 
 """
+    list_license_manager_report_generators()
+    list_license_manager_report_generators(params::Dict{String,<:Any})
+
+Lists the report generators for your account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters to scope the results. The following filters are supported:
+  LicenseConfigurationArn
+- `"MaxResults"`: Maximum number of results to return in a single call.
+- `"NextToken"`: Token for the next set of results.
+"""
+list_license_manager_report_generators(; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseManagerReportGenerators"; aws_config=aws_config)
+list_license_manager_report_generators(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("ListLicenseManagerReportGenerators", params; aws_config=aws_config)
+
+"""
     list_license_specifications_for_resource(resource_arn)
     list_license_specifications_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -518,7 +590,7 @@ Lists the licenses for your account.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Filters to scope the results. The following filters are supported:
-  Beneficiary     ProductSKU     KeyFingerprint     Status
+  Beneficiary     ProductSKU     Fingerprint     Status
 - `"LicenseArns"`: Amazon Resource Names (ARNs) of the licenses.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -535,7 +607,7 @@ Lists grants that are received but not accepted.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Filters to scope the results. The following filters are supported:
-  LicenseARN     Status
+  ProductSKU     LicenseIssuerName     LicenseArn     GrantStatus     GranterAccountId
 - `"GrantArns"`: Amazon Resource Names (ARNs) of the grants.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -552,7 +624,7 @@ Lists received licenses.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Filters to scope the results. The following filters are supported:
-  ProductSKU     Status     KeyFingerprint     Issuer
+  ProductSKU     Status     Fingerprint     IssuerName     Beneficiary
 - `"LicenseArns"`: Amazon Resource Names (ARNs) of the licenses.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -606,7 +678,7 @@ Lists your tokens.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Filters to scope the results. The following filter is supported:
-  licenseArns
+  LicenseArns
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 - `"TokenIds"`: Token IDs.
@@ -704,6 +776,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_license_configuration(LicenseConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn); aws_config=aws_config)
 update_license_configuration(LicenseConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LicenseConfigurationArn"=>LicenseConfigurationArn), params)); aws_config=aws_config)
+
+"""
+    update_license_manager_report_generator(client_token, license_manager_report_generator_arn, report_context, report_frequency, report_generator_name, type)
+    update_license_manager_report_generator(client_token, license_manager_report_generator_arn, report_context, report_frequency, report_generator_name, type, params::Dict{String,<:Any})
+
+Updates a report generator. After you make changes to a report generator, it will start
+generating new reports within 60 minutes of being updated.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `license_manager_report_generator_arn`: Amazon Resource Number (ARN) of the report
+  generator to update.
+- `report_context`: ?
+- `report_frequency`: Frequency by which reports are generated. The following options are
+  avaiable: ??? What are the APi value options?
+- `report_generator_name`: Name of the report generator.
+- `type`: Type of reports to generate. The following report types an be generated:
+  License configuration report - Reports on the number and details of consumed licenses for a
+  license configuration.   Resource report - Reports on the tracked licenses and resource
+  consumption for a license configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Description of the report generator.
+"""
+update_license_manager_report_generator(ClientToken, LicenseManagerReportGeneratorArn, ReportContext, ReportFrequency, ReportGeneratorName, Type; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseManagerReportGenerator", Dict{String, Any}("ClientToken"=>ClientToken, "LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn, "ReportContext"=>ReportContext, "ReportFrequency"=>ReportFrequency, "ReportGeneratorName"=>ReportGeneratorName, "Type"=>Type); aws_config=aws_config)
+update_license_manager_report_generator(ClientToken, LicenseManagerReportGeneratorArn, ReportContext, ReportFrequency, ReportGeneratorName, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("UpdateLicenseManagerReportGenerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "LicenseManagerReportGeneratorArn"=>LicenseManagerReportGeneratorArn, "ReportContext"=>ReportContext, "ReportFrequency"=>ReportFrequency, "ReportGeneratorName"=>ReportGeneratorName, "Type"=>Type), params)); aws_config=aws_config)
 
 """
     update_license_specifications_for_resource(resource_arn)
