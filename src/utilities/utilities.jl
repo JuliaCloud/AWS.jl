@@ -65,7 +65,7 @@ function _extract_common_kw_args(service, args)
         return_raw=_pop!(args, "return_raw", false),
         response_stream=_pop!(args, "response_stream", nothing),
         headers=LittleDict{String, String}(_pop!(args, "headers", [])),
-        http_options=_pop!(args, "http_options", Dict{Symbol, String}()),
+        http_options=_pop!(args, "http_options", LittleDict{Symbol, String}()),
         response_dict_type=_pop!(args, "response_dict_type", LittleDict),
     )
 end

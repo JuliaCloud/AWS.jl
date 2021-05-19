@@ -10,7 +10,7 @@ Base.@kwdef mutable struct Request
 
     return_stream::Bool=false
     response_stream::Union{<:IO, Nothing}=nothing
-    http_options::Dict{Symbol,<:Any} = Dict{Symbol,String}()
+    http_options::AbstractDict{Symbol,<:Any}=LittleDict{Symbol,String}()
     return_raw::Bool=false
     response_dict_type::Type{<:AbstractDict}=LittleDict
 end
