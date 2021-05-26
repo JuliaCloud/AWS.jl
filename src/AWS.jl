@@ -1,6 +1,6 @@
 module AWS
 
-using Compat: Compat
+using Compat: Compat, @something
 using Base64
 using Dates
 using HTTP
