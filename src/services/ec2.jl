@@ -1269,6 +1269,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reservation only accepts instances that have matching attributes (instance type, platform,
   and Availability Zone), and explicitly target the Capacity Reservation. This ensures that
   only permitted instances can use the reserved capacity.    Default: open
+- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost on which to create the
+  Capacity Reservation.
 - `"TagSpecifications"`: The tags to apply to the Capacity Reservation during launch.
 - `"Tenancy"`: Indicates the tenancy of the Capacity Reservation. A Capacity Reservation
   can have one of the following tenancy settings:    default - The Capacity Reservation is
@@ -4676,11 +4678,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Capacity Reservation can have one of the following tenancy settings:    default - The
   Capacity Reservation is created on hardware that is shared with other AWS accounts.
   dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated
-  to a single AWS account.      state - The current state of the Capacity Reservation. A
-  Capacity Reservation can be in one of the following states:    active- The Capacity
-  Reservation is active and the capacity is available for your use.    expired - The Capacity
-  Reservation expired automatically at the date and time specified in your request. The
-  reserved capacity is no longer available for your use.    cancelled - The Capacity
+  to a single AWS account.      outpost-arn - The Amazon Resource Name (ARN) of the Outpost
+  on which the Capacity Reservation was created.    state - The current state of the Capacity
+  Reservation. A Capacity Reservation can be in one of the following states:    active- The
+  Capacity Reservation is active and the capacity is available for your use.    expired - The
+  Capacity Reservation expired automatically at the date and time specified in your request.
+  The reserved capacity is no longer available for your use.    cancelled - The Capacity
   Reservation was cancelled. The reserved capacity is no longer available for your use.
   pending - The Capacity Reservation request was successful but the capacity provisioning is
   still pending.    failed - The Capacity Reservation request has failed. A request might
@@ -6694,20 +6697,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   description. Instances that include (Amazon VPC) in the product platform description will
   only be displayed to EC2-Classic account holders and are for use with Amazon VPC
   (Linux/UNIX | Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat
-  Enterprise Linux | Red Hat Enterprise Linux (Amazon VPC) | Windows | Windows (Amazon VPC) |
-  Windows with SQL Server Standard | Windows with SQL Server Standard (Amazon VPC) | Windows
-  with SQL Server Web | Windows with SQL Server Web (Amazon VPC) | Windows with SQL Server
-  Enterprise | Windows with SQL Server Enterprise (Amazon VPC)).    reserved-instances-id -
-  The ID of the Reserved Instance.    start - The time at which the Reserved Instance
-  purchase request was placed (for example, 2014-08-07T11:54:42.000Z).    state - The state
-  of the Reserved Instance (payment-pending | active | payment-failed | retired).
-  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
-  key in the filter name and the tag value as the filter value. For example, to find all
-  resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
-  filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
-  resource. Use this filter to find all resources assigned a tag with a specific key,
-  regardless of the tag value.    usage-price - The usage price of the Reserved Instance, per
-  hour (for example, 0.84).
+  Enterprise Linux | Red Hat Enterprise Linux (Amazon VPC) | Red Hat Enterprise Linux with HA
+  (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows
+  with SQL Server Standard (Amazon VPC) | Windows with SQL Server Web | Windows with SQL
+  Server Web (Amazon VPC) | Windows with SQL Server Enterprise | Windows with SQL Server
+  Enterprise (Amazon VPC)).    reserved-instances-id - The ID of the Reserved Instance.
+  start - The time at which the Reserved Instance purchase request was placed (for example,
+  2014-08-07T11:54:42.000Z).    state - The state of the Reserved Instance (payment-pending |
+  active | payment-failed | retired).    tag:&lt;key&gt; - The key/value combination of a tag
+  assigned to the resource. Use the tag key in the filter name and the tag value as the
+  filter value. For example, to find all resources that have a tag with the key Owner and the
+  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
+  assigned a tag with a specific key, regardless of the tag value.    usage-price - The usage
+  price of the Reserved Instance, per hour (for example, 0.84).
 - `"OfferingClass"`: Describes whether the Reserved Instance is Standard or Convertible.
 - `"ReservedInstancesId"`: One or more Reserved Instance IDs. Default: Describes all your
   Reserved Instances, or only those otherwise specified.
@@ -6811,13 +6814,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include (Amazon VPC) in the product platform description will only be displayed to
   EC2-Classic account holders and are for use with Amazon VPC. (Linux/UNIX | Linux/UNIX
   (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat
-  Enterprise Linux (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL Server
-  Standard | Windows with SQL Server Standard (Amazon VPC) | Windows with SQL Server Web |
-  Windows with SQL Server Web (Amazon VPC) | Windows with SQL Server Enterprise | Windows
-  with SQL Server Enterprise (Amazon VPC))     reserved-instances-offering-id - The Reserved
-  Instances offering ID.    scope - The scope of the Reserved Instance (Availability Zone or
-  Region).    usage-price - The usage price of the Reserved Instance, per hour (for example,
-  0.84).
+  Enterprise Linux (Amazon VPC) | Red Hat Enterprise Linux with HA (Amazon VPC) | Windows |
+  Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server Standard
+  (Amazon VPC) | Windows with SQL Server Web |  Windows with SQL Server Web (Amazon VPC) |
+  Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon VPC))
+  reserved-instances-offering-id - The Reserved Instances offering ID.    scope - The scope
+  of the Reserved Instance (Availability Zone or Region).    usage-price - The usage price of
+  the Reserved Instance, per hour (for example, 0.84).
 - `"IncludeMarketplace"`: Include Reserved Instance Marketplace offerings in the response.
 - `"InstanceType"`: The instance type that the reservation will cover (for example,
   m1.small). For more information, see Instance types in the Amazon EC2 User Guide.

@@ -93,7 +93,8 @@ Attaches a policy to the specified target.
 
 # Arguments
 - `policy_name`: The name of the policy to attach.
-- `target`: The identity to which the policy is attached.
+- `target`: The identity to which the policy is attached. For example, a thing group or a
+  certificate.
 
 """
 attach_policy(policyName, target; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/target-policies/$(policyName)", Dict{String, Any}("target"=>target); aws_config=aws_config)
@@ -450,8 +451,7 @@ create_dimension(clientRequestToken, name, stringValues, type, params::AbstractD
     create_domain_configuration(domain_configuration_name)
     create_domain_configuration(domain_configuration_name, params::Dict{String,<:Any})
 
-Creates a domain configuration.  The domain configuration feature is in public preview and
-is subject to change.
+Creates a domain configuration.
 
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration. This value must be
@@ -515,12 +515,14 @@ Creates a job.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"abortConfig"`: Allows you to create criteria to abort a job.
 - `"description"`: A short text description of the job.
-- `"document"`: The job document.  If the job document resides in an S3 bucket, you must
-  use a placeholder link when specifying the document. The placeholder link is of the
-  following form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where
-  bucket is your bucket name and key is the object in the bucket to which you are linking.
-- `"documentSource"`: An S3 link to the job document.
+- `"document"`: The job document. Required if you don't specify a value for documentSource.
+- `"documentSource"`: An S3 link to the job document. Required if you don't specify a value
+  for document.  If the job document resides in an S3 bucket, you must use a placeholder link
+  when specifying the document. The placeholder link is of the following form:
+  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket
+  name and key is the object in the bucket to which you are linking.
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
+- `"jobTemplateArn"`: The ARN of the job template used to create the job.
 - `"namespaceId"`: The namespace used to indicate that a job is a customer-managed job.
   When you specify a value for this parameter, AWS IoT Core sends jobs notifications to MQTT
   topics that contain the value in the following format.
@@ -540,6 +542,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_job(jobId, targets; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/jobs/$(jobId)", Dict{String, Any}("targets"=>targets); aws_config=aws_config)
 create_job(jobId, targets, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targets"=>targets), params)); aws_config=aws_config)
+
+"""
+    create_job_template(description, job_template_id)
+    create_job_template(description, job_template_id, params::Dict{String,<:Any})
+
+Creates a job template.
+
+# Arguments
+- `description`: A description of the job document.
+- `job_template_id`: A unique identifier for the job template. We recommend using a UUID.
+  Alpha-numeric characters, \"-\", and \"_\" are valid for use here.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"abortConfig"`:
+- `"document"`: The job document. Required if you don't specify a value for documentSource.
+- `"documentSource"`: An S3 link to the job document to use in the template. Required if
+  you don't specify a value for document.  If the job document resides in an S3 bucket, you
+  must use a placeholder link when specifying the document. The placeholder link is of the
+  following form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where
+  bucket is your bucket name and key is the object in the bucket to which you are linking.
+- `"jobArn"`: The ARN of the job to use as the basis for the job template.
+- `"jobExecutionsRolloutConfig"`:
+- `"presignedUrlConfig"`:
+- `"tags"`: Metadata that can be used to manage the job template.
+- `"timeoutConfig"`:
+"""
+create_job_template(description, jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/job-templates/$(jobTemplateId)", Dict{String, Any}("description"=>description); aws_config=aws_config)
+create_job_template(description, jobTemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("PUT", "/job-templates/$(jobTemplateId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description), params)); aws_config=aws_config)
 
 """
     create_keys_and_certificate()
@@ -1048,8 +1079,7 @@ delete_dimension(name, params::AbstractDict{String}; aws_config::AbstractAWSConf
     delete_domain_configuration(domain_configuration_name)
     delete_domain_configuration(domain_configuration_name, params::Dict{String,<:Any})
 
-Deletes the specified domain configuration.  The domain configuration feature is in public
-preview and is subject to change.
+Deletes the specified domain configuration.
 
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration to be deleted.
@@ -1137,6 +1167,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 delete_job_execution(executionNumber, jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)"; aws_config=aws_config)
 delete_job_execution(executionNumber, jobId, thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)", params; aws_config=aws_config)
+
+"""
+    delete_job_template(job_template_id)
+    delete_job_template(job_template_id, params::Dict{String,<:Any})
+
+Deletes the specified job template.
+
+# Arguments
+- `job_template_id`: The unique identifier of the job template to delete.
+
+"""
+delete_job_template(jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/job-templates/$(jobTemplateId)"; aws_config=aws_config)
+delete_job_template(jobTemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("DELETE", "/job-templates/$(jobTemplateId)", params; aws_config=aws_config)
 
 """
     delete_mitigation_action(action_name)
@@ -1585,8 +1628,7 @@ describe_dimension(name, params::AbstractDict{String}; aws_config::AbstractAWSCo
     describe_domain_configuration(domain_configuration_name)
     describe_domain_configuration(domain_configuration_name, params::Dict{String,<:Any})
 
-Gets summary information about a domain configuration.  The domain configuration feature is
-in public preview and is subject to change.
+Gets summary information about a domain configuration.
 
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration.
@@ -1666,6 +1708,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/jobs/$(jobId)"; aws_config=aws_config)
 describe_job_execution(jobId, thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/jobs/$(jobId)", params; aws_config=aws_config)
+
+"""
+    describe_job_template(job_template_id)
+    describe_job_template(job_template_id, params::Dict{String,<:Any})
+
+Returns information about a job template.
+
+# Arguments
+- `job_template_id`: The unique identifier of the job template.
+
+"""
+describe_job_template(jobTemplateId; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/job-templates/$(jobTemplateId)"; aws_config=aws_config)
+describe_job_template(jobTemplateId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/job-templates/$(jobTemplateId)", params; aws_config=aws_config)
 
 """
     describe_mitigation_action(action_name)
@@ -2435,8 +2490,7 @@ list_dimensions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=glob
     list_domain_configurations(params::Dict{String,<:Any})
 
 Gets a list of domain configurations for the user. This list is sorted alphabetically by
-domain configuration name.  The domain configuration feature is in public preview and is
-subject to change.
+domain configuration name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2503,6 +2557,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_job_executions_for_thing(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/jobs"; aws_config=aws_config)
 list_job_executions_for_thing(thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/things/$(thingName)/jobs", params; aws_config=aws_config)
+
+"""
+    list_job_templates()
+    list_job_templates(params::Dict{String,<:Any})
+
+Returns a list of job templates.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in the list.
+- `"nextToken"`: The token to use to return the next set of results in the list.
+"""
+list_job_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/job-templates"; aws_config=aws_config)
+list_job_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot("GET", "/job-templates", params; aws_config=aws_config)
 
 """
     list_jobs()
@@ -3699,8 +3767,7 @@ update_dimension(name, stringValues, params::AbstractDict{String}; aws_config::A
     update_domain_configuration(domain_configuration_name, params::Dict{String,<:Any})
 
 Updates values stored in the domain configuration. Domain configurations for default
-endpoints can't be updated.  The domain configuration feature is in public preview and is
-subject to change.
+endpoints can't be updated.
 
 # Arguments
 - `domain_configuration_name`: The name of the domain configuration to be updated.

@@ -253,6 +253,61 @@ create_intent(botId, botVersion, intentName, localeId; aws_config::AbstractAWSCo
 create_intent(botId, botVersion, intentName, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("intentName"=>intentName), params)); aws_config=aws_config)
 
 """
+    create_resource_policy(policy, resource_arn)
+    create_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+
+Creates a new resource policy with the specified policy statements.
+
+# Arguments
+- `policy`: A resource policy to add to the resource. The policy is a JSON structure that
+  contains one or more statements that define the policy. The policy must follow the IAM
+  syntax. For more information about the contents of a JSON policy document, see  IAM JSON
+  policy reference .  If the policy isn't valid, Amazon Lex returns a validation exception.
+- `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
+  policy is attached to.
+
+"""
+create_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/policy/$(resourceArn)/", Dict{String, Any}("policy"=>policy); aws_config=aws_config)
+create_resource_policy(policy, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/policy/$(resourceArn)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy), params)); aws_config=aws_config)
+
+"""
+    create_resource_policy_statement(action, effect, principal, resource_arn, statement_id)
+    create_resource_policy_statement(action, effect, principal, resource_arn, statement_id, params::Dict{String,<:Any})
+
+Adds a new resource policy statement to a bot or bot alias. If a resource policy exists,
+the statement is added to the current resource policy. If a policy doesn't exist, a new
+policy is created. You can create a resource policy statement that allows cross-account
+access.
+
+# Arguments
+- `action`: The Amazon Lex action that this policy either allows or denies. The action must
+  apply to the resource type of the specified ARN. For more information, see  Actions,
+  resources, and condition keys for Amazon Lex V2.
+- `effect`: Determines whether the statement allows or denies access to the resource.
+- `principal`: An IAM principal, such as an IAM users, IAM roles, or AWS services that is
+  allowed or denied access to a resource. For more information, see AWS JSON policy elements:
+  Principal.
+- `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
+  policy is attached to.
+- `statement_id`: The name of the statement. The ID is the same as the Sid IAM property.
+  The statement name must be unique within the policy. For more information, see IAM JSON
+  policy elements: Sid.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"condition"`: Specifies a condition when the policy is in effect. If the principal of
+  the policy is a service principal, you must provide two condition blocks, one with a
+  SourceAccount global condition key and one with a SourceArn global condition key. For more
+  information, see IAM JSON policy elements: Condition .
+- `"expectedRevisionId"`: The identifier of the revision of the policy to edit. If this
+  revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you
+  don't specify a revision, Amazon Lex overwrites the contents of the policy with the new
+  values.
+"""
+create_resource_policy_statement(action, effect, principal, resourceArn, statementId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/policy/$(resourceArn)/statements/", Dict{String, Any}("action"=>action, "effect"=>effect, "principal"=>principal, "statementId"=>statementId); aws_config=aws_config)
+create_resource_policy_statement(action, effect, principal, resourceArn, statementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("POST", "/policy/$(resourceArn)/statements/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "effect"=>effect, "principal"=>principal, "statementId"=>statementId), params)); aws_config=aws_config)
+
+"""
     create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, slot_type_id, value_elicitation_setting)
     create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, slot_type_id, value_elicitation_setting, params::Dict{String,<:Any})
 
@@ -457,6 +512,50 @@ delete_intent(botId, botVersion, intentId, localeId; aws_config::AbstractAWSConf
 delete_intent(botId, botVersion, intentId, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", params; aws_config=aws_config)
 
 """
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy
+attached, Amazon Lex returns an exception.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that has the
+  resource policy attached.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"expectedRevisionId"`: The identifier of the revision to edit. If this ID doesn't match
+  the current revision number, Amazon Lex returns an exception If you don't specify a
+  revision ID, Amazon Lex will delete the current policy.
+"""
+delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/policy/$(resourceArn)/"; aws_config=aws_config)
+delete_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/policy/$(resourceArn)/", params; aws_config=aws_config)
+
+"""
+    delete_resource_policy_statement(resource_arn, statement_id)
+    delete_resource_policy_statement(resource_arn, statement_id, params::Dict{String,<:Any})
+
+Deletes a policy statement from a resource policy. If you delete the last statement from a
+policy, the policy is deleted. If you specify a statement ID that doesn't exist in the
+policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an
+exception.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
+  policy is attached to.
+- `statement_id`: The name of the statement (SID) to delete from the policy.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"expectedRevisionId"`: The identifier of the revision of the policy to delete the
+  statement from. If this revision ID doesn't match the current revision ID, Amazon Lex
+  throws an exception. If you don't specify a revision, Amazon Lex removes the current
+  contents of the statement.
+"""
+delete_resource_policy_statement(resourceArn, statementId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/policy/$(resourceArn)/statements/$(statementId)/"; aws_config=aws_config)
+delete_resource_policy_statement(resourceArn, statementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("DELETE", "/policy/$(resourceArn)/statements/$(statementId)/", params; aws_config=aws_config)
+
+"""
     delete_slot(bot_id, bot_version, intent_id, locale_id, slot_id)
     delete_slot(bot_id, bot_version, intent_id, locale_id, slot_id, params::Dict{String,<:Any})
 
@@ -601,6 +700,20 @@ Returns metadata about an intent.
 """
 describe_intent(botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/"; aws_config=aws_config)
 describe_intent(botId, botVersion, intentId, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", params; aws_config=aws_config)
+
+"""
+    describe_resource_policy(resource_arn)
+    describe_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Gets the resource policy and policy revision for a bot or bot alias.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
+  policy is attached to.
+
+"""
+describe_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/policy/$(resourceArn)/"; aws_config=aws_config)
+describe_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("GET", "/policy/$(resourceArn)/", params; aws_config=aws_config)
 
 """
     describe_slot(bot_id, bot_version, intent_id, locale_id, slot_id)
@@ -1129,6 +1242,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_intent(botId, botVersion, intentId, intentName, localeId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", Dict{String, Any}("intentName"=>intentName); aws_config=aws_config)
 update_intent(botId, botVersion, intentId, intentName, localeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("intentName"=>intentName), params)); aws_config=aws_config)
+
+"""
+    update_resource_policy(policy, resource_arn)
+    update_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+
+Replaces the existing resource policy for a bot or bot alias with a new one. If the policy
+doesn't exist, Amazon Lex returns an exception.
+
+# Arguments
+- `policy`: A resource policy to add to the resource. The policy is a JSON structure that
+  contains one or more statements that define the policy. The policy must follow the IAM
+  syntax. For more information about the contents of a JSON policy document, see  IAM JSON
+  policy reference .  If the policy isn't valid, Amazon Lex returns a validation exception.
+- `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
+  policy is attached to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"expectedRevisionId"`: The identifier of the revision of the policy to update. If this
+  revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you
+  don't specify a revision, Amazon Lex overwrites the contents of the policy with the new
+  values.
+"""
+update_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/policy/$(resourceArn)/", Dict{String, Any}("policy"=>policy); aws_config=aws_config)
+update_resource_policy(policy, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_models_v2("PUT", "/policy/$(resourceArn)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy), params)); aws_config=aws_config)
 
 """
     update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, slot_type_id, value_elicitation_setting)

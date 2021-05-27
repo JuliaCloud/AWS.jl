@@ -2602,7 +2602,7 @@ get_relational_databases(params::AbstractDict{String}; aws_config::AbstractAWSCo
     get_static_ip(static_ip_name)
     get_static_ip(static_ip_name, params::Dict{String,<:Any})
 
-Returns information about a specific static IP.
+Returns information about an Amazon Lightsail static IP.
 
 # Arguments
 - `static_ip_name`: The name of the static IP in Lightsail.

@@ -99,17 +99,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CreateFileSystemRequestKmsKeyId for an existing AWS Key Management Service (AWS KMS)
   customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS,
   /aws/elasticfilesystem, is used to protect the encrypted file system.
-- `"KmsKeyId"`: The ID of the AWS KMS CMK to be used to protect the encrypted file system.
-  This parameter is only required if you want to use a non-default CMK. If this parameter is
-  not specified, the default CMK for Amazon EFS is used. This ID can be in one of the
-  following formats:   Key ID - A unique identifier of the key, for example
+- `"KmsKeyId"`: The ID of the AWS KMS CMK that you want to use to protect the encrypted
+  file system. This parameter is only required if you want to use a non-default KMS key. If
+  this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in
+  one of the following formats:   Key ID - A unique identifier of the key, for example
   1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key,
   for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
   Key alias - A previously created display name for a key, for example alias/projectKey1.
   Key alias ARN - An ARN for a key alias, for example
   arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the
   CreateFileSystemRequestEncrypted parameter must be set to true.  EFS accepts only symmetric
-  CMKs. You cannot use asymmetric CMKs with EFS file systems.
+  KMS keys. You cannot use asymmetric KMS keys with EFS file systems.
 - `"PerformanceMode"`: The performance mode of the file system. We recommend generalPurpose
   performance mode for most file systems. File systems using the maxIO performance mode can
   scale to higher levels of aggregate throughput and operations per second with a tradeoff of
@@ -215,11 +215,13 @@ create_mount_target(FileSystemId, SubnetId, params::AbstractDict{String}; aws_co
     create_tags(file_system_id, tags)
     create_tags(file_system_id, tags, params::Dict{String,<:Any})
 
-Creates or overwrites tags associated with a file system. Each tag is a key-value pair. If
-a tag key specified in the request already exists on the file system, this operation
-overwrites its value with the value provided in the request. If you add the Name tag to
-your file system, Amazon EFS returns it in the response to the DescribeFileSystems
-operation.  This operation requires permission for the elasticfilesystem:CreateTags action.
+ DEPRECATED - CreateTags is deprecated and not maintained. Please use the API action to
+create tags for EFS resources.  Creates or overwrites tags associated with a file system.
+Each tag is a key-value pair. If a tag key specified in the request already exists on the
+file system, this operation overwrites its value with the value provided in the request. If
+you add the Name tag to your file system, Amazon EFS returns it in the response to the
+DescribeFileSystems operation.  This operation requires permission for the
+elasticfilesystem:CreateTags action.
 
 # Arguments
 - `file_system_id`: The ID of the file system whose tags you want to modify (String). This
@@ -313,11 +315,12 @@ delete_mount_target(MountTargetId, params::AbstractDict{String}; aws_config::Abs
     delete_tags(file_system_id, tag_keys)
     delete_tags(file_system_id, tag_keys, params::Dict{String,<:Any})
 
-Deletes the specified tags from a file system. If the DeleteTags request includes a tag key
-that doesn't exist, Amazon EFS ignores it and doesn't cause an error. For more information
-about tags and related restrictions, see Tag Restrictions in the AWS Billing and Cost
-Management User Guide. This operation requires permissions for the
-elasticfilesystem:DeleteTags action.
+ DEPRECATED - DeleteTags is deprecated and not maintained. Please use the API action to
+remove tags from EFS resources.  Deletes the specified tags from a file system. If the
+DeleteTags request includes a tag key that doesn't exist, Amazon EFS ignores it and doesn't
+cause an error. For more information about tags and related restrictions, see Tag
+Restrictions in the AWS Billing and Cost Management User Guide. This operation requires
+permissions for the elasticfilesystem:DeleteTags action.
 
 # Arguments
 - `file_system_id`: The ID of the file system whose tags you want to delete (String).
@@ -351,6 +354,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_access_points(; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/access-points"; aws_config=aws_config)
 describe_access_points(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/access-points", params; aws_config=aws_config)
+
+"""
+    describe_account_preferences()
+    describe_account_preferences(params::Dict{String,<:Any})
+
+
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:
+- `"NextToken"`:
+"""
+describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/account-preferences"; aws_config=aws_config)
+describe_account_preferences(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/account-preferences", params; aws_config=aws_config)
 
 """
     describe_backup_policy(file_system_id)
@@ -488,10 +505,12 @@ describe_mount_targets(params::AbstractDict{String}; aws_config::AbstractAWSConf
     describe_tags(file_system_id)
     describe_tags(file_system_id, params::Dict{String,<:Any})
 
-Returns the tags associated with a file system. The order of tags returned in the response
-of one DescribeTags call and the order of tags returned across the responses of a
-multiple-call iteration (when using pagination) is unspecified.   This operation requires
-permissions for the elasticfilesystem:DescribeTags action.
+ DEPRECATED - The DeleteTags action is deprecated and not maintained. Please use the API
+action to remove tags from EFS resources.  Returns the tags associated with a file system.
+The order of tags returned in the response of one DescribeTags call and the order of tags
+returned across the responses of a multiple-call iteration (when using pagination) is
+unspecified.   This operation requires permissions for the elasticfilesystem:DescribeTags
+action.
 
 # Arguments
 - `file_system_id`: The ID of the file system whose tag set you want to retrieve.
@@ -524,8 +543,8 @@ elasticfilesystem:DescribeAccessPoints action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: (Optional) Specifies the maximum number of tag objects to return in the
   response. The default value is 100.
-- `"NextToken"`: You can use NextToken in a subsequent request to fetch the next page of
-  access point descriptions if the response payload was paginated.
+- `"NextToken"`: (Optional) You can use NextToken in a subsequent request to fetch the next
+  page of access point descriptions if the response payload was paginated.
 """
 list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/resource-tags/$(ResourceId)"; aws_config=aws_config)
 list_tags_for_resource(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/resource-tags/$(ResourceId)", params; aws_config=aws_config)
@@ -553,6 +572,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 modify_mount_target_security_groups(MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups"; aws_config=aws_config)
 modify_mount_target_security_groups(MountTargetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", params; aws_config=aws_config)
+
+"""
+    put_account_preferences(resource_id_type)
+    put_account_preferences(resource_id_type, params::Dict{String,<:Any})
+
+
+
+# Arguments
+- `resource_id_type`:
+
+"""
+put_account_preferences(ResourceIdType; aws_config::AbstractAWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/account-preferences", Dict{String, Any}("ResourceIdType"=>ResourceIdType); aws_config=aws_config)
+put_account_preferences(ResourceIdType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/account-preferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIdType"=>ResourceIdType), params)); aws_config=aws_config)
 
 """
     put_backup_policy(backup_policy, file_system_id)
@@ -645,7 +677,7 @@ elasticfilesystem:TagResource action.
 
 # Arguments
 - `resource_id`: The ID specifying the EFS resource that you want to create a tag for.
-- `tags`:
+- `tags`: An array of Tag objects to add. Each Tag object is a key-value pair.
 
 """
 tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)

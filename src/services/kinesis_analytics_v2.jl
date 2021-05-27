@@ -18,11 +18,14 @@ Adds an Amazon CloudWatch log stream to monitor application configuration errors
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
-  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
-  application's current ConditionalToken using DescribeApplication.
+  updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get
+  the application's current ConditionalToken using DescribeApplication. For better
+  concurrency support, use the ConditionalToken parameter instead of
+  CurrentApplicationVersionId.
 - `"CurrentApplicationVersionId"`: The version ID of the Kinesis Data Analytics
-  application. You must provide the ApplicationVersionID or the ConditionalToken.You can
-  retrieve the application version ID using DescribeApplication.
+  application. You must provide the CurrentApplicationVersionId or the ConditionalToken.You
+  can retrieve the application version ID using DescribeApplication. For better concurrency
+  support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
 add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption); aws_config=aws_config)
 add_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOption, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOption"=>CloudWatchLoggingOption), params)); aws_config=aws_config)
@@ -62,9 +65,8 @@ executes. Currently, the only input processor available is AWS Lambda.
 - `application_name`: The name of the application to which you want to add the input
   processing configuration.
 - `current_application_version_id`: The version of the application to which you want to add
-  the input processing configuration. You must provide the ApplicationVersionID or the
-  ConditionalToken. You can use the DescribeApplication operation to get the current
-  application version. If the version specified is not the current version, the
+  the input processing configuration. You can use the DescribeApplication operation to get
+  the current application version. If the version specified is not the current version, the
   ConcurrentModificationException is returned.
 - `input_id`: The ID of the input configuration to add the input processing configuration
   to. You can get a list of the input IDs for an application using the DescribeApplication
@@ -96,8 +98,7 @@ to find the current application version.
 - `application_name`: The name of the application to which you want to add the output
   configuration.
 - `current_application_version_id`: The version of the application to which you want to add
-  the output configuration. You must provide the ApplicationVersionID or the
-  ConditionalToken. You can use the DescribeApplication operation to get the current
+  the output configuration. You can use the DescribeApplication operation to get the current
   application version. If the version specified is not the current version, the
   ConcurrentModificationException is returned.
 - `output`: An array of objects, each describing one output configuration. In the output
@@ -154,12 +155,14 @@ to the application, add an Internet gateway to your VPC.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
   updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
-  application's current ConditionalToken using DescribeApplication.
+  application's current ConditionalToken using DescribeApplication. For better concurrency
+  support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
 - `"CurrentApplicationVersionId"`: The version of the application to which you want to add
-  the VPC configuration. You must provide the ApplicationVersionID or the ConditionalToken.
-  You can use the DescribeApplication operation to get the current application version. If
-  the version specified is not the current version, the ConcurrentModificationException is
-  returned.
+  the VPC configuration. You must provide the CurrentApplicationVersionId or the
+  ConditionalToken. You can use the DescribeApplication operation to get the current
+  application version. If the version specified is not the current version, the
+  ConcurrentModificationException is returned. For better concurrency support, use the
+  ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
 add_application_vpc_configuration(ApplicationName, VpcConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationVpcConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "VpcConfiguration"=>VpcConfiguration); aws_config=aws_config)
 add_application_vpc_configuration(ApplicationName, VpcConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("AddApplicationVpcConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VpcConfiguration"=>VpcConfiguration), params)); aws_config=aws_config)
@@ -183,6 +186,8 @@ Analytics application, see Creating an Application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ApplicationConfiguration"`: Use this parameter to configure the application.
 - `"ApplicationDescription"`: A summary description of the application.
+- `"ApplicationMode"`: Use the STREAMING mode to create a Kinesis Data Analytics Studio
+  notebook. To create a Kinesis Data Analytics Studio notebook, use the INTERACTIVE mode.
 - `"CloudWatchLoggingOptions"`: Use this parameter to configure an Amazon CloudWatch log
   stream to monitor application configuration errors.
 - `"Tags"`: A list of one or more tags to assign to the application. A tag is a key-value
@@ -266,11 +271,14 @@ Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics applicati
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
-  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
-  application's current ConditionalToken using DescribeApplication.
+  updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get
+  the application's current ConditionalToken using DescribeApplication. For better
+  concurrency support, use the ConditionalToken parameter instead of
+  CurrentApplicationVersionId.
 - `"CurrentApplicationVersionId"`: The version ID of the application. You must provide the
-  ApplicationVersionID or the ConditionalToken. You can retrieve the application version ID
-  using DescribeApplication.
+  CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application
+  version ID using DescribeApplication. For better concurrency support, use the
+  ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
 delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId); aws_config=aws_config)
 delete_application_cloud_watch_logging_option(ApplicationName, CloudWatchLoggingOptionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationCloudWatchLoggingOption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CloudWatchLoggingOptionId"=>CloudWatchLoggingOptionId), params)); aws_config=aws_config)
@@ -368,11 +376,14 @@ Removes a VPC configuration from a Kinesis Data Analytics application.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
-  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
-  application's current ConditionalToken using DescribeApplication.
+  updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get
+  the application's current ConditionalToken using DescribeApplication. For better
+  concurrency support, use the ConditionalToken parameter instead of
+  CurrentApplicationVersionId.
 - `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
-  ApplicationVersionID or the ConditionalToken.You can retrieve the application version ID
-  using DescribeApplication.
+  CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application
+  version ID using DescribeApplication. For better concurrency support, use the
+  ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
 delete_application_vpc_configuration(ApplicationName, VpcConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationVpcConfiguration", Dict{String, Any}("ApplicationName"=>ApplicationName, "VpcConfigurationId"=>VpcConfigurationId); aws_config=aws_config)
 delete_application_vpc_configuration(ApplicationName, VpcConfigurationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("DeleteApplicationVpcConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "VpcConfigurationId"=>VpcConfigurationId), params)); aws_config=aws_config)
@@ -552,20 +563,22 @@ rollback_application(ApplicationName, CurrentApplicationVersionId; aws_config::A
 rollback_application(ApplicationName, CurrentApplicationVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("RollbackApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "CurrentApplicationVersionId"=>CurrentApplicationVersionId), params)); aws_config=aws_config)
 
 """
-    start_application(application_name, run_configuration)
-    start_application(application_name, run_configuration, params::Dict{String,<:Any})
+    start_application(application_name)
+    start_application(application_name, params::Dict{String,<:Any})
 
 Starts the specified Kinesis Data Analytics application. After creating an application, you
 must exclusively call this operation to start your application.
 
 # Arguments
 - `application_name`: The name of the application.
-- `run_configuration`: Identifies the run configuration (start parameters) of a Kinesis
-  Data Analytics application.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RunConfiguration"`: Identifies the run configuration (start parameters) of a Kinesis
+  Data Analytics application.
 """
-start_application(ApplicationName, RunConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("StartApplication", Dict{String, Any}("ApplicationName"=>ApplicationName, "RunConfiguration"=>RunConfiguration); aws_config=aws_config)
-start_application(ApplicationName, RunConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("StartApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName, "RunConfiguration"=>RunConfiguration), params)); aws_config=aws_config)
+start_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("StartApplication", Dict{String, Any}("ApplicationName"=>ApplicationName); aws_config=aws_config)
+start_application(ApplicationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_analytics_v2("StartApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationName"=>ApplicationName), params)); aws_config=aws_config)
 
 """
     stop_application(application_name)
@@ -644,11 +657,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option updates. You can only update existing CloudWatch logging options with this action.
   To add a new CloudWatch logging option, use AddApplicationCloudWatchLoggingOption.
 - `"ConditionalToken"`: A value you use to implement strong concurrency for application
-  updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
-  application's current ConditionalToken using DescribeApplication.
+  updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get
+  the application's current ConditionalToken using DescribeApplication. For better
+  concurrency support, use the ConditionalToken parameter instead of
+  CurrentApplicationVersionId.
 - `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
-  ApplicationVersionID or the ConditionalToken.You can retrieve the application version ID
-  using DescribeApplication.
+  CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application
+  version ID using DescribeApplication. For better concurrency support, use the
+  ConditionalToken parameter instead of CurrentApplicationVersionId.
 - `"RunConfigurationUpdate"`: Describes updates to the application's starting parameters.
 - `"ServiceExecutionRoleUpdate"`: Describes updates to the service execution role.
 """

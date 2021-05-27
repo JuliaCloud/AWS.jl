@@ -156,7 +156,7 @@ bundles, see  Create a Custom WorkSpaces Image and Bundle.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RootStorage"`:
-- `"Tags"`: The tags associated with the bundle.  To add tags at the same time that you're
+- `"Tags"`: The tags associated with the bundle.  To add tags at the same time when you're
   creating the bundle, you must create an IAM policy that grants your IAM user permissions to
   use workspaces:CreateTags.
 """
