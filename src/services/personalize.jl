@@ -309,9 +309,9 @@ create_solution(datasetGroupArn, name, params::AbstractDict{String}; aws_config:
 Trains or retrains an active solution. A solution is created using the CreateSolution
 operation and must be in the ACTIVE state before calling CreateSolutionVersion. A new
 version of the solution is created every time you call this operation.  Status  A solution
-version can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS
-&gt; ACTIVE -or- CREATE FAILED   To get the status of the version, call
-DescribeSolutionVersion. Wait until the status shows as ACTIVE before calling
+version can be in one of the following states:   CREATE PENDING   CREATE IN_PROGRESS
+ACTIVE   CREATE FAILED   CREATE STOPPING   CREATE STOPPED   To get the status of the
+version, call DescribeSolutionVersion. Wait until the status shows as ACTIVE before calling
 CreateCampaign. If the status shows as CREATE FAILED, the response includes a failureReason
 key, which describes why the job failed.  Related APIs     ListSolutionVersions
 DescribeSolutionVersion       ListSolutions     CreateSolution     DescribeSolution
@@ -876,6 +876,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_solutions(; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSolutions"; aws_config=aws_config)
 list_solutions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("ListSolutions", params; aws_config=aws_config)
+
+"""
+    stop_solution_version_creation(solution_version_arn)
+    stop_solution_version_creation(solution_version_arn, params::Dict{String,<:Any})
+
+Stops creating a solution version that is in a state of CREATE_PENDING or CREATE
+IN_PROGRESS.  Depending on the current state of the solution version, the solution version
+state changes as follows:   CREATE_PENDING &gt; CREATE_STOPPED or   CREATE_IN_PROGRESS &gt;
+CREATE_STOPPING &gt; CREATE_STOPPED   You are billed for all of the training completed up
+until you stop the solution version creation. You cannot resume creating a solution version
+once it has been stopped.
+
+# Arguments
+- `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version you want
+  to stop creating.
+
+"""
+stop_solution_version_creation(solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("StopSolutionVersionCreation", Dict{String, Any}("solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
+stop_solution_version_creation(solutionVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("StopSolutionVersionCreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
 
 """
     update_campaign(campaign_arn)

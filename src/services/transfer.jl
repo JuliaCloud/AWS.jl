@@ -5,10 +5,80 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    create_access(external_id, role, server_id)
+    create_access(external_id, role, server_id, params::Dict{String,<:Any})
+
+Used by administrators to choose which groups in the directory should have access to upload
+and download files over the enabled protocols using AWS Transfer Family. For example, a
+Microsoft Active Directory might contain 50,000 users, but only a small fraction might need
+the ability to transfer files to the server. An administrator can use CreateAccess to limit
+the access to the correct set of users who need this ability.
+
+# Arguments
+- `external_id`: A unique identifier that is required to identify specific groups within
+  your directory. The users of the group that you associate have access to your Amazon S3 or
+  Amazon EFS resources over the enabled protocols using AWS Transfer Family. If you know the
+  group name, you can view the SID values by running the following command using Windows
+  PowerShell.  Get-ADGroup -Filter {samAccountName -like \"YourGroupName*\"} -Properties * |
+  Select SamaccountName,ObjectSid  In that command, replace YourGroupName with the name of
+  your Active Directory group. The regex used to validate this parameter is a string of
+  characters consisting of uppercase and lowercase alphanumeric characters with no spaces.
+  You can also include underscores or any of the following characters: =,.@:/-
+- `role`: Specifies the IAM role that controls your users' access to your Amazon S3 bucket
+  or EFS file system. The policies attached to this role determine the level of access that
+  you want to provide your users when transferring files into and out of your Amazon S3
+  bucket or EFS file system. The IAM role should also contain a trust relationship that
+  allows the server to access your resources when servicing your users' transfer requests.
+- `server_id`: A system-assigned unique identifier for a server instance. This is the
+  specific server that you added your user to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
+  server using the client. A HomeDirectory example is /directory_name/home/mydirectory.
+- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
+  Amazon EFS paths and keys should be visible to your user and how you want to make them
+  visible. You must specify the Entry and Target pair, where Entry shows how the path is made
+  visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a
+  target, it will be displayed as is. You also must ensure that your AWS Identity and Access
+  Management (IAM) role provides access to paths in Target. This value can only be set when
+  HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [
+  { \"Entry\": \"your-personal-report.pdf\", \"Target\":
+  \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
+  this value instead of the scope-down policy to lock down your user to the designated home
+  directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
+  HomeDirectory parameter value. The following is an Entry and Target pair example for
+  chroot.  [ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
+  target of a logical directory entry does not exist in Amazon S3 or Amazon EFS, the entry
+  will be ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0-byte
+  objects as place holders for your directory. If using the AWS CLI, use the s3api or efsapi
+  call instead of s3 or efs so you can use the put-object operation. For example, you can use
+  the following.  aws s3api put-object --bucket bucketname --key path/to/folder/  The end of
+  the key name must end in a / for it to be considered a folder.  Required: No
+- `"HomeDirectoryType"`: The type of landing directory (folder) that you want your users'
+  home directory to be when they log in to the server. If you set it to PATH, the user will
+  see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If
+  you set it LOGICAL, you must provide mappings in the HomeDirectoryMappings for how you want
+  to make Amazon S3 paths visible to your users.
+- `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
+  across multiple users. This policy scopes down user access to portions of their Amazon S3
+  bucket. Variables that you can use inside this policy include {Transfer:UserName},
+  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
+  ServerId is S3. Amazon EFS does not use scope down policy. For scope-down policies, AWS
+  Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN)
+  of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For
+  an example of a scope-down policy, see Example scope-down policy. For more information, see
+  AssumeRole in the AWS Security Token Service API Reference.
+- `"PosixProfile"`:
+"""
+create_access(ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateAccess", Dict{String, Any}("ExternalId"=>ExternalId, "Role"=>Role, "ServerId"=>ServerId); aws_config=aws_config)
+create_access(ExternalId, Role, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "Role"=>Role, "ServerId"=>ServerId), params)); aws_config=aws_config)
+
+"""
     create_server()
     create_server(params::Dict{String,<:Any})
 
-Instantiates an autoscaling virtual server based on the selected file transfer protocol in
+Instantiates an auto-scaling virtual server based on the selected file transfer protocol in
 AWS. When you make updates to your file transfer protocol-enabled server or when you work
 with users, use the service-generated ServerId property that is assigned to the newly
 created server.
@@ -26,33 +96,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (EC_prime256v1)   Elliptic Prime Curve 384 bit (EC_secp384r1)   Elliptic Prime Curve 521
   bit (EC_secp521r1)    The certificate must be a valid SSL/TLS X.509 version 3 certificate
   with FQDN or IP address specified and information about the issuer.
-- `"Domain"`:
+- `"Domain"`: The domain of the storage system that is used for file transfers. There are
+  two domains available: Amazon Simple Storage Service (Amazon S3) and Amazon Elastic File
+  System (Amazon EFS). The default value is S3.  After the server is created, the domain
+  cannot be changed.
 - `"EndpointDetails"`: The virtual private cloud (VPC) endpoint settings that are
   configured for your server. When you host your endpoint within your VPC, you can make it
-  accessible only to resources within your VPC, or you can attach Elastic IPs and make it
-  accessible to clients over the internet. Your VPC's default security groups are
+  accessible only to resources within your VPC, or you can attach Elastic IP addresses and
+  make it accessible to clients over the internet. Your VPC's default security groups are
   automatically assigned to your endpoint.
-- `"EndpointType"`: The type of VPC endpoint that you want your server to connect to. You
-  can choose to connect to the public internet or a VPC endpoint. With a VPC endpoint, you
-  can restrict access to your server and resources only within your VPC.  It is recommended
-  that you use VPC as the EndpointType. With this endpoint type, you have the option to
-  directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's
-  endpoint and use VPC security groups to restrict traffic by the client's public IP address.
-  This is not possible with EndpointType set to VPC_ENDPOINT.
+- `"EndpointType"`: The type of endpoint that you want your server to use. You can choose
+  to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC.
+  With an endpoint that is hosted in a VPC, you can restrict access to your server and
+  resources only within your VPC or choose to make it internet facing by attaching Elastic IP
+  addresses directly to it.   After March 31, 2021, you won't be able to create a server
+  using EndpointType=VPC_ENDPOINT in your AWS account if your account hasn't already done so
+  before March 31, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT
+  in your AWS account on or before March 31, 2021, you will not be affected. After this date,
+  use EndpointType=VPC. For more information, see
+  https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vp
+  c-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint
+  type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP
+  included) with your server's endpoint and use VPC security groups to restrict traffic by
+  the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
 - `"HostKey"`: The RSA private key as generated by the ssh-keygen -N \"\" -m PEM -f
   my-new-server-key command.  If you aren't planning to migrate existing users from an
   existing SFTP-enabled server to a new server, don't update the host key. Accidentally
   changing a server's host key can be disruptive.  For more information, see Change the host
   key for your SFTP-enabled server in the AWS Transfer Family User Guide.
-- `"IdentityProviderDetails"`: Required when IdentityProviderType is set to API_GATEWAY.
-  Accepts an array containing all of the information required to call a customer-supplied
+- `"IdentityProviderDetails"`: Required when IdentityProviderType is set to
+  AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information
+  required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied
   authentication API, including the API Gateway URL. Not required when IdentityProviderType
   is set to SERVICE_MANAGED.
 - `"IdentityProviderType"`: Specifies the mode of authentication for a server. The default
   value is SERVICE_MANAGED, which allows you to store and access user credentials within the
-  AWS Transfer Family service. Use the API_GATEWAY value to integrate with an identity
-  provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway
-  endpoint URL to call for authentication using the IdentityProviderDetails parameter.
+  AWS Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active
+  Directory groups in AWS Managed Active Directory or Microsoft Active Directory in your
+  on-premises environment or in AWS using AD Connectors. This option also requires you to
+  provide a Directory ID using the IdentityProviderDetails parameter. Use the API_GATEWAY
+  value to integrate with an identity provider of your choosing. The API_GATEWAY setting
+  requires you to provide an API Gateway endpoint URL to call for authentication using the
+  IdentityProviderDetails parameter.
 - `"LoggingRole"`: Allows the service to write your users' activity to your Amazon
   CloudWatch logs for monitoring and auditing purposes.
 - `"Protocols"`: Specifies the file transfer protocol or protocols over which your file
@@ -62,10 +147,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Protocol): Unencrypted file transfer    If you select FTPS, you must choose a certificate
   stored in AWS Certificate Manager (ACM) which will be used to identify your server when
   clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the
-  EndpointType must be VPC and the IdentityProviderType must be API_GATEWAY. If Protocol
-  includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to
-  SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to
-  SERVICE_MANAGED.
+  EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or
+  API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If
+  Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the
+  IdentityProviderType can be set to SERVICE_MANAGED.
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
 - `"Tags"`: Key-value pairs that can be used to group and search for servers.
@@ -85,11 +170,11 @@ Management (IAM) role. You can also optionally add a scope-down policy, and assi
 with tags that can be used to group and search for users.
 
 # Arguments
-- `role`: The IAM role that controls your users' access to your Amazon S3 bucket. The
-  policies attached to this role will determine the level of access you want to provide your
-  users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM
-  role should also contain a trust relationship that allows the server to access your
-  resources when servicing your users' transfer requests.
+- `role`: Specifies the IAM role that controls your users' access to your Amazon S3 bucket
+  or EFS file system. The policies attached to this role will determine the level of access
+  you want to provide your users when transferring files into and out of your Amazon S3
+  bucket or EFS file system. The IAM role should also contain a trust relationship that
+  allows the server to access your resources when servicing your users' transfer requests.
 - `server_id`: A system-assigned unique identifier for a server instance. This is the
   specific server that you added your user to.
 - `user_name`: A unique string that identifies a user and is associated with a as specified
@@ -100,23 +185,26 @@ with tags that can be used to group and search for users.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
-  server using the client. An example is  your-Amazon-S3-bucket-name&gt;/home/username .
-- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 paths
-  and keys should be visible to your user and how you want to make them visible. You will
-  need to specify the \"Entry\" and \"Target\" pair, where Entry shows how the path is made
-  visible and Target is the actual Amazon S3 path. If you only specify a target, it will be
-  displayed as is. You will need to also make sure that your IAM role provides access to
-  paths in Target. The following is an example.  '[ \"/bucket2/documentation\", { \"Entry\":
+  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or EFS
+  paths and keys should be visible to your user and how you want to make them visible. You
+  will need to specify the Entry and Target pair, where Entry shows how the path is made
+  visible and Target is the actual Amazon S3 or EFS path. If you only specify a target, it
+  will be displayed as is. You will need to also make sure that your IAM role provides access
+  to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL.
+  The following is an Entry and Target pair example.  [ { \"Entry\":
   \"your-personal-report.pdf\", \"Target\":
-  \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]'  In most cases, you can use
+  \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
   this value instead of the scope-down policy to lock your user down to the designated home
-  directory (\"chroot\"). To do this, you can set Entry to '/' and set Target to the
-  HomeDirectory parameter value.  If the target of a logical directory entry does not exist
-  in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 API to
-  create 0 byte objects as place holders for your directory. If using the CLI, use the s3api
-  call instead of s3 so you can use the put-object operation. For example, you use the
-  following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
-  the end of the key name ends in a '/' for it to be considered a folder.
+  directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
+  HomeDirectory parameter value. The following is an Entry and Target pair example for
+  chroot.  [ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
+  target of a logical directory entry does not exist in Amazon S3 or EFS, the entry will be
+  ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects
+  as place holders for your directory. If using the CLI, use the s3api or efsapi call instead
+  of s3 or efs so you can use the put-object operation. For example, you use the following:
+  aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of
+  the key name ends in a / for it to be considered a folder.
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set
@@ -125,12 +213,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Policy"`: A scope-down policy for your user so you can use the same IAM role across
   multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
   Variables that you can use inside this policy include {Transfer:UserName},
-  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  For scope-down policies, AWS Transfer
+  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
+  ServerId is S3. EFS does not use scope down policy. For scope-down policies, AWS Transfer
   Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
   policy. You save the policy as a JSON blob and pass it in the Policy argument. For an
-  example of a scope-down policy, see Creating a scope-down policy. For more information, see
+  example of a scope-down policy, see Example scope-down policy. For more information, see
   AssumeRole in the AWS Security Token Service API Reference.
-- `"PosixProfile"`:
+- `"PosixProfile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
+  (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to
+  your Amazon EFS file systems. The POSIX permissions that are set on files and directories
+  in Amazon EFS determine the level of access your users get when transferring files into and
+  out of your Amazon EFS file systems.
 - `"SshPublicKeyBody"`: The public portion of the Secure Shell (SSH) key used to
   authenticate the user to the server.
 - `"Tags"`: Key-value pairs that can be used to group and search for users. Tags are
@@ -138,6 +231,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_user(Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateUser", Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
 create_user(Role, ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Role"=>Role, "ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config)
+
+"""
+    delete_access(external_id, server_id)
+    delete_access(external_id, server_id, params::Dict{String,<:Any})
+
+Allows you to delete the access specified in the ServerID and ExternalID parameters.
+
+# Arguments
+- `external_id`: A unique identifier that is required to identify specific groups within
+  your directory. The users of the group that you associate have access to your Amazon S3 or
+  Amazon EFS resources over the enabled protocols using AWS Transfer Family. If you know the
+  group name, you can view the SID values by running the following command using Windows
+  PowerShell.  Get-ADGroup -Filter {samAccountName -like \"YourGroupName*\"} -Properties * |
+  Select SamaccountName,ObjectSid  In that command, replace YourGroupName with the name of
+  your Active Directory group. The regex used to validate this parameter is a string of
+  characters consisting of uppercase and lowercase alphanumeric characters with no spaces.
+  You can also include underscores or any of the following characters: =,.@:/-
+- `server_id`: A system-assigned unique identifier for a server that has this user assigned.
+
+"""
+delete_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config)
+delete_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config)
 
 """
     delete_server(server_id)
@@ -185,6 +300,32 @@ information is lost.
 """
 delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
 delete_user(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config)
+
+"""
+    describe_access(external_id, server_id)
+    describe_access(external_id, server_id, params::Dict{String,<:Any})
+
+Describes the access that is assigned to the specific file transfer protocol-enabled
+server, as identified by its ServerId property and its ExternalID. The response from this
+call returns the properties of the access that is associated with the ServerId value that
+was specified.
+
+# Arguments
+- `external_id`: A unique identifier that is required to identify specific groups within
+  your directory. The users of the group you associate have access to your Amazon S3 or
+  Amazon EFS resources over the enabled protocols using AWS Transfer Family. If you know the
+  group name, you can view the SID values by running the following command using Windows
+  PowerShell.  Get-ADGroup -Filter {samAccountName -like \"YourGroupName*\"} -Properties * |
+  Select SamaccountName,ObjectSid  In that command, replace YourGroupName with the name of
+  your Active Directory group. The regex used to validate this parameter is a string of
+  characters consisting of uppercase and lowercase alphanumeric characters with no spaces.
+  You can also include underscores or any of the following characters: =,.@:/-
+- `server_id`: A system-assigned unique identifier for a server that has this access
+  assigned.
+
+"""
+describe_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config)
+describe_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("DescribeAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config)
 
 """
     describe_security_policy(security_policy_name)
@@ -253,6 +394,26 @@ import_ssh_public_key(ServerId, SshPublicKeyBody, UserName; aws_config::Abstract
 import_ssh_public_key(ServerId, SshPublicKeyBody, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ImportSshPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "SshPublicKeyBody"=>SshPublicKeyBody, "UserName"=>UserName), params)); aws_config=aws_config)
 
 """
+    list_accesses(server_id)
+    list_accesses(server_id, params::Dict{String,<:Any})
+
+Lists the details for all the accesses you have on your server.
+
+# Arguments
+- `server_id`: A system-assigned unique identifier for a server that has users assigned to
+  it.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the maximum number of access SIDs to return.
+- `"NextToken"`: When you can get additional results from the ListAccesses call, a
+  NextToken parameter is returned in the output. You can then pass in a subsequent command to
+  the NextToken parameter to continue listing additional accesses.
+"""
+list_accesses(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListAccesses", Dict{String, Any}("ServerId"=>ServerId); aws_config=aws_config)
+list_accesses(ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("ListAccesses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId), params)); aws_config=aws_config)
+
+"""
     list_security_policies()
     list_security_policies(params::Dict{String,<:Any})
 
@@ -291,7 +452,7 @@ list_servers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_
     list_tags_for_resource(arn)
     list_tags_for_resource(arn, params::Dict{String,<:Any})
 
-Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The
+Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The
 resource can be a user, server, or role.
 
 # Arguments
@@ -390,11 +551,11 @@ tag_resource(Arn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSCon
     test_identity_provider(server_id, user_name)
     test_identity_provider(server_id, user_name, params::Dict{String,<:Any})
 
-If the IdentityProviderType of a file transfer protocol-enabled server is API_Gateway,
-tests whether your API Gateway is set up successfully. We highly recommend that you call
-this operation to test your authentication method as soon as you create your server. By
-doing so, you can troubleshoot issues with the API Gateway integration to ensure that your
-users can successfully use the service.
+If the IdentityProviderType of a file transfer protocol-enabled server is
+AWS_DIRECTORY_SERVICE or API_Gateway, tests whether your identity provider is set up
+successfully. We highly recommend that you call this operation to test your authentication
+method as soon as you create your server. By doing so, you can troubleshoot issues with the
+identity provider integration to ensure that your users can successfully use the service.
 
 # Arguments
 - `server_id`: A system-assigned identifier for a specific server. That server's user
@@ -431,6 +592,73 @@ untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) 
 untag_resource(Arn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
 
 """
+    update_access(external_id, server_id)
+    update_access(external_id, server_id, params::Dict{String,<:Any})
+
+Allows you to update parameters for the access specified in the ServerID and ExternalID
+parameters.
+
+# Arguments
+- `external_id`: A unique identifier that is required to identify specific groups within
+  your directory. The users of the group that you associate have access to your Amazon S3 or
+  Amazon EFS resources over the enabled protocols using AWS Transfer Family. If you know the
+  group name, you can view the SID values by running the following command using Windows
+  PowerShell.  Get-ADGroup -Filter {samAccountName -like \"YourGroupName*\"} -Properties * |
+  Select SamaccountName,ObjectSid  In that command, replace YourGroupName with the name of
+  your Active Directory group. The regex used to validate this parameter is a string of
+  characters consisting of uppercase and lowercase alphanumeric characters with no spaces.
+  You can also include underscores or any of the following characters: =,.@:/-
+- `server_id`: A system-assigned unique identifier for a server instance. This is the
+  specific server that you added your user to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
+  server using the client. A HomeDirectory example is /directory_name/home/mydirectory.
+- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
+  Amazon EFS paths and keys should be visible to your user and how you want to make them
+  visible. You must specify the Entry and Target pair, where Entry shows how the path is made
+  visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a
+  target, it will be displayed as is. You also must ensure that your AWS Identity and Access
+  Management (IAM) role provides access to paths in Target. This value can only be set when
+  HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [
+  { \"Entry\": \"your-personal-report.pdf\", \"Target\":
+  \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]  In most cases, you can use
+  this value instead of the scope-down policy to lock down your user to the designated home
+  directory (\"chroot\"). To do this, you can set Entry to / and set Target to the
+  HomeDirectory parameter value. The following is an Entry and Target pair example for
+  chroot.  [ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]   If the
+  target of a logical directory entry does not exist in Amazon S3 or Amazon EFS, the entry
+  will be ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0-byte
+  objects as place holders for your directory. If using the AWS CLI, use the s3api or efsapi
+  call instead of s3 or efs so you can use the put-object operation. For example, you can use
+  the following.  aws s3api put-object --bucket bucketname --key path/to/folder/  The end of
+  the key name must end in a / for it to be considered a folder.  Required: No
+- `"HomeDirectoryType"`: The type of landing directory (folder) that you want your users'
+  home directory to be when they log in to the server. If you set it to PATH, the user will
+  see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If
+  you set it LOGICAL, you must provide mappings in the HomeDirectoryMappings for how you want
+  to make Amazon S3 paths visible to your users.
+- `"Policy"`:  A scope-down policy for your user so that you can use the same IAM role
+  across multiple users. This policy scopes down user access to portions of their Amazon S3
+  bucket. Variables that you can use inside this policy include {Transfer:UserName},
+  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
+  ServerId is S3. Amazon EFS does not use scope down policy. For scope-down policies, AWS
+  Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN)
+  of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For
+  an example of a scope-down policy, see Example scope-down policy. For more information, see
+  AssumeRole in the AWS Security Token Service API Reference.
+- `"PosixProfile"`:
+- `"Role"`: Specifies the IAM role that controls your users' access to your Amazon S3
+  bucket or EFS file system. The policies attached to this role determine the level of access
+  that you want to provide your users when transferring files into and out of your Amazon S3
+  bucket or EFS file system. The IAM role should also contain a trust relationship that
+  allows the server to access your resources when servicing your users' transfer requests.
+"""
+update_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config)
+update_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config)
+
+"""
     update_server(server_id)
     update_server(server_id, params::Dict{String,<:Any})
 
@@ -458,13 +686,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configured for your server. With a VPC endpoint, you can restrict access to your server to
   resources only within your VPC. To control incoming internet traffic, you will need to
   associate one or more Elastic IP addresses with your server's endpoint.
-- `"EndpointType"`: The type of endpoint that you want your server to connect to. You can
-  choose to connect to the public internet or a VPC endpoint. With a VPC endpoint, you can
-  restrict access to your server and resources only within your VPC.  It is recommended that
-  you use VPC as the EndpointType. With this endpoint type, you have the option to directly
-  associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint
-  and use VPC security groups to restrict traffic by the client's public IP address. This is
-  not possible with EndpointType set to VPC_ENDPOINT.
+- `"EndpointType"`: The type of endpoint that you want your server to use. You can choose
+  to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC.
+  With an endpoint that is hosted in a VPC, you can restrict access to your server and
+  resources only within your VPC or choose to make it internet facing by attaching Elastic IP
+  addresses directly to it.   After March 31, 2021, you won't be able to create a server
+  using EndpointType=VPC_ENDPOINT in your AWS account if your account hasn't already done so
+  before March 31, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT
+  in your AWS account on or before March 31, 2021, you will not be affected. After this date,
+  use EndpointType=VPC. For more information, see
+  https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vp
+  c-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint
+  type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP
+  included) with your server's endpoint and use VPC security groups to restrict traffic by
+  the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
 - `"HostKey"`: The RSA private key as generated by ssh-keygen -N \"\" -m PEM -f
   my-new-server-key.  If you aren't planning to migrate existing users from an existing
   server to a new server, don't update the host key. Accidentally changing a server's host
@@ -473,7 +708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdentityProviderDetails"`: An array containing all of the information required to call
   a customer's authentication API method.
 - `"LoggingRole"`: Changes the AWS Identity and Access Management (IAM) role that allows
-  Amazon S3 events to be logged in Amazon CloudWatch, turning logging on or off.
+  Amazon S3 or Amazon EFS events to be logged in Amazon CloudWatch, turning logging on or off.
 - `"Protocols"`: Specifies the file transfer protocol or protocols over which your file
   transfer protocol client can connect to your server's endpoint. The available protocols
   are:   Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File
@@ -481,10 +716,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (FTP): Unencrypted file transfer    If you select FTPS, you must choose a certificate
   stored in AWS Certificate Manager (ACM) which will be used to identify your server when
   clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the
-  EndpointType must be VPC and the IdentityProviderType must be API_GATEWAY. If Protocol
-  includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to
-  SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to
-  SERVICE_MANAGED.
+  EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or
+  API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If
+  Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the
+  IdentityProviderType can be set to SERVICE_MANAGED.
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
 """
@@ -513,27 +748,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HomeDirectory"`: Specifies the landing directory (folder) for a user when they log in
   to the server using their file transfer protocol client. An example is
   your-Amazon-S3-bucket-name&gt;/home/username.
-- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 paths
-  and keys should be visible to your user and how you want to make them visible. You will
-  need to specify the \"Entry\" and \"Target\" pair, where Entry shows how the path is made
-  visible and Target is the actual Amazon S3 path. If you only specify a target, it will be
-  displayed as is. You will need to also make sure that your IAM role provides access to
-  paths in Target. The following is an example.  '[ \"/bucket2/documentation\", { \"Entry\":
-  \"your-personal-report.pdf\", \"Target\":
+- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
+  Amazon EFS paths and keys should be visible to your user and how you want to make them
+  visible. You will need to specify the \"Entry\" and \"Target\" pair, where Entry shows how
+  the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only
+  specify a target, it will be displayed as is. You will need to also make sure that your IAM
+  role provides access to paths in Target. The following is an example.  '[
+  \"/bucket2/documentation\", { \"Entry\": \"your-personal-report.pdf\", \"Target\":
   \"/bucket3/customized-reports/{transfer:UserName}.pdf\" } ]'  In most cases, you can use
-  this value instead of the scope-down policy to lock your user down to the designated home
+  this value instead of the scope-down policy to lock down your user to the designated home
   directory (\"chroot\"). To do this, you can set Entry to '/' and set Target to the
   HomeDirectory parameter value.  If the target of a logical directory entry does not exist
-  in Amazon S3, the entry will be ignored. As a workaround, you can use the Amazon S3 API to
-  create 0 byte objects as place holders for your directory. If using the CLI, use the s3api
-  call instead of s3 so you can use the put-object operation. For example, you use the
-  following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
-  the end of the key name ends in a / for it to be considered a folder.
+  in Amazon S3 or EFS, the entry will be ignored. As a workaround, you can use the Amazon S3
+  API or EFS API to create 0-byte objects as place holders for your directory. If using the
+  AWS CLI, use the s3api or efsapi call instead of s3 efs so you can use the put-object
+  operation. For example, you use the following: aws s3api put-object --bucket bucketname
+  --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be
+  considered a folder.
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
-  absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set
-  it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want
-  to make Amazon S3 paths visible to your users.
+  absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
+  you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
+  you want to make Amazon S3 or EFS paths visible to your users.
 - `"Policy"`: Allows you to supply a scope-down policy for your user so you can use the
   same IAM role across multiple users. The policy scopes down user access to portions of your
   Amazon S3 bucket. Variables you can use inside this policy include {Transfer:UserName},
@@ -542,12 +778,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   policy. You save the policy as a JSON blob and pass it in the Policy argument. For an
   example of a scope-down policy, see Creating a scope-down policy. For more information, see
   AssumeRole in the AWS Security Token Service API Reference.
-- `"PosixProfile"`:
+- `"PosixProfile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
+  (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to
+  your Amazon Elastic File Systems (Amazon EFS). The POSIX permissions that are set on files
+  and directories in your file system determines the level of access your users get when
+  transferring files into and out of your Amazon EFS file systems.
 - `"Role"`: The IAM role that controls your users' access to your Amazon S3 bucket. The
-  policies attached to this role will determine the level of access you want to provide your
-  users when transferring files into and out of your Amazon S3 bucket or buckets. The IAM
-  role should also contain a trust relationship that allows the server to access your
-  resources when servicing your users' transfer requests.
+  policies attached to this role determine the level of access you want to provide your users
+  when transferring files into and out of your S3 bucket or buckets. The IAM role should also
+  contain a trust relationship that allows the server to access your resources when servicing
+  your users' transfer requests.
 """
 update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateUser", Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName); aws_config=aws_config)
 update_user(ServerId, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerId"=>ServerId, "UserName"=>UserName), params)); aws_config=aws_config)

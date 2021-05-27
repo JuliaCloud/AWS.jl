@@ -1579,6 +1579,10 @@ Access Management (IAM) identity or role specified in the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomFederationProviderUrl"`: The URL of the custom OpenID Connect (OIDC) provider
+  that provides identity to let a user federate into QuickSight with an associated AWS
+  Identity and Access Management (IAM) role. This parameter should only be used when
+  ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
 - `"CustomPermissionsName"`: (Enterprise edition only) The name of the custom permissions
   profile that you want to assign to this user. Customized permissions allows you to control
   a user's access by restricting access the following operations:   Create and update data
@@ -1592,6 +1596,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one of the default security cohorts in QuickSight (admin, author, reader). This feature is
   available only to QuickSight Enterprise edition subscriptions that use SAML 2.0-Based
   Federation for Single Sign-On (SSO).
+- `"ExternalLoginFederationProviderType"`: The type of supported external login provider
+  that provides identity to let a user federate into Amazon QuickSight with an associated AWS
+  Identity and Access Management (IAM) role. The type of supported external login provider
+  can be one of the following.    COGNITO: Amazon Cognito. The provider URL is
+  cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the
+  \"CustomFederationProviderUrl\" parameter which is only needed when the external provider
+  is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC
+  type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider
+  URL.
+- `"ExternalLoginId"`: The identity ID for a user in the external login provider.
 - `"IamArn"`: The ARN of the IAM user or role that you are registering with Amazon
   QuickSight.
 - `"SessionName"`: You need to use this parameter only when you register one or more users
@@ -2178,6 +2192,10 @@ Updates an Amazon QuickSight user.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomFederationProviderUrl"`: The URL of the custom OpenID Connect (OIDC) provider
+  that provides identity to let a user federate into QuickSight with an associated AWS
+  Identity and Access Management (IAM) role. This parameter should only be used when
+  ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
 - `"CustomPermissionsName"`: (Enterprise edition only) The name of the custom permissions
   profile that you want to assign to this user. Customized permissions allows you to control
   a user's access by restricting access the following operations:   Create and update data
@@ -2190,6 +2208,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   QuickSight users to one of the default security cohorts in QuickSight (admin, author,
   reader). This feature is available only to QuickSight Enterprise edition subscriptions that
   use SAML 2.0-Based Federation for Single Sign-On (SSO).
+- `"ExternalLoginFederationProviderType"`: The type of supported external login provider
+  that provides identity to let a user federate into QuickSight with an associated AWS
+  Identity and Access Management (IAM) role. The type of supported external login provider
+  can be one of the following.    COGNITO: Amazon Cognito. The provider URL is
+  cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the
+  \"CustomFederationProviderUrl\" parameter which is only needed when the external provider
+  is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC
+  type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider
+  URL.    NONE: This clears all the previously saved external login information for a user.
+  Use  DescribeUser  API to check the external login information.
+- `"ExternalLoginId"`: The identity ID for a user in the external login provider.
 - `"UnapplyCustomPermissions"`: A flag that you use to indicate that you want to remove all
   custom permissions from this user. Using this parameter resets the user to the state it was
   in before a custom permissions profile was applied. This parameter defaults to NULL and it

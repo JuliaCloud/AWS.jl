@@ -32,6 +32,17 @@ Creates a new ledger in your AWS account.
   of your ledgers in the current AWS Region. Naming constraints for ledger names are defined
   in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
 - `permissions_mode`: The permissions mode to assign to the ledger that you want to create.
+  This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions
+  mode that enables access control with API-level granularity for ledgers. This mode allows
+  users who have SendCommand permissions for this ledger to run all PartiQL commands (hence,
+  ALLOW_ALL) on any tables in the specified ledger. This mode disregards any table-level or
+  command-level IAM permissions policies that you create for the ledger.    STANDARD:
+  (Recommended) A permissions mode that enables access control with finer granularity for
+  ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to
+  run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run,
+  you must create IAM permissions policies for specific table resources and PartiQL actions,
+  in addition to SendCommand API permissions for the ledger.    We strongly recommend using
+  the STANDARD permissions mode to maximize the security of your ledger data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -408,3 +419,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)"; aws_config=aws_config)
 update_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)", params; aws_config=aws_config)
+
+"""
+    update_ledger_permissions_mode(permissions_mode, name)
+    update_ledger_permissions_mode(permissions_mode, name, params::Dict{String,<:Any})
+
+Updates the permissions mode of a ledger.
+
+# Arguments
+- `permissions_mode`: The permissions mode to assign to the ledger. This parameter can have
+  one of the following values:    ALLOW_ALL: A legacy permissions mode that enables access
+  control with API-level granularity for ledgers. This mode allows users who have SendCommand
+  permissions for this ledger to run all PartiQL commands (hence, ALLOW_ALL) on any tables in
+  the specified ledger. This mode disregards any table-level or command-level IAM permissions
+  policies that you create for the ledger.    STANDARD: (Recommended) A permissions mode that
+  enables access control with finer granularity for ledgers, tables, and PartiQL commands. By
+  default, this mode denies all user requests to run any PartiQL commands on any tables in
+  this ledger. To allow PartiQL commands to run, you must create IAM permissions policies for
+  specific table resources and PartiQL actions, in addition to SendCommand API permissions
+  for the ledger.    We strongly recommend using the STANDARD permissions mode to maximize
+  the security of your ledger data.
+- `name`: The name of the ledger.
+
+"""
+update_ledger_permissions_mode(PermissionsMode, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)/permissions-mode", Dict{String, Any}("PermissionsMode"=>PermissionsMode); aws_config=aws_config)
+update_ledger_permissions_mode(PermissionsMode, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)/permissions-mode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsMode"=>PermissionsMode), params)); aws_config=aws_config)

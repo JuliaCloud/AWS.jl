@@ -207,13 +207,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   grace period of up to 2,147,483,647 seconds. During that time, the Amazon ECS service
   scheduler ignores health check status. This grace period can prevent the service scheduler
   from marking tasks as unhealthy and stopping them before they have time to come up.
-- `"launchType"`: The launch type on which to run your service. The accepted values are
-  FARGATE and EC2. For more information, see Amazon ECS launch types in the Amazon Elastic
-  Container Service Developer Guide. When a value of FARGATE is specified, your tasks are
-  launched on AWS Fargate On-Demand infrastructure. To use Fargate Spot, you must use a
-  capacity provider strategy with the FARGATE_SPOT capacity provider. When a value of EC2 is
-  specified, your tasks are launched on Amazon EC2 instances registered to your cluster. If a
-  launchType is specified, the capacityProviderStrategy parameter must be omitted.
+- `"launchType"`: The infrastructure on which to run your service. For more information,
+  see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide. The
+  FARGATE launch type runs your tasks on AWS Fargate On-Demand infrastructure.  Fargate Spot
+  infrastructure is available for use but a capacity provider strategy must be used. For more
+  information, see AWS Fargate capacity providers in the Amazon ECS User Guide for AWS
+  Fargate.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to your
+  cluster. The EXTERNAL launch type runs your tasks on your on-premise server or virtual
+  machine (VM) capacity registered to your cluster. A service can use either a launch type or
+  a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy
+  parameter must be omitted.
 - `"loadBalancers"`: A load balancer object representing the load balancers to use with
   your service. For more information, see Service Load Balancing in the Amazon Elastic
   Container Service Developer Guide. If the service is using the rolling update (ECS)
@@ -939,13 +942,15 @@ list_container_instances(params::AbstractDict{String}; aws_config::AbstractAWSCo
     list_services()
     list_services(params::Dict{String,<:Any})
 
-Lists the services that are running in a specified cluster.
+Returns a list of services. You can filter the results by cluster, launch type, and
+scheduling strategy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster that hosts
-  the services to list. If you do not specify a cluster, the default cluster is assumed.
-- `"launchType"`: The launch type for the services to list.
+- `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster to use when
+  filtering the ListServices results. If you do not specify a cluster, the default cluster is
+  assumed.
+- `"launchType"`: The launch type to use when filtering the ListServices results.
 - `"maxResults"`: The maximum number of service results returned by ListServices in
   paginated output. When this parameter is used, ListServices only returns maxResults results
   in a single page along with a nextToken response element. The remaining results of the
@@ -957,7 +962,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maxResults was provided, it is possible the number of results to be fewer than maxResults.
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
-- `"schedulingStrategy"`: The scheduling strategy for services to list.
+- `"schedulingStrategy"`: The scheduling strategy to use when filtering the ListServices
+  results.
 """
 list_services(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListServices"; aws_config=aws_config)
 list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("ListServices", params; aws_config=aws_config)
@@ -1058,20 +1064,20 @@ list_task_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfi
     list_tasks()
     list_tasks(params::Dict{String,<:Any})
 
-Returns a list of tasks for a specified cluster. You can filter the results by family name,
-by a particular container instance, or by the desired status of the task with the family,
-containerInstance, and desiredStatus parameters. Recently stopped tasks might appear in the
-returned results. Currently, stopped tasks appear in the returned results for at least one
-hour.
+Returns a list of tasks. You can filter the results by cluster, task definition family,
+container instance, launch type, what IAM principal started the task, or by the desired
+status of the task. Recently stopped tasks might appear in the returned results. Currently,
+stopped tasks appear in the returned results for at least one hour.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster that hosts
-  the tasks to list. If you do not specify a cluster, the default cluster is assumed.
-- `"containerInstance"`: The container instance ID or full ARN of the container instance
-  with which to filter the ListTasks results. Specifying a containerInstance limits the
-  results to tasks that belong to that container instance.
-- `"desiredStatus"`: The task desired status with which to filter the ListTasks results.
+- `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster to use when
+  filtering the ListTasks results. If you do not specify a cluster, the default cluster is
+  assumed.
+- `"containerInstance"`: The container instance ID or full ARN of the container instance to
+  use when filtering the ListTasks results. Specifying a containerInstance limits the results
+  to tasks that belong to that container instance.
+- `"desiredStatus"`: The task desired status to use when filtering the ListTasks results.
   Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set
   the desired status to STOPPED. This can be useful for debugging tasks that are not starting
   properly or have died or finished. The default status filter is RUNNING, which shows tasks
@@ -1079,9 +1085,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   based on a desired status of PENDING, this does not return any results. Amazon ECS never
   sets the desired status of a task to that value (only a task's lastStatus may have a value
   of PENDING).
-- `"family"`: The name of the family with which to filter the ListTasks results. Specifying
-  a family limits the results to tasks that belong to that family.
-- `"launchType"`: The launch type for services to list.
+- `"family"`: The name of the task definition family to use when filtering the ListTasks
+  results. Specifying a family limits the results to tasks that belong to that family.
+- `"launchType"`: The launch type to use when filtering the ListTasks results.
 - `"maxResults"`: The maximum number of task results returned by ListTasks in paginated
   output. When this parameter is used, ListTasks only returns maxResults results in a single
   page along with a nextToken response element. The remaining results of the initial request
@@ -1093,7 +1099,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   maxResults was provided, it is possible the number of results to be fewer than maxResults.
   This token should be treated as an opaque identifier that is only used to retrieve the next
   items in a list and not for other programmatic purposes.
-- `"serviceName"`: The name of the service with which to filter the ListTasks results.
+- `"serviceName"`: The name of the service to use when filtering the ListTasks results.
   Specifying a serviceName limits the results to tasks that belong to that service.
 - `"startedBy"`: The startedBy value with which to filter the task results. Specifying a
   startedBy value limits the results to tasks that were started with that value.
@@ -1486,13 +1492,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   containers in the task.
 - `"group"`: The name of the task group to associate with the task. The default value is
   the family name of the task definition (for example, family:my-family-name).
-- `"launchType"`: The launch type on which to run your task. The accepted values are
-  FARGATE and EC2. For more information, see Amazon ECS Launch Types in the Amazon Elastic
-  Container Service Developer Guide. When a value of FARGATE is specified, your tasks are
-  launched on AWS Fargate On-Demand infrastructure. To use Fargate Spot, you must use a
-  capacity provider strategy with the FARGATE_SPOT capacity provider. When a value of EC2 is
-  specified, your tasks are launched on Amazon EC2 instances registered to your cluster. If a
-  launchType is specified, the capacityProviderStrategy parameter must be omitted.
+- `"launchType"`: The infrastructure on which to run your standalone task. For more
+  information, see Amazon ECS launch types in the Amazon Elastic Container Service Developer
+  Guide. The FARGATE launch type runs your tasks on AWS Fargate On-Demand infrastructure.
+  Fargate Spot infrastructure is available for use but a capacity provider strategy must be
+  used. For more information, see AWS Fargate capacity providers in the Amazon ECS User Guide
+  for AWS Fargate.  The EC2 launch type runs your tasks on Amazon EC2 instances registered to
+  your cluster. The EXTERNAL launch type runs your tasks on your on-premise server or virtual
+  machine (VM) capacity registered to your cluster. A task can use either a launch type or a
+  capacity provider strategy. If a launchType is specified, the capacityProviderStrategy
+  parameter must be omitted.
 - `"networkConfiguration"`: The network configuration for the task. This parameter is
   required for task definitions that use the awsvpc network mode to receive their own elastic
   network interface, and it is not supported for other network modes. For more information,

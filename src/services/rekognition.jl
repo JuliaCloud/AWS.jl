@@ -82,7 +82,9 @@ application users. A user can then index faces using the IndexFaces operation an
 results in a specific collection. Then, a user can search the collection for faces in the
 user-specific container.  When you create a collection, it is associated with the latest
 version of the face model version.  Collection names are case-sensitive.  This operation
-requires permissions to perform the rekognition:CreateCollection action.
+requires permissions to perform the rekognition:CreateCollection action. If you want to tag
+your collection, you also require permission to perform the rekognition:TagResource
+operation.
 
 # Arguments
 - `collection_id`: ID for the collection that you are creating.
@@ -132,6 +134,13 @@ requires permissions to perform the rekognition:CreateProjectVersion action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"KmsKeyId"`: The identifier for your AWS Key Management Service (AWS KMS) customer
+  master key (CMK). You can supply the Amazon Resource Name (ARN) of your CMK, the ID of your
+  CMK, or an alias for your CMK. The key is used to encrypt training and test images copied
+  into the service for model training. Your source images are unaffected. The key is also
+  used to encrypt training results and manifest files written to the output Amazon S3 bucket
+  (OutputConfig). If you don't specify a value for KmsKeyId, images copied into the service
+  are encrypted using a key that AWS owns and manages.
 - `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the model.
 """
 create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName); aws_config=aws_config)
@@ -151,6 +160,9 @@ an identifier for the stream processor. You use Name to manage the stream proces
 example, you can start processing the source video by calling StartStreamProcessor with the
 Name field.  After you have finished analyzing a streaming video, use StopStreamProcessor
 to stop processing. You can delete the stream processor by calling DeleteStreamProcessor.
+This operation requires permissions to perform the rekognition:CreateStreamProcessor
+action. If you want to tag your stream processor, you also require permission to perform
+the rekognition:TagResource operation.
 
 # Arguments
 - `input`: Kinesis video stream stream that provides the source streaming video. If you are
@@ -1093,7 +1105,8 @@ list_stream_processors(params::AbstractDict{String}; aws_config::AbstractAWSConf
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
  Returns a list of tags in an Amazon Rekognition collection, stream processor, or Custom
-Labels model.
+Labels model.  This operation requires permissions to perform the
+rekognition:ListTagsForResource action.
 
 # Arguments
 - `resource_arn`:  Amazon Resource Name (ARN) of the model, collection, or stream processor
@@ -1188,15 +1201,16 @@ specifically, it is an array of metadata for each face match found. Along with t
 metadata, the response also includes a similarity indicating how similar the face is to the
 input face. In the response, the operation also returns the bounding box (and a confidence
 level that the bounding box contains a face) of the face that Amazon Rekognition used for
-the input image.  For an example, Searching for a Face Using an Image in the Amazon
-Rekognition Developer Guide. The QualityFilter input parameter allows you to filter out
-detected faces that don’t meet a required quality bar. The quality bar is based on a
-variety of common use cases. Use QualityFilter to set the quality bar for filtering by
-specifying LOW, MEDIUM, or HIGH. If you do not want to filter detected faces, specify NONE.
-The default value is NONE.  To use quality filtering, you need a collection associated with
-version 3 of the face model or higher. To get the version of the face model associated with
-a collection, call DescribeCollection.   This operation requires permissions to perform the
-rekognition:SearchFacesByImage action.
+the input image.  If no faces are detected in the input image, SearchFacesByImage returns
+an InvalidParameterException error.  For an example, Searching for a Face Using an Image in
+the Amazon Rekognition Developer Guide. The QualityFilter input parameter allows you to
+filter out detected faces that don’t meet a required quality bar. The quality bar is
+based on a variety of common use cases. Use QualityFilter to set the quality bar for
+filtering by specifying LOW, MEDIUM, or HIGH. If you do not want to filter detected faces,
+specify NONE. The default value is NONE.  To use quality filtering, you need a collection
+associated with version 3 of the face model or higher. To get the version of the face model
+associated with a collection, call DescribeCollection.   This operation requires
+permissions to perform the rekognition:SearchFacesByImage action.
 
 # Arguments
 - `collection_id`: ID of the collection to search.
@@ -1589,7 +1603,8 @@ stop_stream_processor(Name, params::AbstractDict{String}; aws_config::AbstractAW
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
  Adds one or more key-value tags to an Amazon Rekognition collection, stream processor, or
-Custom Labels model. For more information, see Tagging AWS Resources.
+Custom Labels model. For more information, see Tagging AWS Resources.  This operation
+requires permissions to perform the rekognition:TagResource action.
 
 # Arguments
 - `resource_arn`:  Amazon Resource Name (ARN) of the model, collection, or stream processor
@@ -1605,7 +1620,8 @@ tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::Abstra
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
  Removes one or more tags from an Amazon Rekognition collection, stream processor, or
-Custom Labels model.
+Custom Labels model.  This operation requires permissions to perform the
+rekognition:UntagResource action.
 
 # Arguments
 - `resource_arn`:  Amazon Resource Name (ARN) of the model, collection, or stream processor

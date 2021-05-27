@@ -528,10 +528,9 @@ Deletes the warm pool for the specified Auto Scaling group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ForceDelete"`: Specifies that the warm pool is to be deleted along with all instances
-  associated with the warm pool, without waiting for all instances to be terminated. This
-  parameter also deletes any outstanding lifecycle actions associated with the warm pool
-  instances.
+- `"ForceDelete"`: Specifies that the warm pool is to be deleted along with all of its
+  associated instances, without waiting for all instances to be terminated. This parameter
+  also deletes any outstanding lifecycle actions associated with the warm pool instances.
 """
 delete_warm_pool(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteWarmPool", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
 delete_warm_pool(AutoScalingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DeleteWarmPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
@@ -565,7 +564,9 @@ describe_adjustment_types(params::AbstractDict{String}; aws_config::AbstractAWSC
     describe_auto_scaling_groups()
     describe_auto_scaling_groups(params::Dict{String,<:Any})
 
-Describes one or more Auto Scaling groups.
+Describes one or more Auto Scaling groups. This operation returns information about
+instances in Auto Scaling groups. To retrieve information about the instances in a warm
+pool, you must call the DescribeWarmPool API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -771,7 +772,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This list is limited to 50 items. If you specify an unknown policy name, it is ignored with
   no error.
 - `"PolicyTypes"`: One or more policy types. The valid values are SimpleScaling,
-  StepScaling, and TargetTrackingScaling.
+  StepScaling, TargetTrackingScaling, and PredictiveScaling.
 """
 describe_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribePolicies"; aws_config=aws_config)
 describe_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribePolicies", params; aws_config=aws_config)
@@ -1080,6 +1081,33 @@ exit_standby(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_conf
 exit_standby(AutoScalingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("ExitStandby", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)
 
 """
+    get_predictive_scaling_forecast(auto_scaling_group_name, end_time, policy_name, start_time)
+    get_predictive_scaling_forecast(auto_scaling_group_name, end_time, policy_name, start_time, params::Dict{String,<:Any})
+
+Retrieves the forecast data for a predictive scaling policy. Load forecasts are predictions
+of the hourly load values using historical load data from CloudWatch and an analysis of
+historical trends. Capacity forecasts are represented as predicted values for the minimum
+capacity that is needed on an hourly basis, based on the hourly load forecast. A minimum of
+24 hours of data is required to create the initial forecasts. However, having a full 14
+days of historical data results in more accurate forecasts. For more information, see
+Predictive scaling for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
+
+# Arguments
+- `auto_scaling_group_name`: The name of the Auto Scaling group.
+- `end_time`: The exclusive end time of the time range for the forecast data to get. The
+  maximum time duration between the start and end time is 30 days.  Although this parameter
+  can accept a date and time that is more than two days in the future, the availability of
+  forecast data has limits. Amazon EC2 Auto Scaling only issues forecasts for periods of two
+  days in advance.
+- `policy_name`: The name of the policy.
+- `start_time`: The inclusive start time of the time range for the forecast data to get. At
+  most, the date and time can be one year before the current date and time.
+
+"""
+get_predictive_scaling_forecast(AutoScalingGroupName, EndTime, PolicyName, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("GetPredictiveScalingForecast", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "EndTime"=>EndTime, "PolicyName"=>PolicyName, "StartTime"=>StartTime); aws_config=aws_config)
+get_predictive_scaling_forecast(AutoScalingGroupName, EndTime, PolicyName, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("GetPredictiveScalingForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName, "EndTime"=>EndTime, "PolicyName"=>PolicyName, "StartTime"=>StartTime), params)); aws_config=aws_config)
+
+"""
     put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name)
     put_lifecycle_hook(auto_scaling_group_name, lifecycle_hook_name, params::Dict{String,<:Any})
 
@@ -1164,9 +1192,15 @@ put_notification_configuration(AutoScalingGroupName, NotificationTypes, TopicARN
     put_scaling_policy(auto_scaling_group_name, policy_name)
     put_scaling_policy(auto_scaling_group_name, policy_name, params::Dict{String,<:Any})
 
-Creates or updates a scaling policy for an Auto Scaling group. For more information about
-using scaling policies to scale your Auto Scaling group, see Target tracking scaling
-policies and Step and simple scaling policies in the Amazon EC2 Auto Scaling User Guide.
+Creates or updates a scaling policy for an Auto Scaling group. Scaling policies are used to
+scale an Auto Scaling group based on configurable metrics. If no policies are defined, the
+dynamic scaling and predictive scaling features are not used.  For more information about
+using dynamic scaling, see Target tracking scaling policies and Step and simple scaling
+policies in the Amazon EC2 Auto Scaling User Guide. For more information about using
+predictive scaling, see Predictive scaling for Amazon EC2 Auto Scaling in the Amazon EC2
+Auto Scaling User Guide. You can view the scaling policies for an Auto Scaling group using
+the DescribePolicies API call. If you are no longer using a scaling policy, you can delete
+it by calling the DeletePolicy API.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1205,7 +1239,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MinAdjustmentStep"`: Available for backward compatibility. Use MinAdjustmentMagnitude
   instead.
 - `"PolicyType"`: One of the following policy types:     TargetTrackingScaling
-  StepScaling     SimpleScaling (default)
+  StepScaling     SimpleScaling (default)    PredictiveScaling
+- `"PredictiveScalingConfiguration"`: A predictive scaling policy. Provides support for
+  only predefined metrics. Predictive scaling works with CPU utilization, network in/out, and
+  the Application Load Balancer request count. For more information, see
+  PredictiveScalingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if
+  the policy type is PredictiveScaling.
 - `"ScalingAdjustment"`: The amount by which to scale, based on the specified adjustment
   type. A positive value adds to the current capacity while a negative number removes from
   the current capacity. For exact capacity, you must specify a positive value. Required if
@@ -1213,7 +1252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StepAdjustments"`: A set of adjustments that enable you to scale based on the size of
   the alarm breach. Required if the policy type is StepScaling. (Not used with any other
   policy type.)
-- `"TargetTrackingConfiguration"`: A target tracking scaling policy. Includes support for
+- `"TargetTrackingConfiguration"`: A target tracking scaling policy. Provides support for
   predefined or customized metrics. The following predefined metrics are available:
   ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut
   ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you
@@ -1229,7 +1268,10 @@ put_scaling_policy(AutoScalingGroupName, PolicyName, params::AbstractDict{String
     put_scheduled_update_group_action(auto_scaling_group_name, scheduled_action_name, params::Dict{String,<:Any})
 
 Creates or updates a scheduled scaling action for an Auto Scaling group. For more
-information, see Scheduled scaling in the Amazon EC2 Auto Scaling User Guide.
+information, see Scheduled scaling in the Amazon EC2 Auto Scaling User Guide. You can view
+the scheduled actions for an Auto Scaling group using the DescribeScheduledActions API
+call. If you are no longer using a scheduled action, you can delete it by calling the
+DeleteScheduledAction API.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1267,39 +1309,40 @@ put_scheduled_update_group_action(AutoScalingGroupName, ScheduledActionName, par
     put_warm_pool(auto_scaling_group_name)
     put_warm_pool(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Adds a warm pool to the specified Auto Scaling group. A warm pool is a pool of
-pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your
+Creates or updates a warm pool for the specified Auto Scaling group. A warm pool is a pool
+of pre-initialized EC2 instances that sits alongside the Auto Scaling group. Whenever your
 application needs to scale out, the Auto Scaling group can draw on the warm pool to meet
-its new desired capacity. For more information, see Warm pools for Amazon EC2 Auto Scaling
-in the Amazon EC2 Auto Scaling User Guide. This operation must be called from the Region in
-which the Auto Scaling group was created. This operation cannot be called on an Auto
-Scaling group that has a mixed instances policy or a launch template or launch
-configuration that requests Spot Instances. You can view the instances in the warm pool
-using the DescribeWarmPool API call. If you are no longer using a warm pool, you can delete
-it by calling the DeleteWarmPool API.
+its new desired capacity. For more information and example configurations, see Warm pools
+for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. This operation must
+be called from the Region in which the Auto Scaling group was created. This operation
+cannot be called on an Auto Scaling group that has a mixed instances policy or a launch
+template or launch configuration that requests Spot Instances. You can view the instances
+in the warm pool using the DescribeWarmPool API call. If you are no longer using a warm
+pool, you can delete it by calling the DeleteWarmPool API.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxGroupPreparedCapacity"`: Specifies the total maximum number of instances that are
-  allowed to be in the warm pool or in any state except Terminated for the Auto Scaling
-  group. This is an optional property. Specify it only if the warm pool size should not be
+- `"MaxGroupPreparedCapacity"`: Specifies the maximum number of instances that are allowed
+  to be in the warm pool or in any state except Terminated for the Auto Scaling group. This
+  is an optional property. Specify it only if you do not want the warm pool size to be
   determined by the difference between the group's maximum capacity and its desired capacity.
-    Amazon EC2 Auto Scaling will launch and maintain either the difference between the
-  group's maximum capacity and its desired capacity, if a value for MaxGroupPreparedCapacity
-  is not specified, or the difference between the MaxGroupPreparedCapacity and the desired
-  capacity, if a value for MaxGroupPreparedCapacity is specified.  The size of the warm pool
-  is dynamic. Only when MaxGroupPreparedCapacity and MinSize are set to the same value does
-  the warm pool have an absolute size.  If the desired capacity of the Auto Scaling group is
-  higher than the MaxGroupPreparedCapacity, the capacity of the warm pool is 0. To remove a
-  value that you previously set, include the property but specify -1 for the value.
+    If a value for MaxGroupPreparedCapacity is not specified, Amazon EC2 Auto Scaling
+  launches and maintains the difference between the group's maximum capacity and its desired
+  capacity. If you specify a value for MaxGroupPreparedCapacity, Amazon EC2 Auto Scaling uses
+  the difference between the MaxGroupPreparedCapacity and the desired capacity instead.  The
+  size of the warm pool is dynamic. Only when MaxGroupPreparedCapacity and MinSize are set to
+  the same value does the warm pool have an absolute size.  If the desired capacity of the
+  Auto Scaling group is higher than the MaxGroupPreparedCapacity, the capacity of the warm
+  pool is 0, unless you specify a value for MinSize. To remove a value that you previously
+  set, include the property but specify -1 for the value.
 - `"MinSize"`: Specifies the minimum number of instances to maintain in the warm pool. This
   helps you to ensure that there is always a certain number of warmed instances available to
   handle traffic spikes. Defaults to 0 if not specified.
-- `"PoolState"`: Sets the instance state to transition to after the lifecycle hooks finish.
-  Valid values are: Stopped (default) or Running.
+- `"PoolState"`: Sets the instance state to transition to after the lifecycle actions are
+  complete. Default is Stopped.
 """
 put_warm_pool(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutWarmPool", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
 put_warm_pool(AutoScalingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("PutWarmPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)

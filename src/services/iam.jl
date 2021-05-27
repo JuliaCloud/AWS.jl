@@ -305,14 +305,19 @@ create_login_profile(Password, UserName, params::AbstractDict{String}; aws_confi
 Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect
 (OIDC). The OIDC provider that you create with this operation can be used as a principal in
 a role's trust policy. Such a policy establishes a trust relationship between AWS and the
-OIDC provider. When you create the IAM OIDC provider, you specify the following:   The URL
-of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as
-audiences) that identify the application or applications that are allowed to authenticate
-using the OIDC provider   A list of thumbprints of one or more server certificates that the
-IdP uses   You get all of this information from the OIDC IdP that you want to use to access
-AWS.  The trust for the OIDC provider is derived from the IAM provider that this operation
-creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation
-to highly privileged users.
+OIDC provider. If you are using an OIDC identity provider from Google, Facebook, or Amazon
+Cognito, you don't need to create a separate IAM identity provider. These OIDC identity
+providers are already built-in to AWS and are available for your use. Instead, you can move
+directly to creating new roles using your identity provider. To learn more, see Creating a
+role for web identity or OpenID connect federation in the IAM User Guide. When you create
+the IAM OIDC provider, you specify the following:   The URL of the OIDC identity provider
+(IdP) to trust   A list of client IDs (also known as audiences) that identify the
+application or applications that are allowed to authenticate using the OIDC provider   A
+list of thumbprints of one or more server certificates that the IdP uses   You get all of
+this information from the OIDC IdP that you want to use to access AWS.  The trust for the
+OIDC provider is derived from the IAM provider that this operation creates. Therefore, it
+is best to limit access to the CreateOpenIDConnectProvider operation to highly privileged
+users.
 
 # Arguments
 - `thumbprint_list`: A list of server certificate thumbprints for the OpenID Connect (OIDC)

@@ -163,8 +163,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EngineModel"`:  The engine model of the server. Valid values in this release include
   Monolithic for Puppet and Single for Chef.
 - `"EngineVersion"`:  The major release version of the engine that you want to use. For a
-  Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the
-  valid value is 2017.
+  Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, valid
+  values are 2019 or 2017.
 - `"KeyPair"`:  The Amazon EC2 key pair to set for the instance. This parameter is
   optional; if desired, you may specify this parameter to connect to your instances by using
   SSH.

@@ -26,7 +26,7 @@ ListMultipartUploads
   point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -131,7 +131,7 @@ want the object metadata copied from the source object or replaced with metadata
 in the request, you can optionally add the x-amz-metadata-directive header. When you grant
 permissions, you can use the s3:x-amz-metadata-directive condition key to enforce certain
 metadata behavior when objects are uploaded. For more information, see Specifying
-Conditions in a Policy in the Amazon S3 Developer Guide. For a complete list of Amazon
+Conditions in a Policy in the Amazon S3 User Guide. For a complete list of Amazon
 S3-specific condition keys, see Actions, Resources, and Condition Keys for Amazon S3.
 x-amz-copy-source-if Headers  To only copy an object under certain conditions, such as
 whether the Etag matches or whether the object was modified before or after a specified
@@ -161,17 +161,17 @@ S3. These permissions are then added to the ACL on the object. For more informat
 Access Control List (ACL) Overview and Managing ACLs Using the REST API.   Storage Class
 Options  You can use the CopyObject action to change the storage class of an object that is
 already stored in Amazon S3 using the StorageClass parameter. For more information, see
-Storage Classes in the Amazon S3 Service Developer Guide.  Versioning  By default,
-x-amz-copy-source identifies the current version of an object to copy. If the current
-version is a delete marker, Amazon S3 behaves as if the object was deleted. To copy a
-different version, use the versionId subresource. If you enable versioning on the target
-bucket, Amazon S3 generates a unique version ID for the object being copied. This version
-ID is different from the version ID of the source object. Amazon S3 returns the version ID
-of the copied object in the x-amz-version-id response header in the response. If you do not
-enable versioning or suspend it on the target bucket, the version ID that Amazon S3
-generates is always null. If the source object's storage class is GLACIER, you must restore
-a copy of this object before you can use it as a source object for the copy operation. For
-more information, see RestoreObject. The following operations are related to CopyObject:
+Storage Classes in the Amazon S3 User Guide.  Versioning  By default, x-amz-copy-source
+identifies the current version of an object to copy. If the current version is a delete
+marker, Amazon S3 behaves as if the object was deleted. To copy a different version, use
+the versionId subresource. If you enable versioning on the target bucket, Amazon S3
+generates a unique version ID for the object being copied. This version ID is different
+from the version ID of the source object. Amazon S3 returns the version ID of the copied
+object in the x-amz-version-id response header in the response. If you do not enable
+versioning or suspend it on the target bucket, the version ID that Amazon S3 generates is
+always null. If the source object's storage class is GLACIER, you must restore a copy of
+this object before you can use it as a source object for the copy operation. For more
+information, see RestoreObject. The following operations are related to CopyObject:
 PutObject     GetObject    For more information, see Copying Objects.
 
 # Arguments
@@ -179,8 +179,8 @@ PutObject     GetObject    For more information, see Copying Objects.
   point, you must direct requests to the access point hostname. The access point hostname
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the AWS SDKs, you provide the access point ARN in
-  place of the bucket name. For more information about access point ARNs, see Using Access
-  Points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
   must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the
   form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
@@ -268,7 +268,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object encryption. All GET and PUT requests for an object protected by AWS KMS will fail if
   not made via SSL or using SigV4. For information about configuring using any of the
   officially supported AWS SDKs and AWS CLI, see Specifying the Signature Version in Request
-  Authentication in the Amazon S3 Developer Guide.
+  Authentication in the Amazon S3 User Guide.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
   use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
   (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
@@ -294,7 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   newly created objects. The STANDARD storage class provides high durability and high
   availability. Depending on performance needs, you can specify a different Storage Class.
   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
-  Storage Classes in the Amazon S3 Service Developer Guide.
+  Storage Classes in the Amazon S3 User Guide.
 - `"x-amz-tagging"`: The tag-set for the object destination object this value must be used
   in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query
   parameters.
@@ -314,40 +314,40 @@ copy_object(Bucket, Key, x_amz_copy_source, params::AbstractDict{String}; aws_co
 Creates a new S3 bucket. To create a bucket, you must register with Amazon S3 and have a
 valid AWS Access Key ID to authenticate requests. Anonymous requests are never allowed to
 create buckets. By creating the bucket, you become the bucket owner. Not every string is an
-acceptable bucket name. For information about bucket naming restrictions, see Working with
-Amazon S3 buckets.  If you want to create an Amazon S3 on Outposts bucket, see Create
-Bucket.  By default, the bucket is created in the US East (N. Virginia) Region. You can
-optionally specify a Region in the request body. You might choose a Region to optimize
-latency, minimize costs, or address regulatory requirements. For example, if you reside in
-Europe, you will probably find it advantageous to create buckets in the Europe (Ireland)
-Region. For more information, see Accessing a bucket.  If you send your create bucket
-request to the s3.amazonaws.com endpoint, the request goes to the us-east-1 Region.
-Accordingly, the signature calculations in Signature Version 4 must use us-east-1 as the
-Region, even if the location constraint in the request specifies another Region where the
-bucket is to be created. If you create a bucket in a Region other than US East (N.
-Virginia), your application must be able to handle 307 redirect. For more information, see
-Virtual hosting of buckets.  When creating a bucket using this operation, you can
-optionally specify the accounts or groups that should be granted specific permissions on
-the bucket. There are two ways to grant the appropriate permissions using the request
-headers.   Specify a canned ACL using the x-amz-acl request header. Amazon S3 supports a
-set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of
-grantees and permissions. For more information, see Canned ACL.   Specify access
-permissions explicitly using the x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp,
-x-amz-grant-write-acp, and x-amz-grant-full-control headers. These headers map to the set
-of permissions Amazon S3 supports in an ACL. For more information, see Access control list
-(ACL) overview. You specify each grantee as a type=value pair, where the type is one of the
-following:    id – if the value specified is the canonical user ID of an AWS account
-uri – if you are granting permissions to a predefined group    emailAddress – if the
-value specified is the email address of an AWS account  Using email addresses to specify a
-grantee is only supported in the following AWS Regions:    US East (N. Virginia)   US West
-(N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)
-Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all
-the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the AWS General
-Reference.    For example, the following x-amz-grant-read header grants the AWS accounts
-identified by account IDs permissions to read object data and its metadata:
-x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      You can use either a canned
-ACL or specify access permissions explicitly. You cannot do both.  The following operations
-are related to CreateBucket:    PutObject     DeleteBucket
+acceptable bucket name. For information about bucket naming restrictions, see Bucket naming
+rules. If you want to create an Amazon S3 on Outposts bucket, see Create Bucket.  By
+default, the bucket is created in the US East (N. Virginia) Region. You can optionally
+specify a Region in the request body. You might choose a Region to optimize latency,
+minimize costs, or address regulatory requirements. For example, if you reside in Europe,
+you will probably find it advantageous to create buckets in the Europe (Ireland) Region.
+For more information, see Accessing a bucket.  If you send your create bucket request to
+the s3.amazonaws.com endpoint, the request goes to the us-east-1 Region. Accordingly, the
+signature calculations in Signature Version 4 must use us-east-1 as the Region, even if the
+location constraint in the request specifies another Region where the bucket is to be
+created. If you create a bucket in a Region other than US East (N. Virginia), your
+application must be able to handle 307 redirect. For more information, see Virtual hosting
+of buckets.  When creating a bucket using this operation, you can optionally specify the
+accounts or groups that should be granted specific permissions on the bucket. There are two
+ways to grant the appropriate permissions using the request headers.   Specify a canned ACL
+using the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as
+canned ACLs. Each canned ACL has a predefined set of grantees and permissions. For more
+information, see Canned ACL.   Specify access permissions explicitly using the
+x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp, x-amz-grant-write-acp, and
+x-amz-grant-full-control headers. These headers map to the set of permissions Amazon S3
+supports in an ACL. For more information, see Access control list (ACL) overview. You
+specify each grantee as a type=value pair, where the type is one of the following:    id
+– if the value specified is the canonical user ID of an AWS account    uri – if you are
+granting permissions to a predefined group    emailAddress – if the value specified is
+the email address of an AWS account  Using email addresses to specify a grantee is only
+supported in the following AWS Regions:    US East (N. Virginia)   US West (N. California)
+  US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific
+(Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3
+supported Regions and endpoints, see Regions and Endpoints in the AWS General Reference.
+For example, the following x-amz-grant-read header grants the AWS accounts identified by
+account IDs permissions to read object data and its metadata:  x-amz-grant-read:
+id=\"11112222333\", id=\"444455556666\"      You can use either a canned ACL or specify
+access permissions explicitly. You cannot do both.  The following operations are related to
+CreateBucket:    PutObject     DeleteBucket
 
 # Arguments
 - `bucket`: The name of the bucket to create.
@@ -362,8 +362,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions on the bucket.
 - `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.
 - `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL.
-- `"x-amz-grant-write"`: Allows grantee to create, overwrite, and delete any object in the
-  bucket.
+- `"x-amz-grant-write"`: Allows grantee to create new objects in the bucket. For the bucket
+  and object owners of existing objects, also allows deletions and overwrites of those
+  objects.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
 """
 create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)"; aws_config=aws_config)
@@ -399,30 +400,31 @@ customer master keys (CMKs) or Amazon S3-managed encryption keys. If you choose 
 your own encryption key, the request headers you provide in UploadPart and UploadPartCopy
 requests must match the headers you used in the request to initiate the upload by using
 CreateMultipartUpload.  To perform a multipart upload with encryption using an AWS KMS CMK,
-the requester must have permission to the kms:Encrypt, kms:Decrypt, kms:ReEncrypt*,
-kms:GenerateDataKey*, and kms:DescribeKey actions on the key. These permissions are
-required because Amazon S3 must decrypt and read data from the encrypted file parts before
-it completes the multipart upload. If your AWS Identity and Access Management (IAM) user or
-role is in the same AWS account as the AWS KMS CMK, then you must have these permissions on
-the key policy. If your IAM user or role belongs to a different account than the key, then
-you must have the permissions on both the key policy and your IAM user or role.  For more
-information, see Protecting Data Using Server-Side Encryption.  Access Permissions  When
-copying an object, you can optionally specify the accounts or groups that should be granted
-specific permissions on the new object. There are two ways to grant the permissions using
-the request headers:   Specify a canned ACL with the x-amz-acl request header. For more
-information, see Canned ACL.   Specify access permissions explicitly with the
-x-amz-grant-read, x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control
-headers. These parameters map to the set of permissions that Amazon S3 supports in an ACL.
-For more information, see Access Control List (ACL) Overview.   You can use either a canned
-ACL or specify access permissions explicitly. You cannot do both.  Server-Side-
-Encryption-Specific Request Headers  You can optionally tell Amazon S3 to encrypt data at
-rest using server-side encryption. Server-side encryption is for data encryption at rest.
-Amazon S3 encrypts your data as it writes it to disks in its data centers and decrypts it
-when you access it. The option you use depends on whether you want to use AWS managed
-encryption keys or provide your own encryption key.    Use encryption keys managed by
-Amazon S3 or customer master keys (CMKs) stored in AWS Key Management Service (AWS KMS) –
-If you want AWS to manage the keys used to encrypt data, specify the following headers in
-the request.   x-amz-server-side-encryption   x-amz-server-side-encryption-aws-kms-key-id
+the requester must have permission to the kms:Decrypt and kms:GenerateDataKey* actions on
+the key. These permissions are required because Amazon S3 must decrypt and read data from
+the encrypted file parts before it completes the multipart upload. For more information,
+see Multipart upload API and permissions in the Amazon S3 User Guide. If your AWS Identity
+and Access Management (IAM) user or role is in the same AWS account as the AWS KMS CMK,
+then you must have these permissions on the key policy. If your IAM user or role belongs to
+a different account than the key, then you must have the permissions on both the key policy
+and your IAM user or role.  For more information, see Protecting Data Using Server-Side
+Encryption.  Access Permissions  When copying an object, you can optionally specify the
+accounts or groups that should be granted specific permissions on the new object. There are
+two ways to grant the permissions using the request headers:   Specify a canned ACL with
+the x-amz-acl request header. For more information, see Canned ACL.   Specify access
+permissions explicitly with the x-amz-grant-read, x-amz-grant-read-acp,
+x-amz-grant-write-acp, and x-amz-grant-full-control headers. These parameters map to the
+set of permissions that Amazon S3 supports in an ACL. For more information, see Access
+Control List (ACL) Overview.   You can use either a canned ACL or specify access
+permissions explicitly. You cannot do both.  Server-Side- Encryption-Specific Request
+Headers  You can optionally tell Amazon S3 to encrypt data at rest using server-side
+encryption. Server-side encryption is for data encryption at rest. Amazon S3 encrypts your
+data as it writes it to disks in its data centers and decrypts it when you access it. The
+option you use depends on whether you want to use AWS managed encryption keys or provide
+your own encryption key.    Use encryption keys managed by Amazon S3 or customer master
+keys (CMKs) stored in AWS Key Management Service (AWS KMS) – If you want AWS to manage
+the keys used to encrypt data, specify the following headers in the request.
+x-amz-server-side-encryption   x-amz-server-side-encryption-aws-kms-key-id
 x-amz-server-side-encryption-context    If you specify
 x-amz-server-side-encryption:aws:kms, but don't provide
 x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the AWS managed CMK in AWS KMS
@@ -470,7 +472,7 @@ ListMultipartUploads
   point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -516,7 +518,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   customer managed AWS KMS CMK to use for object encryption. All GET and PUT requests for an
   object protected by AWS KMS will fail if not made via SSL or using SigV4. For information
   about configuring using any of the officially supported AWS SDKs and AWS CLI, see
-  Specifying the Signature Version in Request Authentication in the Amazon S3 Developer Guide.
+  Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
   use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
   (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
@@ -539,7 +541,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   newly created objects. The STANDARD storage class provides high durability and high
   availability. Depending on performance needs, you can specify a different Storage Class.
   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
-  Storage Classes in the Amazon S3 Service Developer Guide.
+  Storage Classes in the Amazon S3 User Guide.
 - `"x-amz-tagging"`: The tag-set for the object. The tag-set must be encoded as URL Query
   parameters.
 - `"x-amz-website-redirect-location"`: If the bucket is configured as a website, redirects
@@ -816,8 +818,8 @@ these permissions by default and can grant it to others. For more information ab
 permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
 Permissions to Your Amazon S3 Resources.   It can take a while for the deletion of a
 replication configuration to fully propagate.   For information about replication
-configuration, see Replication in the Amazon S3 Developer Guide.  The following operations
-are related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
+configuration, see Replication in the Amazon S3 User Guide. The following operations are
+related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
 
 # Arguments
 - `bucket`:  The bucket name.
@@ -906,7 +908,7 @@ following action is related to DeleteObject:    PutObject
   point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -948,7 +950,7 @@ DeleteBucketMetricsConfiguration:    PutObjectTagging     GetObjectTagging
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -1000,7 +1002,7 @@ ListParts     AbortMultipartUpload
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this action with an access point through the AWS SDKs, you provide the access point
   ARN in place of the bucket name. For more information about access point ARNs, see Using
-  Access Points in the Amazon S3 User Guide. When using this action with Amazon S3 on
+  access points in the Amazon S3 User Guide. When using this action with Amazon S3 on
   Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
   hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -1677,8 +1679,8 @@ ListBuckets     GetObjectAcl
   point, you must direct requests to the access point hostname. The access point hostname
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the AWS SDKs, you provide the access point ARN in
-  place of the bucket name. For more information about access point ARNs, see Using Access
-  Points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
   must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the
   form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
@@ -1745,7 +1747,7 @@ PutObject
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide.
 - `key`: The key of the object for which to get the ACL information.
 
@@ -1773,7 +1775,7 @@ action is not supported by Amazon S3 on Outposts.
   access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide.
 - `key`: The key name for the object whose Legal Hold status you want to retrieve.
 
@@ -1802,7 +1804,7 @@ bucket. For more information, see Locking Objects.
   The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide.
 
 # Optional Parameters
@@ -1827,7 +1829,7 @@ action is not supported by Amazon S3 on Outposts.
   access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide.
 - `key`: The key name for the object whose retention settings you want to retrieve.
 
@@ -1863,7 +1865,7 @@ to GetObjectTagging:    PutObjectTagging     DeleteObjectTagging
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -1956,7 +1958,7 @@ Permissions to Your Amazon S3 Resources.
   requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -2016,7 +2018,7 @@ error.   The following action is related to HeadObject:    GetObject
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this action with an access point through the AWS SDKs, you provide the access point
   ARN in place of the bucket name. For more information about access point ARNs, see Using
-  Access Points in the Amazon S3 User Guide. When using this action with Amazon S3 on
+  access points in the Amazon S3 User Guide. When using this action with Amazon S3 on
   Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
   hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -2235,7 +2237,7 @@ UploadPart     CompleteMultipartUpload     ListParts     AbortMultipartUpload
   The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -2338,7 +2340,7 @@ CreateBucket     ListBuckets
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this action with an access point through the AWS SDKs, you provide the access point
   ARN in place of the bucket name. For more information about access point ARNs, see Using
-  Access Points in the Amazon S3 User Guide. When using this action with Amazon S3 on
+  access points in the Amazon S3 User Guide. When using this action with Amazon S3 on
   Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
   hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -2369,11 +2371,12 @@ list_objects(Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig
     list_objects_v2(bucket)
     list_objects_v2(bucket, params::Dict{String,<:Any})
 
-Returns some or all (up to 1,000) of the objects in a bucket. You can use the request
-parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK
-response can contain valid or invalid XML. Make sure to design your application to parse
-the contents of the response and handle it appropriately. Objects are returned sorted in an
-ascending order of the respective key names in the list. To use this operation, you must
+Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use
+the request parameters as selection criteria to return a subset of the objects in a bucket.
+A 200 OK response can contain valid or invalid XML. Make sure to design your application to
+parse the contents of the response and handle it appropriately. Objects are returned sorted
+in an ascending order of the respective key names in the list. For more information about
+listing objects, see Listing object keys programmatically  To use this operation, you must
 have READ access to the bucket. To use this action in an AWS Identity and Access Management
 (IAM) policy, you must have permissions to perform the s3:ListBucket action. The bucket
 owner has this permission by default and can grant this permission to others. For more
@@ -2389,7 +2392,7 @@ operations are related to ListObjectsV2:    GetObject     PutObject     CreateBu
   direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -2446,7 +2449,7 @@ The following operations are related to ListParts:    CreateMultipartUpload     
   access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -2578,8 +2581,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions on the bucket.
 - `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.
 - `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL.
-- `"x-amz-grant-write"`: Allows grantee to create, overwrite, and delete any object in the
-  bucket.
+- `"x-amz-grant-write"`: Allows grantee to create new objects in the bucket. For the bucket
+  and object owners of existing objects, also allows deletions and overwrites of those
+  objects.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
 """
 put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl"; aws_config=aws_config)
@@ -2839,34 +2843,33 @@ put_bucket_lifecycle(Bucket, params::AbstractDict{String}; aws_config::AbstractA
     put_bucket_lifecycle_configuration(bucket, params::Dict{String,<:Any})
 
 Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
-configuration. For information about lifecycle configuration, see Managing Access
-Permissions to Your Amazon S3 Resources.  Bucket lifecycle configuration now supports
-specifying a lifecycle rule using an object key name prefix, one or more object tags, or a
-combination of both. Accordingly, this section describes the latest API. The previous
-version of the API supported filtering based only on an object key name prefix, which is
-supported for backward compatibility. For the related API description, see
-PutBucketLifecycle.   Rules  You specify the lifecycle configuration in your request body.
-The lifecycle configuration is specified as XML consisting of one or more rules. Each rule
-consists of the following:   Filter identifying a subset of objects to which the rule
-applies. The filter can be based on a key name prefix, object tags, or a combination of
-both.   Status whether the rule is in effect.   One or more lifecycle transition and
-expiration actions that you want Amazon S3 to perform on the objects identified by the
-filter. If the state of your bucket is versioning-enabled or versioning-suspended, you can
-have many versions of the same object (one current version and zero or more noncurrent
-versions). Amazon S3 provides predefined actions that you can specify for current and
-noncurrent object versions.   For more information, see Object Lifecycle Management and
-Lifecycle Configuration Elements.  Permissions  By default, all Amazon S3 resources are
-private, including buckets, objects, and related subresources (for example, lifecycle
-configuration and website configuration). Only the resource owner (that is, the AWS account
-that created it) can access the resource. The resource owner can optionally grant access
-permissions to others by writing an access policy. For this operation, a user must get the
-s3:PutLifecycleConfiguration permission. You can also explicitly deny permissions. Explicit
-deny also supersedes any other permissions. If you want to block users or accounts from
-removing or deleting objects from your bucket, you must deny them permissions for the
-following actions:   s3:DeleteObject   s3:DeleteObjectVersion
-s3:PutLifecycleConfiguration   For more information about permissions, see Managing Access
-Permissions to Your Amazon S3 Resources. The following are related to
-PutBucketLifecycleConfiguration:    Examples of Lifecycle Configuration
+configuration. For information about lifecycle configuration, see Managing your storage
+lifecycle.  Bucket lifecycle configuration now supports specifying a lifecycle rule using
+an object key name prefix, one or more object tags, or a combination of both. Accordingly,
+this section describes the latest API. The previous version of the API supported filtering
+based only on an object key name prefix, which is supported for backward compatibility. For
+the related API description, see PutBucketLifecycle.   Rules  You specify the lifecycle
+configuration in your request body. The lifecycle configuration is specified as XML
+consisting of one or more rules. Each rule consists of the following:   Filter identifying
+a subset of objects to which the rule applies. The filter can be based on a key name
+prefix, object tags, or a combination of both.   Status whether the rule is in effect.
+One or more lifecycle transition and expiration actions that you want Amazon S3 to perform
+on the objects identified by the filter. If the state of your bucket is versioning-enabled
+or versioning-suspended, you can have many versions of the same object (one current version
+and zero or more noncurrent versions). Amazon S3 provides predefined actions that you can
+specify for current and noncurrent object versions.   For more information, see Object
+Lifecycle Management and Lifecycle Configuration Elements.  Permissions  By default, all
+Amazon S3 resources are private, including buckets, objects, and related subresources (for
+example, lifecycle configuration and website configuration). Only the resource owner (that
+is, the AWS account that created it) can access the resource. The resource owner can
+optionally grant access permissions to others by writing an access policy. For this
+operation, a user must get the s3:PutLifecycleConfiguration permission. You can also
+explicitly deny permissions. Explicit deny also supersedes any other permissions. If you
+want to block users or accounts from removing or deleting objects from your bucket, you
+must deny them permissions for the following actions:   s3:DeleteObject
+s3:DeleteObjectVersion   s3:PutLifecycleConfiguration   For more information about
+permissions, see Managing Access Permissions to Your Amazon S3 Resources. The following are
+related to PutBucketLifecycleConfiguration:    Examples of Lifecycle Configuration
 GetBucketLifecycleConfiguration     DeleteBucketLifecycle
 
 # Arguments
@@ -3098,7 +3101,7 @@ put_bucket_policy(Bucket, Policy, params::AbstractDict{String}; aws_config::Abst
     put_bucket_replication(bucket, replication_configuration, params::Dict{String,<:Any})
 
  Creates a replication configuration or replaces an existing one. For more information, see
-Replication in the Amazon S3 Developer Guide.   To perform this operation, the user or role
+Replication in the Amazon S3 User Guide.   To perform this operation, the user or role
 performing the action must have the iam:PassRole permission.  Specify the replication
 configuration in the request body. In the replication configuration, you provide the name
 of the destination bucket or buckets where you want Amazon S3 to replicate objects, the IAM
@@ -3332,13 +3335,13 @@ Options  By default, Amazon S3 uses the STANDARD Storage Class to store newly cr
 objects. The STANDARD storage class provides high durability and high availability.
 Depending on performance needs, you can specify a different Storage Class. Amazon S3 on
 Outposts only uses the OUTPOSTS Storage Class. For more information, see Storage Classes in
-the Amazon S3 Service Developer Guide.  Versioning  If you enable versioning for a bucket,
-Amazon S3 automatically generates a unique version ID for the object being stored. Amazon
-S3 returns this ID in the response. When you enable versioning for a bucket, if Amazon S3
-receives multiple write requests for the same object simultaneously, it stores all of the
-objects. For more information about versioning, see Adding Objects to Versioning Enabled
-Buckets. For information about returning the versioning state of a bucket, see
-GetBucketVersioning.   Related Resources     CopyObject     DeleteObject
+the Amazon S3 User Guide.  Versioning  If you enable versioning for a bucket, Amazon S3
+automatically generates a unique version ID for the object being stored. Amazon S3 returns
+this ID in the response. When you enable versioning for a bucket, if Amazon S3 receives
+multiple write requests for the same object simultaneously, it stores all of the objects.
+For more information about versioning, see Adding Objects to Versioning Enabled Buckets.
+For information about returning the versioning state of a bucket, see GetBucketVersioning.
+ Related Resources     CopyObject     DeleteObject
 
 # Arguments
 - `bucket`: The bucket name to which the PUT action was initiated.  When using this action
@@ -3346,7 +3349,7 @@ GetBucketVersioning.   Related Resources     CopyObject     DeleteObject
   point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -3405,11 +3408,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-server-side-encryption-aws-kms-key-id"`: If x-amz-server-side-encryption is
   present and has the value of aws:kms, this header specifies the ID of the AWS Key
   Management Service (AWS KMS) symmetrical customer managed customer master key (CMK) that
-  was used for the object.  If the value of x-amz-server-side-encryption is aws:kms, this
-  header specifies the ID of the symmetric customer managed AWS KMS CMK that will be used for
-  the object. If you specify x-amz-server-side-encryption:aws:kms, but do not provide
-  x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the AWS managed CMK in AWS to
-  protect the data.
+  was used for the object. If you specify x-amz-server-side-encryption:aws:kms, but do not
+  provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the AWS managed CMK in
+  AWS to protect the data. If the KMS key does not exist in the same account issuing the
+  command, you must use the full ARN and not just the ID.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
   use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
   (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
@@ -3432,7 +3434,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   newly created objects. The STANDARD storage class provides high durability and high
   availability. Depending on performance needs, you can specify a different Storage Class.
   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
-  Storage Classes in the Amazon S3 Service Developer Guide.
+  Storage Classes in the Amazon S3 User Guide.
 - `"x-amz-tagging"`: The tag-set for the object. The tag-set must be encoded as URL Query
   parameters. (For example, \"Key1=Value1\")
 - `"x-amz-website-redirect-location"`: If the bucket is configured as a website, redirects
@@ -3459,8 +3461,8 @@ Guide. This action is not supported by Amazon S3 on Outposts. Depending on your 
 needs, you can choose to set the ACL on an object using either the request body or the
 headers. For example, if you have an existing application that updates a bucket ACL using
 the request body, you can continue to use that approach. For more information, see Access
-Control List (ACL) Overview in the Amazon S3 Developer Guide.  Access Permissions  You can
-set access permissions using one of the following methods:   Specify a canned ACL with the
+Control List (ACL) Overview in the Amazon S3 User Guide.  Access Permissions  You can set
+access permissions using one of the following methods:   Specify a canned ACL with the
 x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned
 ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the canned
 ACL name as the value of x-amz-acl. If you use this header, you cannot use other access
@@ -3511,14 +3513,14 @@ CopyObject     GetObject
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide.
 - `key`: Key for which the PUT action was initiated. When using this action with an access
   point, you must direct requests to the access point hostname. The access point hostname
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the AWS SDKs, you provide the access point ARN in
-  place of the bucket name. For more information about access point ARNs, see Using Access
-  Points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
   must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the
   form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
@@ -3545,8 +3547,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not supported by Amazon S3 on Outposts.
 - `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL. This action is not
   supported by Amazon S3 on Outposts.
-- `"x-amz-grant-write"`: Allows grantee to create, overwrite, and delete any object in the
-  bucket.
+- `"x-amz-grant-write"`: Allows grantee to create new objects in the bucket. For the bucket
+  and object owners of existing objects, also allows deletions and overwrites of those
+  objects.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
   This action is not supported by Amazon S3 on Outposts.
 - `"x-amz-request-payer"`:
@@ -3567,7 +3570,7 @@ Locking Objects. This action is not supported by Amazon S3 on Outposts.
   hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide.
 - `key`: The key name for the object that you want to place a Legal Hold on.
 
@@ -3630,7 +3633,7 @@ Objects.  This action is not supported by Amazon S3 on Outposts.
   requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide.
 - `key`: The key name for the object that you want to apply this Object Retention
   configuration to.
@@ -3679,8 +3682,8 @@ InternalError     Cause: The service was unable to apply the provided tag to the
   point, you must direct requests to the access point hostname. The access point hostname
   takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
   this action with an access point through the AWS SDKs, you provide the access point ARN in
-  place of the bucket name. For more information about access point ARNs, see Using Access
-  Points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you
   must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the
   form AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
   action using S3 on Outposts through the AWS SDKs, you provide the Outposts bucket ARN in
@@ -3852,7 +3855,7 @@ Select  in the Amazon S3 User Guide
   hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
   using this action with an access point through the AWS SDKs, you provide the access point
   ARN in place of the bucket name. For more information about access point ARNs, see Using
-  Access Points in the Amazon S3 User Guide. When using this action with Amazon S3 on
+  access points in the Amazon S3 User Guide. When using this action with Amazon S3 on
   Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
   hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -4009,7 +4012,7 @@ AbortMultipartUpload     ListParts     ListMultipartUploads
   The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
@@ -4101,7 +4104,7 @@ CreateMultipartUpload     UploadPart     CompleteMultipartUpload     AbortMultip
   requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the AWS SDKs, you provide the access point ARN in place of the
-  bucket name. For more information about access point ARNs, see Using Access Points in the
+  bucket name. For more information about access point ARNs, see Using access points in the
   Amazon S3 User Guide. When using this action with Amazon S3 on Outposts, you must direct
   requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When using this
