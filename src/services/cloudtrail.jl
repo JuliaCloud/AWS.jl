@@ -136,9 +136,9 @@ Describes the settings for the event selectors that you configured for your trai
 information returned for your event selectors includes the following:   If your event
 selector includes read-only events, write-only events, or all events. This applies to both
 management events and data events.   If your event selector includes management events.
-If your event selector includes data events, the Amazon S3 objects or AWS Lambda functions
-that you are logging for data events.   For more information, see Logging Data and
-Management Events for Trails  in the AWS CloudTrail User Guide.
+If your event selector includes data events, the resources on which you are logging data
+events.   For more information, see Logging Data and Management Events for Trails  in the
+AWS CloudTrail User Guide.
 
 # Arguments
 - `trail_name`: Specifies the name of the trail or trail ARN. If you specify a trail name,

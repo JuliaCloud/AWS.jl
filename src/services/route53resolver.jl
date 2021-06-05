@@ -12,17 +12,17 @@ Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
 
 # Arguments
 - `creator_request_id`: A unique string that identifies the request and that allows failed
-  requests to be retried without the risk of executing the operation twice. CreatorRequestId
+  requests to be retried without the risk of running the operation twice. CreatorRequestId
   can be any unique string, for example, a date/time stamp.
 - `firewall_rule_group_id`: The unique identifier of the firewall rule group.
 - `name`: A name that lets you identify the association, to manage and use it.
 - `priority`: The setting that determines the processing order of the rule group among the
   rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic
-  starting from rule group with the lowest numeric priority setting.  You must specify a
+  starting from the rule group with the lowest numeric priority setting.  You must specify a
   unique priority for each rule group that you associate with a single VPC. To make it easier
-  to insert rule groups later, leave space between the numbers, for example, use 100, 200,
+  to insert rule groups later, leave space between the numbers, for example, use 101, 200,
   and so on. You can change the priority setting for a rule group association after you
-  create it.
+  create it. The allowed values for Priority are between 100 and 9900.
 - `vpc_id`: The unique identifier of the VPC that you want to associate with the rule
   group.
 
@@ -111,8 +111,8 @@ using UpdateFirewallDomains.
 
 # Arguments
 - `creator_request_id`: A unique string that identifies the request and that allows you to
-  retry failed requests without the risk of executing the operation twice. CreatorRequestId
-  can be any unique string, for example, a date/time stamp.
+  retry failed requests without the risk of running the operation twice. CreatorRequestId can
+  be any unique string, for example, a date/time stamp.
 - `name`: A name that lets you identify the domain list to manage and use it.
 
 # Optional Parameters
@@ -133,11 +133,11 @@ list.
 # Arguments
 - `action`: The action that DNS Firewall should take on a DNS query when it matches one of
   the domains in the rule's domain list:    ALLOW - Permit the request to go through.
-  ALERT - Permit the request and send metrics and log to Cloud Watch.    BLOCK - Disallow the
-  request. This option requires additional details in the rule's BlockResponse.
+  ALERT - Permit the request and send metrics and logs to Cloud Watch.    BLOCK - Disallow
+  the request. This option requires additional details in the rule's BlockResponse.
 - `creator_request_id`: A unique string that identifies the request and that allows you to
-  retry failed requests without the risk of executing the operation twice. CreatorRequestId
-  can be any unique string, for example, a date/time stamp.
+  retry failed requests without the risk of running the operation twice. CreatorRequestId can
+  be any unique string, for example, a date/time stamp.
 - `firewall_domain_list_id`: The ID of the domain list that you want to use in the rule.
 - `firewall_rule_group_id`: The unique identifier of the firewall rule group where you want
   to create the rule.
@@ -163,7 +163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is
   OVERRIDE.
 - `"BlockResponse"`: The way that you want DNS Firewall to block the request, used with the
-  rule aciton setting BLOCK.     NODATA - Respond indicating that the query was successful,
+  rule action setting BLOCK.     NODATA - Respond indicating that the query was successful,
   but no response is available for it.    NXDOMAIN - Respond indicating that the domain name
   that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response.
   This option requires custom handling details in the rule's BlockOverride* settings.    This
@@ -181,7 +181,7 @@ can add rules to the new rule group by calling CreateFirewallRule.
 
 # Arguments
 - `creator_request_id`: A unique string defined by you to identify the request. This allows
-  you to retry failed requests without the risk of executing the operation twice. This can be
+  you to retry failed requests without the risk of running the operation twice. This can be
   any unique string, for example, a timestamp.
 - `name`: A name that lets you identify the rule group, to manage and use it.
 
@@ -204,7 +204,7 @@ service for a VPC to your network.
 
 # Arguments
 - `creator_request_id`: A unique string that identifies the request and that allows failed
-  requests to be retried without the risk of executing the operation twice. CreatorRequestId
+  requests to be retried without the risk of running the operation twice. CreatorRequestId
   can be any unique string, for example, a date/time stamp.
 - `direction`: Specify the applicable value:    INBOUND: Resolver forwards DNS queries to
   the DNS service for a VPC from your network    OUTBOUND: Resolver forwards DNS queries from
@@ -244,7 +244,7 @@ the configuration.
 
 # Arguments
 - `creator_request_id`: A unique string that identifies the request and that allows failed
-  requests to be retried without the risk of executing the operation twice. CreatorRequestId
+  requests to be retried without the risk of running the operation twice. CreatorRequestId
   can be any unique string, for example, a date/time stamp.
 - `destination_arn`: The ARN of the resource that you want Resolver to send query logs. You
   can send query logs to an S3 bucket, a CloudWatch Logs log group, or a Kinesis Data
@@ -254,7 +254,7 @@ the configuration.
   arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*     Kinesis
   Data Firehose delivery stream:  arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name
   
-- `name`: The name that you want to give the query logging configuration
+- `name`: The name that you want to give the query logging configuration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -274,7 +274,7 @@ addresses of the DNS resolvers in your network.
 
 # Arguments
 - `creator_request_id`: A unique string that identifies the request and that allows failed
-  requests to be retried without the risk of executing the operation twice. CreatorRequestId
+  requests to be retried without the risk of running the operation twice. CreatorRequestId
   can be any unique string, for example, a date/time stamp.
 - `domain_name`: DNS queries for this domain name are forwarded to the IP addresses that
   you specify in TargetIps. If a query matches multiple Resolver rules (example.com and
@@ -297,7 +297,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   route DNS queries to the IP addresses that you specify in TargetIps.
 - `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
 - `"TargetIps"`: The IPs that you want Resolver to forward DNS queries to. You can specify
-  only IPv4 addresses. Separate IP addresses with a comma.  TargetIps is available only when
+  only IPv4 addresses. Separate IP addresses with a space.  TargetIps is available only when
   the value of Rule type is FORWARD.
 """
 create_resolver_rule(CreatorRequestId, DomainName, RuleType; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType); aws_config=aws_config)
@@ -437,9 +437,9 @@ disassociate_resolver_endpoint_ip_address(IpAddress, ResolverEndpointId, params:
 
 Disassociates a VPC from a query logging configuration.  Before you can delete a query
 logging configuration, you must first disassociate all VPCs from the configuration. If you
-used Resource Access Manager (RAM) to share a query logging configuration with other
-accounts, VPCs can be disassociated from the configuration in the following ways:   The
-accounts that you shared the configuration with can disassociate VPCs from the
+used AWS Resource Access Manager (AWS RAM) to share a query logging configuration with
+other accounts, VPCs can be disassociated from the configuration in the following ways:
+The accounts that you shared the configuration with can disassociate VPCs from the
 configuration.   You can stop sharing the configuration.
 
 # Arguments
@@ -474,11 +474,10 @@ disassociate_resolver_rule(ResolverRuleId, VPCId, params::AbstractDict{String}; 
     get_firewall_config(resource_id, params::Dict{String,<:Any})
 
 Retrieves the configuration of the firewall behavior provided by DNS Firewall for a single
-Amazon virtual private cloud (VPC).
+VPC from Amazon Virtual Private Cloud (Amazon VPC).
 
 # Arguments
-- `resource_id`: The ID of the Amazon virtual private cloud (VPC) that the configuration is
-  for.
+- `resource_id`: The ID of the VPC from Amazon VPC that the configuration is for.
 
 """
 get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("GetFirewallConfig", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
@@ -531,7 +530,7 @@ get_firewall_rule_group_association(FirewallRuleGroupAssociationId, params::Abst
 
 Returns the AWS Identity and Access Management (AWS IAM) policy for sharing the specified
 rule group. You can use the policy to share the rule group using AWS Resource Access
-Manager (RAM).
+Manager (AWS RAM).
 
 # Arguments
 - `arn`: The ARN (Amazon Resource Name) for the rule group.
@@ -674,9 +673,9 @@ must be from 1-255 characters in length.
 
 # Arguments
 - `domain_file_url`: The fully qualified URL or URI of the file stored in Amazon Simple
-  Storage Service (S3) that contains the list of domains to import. The file must be in an S3
-  bucket that's in the same Region as your DNS Firewall. The file must be a text file and
-  must contain a single domain per line.
+  Storage Service (Amazon S3) that contains the list of domains to import. The file must be
+  in an S3 bucket that's in the same Region as your DNS Firewall. The file must be a text
+  file and must contain a single domain per line.
 - `firewall_domain_list_id`: The ID of the domain list that you want to modify with the
   import operation.
 - `operation`: What you want DNS Firewall to do with the domains that are listed in the
@@ -784,7 +783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior request in your next request.
 - `"Priority"`: The setting that determines the processing order of the rule group among
   the rule groups that are associated with a single VPC. DNS Firewall filters VPC traffic
-  starting from rule group with the lowest numeric priority setting.
+  starting from the rule group with the lowest numeric priority setting.
 - `"Status"`: The association Status setting that you want DNS Firewall to filter on for
   the list. If you don't specify this, then DNS Firewall returns all associations, regardless
   of status.
@@ -1092,7 +1091,7 @@ list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::Ab
     put_firewall_rule_group_policy(arn, firewall_rule_group_policy, params::Dict{String,<:Any})
 
 Attaches an AWS Identity and Access Management (AWS IAM) policy for sharing the rule group.
-You can use the policy to share the rule group using AWS Resource Access Manager (RAM).
+You can use the policy to share the rule group using AWS Resource Access Manager (AWS RAM).
 
 # Arguments
 - `arn`: The ARN (Amazon Resource Name) for the rule group that you want to share.
@@ -1191,7 +1190,7 @@ untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::A
     update_firewall_config(firewall_fail_open, resource_id, params::Dict{String,<:Any})
 
 Updates the configuration of the firewall behavior provided by DNS Firewall for a single
-Amazon virtual private cloud (VPC).
+VPC from Amazon Virtual Private Cloud (Amazon VPC).
 
 # Arguments
 - `firewall_fail_open`: Determines how Route 53 Resolver handles queries during failures,
@@ -1202,8 +1201,7 @@ Amazon virtual private cloud (VPC).
   favors availability over security. DNS Firewall allows queries to proceed if it is unable
   to properly evaluate them.    This behavior is only enforced for VPCs that have at least
   one DNS Firewall rule group association.
-- `resource_id`: The ID of the Amazon virtual private cloud (VPC) that the configuration is
-  for.
+- `resource_id`: The ID of the VPC that the configuration is for.
 
 """
 update_firewall_config(FirewallFailOpen, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = route53resolver("UpdateFirewallConfig", Dict{String, Any}("FirewallFailOpen"=>FirewallFailOpen, "ResourceId"=>ResourceId); aws_config=aws_config)
@@ -1288,7 +1286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the rule group association.
 - `"Priority"`: The setting that determines the processing order of the rule group among
   the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic
-  starting from rule group with the lowest numeric priority setting.  You must specify a
+  starting from the rule group with the lowest numeric priority setting.  You must specify a
   unique priority for each rule group that you associate with a single VPC. To make it easier
   to insert rule groups later, leave space between the numbers, for example, use 100, 200,
   and so on. You can change the priority setting for a rule group association after you

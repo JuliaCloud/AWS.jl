@@ -138,7 +138,7 @@ Remove tags from a resource.
 
 # Arguments
 - `resource_arn`: Specify the resourceArn for the resource from which to remove the tags.
-- `tag_keys`: pecify the keys for the tags to remove from the resource.
+- `tag_keys`: Specify the keys for the tags to remove from the resource.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = braket("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)

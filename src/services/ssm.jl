@@ -1948,11 +1948,12 @@ ResetServiceSetting to change the value back to the original value defined by th
 service team. Query the current service setting for the account.
 
 # Arguments
-- `setting_id`: The ID of the service setting to get. The setting ID can be
-  /ssm/automation/customer-script-log-destination,
-  /ssm/automation/customer-script-log-group-name,
-  /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled,
-  or /ssm/managed-instance/activation-tier.
+- `setting_id`: The ID of the service setting to get. The setting ID can be one of the
+  following.    /ssm/automation/customer-script-log-destination
+  /ssm/automation/customer-script-log-group-name
+  /ssm/documents/console/public-sharing-permission
+  /ssm/parameter-store/default-parameter-tier
+  /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
 
 """
 get_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetServiceSetting", Dict{String, Any}("SettingId"=>SettingId); aws_config=aws_config)
@@ -2711,12 +2712,11 @@ default value as provisioned by the AWS service team.
 
 # Arguments
 - `setting_id`: The Amazon Resource Name (ARN) of the service setting to reset. The setting
-  ID can be /ssm/automation/customer-script-log-destination,
-  /ssm/automation/customer-script-log-group-name,
-  /ssm/parameter-store/default-parameter-tier, /ssm/parameter-store/high-throughput-enabled,
-  or /ssm/managed-instance/activation-tier. For example,
-  arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enable
-  d.
+  ID can be one of the following.    /ssm/automation/customer-script-log-destination
+  /ssm/automation/customer-script-log-group-name
+  /ssm/documents/console/public-sharing-permission
+  /ssm/parameter-store/default-parameter-tier
+  /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
 
 """
 reset_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ResetServiceSetting", Dict{String, Any}("SettingId"=>SettingId); aws_config=aws_config)
@@ -3526,6 +3526,7 @@ service setting for the account.
   d. The setting ID can be one of the following.
   /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
+  /ssm/documents/console/public-sharing-permission
   /ssm/parameter-store/default-parameter-tier
   /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
 - `setting_value`: The new value to specify for the service setting. For the
@@ -3535,7 +3536,9 @@ service setting for the account.
   setting IDs, the setting value can be true or false. For the
   /ssm/automation/customer-script-log-destination setting ID, the setting value can be
   CloudWatch. For the /ssm/automation/customer-script-log-group-name setting ID, the setting
-  value can be the name of a CloudWatch Logs log group.
+  value can be the name of a CloudWatch Logs log group. For the
+  /ssm/documents/console/public-sharing-permission setting ID, the setting value can be
+  Enable or Disable.
 
 """
 update_service_setting(SettingId, SettingValue; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateServiceSetting", Dict{String, Any}("SettingId"=>SettingId, "SettingValue"=>SettingValue); aws_config=aws_config)

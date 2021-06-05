@@ -64,6 +64,38 @@ describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, Start
 describe_dimension_keys(EndTime, GroupBy, Identifier, Metric, ServiceType, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("DescribeDimensionKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "GroupBy"=>GroupBy, "Identifier"=>Identifier, "Metric"=>Metric, "ServiceType"=>ServiceType, "StartTime"=>StartTime), params)); aws_config=aws_config)
 
 """
+    get_dimension_key_details(group, group_identifier, identifier, service_type)
+    get_dimension_key_details(group, group_identifier, identifier, service_type, params::Dict{String,<:Any})
+
+Get the attributes of the specified dimension group for a DB instance or data source. For
+example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the
+dimension db.sql.statement associated with this ID. This operation is useful because
+GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement
+text.
+
+# Arguments
+- `group`: The name of the dimension group. The only valid value is db.sql. Performance
+  Insights searches the specified group for the dimension group ID.
+- `group_identifier`: The ID of the dimension group from which to retrieve dimension
+  details. For dimension group db.sql, the group ID is db.sql.id.
+- `identifier`: The ID for a data source from which to gather dimension data. This ID must
+  be immutable and unique within an AWS Region. When a DB instance is the data source,
+  specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+- `service_type`: The AWS service for which Performance Insights returns data. The only
+  valid value is RDS.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RequestedDimensions"`: A list of dimensions to retrieve the detail data for within the
+  given dimension group. For the dimension group db.sql, specify either the full dimension
+  name db.sql.statement or the short dimension name statement. If you don't specify this
+  parameter, Performance Insights returns all dimension data within the specified dimension
+  group.
+"""
+get_dimension_key_details(Group, GroupIdentifier, Identifier, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetDimensionKeyDetails", Dict{String, Any}("Group"=>Group, "GroupIdentifier"=>GroupIdentifier, "Identifier"=>Identifier, "ServiceType"=>ServiceType); aws_config=aws_config)
+get_dimension_key_details(Group, GroupIdentifier, Identifier, ServiceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = pi("GetDimensionKeyDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "GroupIdentifier"=>GroupIdentifier, "Identifier"=>Identifier, "ServiceType"=>ServiceType), params)); aws_config=aws_config)
+
+"""
     get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time)
     get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time, params::Dict{String,<:Any})
 

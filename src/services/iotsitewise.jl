@@ -244,9 +244,16 @@ Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alarms"`: Contains the configuration information of an alarm created in an AWS IoT
+  SiteWise Monitor portal. You can use the alarm to monitor an asset property and get
+  notified when the asset property value is outside a specified range. For more information,
+  see .
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
+- `"notificationSenderEmail"`: The email address that sends alarm notifications.  If you
+  use the AWS IoT Events managed AWS Lambda function to manage your emails, you must verify
+  the sender email address in Amazon SES.
 - `"portalAuthMode"`: The service to use to authenticate users to the portal. Choose from
   the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users
   and manage user permissions. Before you can create a portal that uses AWS SSO, you must
@@ -1192,9 +1199,14 @@ Updates an AWS IoT SiteWise Monitor portal.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"alarms"`: Contains the configuration information of an alarm created in an AWS IoT
+  SiteWise Monitor portal. You can use the alarm to monitor an asset property and get
+  notified when the asset property value is outside a specified range. For more information,
+  see .
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
+- `"notificationSenderEmail"`: The email address that sends alarm notifications.
 - `"portalDescription"`: A new description for the portal.
 - `"portalLogoImage"`:
 """

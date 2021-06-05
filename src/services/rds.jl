@@ -712,7 +712,15 @@ only applies to Aurora DB clusters.
   parameter group can be associated with one and only one DB cluster parameter group family,
   and can be applied only to a DB cluster running a database engine and engine version
   compatible with that DB cluster parameter group family.  Aurora MySQL  Example: aurora5.6,
-  aurora-mysql5.7   Aurora PostgreSQL  Example: aurora-postgresql9.6
+  aurora-mysql5.7   Aurora PostgreSQL  Example: aurora-postgresql9.6  To list all of the
+  available parameter group families for a DB engine, use the following command:  aws rds
+  describe-db-engine-versions --query \"DBEngineVersions[].DBParameterGroupFamily\" --engine
+  &lt;engine&gt;  For example, to list all of the available parameter group families for the
+  Aurora PostgreSQL DB engine, use the following command:  aws rds
+  describe-db-engine-versions --query \"DBEngineVersions[].DBParameterGroupFamily\" --engine
+  aurora-postgresql   The output contains duplicates.  The following are the valid DB engine
+  values:    aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL
+  5.7-compatible Aurora)    aurora-postgresql
 - `description`: The description for the DB cluster parameter group.
 
 # Optional Parameters
@@ -1246,9 +1254,17 @@ parameter group has been created or modified.
 - `dbparameter_group_family`: The DB parameter group family name. A DB parameter group can
   be associated with one and only one DB parameter group family, and can be applied only to a
   DB instance running a database engine and engine version compatible with that DB parameter
-  group family. To list all of the available parameter group families, use the following
+  group family. To list all of the available parameter group families for a DB engine, use
+  the following command:  aws rds describe-db-engine-versions --query
+  \"DBEngineVersions[].DBParameterGroupFamily\" --engine &lt;engine&gt;  For example, to list
+  all of the available parameter group families for the MySQL DB engine, use the following
   command:  aws rds describe-db-engine-versions --query
-  \"DBEngineVersions[].DBParameterGroupFamily\"   The output contains duplicates.
+  \"DBEngineVersions[].DBParameterGroupFamily\" --engine mysql   The output contains
+  duplicates.  The following are the valid DB engine values:    aurora (for MySQL
+  5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)
+  aurora-postgresql     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1
+  oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
+  
 - `dbparameter_group_name`: The name of the DB parameter group. Constraints:   Must be 1 to
   255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a
   hyphen or contain two consecutive hyphens    This value is stored as a lowercase string.
@@ -3374,30 +3390,42 @@ modify_dbcluster_endpoint(DBClusterEndpointIdentifier, params::AbstractDict{Stri
  Modifies the parameters of a DB cluster parameter group. To modify more than one
 parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod.
 A maximum of 20 parameters can be modified in a single request.  For more information on
-Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   Changes to
-dynamic parameters are applied immediately. Changes to static parameters require a reboot
-without failover to the DB cluster associated with the parameter group before the change
-can take effect.   After you create a DB cluster parameter group, you should wait at least
-5 minutes before creating your first DB cluster that uses that DB cluster parameter group
-as the default parameter group. This allows Amazon RDS to fully complete the create action
-before the parameter group is used as the default for a new DB cluster. This is especially
-important for parameters that are critical when creating the default database for a DB
-cluster, such as the character set for the default database defined by the
-character_set_database parameter. You can use the Parameter Groups option of the Amazon RDS
-console or the DescribeDBClusterParameters action to verify that your DB cluster parameter
-group has been created or modified. If the modified DB cluster parameter group is used by
-an Aurora Serverless cluster, Aurora applies the update immediately. The cluster restart
-might interrupt your workload. In that case, your application must reopen any connections
-and retry any transactions that were active when the parameter changes took effect.   This
+Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   After you
+create a DB cluster parameter group, you should wait at least 5 minutes before creating
+your first DB cluster that uses that DB cluster parameter group as the default parameter
+group. This allows Amazon RDS to fully complete the create action before the parameter
+group is used as the default for a new DB cluster. This is especially important for
+parameters that are critical when creating the default database for a DB cluster, such as
+the character set for the default database defined by the character_set_database parameter.
+You can use the Parameter Groups option of the Amazon RDS console or the
+DescribeDBClusterParameters action to verify that your DB cluster parameter group has been
+created or modified. If the modified DB cluster parameter group is used by an Aurora
+Serverless cluster, Aurora applies the update immediately. The cluster restart might
+interrupt your workload. In that case, your application must reopen any connections and
+retry any transactions that were active when the parameter changes took effect.   This
 action only applies to Aurora DB clusters.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to modify.
-- `parameter`: A list of parameters in the DB cluster parameter group to modify.
+- `parameter`: A list of parameters in the DB cluster parameter group to modify. Valid
+  Values (for the application method): immediate | pending-reboot   You can use the immediate
+  value with dynamic parameters only. You can use the pending-reboot value for both dynamic
+  and static parameters. When the application method is immediate, changes to dynamic
+  parameters are applied immediately to the DB clusters associated with the parameter group.
+  When the application method is pending-reboot, changes to dynamic and static parameters are
+  applied after a reboot without failover to the DB clusters associated with the parameter
+  group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Parameters"`: A list of parameters in the DB cluster parameter group to modify.
+- `"Parameters"`: A list of parameters in the DB cluster parameter group to modify. Valid
+  Values (for the application method): immediate | pending-reboot   You can use the immediate
+  value with dynamic parameters only. You can use the pending-reboot value for both dynamic
+  and static parameters. When the application method is immediate, changes to dynamic
+  parameters are applied immediately to the DB clusters associated with the parameter group.
+  When the application method is pending-reboot, changes to dynamic and static parameters are
+  applied after a reboot without failover to the DB clusters associated with the parameter
+  group.
 """
 modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter); aws_config=aws_config)
 modify_dbcluster_parameter_group(DBClusterParameterGroupName, Parameter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config)
@@ -3746,38 +3774,42 @@ modify_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config
 
  Modifies the parameters of a DB parameter group. To modify more than one parameter, submit
 a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20
-parameters can be modified in a single request.   Changes to dynamic parameters are applied
-immediately. Changes to static parameters require a reboot without failover to the DB
-instance associated with the parameter group before the change can take effect.   After you
-modify a DB parameter group, you should wait at least 5 minutes before creating your first
-DB instance that uses that DB parameter group as the default parameter group. This allows
-Amazon RDS to fully complete the modify action before the parameter group is used as the
-default for a new DB instance. This is especially important for parameters that are
-critical when creating the default database for a DB instance, such as the character set
-for the default database defined by the character_set_database parameter. You can use the
-Parameter Groups option of the Amazon RDS console or the DescribeDBParameters command to
-verify that your DB parameter group has been created or modified.
+parameters can be modified in a single request.   After you modify a DB parameter group,
+you should wait at least 5 minutes before creating your first DB instance that uses that DB
+parameter group as the default parameter group. This allows Amazon RDS to fully complete
+the modify action before the parameter group is used as the default for a new DB instance.
+This is especially important for parameters that are critical when creating the default
+database for a DB instance, such as the character set for the default database defined by
+the character_set_database parameter. You can use the Parameter Groups option of the Amazon
+RDS console or the DescribeDBParameters command to verify that your DB parameter group has
+been created or modified.
 
 # Arguments
 - `dbparameter_group_name`: The name of the DB parameter group. Constraints:   If supplied,
   must match the name of an existing DBParameterGroup.
-- `parameter`: An array of parameter names, values, and the apply method for the parameter
-  update. At least one parameter name, value, and apply method must be supplied; later
-  arguments are optional. A maximum of 20 parameters can be modified in a single request.
-  Valid Values (for the application method): immediate | pending-reboot   You can use the
-  immediate value with dynamic parameters only. You can use the pending-reboot value for both
-  dynamic and static parameters, and changes are applied when you reboot the DB instance
-  without failover.
+- `parameter`: An array of parameter names, values, and the application methods for the
+  parameter update. At least one parameter name, value, and application method method must be
+  supplied; later arguments are optional. A maximum of 20 parameters can be modified in a
+  single request. Valid Values (for the application method): immediate | pending-reboot   You
+  can use the immediate value with dynamic parameters only. You can use the pending-reboot
+  value for both dynamic and static parameters. When the application method is immediate,
+  changes to dynamic parameters are applied immediately to the DB instances associated with
+  the parameter group. When the application method is pending-reboot, changes to dynamic and
+  static parameters are applied after a reboot without failover to the DB instances
+  associated with the parameter group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Parameters"`: An array of parameter names, values, and the apply method for the
-  parameter update. At least one parameter name, value, and apply method must be supplied;
-  later arguments are optional. A maximum of 20 parameters can be modified in a single
-  request. Valid Values (for the application method): immediate | pending-reboot   You can
-  use the immediate value with dynamic parameters only. You can use the pending-reboot value
-  for both dynamic and static parameters, and changes are applied when you reboot the DB
-  instance without failover.
+- `"Parameters"`: An array of parameter names, values, and the application methods for the
+  parameter update. At least one parameter name, value, and application method method must be
+  supplied; later arguments are optional. A maximum of 20 parameters can be modified in a
+  single request. Valid Values (for the application method): immediate | pending-reboot   You
+  can use the immediate value with dynamic parameters only. You can use the pending-reboot
+  value for both dynamic and static parameters. When the application method is immediate,
+  changes to dynamic parameters are applied immediately to the DB instances associated with
+  the parameter group. When the application method is pending-reboot, changes to dynamic and
+  static parameters are applied after a reboot without failover to the DB instances
+  associated with the parameter group.
 """
 modify_dbparameter_group(DBParameterGroupName, Parameter; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter); aws_config=aws_config)
 modify_dbparameter_group(DBParameterGroupName, Parameter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rds("ModifyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter), params)); aws_config=aws_config)

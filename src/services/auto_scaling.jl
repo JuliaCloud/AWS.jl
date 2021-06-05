@@ -109,8 +109,9 @@ batch_put_scheduled_update_group_action(AutoScalingGroupName, ScheduledUpdateGro
 
 Cancels an instance refresh operation in progress. Cancellation does not roll back any
 replacements that have already been completed, but it prevents new replacements from being
-started.  For more information, see Replacing Auto Scaling instances based on an instance
-refresh in the Amazon EC2 Auto Scaling User Guide.
+started.  This operation is part of the instance refresh feature in Amazon EC2 Auto
+Scaling, which helps you update instances in your Auto Scaling group after you make
+configuration changes.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -254,10 +255,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Availability Zone. You cannot specify multiple Availability Zones and a placement group.
   For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
 - `"ServiceLinkedRoleARN"`: The Amazon Resource Name (ARN) of the service-linked role that
-  the Auto Scaling group uses to call other AWS services on your behalf. By default, Amazon
-  EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it
-  creates if it does not exist. For more information, see Service-linked roles in the Amazon
-  EC2 Auto Scaling User Guide.
+  the Auto Scaling group uses to call other Amazon Web Services on your behalf. By default,
+  Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling,
+  which it creates if it does not exist. For more information, see Service-linked roles in
+  the Amazon EC2 Auto Scaling User Guide.
 - `"Tags"`: One or more tags. You can tag your Auto Scaling group and propagate the tags to
   the Amazon EC2 instances it launches. Tags are not propagated to Amazon EBS volumes. To add
   tags to Amazon EBS volumes, specify the tags in a launch template but use caution. If the
@@ -521,7 +522,8 @@ delete_tags(Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     delete_warm_pool(auto_scaling_group_name)
     delete_warm_pool(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Deletes the warm pool for the specified Auto Scaling group.
+Deletes the warm pool for the specified Auto Scaling group. For more information, see Warm
+pools for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -539,7 +541,7 @@ delete_warm_pool(AutoScalingGroupName, params::AbstractDict{String}; aws_config:
     describe_account_limits()
     describe_account_limits(params::Dict{String,<:Any})
 
-Describes the current Amazon EC2 Auto Scaling resource quotas for your AWS account. For
+Describes the current Amazon EC2 Auto Scaling resource quotas for your account. For
 information about requesting an increase, see Amazon EC2 Auto Scaling service quotas in the
 Amazon EC2 Auto Scaling User Guide.
 
@@ -551,10 +553,9 @@ describe_account_limits(params::AbstractDict{String}; aws_config::AbstractAWSCon
     describe_adjustment_types()
     describe_adjustment_types(params::Dict{String,<:Any})
 
-Describes the available adjustment types for Amazon EC2 Auto Scaling scaling policies.
-These settings apply to step scaling policies and simple scaling policies; they do not
-apply to target tracking scaling policies. The following adjustment types are supported:
-ChangeInCapacity   ExactCapacity   PercentChangeInCapacity
+Describes the available adjustment types for step scaling and simple scaling policies. The
+following adjustment types are supported:    ChangeInCapacity     ExactCapacity
+PercentChangeInCapacity
 
 """
 describe_adjustment_types(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAdjustmentTypes"; aws_config=aws_config)
@@ -564,9 +565,9 @@ describe_adjustment_types(params::AbstractDict{String}; aws_config::AbstractAWSC
     describe_auto_scaling_groups()
     describe_auto_scaling_groups(params::Dict{String,<:Any})
 
-Describes one or more Auto Scaling groups. This operation returns information about
-instances in Auto Scaling groups. To retrieve information about the instances in a warm
-pool, you must call the DescribeWarmPool API.
+Gets information about the Auto Scaling groups in the account and Region. This operation
+returns information about instances in Auto Scaling groups. To retrieve information about
+the instances in a warm pool, you must call the DescribeWarmPool API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -585,13 +586,13 @@ describe_auto_scaling_groups(params::AbstractDict{String}; aws_config::AbstractA
     describe_auto_scaling_instances()
     describe_auto_scaling_instances(params::Dict{String,<:Any})
 
-Describes one or more Auto Scaling instances.
+Gets information about the Auto Scaling instances in the account and Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InstanceIds"`: The IDs of the instances. You can specify up to MaxRecords IDs. If you
-  omit this parameter, all Auto Scaling instances are described. If you specify an ID that
-  does not exist, it is ignored with no error.
+- `"InstanceIds"`: The IDs of the instances. If you omit this parameter, all Auto Scaling
+  instances are described. If you specify an ID that does not exist, it is ignored with no
+  error. Array Members: Maximum number of 50 items.
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value
   is 50 and the maximum value is 50.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
@@ -614,16 +615,20 @@ describe_auto_scaling_notification_types(params::AbstractDict{String}; aws_confi
     describe_instance_refreshes(auto_scaling_group_name)
     describe_instance_refreshes(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Describes one or more instance refreshes. You can determine the status of a request by
-looking at the Status parameter. The following are the possible statuses:     Pending - The
-request was created, but the operation has not started.    InProgress - The operation is in
-progress.    Successful - The operation completed successfully.    Failed - The operation
-failed to complete. You can troubleshoot using the status reason and the scaling
-activities.     Cancelling - An ongoing operation is being cancelled. Cancellation does not
-roll back any replacements that have already been completed, but it prevents new
-replacements from being started.     Cancelled - The operation is cancelled.    For more
-information, see Replacing Auto Scaling instances based on an instance refresh in the
-Amazon EC2 Auto Scaling User Guide.
+Gets information about the instance refreshes for the specified Auto Scaling group. This
+operation is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps
+you update instances in your Auto Scaling group after you make configuration changes. To
+help you determine the status of an instance refresh, this operation returns information
+about the instance refreshes you previously initiated, including their status, end time,
+the percentage of the instance refresh that is complete, and the number of instances
+remaining to update before the instance refresh is complete. The following are the possible
+statuses:     Pending - The request was created, but the operation has not started.
+InProgress - The operation is in progress.    Successful - The operation completed
+successfully.    Failed - The operation failed to complete. You can troubleshoot using the
+status reason and the scaling activities.     Cancelling - An ongoing operation is being
+cancelled. Cancellation does not roll back any replacements that have already been
+completed, but it prevents new replacements from being started.     Cancelled - The
+operation is cancelled.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -643,12 +648,12 @@ describe_instance_refreshes(AutoScalingGroupName, params::AbstractDict{String}; 
     describe_launch_configurations()
     describe_launch_configurations(params::Dict{String,<:Any})
 
-Describes one or more launch configurations.
+Gets information about the launch configurations in the account and Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"LaunchConfigurationNames"`: The launch configuration names. If you omit this parameter,
-  all launch configurations are described.
+  all launch configurations are described. Array Members: Maximum number of 50 items.
 - `"MaxRecords"`: The maximum number of items to return with this call. The default value
   is 50 and the maximum value is 100.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
@@ -662,7 +667,7 @@ describe_launch_configurations(params::AbstractDict{String}; aws_config::Abstrac
     describe_lifecycle_hook_types(params::Dict{String,<:Any})
 
 Describes the available types of lifecycle hooks. The following hook types are supported:
-autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING
+ autoscaling:EC2_INSTANCE_LAUNCHING     autoscaling:EC2_INSTANCE_TERMINATING
 
 """
 describe_lifecycle_hook_types(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeLifecycleHookTypes"; aws_config=aws_config)
@@ -672,7 +677,7 @@ describe_lifecycle_hook_types(params::AbstractDict{String}; aws_config::Abstract
     describe_lifecycle_hooks(auto_scaling_group_name)
     describe_lifecycle_hooks(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Describes the lifecycle hooks for the specified Auto Scaling group.
+Gets information about the lifecycle hooks for the specified Auto Scaling group.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -689,7 +694,22 @@ describe_lifecycle_hooks(AutoScalingGroupName, params::AbstractDict{String}; aws
     describe_load_balancer_target_groups(auto_scaling_group_name)
     describe_load_balancer_target_groups(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Describes the target groups for the specified Auto Scaling group.
+Gets information about the load balancer target groups for the specified Auto Scaling
+group. To determine the availability of registered instances, use the State element in the
+response. When you attach a target group to an Auto Scaling group, the initial State value
+is Adding. The state transitions to Added after all Auto Scaling instances are registered
+with the target group. If Elastic Load Balancing health checks are enabled for the Auto
+Scaling group, the state transitions to InService after at least one Auto Scaling instance
+passes the health check. When the target group is in the InService state, Amazon EC2 Auto
+Scaling can terminate and replace any instances that are reported as unhealthy. If no
+registered instances pass the health checks, the target group doesn't enter the InService
+state.  Target groups also have an InService state if you attach them in the
+CreateAutoScalingGroup API call. If your target group state is InService, but it is not
+working properly, check the scaling activities by calling DescribeScalingActivities and
+take any corrective actions necessary. For help with failed health checks, see
+Troubleshooting Amazon EC2 Auto Scaling: Health checks in the Amazon EC2 Auto Scaling User
+Guide. For more information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the
+Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -708,9 +728,24 @@ describe_load_balancer_target_groups(AutoScalingGroupName, params::AbstractDict{
     describe_load_balancers(auto_scaling_group_name)
     describe_load_balancers(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Describes the load balancers for the specified Auto Scaling group. This operation describes
-only Classic Load Balancers. If you have Application Load Balancers, Network Load
-Balancers, or Gateway Load Balancers, use the DescribeLoadBalancerTargetGroups API instead.
+Gets information about the load balancers for the specified Auto Scaling group. This
+operation describes only Classic Load Balancers. If you have Application Load Balancers,
+Network Load Balancers, or Gateway Load Balancers, use the DescribeLoadBalancerTargetGroups
+API instead. To determine the availability of registered instances, use the State element
+in the response. When you attach a load balancer to an Auto Scaling group, the initial
+State value is Adding. The state transitions to Added after all Auto Scaling instances are
+registered with the load balancer. If Elastic Load Balancing health checks are enabled for
+the Auto Scaling group, the state transitions to InService after at least one Auto Scaling
+instance passes the health check. When the load balancer is in the InService state, Amazon
+EC2 Auto Scaling can terminate and replace any instances that are reported as unhealthy. If
+no registered instances pass the health checks, the load balancer doesn't enter the
+InService state.  Load balancers also have an InService state if you attach them in the
+CreateAutoScalingGroup API call. If your load balancer state is InService, but it is not
+working properly, check the scaling activities by calling DescribeScalingActivities and
+take any corrective actions necessary. For help with failed health checks, see
+Troubleshooting Amazon EC2 Auto Scaling: Health checks in the Amazon EC2 Auto Scaling User
+Guide. For more information, see Elastic Load Balancing and Amazon EC2 Auto Scaling in the
+Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -741,7 +776,8 @@ describe_metric_collection_types(params::AbstractDict{String}; aws_config::Abstr
     describe_notification_configurations()
     describe_notification_configurations(params::Dict{String,<:Any})
 
-Describes the notification actions associated with the specified Auto Scaling group.
+Gets information about the Amazon SNS notifications that are configured for one or more
+Auto Scaling groups.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -758,7 +794,7 @@ describe_notification_configurations(params::AbstractDict{String}; aws_config::A
     describe_policies()
     describe_policies(params::Dict{String,<:Any})
 
-Describes the policies for the specified Auto Scaling group.
+Gets information about the scaling policies in the account and Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -769,8 +805,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from a previous call.)
 - `"PolicyNames"`: The names of one or more policies. If you omit this parameter, all
   policies are described. If a group name is provided, the results are limited to that group.
-  This list is limited to 50 items. If you specify an unknown policy name, it is ignored with
-  no error.
+  If you specify an unknown policy name, it is ignored with no error. Array Members: Maximum
+  number of 50 items.
 - `"PolicyTypes"`: One or more policy types. The valid values are SimpleScaling,
   StepScaling, TargetTrackingScaling, and PredictiveScaling.
 """
@@ -781,18 +817,21 @@ describe_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     describe_scaling_activities()
     describe_scaling_activities(params::Dict{String,<:Any})
 
-Describes one or more scaling activities for the specified Auto Scaling group. To view the
-scaling activities from the Amazon EC2 Auto Scaling console, choose the Activity tab of the
-Auto Scaling group. When scaling events occur, you see scaling activity messages in the
-Activity history. For more information, see Verifying a scaling activity for an Auto
-Scaling group in the Amazon EC2 Auto Scaling User Guide.
+Gets information about the scaling activities in the account and Region. When scaling
+events occur, you see a record of the scaling activity in the scaling activities. For more
+information, see Verifying a scaling activity for an Auto Scaling group in the Amazon EC2
+Auto Scaling User Guide. If the scaling event succeeds, the value of the StatusCode element
+in the response is Successful. If an attempt to launch instances failed, the StatusCode
+value is Failed or Cancelled and the StatusMessage element in the response indicates the
+cause of the failure. For help interpreting the StatusMessage, see Troubleshooting Amazon
+EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ActivityIds"`: The activity IDs of the desired scaling activities. You can specify up
-  to 50 IDs. If you omit this parameter, all activities for the past six weeks are described.
-  If unknown activities are requested, they are ignored with no error. If you specify an Auto
-  Scaling group, the results are limited to that group.
+- `"ActivityIds"`: The activity IDs of the desired scaling activities. If you omit this
+  parameter, all activities for the past six weeks are described. If unknown activities are
+  requested, they are ignored with no error. If you specify an Auto Scaling group, the
+  results are limited to that group. Array Members: Maximum number of 50 IDs.
 - `"AutoScalingGroupName"`: The name of the Auto Scaling group.
 - `"IncludeDeletedGroups"`: Indicates whether to include scaling activity from deleted Auto
   Scaling groups.
@@ -819,9 +858,9 @@ describe_scaling_process_types(params::AbstractDict{String}; aws_config::Abstrac
     describe_scheduled_actions()
     describe_scheduled_actions(params::Dict{String,<:Any})
 
-Describes the actions scheduled for your Auto Scaling group that haven't run or that have
-not reached their end time. To describe the actions that have already run, call the
-DescribeScalingActivities API.
+Gets information about the scheduled actions that haven't run or that have not reached
+their end time. To describe the scaling activities for scheduled actions that have already
+run, call the DescribeScalingActivities API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -832,9 +871,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 50 and the maximum value is 100.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"ScheduledActionNames"`: The names of one or more scheduled actions. You can specify up
-  to 50 actions. If you omit this parameter, all scheduled actions are described. If you
-  specify an unknown scheduled action, it is ignored with no error.
+- `"ScheduledActionNames"`: The names of one or more scheduled actions. If you omit this
+  parameter, all scheduled actions are described. If you specify an unknown scheduled action,
+  it is ignored with no error. Array Members: Maximum number of 50 actions.
 - `"StartTime"`: The earliest scheduled start time to return. If scheduled action names are
   provided, this parameter is ignored.
 """
@@ -881,7 +920,8 @@ describe_termination_policy_types(params::AbstractDict{String}; aws_config::Abst
     describe_warm_pool(auto_scaling_group_name)
     describe_warm_pool(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Describes a warm pool and its instances.
+Gets information about a warm pool and its instances. For more information, see Warm pools
+for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1473,13 +1513,14 @@ set_instance_protection(AutoScalingGroupName, InstanceIds, ProtectedFromScaleIn,
     start_instance_refresh(auto_scaling_group_name, params::Dict{String,<:Any})
 
 Starts a new instance refresh operation, which triggers a rolling replacement of previously
-launched instances in the Auto Scaling group with a new group of instances. If successful,
-this call creates a new instance refresh request with a unique ID that you can use to track
-its progress. To query its status, call the DescribeInstanceRefreshes API. To describe the
-instance refreshes that have already run, call the DescribeInstanceRefreshes API. To cancel
-an instance refresh operation in progress, use the CancelInstanceRefresh API.  For more
-information, see Replacing Auto Scaling instances based on an instance refresh in the
-Amazon EC2 Auto Scaling User Guide.
+launched instances in the Auto Scaling group with a new group of instances. This operation
+is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update
+instances in your Auto Scaling group after you make configuration changes. If the call
+succeeds, it creates a new instance refresh request with a unique ID that you can use to
+track its progress. To query its status, call the DescribeInstanceRefreshes API. To
+describe the instance refreshes that have already run, call the DescribeInstanceRefreshes
+API. To cancel an instance refresh operation in progress, use the CancelInstanceRefresh
+API.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1636,7 +1677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Availability Zone. You cannot specify multiple Availability Zones and a placement group.
   For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
 - `"ServiceLinkedRoleARN"`: The Amazon Resource Name (ARN) of the service-linked role that
-  the Auto Scaling group uses to call other AWS services on your behalf. For more
+  the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more
   information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
 - `"TerminationPolicies"`: A policy or a list of policies that are used to select the
   instances to terminate. The policies are executed in the order that you list them. For more

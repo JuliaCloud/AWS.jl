@@ -37,10 +37,14 @@ CloudWatch. Any error messages related to processing the batch are sent to your 
 CloudWatch log.
 
 # Arguments
-- `documents`: One or more documents to add to the index.  Documents have the following
-  file size limits.   5 MB total size for inline documents   50 MB total size for files from
-  an S3 bucket   5 MB extracted text for any file   For more information about file size and
-  transaction per second quotas, see Quotas.
+- `documents`: One or more documents to add to the index. Documents can include custom
+  attributes. For example, 'DataSourceId' and 'DataSourceSyncJobId' are custom attributes
+  that provide information on the synchronization of documents running on a data source.
+  Note, 'DataSourceSyncJobId' could be an optional custom attribute as Amazon Kendra will use
+  the ID of a running sync job. Documents have the following file size limits.   5 MB total
+  size for inline documents   50 MB total size for files from an S3 bucket   5 MB extracted
+  text for any file   For more information about file size and transaction per second quotas,
+  see Quotas.
 - `index_id`: The identifier of the index to add the documents to. You need to create the
   index first using the CreateIndex operation.
 
@@ -51,6 +55,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 batch_put_document(Documents, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchPutDocument", Dict{String, Any}("Documents"=>Documents, "IndexId"=>IndexId); aws_config=aws_config)
 batch_put_document(Documents, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchPutDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Documents"=>Documents, "IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
+    clear_query_suggestions(index_id)
+    clear_query_suggestions(index_id, params::Dict{String,<:Any})
+
+Clears existing query suggestions from an index. This deletes existing suggestions only,
+not the queries in the query log. After you clear suggestions, Amazon Kendra learns new
+suggestions based on new queries added to the query log from the time you cleared
+suggestions. If you do not see any new suggestions, then please allow Amazon Kendra to
+collect enough queries to learn new suggestions.
+
+# Arguments
+- `index_id`: The identifier of the index you want to clear query suggestions from.
+
+"""
+clear_query_suggestions(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ClearQuerySuggestions", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
+clear_query_suggestions(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ClearQuerySuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
 
 """
     create_data_source(index_id, name, type)
@@ -165,6 +186,42 @@ create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) =
 create_index(Name, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
+    create_query_suggestions_block_list(index_id, name, role_arn, source_s3_path)
+    create_query_suggestions_block_list(index_id, name, role_arn, source_s3_path, params::Dict{String,<:Any})
+
+Creates a block list to exlcude certain queries from suggestions. Any query that contains
+words or phrases specified in the block list is blocked or filtered out from being shown as
+a suggestion. You need to provide the file location of your block list text file in your S3
+bucket. In your text file, enter each block word or phrase on a separate line. For
+information on the current quota limits for block lists, see Quotas for Amazon Kendra.
+
+# Arguments
+- `index_id`: The identifier of the index you want to create a query suggestions block list
+  for.
+- `name`: A user friendly name for the block list. For example, the block list named
+  'offensive-words' includes all offensive words that could appear in user queries and need
+  to be blocked from suggestions.
+- `role_arn`: The IAM (Identity and Access Management) role used by Amazon Kendra to access
+  the block list text file in your S3 bucket. You need permissions to the role ARN (Amazon
+  Resource Name). The role needs S3 read permissions to your file in S3 and needs to give STS
+  (Security Token Service) assume role permissions to Amazon Kendra.
+- `source_s3_path`: The S3 path to your block list text file in your S3 bucket. Each block
+  word or phrase should be on a separate line in a text file. For information on the current
+  quota limits for block lists, see Quotas for Amazon Kendra.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A token that you provide to identify the request to create a query
+  suggestions block list.
+- `"Description"`: A user-friendly description for the block list. For example, the
+  description \"List of all offensive words that can appear in user queries and need to be
+  blocked from suggestions.\"
+- `"Tags"`: A tag that you can assign to a block list that categorizes the block list.
+"""
+create_query_suggestions_block_list(IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateQuerySuggestionsBlockList", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "SourceS3Path"=>SourceS3Path, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_query_suggestions_block_list(IndexId, Name, RoleArn, SourceS3Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateQuerySuggestionsBlockList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "SourceS3Path"=>SourceS3Path, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
     create_thesaurus(index_id, name, role_arn, source_s3_path)
     create_thesaurus(index_id, name, role_arn, source_s3_path, params::Dict{String,<:Any})
 
@@ -236,6 +293,22 @@ delete_index(Id; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("De
 delete_index(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
+    delete_query_suggestions_block_list(id, index_id)
+    delete_query_suggestions_block_list(id, index_id, params::Dict{String,<:Any})
+
+Deletes a block list used for query suggestions for an index. A deleted block list might
+not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to
+add back the queries that were previously blocked.
+
+# Arguments
+- `id`: The unique identifier of the block list that needs to be deleted.
+- `index_id`: The identifier of the you want to delete a block list from.
+
+"""
+delete_query_suggestions_block_list(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteQuerySuggestionsBlockList", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
+delete_query_suggestions_block_list(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteQuerySuggestionsBlockList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
     delete_thesaurus(id, index_id)
     delete_thesaurus(id, index_id, params::Dict{String,<:Any})
 
@@ -291,6 +364,36 @@ describe_index(Id; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("
 describe_index(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
+    describe_query_suggestions_block_list(id, index_id)
+    describe_query_suggestions_block_list(id, index_id, params::Dict{String,<:Any})
+
+Describes a block list used for query suggestions for an index. This is used to check the
+current settings that are applied to a block list.
+
+# Arguments
+- `id`: The unique identifier of the block list.
+- `index_id`: The identifier of the index for the block list.
+
+"""
+describe_query_suggestions_block_list(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeQuerySuggestionsBlockList", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
+describe_query_suggestions_block_list(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeQuerySuggestionsBlockList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
+    describe_query_suggestions_config(index_id)
+    describe_query_suggestions_config(index_id, params::Dict{String,<:Any})
+
+Describes the settings of query suggestions for an index. This is used to check the current
+settings applied to query suggestions.
+
+# Arguments
+- `index_id`: The identifier of the index you want to describe query suggestions settings
+  for.
+
+"""
+describe_query_suggestions_config(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeQuerySuggestionsConfig", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
+describe_query_suggestions_config(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeQuerySuggestionsConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
     describe_thesaurus(id, index_id)
     describe_thesaurus(id, index_id, params::Dict{String,<:Any})
 
@@ -303,6 +406,28 @@ Describes an existing Amazon Kendra thesaurus.
 """
 describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeThesaurus", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
 describe_thesaurus(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
+    get_query_suggestions(index_id, query_text)
+    get_query_suggestions(index_id, query_text, params::Dict{String,<:Any})
+
+Fetches the queries that are suggested to your users.
+
+# Arguments
+- `index_id`: The identifier of the index you want to get query suggestions from.
+- `query_text`: The text of a user's query to generate query suggestions. A query is
+  suggested if the query prefix matches what a user starts to type as their query. Amazon
+  Kendra does not show any suggestions if a user types fewer than two characters or more than
+  60 characters. A query must also have at least one search result and contain at least one
+  word of more than four characters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxSuggestionsCount"`: The maximum number of query suggestions you want to show to your
+  users.
+"""
+get_query_suggestions(IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("GetQuerySuggestions", Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText); aws_config=aws_config)
+get_query_suggestions(IndexId, QueryText, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("GetQuerySuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText), params)); aws_config=aws_config)
 
 """
     list_data_source_sync_jobs(id, index_id)
@@ -381,6 +506,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_indices(; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListIndices"; aws_config=aws_config)
 list_indices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListIndices", params; aws_config=aws_config)
+
+"""
+    list_query_suggestions_block_lists(index_id)
+    list_query_suggestions_block_lists(index_id, params::Dict{String,<:Any})
+
+Lists the block lists used for query suggestions for an index. For information on the
+current quota limits for block lists, see Quotas for Amazon Kendra.
+
+# Arguments
+- `index_id`: The identifier of the index for a list of all block lists that exist for that
+  index. For information on the current quota limits for block lists, see Quotas for Amazon
+  Kendra.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of block lists to return.
+- `"NextToken"`: If the previous response was incomplete (because there is more data to
+  retrieve), Amazon Kendra returns a pagination token in the response. You can use this
+  pagination token to retrieve the next set of block lists (BlockListSummaryItems).
+"""
+list_query_suggestions_block_lists(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListQuerySuggestionsBlockLists", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
+list_query_suggestions_block_lists(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListQuerySuggestionsBlockLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
 
 """
     list_tags_for_resource(resource_arn)
@@ -608,6 +755,84 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_index(Id; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 update_index(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+
+"""
+    update_query_suggestions_block_list(id, index_id)
+    update_query_suggestions_block_list(id, index_id, params::Dict{String,<:Any})
+
+Updates a block list used for query suggestions for an index. Updates to a block list might
+not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to
+apply any updates to the block list. Other changes not related to the block list apply
+immediately. If a block list is updating, then you need to wait for the first update to
+finish before submitting another update. Amazon Kendra supports partial updates, so you
+only need to provide the fields you want to update.
+
+# Arguments
+- `id`: The unique identifier of a block list.
+- `index_id`: The identifier of the index for a block list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description for a block list.
+- `"Name"`: The name of a block list.
+- `"RoleArn"`: The IAM (Identity and Access Management) role used to access the block list
+  text file in S3.
+- `"SourceS3Path"`: The S3 path where your block list text file sits in S3. If you update
+  your block list and provide the same path to the block list text file in S3, then Amazon
+  Kendra reloads the file to refresh the block list. Amazon Kendra does not automatically
+  refresh your block list. You need to call the UpdateQuerySuggestionsBlockList API to
+  refresh you block list. If you update your block list, then Amazon Kendra asynchronously
+  refreshes all query suggestions with the latest content in the S3 file. This means changes
+  might not take effect immediately.
+"""
+update_query_suggestions_block_list(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateQuerySuggestionsBlockList", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
+update_query_suggestions_block_list(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateQuerySuggestionsBlockList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
+    update_query_suggestions_config(index_id)
+    update_query_suggestions_config(index_id, params::Dict{String,<:Any})
+
+Updates the settings of query suggestions for an index. Amazon Kendra supports partial
+updates, so you only need to provide the fields you want to update. If an update is
+currently processing (i.e. 'happening'), you need to wait for the update to finish before
+making another update. Updates to query suggestions settings might not take effect right
+away. The time for your updated settings to take effect depends on the updates made and the
+number of search queries in your index. You can still enable/disable query suggestions at
+any time.
+
+# Arguments
+- `index_id`: The identifier of the index you want to update query suggestions settings for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IncludeQueriesWithoutUserInformation"`:  TRUE to include queries without user
+  information (i.e. all queries, irrespective of the user), otherwise FALSE to only include
+  queries with user information. If you pass user information to Amazon Kendra along with the
+  queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries
+  with user information. If you set to FALSE, Amazon Kendra only considers queries searched
+  at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for
+  suggestions. If you set to TRUE, Amazon Kendra ignores all user information and learns from
+  all queries.
+- `"MinimumNumberOfQueryingUsers"`: The minimum number of unique users who must search a
+  query in order for the query to be eligible to suggest to your users. Increasing this
+  number might decrease the number of suggestions. However, this ensures a query is searched
+  by many users and is truly popular to suggest to users. How you tune this setting depends
+  on your specific needs.
+- `"MinimumQueryCount"`: The the minimum number of times a query must be searched in order
+  to be eligible to suggest to your users. Decreasing this number increases the number of
+  suggestions. However, this affects the quality of suggestions as it sets a low bar for a
+  query to be considered popular to suggest to users. How you tune this setting depends on
+  your specific needs.
+- `"Mode"`: Set the mode to ENABLED or LEARN_ONLY. By default, Amazon Kendra enables query
+  suggestions. LEARN_ONLY mode allows you to turn off query suggestions. You can to update
+  this at any time. In LEARN_ONLY mode, Amazon Kendra continues to learn from new queries to
+  keep suggestions up to date for when you are ready to switch to ENABLED mode again.
+- `"QueryLogLookBackWindowInDays"`: How recent your queries are in your query log time
+  window. The time window is the number of days from current day to past days. By default,
+  Amazon Kendra sets this to 180.
+"""
+update_query_suggestions_config(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateQuerySuggestionsConfig", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
+update_query_suggestions_config(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateQuerySuggestionsConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
 
 """
     update_thesaurus(id, index_id)

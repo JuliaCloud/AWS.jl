@@ -158,8 +158,8 @@ copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapsh
 copy_dbcluster_snapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), params)); aws_config=aws_config)
 
 """
-    create_dbcluster(dbcluster_identifier, engine, master_user_password, master_username)
-    create_dbcluster(dbcluster_identifier, engine, master_user_password, master_username, params::Dict{String,<:Any})
+    create_dbcluster(dbcluster_identifier, engine)
+    create_dbcluster(dbcluster_identifier, engine, params::Dict{String,<:Any})
 
 Creates a new Amazon DocumentDB cluster.
 
@@ -170,12 +170,6 @@ Creates a new Amazon DocumentDB cluster.
     Example: my-cluster
 - `engine`: The name of the database engine to be used for this cluster. Valid values:
   docdb
-- `master_user_password`: The password for the master database user. This password can
-  contain any printable ASCII character except forward slash (/), double quote (\"), or the
-  \"at\" symbol (@). Constraints: Must contain from 8 to 100 characters.
-- `master_username`: The name of the master user for the cluster. Constraints:   Must be
-  from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a
-  reserved word for the chosen database engine.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -199,6 +193,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EngineVersion"`: The version number of the database engine to use. The --engine-version
   will default to the latest major engine version. For production workloads, we recommend
   explicitly declaring this parameter with the intended major engine version.
+- `"GlobalClusterIdentifier"`: The cluster identifier of the new global cluster.
 - `"KmsKeyId"`: The AWS KMS key identifier for an encrypted cluster. The AWS KMS key
   identifier is the Amazon Resource Name (ARN) for the AWS KMS encryption key. If you are
   creating a cluster using the same AWS account that owns the AWS KMS encryption key that is
@@ -207,6 +202,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StorageEncrypted parameter is true, Amazon DocumentDB uses your default encryption key.
   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a
   different default encryption key for each AWS Region.
+- `"MasterUserPassword"`: The password for the master database user. This password can
+  contain any printable ASCII character except forward slash (/), double quote (\"), or the
+  \"at\" symbol (@). Constraints: Must contain from 8 to 100 characters.
+- `"MasterUsername"`: The name of the master user for the cluster. Constraints:   Must be
+  from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a
+  reserved word for the chosen database engine.
 - `"Port"`: The port number on which the instances in the cluster accept connections.
 - `"PreSignedUrl"`: Not currently supported.
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
@@ -225,8 +226,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this
   cluster.
 """
-create_dbcluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername); aws_config=aws_config)
-create_dbcluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername), params)); aws_config=aws_config)
+create_dbcluster(DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine); aws_config=aws_config)
+create_dbcluster(DBClusterIdentifier, Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), params)); aws_config=aws_config)
 
 """
     create_dbcluster_parameter_group(dbcluster_parameter_group_name, dbparameter_group_family, description)
@@ -391,6 +392,38 @@ create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWS
 create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
+    create_global_cluster(global_cluster_identifier)
+    create_global_cluster(global_cluster_identifier, params::Dict{String,<:Any})
+
+Creates an Amazon DocumentDB global cluster that can span multiple multiple AWS Regions.
+The global cluster contains one primary cluster with read-write capability, and up-to give
+read-only secondary clusters. Global clusters uses storage-based fast replication across
+regions with latencies less than one second, using dedicated infrastructure with no impact
+to your workload’s performance.  You can create a global cluster that is initially empty,
+and then add a primary and a secondary to it. Or you can specify an existing cluster during
+the create operation, and this cluster becomes the primary of the global cluster.   This
+action only applies to Amazon DocumentDB clusters.
+
+# Arguments
+- `global_cluster_identifier`: The cluster identifier of the new global cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DatabaseName"`: The name for your database of up to 64 alpha-numeric characters. If you
+  do not provide a name, Amazon DocumentDB will not create a database in the global cluster
+  you are creating.
+- `"DeletionProtection"`: The deletion protection setting for the new global cluster. The
+  global cluster can't be deleted when deletion protection is enabled.
+- `"Engine"`: The name of the database engine to be used for this cluster.
+- `"EngineVersion"`: The engine version of the global cluster.
+- `"SourceDBClusterIdentifier"`: The Amazon Resource Name (ARN) to use as the primary
+  cluster of the global cluster. This parameter is optional.
+- `"StorageEncrypted"`: The storage encryption setting for the new global cluster.
+"""
+create_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateGlobalCluster", Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier); aws_config=aws_config)
+create_global_cluster(GlobalClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("CreateGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config)
+
+"""
     delete_dbcluster(dbcluster_identifier)
     delete_dbcluster(dbcluster_identifier, params::Dict{String,<:Any})
 
@@ -493,6 +526,21 @@ Deletes an Amazon DocumentDB event notification subscription.
 """
 delete_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
 delete_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
+
+"""
+    delete_global_cluster(global_cluster_identifier)
+    delete_global_cluster(global_cluster_identifier, params::Dict{String,<:Any})
+
+Deletes a global cluster. The primary and secondary clusters must already be detached or
+deleted before attempting to delete a global cluster.  This action only applies to Amazon
+DocumentDB clusters.
+
+# Arguments
+- `global_cluster_identifier`: The cluster identifier of the global cluster being deleted.
+
+"""
+delete_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteGlobalCluster", Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier); aws_config=aws_config)
+delete_global_cluster(GlobalClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DeleteGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config)
 
 """
     describe_certificates()
@@ -628,7 +676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshots that have been marked as public.   If you don't specify a SnapshotType value,
   then both automated and manual cluster snapshots are returned. You can include shared
   cluster snapshots with these results by setting the IncludeShared parameter to true. You
-  can include public cluster snapshots with these results by setting the IncludePublic
+  can include public cluster snapshots with these results by setting theIncludePublic
   parameter to true. The IncludeShared and IncludePublic parameters don't apply for
   SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when
   SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType
@@ -856,6 +904,32 @@ describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("De
 describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeEvents", params; aws_config=aws_config)
 
 """
+    describe_global_clusters()
+    describe_global_clusters(params::Dict{String,<:Any})
+
+Returns information about Amazon DocumentDB global clusters. This API supports pagination.
+This action only applies to Amazon DocumentDB clusters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: A filter that specifies one or more global DB clusters to describe.
+  Supported filters: db-cluster-id accepts cluster identifiers and cluster Amazon Resource
+  Names (ARNs). The results list will only include information about the clusters identified
+  by these ARNs.
+- `"GlobalClusterIdentifier"`: The user-supplied cluster identifier. If this parameter is
+  specified, information from only the specific cluster is returned. This parameter isn't
+  case-sensitive.
+- `"Marker"`: An optional pagination token provided by a previous DescribeGlobalClusters
+  request. If this parameter is specified, the response includes only records beyond the
+  marker, up to the value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that you can retrieve the remaining results.
+"""
+describe_global_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeGlobalClusters"; aws_config=aws_config)
+describe_global_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("DescribeGlobalClusters", params; aws_config=aws_config)
+
+"""
     describe_orderable_dbinstance_options(engine)
     describe_orderable_dbinstance_options(engine, params::Dict{String,<:Any})
 
@@ -988,8 +1062,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DeletionProtection is disabled. DeletionProtection protects clusters from being
   accidentally deleted.
 - `"EngineVersion"`: The version number of the database engine to which you want to
-  upgrade. Changing this parameter results in an outage. The change is applied during the
-  next maintenance window unless the ApplyImmediately parameter is set to true.
+  upgrade. Modifying engine version is not supported on Amazon DocumentDB.
 - `"MasterUserPassword"`: The password for the master database user. This password can
   contain any printable ASCII character except forward slash (/), double quote (\"), or the
   \"at\" symbol (@). Constraints: Must contain from 8 to 100 characters.
@@ -1183,6 +1256,32 @@ modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global
 modify_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
 
 """
+    modify_global_cluster(global_cluster_identifier)
+    modify_global_cluster(global_cluster_identifier, params::Dict{String,<:Any})
+
+Modify a setting for an Amazon DocumentDB global cluster. You can change one or more
+configuration parameters (for example: deletion protection), or the global cluster
+identifier by specifying these parameters and the new values in the request.  This action
+only applies to Amazon DocumentDB clusters.
+
+# Arguments
+- `global_cluster_identifier`: The identifier for the global cluster being modified. This
+  parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing
+  global cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeletionProtection"`: Indicates if the global cluster has deletion protection enabled.
+  The global cluster can't be deleted when deletion protection is enabled.
+- `"NewGlobalClusterIdentifier"`: The new identifier for a global cluster when you modify a
+  global cluster. This value is stored as a lowercase string.   Must contain from 1 to 63
+  letters, numbers, or hyphens The first character must be a letter Can't end with a hyphen
+  or contain two consecutive hyphens   Example: my-cluster2
+"""
+modify_global_cluster(GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyGlobalCluster", Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier); aws_config=aws_config)
+modify_global_cluster(GlobalClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("ModifyGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config)
+
+"""
     reboot_dbinstance(dbinstance_identifier)
     reboot_dbinstance(dbinstance_identifier, params::Dict{String,<:Any})
 
@@ -1203,6 +1302,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 reboot_dbinstance(DBInstanceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RebootDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
 reboot_dbinstance(DBInstanceIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), params)); aws_config=aws_config)
+
+"""
+    remove_from_global_cluster(db_cluster_identifier, global_cluster_identifier)
+    remove_from_global_cluster(db_cluster_identifier, global_cluster_identifier, params::Dict{String,<:Any})
+
+Detaches an Amazon DocumentDB secondary cluster from a global cluster. The cluster becomes
+a standalone cluster with read-write capability instead of being read-only and receiving
+data from a primary in a different region.   This action only applies to Amazon DocumentDB
+clusters.
+
+# Arguments
+- `db_cluster_identifier`: The Amazon Resource Name (ARN) identifying the cluster that was
+  detached from the Amazon DocumentDB global cluster.
+- `global_cluster_identifier`: The cluster identifier to detach from the Amazon DocumentDB
+  global cluster.
+
+"""
+remove_from_global_cluster(DbClusterIdentifier, GlobalClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveFromGlobalCluster", Dict{String, Any}("DbClusterIdentifier"=>DbClusterIdentifier, "GlobalClusterIdentifier"=>GlobalClusterIdentifier); aws_config=aws_config)
+remove_from_global_cluster(DbClusterIdentifier, GlobalClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = docdb("RemoveFromGlobalCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DbClusterIdentifier"=>DbClusterIdentifier, "GlobalClusterIdentifier"=>GlobalClusterIdentifier), params)); aws_config=aws_config)
 
 """
     remove_source_identifier_from_subscription(source_identifier, subscription_name)

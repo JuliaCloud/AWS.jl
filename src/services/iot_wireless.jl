@@ -392,6 +392,17 @@ get_device_profile(Id; aws_config::AbstractAWSConfig=global_aws_config()) = iot_
 get_device_profile(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/device-profiles/$(Id)", params; aws_config=aws_config)
 
 """
+    get_log_levels_by_resource_types()
+    get_log_levels_by_resource_types(params::Dict{String,<:Any})
+
+Returns current default log-levels, or log levels by resource types, could be for wireless
+device log options or wireless gateway log options.
+
+"""
+get_log_levels_by_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/log-levels"; aws_config=aws_config)
+get_log_levels_by_resource_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/log-levels", params; aws_config=aws_config)
+
+"""
     get_partner_account(partner_account_id, partner_type)
     get_partner_account(partner_account_id, partner_type, params::Dict{String,<:Any})
 
@@ -405,6 +416,22 @@ returns all partner accounts.
 """
 get_partner_account(PartnerAccountId, partnerType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}("partnerType"=>partnerType); aws_config=aws_config)
 get_partner_account(PartnerAccountId, partnerType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/partner-accounts/$(PartnerAccountId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partnerType"=>partnerType), params)); aws_config=aws_config)
+
+"""
+    get_resource_log_level(resource_identifier, resource_type)
+    get_resource_log_level(resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Fetches the log-level override if any for a given resource-ID and resource-type, coulde be
+a wireless device or a wireless gateway.
+
+# Arguments
+- `resource_identifier`:
+- `resource_type`: The type of the resource, currently support WirelessDevice and
+  WirelessGateway.
+
+"""
+get_resource_log_level(ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
+get_resource_log_level(ResourceIdentifier, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config)
 
 """
     get_service_endpoint()
@@ -669,6 +696,50 @@ list_wireless_gateways(; aws_config::AbstractAWSConfig=global_aws_config()) = io
 list_wireless_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("GET", "/wireless-gateways", params; aws_config=aws_config)
 
 """
+    put_resource_log_level(log_level, resource_identifier, resource_type)
+    put_resource_log_level(log_level, resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Sets the log-level override for a resource-ID and resource-type, could be a wireless
+gateway or a wireless device.
+
+# Arguments
+- `log_level`:
+- `resource_identifier`:
+- `resource_type`: The type of the resource, currently support WirelessDevice and
+  WirelessGateway.
+
+"""
+put_resource_log_level(LogLevel, ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}("LogLevel"=>LogLevel, "resourceType"=>resourceType); aws_config=aws_config)
+put_resource_log_level(LogLevel, ResourceIdentifier, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PUT", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogLevel"=>LogLevel, "resourceType"=>resourceType), params)); aws_config=aws_config)
+
+"""
+    reset_all_resource_log_levels()
+    reset_all_resource_log_levels(params::Dict{String,<:Any})
+
+Remove log-level overrides if any for all resources (both wireless devices and wireless
+gateways).
+
+"""
+reset_all_resource_log_levels(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/log-levels"; aws_config=aws_config)
+reset_all_resource_log_levels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/log-levels", params; aws_config=aws_config)
+
+"""
+    reset_resource_log_level(resource_identifier, resource_type)
+    reset_resource_log_level(resource_identifier, resource_type, params::Dict{String,<:Any})
+
+Remove log-level override if any for a specific resource-ID and resource-type, could be a
+wireless device or a wireless gateway.
+
+# Arguments
+- `resource_identifier`:
+- `resource_type`: The type of the resource, currently support WirelessDevice and
+  WirelessGateway.
+
+"""
+reset_resource_log_level(ResourceIdentifier, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}("resourceType"=>resourceType); aws_config=aws_config)
+reset_resource_log_level(ResourceIdentifier, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("DELETE", "/log-levels/$(ResourceIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceType"=>resourceType), params)); aws_config=aws_config)
+
+"""
     send_data_to_wireless_device(id, payload_data, transmit_mode)
     send_data_to_wireless_device(id, payload_data, transmit_mode, params::Dict{String,<:Any})
 
@@ -747,6 +818,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_destination(Name; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/destinations/$(Name)"; aws_config=aws_config)
 update_destination(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("PATCH", "/destinations/$(Name)", params; aws_config=aws_config)
+
+"""
+    update_log_levels_by_resource_types()
+    update_log_levels_by_resource_types(params::Dict{String,<:Any})
+
+Set default log level, or log levels by resource types, could be for wireless device log
+options or wireless gateways log options. This is to control the log messages that will be
+displayed in CloudWatch.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DefaultLogLevel"`:
+- `"WirelessDeviceLogOptions"`:
+- `"WirelessGatewayLogOptions"`:
+"""
+update_log_levels_by_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/log-levels"; aws_config=aws_config)
+update_log_levels_by_resource_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_wireless("POST", "/log-levels", params; aws_config=aws_config)
 
 """
     update_partner_account(partner_account_id, sidewalk, partner_type)
