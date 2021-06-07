@@ -2067,6 +2067,8 @@ interfaces, see Elastic Network Interfaces in the Amazon Virtual Private Cloud U
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring Idempotency.
 - `"InterfaceType"`: Indicates the type of network interface. To create an Elastic Fabric
   Adapter (EFA), specify efa. For more information, see  Elastic Fabric Adapter in the Amazon
   Elastic Compute Cloud User Guide.
@@ -2096,8 +2098,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see IP Addresses Per ENI Per Instance Type in the Amazon Virtual
   Private Cloud User Guide.
 """
-create_network_interface(subnetId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}("subnetId"=>subnetId); aws_config=aws_config)
-create_network_interface(subnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId), params)); aws_config=aws_config)
+create_network_interface(subnetId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}("subnetId"=>subnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_network_interface(subnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNetworkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subnetId"=>subnetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_network_interface_permission(network_interface_id, permission)

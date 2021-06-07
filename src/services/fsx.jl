@@ -573,7 +573,8 @@ file systems, you can update the following properties:   AutomaticBackupRetentio
 DailyAutomaticBackupStartTime   SelfManagedActiveDirectoryConfiguration   StorageCapacity
 ThroughputCapacity   WeeklyMaintenanceStartTime   For Amazon FSx for Lustre file systems,
 you can update the following properties:   AutoImportPolicy   AutomaticBackupRetentionDays
- DailyAutomaticBackupStartTime   StorageCapacity   WeeklyMaintenanceStartTime
+ DailyAutomaticBackupStartTime   DataCompressionType   StorageCapacity
+WeeklyMaintenanceStartTime
 
 # Arguments
 - `file_system_id`: Identifies the file system that you are updating.

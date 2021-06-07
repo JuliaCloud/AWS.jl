@@ -54,7 +54,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AgentName"`: The name you configured for your agent. This value is a text reference
   that is used to identify the agent in the console.
 - `"SecurityGroupArns"`: The ARNs of the security groups used to protect your data transfer
-  task subnets. See CreateAgentRequestSubnetArns.
+  task subnets. See SecurityGroupArns.
 - `"SubnetArns"`: The Amazon Resource Names (ARNs) of the subnets in which DataSync will
   create elastic network interfaces for each data transfer task. The agent that runs a task
   must be private. When you start a task that is associated with an agent created in a VPC,
@@ -121,7 +121,8 @@ Creates an endpoint for an Amazon FSx for Windows File Server file system.
 - `security_group_arns`: The Amazon Resource Names (ARNs) of the security groups that are
   to use to configure the FSx for Windows File Server file system.
 - `user`: The user who has the permissions to access files and folders in the FSx for
-  Windows File Server file system.
+  Windows File Server file system. For information about choosing a user name that ensures
+  sufficient permissions to files, folders, and metadata, see user.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -184,7 +185,7 @@ create_location_nfs(OnPremConfig, ServerHostname, Subdirectory, params::Abstract
     create_location_object_storage(agent_arns, bucket_name, server_hostname, params::Dict{String,<:Any})
 
 Creates an endpoint for a self-managed object storage bucket. For more information about
-self-managed object storage locations, see create-object-location.
+self-managed object storage locations, see Creating a location for object storage.
 
 # Arguments
 - `agent_arns`: The Amazon Resource Name (ARN) of the agents associated with the
@@ -235,13 +236,14 @@ ion-s3-cli in the AWS DataSync User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AgentArns"`: If you are using DataSync on an AWS Outpost, specify the Amazon Resource
   Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about
-  launching a DataSync agent on an AWS Outpost, see outposts-agent.
+  launching a DataSync agent on an AWS Outpost, see Deploy your DataSync agent on AWS
+  Outposts.
 - `"S3StorageClass"`: The Amazon S3 storage class that you want to store your files in when
   this location is used as a task destination. For buckets in AWS Regions, the storage class
   defaults to Standard. For buckets on AWS Outposts, the storage class defaults to AWS S3
   Outposts. For more information about S3 storage classes, see Amazon S3 Storage Classes.
   Some storage classes have behaviors that can affect your S3 storage cost. For detailed
-  information, see using-storage-classes.
+  information, see Considerations when working with S3 storage classes in DataSync.
 - `"Subdirectory"`: A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3
   is used to read data from the S3 source location or write data to the S3 destination.
 - `"Tags"`: The key-value pair that represents the tag that you want to add to the
@@ -279,7 +281,8 @@ written to.
   Doing either enables the agent to access the data. For the agent to access directories, you
   must additionally enable all execute access.
 - `user`: The user who can mount the share, has the permissions to access files and folders
-  in the SMB share.
+  in the SMB share. For information about choosing a user name that ensures sufficient
+  permissions to files, folders, and metadata, see user.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -327,10 +330,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   options to preserve metadata such as user ID (UID) and group ID (GID), file permissions,
   data integrity verification, and so on. For each individual task execution, you can
   override these options by specifying the OverrideOptions before starting the task
-  execution. For more information, see the operation.
+  execution. For more information, see the StartTaskExecution operation.
 - `"Schedule"`: Specifies a schedule used to periodically transfer files from a source to a
   destination location. The schedule should be specified in UTC time. For more information,
-  see task-scheduling.
+  see Scheduling your task.
 - `"Tags"`: The key-value pair that represents the tag that you want to add to the
   resource. The value can be an empty string.
 """
@@ -440,7 +443,7 @@ describe_location_nfs(LocationArn, params::AbstractDict{String}; aws_config::Abs
     describe_location_object_storage(location_arn, params::Dict{String,<:Any})
 
 Returns metadata about a self-managed object storage server location. For more information
-about self-managed object storage locations, see create-object-location.
+about self-managed object storage locations, see Creating a location for object storage.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the self-managed object storage server
@@ -670,7 +673,8 @@ update_agent(AgentArn, params::AbstractDict{String}; aws_config::AbstractAWSConf
     update_location_nfs(location_arn, params::Dict{String,<:Any})
 
 Updates some of the parameters of a previously created location for Network File System
-(NFS) access. For information about creating an NFS location, see create-nfs-location.
+(NFS) access. For information about creating an NFS location, see Creating a location for
+NFS.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the NFS location to update.
@@ -704,7 +708,7 @@ update_location_nfs(LocationArn, params::AbstractDict{String}; aws_config::Abstr
 
 Updates some of the parameters of a previously created location for self-managed object
 storage server access. For information about creating a self-managed object storage
-location, see create-object-location.
+location, see Creating a location for object storage.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the self-managed object storage server
@@ -738,8 +742,8 @@ update_location_object_storage(LocationArn, params::AbstractDict{String}; aws_co
     update_location_smb(location_arn, params::Dict{String,<:Any})
 
 Updates some of the parameters of a previously created location for Server Message Block
-(SMB) file system access. For information about creating an SMB location, see
-create-smb-location.
+(SMB) file system access. For information about creating an SMB location, see Creating a
+location for SMB.
 
 # Arguments
 - `location_arn`: The Amazon Resource Name (ARN) of the SMB location to update.
@@ -791,7 +795,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Schedule"`: Specifies a schedule used to periodically transfer files from a source to a
   destination location. You can configure your task to execute hourly, daily, weekly or on
   specific days of the week. You control when in the day or hour you want the task to
-  execute. The time you specify is UTC time. For more information, see task-scheduling.
+  execute. The time you specify is UTC time. For more information, see Scheduling your task.
 """
 update_task(TaskArn; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UpdateTask", Dict{String, Any}("TaskArn"=>TaskArn); aws_config=aws_config)
 update_task(TaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = datasync("UpdateTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskArn"=>TaskArn), params)); aws_config=aws_config)

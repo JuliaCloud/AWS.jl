@@ -160,6 +160,7 @@ Creates a Selenium testing project. Projects are used to track TestGridSession i
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: Human-readable description of the project.
+- `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 create_test_grid_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateTestGridProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
 create_test_grid_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("CreateTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
@@ -1093,39 +1094,41 @@ list_vpceconfigurations(; aws_config::AbstractAWSConfig=global_aws_config()) = d
 list_vpceconfigurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("ListVPCEConfigurations", params; aws_config=aws_config)
 
 """
-    purchase_offering()
-    purchase_offering(params::Dict{String,<:Any})
+    purchase_offering(offering_id, quantity)
+    purchase_offering(offering_id, quantity, params::Dict{String,<:Any})
 
 Immediately purchases offerings for an AWS account. Offerings renew with the latest total
 purchased quantity for an offering, unless the renewal was overridden. The API returns a
 NotEligible error if the user is not permitted to invoke the operation. If you must be able
 to invoke this operation, contact aws-devicefarm-support@amazon.com.
 
+# Arguments
+- `offering_id`: The ID of the offering.
+- `quantity`: The number of device slots to purchase in an offering request.
+
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"offeringId"`: The ID of the offering.
 - `"offeringPromotionId"`: The ID of the offering promotion to be applied to the purchase.
-- `"quantity"`: The number of device slots to purchase in an offering request.
 """
-purchase_offering(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("PurchaseOffering"; aws_config=aws_config)
-purchase_offering(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("PurchaseOffering", params; aws_config=aws_config)
+purchase_offering(offeringId, quantity; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("PurchaseOffering", Dict{String, Any}("offeringId"=>offeringId, "quantity"=>quantity); aws_config=aws_config)
+purchase_offering(offeringId, quantity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("PurchaseOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("offeringId"=>offeringId, "quantity"=>quantity), params)); aws_config=aws_config)
 
 """
-    renew_offering()
-    renew_offering(params::Dict{String,<:Any})
+    renew_offering(offering_id, quantity)
+    renew_offering(offering_id, quantity, params::Dict{String,<:Any})
 
 Explicitly sets the quantity of devices to renew for an offering, starting from the
 effectiveDate of the next period. The API returns a NotEligible error if the user is not
 permitted to invoke the operation. If you must be able to invoke this operation, contact
 aws-devicefarm-support@amazon.com.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"offeringId"`: The ID of a request to renew an offering.
-- `"quantity"`: The quantity requested in an offering renewal.
+# Arguments
+- `offering_id`: The ID of a request to renew an offering.
+- `quantity`: The quantity requested in an offering renewal.
+
 """
-renew_offering(; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("RenewOffering"; aws_config=aws_config)
-renew_offering(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("RenewOffering", params; aws_config=aws_config)
+renew_offering(offeringId, quantity; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("RenewOffering", Dict{String, Any}("offeringId"=>offeringId, "quantity"=>quantity); aws_config=aws_config)
+renew_offering(offeringId, quantity, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("RenewOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("offeringId"=>offeringId, "quantity"=>quantity), params)); aws_config=aws_config)
 
 """
     schedule_run(project_arn, test)
@@ -1382,6 +1385,7 @@ Change details of a project.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: Human-readable description for the project.
 - `"name"`: Human-readable name for the project.
+- `"vpcConfig"`: The VPC security groups and subnets that are attached to a project.
 """
 update_test_grid_project(projectArn; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateTestGridProject", Dict{String, Any}("projectArn"=>projectArn); aws_config=aws_config)
 update_test_grid_project(projectArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = device_farm("UpdateTestGridProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn), params)); aws_config=aws_config)

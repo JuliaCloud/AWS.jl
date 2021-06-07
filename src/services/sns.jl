@@ -81,7 +81,7 @@ You can use the returned PlatformApplicationArn as an attribute for the
 CreatePlatformEndpoint action.
 
 # Arguments
-- `attributes`: For a list of attributes, see SetPlatformApplicationAttributes
+- `attributes`: For a list of attributes, see SetPlatformApplicationAttributes.
 - `name`: Application names must be made up of only uppercase and lowercase ASCII letters,
   numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
 - `platform`: The following platforms are supported: ADM (Amazon Device Messaging), APNS
@@ -125,6 +125,30 @@ create_platform_endpoint(PlatformApplicationArn, Token; aws_config::AbstractAWSC
 create_platform_endpoint(PlatformApplicationArn, Token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("CreatePlatformEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn, "Token"=>Token), params)); aws_config=aws_config)
 
 """
+    create_smssandbox_phone_number(phone_number)
+    create_smssandbox_phone_number(phone_number, params::Dict{String,<:Any})
+
+Adds a destination phone number to an AWS account in the SMS sandbox and sends a one-time
+password (OTP) to that phone number. When you start using Amazon SNS to send SMS messages,
+your AWS account is in the SMS sandbox. The SMS sandbox provides a safe environment for you
+to try Amazon SNS features without risking your reputation as an SMS sender. While your
+account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you
+can send SMS messages only to verified destination phone numbers. For more information,
+including how to move out of the sandbox to send messages without restrictions, see SMS
+sandbox in the Amazon SNS Developer Guide.
+
+# Arguments
+- `phone_number`: The destination phone number to verify. On verification, Amazon SNS adds
+  this phone number to the list of verified phone numbers that you can send SMS messages to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LanguageCode"`: The language to use for sending the OTP. The default value is en-US.
+"""
+create_smssandbox_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config()) = sns("CreateSMSSandboxPhoneNumber", Dict{String, Any}("PhoneNumber"=>PhoneNumber); aws_config=aws_config)
+create_smssandbox_phone_number(PhoneNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("CreateSMSSandboxPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneNumber"=>PhoneNumber), params)); aws_config=aws_config)
+
+"""
     create_topic(name)
     create_topic(name, params::Dict{String,<:Any})
 
@@ -147,19 +171,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with
   SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The
   policy that defines who can access your topic. By default, only the topic owner can publish
-  or subscribe to the topic.   The following attribute applies only to
-  server-side-encryption:    KmsMasterKeyId – The ID of an AWS-managed customer master key
-  (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more
-  examples, see KeyId in the AWS Key Management Service API Reference.    The following
-  attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO
-  topic is created.    ContentBasedDeduplication – Enables content-based deduplication for
-  FIFO topics.    By default, ContentBasedDeduplication is set to false. If you create a FIFO
-  topic and this attribute is false, you must specify a value for the MessageDeduplicationId
-  parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon
-  SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the
-  message (but not the attributes of the message). (Optional) To override the generated
-  value, you can specify a value for the the MessageDeduplicationId parameter for the Publish
-  action.
+  or subscribe to the topic.   The following attribute applies only to server-side
+  encryption:    KmsMasterKeyId – The ID of an AWS managed customer master key (CMK) for
+  Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see
+  KeyId in the AWS Key Management Service API Reference.    The following attributes apply
+  only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.
+  ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
+  default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this
+  attribute is false, you must specify a value for the MessageDeduplicationId parameter for
+  the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a
+  SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not
+  the attributes of the message). (Optional) To override the generated value, you can specify
+  a value for the MessageDeduplicationId parameter for the Publish action.
 - `"Tags"`: The list of tags to add to a new topic.  To be able to tag a topic on creation,
   you must have the sns:CreateTopic and sns:TagResource permissions.
 """
@@ -197,6 +220,25 @@ Mobile Push Notifications.
 """
 delete_platform_application(PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()) = sns("DeletePlatformApplication", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn); aws_config=aws_config)
 delete_platform_application(PlatformApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("DeletePlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), params)); aws_config=aws_config)
+
+"""
+    delete_smssandbox_phone_number(phone_number)
+    delete_smssandbox_phone_number(phone_number, params::Dict{String,<:Any})
+
+Deletes an AWS account's verified or pending phone number from the SMS sandbox. When you
+start using Amazon SNS to send SMS messages, your AWS account is in the SMS sandbox. The
+SMS sandbox provides a safe environment for you to try Amazon SNS features without risking
+your reputation as an SMS sender. While your account is in the SMS sandbox, you can use all
+of the features of Amazon SNS. However, you can send SMS messages only to verified
+destination phone numbers. For more information, including how to move out of the sandbox
+to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+
+# Arguments
+- `phone_number`: The destination phone number to delete.
+
+"""
+delete_smssandbox_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config()) = sns("DeleteSMSSandboxPhoneNumber", Dict{String, Any}("PhoneNumber"=>PhoneNumber); aws_config=aws_config)
+delete_smssandbox_phone_number(PhoneNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("DeleteSMSSandboxPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneNumber"=>PhoneNumber), params)); aws_config=aws_config)
 
 """
     delete_topic(topic_arn)
@@ -261,6 +303,22 @@ get_smsattributes(; aws_config::AbstractAWSConfig=global_aws_config()) = sns("Ge
 get_smsattributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("GetSMSAttributes", params; aws_config=aws_config)
 
 """
+    get_smssandbox_account_status()
+    get_smssandbox_account_status(params::Dict{String,<:Any})
+
+Retrieves the SMS sandbox status for the calling AWS account in the target AWS Region. When
+you start using Amazon SNS to send SMS messages, your AWS account is in the SMS sandbox.
+The SMS sandbox provides a safe environment for you to try Amazon SNS features without
+risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can
+use all of the features of Amazon SNS. However, you can send SMS messages only to verified
+destination phone numbers. For more information, including how to move out of the sandbox
+to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+
+"""
+get_smssandbox_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) = sns("GetSMSSandboxAccountStatus"; aws_config=aws_config)
+get_smssandbox_account_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("GetSMSSandboxAccountStatus", params; aws_config=aws_config)
+
+"""
     get_subscription_attributes(subscription_arn)
     get_subscription_attributes(subscription_arn, params::Dict{String,<:Any})
 
@@ -314,6 +372,22 @@ list_endpoints_by_platform_application(PlatformApplicationArn; aws_config::Abstr
 list_endpoints_by_platform_application(PlatformApplicationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ListEndpointsByPlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), params)); aws_config=aws_config)
 
 """
+    list_origination_numbers()
+    list_origination_numbers(params::Dict{String,<:Any})
+
+Lists the calling AWS account's dedicated origination numbers and their metadata. For more
+information about origination numbers, see Origination numbers in the Amazon SNS Developer
+Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of origination numbers to return.
+- `"NextToken"`: Token that the previous ListOriginationNumbers request returns.
+"""
+list_origination_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ListOriginationNumbers"; aws_config=aws_config)
+list_origination_numbers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ListOriginationNumbers", params; aws_config=aws_config)
+
+"""
     list_phone_numbers_opted_out()
     list_phone_numbers_opted_out(params::Dict{String,<:Any})
 
@@ -352,6 +426,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_platform_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ListPlatformApplications"; aws_config=aws_config)
 list_platform_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ListPlatformApplications", params; aws_config=aws_config)
+
+"""
+    list_smssandbox_phone_numbers()
+    list_smssandbox_phone_numbers(params::Dict{String,<:Any})
+
+Lists the calling AWS account's current verified and pending destination phone numbers in
+the SMS sandbox. When you start using Amazon SNS to send SMS messages, your AWS account is
+in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS
+features without risking your reputation as an SMS sender. While your account is in the SMS
+sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages
+only to verified destination phone numbers. For more information, including how to move out
+of the sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS
+Developer Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of phone numbers to return.
+- `"NextToken"`: Token that the previous ListSMSSandboxPhoneNumbersInput request returns.
+"""
+list_smssandbox_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ListSMSSandboxPhoneNumbers"; aws_config=aws_config)
+list_smssandbox_phone_numbers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ListSMSSandboxPhoneNumbers", params; aws_config=aws_config)
 
 """
     list_subscriptions()
@@ -687,13 +782,13 @@ Allows a topic owner to set an attribute of the topic to a new value.
   ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more
   information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service
   API Reference.    The following attribute applies only to FIFO topics:
-  ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.    By
+  ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
   default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this
   attribute is false, you must specify a value for the MessageDeduplicationId parameter for
   the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a
   SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not
   the attributes of the message). (Optional) To override the generated value, you can specify
-  a value for the the MessageDeduplicationId parameter for the Publish action.
+  a value for the MessageDeduplicationId parameter for the Publish action.
 - `topic_arn`: The ARN of the topic to modify.
 
 # Optional Parameters
@@ -820,3 +915,25 @@ the Amazon SNS Developer Guide.
 """
 untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = sns("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
 untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+
+"""
+    verify_smssandbox_phone_number(one_time_password, phone_number)
+    verify_smssandbox_phone_number(one_time_password, phone_number, params::Dict{String,<:Any})
+
+Verifies a destination phone number with a one-time password (OTP) for the calling AWS
+account. When you start using Amazon SNS to send SMS messages, your AWS account is in the
+SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features
+without risking your reputation as an SMS sender. While your account is in the SMS sandbox,
+you can use all of the features of Amazon SNS. However, you can send SMS messages only to
+verified destination phone numbers. For more information, including how to move out of the
+sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer
+Guide.
+
+# Arguments
+- `one_time_password`: The OTP sent to the destination number from the
+  CreateSMSSandBoxPhoneNumber call.
+- `phone_number`: The destination phone number to verify.
+
+"""
+verify_smssandbox_phone_number(OneTimePassword, PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config()) = sns("VerifySMSSandboxPhoneNumber", Dict{String, Any}("OneTimePassword"=>OneTimePassword, "PhoneNumber"=>PhoneNumber); aws_config=aws_config)
+verify_smssandbox_phone_number(OneTimePassword, PhoneNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("VerifySMSSandboxPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OneTimePassword"=>OneTimePassword, "PhoneNumber"=>PhoneNumber), params)); aws_config=aws_config)

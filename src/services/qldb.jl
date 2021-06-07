@@ -15,7 +15,8 @@ this limit expires.
 
 # Arguments
 - `name`: The name of the ledger.
-- `stream_id`: The unique ID that QLDB assigns to each QLDB journal stream.
+- `stream_id`: The UUID (represented in Base62-encoded text) of the QLDB journal stream to
+  be canceled.
 
 """
 cancel_journal_kinesis_stream(name, streamId; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws_config=aws_config)
@@ -25,7 +26,7 @@ cancel_journal_kinesis_stream(name, streamId, params::AbstractDict{String}; aws_
     create_ledger(name, permissions_mode)
     create_ledger(name, permissions_mode, params::Dict{String,<:Any})
 
-Creates a new ledger in your AWS account.
+Creates a new ledger in your AWS account in the current Region.
 
 # Arguments
 - `name`: The name of the ledger that you want to create. The name must be unique among all
@@ -34,24 +35,24 @@ Creates a new ledger in your AWS account.
 - `permissions_mode`: The permissions mode to assign to the ledger that you want to create.
   This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions
   mode that enables access control with API-level granularity for ledgers. This mode allows
-  users who have SendCommand permissions for this ledger to run all PartiQL commands (hence,
-  ALLOW_ALL) on any tables in the specified ledger. This mode disregards any table-level or
-  command-level IAM permissions policies that you create for the ledger.    STANDARD:
-  (Recommended) A permissions mode that enables access control with finer granularity for
-  ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to
-  run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run,
-  you must create IAM permissions policies for specific table resources and PartiQL actions,
-  in addition to SendCommand API permissions for the ledger.    We strongly recommend using
-  the STANDARD permissions mode to maximize the security of your ledger data.
+  users who have the SendCommand API permission for this ledger to run all PartiQL commands
+  (hence, ALLOW_ALL) on any tables in the specified ledger. This mode disregards any
+  table-level or command-level IAM permissions policies that you create for the ledger.
+  STANDARD: (Recommended) A permissions mode that enables access control with finer
+  granularity for ledgers, tables, and PartiQL commands. By default, this mode denies all
+  user requests to run any PartiQL commands on any tables in this ledger. To allow PartiQL
+  commands to run, you must create IAM permissions policies for specific table resources and
+  PartiQL actions, in addition to the SendCommand API permission for the ledger. For
+  information, see Getting started with the standard permissions mode in the Amazon QLDB
+  Developer Guide.    We strongly recommend using the STANDARD permissions mode to maximize
+  the security of your ledger data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeletionProtection"`: The flag that prevents a ledger from being deleted by any user.
   If not provided on ledger creation, this feature is enabled (true) by default. If deletion
-  protection is enabled, you must first disable it before you can delete the ledger using the
-  QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the
-  UpdateLedger operation to set the flag to false. The QLDB console disables deletion
-  protection for you when you use it to delete a ledger.
+  protection is enabled, you must first disable it before you can delete the ledger. You can
+  disable it by calling the UpdateLedger operation to set the flag to false.
 - `"Tags"`: The key-value pairs to add as tags to the ledger that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
@@ -63,10 +64,8 @@ create_ledger(Name, PermissionsMode, params::AbstractDict{String}; aws_config::A
     delete_ledger(name, params::Dict{String,<:Any})
 
 Deletes a ledger and all of its contents. This action is irreversible. If deletion
-protection is enabled, you must first disable it before you can delete the ledger using the
-QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the
-UpdateLedger operation to set the flag to false. The QLDB console disables deletion
-protection for you when you use it to delete a ledger.
+protection is enabled, you must first disable it before you can delete the ledger. You can
+disable it by calling the UpdateLedger operation to set the flag to false.
 
 # Arguments
 - `name`: The name of the ledger that you want to delete.
@@ -81,11 +80,14 @@ delete_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=
 
 Returns detailed information about a given Amazon QLDB journal stream. The output includes
 the Amazon Resource Name (ARN), stream name, current status, creation time, and the
-parameters of your original stream creation request.
+parameters of the original stream creation request. This action does not return any expired
+journal streams. For more information, see Expiration for terminal streams in the Amazon
+QLDB Developer Guide.
 
 # Arguments
 - `name`: The name of the ledger.
-- `stream_id`: The unique ID that QLDB assigns to each QLDB journal stream.
+- `stream_id`: The UUID (represented in Base62-encoded text) of the QLDB journal stream to
+  describe.
 
 """
 describe_journal_kinesis_stream(name, streamId; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws_config=aws_config)
@@ -95,15 +97,16 @@ describe_journal_kinesis_stream(name, streamId, params::AbstractDict{String}; aw
     describe_journal_s3_export(export_id, name)
     describe_journal_s3_export(export_id, name, params::Dict{String,<:Any})
 
-Returns information about a journal export job, including the ledger name, export ID, when
-it was created, current status, and its start and end time export parameters. This action
-does not return any expired export jobs. For more information, see Export Job Expiration in
-the Amazon QLDB Developer Guide. If the export job with the given ExportId doesn't exist,
-then throws ResourceNotFoundException. If the ledger with the given Name doesn't exist,
-then throws ResourceNotFoundException.
+Returns information about a journal export job, including the ledger name, export ID,
+creation time, current status, and the parameters of the original export creation request.
+This action does not return any expired export jobs. For more information, see Export job
+expiration in the Amazon QLDB Developer Guide. If the export job with the given ExportId
+doesn't exist, then throws ResourceNotFoundException. If the ledger with the given Name
+doesn't exist, then throws ResourceNotFoundException.
 
 # Arguments
-- `export_id`: The unique ID of the journal export job that you want to describe.
+- `export_id`: The UUID (represented in Base62-encoded text) of the journal export job to
+  describe.
 - `name`: The name of the ledger.
 
 """
@@ -137,15 +140,14 @@ LimitExceededException.
 
 # Arguments
 - `exclusive_end_time`: The exclusive end date and time for the range of journal contents
-  that you want to export. The ExclusiveEndTime must be in ISO 8601 date and time format and
-  in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The
-  ExclusiveEndTime must be less than or equal to the current UTC date and time.
+  to export. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal
+  Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The ExclusiveEndTime must be
+  less than or equal to the current UTC date and time.
 - `inclusive_start_time`: The inclusive start date and time for the range of journal
-  contents that you want to export. The InclusiveStartTime must be in ISO 8601 date and time
-  format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The
-  InclusiveStartTime must be before ExclusiveEndTime. If you provide an InclusiveStartTime
-  that is before the ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's
-  CreationDateTime.
+  contents to export. The InclusiveStartTime must be in ISO 8601 date and time format and in
+  Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime
+  must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the
+  ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions
   for a journal export job to do the following:   Write objects into your Amazon Simple
   Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS
@@ -173,14 +175,14 @@ throws InvalidParameterException.
 # Arguments
 - `block_address`: The location of the block that you want to request. An address is an
   Amazon Ion structure that has two fields: strandId and sequenceNo. For example:
-  {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:14}
+  {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:14}.
 - `name`: The name of the ledger.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DigestTipAddress"`: The latest block location covered by the digest for which to
   request a proof. An address is an Amazon Ion structure that has two fields: strandId and
-  sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}
+  sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
 get_block(BlockAddress, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}("BlockAddress"=>BlockAddress); aws_config=aws_config)
 get_block(BlockAddress, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress), params)); aws_config=aws_config)
@@ -209,15 +211,16 @@ a proof of the specified revision for verification if DigestTipAddress is provid
 # Arguments
 - `block_address`: The block location of the document revision to be verified. An address
   is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example:
-  {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:14}
-- `document_id`: The unique ID of the document to be verified.
+  {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:14}.
+- `document_id`: The UUID (represented in Base62-encoded text) of the document to be
+  verified.
 - `name`: The name of the ledger.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DigestTipAddress"`: The latest block location covered by the digest for which to
   request a proof. An address is an Amazon Ion structure that has two fields: strandId and
-  sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}
+  sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
 get_revision(BlockAddress, DocumentId, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId); aws_config=aws_config)
 get_revision(BlockAddress, DocumentId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId), params)); aws_config=aws_config)
@@ -228,9 +231,10 @@ get_revision(BlockAddress, DocumentId, name, params::AbstractDict{String}; aws_c
 
 Returns an array of all Amazon QLDB journal stream descriptors for a given ledger. The
 output of each stream descriptor includes the same details that are returned by
-DescribeJournalKinesisStream. This action returns a maximum of MaxResults items. It is
-paginated so that you can retrieve all the items by calling
-ListJournalKinesisStreamsForLedger multiple times.
+DescribeJournalKinesisStream. This action does not return any expired journal streams. For
+more information, see Expiration for terminal streams in the Amazon QLDB Developer Guide.
+This action returns a maximum of MaxResults items. It is paginated so that you can retrieve
+all the items by calling ListJournalKinesisStreamsForLedger multiple times.
 
 # Arguments
 - `name`: The name of the ledger.
@@ -255,7 +259,7 @@ Returns an array of journal export job descriptions for all ledgers that are ass
 with the current AWS account and Region. This action returns a maximum of MaxResults items,
 and is paginated so that you can retrieve all the items by calling ListJournalS3Exports
 multiple times. This action does not return any expired export jobs. For more information,
-see Export Job Expiration in the Amazon QLDB Developer Guide.
+see Export job expiration in the Amazon QLDB Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -275,7 +279,7 @@ list_journal_s3_exports(params::AbstractDict{String}; aws_config::AbstractAWSCon
 Returns an array of journal export job descriptions for a specified ledger. This action
 returns a maximum of MaxResults items, and is paginated so that you can retrieve all the
 items by calling ListJournalS3ExportsForLedger multiple times. This action does not return
-any expired export jobs. For more information, see Export Job Expiration in the Amazon QLDB
+any expired export jobs. For more information, see Export job expiration in the Amazon QLDB
 Developer Guide.
 
 # Arguments
@@ -319,8 +323,8 @@ list_ledgers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_
 Returns all tags for a specified Amazon QLDB resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) for which you want to list the tags. For
-  example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
+- `resource_arn`: The Amazon Resource Name (ARN) for which to list the tags. For example:
+  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
 
 """
 list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
@@ -337,7 +341,7 @@ Amazon Kinesis Data Streams resource.
 # Arguments
 - `inclusive_start_time`: The inclusive start date and time from which to start streaming
   journal data. This parameter must be in ISO 8601 date and time format and in Universal
-  Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The InclusiveStartTime cannot be
+  Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z. The InclusiveStartTime cannot be
   in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime
   that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's
   CreationDateTime.
@@ -357,7 +361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExclusiveEndTime"`: The exclusive date and time that specifies when the stream ends. If
   you don't define this parameter, the stream runs indefinitely until you cancel it. The
   ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time
-  (UTC). For example: 2019-06-13T21:36:34Z
+  (UTC). For example: 2019-06-13T21:36:34Z.
 - `"Tags"`: The key-value pairs to add as tags to the stream that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
@@ -391,9 +395,9 @@ Removes one or more tags from a specified Amazon QLDB resource. You can specify 
 tag keys to remove.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) from which you want to remove the tags.
-  For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
-- `tag_keys`: The list of tag keys that you want to remove.
+- `resource_arn`: The Amazon Resource Name (ARN) from which to remove the tags. For
+  example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
+- `tag_keys`: The list of tag keys to remove.
 
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
@@ -412,10 +416,8 @@ Updates properties on a ledger.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeletionProtection"`: The flag that prevents a ledger from being deleted by any user.
   If not provided on ledger creation, this feature is enabled (true) by default. If deletion
-  protection is enabled, you must first disable it before you can delete the ledger using the
-  QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the
-  UpdateLedger operation to set the flag to false. The QLDB console disables deletion
-  protection for you when you use it to delete a ledger.
+  protection is enabled, you must first disable it before you can delete the ledger. You can
+  disable it by calling the UpdateLedger operation to set the flag to false.
 """
 update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)"; aws_config=aws_config)
 update_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)", params; aws_config=aws_config)
@@ -424,21 +426,26 @@ update_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=
     update_ledger_permissions_mode(permissions_mode, name)
     update_ledger_permissions_mode(permissions_mode, name, params::Dict{String,<:Any})
 
-Updates the permissions mode of a ledger.
+Updates the permissions mode of a ledger.  Before you switch to the STANDARD permissions
+mode, you must first create all required IAM policies and table tags to avoid disruption to
+your users. To learn more, see Migrating to the standard permissions mode in the Amazon
+QLDB Developer Guide.
 
 # Arguments
 - `permissions_mode`: The permissions mode to assign to the ledger. This parameter can have
   one of the following values:    ALLOW_ALL: A legacy permissions mode that enables access
-  control with API-level granularity for ledgers. This mode allows users who have SendCommand
-  permissions for this ledger to run all PartiQL commands (hence, ALLOW_ALL) on any tables in
-  the specified ledger. This mode disregards any table-level or command-level IAM permissions
-  policies that you create for the ledger.    STANDARD: (Recommended) A permissions mode that
-  enables access control with finer granularity for ledgers, tables, and PartiQL commands. By
-  default, this mode denies all user requests to run any PartiQL commands on any tables in
-  this ledger. To allow PartiQL commands to run, you must create IAM permissions policies for
-  specific table resources and PartiQL actions, in addition to SendCommand API permissions
-  for the ledger.    We strongly recommend using the STANDARD permissions mode to maximize
-  the security of your ledger data.
+  control with API-level granularity for ledgers. This mode allows users who have the
+  SendCommand API permission for this ledger to run all PartiQL commands (hence, ALLOW_ALL)
+  on any tables in the specified ledger. This mode disregards any table-level or
+  command-level IAM permissions policies that you create for the ledger.    STANDARD:
+  (Recommended) A permissions mode that enables access control with finer granularity for
+  ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to
+  run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run,
+  you must create IAM permissions policies for specific table resources and PartiQL actions,
+  in addition to the SendCommand API permission for the ledger. For information, see Getting
+  started with the standard permissions mode in the Amazon QLDB Developer Guide.    We
+  strongly recommend using the STANDARD permissions mode to maximize the security of your
+  ledger data.
 - `name`: The name of the ledger.
 
 """

@@ -3185,22 +3185,22 @@ Then, to see the cost of combined resources, organize your billing information a
 resources with the same tag key values. For example, you can tag several resources with a
 specific application name, and then organize your billing information to see the total cost
 of that application across several services. For more information, see Cost Allocation and
-Tagging.  Within a bucket, if you add a tag that has the same key as an existing tag, the
-new value overwrites the old value. For more information, see Using Cost Allocation in
-Amazon S3 Bucket Tags.  To use this operation, you must have permissions to perform the
-s3:PutBucketTagging action. The bucket owner has this permission by default and can grant
-this permission to others. For more information about permissions, see Permissions Related
-to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3
-Resources.  PutBucketTagging has the following special errors:   Error code:
-InvalidTagError    Description: The tag provided was not a valid tag. This error can occur
-if the tag did not pass input validation. For information about tag restrictions, see
-User-Defined Tag Restrictions and AWS-Generated Cost Allocation Tag Restrictions.     Error
-code: MalformedXMLError    Description: The XML provided does not match the schema.
-Error code: OperationAbortedError     Description: A conflicting conditional action is
-currently in progress against this resource. Please try again.     Error code:
-InternalError    Description: The service was unable to apply the provided tag to the
-bucket.     The following operations are related to PutBucketTagging:    GetBucketTagging
-  DeleteBucketTagging
+Tagging and Using Cost Allocation in Amazon S3 Bucket Tags.   When this operation sets the
+tags for a bucket, it will overwrite any current tags the bucket already has. You cannot
+use this operation to add tags to an existing list of tags.  To use this operation, you
+must have permissions to perform the s3:PutBucketTagging action. The bucket owner has this
+permission by default and can grant this permission to others. For more information about
+permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
+Permissions to Your Amazon S3 Resources.  PutBucketTagging has the following special
+errors:   Error code: InvalidTagError    Description: The tag provided was not a valid tag.
+This error can occur if the tag did not pass input validation. For information about tag
+restrictions, see User-Defined Tag Restrictions and AWS-Generated Cost Allocation Tag
+Restrictions.     Error code: MalformedXMLError    Description: The XML provided does not
+match the schema.     Error code: OperationAbortedError     Description: A conflicting
+conditional action is currently in progress against this resource. Please try again.
+Error code: InternalError    Description: The service was unable to apply the provided tag
+to the bucket.     The following operations are related to PutBucketTagging:
+GetBucketTagging     DeleteBucketTagging
 
 # Arguments
 - `bucket`: The bucket name.
@@ -3401,7 +3401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   object. For more information about S3 Object Lock, see Object Lock.
 - `"x-amz-object-lock-mode"`: The Object Lock mode that you want to apply to this object.
 - `"x-amz-object-lock-retain-until-date"`: The date and time when you want this object's
-  Object Lock to expire.
+  Object Lock to expire. Must be formatted as a timestamp parameter.
 - `"x-amz-request-payer"`:
 - `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
   this object in Amazon S3 (for example, AES256, aws:kms).

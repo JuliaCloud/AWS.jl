@@ -637,15 +637,12 @@ Describes one or more of your clusters.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clusters"`: A list of up to 100 cluster names or full cluster Amazon Resource Name
   (ARN) entries. If you do not specify a cluster, the default cluster is assumed.
-- `"include"`: Whether to include additional information about your clusters in the
-  response. If this field is omitted, the attachments, statistics, and tags are not included.
-  If ATTACHMENTS is specified, the attachments for the container instances or tasks within
-  the cluster are included. If SETTINGS is specified, the settings for the cluster are
-  included. If STATISTICS is specified, the following additional information, separated by
-  launch type, is included:   runningEC2TasksCount   runningFargateTasksCount
-  pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount
-  activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount   If TAGS
-  is specified, the metadata tags associated with the cluster are included.
+- `"include"`: Whether to include additional information about the clusters in the
+  response. If this field is omitted, this information isn't included. If ATTACHMENTS is
+  specified, the attachments for the container instances or tasks within the cluster are
+  included. If SETTINGS is specified, the settings for the cluster are included. If
+  STATISTICS is specified, the task and service count is included, separated by launch type.
+  If TAGS is specified, the metadata tags associated with the cluster are included.
 """
 describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters"; aws_config=aws_config)
 describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters", params; aws_config=aws_config)
@@ -654,8 +651,8 @@ describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     describe_container_instances(container_instances)
     describe_container_instances(container_instances, params::Dict{String,<:Any})
 
-Describes Amazon Elastic Container Service container instances. Returns metadata about
-registered and remaining resources on each container instance requested.
+Describes one or more container instances. Returns metadata about each container instance
+requested.
 
 # Arguments
 - `container_instances`: A list of up to 100 container instance IDs or full Amazon Resource
