@@ -234,11 +234,7 @@ Amazon SageMaker Autopilot.
   Format(s) supported: CSV. Minimum of 500 rows.
 - `output_data_config`: Provides information about encryption and the Amazon S3 output path
   needed to store artifacts from an AutoML job. Format(s) supported: CSV.
-  &lt;para&gt;Specifies whether to automatically deploy the best &amp;ATP; model to an
-  endpoint and the name of that endpoint if deployed automatically.&lt;/para&gt;
-- `role_arn`: The ARN of the role that is used to access the data. &lt;para&gt;Specifies
-  whether to automatically deploy the best &amp;ATP; model to an endpoint and the name of
-  that endpoint if deployed automatically.&lt;/para&gt;
+- `role_arn`: The ARN of the role that is used to access the data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2105,8 +2101,9 @@ on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketp
 create models in Amazon SageMaker.
 
 # Arguments
-- `model_package_name`: The name of the model package. The name must have 1 to 63
-  characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
+- `model_package_name`: The name or Amazon Resource Name (ARN) of the model package to
+  delete. When you specify a name, the name must have 1 to 63 characters. Valid characters
+  are a-z, A-Z, 0-9, and - (hyphen).
 
 """
 delete_model_package(ModelPackageName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DeleteModelPackage", Dict{String, Any}("ModelPackageName"=>ModelPackageName); aws_config=aws_config)
@@ -2717,7 +2714,9 @@ SageMaker models or list them on AWS Marketplace. To create models in Amazon Sag
 buyers can subscribe to model packages listed on AWS Marketplace.
 
 # Arguments
-- `model_package_name`: The name of the model package to describe.
+- `model_package_name`: The name or Amazon Resource Name (ARN) of the model package to
+  describe. When you specify a name, the name must have 1 to 63 characters. Valid characters
+  are a-z, A-Z, 0-9, and - (hyphen).
 
 """
 describe_model_package(ModelPackageName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DescribeModelPackage", Dict{String, Any}("ModelPackageName"=>ModelPackageName); aws_config=aws_config)
@@ -4528,6 +4527,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 search(Resource; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("Search", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
 search(Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("Search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config)
+
+"""
+    send_pipeline_execution_step_failure(callback_token)
+    send_pipeline_execution_step_failure(callback_token, params::Dict{String,<:Any})
+
+Notifies the pipeline that the execution of a callback step failed, along with a message
+describing why. When a callback step is run, the pipeline generates a callback token and
+includes the token in a message sent to Amazon Simple Queue Service (Amazon SQS).
+
+# Arguments
+- `callback_token`: The pipeline generated token from the Amazon SQS queue.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the operation. An idempotent operation completes no more than one time.
+- `"FailureReason"`: A message describing why the step failed.
+"""
+send_pipeline_execution_step_failure(CallbackToken; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("SendPipelineExecutionStepFailure", Dict{String, Any}("CallbackToken"=>CallbackToken, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+send_pipeline_execution_step_failure(CallbackToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("SendPipelineExecutionStepFailure", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallbackToken"=>CallbackToken, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
+    send_pipeline_execution_step_success(callback_token)
+    send_pipeline_execution_step_success(callback_token, params::Dict{String,<:Any})
+
+Notifies the pipeline that the execution of a callback step succeeded and provides a list
+of the step's output parameters. When a callback step is run, the pipeline generates a
+callback token and includes the token in a message sent to Amazon Simple Queue Service
+(Amazon SQS).
+
+# Arguments
+- `callback_token`: The pipeline generated token from the Amazon SQS queue.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the operation. An idempotent operation completes no more than one time.
+- `"OutputParameters"`: A list of the output parameters of the callback step.
+"""
+send_pipeline_execution_step_success(CallbackToken; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("SendPipelineExecutionStepSuccess", Dict{String, Any}("CallbackToken"=>CallbackToken, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+send_pipeline_execution_step_success(CallbackToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("SendPipelineExecutionStepSuccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallbackToken"=>CallbackToken, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     start_monitoring_schedule(monitoring_schedule_name)

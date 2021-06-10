@@ -25,6 +25,29 @@ batch_delete_document(DocumentIdList, IndexId; aws_config::AbstractAWSConfig=glo
 batch_delete_document(DocumentIdList, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchDeleteDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentIdList"=>DocumentIdList, "IndexId"=>IndexId), params)); aws_config=aws_config)
 
 """
+    batch_get_document_status(document_info_list, index_id)
+    batch_get_document_status(document_info_list, index_id, params::Dict{String,<:Any})
+
+Returns the indexing status for one or more documents submitted with the  BatchPutDocument
+operation. When you use the BatchPutDocument operation, documents are indexed
+asynchronously. You can use the BatchGetDocumentStatus operation to get the current status
+of a list of documents so that you can determine if they have been successfully indexed.
+You can also use the BatchGetDocumentStatus operation to check the status of the
+BatchDeleteDocument operation. When a document is deleted from the index, Amazon Kendra
+returns NOT_FOUND as the status.
+
+# Arguments
+- `document_info_list`: A list of DocumentInfo objects that identify the documents for
+  which to get the status. You identify the documents by their document ID and optional
+  attributes.
+- `index_id`: The identifier of the index to add documents to. The index ID is returned by
+  the  CreateIndex  operation.
+
+"""
+batch_get_document_status(DocumentInfoList, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchGetDocumentStatus", Dict{String, Any}("DocumentInfoList"=>DocumentInfoList, "IndexId"=>IndexId); aws_config=aws_config)
+batch_get_document_status(DocumentInfoList, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchGetDocumentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentInfoList"=>DocumentInfoList, "IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
     batch_put_document(documents, index_id)
     batch_put_document(documents, index_id, params::Dict{String,<:Any})
 

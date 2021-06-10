@@ -270,6 +270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Node group tags do not propagate to any other resources associated with the node group,
   such as the Amazon EC2 instances or subnets.
 - `"taints"`: The Kubernetes taints to be applied to the nodes in the node group.
+- `"updateConfig"`:
 - `"version"`: The Kubernetes version to use for your managed nodes. By default, the
   Kubernetes version of the cluster is used, and this is the only accepted specified value.
   If you specify launchTemplate, and your launch template uses a custom AMI, then don't
@@ -806,6 +807,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update.
 - `"taints"`: The Kubernetes taints to be applied to the nodes in the node group after the
   update.
+- `"updateConfig"`:
 """
 update_nodegroup_config(name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 update_nodegroup_config(name, nodegroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
