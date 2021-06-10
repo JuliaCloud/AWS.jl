@@ -20,22 +20,23 @@ the access to the correct set of users who need this ability.
   Amazon EFS resources over the enabled protocols using AWS Transfer Family. If you know the
   group name, you can view the SID values by running the following command using Windows
   PowerShell.  Get-ADGroup -Filter {samAccountName -like \"YourGroupName*\"} -Properties * |
-  Select SamaccountName,ObjectSid  In that command, replace YourGroupName with the name of
+  Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of
   your Active Directory group. The regex used to validate this parameter is a string of
   characters consisting of uppercase and lowercase alphanumeric characters with no spaces.
   You can also include underscores or any of the following characters: =,.@:/-
-- `role`: Specifies the IAM role that controls your users' access to your Amazon S3 bucket
-  or EFS file system. The policies attached to this role determine the level of access that
-  you want to provide your users when transferring files into and out of your Amazon S3
-  bucket or EFS file system. The IAM role should also contain a trust relationship that
-  allows the server to access your resources when servicing your users' transfer requests.
+- `role`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
+  users' access to your Amazon S3 bucket or EFS file system. The policies attached to this
+  role determine the level of access that you want to provide your users when transferring
+  files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also
+  contain a trust relationship that allows the server to access your resources when servicing
+  your users' transfer requests.
 - `server_id`: A system-assigned unique identifier for a server instance. This is the
   specific server that you added your user to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
-  server using the client. A HomeDirectory example is /directory_name/home/mydirectory.
+  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
@@ -54,17 +55,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects as place holders for your directory. If using the AWS CLI, use the s3api or efsapi
   call instead of s3 or efs so you can use the put-object operation. For example, you can use
   the following.  aws s3api put-object --bucket bucketname --key path/to/folder/  The end of
-  the key name must end in a / for it to be considered a folder.  Required: No
-- `"HomeDirectoryType"`: The type of landing directory (folder) that you want your users'
-  home directory to be when they log in to the server. If you set it to PATH, the user will
-  see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If
-  you set it LOGICAL, you must provide mappings in the HomeDirectoryMappings for how you want
-  to make Amazon S3 paths visible to your users.
+  the key name must end in a / for it to be considered a folder.
+- `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
+  directory to be when they log into the server. If you set it to PATH, the user will see the
+  absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
+  you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
+  you want to make Amazon S3 or EFS paths visible to your users.
 - `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
   across multiple users. This policy scopes down user access to portions of their Amazon S3
   bucket. Variables that you can use inside this policy include {Transfer:UserName},
   {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
-  ServerId is S3. Amazon EFS does not use scope down policy. For scope-down policies, AWS
+  ServerId is S3. Amazon EFS does not use scope-down policies. For scope-down policies, AWS
   Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN)
   of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For
   an example of a scope-down policy, see Example scope-down policy. For more information, see
@@ -109,11 +110,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC.
   With an endpoint that is hosted in a VPC, you can restrict access to your server and
   resources only within your VPC or choose to make it internet facing by attaching Elastic IP
-  addresses directly to it.   After March 31, 2021, you won't be able to create a server
-  using EndpointType=VPC_ENDPOINT in your AWS account if your account hasn't already done so
-  before March 31, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT
-  in your AWS account on or before March 31, 2021, you will not be affected. After this date,
-  use EndpointType=VPC. For more information, see
+  addresses directly to it.   After May 19, 2021, you won't be able to create a server using
+  EndpointType=VPC_ENDPOINT in your AWS account if your account hasn't already done so before
+  May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your
+  AWS account on or before May 19, 2021, you will not be affected. After this date, use
+  EndpointType=VPC. For more information, see
   https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vp
   c-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint
   type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP
@@ -170,11 +171,12 @@ Management (IAM) role. You can also optionally add a scope-down policy, and assi
 with tags that can be used to group and search for users.
 
 # Arguments
-- `role`: Specifies the IAM role that controls your users' access to your Amazon S3 bucket
-  or EFS file system. The policies attached to this role will determine the level of access
-  you want to provide your users when transferring files into and out of your Amazon S3
-  bucket or EFS file system. The IAM role should also contain a trust relationship that
-  allows the server to access your resources when servicing your users' transfer requests.
+- `role`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
+  users' access to your Amazon S3 bucket or EFS file system. The policies attached to this
+  role determine the level of access that you want to provide your users when transferring
+  files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also
+  contain a trust relationship that allows the server to access your resources when servicing
+  your users' transfer requests.
 - `server_id`: A system-assigned unique identifier for a server instance. This is the
   specific server that you added your user to.
 - `user_name`: A unique string that identifies a user and is associated with a as specified
@@ -207,12 +209,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the key name ends in a / for it to be considered a folder.
 - `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
-  absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If you set
-  it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how you want
-  to make Amazon S3 paths visible to your users.
-- `"Policy"`: A scope-down policy for your user so you can use the same IAM role across
-  multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
-  Variables that you can use inside this policy include {Transfer:UserName},
+  absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
+  you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
+  you want to make Amazon S3 or EFS paths visible to your users.
+- `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
+  across multiple users. This policy scopes down user access to portions of their Amazon S3
+  bucket. Variables that you can use inside this policy include {Transfer:UserName},
   {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
   ServerId is S3. EFS does not use scope down policy. For scope-down policies, AWS Transfer
   Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
@@ -244,7 +246,7 @@ Allows you to delete the access specified in the ServerID and ExternalID paramet
   Amazon EFS resources over the enabled protocols using AWS Transfer Family. If you know the
   group name, you can view the SID values by running the following command using Windows
   PowerShell.  Get-ADGroup -Filter {samAccountName -like \"YourGroupName*\"} -Properties * |
-  Select SamaccountName,ObjectSid  In that command, replace YourGroupName with the name of
+  Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of
   your Active Directory group. The regex used to validate this parameter is a string of
   characters consisting of uppercase and lowercase alphanumeric characters with no spaces.
   You can also include underscores or any of the following characters: =,.@:/-
@@ -312,11 +314,11 @@ was specified.
 
 # Arguments
 - `external_id`: A unique identifier that is required to identify specific groups within
-  your directory. The users of the group you associate have access to your Amazon S3 or
+  your directory. The users of the group that you associate have access to your Amazon S3 or
   Amazon EFS resources over the enabled protocols using AWS Transfer Family. If you know the
   group name, you can view the SID values by running the following command using Windows
   PowerShell.  Get-ADGroup -Filter {samAccountName -like \"YourGroupName*\"} -Properties * |
-  Select SamaccountName,ObjectSid  In that command, replace YourGroupName with the name of
+  Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of
   your Active Directory group. The regex used to validate this parameter is a string of
   characters consisting of uppercase and lowercase alphanumeric characters with no spaces.
   You can also include underscores or any of the following characters: =,.@:/-
@@ -604,7 +606,7 @@ parameters.
   Amazon EFS resources over the enabled protocols using AWS Transfer Family. If you know the
   group name, you can view the SID values by running the following command using Windows
   PowerShell.  Get-ADGroup -Filter {samAccountName -like \"YourGroupName*\"} -Properties * |
-  Select SamaccountName,ObjectSid  In that command, replace YourGroupName with the name of
+  Select SamAccountName,ObjectSid  In that command, replace YourGroupName with the name of
   your Active Directory group. The regex used to validate this parameter is a string of
   characters consisting of uppercase and lowercase alphanumeric characters with no spaces.
   You can also include underscores or any of the following characters: =,.@:/-
@@ -614,7 +616,7 @@ parameters.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
-  server using the client. A HomeDirectory example is /directory_name/home/mydirectory.
+  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
@@ -633,13 +635,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects as place holders for your directory. If using the AWS CLI, use the s3api or efsapi
   call instead of s3 or efs so you can use the put-object operation. For example, you can use
   the following.  aws s3api put-object --bucket bucketname --key path/to/folder/  The end of
-  the key name must end in a / for it to be considered a folder.  Required: No
-- `"HomeDirectoryType"`: The type of landing directory (folder) that you want your users'
-  home directory to be when they log in to the server. If you set it to PATH, the user will
-  see the absolute Amazon S3 bucket paths as is in their file transfer protocol clients. If
-  you set it LOGICAL, you must provide mappings in the HomeDirectoryMappings for how you want
-  to make Amazon S3 paths visible to your users.
-- `"Policy"`:  A scope-down policy for your user so that you can use the same IAM role
+  the key name must end in a / for it to be considered a folder.
+- `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
+  directory to be when they log into the server. If you set it to PATH, the user will see the
+  absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
+  you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
+  you want to make Amazon S3 or EFS paths visible to your users.
+- `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
   across multiple users. This policy scopes down user access to portions of their Amazon S3
   bucket. Variables that you can use inside this policy include {Transfer:UserName},
   {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
@@ -649,11 +651,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an example of a scope-down policy, see Example scope-down policy. For more information, see
   AssumeRole in the AWS Security Token Service API Reference.
 - `"PosixProfile"`:
-- `"Role"`: Specifies the IAM role that controls your users' access to your Amazon S3
-  bucket or EFS file system. The policies attached to this role determine the level of access
-  that you want to provide your users when transferring files into and out of your Amazon S3
-  bucket or EFS file system. The IAM role should also contain a trust relationship that
-  allows the server to access your resources when servicing your users' transfer requests.
+- `"Role"`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
+  users' access to your Amazon S3 bucket or EFS file system. The policies attached to this
+  role determine the level of access that you want to provide your users when transferring
+  files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also
+  contain a trust relationship that allows the server to access your resources when servicing
+  your users' transfer requests.
 """
 update_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateAccess", Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId); aws_config=aws_config)
 update_access(ExternalId, ServerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transfer("UpdateAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalId"=>ExternalId, "ServerId"=>ServerId), params)); aws_config=aws_config)
@@ -690,11 +693,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC.
   With an endpoint that is hosted in a VPC, you can restrict access to your server and
   resources only within your VPC or choose to make it internet facing by attaching Elastic IP
-  addresses directly to it.   After March 31, 2021, you won't be able to create a server
-  using EndpointType=VPC_ENDPOINT in your AWS account if your account hasn't already done so
-  before March 31, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT
-  in your AWS account on or before March 31, 2021, you will not be affected. After this date,
-  use EndpointType=VPC. For more information, see
+  addresses directly to it.   After May 19, 2021, you won't be able to create a server using
+  EndpointType=VPC_ENDPOINT in your AWS account if your account hasn't already done so before
+  May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your
+  AWS account on or before May 19, 2021, you will not be affected. After this date, use
+  EndpointType=VPC. For more information, see
   https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vp
   c-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint
   type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP
@@ -745,9 +748,8 @@ response returns the ServerId and the UserName for the updated user.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HomeDirectory"`: Specifies the landing directory (folder) for a user when they log in
-  to the server using their file transfer protocol client. An example is
-  your-Amazon-S3-bucket-name&gt;/home/username.
+- `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
+  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You will need to specify the \"Entry\" and \"Target\" pair, where Entry shows how
@@ -770,22 +772,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
   you set it LOGICAL, you will need to provide mappings in the HomeDirectoryMappings for how
   you want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: Allows you to supply a scope-down policy for your user so you can use the
-  same IAM role across multiple users. The policy scopes down user access to portions of your
-  Amazon S3 bucket. Variables you can use inside this policy include {Transfer:UserName},
-  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  For scope-down policies, AWS Transfer
-  Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN) of the
-  policy. You save the policy as a JSON blob and pass it in the Policy argument. For an
-  example of a scope-down policy, see Creating a scope-down policy. For more information, see
-  AssumeRole in the AWS Security Token Service API Reference.
+- `"Policy"`: A scope-down policy for your user so that you can use the same IAM role
+  across multiple users. This policy scopes down user access to portions of their Amazon S3
+  bucket. Variables that you can use inside this policy include {Transfer:UserName},
+  {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when domain of
+  ServerId is S3. Amazon EFS does not use scope-down policies. For scope-down policies, AWS
+  Transfer Family stores the policy as a JSON blob, instead of the Amazon Resource Name (ARN)
+  of the policy. You save the policy as a JSON blob and pass it in the Policy argument. For
+  an example of a scope-down policy, see Creating a scope-down policy. For more information,
+  see AssumeRole in the AWS Security Token Service API Reference.
 - `"PosixProfile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
   (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to
   your Amazon Elastic File Systems (Amazon EFS). The POSIX permissions that are set on files
   and directories in your file system determines the level of access your users get when
   transferring files into and out of your Amazon EFS file systems.
-- `"Role"`: The IAM role that controls your users' access to your Amazon S3 bucket. The
-  policies attached to this role determine the level of access you want to provide your users
-  when transferring files into and out of your S3 bucket or buckets. The IAM role should also
+- `"Role"`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
+  users' access to your Amazon S3 bucket or EFS file system. The policies attached to this
+  role determine the level of access that you want to provide your users when transferring
+  files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also
   contain a trust relationship that allows the server to access your resources when servicing
   your users' transfer requests.
 """

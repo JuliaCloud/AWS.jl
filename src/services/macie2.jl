@@ -912,6 +912,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: The action to perform on findings that meet the filter criteria
   (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the
   findings; and, NOOP, don't perform any action on the findings.
+- `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
+  idempotency of the request.
 - `"description"`: A custom description of the filter. The description can contain as many
   as 512 characters. We strongly recommend that you avoid including any sensitive data in the
   description of a filter. Other users might be able to see the filter's description,
@@ -925,8 +927,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   console. This value also determines the order in which the filter is applied to findings,
   relative to other filters that are also applied to the findings.
 """
-update_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)"; aws_config=aws_config)
-update_findings_filter(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)", params; aws_config=aws_config)
+update_findings_filter(id; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+update_findings_filter(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/findingsfilters/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     update_macie_session()

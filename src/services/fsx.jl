@@ -569,11 +569,12 @@ untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::A
 
 Use this operation to update the configuration of an existing Amazon FSx file system. You
 can update multiple properties in a single request. For Amazon FSx for Windows File Server
-file systems, you can update the following properties:   AutomaticBackupRetentionDays
-DailyAutomaticBackupStartTime   SelfManagedActiveDirectoryConfiguration   StorageCapacity
-ThroughputCapacity   WeeklyMaintenanceStartTime   For Amazon FSx for Lustre file systems,
-you can update the following properties:   AutoImportPolicy   AutomaticBackupRetentionDays
- DailyAutomaticBackupStartTime   DataCompressionType   StorageCapacity
+file systems, you can update the following properties:   AuditLogConfiguration
+AutomaticBackupRetentionDays   DailyAutomaticBackupStartTime
+SelfManagedActiveDirectoryConfiguration   StorageCapacity   ThroughputCapacity
+WeeklyMaintenanceStartTime   For Amazon FSx for Lustre file systems, you can update the
+following properties:   AutoImportPolicy   AutomaticBackupRetentionDays
+DailyAutomaticBackupStartTime   DataCompressionType   StorageCapacity
 WeeklyMaintenanceStartTime
 
 # Arguments
