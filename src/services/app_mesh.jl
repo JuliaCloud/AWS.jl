@@ -145,10 +145,9 @@ in your task definition or pod spec. This is then mapped to the node.id and node
 Envoy parameters.  By default, App Mesh uses the name of the resource you specified in
 APPMESH_RESOURCE_ARN when Envoy is referring to itself in metrics and traces. You can
 override this behavior by setting the APPMESH_RESOURCE_CLUSTER environment variable with
-your own name. AWS Cloud Map is not available in the eu-south-1 Region.  For more
-information about virtual nodes, see Virtual nodes. You must be using 1.15.0 or later of
-the Envoy image when setting these variables. For more information about App Mesh Envoy
-variables, see Envoy image in the AWS App Mesh User Guide.
+your own name.  For more information about virtual nodes, see Virtual nodes. You must be
+using 1.15.0 or later of the Envoy image when setting these variables. For more information
+aboutApp Mesh Envoy variables, see Envoy image in the AWS App Mesh User Guide.
 
 # Arguments
 - `mesh_name`: The name of the service mesh to create the virtual node in.

@@ -5,6 +5,51 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_associate_client_device_with_core_device(core_device_thing_name)
+    batch_associate_client_device_with_core_device(core_device_thing_name, params::Dict{String,<:Any})
+
+Associate a list of client devices with a core device. Use this API operation to specify
+which client devices can discover a core device through cloud discovery. With cloud
+discovery, client devices connect to AWS IoT Greengrass to retrieve associated core
+devices' connectivity information and certificates. For more information, see Configure
+cloud discovery in the AWS IoT Greengrass V2 Developer Guide.  Client devices are local IoT
+devices that connect to and communicate with an AWS IoT Greengrass core device over MQTT.
+You can connect client devices to a core device to sync MQTT messages and data to AWS IoT
+Core and interact with client devices in AWS IoT Greengrass components. For more
+information, see Interact with local IoT devices in the AWS IoT Greengrass V2 Developer
+Guide.
+
+# Arguments
+- `core_device_thing_name`: The name of the core device. This is also the name of the AWS
+  IoT thing.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"entries"`: The list of client devices to associate.
+"""
+batch_associate_client_device_with_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associateClientDevices"; aws_config=aws_config)
+batch_associate_client_device_with_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associateClientDevices", params; aws_config=aws_config)
+
+"""
+    batch_disassociate_client_device_from_core_device(core_device_thing_name)
+    batch_disassociate_client_device_from_core_device(core_device_thing_name, params::Dict{String,<:Any})
+
+Disassociate a list of client devices from a core device. After you disassociate a client
+device from a core device, the client device won't be able to use cloud discovery to
+retrieve the core device's connectivity information and certificates.
+
+# Arguments
+- `core_device_thing_name`: The name of the core device. This is also the name of the AWS
+  IoT thing.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"entries"`: The list of client devices to disassociate.
+"""
+batch_disassociate_client_device_from_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/disassociateClientDevices"; aws_config=aws_config)
+batch_disassociate_client_device_from_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("POST", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/disassociateClientDevices", params; aws_config=aws_config)
+
+"""
     cancel_deployment(deployment_id)
     cancel_deployment(deployment_id, params::Dict{String,<:Any})
 
@@ -201,10 +246,29 @@ get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) 
 get_deployment(deploymentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/deployments/$(deploymentId)", params; aws_config=aws_config)
 
 """
+    list_client_devices_associated_with_core_device(core_device_thing_name)
+    list_client_devices_associated_with_core_device(core_device_thing_name, params::Dict{String,<:Any})
+
+Retrieves a paginated list of client devices that are associated with a core device.
+
+# Arguments
+- `core_device_thing_name`: The name of the core device. This is also the name of the AWS
+  IoT thing.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to be returned per paginated request.
+- `"nextToken"`: The token to be used for the next set of paginated results.
+"""
+list_client_devices_associated_with_core_device(coreDeviceThingName; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associatedClientDevices"; aws_config=aws_config)
+list_client_devices_associated_with_core_device(coreDeviceThingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = greengrassv2("GET", "/greengrass/v2/coreDevices/$(coreDeviceThingName)/associatedClientDevices", params; aws_config=aws_config)
+
+"""
     list_component_versions(arn)
     list_component_versions(arn, params::Dict{String,<:Any})
 
-Retrieves a paginated list of all versions for a component.
+Retrieves a paginated list of all versions for a component. Greater versions are listed
+first.
 
 # Arguments
 - `arn`: The ARN of the component version.

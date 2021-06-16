@@ -276,7 +276,7 @@ create_resource_policy(policy, resourceArn, params::AbstractDict{String}; aws_co
 
 Adds a new resource policy statement to a bot or bot alias. If a resource policy exists,
 the statement is added to the current resource policy. If a policy doesn't exist, a new
-policy is created. You can create a resource policy statement that allows cross-account
+policy is created. You can't create a resource policy statement that allows cross-account
 access.
 
 # Arguments
@@ -332,6 +332,10 @@ you define one or more utterances that Amazon Lex uses to elicit a response from
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A description of the slot. Use this to help identify the slot in lists.
+- `"multipleValuesSetting"`: Indicates whether the slot returns multiple values in one
+  response. Multi-value slots are only available in the en-US locale. If you set this value
+  to true in any other locale, Amazon Lex throws a ValidationException.  If the
+  multipleValuesSetting is not set, the default value is false.
 - `"obfuscationSetting"`: Determines how slot values are used in Amazon CloudWatch logs. If
   the value of the obfuscationSetting parameter is DefaultObfuscation, slot values are
   obfuscated in the log output. If the value is None, the actual value is present in the log
@@ -1190,7 +1194,10 @@ update_bot_locale(botId, botVersion, localeId, nluIntentConfidenceThreshold, par
     update_export(export_id)
     update_export(export_id, params::Dict{String,<:Any})
 
-Updates the password used to encrypt an export zip archive.
+Updates the password used to protect an export zip archive. The password is not required.
+If you don't supply a password, Amazon Lex generates a zip file that is not protected by a
+password. This is the archive that is available at the pre-signed S3 URL provided by the
+operation.
 
 # Arguments
 - `export_id`: The unique identifier Amazon Lex assigned to the export.
@@ -1289,6 +1296,10 @@ Updates the settings for a slot.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The new description for the slot.
+- `"multipleValuesSetting"`: Determines whether the slot accepts multiple values in one
+  response. Multiple value slots are only available in the en-US locale. If you set this
+  value to true in any other locale, Amazon Lex throws a ValidationException. If the
+  multipleValuesSetting is not set, the default value is false.
 - `"obfuscationSetting"`: New settings that determine how slot values are formatted in
   Amazon CloudWatch logs.
 """

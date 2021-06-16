@@ -12,12 +12,32 @@ This API is in preview release for Amazon Connect and is subject to change. Asso
 approved origin to an Amazon Connect instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `origin`: The domain to add to your allow list.
 
 """
 associate_approved_origin(InstanceId, Origin; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}("Origin"=>Origin); aws_config=aws_config)
 associate_approved_origin(InstanceId, Origin, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Origin"=>Origin), params)); aws_config=aws_config)
+
+"""
+    associate_bot(instance_id)
+    associate_bot(instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Allows the
+specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LexBot"`:
+- `"LexV2Bot"`: The Amazon Lex V2 bot to associate with the instance.
+"""
+associate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/bot"; aws_config=aws_config)
+associate_bot(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/bot", params; aws_config=aws_config)
 
 """
     associate_instance_storage_config(instance_id, resource_type, storage_config)
@@ -32,7 +52,8 @@ specified in the storage configuration, like an S3 bucket, exists when being use
 association.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `resource_type`: A valid resource type.
 - `storage_config`: A valid storage type.
 
@@ -50,7 +71,8 @@ specified Amazon Connect instance to access the specified Lambda function.
 # Arguments
 - `function_arn`: The Amazon Resource Name (ARN) for the Lambda function being associated.
   Maximum number of characters allowed is 140.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 associate_lambda_function(FunctionArn, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lambda-function", Dict{String, Any}("FunctionArn"=>FunctionArn); aws_config=aws_config)
@@ -64,8 +86,9 @@ This API is in preview release for Amazon Connect and is subject to change. Allo
 specified Amazon Connect instance to access the specified Amazon Lex bot.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
-- `lex_bot`: The Amazon Lex box to associate with the instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `lex_bot`: The Amazon Lex bot to associate with the instance.
 
 """
 associate_lex_bot(InstanceId, LexBot; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/lex-bot", Dict{String, Any}("LexBot"=>LexBot); aws_config=aws_config)
@@ -79,7 +102,8 @@ This API is in preview release for Amazon Connect and is subject to change. Asso
 set of quick connects with a queue.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_id`: The identifier for the queue.
 - `quick_connect_ids`: The quick connects to associate with this queue.
 
@@ -94,7 +118,8 @@ associate_queue_quick_connects(InstanceId, QueueId, QuickConnectIds, params::Abs
 Associates a set of queues with a routing profile.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_configs`: The queues to associate with this routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
@@ -110,7 +135,8 @@ This API is in preview release for Amazon Connect and is subject to change. Asso
 security key to the instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `key`: A valid security key in PEM format.
 
 """
@@ -173,7 +199,8 @@ create_instance(IdentityManagementType, InboundCallsEnabled, OutboundCallsEnable
 Create an AppIntegration association with an Amazon Connect instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `integration_arn`: The Amazon Resource Name (ARN) of the integration.
 - `integration_type`: The type of information to be ingested.
 - `source_application_name`: The name of the external application.
@@ -196,7 +223,8 @@ queue for the specified Amazon Connect instance.
 
 # Arguments
 - `hours_of_operation_id`: The identifier for the hours of operation.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `name`: The name of the queue.
 
 # Optional Parameters
@@ -219,7 +247,8 @@ This API is in preview release for Amazon Connect and is subject to change. Crea
 connect for the specified Amazon Connect instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `name`: The name of the quick connect.
 - `quick_connect_config`: Configuration settings for the quick connect.
 
@@ -240,7 +269,8 @@ Creates a new routing profile.
 # Arguments
 - `default_outbound_queue_id`: The default outbound queue for the routing profile.
 - `description`: Description of the routing profile. Must not be more than 250 characters.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `media_concurrencies`: The channels that agents can handle in the Contact Control Panel
   (CCP) for this routing profile.
 - `name`: The name of the routing profile. Must not be more than 127 characters.
@@ -261,7 +291,8 @@ create_routing_profile(DefaultOutboundQueueId, Description, InstanceId, MediaCon
 Creates a use case for an AppIntegration association.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `integration_association_id`: The identifier for the AppIntegration association.
 - `use_case_type`: The type of use case to associate to the AppIntegration association.
   Each AppIntegration association can have only one of each use case type.
@@ -282,7 +313,8 @@ to create user accounts using the Amazon Connect console, see Add Users in the A
 Connect Administrator Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `phone_config`: The phone settings for the user.
 - `routing_profile_id`: The identifier of the routing profile for the user.
 - `security_profile_ids`: The identifier of the security profile for the user.
@@ -316,7 +348,8 @@ create_user(InstanceId, PhoneConfig, RoutingProfileId, SecurityProfileIds, Usern
 Creates a new user hierarchy group.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `name`: The name of the user hierarchy group. Must not be more than 100 characters.
 
 # Optional Parameters
@@ -339,7 +372,8 @@ instances. You must wait 30 days before you can restart creating and deleting in
 your account.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)"; aws_config=aws_config)
@@ -353,7 +387,8 @@ Deletes an AppIntegration association from an Amazon Connect instance. The assoc
 not have any use cases associated with it.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `integration_association_id`: The identifier for the AppIntegration association.
 
 """
@@ -368,7 +403,8 @@ This API is in preview release for Amazon Connect and is subject to change. Dele
 connect.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `quick_connect_id`: The identifier for the quick connect.
 
 """
@@ -382,7 +418,8 @@ delete_quick_connect(InstanceId, QuickConnectId, params::AbstractDict{String}; a
 Deletes a use case from an AppIntegration association.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `integration_association_id`: The identifier for the AppIntegration association.
 - `use_case_id`: The identifier for the use case.
 
@@ -399,7 +436,8 @@ what happens to a user's data when their account is deleted, see Delete Users fr
 Amazon Connect Instance in the Amazon Connect Administrator Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `user_id`: The identifier of the user.
 
 """
@@ -415,7 +453,8 @@ any active child groups.
 
 # Arguments
 - `hierarchy_group_id`: The identifier of the hierarchy group.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 delete_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)"; aws_config=aws_config)
@@ -445,7 +484,8 @@ hours of operation.
 
 # Arguments
 - `hours_of_operation_id`: The identifier for the hours of operation.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 describe_hours_of_operation(HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)"; aws_config=aws_config)
@@ -463,7 +503,8 @@ instance in a failed state is returned only for 24 hours after the CreateInstanc
 invoked.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 describe_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)"; aws_config=aws_config)
@@ -478,7 +519,8 @@ specified instance attribute.
 
 # Arguments
 - `attribute_type`: The type of attribute.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 describe_instance_attribute(AttributeType, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/attribute/$(AttributeType)"; aws_config=aws_config)
@@ -495,7 +537,8 @@ instance ID.
 # Arguments
 - `association_id`: The existing association identifier that uniquely identifies the
   resource type and storage config for the given instance ID.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `resource_type`: A valid resource type.
 
 """
@@ -510,7 +553,8 @@ This API is in preview release for Amazon Connect and is subject to change. Desc
 specified queue.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_id`: The identifier for the queue.
 
 """
@@ -525,7 +569,8 @@ This API is in preview release for Amazon Connect and is subject to change. Desc
 quick connect.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `quick_connect_id`: The identifier for the quick connect.
 
 """
@@ -539,7 +584,8 @@ describe_quick_connect(InstanceId, QuickConnectId, params::AbstractDict{String};
 Describes the specified routing profile.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
@@ -555,7 +601,8 @@ the final part of the ARN). The console does not display the user IDs. Instead, 
 users and note the IDs provided in the output.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `user_id`: The identifier of the user account.
 
 """
@@ -570,7 +617,8 @@ Describes the specified hierarchy group.
 
 # Arguments
 - `hierarchy_group_id`: The identifier of the hierarchy group.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 describe_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)"; aws_config=aws_config)
@@ -583,7 +631,8 @@ describe_user_hierarchy_group(HierarchyGroupId, InstanceId, params::AbstractDict
 Describes the hierarchy structure of the specified Amazon Connect instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 describe_user_hierarchy_structure(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/user-hierarchy-structure/$(InstanceId)"; aws_config=aws_config)
@@ -597,12 +646,33 @@ This API is in preview release for Amazon Connect and is subject to change. Revo
 to integrated applications from Amazon Connect.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `origin`: The domain URL of the integrated application.
 
 """
 disassociate_approved_origin(InstanceId, origin; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}("origin"=>origin); aws_config=aws_config)
 disassociate_approved_origin(InstanceId, origin, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/approved-origin", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("origin"=>origin), params)); aws_config=aws_config)
+
+"""
+    disassociate_bot(instance_id)
+    disassociate_bot(instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Revokes
+authorization from the specified instance to access the specified Amazon Lex or Amazon Lex
+V2 bot.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LexBot"`:
+- `"LexV2Bot"`: The Amazon Lex V2 bot to disassociate from the instance.
+"""
+disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/bot"; aws_config=aws_config)
+disassociate_bot(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/instance/$(InstanceId)/bot", params; aws_config=aws_config)
 
 """
     disassociate_instance_storage_config(association_id, instance_id, resource_type)
@@ -614,7 +684,8 @@ storage type configurations for the specified resource type and association ID.
 # Arguments
 - `association_id`: The existing association identifier that uniquely identifies the
   resource type and storage config for the given instance ID.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `resource_type`: A valid resource type.
 
 """
@@ -629,7 +700,8 @@ This API is in preview release for Amazon Connect and is subject to change. Remo
 Lambda function from the dropdown options available in the relevant contact flow blocks.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance..
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance..
 - `function_arn`: The Amazon Resource Name (ARN) of the Lambda function being disassociated.
 
 """
@@ -644,7 +716,8 @@ This API is in preview release for Amazon Connect and is subject to change. Revo
 authorization from the specified instance to access the specified Amazon Lex bot.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `bot_name`: The name of the Amazon Lex bot. Maximum character limit of 50.
 - `lex_region`: The Region in which the Amazon Lex bot has been created.
 
@@ -660,7 +733,8 @@ This API is in preview release for Amazon Connect and is subject to change. Disa
 set of quick connects from a queue.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_id`: The identifier for the queue.
 - `quick_connect_ids`: The quick connects to disassociate from the queue.
 
@@ -675,7 +749,8 @@ disassociate_queue_quick_connects(InstanceId, QueueId, QuickConnectIds, params::
 Disassociates a set of queues from a routing profile.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_references`: The queues to disassociate from this routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
@@ -693,7 +768,8 @@ specified security key.
 # Arguments
 - `association_id`: The existing association identifier that uniquely identifies the
   resource type and storage config for the given instance ID.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 disassociate_security_key(AssociationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/instance/$(InstanceId)/security-key/$(AssociationId)"; aws_config=aws_config)
@@ -743,7 +819,8 @@ Administrator Guide.
   Metric data is retrieved only for the resources associated with the queues or channels
   included in the filter. You can include both queue IDs and queue ARNs in the same request.
   VOICE, CHAT, and TASK channels are supported.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -770,7 +847,8 @@ one appears:   Provided identity: Principal: .... User: .... cannot be used for 
 with Amazon Connect
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 get_federation_token(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/user/federate/$(InstanceId)"; aws_config=aws_config)
@@ -796,25 +874,28 @@ Administrator Guide.
   not the name of the queue.
 - `historical_metrics`: The metrics to retrieve. Specify the name, unit, and statistic for
   each metric. The following historical metrics are available. For a description of each
-  metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
-  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS
-  Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED
-   Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM
-  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT
-  Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING
-  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM
-  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic:
-  SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT
-  Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM
-  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE
-  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit:
-  SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG
-  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG
-  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX
-  SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT
-  Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800
-  (inclusive), in seconds. For Comparison, you must enter LT (for \"Less than\").
-- `instance_id`: The identifier of the Amazon Connect instance.
+  metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  This
+  API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric
+  missing from the documented list).    ABANDON_TIME  Unit: SECONDS Statistic: AVG
+  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT
+  Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED
+  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM
+  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic:
+  SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND
+  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM
+  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM
+  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE
+  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM
+  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS
+  Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit:
+  SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit:
+  PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit:
+  SECONDS Statistic: MAX  SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a
+  request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number
+  from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for \"Less
+  than\").
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `start_time`: The timestamp, in UNIX Epoch time format, at which to start the reporting
   interval for the retrieval of historical metrics data. The time must be specified using a
   multiple of 5 minutes, such as 10:05, 10:10, 10:15. The start time cannot be earlier than
@@ -841,7 +922,8 @@ This API is in preview release for Amazon Connect and is subject to change. Retu
 paginated list of all approved origins associated with the instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -853,6 +935,28 @@ list_approved_origins(InstanceId; aws_config::AbstractAWSConfig=global_aws_confi
 list_approved_origins(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/approved-origins", params; aws_config=aws_config)
 
 """
+    list_bots(instance_id, lex_version)
+    list_bots(instance_id, lex_version, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. For the
+specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots
+currently associated with the instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `lex_version`: The version of Amazon Lex or Amazon Lex V2.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+list_bots(InstanceId, lexVersion; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/bots", Dict{String, Any}("lexVersion"=>lexVersion); aws_config=aws_config)
+list_bots(InstanceId, lexVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/instance/$(InstanceId)/bots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lexVersion"=>lexVersion), params)); aws_config=aws_config)
+
+"""
     list_contact_flows(instance_id)
     list_contact_flows(instance_id, params::Dict{String,<:Any})
 
@@ -862,7 +966,8 @@ information about contact flows, see Contact Flows in the Amazon Connect Adminis
 Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -883,7 +988,8 @@ instance. For more information about hours of operation, see Set the Hours of Op
 a Queue in the Amazon Connect Administrator Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -902,7 +1008,8 @@ This API is in preview release for Amazon Connect and is subject to change. Retu
 paginated list of all attribute types for the given instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -921,7 +1028,8 @@ This API is in preview release for Amazon Connect and is subject to change. Retu
 paginated list of storage configs for the identified instance and resource type.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `resource_type`: A valid resource type.
 
 # Optional Parameters
@@ -959,7 +1067,8 @@ Provides summary information about the AppIntegration associations for the speci
 Connect instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -979,7 +1088,8 @@ paginated list of all Lambda functions that display in the dropdown options in t
 contact flow blocks.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -998,7 +1108,8 @@ This API is in preview release for Amazon Connect and is subject to change. Retu
 paginated list of all the Amazon Lex bots currently associated with the instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1018,7 +1129,8 @@ For more information about phone numbers, see Set Up Phone Numbers for Your Cont
 in the Amazon Connect Administrator Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1057,7 +1169,8 @@ This API is in preview release for Amazon Connect and is subject to change. List
 connects associated with a queue.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_id`: The identifier for the queue.
 
 # Optional Parameters
@@ -1080,7 +1193,8 @@ the number of results of the API call in code. For more information about queues
 Queues: Standard and Agent in the Amazon Connect Administrator Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1100,7 +1214,8 @@ This API is in preview release for Amazon Connect and is subject to change. Prov
 information about the quick connects for the specified Amazon Connect instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1121,7 +1236,8 @@ list_quick_connects(InstanceId, params::AbstractDict{String}; aws_config::Abstra
 Lists the queues associated with a routing profile.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `routing_profile_id`: The identifier of the routing profile.
 
 # Optional Parameters
@@ -1142,7 +1258,8 @@ instance. For more information about routing profiles, see Routing Profiles and 
 Routing Profile in the Amazon Connect Administrator Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1161,7 +1278,8 @@ This API is in preview release for Amazon Connect and is subject to change. Retu
 paginated list of all security keys associated with the instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1181,7 +1299,8 @@ instance. For more information about security profiles, see Security Profiles in
 Connect Administrator Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1213,7 +1332,8 @@ list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::Ab
 Lists the use cases.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `integration_association_id`: The identifier for the integration association.
 
 # Optional Parameters
@@ -1234,7 +1354,8 @@ instance. For more information about agent hierarchies, see Set Up Agent Hierarc
 Amazon Connect Administrator Guide.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1252,7 +1373,8 @@ list_user_hierarchy_groups(InstanceId, params::AbstractDict{String}; aws_config:
 Provides summary information about the users for the specified Amazon Connect instance.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1275,7 +1397,8 @@ supported at this time.
 - `contact_id`: The identifier of the contact.
 - `initial_contact_id`: The identifier of the contact. This is the identifier of the
   contact associated with the first interaction with the contact center.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 resume_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/contact/resume-recording", Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
@@ -1304,7 +1427,8 @@ Administrator Guide.
   part of the ARN, shown here in bold:
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact
   -flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `participant_details`: Information identifying the participant.
 
 # Optional Parameters
@@ -1336,7 +1460,8 @@ in the Set recording behavior block. Only voice recordings are supported at this
 - `contact_id`: The identifier of the contact.
 - `initial_contact_id`: The identifier of the contact. This is the identifier of the
   contact associated with the first interaction with the contact center.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `voice_recording_configuration`: The person being recorded.
 
 """
@@ -1366,7 +1491,8 @@ Quotas in the Amazon Connect Administrator Guide.
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact
   -flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
 - `destination_phone_number`: The phone number of the customer, in E.164 format.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1376,8 +1502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. The token is valid for 7 days after creation. If a contact is
-  already started, the contact ID is returned. If the contact is disconnected, a new contact
-  is started.
+  already started, the contact ID is returned.
 - `"QueueId"`: The queue for the call. If you specify a queue, the phone displayed for
   caller ID is the phone number specified in the queue. If you do not specify a queue, the
   queue defined in the contact flow is used. If you do not specify a queue, you must specify
@@ -1402,7 +1527,8 @@ Initiates a contact flow to start a new task.
   last part of the ARN, shown here in bold:
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact
   -flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `name`: The name of a task that is shown to an agent in the Contact Control Panel (CCP).
 
 # Optional Parameters
@@ -1430,7 +1556,8 @@ Ends the specified contact.
 
 # Arguments
 - `contact_id`: The ID of the contact.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 stop_contact(ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/contact/stop", Dict{String, Any}("ContactId"=>ContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
@@ -1451,7 +1578,8 @@ voice recordings are supported at this time.
 - `contact_id`: The identifier of the contact.
 - `initial_contact_id`: The identifier of the contact. This is the identifier of the
   contact associated with the first interaction with the contact center.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 stop_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/contact/stop-recording", Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
@@ -1471,7 +1599,8 @@ recordings are supported at this time.
 - `contact_id`: The identifier of the contact.
 - `initial_contact_id`: The identifier of the contact. This is the identifier of the
   contact associated with the first interaction with the contact center.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 suspend_contact_recording(ContactId, InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/contact/suspend-recording", Dict{String, Any}("ContactId"=>ContactId, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
@@ -1537,7 +1666,8 @@ the API but are still active in your instance.
   underscore characters.
 - `initial_contact_id`: The identifier of the contact. This is the identifier of the
   contact associated with the first interaction with the contact center.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 update_contact_attributes(Attributes, InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/contact/attributes", Dict{String, Any}("Attributes"=>Attributes, "InitialContactId"=>InitialContactId, "InstanceId"=>InstanceId); aws_config=aws_config)
@@ -1589,7 +1719,8 @@ value for the specified attribute type.
 
 # Arguments
 - `attribute_type`: The type of attribute.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `value`: The value for the attribute. Maximum character limit is 100.
 
 """
@@ -1606,7 +1737,8 @@ existing configuration for a resource type. This API is idempotent.
 # Arguments
 - `association_id`: The existing association identifier that uniquely identifies the
   resource type and storage config for the given instance ID.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `storage_config`:
 - `resource_type`: A valid resource type.
 
@@ -1623,7 +1755,8 @@ hours of operation for the specified queue.
 
 # Arguments
 - `hours_of_operation_id`: The identifier for the hours of operation.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_id`: The identifier for the queue.
 
 """
@@ -1638,7 +1771,8 @@ This API is in preview release for Amazon Connect and is subject to change. Upda
 maximum number of contacts allowed in a queue before it is considered full.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_id`: The identifier for the queue.
 
 # Optional Parameters
@@ -1657,7 +1791,8 @@ This API is in preview release for Amazon Connect and is subject to change. Upda
 name and description of a queue. At least Name or Description must be provided.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_id`: The identifier for the queue.
 
 # Optional Parameters
@@ -1676,7 +1811,8 @@ This API is in preview release for Amazon Connect and is subject to change. Upda
 outbound caller ID name, number, and outbound whisper flow for a specified queue.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `outbound_caller_config`: The outbound caller ID name, number, and outbound whisper flow.
 - `queue_id`: The identifier for the queue.
 
@@ -1692,7 +1828,8 @@ This API is in preview release for Amazon Connect and is subject to change. Upda
 status of the queue.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_id`: The identifier for the queue.
 - `status`: The status of the queue.
 
@@ -1708,7 +1845,8 @@ This API is in preview release for Amazon Connect and is subject to change. Upda
 configuration settings for the specified quick connect.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `quick_connect_config`: Information about the configuration settings for the quick
   connect.
 - `quick_connect_id`: The identifier for the quick connect.
@@ -1726,7 +1864,8 @@ name and description of a quick connect. The request accepts the following data 
 format. At least Name or Description must be provided.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `quick_connect_id`: The identifier for the quick connect.
 
 # Optional Parameters
@@ -1745,7 +1884,8 @@ Updates the channels that agents can handle in the Contact Control Panel (CCP) f
 routing profile.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `media_concurrencies`: The channels that agents can handle in the Contact Control Panel
   (CCP).
 - `routing_profile_id`: The identifier of the routing profile.
@@ -1762,7 +1902,8 @@ Updates the default outbound queue of a routing profile.
 
 # Arguments
 - `default_outbound_queue_id`: The identifier for the default outbound queue.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `routing_profile_id`: The identifier of the routing profile.
 
 """
@@ -1777,7 +1918,8 @@ Updates the name and description of a routing profile. The request accepts the f
 data in JSON format. At least Name or Description must be provided.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `routing_profile_id`: The identifier of the routing profile.
 
 # Optional Parameters
@@ -1796,7 +1938,8 @@ update_routing_profile_name(InstanceId, RoutingProfileId, params::AbstractDict{S
 Updates the properties associated with a set of queues for a routing profile.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `queue_configs`: The queues to be updated for this routing profile. Queues must first be
   associated to the routing profile. You can do this using AssociateRoutingProfileQueues.
 - `routing_profile_id`: The identifier of the routing profile.
@@ -1812,7 +1955,8 @@ update_routing_profile_queues(InstanceId, QueueConfigs, RoutingProfileId, params
 Assigns the specified hierarchy group to the specified user.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `user_id`: The identifier of the user account.
 
 # Optional Parameters
@@ -1830,7 +1974,8 @@ Updates the name of the user hierarchy group.
 
 # Arguments
 - `hierarchy_group_id`: The identifier of the hierarchy group.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `name`: The name of the hierarchy group. Must not be more than 100 characters.
 
 """
@@ -1845,7 +1990,8 @@ Updates the user hierarchy structure: add, remove, and rename user hierarchy lev
 
 # Arguments
 - `hierarchy_structure`: The hierarchy levels to update.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 
 """
 update_user_hierarchy_structure(HierarchyStructure, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/user-hierarchy-structure/$(InstanceId)", Dict{String, Any}("HierarchyStructure"=>HierarchyStructure); aws_config=aws_config)
@@ -1864,7 +2010,8 @@ Practices for Security Profiles in the Amazon Connect Administrator Guide.
 
 # Arguments
 - `identity_info`: The identity information for the user.
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `user_id`: The identifier of the user account.
 
 """
@@ -1878,7 +2025,8 @@ update_user_identity_info(IdentityInfo, InstanceId, UserId, params::AbstractDict
 Updates the phone configuration settings for the specified user.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `phone_config`: Information about phone configuration settings for the user.
 - `user_id`: The identifier of the user account.
 
@@ -1893,7 +2041,8 @@ update_user_phone_config(InstanceId, PhoneConfig, UserId, params::AbstractDict{S
 Assigns the specified routing profile to the specified user.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `routing_profile_id`: The identifier of the routing profile for the user.
 - `user_id`: The identifier of the user account.
 
@@ -1908,7 +2057,8 @@ update_user_routing_profile(InstanceId, RoutingProfileId, UserId, params::Abstra
 Assigns the specified security profiles to the specified user.
 
 # Arguments
-- `instance_id`: The identifier of the Amazon Connect instance.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
 - `security_profile_ids`: The identifiers of the security profiles for the user.
 - `user_id`: The identifier of the user account.
 
