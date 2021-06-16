@@ -1929,33 +1929,41 @@ create_managed_prefix_list(AddressFamily, MaxEntries, PrefixListName; aws_config
 create_managed_prefix_list(AddressFamily, MaxEntries, PrefixListName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateManagedPrefixList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressFamily"=>AddressFamily, "MaxEntries"=>MaxEntries, "PrefixListName"=>PrefixListName, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    create_nat_gateway(allocation_id, subnet_id)
-    create_nat_gateway(allocation_id, subnet_id, params::Dict{String,<:Any})
+    create_nat_gateway(subnet_id)
+    create_nat_gateway(subnet_id, params::Dict{String,<:Any})
 
-Creates a NAT gateway in the specified public subnet. This action creates a network
-interface in the specified subnet with a private IP address from the IP address range of
-the subnet. Internet-bound traffic from a private subnet can be routed to the NAT gateway,
-therefore enabling instances in the private subnet to connect to the internet. For more
-information, see NAT Gateways in the Amazon Virtual Private Cloud User Guide.
+Creates a NAT gateway in the specified subnet. This action creates a network interface in
+the specified subnet with a private IP address from the IP address range of the subnet. You
+can create either a public NAT gateway or a private NAT gateway. With a public NAT gateway,
+internet-bound traffic from a private subnet can be routed to the NAT gateway, so that
+instances in a private subnet can connect to the internet. With a private NAT gateway,
+private communication is routed across VPCs and on-premises networks through a transit
+gateway or virtual private gateway. Common use cases include running large workloads behind
+a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and
+communicating between overlapping networks. For more information, see NAT Gateways in the
+Amazon Virtual Private Cloud User Guide.
 
 # Arguments
-- `allocation_id`: The allocation ID of an Elastic IP address to associate with the NAT
-  gateway. If the Elastic IP address is associated with another resource, you must first
-  disassociate it.
 - `subnet_id`: The subnet in which to create the NAT gateway.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllocationId"`: [Public NAT gateways only] The allocation ID of an Elastic IP address
+  to associate with the NAT gateway. You cannot specify an Elastic IP address with a private
+  NAT gateway. If the Elastic IP address is associated with another resource, you must first
+  disassociate it.
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see How to Ensure Idempotency.
   Constraint: Maximum 64 ASCII characters.
+- `"ConnectivityType"`: Indicates whether the NAT gateway supports public or private
+  connectivity. The default is public connectivity.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"TagSpecification"`: The tags to assign to the NAT gateway.
 """
-create_nat_gateway(AllocationId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}("AllocationId"=>AllocationId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_nat_gateway(AllocationId, SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllocationId"=>AllocationId, "SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+create_nat_gateway(SubnetId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}("SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_nat_gateway(SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNatGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_network_acl(vpc_id)
@@ -3609,8 +3617,8 @@ delete_managed_prefix_list(PrefixListId, params::AbstractDict{String}; aws_confi
     delete_nat_gateway(nat_gateway_id)
     delete_nat_gateway(nat_gateway_id, params::Dict{String,<:Any})
 
-Deletes the specified NAT gateway. Deleting a NAT gateway disassociates its Elastic IP
-address, but does not release the address from your account. Deleting a NAT gateway does
+Deletes the specified NAT gateway. Deleting a public NAT gateway disassociates its Elastic
+IP address, but does not release the address from your account. Deleting a NAT gateway does
 not delete any NAT gateway routes in your route tables.
 
 # Arguments
@@ -5487,8 +5495,8 @@ available to you. The images available to you include public images, private ima
 you own, and private images owned by other AWS accounts for which you have explicit launch
 permissions. Recently deregistered images appear in the returned results for a short
 interval and then return empty results. After all instances that reference a deregistered
-AMI are terminated, specifying the ID of the image results in an error indicating that the
-AMI ID cannot be found.
+AMI are terminated, specifying the ID of the image will eventually return an error
+indicating that the AMI ID cannot be found.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5529,6 +5537,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assigned a tag with a specific key, regardless of the tag value.    virtualization-type -
   The virtualization type (paravirtual | hvm).
 - `"ImageId"`: The image IDs. Default: Describes all images available to you.
+- `"IncludeDeprecated"`: If true, all deprecated AMIs are included in the response. If
+  false, no deprecated AMIs are included in the response. If no value is specified, the
+  default value is false.  If you are the AMI owner, all deprecated AMIs appear in the
+  response regardless of the value (true or false) that you set for this parameter.
 - `"Owner"`: Scopes the results to images with the specified owners. You can specify a
   combination of AWS account IDs, self, amazon, and aws-marketplace. If you omit this
   parameter, the results include all images for which you have launch permissions, regardless
@@ -8492,6 +8504,25 @@ disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::A
 disable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config)
 
 """
+    disable_image_deprecation(image_id)
+    disable_image_deprecation(image_id, params::Dict{String,<:Any})
+
+Cancels the deprecation of the specified AMI. For more information, see Deprecate an AMI in
+the Amazon Elastic Compute Cloud User Guide.
+
+# Arguments
+- `image_id`: The ID of the AMI.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+disable_image_deprecation(ImageId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisableImageDeprecation", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config)
+disable_image_deprecation(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisableImageDeprecation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config)
+
+"""
     disable_serial_console_access()
     disable_serial_console_access(params::Dict{String,<:Any})
 
@@ -8804,6 +8835,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
 enable_fast_snapshot_restores(AvailabilityZone, SourceSnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("EnableFastSnapshotRestores", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config)
+
+"""
+    enable_image_deprecation(deprecate_at, image_id)
+    enable_image_deprecation(deprecate_at, image_id, params::Dict{String,<:Any})
+
+Enables deprecation of the specified AMI at the specified date and time. For more
+information, see Deprecate an AMI in the Amazon Elastic Compute Cloud User Guide.
+
+# Arguments
+- `deprecate_at`: The date and time to deprecate the AMI, in UTC, in the following format:
+  YYYY-MM-DDTHH:MM:SSZ. If you specify a value for seconds, Amazon EC2 rounds the seconds to
+  the nearest minute. You can’t specify a date in the past. The upper limit for DeprecateAt
+  is 10 years from now.
+- `image_id`: The ID of the AMI.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+enable_image_deprecation(DeprecateAt, ImageId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("EnableImageDeprecation", Dict{String, Any}("DeprecateAt"=>DeprecateAt, "ImageId"=>ImageId); aws_config=aws_config)
+enable_image_deprecation(DeprecateAt, ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("EnableImageDeprecation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeprecateAt"=>DeprecateAt, "ImageId"=>ImageId), params)); aws_config=aws_config)
 
 """
     enable_serial_console_access()

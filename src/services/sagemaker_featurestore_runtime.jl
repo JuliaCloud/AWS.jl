@@ -5,6 +5,20 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_get_record(identifiers)
+    batch_get_record(identifiers, params::Dict{String,<:Any})
+
+Retrieves a batch of Records from a FeatureGroup.
+
+# Arguments
+- `identifiers`: A list of FeatureGroup names, with their corresponding RecordIdentifier
+  value, and Feature name that have been requested to be retrieved in batch.
+
+"""
+batch_get_record(Identifiers; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("POST", "/BatchGetRecord", Dict{String, Any}("Identifiers"=>Identifiers); aws_config=aws_config)
+batch_get_record(Identifiers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker_featurestore_runtime("POST", "/BatchGetRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Identifiers"=>Identifiers), params)); aws_config=aws_config)
+
+"""
     delete_record(event_time, feature_group_name, record_identifier_value_as_string)
     delete_record(event_time, feature_group_name, record_identifier_value_as_string, params::Dict{String,<:Any})
 

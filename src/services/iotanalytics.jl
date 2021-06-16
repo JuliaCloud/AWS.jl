@@ -123,13 +123,15 @@ create_dataset_content(datasetName, params::AbstractDict{String}; aws_config::Ab
     create_datastore(datastore_name)
     create_datastore(datastore_name, params::Dict{String,<:Any})
 
-Creates a data store, which is a repository for messages.
+Creates a data store, which is a repository for messages. Only data stores that are used to
+save pipeline data can be configured with ParquetConfiguration.
 
 # Arguments
 - `datastore_name`: The name of the data store.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"datastorePartitions"`:  Contains information about the partitions in a data store.
 - `"datastoreStorage"`: Where data store data is stored. You can choose one of
   serviceManagedS3 or customerManagedS3 storage. If not specified, the default is
   serviceManagedS3. You cannot change this storage option after the data store is created.

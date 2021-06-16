@@ -397,6 +397,10 @@ Creates a device fleet.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the fleet.
+- `"EnableIotRoleAlias"`: Whether to create an AWS IoT Role Alias during device fleet
+  creation. The name of the role alias generated will match this pattern:
+  \"SageMakerEdge-{DeviceFleetName}\". For example, if your device fleet is called
+  \"demo-fleet\", the name of the role alias will be \"SageMakerEdge-demo-fleet\".
 - `"RoleArn"`: The Amazon Resource Name (ARN) that has access to AWS Internet of Things
   (IoT).
 - `"Tags"`: Creates tags for the specified fleet.
@@ -4889,6 +4893,10 @@ Updates a fleet of devices.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: Description of the fleet.
+- `"EnableIotRoleAlias"`: Whether to create an AWS IoT Role Alias during device fleet
+  creation. The name of the role alias generated will match this pattern:
+  \"SageMakerEdge-{DeviceFleetName}\". For example, if your device fleet is called
+  \"demo-fleet\", the name of the role alias will be \"SageMakerEdge-demo-fleet\".
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the device.
 """
 update_device_fleet(DeviceFleetName, OutputConfig; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("UpdateDeviceFleet", Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "OutputConfig"=>OutputConfig); aws_config=aws_config)

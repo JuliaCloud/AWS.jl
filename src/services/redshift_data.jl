@@ -102,6 +102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when authenticating using
   temporary credentials.
+- `"Parameters"`: The parameters for the SQL statement.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using AWS Secrets Manager.
 - `"StatementName"`: The name of the SQL statement. You can name the SQL statement when you

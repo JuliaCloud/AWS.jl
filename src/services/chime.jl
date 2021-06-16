@@ -188,10 +188,10 @@ batch_unsuspend_user(UserIdList, accountId, params::AbstractDict{String}; aws_co
 Updates phone number product types or calling names. You can update one attribute at a time
 for each UpdatePhoneNumberRequestItem. For example, you can update the product type or the
 calling name. For toll-free numbers, you cannot use the Amazon Chime Business Calling
-product type. For numbers outside the US, you must use the Amazon Chime SIP Media
-Application Dial-In product type. Updates to outbound calling names can take 72 hours to
-complete. Pending updates to outbound calling names must be complete before you can request
-another update.
+product type. For numbers outside the U.S., you must use the Amazon Chime SIP Media
+Application Dial-In product type. Updates to outbound calling names can take up to 72 hours
+to complete. Pending updates to outbound calling names must be complete before you can
+request another update.
 
 # Arguments
 - `update_phone_number_request_items`: The request containing the phone number IDs and
@@ -205,7 +205,7 @@ batch_update_phone_number(UpdatePhoneNumberRequestItems, params::AbstractDict{St
     batch_update_user(update_user_request_items, account_id)
     batch_update_user(update_user_request_items, account_id, params::Dict{String,<:Any})
 
- Updates user details within the UpdateUserRequestItem object for up to 20 users for the
+Updates user details within the UpdateUserRequestItem object for up to 20 users for the
 specified Amazon Chime account. Currently, only LicenseType updates are supported for this
 action.
 
@@ -509,7 +509,7 @@ create_meeting_with_attendees(ClientRequestToken, params::AbstractDict{String}; 
     create_phone_number_order(e164_phone_numbers, product_type, params::Dict{String,<:Any})
 
 Creates an order for phone numbers to be provisioned. For toll-free numbers, you cannot use
-the Amazon Chime Business Calling product type. For numbers outside the US, you must use
+the Amazon Chime Business Calling product type. For numbers outside the U.S., you must use
 the Amazon Chime SIP Media Application Dial-In product type.
 
 # Arguments
@@ -2747,13 +2747,15 @@ untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::A
     update_account(account_id, params::Dict{String,<:Any})
 
 Updates account details for the specified Amazon Chime account. Currently, only account
-name updates are supported for this action.
+name and default license updates are supported for this action.
 
 # Arguments
 - `account_id`: The Amazon Chime account ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DefaultLicense"`: The default license applied when you add users to an Amazon Chime
+  account.
 - `"Name"`: The new name for the specified Amazon Chime account.
 """
 update_account(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/accounts/$(accountId)"; aws_config=aws_config)

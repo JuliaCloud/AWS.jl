@@ -49,13 +49,16 @@ associate_resource_share(resourceShareArn, params::AbstractDict{String}; aws_con
 Associates a permission with a resource share.
 
 # Arguments
-- `permission_arn`: The ARN of the AWS RAM permission to associate with the resource share.
+- `permission_arn`: The Amazon Resource Name (ARN) of the AWS RAM permissions to associate
+  with the resource share.
 - `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
+- `"permissionVersion"`: The version of the AWS RAM permissions to associate with the
+  resource share.
 - `"replace"`: Indicates whether the permission should replace the permissions that are
   currently associated with the resource share. Use true to replace the current permissions.
   Use false to add the permission to the current permission.
@@ -220,7 +223,7 @@ get_resource_share_associations(associationType, params::AbstractDict{String}; a
     get_resource_share_invitations()
     get_resource_share_invitations(params::Dict{String,<:Any})
 
-Gets the invitations for resource sharing that you've received.
+Gets the invitations that you have received for resource shares.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -248,7 +251,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"name"`: The name of the resource share.
 - `"nextToken"`: The token for the next page of results.
-- `"resourceShareArns"`: The Amazon Resource Names (ARN) of the resource shares.
+- `"permissionArn"`: The Amazon Resource Name (ARN) of the AWS RAM permission that is
+  associated with the resource share.
+- `"resourceShareArns"`: The ARNs of the resource shares.
 - `"resourceShareStatus"`: The status of the resource share.
 - `"tagFilters"`: One or more tag filters.
 """
@@ -316,8 +321,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database |
   glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy |
   network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost
-  | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup
-  |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
+  | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig |
+  route53resolver:ResolverRule
 """
 list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listprincipals", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
 list_principals(resourceOwner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listprincipals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config)
@@ -380,8 +385,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database |
   glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy |
   network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost
-  | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup
-  |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule
+  | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig |
+  route53resolver:ResolverRule
 """
 list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresources", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
 list_resources(resourceOwner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config)

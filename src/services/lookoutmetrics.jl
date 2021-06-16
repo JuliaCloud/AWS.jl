@@ -89,8 +89,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MetricSetDescription"`: A description of the dataset you are creating.
 - `"MetricSetFrequency"`: The frequency with which the source data will be analyzed for
   anomalies.
-- `"Offset"`: After an interval ends, the amount of time that the detector waits before
-  importing data.
+- `"Offset"`: After an interval ends, the amount of seconds that the detector waits before
+  importing data. Offset is only supported for S3 and Redshift datasources.
 - `"Tags"`: A list of tags to apply to the dataset.
 - `"TimestampColumn"`: Contains information about the column used for tracking time in your
   source data.
@@ -424,8 +424,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MetricSetDescription"`: The dataset's description.
 - `"MetricSetFrequency"`: The dataset's interval.
 - `"MetricSource"`:
-- `"Offset"`: After an interval ends, the amount of time that the detector waits before
-  importing data.
+- `"Offset"`: After an interval ends, the amount of seconds that the detector waits before
+  importing data. Offset is only supported for S3 and Redshift datasources.
 - `"TimestampColumn"`: The timestamp column.
 """
 update_metric_set(MetricSetArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutmetrics("POST", "/UpdateMetricSet", Dict{String, Any}("MetricSetArn"=>MetricSetArn); aws_config=aws_config)
