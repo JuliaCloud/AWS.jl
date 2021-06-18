@@ -129,15 +129,16 @@ accept_vpc_peering_connection(params::AbstractDict{String}; aws_config::Abstract
     advertise_byoip_cidr(cidr)
     advertise_byoip_cidr(cidr, params::Dict{String,<:Any})
 
-Advertises an IPv4 or IPv6 address range that is provisioned for use with your AWS
-resources through bring your own IP addresses (BYOIP). You can perform this operation at
-most once every 10 seconds, even if you specify different address ranges each time. We
-recommend that you stop advertising the BYOIP CIDR from other locations when you advertise
-it from AWS. To minimize down time, you can configure your AWS resources to use an address
-from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from
-the current location and start advertising it through AWS. It can take a few minutes before
-traffic to the specified addresses starts routing to AWS because of BGP propagation delays.
-To stop advertising the BYOIP CIDR, use WithdrawByoipCidr.
+Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web
+Services resources through bring your own IP addresses (BYOIP). You can perform this
+operation at most once every 10 seconds, even if you specify different address ranges each
+time. We recommend that you stop advertising the BYOIP CIDR from other locations when you
+advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon
+Web Services resources to use an address from a BYOIP CIDR before it is advertised, and
+then simultaneously stop advertising it from the current location and start advertising it
+through Amazon Web Services. It can take a few minutes before traffic to the specified
+addresses starts routing to Amazon Web Services because of BGP propagation delays. To stop
+advertising the BYOIP CIDR, use WithdrawByoipCidr.
 
 # Arguments
 - `cidr`: The address range, in CIDR notation. This must be the exact range that you
@@ -156,23 +157,23 @@ advertise_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWS
     allocate_address()
     allocate_address(params::Dict{String,<:Any})
 
-Allocates an Elastic IP address to your AWS account. After you allocate the Elastic IP
-address you can associate it with an instance or network interface. After you release an
-Elastic IP address, it is released to the IP address pool and can be allocated to a
-different AWS account. You can allocate an Elastic IP address from an address pool owned by
-AWS or from an address pool created from a public IPv4 address range that you have brought
-to AWS for use with your AWS resources using bring your own IP addresses (BYOIP). For more
-information, see Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud
-User Guide. [EC2-VPC] If you release an Elastic IP address, you might be able to recover
-it. You cannot recover an Elastic IP address that you released after it is allocated to
-another AWS account. You cannot recover an Elastic IP address for EC2-Classic. To attempt
-to recover an Elastic IP address that you released, specify it in this operation. An
-Elastic IP address is for use either in the EC2-Classic platform or in a VPC. By default,
-you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5 Elastic IP
-addresses for EC2-VPC per Region. For more information, see Elastic IP Addresses in the
-Amazon Elastic Compute Cloud User Guide. You can allocate a carrier IP address which is a
-public IP address from a telecommunication carrier, to a network interface which resides in
-a subnet in a Wavelength Zone (for example an EC2 instance).
+Allocates an Elastic IP address to your account. After you allocate the Elastic IP address
+you can associate it with an instance or network interface. After you release an Elastic IP
+address, it is released to the IP address pool and can be allocated to a different account.
+You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or
+from an address pool created from a public IPv4 address range that you have brought to
+Amazon Web Services for use with your Amazon Web Services resources using bring your own IP
+addresses (BYOIP). For more information, see Bring Your Own IP Addresses (BYOIP) in the
+Amazon Elastic Compute Cloud User Guide. [EC2-VPC] If you release an Elastic IP address,
+you might be able to recover it. You cannot recover an Elastic IP address that you released
+after it is allocated to another account. You cannot recover an Elastic IP address for
+EC2-Classic. To attempt to recover an Elastic IP address that you released, specify it in
+this operation. An Elastic IP address is for use either in the EC2-Classic platform or in a
+VPC. By default, you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5
+Elastic IP addresses for EC2-VPC per Region. For more information, see Elastic IP Addresses
+in the Amazon Elastic Compute Cloud User Guide. You can allocate a carrier IP address which
+is a public IP address from a telecommunication carrier, to a network interface which
+resides in a subnet in a Wavelength Zone (for example an EC2 instance).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -563,6 +564,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 associate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
 associate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("AssociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config)
+
+"""
+    associate_trunk_interface(branch_interface_id, trunk_interface_id)
+    associate_trunk_interface(branch_interface_id, trunk_interface_id, params::Dict{String,<:Any})
+
+Associates a branch network interface with a trunk network interface. Before you create the
+association, run the create-network-interface command and set --interface-type to trunk.
+You must also create a network interface for each branch network interface that you want to
+associate with the trunk network interface. For more information, see  Network interface
+trunking in the Amazon Elastic Compute Cloud User Guide.
+
+# Arguments
+- `branch_interface_id`: The ID of the branch network interface.
+- `trunk_interface_id`: The ID of the trunk network interface.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see How to Ensure Idempotency.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"GreKey"`: The application key. This applies to the GRE protocol.
+- `"VlanId"`: The ID of the VLAN. This applies to the VLAN protocol.
+"""
+associate_trunk_interface(BranchInterfaceId, TrunkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("AssociateTrunkInterface", Dict{String, Any}("BranchInterfaceId"=>BranchInterfaceId, "TrunkInterfaceId"=>TrunkInterfaceId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+associate_trunk_interface(BranchInterfaceId, TrunkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("AssociateTrunkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BranchInterfaceId"=>BranchInterfaceId, "TrunkInterfaceId"=>TrunkInterfaceId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     associate_vpc_cidr_block(vpc_id)
@@ -2079,7 +2107,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. For more information, see Ensuring Idempotency.
 - `"InterfaceType"`: Indicates the type of network interface. To create an Elastic Fabric
   Adapter (EFA), specify efa. For more information, see  Elastic Fabric Adapter in the Amazon
-  Elastic Compute Cloud User Guide.
+  Elastic Compute Cloud User Guide. To create a trunk network interface, specify efa. For
+  more information, see  Network interface trunking in the Amazon Elastic Compute Cloud User
+  Guide.
 - `"SecurityGroupId"`: The IDs of one or more security groups.
 - `"TagSpecification"`: The tags to apply to the new network interface.
 - `"description"`: A description for the network interface.
@@ -2113,9 +2143,9 @@ create_network_interface(subnetId, params::AbstractDict{String}; aws_config::Abs
     create_network_interface_permission(network_interface_id, permission)
     create_network_interface_permission(network_interface_id, permission, params::Dict{String,<:Any})
 
-Grants an AWS-authorized account permission to attach the specified network interface to an
-instance in their account. You can grant permission to a single AWS account only, and only
-one account at a time.
+Grants an Amazon Web Services-authorized account permission to attach the specified network
+interface to an instance in their account. You can grant permission to a single account
+only, and only one account at a time.
 
 # Arguments
 - `network_interface_id`: The ID of the network interface.
@@ -2123,8 +2153,8 @@ one account at a time.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AwsAccountId"`: The AWS account ID.
-- `"AwsService"`: The AWS service. Currently not supported.
+- `"AwsAccountId"`: The account ID.
+- `"AwsService"`: The Amazon Web Service. Currently not supported.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -4372,10 +4402,11 @@ delete_vpn_gateway(VpnGatewayId, params::AbstractDict{String}; aws_config::Abstr
     deprovision_byoip_cidr(cidr)
     deprovision_byoip_cidr(cidr, params::Dict{String,<:Any})
 
-Releases the specified address range that you provisioned for use with your AWS resources
-through bring your own IP addresses (BYOIP) and deletes the corresponding address pool.
-Before you can release an address range, you must stop advertising it using
-WithdrawByoipCidr and you must not have any IP addresses allocated from its address range.
+Releases the specified address range that you provisioned for use with your Amazon Web
+Services resources through bring your own IP addresses (BYOIP) and deletes the
+corresponding address pool. Before you can release an address range, you must stop
+advertising it using WithdrawByoipCidr and you must not have any IP addresses allocated
+from its address range.
 
 # Arguments
 - `cidr`: The address range, in CIDR notation. The prefix must be the same prefix that you
@@ -4510,11 +4541,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The association ID for the address.    domain - Indicates whether the address is for use in
   EC2-Classic (standard) or in a VPC (vpc).    instance-id - The ID of the instance the
   address is associated with, if any.    network-border-group - A unique set of Availability
-  Zones, Local Zones, or Wavelength Zones from where AWS advertises IP addresses.
-  network-interface-id - [EC2-VPC] The ID of the network interface that the address is
-  associated with, if any.    network-interface-owner-id - The AWS account ID of the owner.
-   private-ip-address - [EC2-VPC] The private IP address associated with the Elastic IP
-  address.    public-ip - The Elastic IP address, or the carrier IP address.
+  Zones, Local Zones, or Wavelength Zones from where Amazon Web Services advertises IP
+  addresses.     network-interface-id - [EC2-VPC] The ID of the network interface that the
+  address is associated with, if any.    network-interface-owner-id - The account ID of the
+  owner.    private-ip-address - [EC2-VPC] The private IP address associated with the Elastic
+  IP address.    public-ip - The Elastic IP address, or the carrier IP address.
   tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
   key in the filter name and the tag value as the filter value. For example, to find all
   resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
@@ -6266,8 +6297,8 @@ describe_local_gateways(params::AbstractDict{String}; aws_config::AbstractAWSCon
     describe_managed_prefix_lists()
     describe_managed_prefix_lists(params::Dict{String,<:Any})
 
-Describes your managed prefix lists and any AWS-managed prefix lists. To view the entries
-for your prefix list, use GetManagedPrefixListEntries.
+Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To
+view the entries for your prefix list, use GetManagedPrefixListEntries.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6457,8 +6488,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: One or more filters.
   network-interface-permission.network-interface-permission-id - The ID of the permission.
   network-interface-permission.network-interface-id - The ID of the network interface.
-  network-interface-permission.aws-account-id - The AWS account ID.
-  network-interface-permission.aws-service - The AWS service.
+  network-interface-permission.aws-account-id - The account ID.
+  network-interface-permission.aws-service - The Amazon Web Service.
   network-interface-permission.permission - The type of permission (INSTANCE-ATTACH |
   EIP-ASSOCIATE).
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
@@ -6513,25 +6544,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the network interface.    group-name - The name of a security group associated with
   the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the
   network interface.    mac-address - The MAC address of the network interface.
-  network-interface-id - The ID of the network interface.    owner-id - The AWS account ID of
-  the network interface owner.    private-ip-address - The private IPv4 address or addresses
-  of the network interface.    private-dns-name - The private DNS name of the network
-  interface (IPv4).    requester-id - The alias or AWS account ID of the principal or service
-  that created the network interface.    requester-managed - Indicates whether the network
-  interface is being managed by an AWS service (for example, AWS Management Console, Auto
-  Scaling, and so on).    source-dest-check - Indicates whether the network interface
-  performs source/destination checking. A value of true means checking is enabled, and false
-  means checking is disabled. The value must be false for the network interface to perform
-  network address translation (NAT) in your VPC.     status - The status of the network
-  interface. If the network interface is not attached to an instance, the status is
-  available; if a network interface is attached to an instance the status is in-use.
-  subnet-id - The ID of the subnet for the network interface.    tag:&lt;key&gt; - The
-  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
-  and the tag value as the filter value. For example, to find all resources that have a tag
-  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
-  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
-  to find all resources assigned a tag with a specific key, regardless of the tag value.
-  vpc-id - The ID of the VPC for the network interface.
+  network-interface-id - The ID of the network interface.    owner-id - The account ID of the
+  network interface owner.    private-ip-address - The private IPv4 address or addresses of
+  the network interface.    private-dns-name - The private DNS name of the network interface
+  (IPv4).    requester-id - The alias or account ID of the principal or service that created
+  the network interface.    requester-managed - Indicates whether the network interface is
+  being managed by an Amazon Web Service (for example, Management Console, Auto Scaling, and
+  so on).    source-dest-check - Indicates whether the network interface performs
+  source/destination checking. A value of true means checking is enabled, and false means
+  checking is disabled. The value must be false for the network interface to perform network
+  address translation (NAT) in your VPC.     status - The status of the network interface. If
+  the network interface is not attached to an instance, the status is available; if a network
+  interface is attached to an instance the status is in-use.    subnet-id - The ID of the
+  subnet for the network interface.    tag:&lt;key&gt; - The key/value combination of a tag
+  assigned to the resource. Use the tag key in the filter name and the tag value as the
+  filter value. For example, to find all resources that have a tag with the key Owner and the
+  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
+  assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
+  VPC for the network interface.
 """
 describe_network_interfaces(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaces"; aws_config=aws_config)
 describe_network_interfaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaces", params; aws_config=aws_config)
@@ -6567,9 +6598,9 @@ describe_placement_groups(params::AbstractDict{String}; aws_config::AbstractAWSC
     describe_prefix_lists()
     describe_prefix_lists(params::Dict{String,<:Any})
 
-Describes available AWS services in a prefix list format, which includes the prefix list
-name and prefix list ID of the service and the IP address range for the service. We
-recommend that you use DescribeManagedPrefixLists instead.
+Describes available Amazon Web Services services in a prefix list format, which includes
+the prefix list name and prefix list ID of the service and the IP address range for the
+service. We recommend that you use DescribeManagedPrefixLists instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7788,6 +7819,27 @@ describe_transit_gateways(; aws_config::AbstractAWSConfig=global_aws_config()) =
 describe_transit_gateways(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeTransitGateways", params; aws_config=aws_config)
 
 """
+    describe_trunk_interface_associations()
+    describe_trunk_interface_associations(params::Dict{String,<:Any})
+
+Describes one or more network interface trunk associations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AssociationId"`: The IDs of the associations.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters.    gre-key - The ID of a trunk interface association.
+  interface-protocol - The interface protocol. Valid values are VLAN and GRE.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+"""
+describe_trunk_interface_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeTrunkInterfaceAssociations"; aws_config=aws_config)
+describe_trunk_interface_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeTrunkInterfaceAssociations", params; aws_config=aws_config)
+
+"""
     describe_volume_attribute(attribute, volume_id)
     describe_volume_attribute(attribute, volume_id, params::Dict{String,<:Any})
 
@@ -8769,6 +8821,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 disassociate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId); aws_config=aws_config)
 disassociate_transit_gateway_route_table(TransitGatewayAttachmentId, TransitGatewayRouteTableId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisassociateTransitGatewayRouteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayAttachmentId"=>TransitGatewayAttachmentId, "TransitGatewayRouteTableId"=>TransitGatewayRouteTableId), params)); aws_config=aws_config)
+
+"""
+    disassociate_trunk_interface(association_id)
+    disassociate_trunk_interface(association_id, params::Dict{String,<:Any})
+
+Removes an association between a branch network interface with a trunk network interface.
+
+# Arguments
+- `association_id`: The ID ofthe association
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see How to Ensure Idempotency.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+disassociate_trunk_interface(AssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisassociateTrunkInterface", Dict{String, Any}("AssociationId"=>AssociationId, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+disassociate_trunk_interface(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisassociateTrunkInterface", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     disassociate_vpc_cidr_block(association_id)
@@ -11250,18 +11322,19 @@ move_address_to_vpc(publicIp, params::AbstractDict{String}; aws_config::Abstract
     provision_byoip_cidr(cidr)
     provision_byoip_cidr(cidr, params::Dict{String,<:Any})
 
-Provisions an IPv4 or IPv6 address range for use with your AWS resources through bring your
-own IP addresses (BYOIP) and creates a corresponding address pool. After the address range
-is provisioned, it is ready to be advertised using AdvertiseByoipCidr. AWS verifies that
-you own the address range and are authorized to advertise it. You must ensure that the
-address range is registered to you and that you created an RPKI ROA to authorize Amazon
-ASNs 16509 and 14618 to advertise the address range. For more information, see Bring Your
-Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. Provisioning an
-address range is an asynchronous operation, so the call returns immediately, but the
-address range is not ready to use until its status changes from pending-provision to
-provisioned. To monitor the status of an address range, use DescribeByoipCidrs. To allocate
-an Elastic IP address from your IPv4 address pool, use AllocateAddress with either the
-specific address from the address pool or the ID of the address pool.
+Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources
+through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After
+the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr.
+Amazon Web Services verifies that you own the address range and are authorized to advertise
+it. You must ensure that the address range is registered to you and that you created an
+RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more
+information, see Bring your own IP addresses (BYOIP) in the Amazon Elastic Compute Cloud
+User Guide. Provisioning an address range is an asynchronous operation, so the call returns
+immediately, but the address range is not ready to use until its status changes from
+pending-provision to provisioned. To monitor the status of an address range, use
+DescribeByoipCidrs. To allocate an Elastic IP address from your IPv4 address pool, use
+AllocateAddress with either the specific address from the address pool or the ID of the
+address pool.
 
 # Arguments
 - `cidr`: The public IPv4 or IPv6 address range, in CIDR notation. The most specific IPv4
@@ -11647,9 +11720,9 @@ before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddr
 After releasing an Elastic IP address, it is released to the IP address pool. Be sure to
 update your DNS records and any servers or devices that communicate with the address. If
 you attempt to release an Elastic IP address that you already released, you'll get an
-AuthFailure error if the address is already allocated to another AWS account. [EC2-VPC]
-After you release an Elastic IP address for use in a VPC, you might be able to recover it.
-For more information, see AllocateAddress.
+AuthFailure error if the address is already allocated to another account. [EC2-VPC] After
+you release an Elastic IP address for use in a VPC, you might be able to recover it. For
+more information, see AllocateAddress.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -12879,7 +12952,7 @@ update_security_group_rule_descriptions_ingress(item, params::AbstractDict{Strin
 Stops advertising an address range that is provisioned as an address pool. You can perform
 this operation at most once every 10 seconds, even if you specify different address ranges
 each time. It can take a few minutes before traffic to the specified addresses stops
-routing to AWS because of BGP propagation delays.
+routing to Amazon Web Services because of BGP propagation delays.
 
 # Arguments
 - `cidr`: The address range, in CIDR notation.

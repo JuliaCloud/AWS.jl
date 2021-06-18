@@ -1668,7 +1668,7 @@ get_voice_connector_emergency_calling_configuration(voiceConnectorId, params::Ab
     get_voice_connector_group(voice_connector_group_id, params::Dict{String,<:Any})
 
  Retrieves details for the specified Amazon Chime Voice Connector group, such as
-timestamps,name, and associated VoiceConnectorItems .
+timestamps,name, and associated VoiceConnectorItems.
 
 # Arguments
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
@@ -2074,7 +2074,7 @@ list_meeting_tags(meetingId, params::AbstractDict{String}; aws_config::AbstractA
     list_meetings(params::Dict{String,<:Any})
 
  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon
-Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
+Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2364,10 +2364,10 @@ put_events_configuration(accountId, botId, params::AbstractDict{String}; aws_con
  Puts retention settings for the specified Amazon Chime Enterprise account. We recommend
 using AWS CloudTrail to monitor usage of this API for your account. For more information,
 see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration
-Guide .   To turn off existing retention settings, remove the number of days from the
+Guide.  To turn off existing retention settings, remove the number of days from the
 corresponding RetentionDays field in the RetentionSettings object. For more information
 about retention settings, see Managing Chat Retention Policies in the Amazon Chime
-Administration Guide .
+Administration Guide.
 
 # Arguments
 - `retention_settings`: The retention settings.
@@ -3014,6 +3014,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_sip_media_application(sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)"; aws_config=aws_config)
 update_sip_media_application(sipMediaApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("PUT", "/sip-media-applications/$(sipMediaApplicationId)", params; aws_config=aws_config)
+
+"""
+    update_sip_media_application_call(arguments, sip_media_application_id, transaction_id)
+    update_sip_media_application_call(arguments, sip_media_application_id, transaction_id, params::Dict{String,<:Any})
+
+Allows you to trigger a Lambda function at any time while a call is active, and replace the
+current actions with new actions returned by the invocation.
+
+# Arguments
+- `arguments`: Arguments made available to the Lambda function as part of the
+  CALL_UPDATE_REQUESTED event. Can contain 0-20 key-value pairs.
+- `sip_media_application_id`: The ID of the SIP media application handling the call.
+- `transaction_id`: The ID of the call transaction.
+
+"""
+update_sip_media_application_call(Arguments, sipMediaApplicationId, transactionId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)", Dict{String, Any}("Arguments"=>Arguments); aws_config=aws_config)
+update_sip_media_application_call(Arguments, sipMediaApplicationId, transactionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arguments"=>Arguments), params)); aws_config=aws_config)
 
 """
     update_sip_rule(name, sip_rule_id)
