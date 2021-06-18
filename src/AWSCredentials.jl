@@ -289,12 +289,14 @@ function ec2_instance_credentials(profile::AbstractString)
         params;
         aws_config=AWSConfig(creds=instance_profile_creds),
     )
+    role_creds = resp["AssumeRoleResult"]["Credentials"]
+    role_user = resp["AssumeRoleResult"]["AssumedRoleUser"]
     return AWSCredentials(
-        resp["AssumeRoleResult"]["Credentials"]["AccessKeyId"],
-        resp["AssumeRoleResult"]["Credentials"]["SecretAccessKey"],
-        resp["AssumeRoleResult"]["Credentials"]["SessionToken"],
-        resp["AssumeRoleResult"]["AssumedRoleUser"]["Arn"],
-        expiry=DateTime(rstrip(resp["AssumeRoleResult"]["Credentials"]["Expiration"], 'Z')),
+        role_creds["AccessKeyId"],
+        role_creds["SecretAccessKey"],
+        role_creds["SessionToken"],
+        role_user["Arn"],
+        expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
         renew=() -> ec2_instance_credentials(profile),
     )
 end
