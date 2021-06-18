@@ -42,9 +42,9 @@ body = """
     </ListBucketResult>
     """
 
-response = HTTP.Messages.Response()
+function _response(; version::VersionNumber=version, status::Int64=status, headers::Array=headers, body::String=body)
+    response = HTTP.Messages.Response()
 
-function _response!(; version::VersionNumber=version, status::Int64=status, headers::Array=headers, body::String=body)
     response.version = version
     response.status = status
     response.headers = headers
@@ -53,8 +53,10 @@ function _response!(; version::VersionNumber=version, status::Int64=status, head
     return response
 end
 
-_aws_http_request_patch = @patch function AWS._http_request(request::Request)
-    return response
+
+
+function _aws_http_request_patch(response::HTTP.Messages.Response=_response())
+    return @patch AWS._http_request(request::Request) = response
 end
 
 _cred_file_patch = @patch function dot_aws_credentials_file()
