@@ -121,8 +121,7 @@ end
             url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
 
-        apply(Patches._aws_http_request_patch) do
-            Patches._response!()
+        apply(Patches._aws_http_request_patch()) do
             result = AWS.submit_request(aws, request)
 
             @test result == expected_result_type(Patches.headers)
@@ -140,8 +139,7 @@ end
             url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
 
-        apply(Patches._aws_http_request_patch) do
-            Patches._response!()
+        apply(Patches._aws_http_request_patch()) do
             result = AWS.submit_request(aws, request)
 
             @test result == request.response_stream
@@ -158,8 +156,7 @@ end
         )
 
         @testset "body" begin
-            apply(Patches._aws_http_request_patch) do
-                Patches._response!()
+            apply(Patches._aws_http_request_patch()) do
                 result = AWS.submit_request(aws, request)
 
                 @test String(result) == Patches.body
@@ -167,8 +164,7 @@ end
         end
 
         @testset "body and headers" begin
-            apply(Patches._aws_http_request_patch) do
-                Patches._response!()
+            apply(Patches._aws_http_request_patch()) do
                 body, headers = AWS.submit_request(aws, request; return_headers=true)
 
                 @test String(body) == Patches.body
@@ -186,12 +182,12 @@ end
         )
 
         @testset "empty" begin
-            apply(Patches._aws_http_request_patch) do
-                @testset "default" begin
-                    expected_body = ""
-                    expected_headers = Pair["Content-Type"=>"",]
+            @testset "default" begin
+                expected_body = ""
+                expected_headers = Pair["Content-Type" => ""]
 
-                    Patches._response!(headers=expected_headers, body=expected_body)
+                response = Patches._response(headers=expected_headers, body=expected_body)
+                apply(Patches._aws_http_request_patch(response)) do
 
                     @testset "body" begin
                        result = AWS.submit_request(aws, request)
@@ -206,16 +202,16 @@ end
                         @test headers == expected_headers
                     end
                 end
+            end
 
-                @testset "text/xml" begin
-                    expected_headers = Pair["Content-Type"=>"text/xml",]
-                    expected_body_type = LittleDict{Union{Symbol, String}, Any}
-                    expected_body = _expected_body(Patches.body, expected_body_type)
+            @testset "text/xml" begin
+                expected_body_type = LittleDict{Union{Symbol, String}, Any}
+                expected_body = _expected_body(Patches.body, expected_body_type)
+                expected_header_type = LittleDict{SubString{String}, SubString{String}}
+                expected_headers = Pair["Content-Type" => "text/xml"]
 
-                    expected_header_type = LittleDict{SubString{String}, SubString{String}}
-
-                    Patches._response!(headers=expected_headers)
-
+                response = Patches._response(headers=expected_headers)
+                apply(Patches._aws_http_request_patch(response)) do
                     @testset "body" begin
                         result = AWS.submit_request(aws, request)
 
@@ -246,11 +242,10 @@ end
 
             expected_body_type = LittleDict{Union{Symbol, String}, Any}
             expected_body = _expected_body(Patches.body, expected_body_type)
-            expected_headers = Pair["Content-Type"=>"application/xml",]
+            expected_headers = Pair["Content-Type" => "application/xml"]
 
-            apply(Patches._aws_http_request_patch) do
-                Patches._response!(headers=expected_headers,)
-
+            response = Patches._response(headers=expected_headers)
+            apply(Patches._aws_http_request_patch(response)) do
                 @testset "body" begin
                     result = AWS.submit_request(aws, request)
 
@@ -271,7 +266,7 @@ end
         end
 
         @testset "JSON" begin
-            json_headers = ["Content-Type"=>"application/json"]
+            json_headers = ["Content-Type" => "application/json"]
             body = Dict{String,Any}(
                 "Marker" => nothing,
                 "VaultList" => Any[Dict{String,Any}(
@@ -288,9 +283,8 @@ end
             expected_body_type = LittleDict{String, Any}
             expected_body = JSON.parse(json_body, dicttype=LittleDict)
 
-            apply(Patches._aws_http_request_patch) do
-                Patches._response!(body=json_body, headers=json_headers,)
-
+            response = Patches._response(body=json_body, headers=json_headers)
+            apply(Patches._aws_http_request_patch(response)) do
                 @testset "body" begin
                     result = AWS.submit_request(aws, request)
 
@@ -318,13 +312,12 @@ end
                 url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             )
 
-            apply(Patches._aws_http_request_patch) do
-                expected_headers = ["Content-Type" => "text/html"]
-                expected_body = Patches.body
-                expected_header_type = LittleDict{SubString{String}, SubString{String}}
+            expected_headers = ["Content-Type" => "text/html"]
+            expected_body = Patches.body
+            expected_header_type = LittleDict{SubString{String}, SubString{String}}
 
-                Patches._response!(headers=expected_headers)
-
+            response = Patches._response(headers=expected_headers)
+            apply(Patches._aws_http_request_patch(response)) do
                 @testset "body" begin
                     result = AWS.submit_request(aws, request)
 
