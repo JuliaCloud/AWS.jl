@@ -266,7 +266,7 @@ function ec2_instance_credentials(profile::AbstractString)
         parsed["Token"],
         info["InstanceProfileArn"];
         expiry=DateTime(rstrip(parsed["Expiration"], 'Z')),
-        renew=ec2_instance_credentials,
+        renew=() -> ec2_instance_credentials(profile),
     )
 
     # Look for a role to assume and return instance profile credentials if there is none.
