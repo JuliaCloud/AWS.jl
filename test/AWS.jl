@@ -433,8 +433,8 @@ end
 end
 
 @testset "_clean_s3_uri" begin
-    uri = "/test-bucket/*)=('! +@.txt?list-objects=v2"
-    expected_uri = "/test-bucket/%2A%29%3D%28%27%21%20%2B%40.txt?list-objects=v2"
+    uri = "/test-bucket/*)=('! +@,.txt?list-objects=v2"
+    expected_uri = "/test-bucket/%2A%29%3D%28%27%21%20%2B%40%2C.txt?list-objects=v2"
     @test AWS._clean_s3_uri(uri) == expected_uri
 
     # make sure that other parts of the uri aren't changed by `_clean_s3_uri`
@@ -742,7 +742,7 @@ end
 
     @testset "low-level s3" begin
         bucket_name = "aws-jl-test---" * _now_formatted()
-        file_name = "*)=('! +@.txt"  # Special characters which S3 allows
+        file_name = "*)=('! +@,.txt"  # Special characters which S3 allows
 
         function _bucket_exists(bucket_name)
             try

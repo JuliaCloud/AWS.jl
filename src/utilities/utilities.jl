@@ -48,6 +48,7 @@ function _clean_s3_uri(uri::AbstractString)
         ')' => "%29",
         '*' => "%2A",
         '+' => "%2B",
+        ',' => "%2C",
         '=' => "%3D",
         '@' => "%40",
     )
