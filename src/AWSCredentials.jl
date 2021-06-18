@@ -240,7 +240,11 @@ ec2_instance_region() = ec2_instance_metadata("/latest/meta-data/placement/regio
 Parse the EC2 metadata to retrieve AWSCredentials.
 """
 function ec2_instance_credentials(profile::AbstractString)
-    ini = read(Inifile(), dot_aws_config_file())
+    path = dot_aws_config_file()
+    ini = Inifile()
+    if isfile(path)
+        ini = read(ini, path)
+    end
 
     # Any profile except default must specify the credential_source as Ec2InstanceMetadata.
     if profile != "default"
