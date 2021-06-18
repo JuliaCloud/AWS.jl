@@ -12,15 +12,15 @@ Cancels the deletion of a customer master key (CMK). When this operation succeed
 state of the CMK is Disabled. To enable the CMK, use EnableKey.  For more information about
 scheduling and canceling deletion of a CMK, see Deleting Customer Master Keys in the AWS
 Key Management Service Developer Guide. The CMK that you use for this operation must be in
-a compatible key state. For details, see How Key State Affects Use of a Customer Master Key
-in the AWS Key Management Service Developer Guide.  Cross-account use: No. You cannot
-perform this operation on a CMK in a different AWS account.  Required permissions:
-kms:CancelKeyDeletion (key policy)  Related operations: ScheduleKeyDeletion
+a compatible key state. For details, see Key state: Effect on your CMK in the AWS Key
+Management Service Developer Guide.  Cross-account use: No. You cannot perform this
+operation on a CMK in a different AWS account.  Required permissions: kms:CancelKeyDeletion
+(key policy)  Related operations: ScheduleKeyDeletion
 
 # Arguments
-- `key_id`: The unique identifier for the customer master key (CMK) for which to cancel
-  deletion. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:
-  Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+- `key_id`: Identifies the customer master key (CMK) whose deletion is being canceled.
+  Specify the key ID or key ARN of the CMK. For example:   Key ID:
+  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -72,24 +72,25 @@ connect_custom_key_store(CustomKeyStoreId, params::AbstractDict{String}; aws_con
     create_alias(alias_name, target_key_id)
     create_alias(alias_name, target_key_id, params::Dict{String,<:Any})
 
-Creates a friendly name for a customer master key (CMK). You can use an alias to identify a
-CMK in the AWS KMS console, in the DescribeKey operation and in cryptographic operations,
-such as Encrypt and GenerateDataKey.  You can also change the CMK that's associated with
-the alias (UpdateAlias) or delete the alias (DeleteAlias) at any time. These operations
-don't affect the underlying CMK.  You can associate the alias with any customer managed CMK
-in the same AWS Region. Each alias is associated with only on CMK at a time, but a CMK can
-have multiple aliases. A valid CMK is required. You can't create an alias without a CMK.
-The alias must be unique in the account and Region, but you can have aliases with the same
-name in different Regions. For detailed information about aliases, see Using aliases in the
-AWS Key Management Service Developer Guide. This operation does not return a response. To
-get the alias that you created, use the ListAliases operation. The CMK that you use for
-this operation must be in a compatible key state. For details, see How Key State Affects
-Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
-Cross-account use: No. You cannot perform this operation on an alias in a different AWS
-account.  Required permissions     kms:CreateAlias on the alias (IAM policy).
-kms:CreateAlias on the CMK (key policy).   For details, see Controlling access to aliases
-in the AWS Key Management Service Developer Guide.  Related operations:     DeleteAlias
-ListAliases     UpdateAlias
+Creates a friendly name for a customer master key (CMK).   Adding, deleting, or updating an
+alias can allow or deny permission to the CMK. For details, see Using ABAC in AWS KMS in
+the AWS Key Management Service Developer Guide.  You can use an alias to identify a CMK in
+the AWS KMS console, in the DescribeKey operation and in cryptographic operations, such as
+Encrypt and GenerateDataKey. You can also change the CMK that's associated with the alias
+(UpdateAlias) or delete the alias (DeleteAlias) at any time. These operations don't affect
+the underlying CMK.  You can associate the alias with any customer managed CMK in the same
+AWS Region. Each alias is associated with only one CMK at a time, but a CMK can have
+multiple aliases. A valid CMK is required. You can't create an alias without a CMK. The
+alias must be unique in the account and Region, but you can have aliases with the same name
+in different Regions. For detailed information about aliases, see Using aliases in the AWS
+Key Management Service Developer Guide. This operation does not return a response. To get
+the alias that you created, use the ListAliases operation. The CMK that you use for this
+operation must be in a compatible key state. For details, see Key state: Effect on your CMK
+in the AWS Key Management Service Developer Guide.  Cross-account use: No. You cannot
+perform this operation on an alias in a different AWS account.  Required permissions
+kms:CreateAlias on the alias (IAM policy).    kms:CreateAlias on the CMK (key policy).
+For details, see Controlling access to aliases in the AWS Key Management Service Developer
+Guide.  Related operations:     DeleteAlias     ListAliases     UpdateAlias
 
 # Arguments
 - `alias_name`: Specifies the alias name. This value must begin with alias/ followed by a
@@ -101,10 +102,9 @@ ListAliases     UpdateAlias
   must be in the same AWS Region.  A valid CMK ID is required. If you supply a null or empty
   string value, this operation returns an error. For help finding the key ID and ARN, see
   Finding the Key ID and ARN in the AWS Key Management Service Developer Guide. Specify the
-  key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
-  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
-  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+  key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To
+  get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 """
 create_alias(AliasName, TargetKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateAlias", Dict{String, Any}("AliasName"=>AliasName, "TargetKeyId"=>TargetKeyId); aws_config=aws_config)
@@ -155,58 +155,69 @@ create_custom_key_store(CloudHsmClusterId, CustomKeyStoreName, KeyStorePassword,
     create_grant(grantee_principal, key_id, operations)
     create_grant(grantee_principal, key_id, operations, params::Dict{String,<:Any})
 
-Adds a grant to a customer master key (CMK). The grant allows the grantee principal to use
-the CMK when the conditions specified in the grant are met. When setting permissions,
-grants are an alternative to key policies.  To create a grant that allows a cryptographic
-operation only when the request includes a particular encryption context, use the
-Constraints parameter. For details, see GrantConstraints. You can create grants on
-symmetric and asymmetric CMKs. However, if the grant allows an operation that the CMK does
-not support, CreateGrant fails with a ValidationException.    Grants for symmetric CMKs
-cannot allow operations that are not supported for symmetric CMKs, including Sign, Verify,
-and GetPublicKey. (There are limited exceptions to this rule for legacy operations, but you
-should not create a grant for an operation that AWS KMS does not support.)   Grants for
-asymmetric CMKs cannot allow operations that are not supported for asymmetric CMKs,
-including operations that generate data keys or data key pairs, or operations related to
-automatic key rotation, imported key material, or CMKs in custom key stores.   Grants for
-asymmetric CMKs with a KeyUsage of ENCRYPT_DECRYPT cannot allow the Sign or Verify
-operations. Grants for asymmetric CMKs with a KeyUsage of SIGN_VERIFY cannot allow the
-Encrypt or Decrypt operations.   Grants for asymmetric CMKs cannot include an encryption
-context grant constraint. An encryption context is not supported on asymmetric CMKs.   For
-information about symmetric and asymmetric CMKs, see Using Symmetric and Asymmetric CMKs in
-the AWS Key Management Service Developer Guide. For more information about grants, see
-Grants in the  AWS Key Management Service Developer Guide . The CMK that you use for this
-operation must be in a compatible key state. For details, see How Key State Affects Use of
-a Customer Master Key in the AWS Key Management Service Developer Guide.  Cross-account
-use: Yes. To perform this operation on a CMK in a different AWS account, specify the key
-ARN in the value of the KeyId parameter.   Required permissions: kms:CreateGrant (key
-policy)  Related operations:     ListGrants     ListRetirableGrants     RetireGrant
-RevokeGrant
+Adds a grant to a customer master key (CMK).  A grant is a policy instrument that allows
+AWS principals to use AWS KMS customer master keys (CMKs) in cryptographic operations. It
+also can allow them to view a CMK (DescribeKey) and create and manage grants. When
+authorizing access to a CMK, grants are considered along with key policies and IAM
+policies. Grants are often used for temporary permissions because you can create one, use
+its permissions, and delete it without changing your key policies or IAM policies.  For
+detailed information about grants, including grant terminology, see Using grants in the
+AWS Key Management Service Developer Guide . For examples of working with grants in several
+programming languages, see Programming grants. The CreateGrant operation returns a
+GrantToken and a GrantId.   When you create, retire, or revoke a grant, there might be a
+brief delay, usually less than five minutes, until the grant is available throughout AWS
+KMS. This state is known as eventual consistency. Once the grant has achieved eventual
+consistency, the grantee principal can use the permissions in the grant without identifying
+the grant.  However, to use the permissions in the grant immediately, use the GrantToken
+that CreateGrant returns. For details, see Using a grant token in the  AWS Key Management
+Service Developer Guide .   The CreateGrant operation also returns a GrantId. You can use
+the GrantId and a key identifier to identify the grant in the RetireGrant and RevokeGrant
+operations. To find the grant ID, use the ListGrants or ListRetirableGrants operations.
+For information about symmetric and asymmetric CMKs, see Using Symmetric and Asymmetric
+CMKs in the AWS Key Management Service Developer Guide. For more information about grants,
+see Grants in the  AWS Key Management Service Developer Guide . The CMK that you use for
+this operation must be in a compatible key state. For details, see Key state: Effect on
+your CMK in the AWS Key Management Service Developer Guide.  Cross-account use: Yes. To
+perform this operation on a CMK in a different AWS account, specify the key ARN in the
+value of the KeyId parameter.   Required permissions: kms:CreateGrant (key policy)  Related
+operations:     ListGrants     ListRetirableGrants     RetireGrant     RevokeGrant
 
 # Arguments
-- `grantee_principal`: The principal that is given permission to perform the operations
-  that the grant permits. To specify the principal, use the Amazon Resource Name (ARN) of an
-  AWS principal. Valid AWS principals include AWS accounts (root), IAM users, IAM roles,
-  federated users, and assumed role users. For examples of the ARN syntax to use for
-  specifying a principal, see AWS Identity and Access Management (IAM) in the Example ARNs
-  section of the AWS General Reference.
-- `key_id`: The unique identifier for the customer master key (CMK) that the grant applies
-  to. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a
-  different AWS account, you must use the key ARN. For example:   Key ID:
+- `grantee_principal`: The identity that gets the permissions specified in the grant. To
+  specify the principal, use the Amazon Resource Name (ARN) of an AWS principal. Valid AWS
+  principals include AWS accounts (root), IAM users, IAM roles, federated users, and assumed
+  role users. For examples of the ARN syntax to use for specifying a principal, see AWS
+  Identity and Access Management (IAM) in the Example ARNs section of the AWS General
+  Reference.
+- `key_id`: Identifies the customer master key (CMK) for the grant. The grant gives
+  principals permission to use this CMK. Specify the key ID or key ARN of the CMK. To specify
+  a CMK in a different AWS account, you must use the key ARN. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
-- `operations`: A list of operations that the grant permits.
+- `operations`: A list of operations that the grant permits.  The operation must be
+  supported on the CMK. For example, you cannot create a grant for a symmetric CMK that
+  allows the Sign operation, or a grant for an asymmetric CMK that allows the GenerateDataKey
+  operation. If you try, AWS KMS returns a ValidationError exception. For details, see Grant
+  operations in the AWS Key Management Service Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Constraints"`: Allows a cryptographic operation only when the encryption context
-  matches or includes the encryption context specified in this structure. For more
-  information about encryption context, see Encryption Context in the  AWS Key Management
-  Service Developer Guide . Grant constraints are not applied to operations that do not
-  support an encryption context, such as cryptographic operations with asymmetric CMKs and
-  management operations, such as DescribeKey or RetireGrant.
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"Constraints"`: Specifies a grant constraint.  AWS KMS supports the
+  EncryptionContextEquals and EncryptionContextSubset grant constraints. Each constraint
+  value can include up to 8 encryption context pairs. The encryption context value in each
+  constraint cannot exceed 384 characters. These grant constraints allow a cryptographic
+  operation only when the encryption context in the request matches (EncryptionContextEquals)
+  or includes (EncryptionContextSubset) the encryption context specified in this structure.
+  For more information about encryption context, see Encryption Context in the  AWS Key
+  Management Service Developer Guide . For information about grant constraints, see Using
+  grant constraints in the AWS Key Management Service Developer Guide. The encryption context
+  grant constraints are supported only on operations that include an encryption context. You
+  cannot use an encryption context grant constraint for cryptographic operations with
+  asymmetric CMKs or for management operations, such as DescribeKey or RetireGrant.
+- `"GrantTokens"`: A list of grant tokens.  Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 - `"Name"`: A friendly name for the grant. Use this value to prevent the unintended
   creation of duplicate grants when retrying this request. When this value is absent, all
   CreateGrant requests result in a new grant with a unique GrantId even if all the supplied
@@ -249,18 +260,35 @@ be used to encrypt and decrypt or sign and verify. You can't change these proper
 the CMK is created.    Symmetric CMKs  When creating a symmetric CMK, you don't need to
 specify the CustomerMasterKeySpec or KeyUsage parameters. The default value for
 CustomerMasterKeySpec, SYMMETRIC_DEFAULT, and the default value for KeyUsage,
-ENCRYPT_DECRYPT, are the only valid values for symmetric CMKs.     Imported Key Material
-To import your own key material, begin by creating a symmetric CMK with no key material. To
-do this, use the Origin parameter of CreateKey with a value of EXTERNAL. Next, use
-GetParametersForImport operation to get a public key and import token, and use the public
-key to encrypt your key material. Then, use ImportKeyMaterial with your import token to
-import the key material. For step-by-step instructions, see Importing Key Material in the
-AWS Key Management Service Developer Guide . You cannot import the key material into an
-asymmetric CMK.    Custom Key Stores  To create a symmetric CMK in a custom key store, use
-the CustomKeyStoreId parameter to specify the custom key store. You must also use the
-Origin parameter with a value of AWS_CLOUDHSM. The AWS CloudHSM cluster that is associated
-with the custom key store must have at least two active HSMs in different Availability
-Zones in the AWS Region.  You cannot create an asymmetric CMK in a custom key store. For
+ENCRYPT_DECRYPT, are the only valid values for symmetric CMKs.     Multi-Region primary
+keys Imported key material  To create a multi-Region primary key in the local AWS Region,
+use the MultiRegion parameter with a value of True. To create a multi-Region replica key,
+that is, a CMK with the same key ID and key material as a primary key, but in a different
+AWS Region, use the ReplicateKey operation. To change a replica key to a primary key, and
+its primary key to a replica key, use the UpdatePrimaryRegion operation. This operation
+supports multi-Region keys, an AWS KMS feature that lets you create multiple interoperable
+CMKs in different AWS Regions. Because these CMKs have the same key ID, key material, and
+other metadata, you can use them to encrypt data in one AWS Region and decrypt it in a
+different AWS Region without making a cross-Region call or exposing the plaintext data. For
+more information about multi-Region keys, see Using multi-Region keys in the AWS Key
+Management Service Developer Guide. You can create symmetric and asymmetric multi-Region
+keys and multi-Region keys with imported key material. You cannot create multi-Region keys
+in a custom key store.     To import your own key material, begin by creating a symmetric
+CMK with no key material. To do this, use the Origin parameter of CreateKey with a value of
+EXTERNAL. Next, use GetParametersForImport operation to get a public key and import token,
+and use the public key to encrypt your key material. Then, use ImportKeyMaterial with your
+import token to import the key material. For step-by-step instructions, see Importing Key
+Material in the  AWS Key Management Service Developer Guide . You cannot import the key
+material into an asymmetric CMK. To create a multi-Region primary key with imported key
+material, use the Origin parameter of CreateKey with a value of EXTERNAL and the
+MultiRegion parameter with a value of True. To create replicas of the multi-Region primary
+key, use the ReplicateKey operation. For more information about multi-Region keys, see
+Using multi-Region keys in the AWS Key Management Service Developer Guide.    Custom key
+store  To create a symmetric CMK in a custom key store, use the CustomKeyStoreId parameter
+to specify the custom key store. You must also use the Origin parameter with a value of
+AWS_CLOUDHSM. The AWS CloudHSM cluster that is associated with the custom key store must
+have at least two active HSMs in different Availability Zones in the AWS Region.  You
+cannot create an asymmetric CMK or a multi-Region CMK in a custom key store. For
 information about custom key stores in AWS KMS see Using Custom Key Stores in the  AWS Key
 Management Service Developer Guide .    Cross-account use: No. You cannot use this
 operation to create a CMK in a different AWS account.  Required permissions: kms:CreateKey
@@ -283,11 +311,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must also specify the Origin parameter with a value of AWS_CLOUDHSM. The AWS CloudHSM
   cluster that is associated with the custom key store must have at least two active HSMs,
   each in a different Availability Zone in the Region. This parameter is valid only for
-  symmetric CMKs. You cannot create an asymmetric CMK in a custom key store. To find the ID
-  of a custom key store, use the DescribeCustomKeyStores operation. The response includes the
-  custom key store ID and the ID of the AWS CloudHSM cluster. This operation is part of the
-  Custom Key Store feature feature in AWS KMS, which combines the convenience and extensive
-  integration of AWS KMS with the isolation and control of a single-tenant key store.
+  symmetric CMKs and regional CMKs. You cannot create an asymmetric CMK or a multi-Region CMK
+  in a custom key store. To find the ID of a custom key store, use the
+  DescribeCustomKeyStores operation. The response includes the custom key store ID and the ID
+  of the AWS CloudHSM cluster. This operation is part of the Custom Key Store feature feature
+  in AWS KMS, which combines the convenience and extensive integration of AWS KMS with the
+  isolation and control of a single-tenant key store.
 - `"CustomerMasterKeySpec"`: Specifies the type of CMK to create. The default value,
   SYMMETRIC_DEFAULT, creates a CMK with a 256-bit symmetric key for encryption and
   decryption. For help choosing a key spec for your CMK, see How to Choose Your CMK
@@ -307,23 +336,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (secp384r1)    ECC_NIST_P521 (secp521r1)     Other asymmetric elliptic curve key pairs
   ECC_SECG_P256K1 (secp256k1), commonly used for cryptocurrencies.
 - `"Description"`: A description of the CMK. Use a description that helps you decide
-  whether the CMK is appropriate for a task.
+  whether the CMK is appropriate for a task. The default value is an empty string (no
+  description).
 - `"KeyUsage"`: Determines the cryptographic operations for which you can use the CMK. The
   default value is ENCRYPT_DECRYPT. This parameter is required only for asymmetric CMKs. You
   can't change the KeyUsage value after the CMK is created. Select only one valid value.
   For symmetric CMKs, omit the parameter or specify ENCRYPT_DECRYPT.   For asymmetric CMKs
   with RSA key material, specify ENCRYPT_DECRYPT or SIGN_VERIFY.   For asymmetric CMKs with
   ECC key material, specify SIGN_VERIFY.
+- `"MultiRegion"`: Creates a multi-Region primary key that you can replicate into other AWS
+  Regions. You cannot change this value after you create the CMK.  For a multi-Region key,
+  set this parameter to True. For a single-Region CMK, omit this parameter or set it to
+  False. The default value is False. This operation supports multi-Region keys, an AWS KMS
+  feature that lets you create multiple interoperable CMKs in different AWS Regions. Because
+  these CMKs have the same key ID, key material, and other metadata, you can use them to
+  encrypt data in one AWS Region and decrypt it in a different AWS Region without making a
+  cross-Region call or exposing the plaintext data. For more information about multi-Region
+  keys, see Using multi-Region keys in the AWS Key Management Service Developer Guide. This
+  value creates a primary key, not a replica. To create a replica key, use the ReplicateKey
+  operation.  You can create a symmetric or asymmetric multi-Region CMK, and you can create a
+  multi-Region CMK with imported key material. However, you cannot create a multi-Region CMK
+  in a custom key store.
 - `"Origin"`: The source of the key material for the CMK. You cannot change the origin
-  after you create the CMK. The default is AWS_KMS, which means AWS KMS creates the key
-  material. When the parameter value is EXTERNAL, AWS KMS creates a CMK without key material
-  so that you can import key material from your existing key management infrastructure. For
-  more information about importing key material into AWS KMS, see Importing Key Material in
-  the AWS Key Management Service Developer Guide. This value is valid only for symmetric
-  CMKs. When the parameter value is AWS_CLOUDHSM, AWS KMS creates the CMK in an AWS KMS
-  custom key store and creates its key material in the associated AWS CloudHSM cluster. You
-  must also use the CustomKeyStoreId parameter to identify the custom key store. This value
-  is valid only for symmetric CMKs.
+  after you create the CMK. The default is AWS_KMS, which means that AWS KMS creates the key
+  material. To create a CMK with no key material (for imported key material), set the value
+  to EXTERNAL. For more information about importing key material into AWS KMS, see Importing
+  Key Material in the AWS Key Management Service Developer Guide. This value is valid only
+  for symmetric CMKs. To create a CMK in an AWS KMS custom key store and create its key
+  material in the associated AWS CloudHSM cluster, set this value to AWS_CLOUDHSM. You must
+  also use the CustomKeyStoreId parameter to identify the custom key store. This value is
+  valid only for symmetric CMKs.
 - `"Policy"`: The key policy to attach to the CMK. If you provide a key policy, it must
   meet the following criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the
   key policy must allow the principal that is making the CreateKey request to make a
@@ -340,13 +382,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Management Service Developer Guide.  The key policy size quota is 32 kilobytes (32768
   bytes). For help writing and formatting a JSON policy document, see the IAM JSON Policy
   Reference in the  IAM User Guide .
-- `"Tags"`: One or more tags. Each tag consists of a tag key and a tag value. Both the tag
-  key and the tag value are required, but the tag value can be an empty (null) string.  When
-  you add tags to an AWS resource, AWS generates a cost allocation report with usage and
-  costs aggregated by tags. For information about adding, changing, deleting and listing tags
-  for CMKs, see Tagging Keys. Use this parameter to tag the CMK when it is created. To add
-  tags to an existing CMK, use the TagResource operation. To use this parameter, you must
-  have kms:TagResource permission in an IAM policy.
+- `"Tags"`: Assigns one or more tags to the CMK. Use this parameter to tag the CMK when it
+  is created. To tag an existing CMK, use the TagResource operation.  Tagging or untagging a
+  CMK can allow or deny permission to the CMK. For details, see Using ABAC in AWS KMS in the
+  AWS Key Management Service Developer Guide.  To use this parameter, you must have
+  kms:TagResource permission in an IAM policy. Each tag consists of a tag key and a tag
+  value. Both the tag key and the tag value are required, but the tag value can be an empty
+  (null) string. You cannot have more than one tag on a CMK with the same tag key. If you
+  specify an existing tag key with a different tag value, AWS KMS replaces the current tag
+  value with the specified one. When you assign tags to an AWS resource, AWS generates a cost
+  allocation report with usage and costs aggregated by tags. Tags can also be used to control
+  access to a CMK. For details, see Tagging Keys.
 """
 create_key(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateKey"; aws_config=aws_config)
 create_key(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("CreateKey", params; aws_config=aws_config)
@@ -381,11 +427,10 @@ other accounts if the key policy for the cross-account CMK permits it. If you mu
 IAM policy for Decrypt permissions, limit the user to particular CMKs or particular trusted
 accounts. For details, see Best practices for IAM policies in the AWS Key Management
 Service Developer Guide. The CMK that you use for this operation must be in a compatible
-key state. For details, see How Key State Affects Use of a Customer Master Key in the AWS
-Key Management Service Developer Guide.  Cross-account use: Yes. You can decrypt a
-ciphertext using a CMK in a different AWS account.  Required permissions: kms:Decrypt (key
-policy)  Related operations:     Encrypt     GenerateDataKey     GenerateDataKeyPair
-ReEncrypt
+key state. For details, see Key state: Effect on your CMK in the AWS Key Management Service
+Developer Guide.  Cross-account use: Yes. You can decrypt a ciphertext using a CMK in a
+different AWS account.  Required permissions: kms:Decrypt (key policy)  Related operations:
+    Encrypt     GenerateDataKey     GenerateDataKeyPair     ReEncrypt
 
 # Arguments
 - `ciphertext_blob`: Ciphertext to be decrypted. The blob includes metadata.
@@ -406,17 +451,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   decrypt the data. An encryption context is optional when encrypting with a symmetric CMK,
   but it is highly recommended. For more information, see Encryption Context in the AWS Key
   Management Service Developer Guide.
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens.  Use a grant token when your permission to call
+  this operation comes from a newly created grant that has not yet achieved eventual
+  consistency. Use a grant token when your permission to call this operation comes from a new
+  grant that has not yet achieved eventual consistency. For more information, see Grant token
+  in the AWS Key Management Service Developer Guide.
 - `"KeyId"`: Specifies the customer master key (CMK) that AWS KMS uses to decrypt the
   ciphertext. Enter a key ID of the CMK that was used to encrypt the ciphertext. This
   parameter is required only when the ciphertext was encrypted under an asymmetric CMK. If
   you used a symmetric CMK, AWS KMS can get the CMK from metadata that it adds to the
   symmetric ciphertext blob. However, it is always recommended as a best practice. This
   practice ensures that you use the CMK that you intend. To specify a CMK, use its key ID,
-  Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it
-  with \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or
-  alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  key ARN, alias name, or alias ARN. When using an alias name, prefix it with \"alias/\". To
+  specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For
+  example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
@@ -429,9 +477,11 @@ decrypt(CiphertextBlob, params::AbstractDict{String}; aws_config::AbstractAWSCon
     delete_alias(alias_name)
     delete_alias(alias_name, params::Dict{String,<:Any})
 
-Deletes the specified alias.  Because an alias is not a property of a CMK, you can delete
-and change the aliases of a CMK without affecting the CMK. Also, aliases do not appear in
-the response from the DescribeKey operation. To get the aliases of all CMKs, use the
+Deletes the specified alias.   Adding, deleting, or updating an alias can allow or deny
+permission to the CMK. For details, see Using ABAC in AWS KMS in the AWS Key Management
+Service Developer Guide.  Because an alias is not a property of a CMK, you can delete and
+change the aliases of a CMK without affecting the CMK. Also, aliases do not appear in the
+response from the DescribeKey operation. To get the aliases of all CMKs, use the
 ListAliases operation.  Each CMK can have multiple aliases. To change the alias of a CMK,
 use DeleteAlias to delete the current alias and CreateAlias to create a new alias. To
 associate an existing alias with a different customer master key (CMK), call UpdateAlias.
@@ -493,16 +543,16 @@ AWS KMS, see Importing Key Material in the AWS Key Management Service Developer 
 When the specified CMK is in the PendingDeletion state, this operation does not change the
 CMK's state. Otherwise, it changes the CMK's state to PendingImport. After you delete key
 material, you can use ImportKeyMaterial to reimport the same key material into the CMK. The
-CMK that you use for this operation must be in a compatible key state. For details, see How
-Key State Affects Use of a Customer Master Key in the AWS Key Management Service Developer
-Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a different
-AWS account.  Required permissions: kms:DeleteImportedKeyMaterial (key policy)  Related
-operations:     GetParametersForImport     ImportKeyMaterial
+CMK that you use for this operation must be in a compatible key state. For details, see Key
+state: Effect on your CMK in the AWS Key Management Service Developer Guide.  Cross-account
+use: No. You cannot perform this operation on a CMK in a different AWS account.  Required
+permissions: kms:DeleteImportedKeyMaterial (key policy)  Related operations:
+GetParametersForImport     ImportKeyMaterial
 
 # Arguments
 - `key_id`: Identifies the CMK from which you are deleting imported key material. The
-  Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name (ARN) of
-  the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  Origin of the CMK must be EXTERNAL. Specify the key ID or key ARN of the CMK. For example:
+   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -514,11 +564,11 @@ delete_imported_key_material(KeyId, params::AbstractDict{String}; aws_config::Ab
     describe_custom_key_stores()
     describe_custom_key_stores(params::Dict{String,<:Any})
 
-Gets information about custom key stores in the account and region. This operation is part
+Gets information about custom key stores in the account and Region. This operation is part
 of the Custom Key Store feature feature in AWS KMS, which combines the convenience and
 extensive integration of AWS KMS with the isolation and control of a single-tenant key
 store. By default, this operation returns information about all custom key stores in the
-account and region. To get only information about a particular custom key store, use either
+account and Region. To get only information about a particular custom key store, use either
 the CustomKeyStoreName or CustomKeyStoreId parameter (but not both). To determine whether
 the custom key store is connected to its AWS CloudHSM cluster, use the ConnectionState
 element in the response. If an attempt to connect the custom key store failed, the
@@ -539,11 +589,11 @@ DeleteCustomKeyStore     DisconnectCustomKeyStore     UpdateCustomKeyStore
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CustomKeyStoreId"`: Gets only information about the specified custom key store. Enter
   the key store ID. By default, this operation gets information about all custom key stores
-  in the account and region. To limit the output to a particular custom key store, you can
+  in the account and Region. To limit the output to a particular custom key store, you can
   use either the CustomKeyStoreId or CustomKeyStoreName parameter, but not both.
 - `"CustomKeyStoreName"`: Gets only information about the specified custom key store. Enter
   the friendly name of the custom key store. By default, this operation gets information
-  about all custom key stores in the account and region. To limit the output to a particular
+  about all custom key stores in the account and Region. To limit the output to a particular
   custom key store, you can use either the CustomKeyStoreId or CustomKeyStoreName parameter,
   but not both.
 - `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
@@ -586,10 +636,10 @@ ListGrants     ListKeys     ListResourceTags     ListRetirableGrants
 # Arguments
 - `key_id`: Describes the specified customer master key (CMK).  If you specify a predefined
   AWS alias (an AWS alias with no key ID), KMS associates the alias with an AWS managed CMK
-  and returns its KeyId and Arn in the response. To specify a CMK, use its key ID, Amazon
-  Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
-  \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or alias
-  ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  and returns its KeyId and Arn in the response. To specify a CMK, use its key ID, key ARN,
+  alias name, or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a
+  CMK in a different AWS account, you must use the key ARN or alias ARN. For example:   Key
+  ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
@@ -597,8 +647,9 @@ ListGrants     ListKeys     ListResourceTags     ListRetirableGrants
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 """
 describe_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
 describe_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("DescribeKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
@@ -609,17 +660,16 @@ describe_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=
 
 Sets the state of a customer master key (CMK) to disabled. This change temporarily prevents
 use of the CMK for cryptographic operations.  For more information about how key state
-affects the use of a CMK, see How Key State Affects the Use of a Customer Master Key in the
- AWS Key Management Service Developer Guide . The CMK that you use for this operation must
-be in a compatible key state. For details, see How Key State Affects Use of a Customer
-Master Key in the AWS Key Management Service Developer Guide.  Cross-account use: No. You
-cannot perform this operation on a CMK in a different AWS account.  Required permissions:
-kms:DisableKey (key policy)  Related operations: EnableKey
+affects the use of a CMK, see Key state: Effect on your CMK in the  AWS Key Management
+Service Developer Guide . The CMK that you use for this operation must be in a compatible
+key state. For details, see Key state: Effect on your CMK in the AWS Key Management Service
+Developer Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a
+different AWS account.  Required permissions: kms:DisableKey (key policy)  Related
+operations: EnableKey
 
 # Arguments
-- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
-  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+- `key_id`: Identifies the customer master key (CMK) to disable. Specify the key ID or key
+  ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -633,18 +683,19 @@ disable_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
 
 Disables automatic rotation of the key material for the specified symmetric customer master
 key (CMK).  You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key
-material, or CMKs in a custom key store.  The CMK that you use for this operation must be
-in a compatible key state. For details, see How Key State Affects Use of a Customer Master
-Key in the AWS Key Management Service Developer Guide.  Cross-account use: No. You cannot
-perform this operation on a CMK in a different AWS account.  Required permissions:
+material, or CMKs in a custom key store. To enable or disable automatic rotation of a set
+of related multi-Region keys, set the property on the primary key.  The CMK that you use
+for this operation must be in a compatible key state. For details, see Key state: Effect on
+your CMK in the AWS Key Management Service Developer Guide.  Cross-account use: No. You
+cannot perform this operation on a CMK in a different AWS account.  Required permissions:
 kms:DisableKeyRotation (key policy)  Related operations:     EnableKeyRotation
 GetKeyRotationStatus
 
 # Arguments
 - `key_id`: Identifies a symmetric customer master key (CMK). You cannot enable or disable
   automatic rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom
-  key store. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:
-  Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  key store. Specify the key ID or key ARN of the CMK. For example:   Key ID:
+  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -687,15 +738,14 @@ disconnect_custom_key_store(CustomKeyStoreId, params::AbstractDict{String}; aws_
 
 Sets the key state of a customer master key (CMK) to enabled. This allows you to use the
 CMK for cryptographic operations.  The CMK that you use for this operation must be in a
-compatible key state. For details, see How Key State Affects Use of a Customer Master Key
-in the AWS Key Management Service Developer Guide.  Cross-account use: No. You cannot
-perform this operation on a CMK in a different AWS account.  Required permissions:
-kms:EnableKey (key policy)  Related operations: DisableKey
+compatible key state. For details, see Key state: Effect on your CMK in the AWS Key
+Management Service Developer Guide.  Cross-account use: No. You cannot perform this
+operation on a CMK in a different AWS account.  Required permissions: kms:EnableKey (key
+policy)  Related operations: DisableKey
 
 # Arguments
-- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
-  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+- `key_id`: Identifies the customer master key (CMK) to enable. Specify the key ID or key
+  ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -709,18 +759,20 @@ enable_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
 
 Enables automatic rotation of the key material for the specified symmetric customer master
 key (CMK). You cannot enable automatic rotation of asymmetric CMKs, CMKs with imported key
-material, or CMKs in a custom key store. The CMK that you use for this operation must be in
-a compatible key state. For details, see How Key State Affects Use of a Customer Master Key
-in the AWS Key Management Service Developer Guide.  Cross-account use: No. You cannot
-perform this operation on a CMK in a different AWS account.  Required permissions:
+material, or CMKs in a custom key store. To enable or disable automatic rotation of a set
+of related multi-Region keys, set the property on the primary key. The CMK that you use for
+this operation must be in a compatible key state. For details, see Key state: Effect on
+your CMK in the AWS Key Management Service Developer Guide.  Cross-account use: No. You
+cannot perform this operation on a CMK in a different AWS account.  Required permissions:
 kms:EnableKeyRotation (key policy)  Related operations:     DisableKeyRotation
 GetKeyRotationStatus
 
 # Arguments
 - `key_id`: Identifies a symmetric customer master key (CMK). You cannot enable automatic
   rotation of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key
-  store. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key
-  ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  store. To enable or disable automatic rotation of a set of related multi-Region keys, set
+  the property on the primary key. Specify the key ID or key ARN of the CMK. For example:
+  Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -764,16 +816,15 @@ the encryption algorithm that you choose.   Symmetric CMKs    SYMMETRIC_DEFAULT:
      RSA_2048     RSAES_OAEP_SHA_1: 214 bytes    RSAES_OAEP_SHA_256: 190 bytes
 RSA_3072     RSAES_OAEP_SHA_1: 342 bytes    RSAES_OAEP_SHA_256: 318 bytes      RSA_4096
 RSAES_OAEP_SHA_1: 470 bytes    RSAES_OAEP_SHA_256: 446 bytes     The CMK that you use for
-this operation must be in a compatible key state. For details, see How Key State Affects
-Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
-Cross-account use: Yes. To perform this operation with a CMK in a different AWS account,
-specify the key ARN or alias ARN in the value of the KeyId parameter.  Required
-permissions: kms:Encrypt (key policy)  Related operations:     Decrypt     GenerateDataKey
-   GenerateDataKeyPair
+this operation must be in a compatible key state. For details, see Key state: Effect on
+your CMK in the AWS Key Management Service Developer Guide.  Cross-account use: Yes. To
+perform this operation with a CMK in a different AWS account, specify the key ARN or alias
+ARN in the value of the KeyId parameter.  Required permissions: kms:Encrypt (key policy)
+Related operations:     Decrypt     GenerateDataKey     GenerateDataKeyPair
 
 # Arguments
-- `key_id`: A unique identifier for the customer master key (CMK). To specify a CMK, use
-  its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name,
+- `key_id`: Identifies the customer master key (CMK) to use in the encryption operation. To
+  specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using an alias name,
   prefix it with \"alias/\". To specify a CMK in a different AWS account, you must use the
   key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
   ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias
@@ -798,8 +849,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to decrypt the data. An encryption context is optional when encrypting with a symmetric
   CMK, but it is highly recommended. For more information, see Encryption Context in the AWS
   Key Management Service Developer Guide.
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 """
 encrypt(KeyId, Plaintext; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Encrypt", Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext); aws_config=aws_config)
 encrypt(KeyId, Plaintext, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("Encrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "Plaintext"=>Plaintext), params)); aws_config=aws_config)
@@ -826,33 +878,33 @@ an EncryptionContext, you must specify the same encryption context (a case-sensi
 match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with
 an InvalidCiphertextException. For more information, see Encryption Context in the AWS Key
 Management Service Developer Guide. The CMK that you use for this operation must be in a
-compatible key state. For details, see How Key State Affects Use of a Customer Master Key
-in the AWS Key Management Service Developer Guide.  How to use your data key  We recommend
-that you use the following pattern to encrypt data locally in your application. You can
-write your own code or use a client-side encryption library, such as the AWS Encryption
-SDK, the Amazon DynamoDB Encryption Client, or Amazon S3 client-side encryption to do these
-tasks for you. To encrypt data outside of AWS KMS:   Use the GenerateDataKey operation to
-get a data key.   Use the plaintext data key (in the Plaintext field of the response) to
-encrypt your data outside of AWS KMS. Then erase the plaintext data key from memory.
-Store the encrypted data key (in the CiphertextBlob field of the response) with the
-encrypted data.   To decrypt data outside of AWS KMS:   Use the Decrypt operation to
-decrypt the encrypted data key. The operation returns a plaintext copy of the data key.
-Use the plaintext data key to decrypt data outside of AWS KMS, then erase the plaintext
-data key from memory.    Cross-account use: Yes. To perform this operation with a CMK in a
-different AWS account, specify the key ARN or alias ARN in the value of the KeyId
-parameter.  Required permissions: kms:GenerateDataKey (key policy)  Related operations:
-Decrypt     Encrypt     GenerateDataKeyPair     GenerateDataKeyPairWithoutPlaintext
+compatible key state. For details, see Key state: Effect on your CMK in the AWS Key
+Management Service Developer Guide.  How to use your data key  We recommend that you use
+the following pattern to encrypt data locally in your application. You can write your own
+code or use a client-side encryption library, such as the AWS Encryption SDK, the Amazon
+DynamoDB Encryption Client, or Amazon S3 client-side encryption to do these tasks for you.
+To encrypt data outside of AWS KMS:   Use the GenerateDataKey operation to get a data key.
+ Use the plaintext data key (in the Plaintext field of the response) to encrypt your data
+outside of AWS KMS. Then erase the plaintext data key from memory.   Store the encrypted
+data key (in the CiphertextBlob field of the response) with the encrypted data.   To
+decrypt data outside of AWS KMS:   Use the Decrypt operation to decrypt the encrypted data
+key. The operation returns a plaintext copy of the data key.   Use the plaintext data key
+to decrypt data outside of AWS KMS, then erase the plaintext data key from memory.
+Cross-account use: Yes. To perform this operation with a CMK in a different AWS account,
+specify the key ARN or alias ARN in the value of the KeyId parameter.  Required
+permissions: kms:GenerateDataKey (key policy)  Related operations:     Decrypt     Encrypt
+   GenerateDataKeyPair     GenerateDataKeyPairWithoutPlaintext
 GenerateDataKeyWithoutPlaintext
 
 # Arguments
 - `key_id`: Identifies the symmetric CMK that encrypts the data key. To specify a CMK, use
-  its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name,
-  prefix it with \"alias/\". To specify a CMK in a different AWS account, you must use the
-  key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
-  ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias
-  name: alias/ExampleAlias    Alias ARN:
-  arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for
-  a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+  its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or alias
+  ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
+  alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+  To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
+  and alias ARN, use ListAliases.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -863,8 +915,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   decrypt the data. An encryption context is optional when encrypting with a symmetric CMK,
   but it is highly recommended. For more information, see Encryption Context in the AWS Key
   Management Service Developer Guide.
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 - `"KeySpec"`: Specifies the length of the data key. Use AES_128 to generate a 128-bit
   symmetric key, or AES_256 to generate a 256-bit symmetric key. You must specify either the
   KeySpec or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
@@ -903,21 +956,20 @@ specify an EncryptionContext, you must specify the same encryption context (a
 case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request
 to decrypt fails with an InvalidCiphertextException. For more information, see Encryption
 Context in the AWS Key Management Service Developer Guide. The CMK that you use for this
-operation must be in a compatible key state. For details, see How Key State Affects Use of
-a Customer Master Key in the AWS Key Management Service Developer Guide.  Cross-account
-use: Yes. To perform this operation with a CMK in a different AWS account, specify the key
-ARN or alias ARN in the value of the KeyId parameter.  Required permissions:
-kms:GenerateDataKeyPair (key policy)  Related operations:     Decrypt     Encrypt
-GenerateDataKey     GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
-
+operation must be in a compatible key state. For details, see Key state: Effect on your CMK
+in the AWS Key Management Service Developer Guide.  Cross-account use: Yes. To perform this
+operation with a CMK in a different AWS account, specify the key ARN or alias ARN in the
+value of the KeyId parameter.  Required permissions: kms:GenerateDataKeyPair (key policy)
+Related operations:     Decrypt     Encrypt     GenerateDataKey
+GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
 
 # Arguments
 - `key_id`: Specifies the symmetric CMK that encrypts the private key in the data key pair.
   You cannot specify an asymmetric CMK or a CMK in a custom key store. To get the type and
-  origin of your CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon
-  Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
-  \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or alias
-  ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  origin of your CMK, use the DescribeKey operation. To specify a CMK, use its key ID, key
+  ARN, alias name, or alias ARN. When using an alias name, prefix it with \"alias/\". To
+  specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For
+  example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
@@ -936,8 +988,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encryption context to decrypt the data. An encryption context is optional when encrypting
   with a symmetric CMK, but it is highly recommended. For more information, see Encryption
   Context in the AWS Key Management Service Developer Guide.
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 """
 generate_data_key_pair(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPair", Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec); aws_config=aws_config)
 generate_data_key_pair(KeyId, KeyPairSpec, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPair", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config)
@@ -963,25 +1016,24 @@ the encryption operation. If you specify an EncryptionContext, you must specify 
 encryption context (a case-sensitive exact match) when decrypting the encrypted data key.
 Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more
 information, see Encryption Context in the AWS Key Management Service Developer Guide. The
-CMK that you use for this operation must be in a compatible key state. For details, see How
-Key State Affects Use of a Customer Master Key in the AWS Key Management Service Developer
-Guide.  Cross-account use: Yes. To perform this operation with a CMK in a different AWS
-account, specify the key ARN or alias ARN in the value of the KeyId parameter.  Required
-permissions: kms:GenerateDataKeyPairWithoutPlaintext (key policy)  Related operations:
-Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
-GenerateDataKeyWithoutPlaintext
+CMK that you use for this operation must be in a compatible key state. For details, see Key
+state: Effect on your CMK in the AWS Key Management Service Developer Guide.  Cross-account
+use: Yes. To perform this operation with a CMK in a different AWS account, specify the key
+ARN or alias ARN in the value of the KeyId parameter.  Required permissions:
+kms:GenerateDataKeyPairWithoutPlaintext (key policy)  Related operations:     Decrypt
+Encrypt     GenerateDataKey     GenerateDataKeyPair     GenerateDataKeyWithoutPlaintext
 
 # Arguments
 - `key_id`: Specifies the CMK that encrypts the private key in the data key pair. You must
   specify a symmetric CMK. You cannot use an asymmetric CMK or a CMK in a custom key store.
   To get the type and origin of your CMK, use the DescribeKey operation.  To specify a CMK,
-  use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias
-  name, prefix it with \"alias/\". To specify a CMK in a different AWS account, you must use
-  the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-  Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-  Alias name: alias/ExampleAlias    Alias ARN:
-  arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for
-  a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+  use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or alias
+  ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
+  alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+  To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
+  and alias ARN, use ListAliases.
 - `key_pair_spec`: Determines the type of data key pair that is generated. The AWS KMS rule
   that restricts the use of asymmetric RSA CMKs to encrypt and decrypt or to sign and verify
   (but not both), and the rule that permits you to use ECC CMKs only to sign and verify, are
@@ -996,8 +1048,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encryption context to decrypt the data. An encryption context is optional when encrypting
   with a symmetric CMK, but it is highly recommended. For more information, see Encryption
   Context in the AWS Key Management Service Developer Guide.
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 """
 generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec); aws_config=aws_config)
 generate_data_key_pair_without_plaintext(KeyId, KeyPairSpec, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GenerateDataKeyPairWithoutPlaintext", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "KeyPairSpec"=>KeyPairSpec), params)); aws_config=aws_config)
@@ -1030,19 +1083,19 @@ operation. If you specify an EncryptionContext, you must specify the same encryp
 context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise,
 the request to decrypt fails with an InvalidCiphertextException. For more information, see
 Encryption Context in the AWS Key Management Service Developer Guide. The CMK that you use
-for this operation must be in a compatible key state. For details, see How Key State
-Affects Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
-Cross-account use: Yes. To perform this operation with a CMK in a different AWS account,
-specify the key ARN or alias ARN in the value of the KeyId parameter.  Required
-permissions: kms:GenerateDataKeyWithoutPlaintext (key policy)  Related operations:
-Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
-GenerateDataKeyPairWithoutPlaintext
+for this operation must be in a compatible key state. For details, see Key state: Effect on
+your CMK in the AWS Key Management Service Developer Guide.  Cross-account use: Yes. To
+perform this operation with a CMK in a different AWS account, specify the key ARN or alias
+ARN in the value of the KeyId parameter.  Required permissions:
+kms:GenerateDataKeyWithoutPlaintext (key policy)  Related operations:     Decrypt
+Encrypt     GenerateDataKey     GenerateDataKeyPair     GenerateDataKeyPairWithoutPlaintext
+
 
 # Arguments
 - `key_id`: The identifier of the symmetric customer master key (CMK) that encrypts the
-  data key. To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name, or
-  alias ARN. When using an alias name, prefix it with \"alias/\". To specify a CMK in a
-  different AWS account, you must use the key ARN or alias ARN. For example:   Key ID:
+  data key. To specify a CMK, use its key ID, key ARN, alias name, or alias ARN. When using
+  an alias name, prefix it with \"alias/\". To specify a CMK in a different AWS account, you
+  must use the key ARN or alias ARN. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
@@ -1058,8 +1111,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   decrypt the data. An encryption context is optional when encrypting with a symmetric CMK,
   but it is highly recommended. For more information, see Encryption Context in the AWS Key
   Management Service Developer Guide.
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 - `"KeySpec"`: The length of the data key. Use AES_128 to generate a 128-bit symmetric key,
   or AES_256 to generate a 256-bit symmetric key.
 - `"NumberOfBytes"`: The length of the data key in bytes. For example, use the value 64 to
@@ -1076,8 +1130,8 @@ generate_data_key_without_plaintext(KeyId, params::AbstractDict{String}; aws_con
 Returns a random byte string that is cryptographically secure. By default, the random byte
 string is generated in AWS KMS. To generate the byte string in the AWS CloudHSM cluster
 that is associated with a custom key store, specify the custom key store ID. For more
-information about entropy and random number generation, see the AWS Key Management Service
-Cryptographic Details whitepaper.  Required permissions: kms:GenerateRandom (IAM policy)
+information about entropy and random number generation, see AWS Key Management Service
+Cryptographic Details.  Required permissions: kms:GenerateRandom (IAM policy)
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1098,11 +1152,10 @@ No. You cannot perform this operation on a CMK in a different AWS account.  Requ
 permissions: kms:GetKeyPolicy (key policy)  Related operations: PutKeyPolicy
 
 # Arguments
-- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
-  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
-  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
-  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+- `key_id`: Gets the key policy for the specified customer master key (CMK). Specify the
+  key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To
+  get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 - `policy_name`: Specifies the name of the key policy. The only valid name is default. To
   get the names of key policies, use ListKeyPolicies.
 
@@ -1116,24 +1169,26 @@ get_key_policy(KeyId, PolicyName, params::AbstractDict{String}; aws_config::Abst
 
 Gets a Boolean value that indicates whether automatic rotation of the key material is
 enabled for the specified customer master key (CMK). You cannot enable automatic rotation
-of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key store. The key
-rotation status for these CMKs is always false. The CMK that you use for this operation
-must be in a compatible key state. For details, see How Key State Affects Use of a Customer
-Master Key in the AWS Key Management Service Developer Guide.   Disabled: The key rotation
-status does not change when you disable a CMK. However, while the CMK is disabled, AWS KMS
-does not rotate the backing key.   Pending deletion: While a CMK is pending deletion, its
-key rotation status is false and AWS KMS does not rotate the backing key. If you cancel the
-deletion, the original key rotation status is restored.    Cross-account use: Yes. To
-perform this operation on a CMK in a different AWS account, specify the key ARN in the
-value of the KeyId parameter.  Required permissions: kms:GetKeyRotationStatus (key policy)
-Related operations:     DisableKeyRotation     EnableKeyRotation
+of asymmetric CMKs, CMKs with imported key material, or CMKs in a custom key store. To
+enable or disable automatic rotation of a set of related multi-Region keys, set the
+property on the primary key. The key rotation status for these CMKs is always false. The
+CMK that you use for this operation must be in a compatible key state. For details, see Key
+state: Effect on your CMK in the AWS Key Management Service Developer Guide.   Disabled:
+The key rotation status does not change when you disable a CMK. However, while the CMK is
+disabled, AWS KMS does not rotate the backing key.   Pending deletion: While a CMK is
+pending deletion, its key rotation status is false and AWS KMS does not rotate the backing
+key. If you cancel the deletion, the original key rotation status is restored.
+Cross-account use: Yes. To perform this operation on a CMK in a different AWS account,
+specify the key ARN in the value of the KeyId parameter.  Required permissions:
+kms:GetKeyRotationStatus (key policy)  Related operations:     DisableKeyRotation
+EnableKeyRotation
 
 # Arguments
-- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
-  the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a different AWS account, you
-  must use the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
-  ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get
-  the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+- `key_id`: Gets the rotation status for the specified customer master key (CMK). Specify
+  the key ID or key ARN of the CMK. To specify a CMK in a different AWS account, you must use
+  the key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
+  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 """
 get_key_rotation_status(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetKeyRotationStatus", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
@@ -1156,16 +1211,16 @@ account. To import key material, you must use the public key and import token fr
 response. These items are valid for 24 hours. The expiration date and time appear in the
 GetParametersForImport response. You cannot use an expired token in an ImportKeyMaterial
 request. If your key and token expire, send another GetParametersForImport request. The CMK
-that you use for this operation must be in a compatible key state. For details, see How Key
-State Affects Use of a Customer Master Key in the AWS Key Management Service Developer
-Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a different
-AWS account.  Required permissions: kms:GetParametersForImport (key policy)  Related
-operations:     ImportKeyMaterial     DeleteImportedKeyMaterial
+that you use for this operation must be in a compatible key state. For details, see Key
+state: Effect on your CMK in the AWS Key Management Service Developer Guide.  Cross-account
+use: No. You cannot perform this operation on a CMK in a different AWS account.  Required
+permissions: kms:GetParametersForImport (key policy)  Related operations:
+ImportKeyMaterial     DeleteImportedKeyMaterial
 
 # Arguments
 - `key_id`: The identifier of the symmetric CMK into which you will import key material.
-  The Origin of the CMK must be EXTERNAL. Specify the key ID or the Amazon Resource Name
-  (ARN) of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  The Origin of the CMK must be EXTERNAL. Specify the key ID or key ARN of the CMK. For
+  example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 - `wrapping_algorithm`: The algorithm you will use to encrypt the key material before
@@ -1204,26 +1259,27 @@ key from being used improperly. For example, you can prevent a public signing ke
 being used encrypt data, or prevent a public key from being used with an encryption
 algorithm that is not supported by AWS KMS. You can also avoid errors, such as using the
 wrong signing algorithm in a verification operation. The CMK that you use for this
-operation must be in a compatible key state. For details, see How Key State Affects Use of
-a Customer Master Key in the AWS Key Management Service Developer Guide.  Cross-account
-use: Yes. To perform this operation with a CMK in a different AWS account, specify the key
-ARN or alias ARN in the value of the KeyId parameter.  Required permissions:
-kms:GetPublicKey (key policy)  Related operations: CreateKey
+operation must be in a compatible key state. For details, see Key state: Effect on your CMK
+in the AWS Key Management Service Developer Guide.  Cross-account use: Yes. To perform this
+operation with a CMK in a different AWS account, specify the key ARN or alias ARN in the
+value of the KeyId parameter.  Required permissions: kms:GetPublicKey (key policy)  Related
+operations: CreateKey
 
 # Arguments
 - `key_id`: Identifies the asymmetric CMK that includes the public key. To specify a CMK,
-  use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias
-  name, prefix it with \"alias/\". To specify a CMK in a different AWS account, you must use
-  the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
-  Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
-  Alias name: alias/ExampleAlias    Alias ARN:
-  arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for
-  a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+  use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or alias
+  ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
+  alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+  To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
+  and alias ARN, use ListAliases.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 """
 get_public_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetPublicKey", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
 get_public_key(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("GetPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
@@ -1257,11 +1313,11 @@ operation fails, use the exception to help determine the problem. If the error i
 to the key material, the import token, or wrapping key, use GetParametersForImport to get a
 new public key and import token for the CMK and repeat the import procedure. For help, see
 How To Import Key Material in the AWS Key Management Service Developer Guide. The CMK that
-you use for this operation must be in a compatible key state. For details, see How Key
-State Affects Use of a Customer Master Key in the AWS Key Management Service Developer
-Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a different
-AWS account.  Required permissions: kms:ImportKeyMaterial (key policy)  Related operations:
-    DeleteImportedKeyMaterial     GetParametersForImport
+you use for this operation must be in a compatible key state. For details, see Key state:
+Effect on your CMK in the AWS Key Management Service Developer Guide.  Cross-account use:
+No. You cannot perform this operation on a CMK in a different AWS account.  Required
+permissions: kms:ImportKeyMaterial (key policy)  Related operations:
+DeleteImportedKeyMaterial     GetParametersForImport
 
 # Arguments
 - `encrypted_key_material`: The encrypted key material to import. The key material must be
@@ -1272,9 +1328,8 @@ AWS account.  Required permissions: kms:ImportKeyMaterial (key policy)  Related 
   key that you used to encrypt the key material.
 - `key_id`: The identifier of the symmetric CMK that receives the imported key material.
   The CMK's Origin must be EXTERNAL. This must be the same CMK specified in the KeyID
-  parameter of the corresponding GetParametersForImport request. Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  parameter of the corresponding GetParametersForImport request. Specify the key ID or key
+  ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -1314,8 +1369,8 @@ CreateAlias     DeleteAlias     UpdateAlias
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"KeyId"`: Lists only aliases that are associated with the specified CMK. Enter a CMK in
   your AWS account.  This parameter is optional. If you omit it, ListAliases returns all
-  aliases in the account and Region. Specify the key ID or the Amazon Resource Name (ARN) of
-  the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  aliases in the account and Region. Specify the key ID or key ARN of the CMK. For example:
+  Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 - `"Limit"`: Use this parameter to specify the maximum number of items to return. When this
@@ -1345,8 +1400,8 @@ operations:     CreateGrant     ListRetirableGrants     RetireGrant     RevokeGr
 
 # Arguments
 - `key_id`: Returns only grants for the specified customer master key (CMK). This parameter
-  is required. Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a
-  CMK in a different AWS account, you must use the key ARN. For example:   Key ID:
+  is required. Specify the key ID or key ARN of the CMK. To specify a CMK in a different AWS
+  account, you must use the key ARN. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
@@ -1379,8 +1434,8 @@ this operation on a CMK in a different AWS account.  Required permissions:
 kms:ListKeyPolicies (key policy)  Related operations:     GetKeyPolicy     PutKeyPolicy
 
 # Arguments
-- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
-  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
+- `key_id`: Gets the names of key policies for the specified customer master key (CMK).
+  Specify the key ID or key ARN of the CMK. For example:   Key ID:
   1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
@@ -1430,12 +1485,11 @@ tags, including the format and syntax, see Tagging AWS resources in the Amazon W
 General Reference. For information about using tags in AWS KMS, see Tagging keys.
 Cross-account use: No. You cannot perform this operation on a CMK in a different AWS
 account.  Required permissions: kms:ListResourceTags (key policy)  Related operations:
-TagResource     UntagResource
+CreateKey     ReplicateKey     TagResource     UntagResource
 
 # Arguments
-- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
-  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+- `key_id`: Gets tags on the specified customer master key (CMK). Specify the key ID or key
+  ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -1457,15 +1511,17 @@ list_resource_tags(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSC
     list_retirable_grants(retiring_principal)
     list_retirable_grants(retiring_principal, params::Dict{String,<:Any})
 
-Returns all grants in which the specified principal is the RetiringPrincipal in the grant.
-You can specify any principal in your AWS account. The grants that are returned include
-grants for CMKs in your AWS account and other AWS accounts. You might use this operation to
-determine which grants you may retire. To retire a grant, use the RetireGrant operation.
-Cross-account use: You must specify a principal in your AWS account. However, this
-operation can return grants in any AWS account. You do not need kms:ListRetirableGrants
-permission (or any other additional permission) in any AWS account other than your own.
-Required permissions: kms:ListRetirableGrants (IAM policy) in your AWS account.  Related
-operations:     CreateGrant     ListGrants     RetireGrant     RevokeGrant
+Returns information about all grants in the AWS account and Region that have the specified
+retiring principal. For more information about grants, see Grants in the  AWS Key
+Management Service Developer Guide . You can specify any principal in your AWS account. The
+grants that are returned include grants for CMKs in your AWS account and other AWS
+accounts. You might use this operation to determine which grants you may retire. To retire
+a grant, use the RetireGrant operation.  Cross-account use: You must specify a principal in
+your AWS account. However, this operation can return grants in any AWS account. You do not
+need kms:ListRetirableGrants permission (or any other additional permission) in any AWS
+account other than your own.  Required permissions: kms:ListRetirableGrants (IAM policy) in
+your AWS account.  Related operations:     CreateGrant     ListGrants     RetireGrant
+RevokeGrant
 
 # Arguments
 - `retiring_principal`: The retiring principal for which to list grants. Enter a principal
@@ -1502,11 +1558,10 @@ account.  Required permissions: kms:PutKeyPolicy (key policy)  Related operation
 GetKeyPolicy
 
 # Arguments
-- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
-  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
-  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
-  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+- `key_id`: Sets the key policy on the specified customer master key (CMK). Specify the key
+  ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+  Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To
+  get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 - `policy`: The key policy to attach to the CMK. The key policy must meet the following
   criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must
   allow the principal that is making the PutKeyPolicy request to make a subsequent
@@ -1573,25 +1628,25 @@ when you decrypt with symmetric CMKs because AWS KMS stores this information in 
 ciphertext blob. AWS KMS cannot store metadata in ciphertext generated with asymmetric
 keys. The standard format for asymmetric key ciphertext does not include configurable
 fields.    The CMK that you use for this operation must be in a compatible key state. For
-details, see How Key State Affects Use of a Customer Master Key in the AWS Key Management
-Service Developer Guide.  Cross-account use: Yes. The source CMK and destination CMK can be
-in different AWS accounts. Either or both CMKs can be in a different account than the
-caller.  Required permissions:    kms:ReEncryptFrom permission on the source CMK (key
-policy)    kms:ReEncryptTo permission on the destination CMK (key policy)   To permit
-reencryption from or to a CMK, include the \"kms:ReEncrypt*\" permission in your key
-policy. This permission is automatically included in the key policy when you use the
-console to create a CMK. But you must include it manually when you create a CMK
-programmatically or when you use the PutKeyPolicy operation to set a key policy.  Related
-operations:     Decrypt     Encrypt     GenerateDataKey     GenerateDataKeyPair
+details, see Key state: Effect on your CMK in the AWS Key Management Service Developer
+Guide.  Cross-account use: Yes. The source CMK and destination CMK can be in different AWS
+accounts. Either or both CMKs can be in a different account than the caller.  Required
+permissions:    kms:ReEncryptFrom permission on the source CMK (key policy)
+kms:ReEncryptTo permission on the destination CMK (key policy)   To permit reencryption
+from or to a CMK, include the \"kms:ReEncrypt*\" permission in your key policy. This
+permission is automatically included in the key policy when you use the console to create a
+CMK. But you must include it manually when you create a CMK programmatically or when you
+use the PutKeyPolicy operation to set a key policy.  Related operations:     Decrypt
+Encrypt     GenerateDataKey     GenerateDataKeyPair
 
 # Arguments
 - `ciphertext_blob`: Ciphertext of the data to reencrypt.
 - `destination_key_id`: A unique identifier for the CMK that is used to reencrypt the data.
   Specify a symmetric or asymmetric CMK with a KeyUsage value of ENCRYPT_DECRYPT. To find the
   KeyUsage value of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID,
-  Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it
-  with \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or
-  alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  key ARN, alias name, or alias ARN. When using an alias name, prefix it with \"alias/\". To
+  specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For
+  example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
@@ -1612,8 +1667,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to decrypt the data. An encryption context is optional when encrypting with a symmetric
   CMK, but it is highly recommended. For more information, see Encryption Context in the AWS
   Key Management Service Developer Guide.
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 - `"SourceEncryptionAlgorithm"`: Specifies the encryption algorithm that AWS KMS will use
   to decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT,
   represents the algorithm used for symmetric CMKs. Specify the same algorithm that was used
@@ -1633,43 +1689,156 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   under an asymmetric CMK. If you used a symmetric CMK, AWS KMS can get the CMK from metadata
   that it adds to the symmetric ciphertext blob. However, it is always recommended as a best
   practice. This practice ensures that you use the CMK that you intend. To specify a CMK, use
-  its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name,
-  prefix it with \"alias/\". To specify a CMK in a different AWS account, you must use the
-  key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
-  ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias
-  name: alias/ExampleAlias    Alias ARN:
-  arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for
-  a CMK, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+  its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or alias
+  ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
+  alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+  To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
+  and alias ARN, use ListAliases.
 """
 re_encrypt(CiphertextBlob, DestinationKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReEncrypt", Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId); aws_config=aws_config)
 re_encrypt(CiphertextBlob, DestinationKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReEncrypt", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CiphertextBlob"=>CiphertextBlob, "DestinationKeyId"=>DestinationKeyId), params)); aws_config=aws_config)
 
 """
-    retire_grant()
-    retire_grant(params::Dict{String,<:Any})
+    replicate_key(key_id, replica_region)
+    replicate_key(key_id, replica_region, params::Dict{String,<:Any})
 
-Retires a grant. To clean up, you can retire a grant when you're done using it. You should
-revoke a grant when you intend to actively deny operations that depend on it. The following
-are permitted to call this API:   The AWS account (root user) under which the grant was
-created   The RetiringPrincipal, if present in the grant   The GranteePrincipal, if
-RetireGrant is an operation specified in the grant   You must identify the grant to retire
-by its grant token or by a combination of the grant ID and the Amazon Resource Name (ARN)
-of the customer master key (CMK). A grant token is a unique variable-length base64-encoded
-string. A grant ID is a 64 character unique identifier of a grant. The CreateGrant
-operation returns both.  Cross-account use: Yes. You can retire a grant on a CMK in a
-different AWS account.  Required permissions:: Permission to retire a grant is specified in
-the grant. You cannot control access to this operation in a policy. For more information,
-see Using grants in the AWS Key Management Service Developer Guide.  Related operations:
- CreateGrant     ListGrants     ListRetirableGrants     RevokeGrant
+Replicates a multi-Region key into the specified Region. This operation creates a
+multi-Region replica key based on a multi-Region primary key in a different Region of the
+same AWS partition. You can create multiple replicas of a primary key, but each must be in
+a different Region. To create a multi-Region primary key, use the CreateKey operation. This
+operation supports multi-Region keys, an AWS KMS feature that lets you create multiple
+interoperable CMKs in different AWS Regions. Because these CMKs have the same key ID, key
+material, and other metadata, you can use them to encrypt data in one AWS Region and
+decrypt it in a different AWS Region without making a cross-Region call or exposing the
+plaintext data. For more information about multi-Region keys, see Using multi-Region keys
+in the AWS Key Management Service Developer Guide. A replica key is a fully-functional CMK
+that can be used independently of its primary and peer replica keys. A primary key and its
+replica keys share properties that make them interoperable. They have the same key ID and
+key material. They also have the same key spec, key usage, key material origin, and
+automatic key rotation status. AWS KMS automatically synchronizes these shared properties
+among related multi-Region keys. All other properties of a replica key can differ,
+including its key policy, tags, aliases, and key state. AWS KMS pricing and quotas for CMKs
+apply to each primary key and replica key. When this operation completes, the new replica
+key has a transient key state of Creating. This key state changes to Enabled (or
+PendingImport) after a few seconds when the process of creating the new replica key is
+complete. While the key state is Creating, you can manage key, but you cannot yet use it in
+cryptographic operations. If you are creating and using the replica key programmatically,
+retry on KMSInvalidStateException or call DescribeKey to check its KeyState value before
+using it. For details about the Creating key state, see Key state: Effect on your CMK in
+the AWS Key Management Service Developer Guide. The AWS CloudTrail log of a ReplicateKey
+operation records a ReplicateKey operation in the primary key's Region and a CreateKey
+operation in the replica key's Region. If you replicate a multi-Region primary key with
+imported key material, the replica key is created with no key material. You must import the
+same key material that you imported into the primary key. For details, see Importing key
+material into multi-Region keys in the AWS Key Management Service Developer Guide. To
+convert a replica key to a primary key, use the UpdatePrimaryRegion operation.
+ReplicateKey uses different default values for the KeyPolicy and Tags parameters than those
+used in the AWS KMS console. For details, see the parameter descriptions.   Cross-account
+use: No. You cannot use this operation to create a CMK in a different AWS account.
+Required permissions:     kms:ReplicateKey on the primary CMK (in the primary CMK's
+Region). Include this permission in the primary CMK's key policy.    kms:CreateKey in an
+IAM policy in the replica Region.   To use the Tags parameter, kms:TagResource in an IAM
+policy in the replica Region.    Related operations     CreateKey     UpdatePrimaryRegion
+
+# Arguments
+- `key_id`: Identifies the multi-Region primary key that is being replicated. To determine
+  whether a CMK is a multi-Region primary key, use the DescribeKey operation to check the
+  value of the MultiRegionKeyType property. Specify the key ID or key ARN of a multi-Region
+  primary key. For example:   Key ID: mrk-1234abcd12ab34cd56ef1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab    To get the
+  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+- `replica_region`: The Region ID of the AWS Region for this replica key.  Enter the Region
+  ID, such as us-east-1 or ap-southeast-2. For a list of AWS Regions in which AWS KMS is
+  supported, see AWS KMS service endpoints in the Amazon Web Services General Reference. The
+  replica must be in a different AWS Region than its primary key and other replicas of that
+  primary key, but in the same AWS partition. AWS KMS must be available in the replica
+  Region. If the Region is not enabled by default, the AWS account must be enabled in the
+  Region.  For information about AWS partitions, see Amazon Resource Names (ARNs) in the
+  Amazon Web Services General Reference. For information about enabling and disabling
+  Regions, see Enabling a Region and Disabling a Region in the Amazon Web Services General
+  Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GrantId"`: Unique identifier of the grant to retire. The grant ID is returned in the
-  response to a CreateGrant operation.   Grant ID Example -
+- `"BypassPolicyLockoutSafetyCheck"`: A flag to indicate whether to bypass the key policy
+  lockout safety check.  Setting this value to true increases the risk that the CMK becomes
+  unmanageable. Do not set this value to true indiscriminately. For more information, refer
+  to the scenario in the Default Key Policy section in the AWS Key Management Service
+  Developer Guide.  Use this parameter only when you intend to prevent the principal that is
+  making the request from making a subsequent PutKeyPolicy request on the CMK. The default
+  value is false.
+- `"Description"`: A description of the CMK. Use a description that helps you decide
+  whether the CMK is appropriate for a task. The default value is an empty string (no
+  description). The description is not a shared property of multi-Region keys. You can
+  specify the same description or a different description for each key in a set of related
+  multi-Region keys. AWS KMS does not synchronize this property.
+- `"Policy"`: The key policy to attach to the CMK. This parameter is optional. If you do
+  not provide a key policy, AWS KMS attaches the default key policy to the CMK. The key
+  policy is not a shared property of multi-Region keys. You can specify the same key policy
+  or a different key policy for each key in a set of related multi-Region keys. AWS KMS does
+  not synchronize this property. If you provide a key policy, it must meet the following
+  criteria:   If you don't set BypassPolicyLockoutSafetyCheck to true, the key policy must
+  give the caller kms:PutKeyPolicy permission on the replica CMK. This reduces the risk that
+  the CMK becomes unmanageable. For more information, refer to the scenario in the Default
+  Key Policy section of the  AWS Key Management Service Developer Guide .   Each statement in
+  the key policy must contain one or more principals. The principals in the key policy must
+  exist and be visible to AWS KMS. When you create a new AWS principal (for example, an IAM
+  user or role), you might need to enforce a delay before including the new principal in a
+  key policy because the new principal might not be immediately visible to AWS KMS. For more
+  information, see Changes that I make are not always immediately visible in the AWS Identity
+  and Access Management User Guide.   The key policy size quota is 32 kilobytes (32768
+  bytes).
+- `"Tags"`: Assigns one or more tags to the replica key. Use this parameter to tag the CMK
+  when it is created. To tag an existing CMK, use the TagResource operation.  Tagging or
+  untagging a CMK can allow or deny permission to the CMK. For details, see Using ABAC in AWS
+  KMS in the AWS Key Management Service Developer Guide.  To use this parameter, you must
+  have kms:TagResource permission in an IAM policy. Tags are not a shared property of
+  multi-Region keys. You can specify the same tags or different tags for each key in a set of
+  related multi-Region keys. AWS KMS does not synchronize this property. Each tag consists of
+  a tag key and a tag value. Both the tag key and the tag value are required, but the tag
+  value can be an empty (null) string. You cannot have more than one tag on a CMK with the
+  same tag key. If you specify an existing tag key with a different tag value, AWS KMS
+  replaces the current tag value with the specified one. When you assign tags to an AWS
+  resource, AWS generates a cost allocation report with usage and costs aggregated by tags.
+  Tags can also be used to control access to a CMK. For details, see Tagging Keys.
+"""
+replicate_key(KeyId, ReplicaRegion; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReplicateKey", Dict{String, Any}("KeyId"=>KeyId, "ReplicaRegion"=>ReplicaRegion); aws_config=aws_config)
+replicate_key(KeyId, ReplicaRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ReplicateKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "ReplicaRegion"=>ReplicaRegion), params)); aws_config=aws_config)
+
+"""
+    retire_grant()
+    retire_grant(params::Dict{String,<:Any})
+
+Deletes a grant. Typically, you retire a grant when you no longer need its permissions. To
+identify the grant to retire, use a grant token, or both the grant ID and a key identifier
+(key ID or key ARN) of the customer master key (CMK). The CreateGrant operation returns
+both values. This operation can be called by the retiring principal for a grant, by the
+grantee principal if the grant allows the RetireGrant operation, and by the AWS account
+(root user) in which the grant is created. It can also be called by principals to whom
+permission for retiring a grant is delegated. For details, see Retiring and revoking grants
+in the AWS Key Management Service Developer Guide. For detailed information about grants,
+including grant terminology, see Using grants in the  AWS Key Management Service Developer
+Guide . For examples of working with grants in several programming languages, see
+Programming grants.  Cross-account use: Yes. You can retire a grant on a CMK in a different
+AWS account.  Required permissions::Permission to retire a grant is determined primarily by
+the grant. For details, see Retiring and revoking grants in the AWS Key Management Service
+Developer Guide.  Related operations:     CreateGrant     ListGrants
+ListRetirableGrants     RevokeGrant
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantId"`: Identifies the grant to retire. To get the grant ID, use CreateGrant,
+  ListGrants, or ListRetirableGrants.   Grant ID Example -
   0123456789012345678901234567890123456789012345678901234567890123
-- `"GrantToken"`: Token that identifies the grant to be retired.
-- `"KeyId"`: The Amazon Resource Name (ARN) of the CMK associated with the grant.  For
-  example: arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
+- `"GrantToken"`: Identifies the grant to be retired. You can use a grant token to identify
+  a new grant even before it has achieved eventual consistency. Only the CreateGrant
+  operation returns a grant token. For details, see Grant token and Eventual consistency in
+  the AWS Key Management Service Developer Guide.
+- `"KeyId"`: The key ARN CMK associated with the grant. To find the key ARN, use the
+  ListKeys operation. For example:
+  arn:aws:kms:us-east-2:444455556666:key/1234abcd-12ab-34cd-56ef-1234567890ab
 """
 retire_grant(; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RetireGrant"; aws_config=aws_config)
 retire_grant(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("RetireGrant", params; aws_config=aws_config)
@@ -1678,18 +1847,23 @@ retire_grant(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_
     revoke_grant(grant_id, key_id)
     revoke_grant(grant_id, key_id, params::Dict{String,<:Any})
 
-Revokes the specified grant for the specified customer master key (CMK). You can revoke a
-grant to actively deny operations that depend on it.  Cross-account use: Yes. To perform
-this operation on a CMK in a different AWS account, specify the key ARN in the value of the
-KeyId parameter.  Required permissions: kms:RevokeGrant (key policy)  Related operations:
-  CreateGrant     ListGrants     ListRetirableGrants     RetireGrant
+Deletes the specified grant. You revoke a grant to terminate the permissions that the grant
+allows. For more information, see Retiring and revoking grants in the  AWS Key Management
+Service Developer Guide . When you create, retire, or revoke a grant, there might be a
+brief delay, usually less than five minutes, until the grant is available throughout AWS
+KMS. This state is known as eventual consistency. For details, see Eventual consistency in
+the  AWS Key Management Service Developer Guide .   Cross-account use: Yes. To perform this
+operation on a CMK in a different AWS account, specify the key ARN in the value of the
+KeyId parameter.  Required permissions: kms:RevokeGrant (key policy).  Related operations:
+   CreateGrant     ListGrants     ListRetirableGrants     RetireGrant
 
 # Arguments
-- `grant_id`: Identifier of the grant to be revoked.
-- `key_id`: A unique identifier for the customer master key associated with the grant.
-  Specify the key ID or the Amazon Resource Name (ARN) of the CMK. To specify a CMK in a
-  different AWS account, you must use the key ARN. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+- `grant_id`: Identifies the grant to revoke. To get the grant ID, use CreateGrant,
+  ListGrants, or ListRetirableGrants.
+- `key_id`: A unique identifier for the customer master key (CMK) associated with the
+  grant. To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. Specify the
+  key ID or key ARN of the CMK. To specify a CMK in a different AWS account, you must use the
+  key ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
@@ -1701,39 +1875,49 @@ revoke_grant(GrantId, KeyId, params::AbstractDict{String}; aws_config::AbstractA
     schedule_key_deletion(key_id)
     schedule_key_deletion(key_id, params::Dict{String,<:Any})
 
-Schedules the deletion of a customer master key (CMK). You may provide a waiting period,
-specified in days, before deletion occurs. If you do not provide a waiting period, the
-default period of 30 days is used. When this operation is successful, the key state of the
-CMK changes to PendingDeletion. Before the waiting period ends, you can use
-CancelKeyDeletion to cancel the deletion of the CMK. After the waiting period ends, AWS KMS
-deletes the CMK and all AWS KMS data associated with it, including all aliases that refer
-to it.  Deleting a CMK is a destructive and potentially dangerous operation. When a CMK is
-deleted, all data that was encrypted under the CMK is unrecoverable. To prevent the use of
-a CMK without deleting it, use DisableKey.  If you schedule deletion of a CMK from a custom
-key store, when the waiting period expires, ScheduleKeyDeletion deletes the CMK from AWS
-KMS. Then AWS KMS makes a best effort to delete the key material from the associated AWS
-CloudHSM cluster. However, you might need to manually delete the orphaned key material from
-the cluster and its backups. For more information about scheduling a CMK for deletion, see
-Deleting Customer Master Keys in the AWS Key Management Service Developer Guide. The CMK
-that you use for this operation must be in a compatible key state. For details, see How Key
-State Affects Use of a Customer Master Key in the AWS Key Management Service Developer
+Schedules the deletion of a customer master key (CMK). By default, AWS KMS applies a
+waiting period of 30 days, but you can specify a waiting period of 7-30 days. When this
+operation is successful, the key state of the CMK changes to PendingDeletion and the key
+can't be used in any cryptographic operations. It remains in this state for the duration of
+the waiting period. Before the waiting period ends, you can use CancelKeyDeletion to cancel
+the deletion of the CMK. After the waiting period ends, AWS KMS deletes the CMK, its key
+material, and all AWS KMS data associated with it, including all aliases that refer to it.
+Deleting a CMK is a destructive and potentially dangerous operation. When a CMK is deleted,
+all data that was encrypted under the CMK is unrecoverable. (The only exception is a
+multi-Region replica key.) To prevent the use of a CMK without deleting it, use DisableKey.
+  If you schedule deletion of a CMK from a custom key store, when the waiting period
+expires, ScheduleKeyDeletion deletes the CMK from AWS KMS. Then AWS KMS makes a best effort
+to delete the key material from the associated AWS CloudHSM cluster. However, you might
+need to manually delete the orphaned key material from the cluster and its backups. You can
+schedule the deletion of a multi-Region primary key and its replica keys at any time.
+However, AWS KMS will not delete a multi-Region primary key with existing replica keys. If
+you schedule the deletion of a primary key with replicas, its key state changes to
+PendingReplicaDeletion and it cannot be replicated or used in cryptographic operations.
+This status can continue indefinitely. When the last of its replicas keys is deleted (not
+just scheduled), the key state of the primary key changes to PendingDeletion and its
+waiting period (PendingWindowInDays) begins. For details, see Deleting multi-Region keys in
+the AWS Key Management Service Developer Guide.  For more information about scheduling a
+CMK for deletion, see Deleting Customer Master Keys in the AWS Key Management Service
+Developer Guide. The CMK that you use for this operation must be in a compatible key state.
+For details, see Key state: Effect on your CMK in the AWS Key Management Service Developer
 Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a different
 AWS account.  Required permissions: kms:ScheduleKeyDeletion (key policy)  Related
 operations     CancelKeyDeletion     DisableKey
 
 # Arguments
 - `key_id`: The unique identifier of the customer master key (CMK) to delete. Specify the
-  key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
-  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
-  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+  key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To
+  get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PendingWindowInDays"`: The waiting period, specified in number of days. After the
-  waiting period ends, AWS KMS deletes the customer master key (CMK). This value is optional.
-  If you include a value, it must be between 7 and 30, inclusive. If you do not include a
-  value, it defaults to 30.
+  waiting period ends, AWS KMS deletes the customer master key (CMK). If the CMK is a
+  multi-Region primary key with replicas, the waiting period begins when the last of its
+  replica keys is deleted. Otherwise, the waiting period begins immediately. This value is
+  optional. If you include a value, it must be between 7 and 30, inclusive. If you do not
+  include a value, it defaults to 30.
 """
 schedule_key_deletion(KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ScheduleKeyDeletion", Dict{String, Any}("KeyId"=>KeyId); aws_config=aws_config)
 schedule_key_deletion(KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("ScheduleKeyDeletion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId), params)); aws_config=aws_config)
@@ -1763,18 +1947,18 @@ algorithm. This information is required to verify the signature.  To verify the 
 that this operation generates, use the Verify operation. Or use the GetPublicKey operation
 to download the public key and then use the public key to verify the signature outside of
 AWS KMS.  The CMK that you use for this operation must be in a compatible key state. For
-details, see How Key State Affects Use of a Customer Master Key in the AWS Key Management
-Service Developer Guide.  Cross-account use: Yes. To perform this operation with a CMK in a
-different AWS account, specify the key ARN or alias ARN in the value of the KeyId
-parameter.  Required permissions: kms:Sign (key policy)  Related operations: Verify
+details, see Key state: Effect on your CMK in the AWS Key Management Service Developer
+Guide.  Cross-account use: Yes. To perform this operation with a CMK in a different AWS
+account, specify the key ARN or alias ARN in the value of the KeyId parameter.  Required
+permissions: kms:Sign (key policy)  Related operations: Verify
 
 # Arguments
 - `key_id`: Identifies an asymmetric CMK. AWS KMS uses the private key in the asymmetric
   CMK to sign the message. The KeyUsage type of the CMK must be SIGN_VERIFY. To find the
-  KeyUsage of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, Amazon
-  Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
-  \"alias/\". To specify a CMK in a different AWS account, you must use the key ARN or alias
-  ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  KeyUsage of a CMK, use the DescribeKey operation. To specify a CMK, use its key ID, key
+  ARN, alias name, or alias ARN. When using an alias name, prefix it with \"alias/\". To
+  specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For
+  example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
@@ -1788,8 +1972,9 @@ parameter.  Required permissions: kms:Sign (key policy)  Related operations: Ver
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 - `"MessageType"`: Tells AWS KMS whether the value of the Message parameter is a message or
   message digest. The default value, RAW, indicates a message. To indicate a message digest,
   enter DIGEST.
@@ -1801,25 +1986,27 @@ sign(KeyId, Message, SigningAlgorithm, params::AbstractDict{String}; aws_config:
     tag_resource(key_id, tags)
     tag_resource(key_id, tags, params::Dict{String,<:Any})
 
-Adds or edits tags on a customer managed CMK. Each tag consists of a tag key and a tag
-value, both of which are case-sensitive strings. The tag value can be an empty (null)
-string.  To add a tag, specify a new tag key and a tag value. To edit a tag, specify an
-existing tag key and a new tag value. You can use this operation to tag a customer managed
-CMK, but you cannot tag an AWS managed CMK, an AWS owned CMK, or an alias. For general
-information about tags, including the format and syntax, see Tagging AWS resources in the
-Amazon Web Services General Reference. For information about using tags in AWS KMS, see
-Tagging keys. The CMK that you use for this operation must be in a compatible key state.
-For details, see How Key State Affects Use of a Customer Master Key in the AWS Key
-Management Service Developer Guide.  Cross-account use: No. You cannot perform this
-operation on a CMK in a different AWS account.   Required permissions: kms:TagResource (key
-policy)  Related operations     UntagResource     ListResourceTags
+Adds or edits tags on a customer managed CMK.  Tagging or untagging a CMK can allow or deny
+permission to the CMK. For details, see Using ABAC in AWS KMS in the AWS Key Management
+Service Developer Guide.  Each tag consists of a tag key and a tag value, both of which are
+case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify
+a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag
+value. You can use this operation to tag a customer managed CMK, but you cannot tag an AWS
+managed CMK, an AWS owned CMK, a custom key store, or an alias. You can also add tags to a
+CMK while creating it (CreateKey) or replicating it (ReplicateKey). For information about
+using tags in AWS KMS, see Tagging keys. For general information about tags, including the
+format and syntax, see Tagging AWS resources in the Amazon Web Services General Reference.
+The CMK that you use for this operation must be in a compatible key state. For details, see
+Key state: Effect on your CMK in the AWS Key Management Service Developer Guide.
+Cross-account use: No. You cannot perform this operation on a CMK in a different AWS
+account.   Required permissions: kms:TagResource (key policy)  Related operations
+CreateKey     ListResourceTags     ReplicateKey     UntagResource
 
 # Arguments
 - `key_id`: Identifies a customer managed CMK in the account and Region. Specify the key ID
-  or the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
-  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
-  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+  or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
+  ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get
+  the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 - `tags`: One or more tags.  Each tag consists of a tag key and a tag value. The tag value
   can be an empty (null) string.  You cannot have more than one tag on a CMK with the same
   tag key. If you specify an existing tag key with a different tag value, AWS KMS replaces
@@ -1834,21 +2021,22 @@ tag_resource(KeyId, Tags, params::AbstractDict{String}; aws_config::AbstractAWSC
     untag_resource(key_id, tag_keys, params::Dict{String,<:Any})
 
 Deletes tags from a customer managed CMK. To delete a tag, specify the tag key and the CMK.
-When it succeeds, the UntagResource operation doesn't return any output. Also, if the
-specified tag key isn't found on the CMK, it doesn't throw an exception or return a
-response. To confirm that the operation worked, use the ListResourceTags operation. For
-general information about tags, including the format and syntax, see Tagging AWS resources
-in the Amazon Web Services General Reference. For information about using tags in AWS KMS,
-see Tagging keys. The CMK that you use for this operation must be in a compatible key
-state. For details, see How Key State Affects Use of a Customer Master Key in the AWS Key
-Management Service Developer Guide.  Cross-account use: No. You cannot perform this
-operation on a CMK in a different AWS account.  Required permissions: kms:UntagResource
-(key policy)  Related operations     TagResource     ListResourceTags
+ Tagging or untagging a CMK can allow or deny permission to the CMK. For details, see Using
+ABAC in AWS KMS in the AWS Key Management Service Developer Guide.  When it succeeds, the
+UntagResource operation doesn't return any output. Also, if the specified tag key isn't
+found on the CMK, it doesn't throw an exception or return a response. To confirm that the
+operation worked, use the ListResourceTags operation. For information about using tags in
+AWS KMS, see Tagging keys. For general information about tags, including the format and
+syntax, see Tagging AWS resources in the Amazon Web Services General Reference.  The CMK
+that you use for this operation must be in a compatible key state. For details, see Key
+state: Effect on your CMK in the AWS Key Management Service Developer Guide.  Cross-account
+use: No. You cannot perform this operation on a CMK in a different AWS account.  Required
+permissions: kms:UntagResource (key policy)  Related operations     CreateKey
+ListResourceTags     ReplicateKey     TagResource
 
 # Arguments
-- `key_id`: Identifies the CMK from which you are removing tags. Specify the key ID or the
-  Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+- `key_id`: Identifies the CMK from which you are removing tags. Specify the key ID or key
+  ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
@@ -1863,8 +2051,10 @@ untag_resource(KeyId, TagKeys, params::AbstractDict{String}; aws_config::Abstrac
 
 Associates an existing AWS KMS alias with a different customer master key (CMK). Each alias
 is associated with only one CMK at a time, although a CMK can have multiple aliases. The
-alias and the CMK must be in the same AWS account and region. The current and new CMK must
-be the same type (both symmetric or both asymmetric), and they must have the same key usage
+alias and the CMK must be in the same AWS account and Region.  Adding, deleting, or
+updating an alias can allow or deny permission to the CMK. For details, see Using ABAC in
+AWS KMS in the AWS Key Management Service Developer Guide.  The current and new CMK must be
+the same type (both symmetric or both asymmetric), and they must have the same key usage
 (ENCRYPT_DECRYPT or SIGN_VERIFY). This restriction prevents errors in code that uses
 aliases. If you must assign an alias to a different type of CMK, use DeleteAlias to delete
 the old alias and CreateAlias to create a new alias. You cannot use UpdateAlias to change
@@ -1873,13 +2063,13 @@ CreateAlias to create a new alias. Because an alias is not a property of a CMK, 
 create, update, and delete the aliases of a CMK without affecting the CMK. Also, aliases do
 not appear in the response from the DescribeKey operation. To get the aliases of all CMKs
 in the account, use the ListAliases operation.  The CMK that you use for this operation
-must be in a compatible key state. For details, see How Key State Affects Use of a Customer
-Master Key in the AWS Key Management Service Developer Guide.  Cross-account use: No. You
-cannot perform this operation on a CMK in a different AWS account.   Required permissions
-  kms:UpdateAlias on the alias (IAM policy).    kms:UpdateAlias on the current CMK (key
-policy).    kms:UpdateAlias on the new CMK (key policy).   For details, see Controlling
-access to aliases in the AWS Key Management Service Developer Guide.  Related operations:
-  CreateAlias     DeleteAlias     ListAliases
+must be in a compatible key state. For details, see Key state: Effect on your CMK in the
+AWS Key Management Service Developer Guide.  Cross-account use: No. You cannot perform this
+operation on a CMK in a different AWS account.   Required permissions     kms:UpdateAlias
+on the alias (IAM policy).    kms:UpdateAlias on the current CMK (key policy).
+kms:UpdateAlias on the new CMK (key policy).   For details, see Controlling access to
+aliases in the AWS Key Management Service Developer Guide.  Related operations:
+CreateAlias     DeleteAlias     ListAliases
 
 # Arguments
 - `alias_name`: Identifies the alias that is changing its CMK. This value must begin with
@@ -1889,8 +2079,8 @@ access to aliases in the AWS Key Management Service Developer Guide.  Related op
   don't have permission to associate an alias with an AWS managed CMK. The CMK must be in the
   same AWS account and Region as the alias. Also, the new target CMK must be the same type as
   the current target CMK (both symmetric or both asymmetric) and they must have the same key
-  usage.  Specify the key ID or the Amazon Resource Name (ARN) of the CMK. For example:   Key
-  ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  usage.  Specify the key ID or key ARN of the CMK. For example:   Key ID:
+  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
   key ID and key ARN for a CMK, use ListKeys or DescribeKey. To verify that the alias is
   mapped to the correct CMK, use ListAliases.
@@ -1957,22 +2147,75 @@ update_custom_key_store(CustomKeyStoreId, params::AbstractDict{String}; aws_conf
 
 Updates the description of a customer master key (CMK). To see the description of a CMK,
 use DescribeKey.  The CMK that you use for this operation must be in a compatible key
-state. For details, see How Key State Affects Use of a Customer Master Key in the AWS Key
-Management Service Developer Guide.  Cross-account use: No. You cannot perform this
-operation on a CMK in a different AWS account.   Required permissions:
-kms:UpdateKeyDescription (key policy)  Related operations     CreateKey     DescribeKey
+state. For details, see Key state: Effect on your CMK in the AWS Key Management Service
+Developer Guide.  Cross-account use: No. You cannot perform this operation on a CMK in a
+different AWS account.   Required permissions: kms:UpdateKeyDescription (key policy)
+Related operations     CreateKey     DescribeKey
 
 # Arguments
 - `description`: New description for the CMK.
-- `key_id`: A unique identifier for the customer master key (CMK). Specify the key ID or
-  the Amazon Resource Name (ARN) of the CMK. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
-  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the
-  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+- `key_id`: Updates the description of the specified customer master key (CMK). Specify the
+  key ID or key ARN of the CMK. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To
+  get the key ID and key ARN for a CMK, use ListKeys or DescribeKey.
 
 """
 update_key_description(Description, KeyId; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateKeyDescription", Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId); aws_config=aws_config)
 update_key_description(Description, KeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdateKeyDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "KeyId"=>KeyId), params)); aws_config=aws_config)
+
+"""
+    update_primary_region(key_id, primary_region)
+    update_primary_region(key_id, primary_region, params::Dict{String,<:Any})
+
+Changes the primary key of a multi-Region key.  This operation changes the replica key in
+the specified Region to a primary key and changes the former primary key to a replica key.
+For example, suppose you have a primary key in us-east-1 and a replica key in eu-west-2. If
+you run UpdatePrimaryRegion with a PrimaryRegion value of eu-west-2, the primary key is now
+the key in eu-west-2, and the key in us-east-1 becomes a replica key. For details, see
+This operation supports multi-Region keys, an AWS KMS feature that lets you create multiple
+interoperable CMKs in different AWS Regions. Because these CMKs have the same key ID, key
+material, and other metadata, you can use them to encrypt data in one AWS Region and
+decrypt it in a different AWS Region without making a cross-Region call or exposing the
+plaintext data. For more information about multi-Region keys, see Using multi-Region keys
+in the AWS Key Management Service Developer Guide. The primary key of a multi-Region key is
+the source for properties that are always shared by primary and replica keys, including the
+key material, key ID, key spec, key usage, key material origin, and automatic key rotation.
+It's the only key that can be replicated. You cannot delete the primary key until all
+replicas are deleted. The key ID and primary Region that you specify uniquely identify the
+replica key that will become the primary key. The primary Region must already have a
+replica key. This operation does not create a CMK in the specified Region. To find the
+replica keys, use the DescribeKey operation on the primary key or any replica key. To
+create a replica key, use the ReplicateKey operation. You can run this operation while
+using the affected multi-Region keys in cryptographic operations. This operation should not
+delay, interrupt, or cause failures in cryptographic operations.  Even after this operation
+completes, the process of updating the primary Region might still be in progress for a few
+more seconds. Operations such as DescribeKey might display both the old and new primary
+keys as replicas. The old and new primary keys have a transient key state of Updating. The
+original key state is restored when the update is complete. While the key state is
+Updating, you can use the keys in cryptographic operations, but you cannot replicate the
+new primary key or perform certain management operations, such as enabling or disabling
+these keys. For details about the Updating key state, see Key state: Effect on your CMK in
+the AWS Key Management Service Developer Guide. This operation does not return any output.
+To verify that primary key is changed, use the DescribeKey operation.  Cross-account use:
+No. You cannot use this operation in a different AWS account.   Required permissions:
+kms:UpdatePrimaryRegion on the current primary CMK (in the primary CMK's Region). Include
+this permission primary CMK's key policy.    kms:UpdatePrimaryRegion on the current replica
+CMK (in the replica CMK's Region). Include this permission in the replica CMK's key policy.
+   Related operations     CreateKey     ReplicateKey
+
+# Arguments
+- `key_id`: Identifies the current primary key. When the operation completes, this CMK will
+  be a replica key. Specify the key ID or key ARN of a multi-Region primary key. For example:
+    Key ID: mrk-1234abcd12ab34cd56ef1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/mrk-1234abcd12ab34cd56ef1234567890ab    To get the
+  key ID and key ARN for a CMK, use ListKeys or DescribeKey.
+- `primary_region`: The AWS Region of the new primary key. Enter the Region ID, such as
+  us-east-1 or ap-southeast-2. There must be an existing replica key in this Region.  When
+  the operation completes, the multi-Region key in this Region will be the primary key.
+
+"""
+update_primary_region(KeyId, PrimaryRegion; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdatePrimaryRegion", Dict{String, Any}("KeyId"=>KeyId, "PrimaryRegion"=>PrimaryRegion); aws_config=aws_config)
+update_primary_region(KeyId, PrimaryRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kms("UpdatePrimaryRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyId"=>KeyId, "PrimaryRegion"=>PrimaryRegion), params)); aws_config=aws_config)
 
 """
     verify(key_id, message, signature, signing_algorithm)
@@ -1995,19 +2238,19 @@ outside of AWS KMS. The advantage of using the Verify operation is that it is pe
 within AWS KMS. As a result, it's easy to call, the operation is performed within the FIPS
 boundary, it is logged in AWS CloudTrail, and you can use key policy and IAM policy to
 determine who is authorized to use the CMK to verify signatures. The CMK that you use for
-this operation must be in a compatible key state. For details, see How Key State Affects
-Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
-Cross-account use: Yes. To perform this operation with a CMK in a different AWS account,
-specify the key ARN or alias ARN in the value of the KeyId parameter.   Required
-permissions: kms:Verify (key policy)  Related operations: Sign
+this operation must be in a compatible key state. For details, see Key state: Effect on
+your CMK in the AWS Key Management Service Developer Guide.  Cross-account use: Yes. To
+perform this operation with a CMK in a different AWS account, specify the key ARN or alias
+ARN in the value of the KeyId parameter.   Required permissions: kms:Verify (key policy)
+Related operations: Sign
 
 # Arguments
 - `key_id`: Identifies the asymmetric CMK that will be used to verify the signature. This
   must be the same CMK that was used to generate the signature. If you specify a different
-  CMK, the signature verification fails. To specify a CMK, use its key ID, Amazon Resource
-  Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with \"alias/\".
-  To specify a CMK in a different AWS account, you must use the key ARN or alias ARN. For
-  example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  CMK, the signature verification fails. To specify a CMK, use its key ID, key ARN, alias
+  name, or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a CMK
+  in a different AWS account, you must use the key ARN or alias ARN. For example:   Key ID:
+  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a CMK, use ListKeys or DescribeKey. To get the alias name
@@ -2023,8 +2266,9 @@ permissions: kms:Verify (key policy)  Related operations: Sign
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GrantTokens"`: A list of grant tokens. For more information, see Grant Tokens in the
-  AWS Key Management Service Developer Guide.
+- `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
+  this operation comes from a new grant that has not yet achieved eventual consistency. For
+  more information, see Grant token in the AWS Key Management Service Developer Guide.
 - `"MessageType"`: Tells AWS KMS whether the value of the Message parameter is a message or
   message digest. The default value, RAW, indicates a message. To indicate a message digest,
   enter DIGEST.  Use the DIGEST value only when the value of the Message parameter is a
