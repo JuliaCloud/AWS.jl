@@ -35,10 +35,10 @@ body_length(x::AbstractString) = sizeof(x)
 read_body(x::IOBuffer) = take!(x)
 function read_body(x::IO)
     close(x)
-    return read(x)
+    return Base.read(x)
 end
 
-function _http_request(backend::DownloadsBackend, request)
+function _http_request(backend::DownloadsBackend, request::Request, response_stream::IO)
     # If we pass `output`, older versions of Downloads.jl will
     # expect a message body in the response. Specifically, it sets
     # <https://curl.se/libcurl/c/CURLOPT_NOBODY.html>
@@ -55,35 +55,13 @@ function _http_request(backend::DownloadsBackend, request)
     # Therefore, we do not pass an `output` when the `request_method` is `HEAD`.
     # (Note: this is fixed on the latest Downloads.jl, but we include this workaround
     #  for compatability).
-    if request.response_stream === nothing
-        request.response_stream = IOBuffer()
-    end
-    output_arg = if request.request_method == "HEAD"
-        NamedTuple()
-    else
-        (; output=request.response_stream)
-    end
-
-    # If we're going to return the stream, we don't want to read the body into an
-    # HTTP.Response we're never going to use. If we do that, the returned stream
-    # will have no data available (and reading from it could hang forever).
-    body_arg = if request.request_method == "HEAD" || request.return_stream
-        () -> NamedTuple()
-    else
-        () -> (; body=read_body(request.response_stream))
-    end
+    output = request.request_method != "HEAD" ? response_stream : nothing
 
     # HTTP.jl sets this header automatically.
     request.headers["Content-Length"] = string(body_length(request.content))
 
     # We pass an `input` only when we have content we wish to send.
-    input = IOBuffer()
-    input_arg = if !isempty(request.content)
-        write(input, request.content)
-        (; input=input)
-    else
-        NamedTuple()
-    end
+    input = !isempty(request.content) ? IOBuffer(request.content) : nothing
 
     @repeat 4 try
         downloader = @something(backend.downloader, get_downloader())
@@ -97,12 +75,12 @@ function _http_request(backend::DownloadsBackend, request)
 
         # We seekstart on every attempt, otherwise every attempt
         # but the first will send an empty payload.
-        seekstart(input)
+        input !== nothing && seekstart(input)
 
-        response = Downloads.request(
+        response = @mock Downloads.request(
             request.url;
-            input_arg...,
-            output_arg...,
+            input=input,
+            output=output,
             method=request.request_method,
             headers=request.headers,
             verbose=false,
@@ -110,9 +88,9 @@ function _http_request(backend::DownloadsBackend, request)
             downloader=downloader,
         )
 
-        http_response = HTTP.Response(
-            response.status, response.headers; body_arg()..., request=nothing
-        )
+        output !== nothing && seekstart(output)
+
+        http_response = HTTP.Response(response.status, response.headers; request=nothing)
 
         if HTTP.iserror(http_response)
             target = HTTP.resource(HTTP.URI(request.url))
@@ -122,7 +100,8 @@ function _http_request(backend::DownloadsBackend, request)
                 ),
             )
         end
-        return http_response
+
+        return AWS.Response(http_response, response_stream)
     catch e
         @delay_retry if (
             (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||

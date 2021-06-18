@@ -53,13 +53,16 @@ function _response(;
     response.version = version
     response.status = status
     response.headers = headers
-    response.body = Vector{UInt8}(body)
+    response.body = b"[Message Body was streamed]"
 
-    return response
+    b = IOBuffer(body)
+
+    return AWS.Response(response, b)
 end
 
-function _aws_http_request_patch(response::HTTP.Messages.Response=_response())
-    return @patch AWS._http_request(::AWS.AbstractBackend, request::Request) = response
+function _aws_http_request_patch(response::AWS.Response=_response())
+    p = @patch AWS._http_request(::AWS.AbstractBackend, request::Request, ::IO) = response
+    return p
 end
 
 _cred_file_patch = @patch function dot_aws_credentials_file()
@@ -115,12 +118,15 @@ end
 # except `require_ssl_verification` and `response_stream`. This is used to
 # test which other options are being passed to `HTTP.Request` inside of
 # `_http_request`.
-_http_options_patch = @patch function HTTP.request(args...; kwargs...)
-    options = Dict(kwargs)
-    delete!(options, :require_ssl_verification)
-    delete!(options, :response_stream)
-    return options
-end
+_http_options_patches = [
+    @patch function HTTP.request(args...; kwargs...)
+        options = Dict(kwargs)
+        delete!(options, :require_ssl_verification)
+        delete!(options, :response_stream)
+        return options
+    end
+    @patch AWS.Response(options, args...) = options
+]
 
 get_profile_settings_empty_patch = @patch function aws_get_profile_settings(profile, ini)
     return nothing

@@ -5,6 +5,8 @@ using JSON
 using XMLDict
 using XMLDict: XMLDictElement
 
+const BODY_STREAMED_PLACEHOLDER = b"[Message Body was streamed]"
+
 export AWSException, ProtocolNotDefined, InvalidFileName, NoCredentials
 
 struct ProtocolNotDefined <: Exception
@@ -27,39 +29,65 @@ struct AWSException <: Exception
     message::String
     info::Union{XMLDictElement,Dict,String,Nothing}
     cause::HTTP.StatusError
-end
-function Base.show(io::IO, e::AWSException)
-    message = isempty(e.message) ? "" : (" -- " * e.message)
-    return println(io, "AWSException: ", string(e.code, message, "\n", e.cause))
+    streamed_body::Union{String,Nothing}
 end
 
-http_message(e::HTTP.StatusError) = String(copy(e.response.body))
+function Base.show(io::IO, e::AWSException)
+    print(io, AWSException, ": ", e.code)
+    !isempty(e.message) && print(io, " -- ", e.message)
+    print(io, "\n\n", e.cause)
+
+    if e.streamed_body !== nothing
+        print(io, "\n\n")
+        if isempty(e.streamed_body)
+            printstyled(io, "(empty body)"; bold=true)
+        else
+            print(io, e.streamed_body)
+        end
+    end
+
+    println(io)
+    return nothing
+end
+
 http_status(e::HTTP.StatusError) = e.status
 content_type(e::HTTP.StatusError) = HTTP.header(e.response, "Content-Type")
 is_valid_xml_string(str) = startswith(str, '<')
 
-function AWSException(e::HTTP.StatusError)
+AWSException(e::HTTP.StatusError) = AWSException(e, String(copy(e.response.body)))
+
+function AWSException(e::HTTP.StatusError, stream::IO)
+    seekstart(stream)
+    body = Base.read(stream, String)
+    return AWSException(e, body)
+end
+
+function AWSException(e::HTTP.StatusError, body::AbstractString)
     code = string(http_status(e))
     message = "AWSException"
     info = Dict{String,Dict}()
 
-    # Extract API error code from Lambda-style JSON error message...
-    if endswith(content_type(e), "json")
-        info = JSON.parse(http_message(e))
-    end
-
-    # Extract API error code from JSON error message...
-    if occursin(r"^application/x-amz-json-1\.[01]$", content_type(e))
-        info = JSON.parse(http_message(e))
-        if haskey(info, "__type")
-            code = rsplit(info["__type"], '#'; limit=2)[end]
+    if !isempty(body)
+        # Extract API error code from Lambda-style JSON error message...
+        if endswith(content_type(e), "json")
+            info = JSON.parse(body)
         end
-    end
 
-    # Extract API error code from XML error message...
-    error_content_types = ["", "application/xml", "text/xml"]
-    if content_type(e) in error_content_types && is_valid_xml_string(http_message(e))
-        info = parse_xml(http_message(e))
+        # Extract API error code from JSON error message...
+        if occursin(r"^application/x-amz-json-1\.[01]$", content_type(e))
+            info = JSON.parse(body)
+            if haskey(info, "__type")
+                code = rsplit(info["__type"], '#'; limit=2)[end]
+            end
+        end
+
+        # Extract API error code from XML error message...
+        error_content_types = ["", "application/xml", "text/xml"]
+        if content_type(e) in error_content_types && is_valid_xml_string(body)
+            info = parse_xml(body)
+        end
+    elseif parse(Int, HTTP.header(e.response, "Content-Length", "0")) > 0
+        @error "Internal Error: provided body is empty while the reported content-length is non-zero"
     end
 
     # There are times when Errors or Error are returned back
@@ -72,7 +100,9 @@ function AWSException(e::HTTP.StatusError)
     message = get(info, "Message", message)
     message = get(info, "message", message)
 
-    return AWSException(code, message, info, e)
+    streamed_body = e.response.body == BODY_STREAMED_PLACEHOLDER ? body : nothing
+
+    return AWSException(code, message, info, e, streamed_body)
 end
 
 end

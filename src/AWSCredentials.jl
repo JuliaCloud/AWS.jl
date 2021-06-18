@@ -243,7 +243,7 @@ function ec2_instance_credentials(profile::AbstractString)
     path = dot_aws_config_file()
     ini = Inifile()
     if isfile(path)
-        ini = read(ini, path)
+        ini = Base.read(ini, path)
     end
 
     # Any profile except default must specify the credential_source as Ec2InstanceMetadata.
@@ -373,7 +373,7 @@ function dot_aws_credentials(profile=nothing)
     credential_file = @mock dot_aws_credentials_file()
 
     if isfile(credential_file)
-        ini = read(Inifile(), credential_file)
+        ini = Base.read(Inifile(), credential_file)
         p = @something profile _aws_get_profile()
         access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
@@ -404,7 +404,7 @@ function dot_aws_config(profile=nothing)
     config_file = @mock dot_aws_config_file()
 
     if isfile(config_file)
-        ini = read(Inifile(), config_file)
+        ini = Base.read(Inifile(), config_file)
         p = @something profile _aws_get_profile()
         access_key, secret_key, token = _aws_get_credential_details(p, ini)
 
@@ -502,7 +502,7 @@ function credentials_from_webtoken()
     end
 
     role_arn = ENV[token_role_arn]
-    web_identity = read(ENV["AWS_WEB_IDENTITY_TOKEN_FILE"], String)
+    web_identity = Base.read(ENV["AWS_WEB_IDENTITY_TOKEN_FILE"], String)
     role_session = get(ENV, token_role_session) do
         _role_session_name(
             "AWS.jl-role-",

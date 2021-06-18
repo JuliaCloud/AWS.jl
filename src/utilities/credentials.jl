@@ -5,9 +5,9 @@ function _can_read_file(file_name::String)
         false
     end
 end
-_begins_with_ec2(file_name::String) = return uppercase(String(read(file_name, 3))) == "EC2"
+_begins_with_ec2(file_name::String) = uppercase(String(Base.read(file_name, 3))) == "EC2"
 function _ends_with_ec2(file_name::String)
-    return endswith(strip(uppercase(read(file_name, String))), "EC2")
+    return endswith(strip(uppercase(Base.read(file_name, String))), "EC2")
 end
 
 """
@@ -49,7 +49,7 @@ end
 
 function _aws_profile_config(config_file::AbstractString, profile)
     isfile(config_file) || return Dict()
-    return _aws_profile_config(read(Inifile(), config_file), profile)
+    return _aws_profile_config(Base.read(Inifile(), config_file), profile)
 end
 
 function _aws_profile_config(config_file::Nothing, profile)

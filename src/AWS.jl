@@ -32,6 +32,7 @@ include("AWSConfig.jl")
 include("AWSMetadata.jl")
 
 include(joinpath("utilities", "request.jl"))
+include(joinpath("utilities", "response.jl"))
 include(joinpath("utilities", "sign.jl"))
 include(joinpath("utilities", "downloads_backend.jl"))
 
@@ -218,7 +219,7 @@ Perform a RestXML request to AWS.
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
-- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+- `AWS.Response`: A struct containing the response details
 """
 function (service::RestXMLService)(
     request_method::String,
@@ -227,7 +228,7 @@ function (service::RestXMLService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    return_headers = _pop!(args, "return_headers", false)
+    _delete_outdated_kw_args!(args)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -253,7 +254,7 @@ function (service::RestXMLService)(
         aws_config, service.endpoint_prefix, request.resource
     )
 
-    return submit_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request)
 end
 
 """
@@ -272,7 +273,7 @@ Perform a Query request to AWS.
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
-- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+- `AWS.Response`: A struct containing the response details
 """
 function (service::QueryService)(
     operation::String,
@@ -281,7 +282,7 @@ function (service::QueryService)(
     feature_set::FeatureSet=FeatureSet(),
 )
     POST_RESOURCE = "/"
-    return_headers = _pop!(args, "return_headers", false)
+    _delete_outdated_kw_args!(args)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -296,7 +297,7 @@ function (service::QueryService)(
     args["Version"] = service.api_version
     request.content = HTTP.escapeuri(_flatten_query(service.signing_name, args))
 
-    return submit_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request)
 end
 
 """
@@ -315,7 +316,7 @@ Perform a JSON request to AWS.
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
-- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+- `AWS.Response`: A struct containing the response details
 """
 function (service::JSONService)(
     operation::String,
@@ -324,7 +325,7 @@ function (service::JSONService)(
     feature_set::FeatureSet=FeatureSet(),
 )
     POST_RESOURCE = "/"
-    return_headers = _pop!(args, "return_headers", false)
+    _delete_outdated_kw_args!(args)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -337,7 +338,7 @@ function (service::JSONService)(
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
 
-    return submit_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request)
 end
 
 """
@@ -357,7 +358,7 @@ Perform a RestJSON request to AWS.
 - `aws::AbstractAWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
-- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+- `AWS.Response`: A struct containing the response details
 """
 function (service::RestJSONService)(
     request_method::String,
@@ -366,7 +367,7 @@ function (service::RestJSONService)(
     aws_config::AbstractAWSConfig=global_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
-    return_headers = _pop!(args, "return_headers", false)
+    _delete_outdated_kw_args!(args)
 
     request = Request(;
         _extract_common_kw_args(service, args)...,
@@ -385,7 +386,7 @@ function (service::RestJSONService)(
     request.headers["Content-Type"] = "application/json"
     request.content = json(args)
 
-    return submit_request(aws_config, request; return_headers=return_headers)
+    return submit_request(aws_config, request)
 end
 
 function (service::ServiceWrapper)(args...; feature_set=nothing, kwargs...)

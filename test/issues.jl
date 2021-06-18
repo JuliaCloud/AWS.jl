@@ -55,6 +55,7 @@ try
         end
     end
 
+    # TODO: Evaluate usefulness of this test
     @testset "issue 324" begin
         body = "Hello World!"
         file_name = "streaming.bin"
@@ -66,17 +67,8 @@ try
 
             # ERROR: MethodError: no method matching iterate(::Base.BufferStream)
             #   => BUG: header `response_stream` is pushed into the query...
-            io = Base.BufferStream()
-            S3.get_object(
-                BUCKET_NAME,
-                file_name,
-                Dict("response_stream" => io, "return_stream" => true),
-            )
-            if bytesavailable(io) > 0
-                @test String(readavailable(io)) == body
-            else
-                @test "no body data was available" == body
-            end
+            response = S3.get_object(BUCKET_NAME, file_name)
+            @test String(take!(response.io)) == body
 
         finally
             S3.delete_object(BUCKET_NAME, file_name)
