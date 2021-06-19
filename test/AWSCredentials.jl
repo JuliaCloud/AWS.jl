@@ -476,7 +476,7 @@ end
             @test result.token == test_values["Token"]
             @test result.user_arn == test_values["InstanceProfileArn"]
             @test result.expiry == test_values["Expiration"]
-            @test result.renew == ec2_instance_credentials
+            @test result.renew !== nothing
         end
     end
 
