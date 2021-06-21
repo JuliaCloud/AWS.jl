@@ -469,7 +469,17 @@ end
     end
 
     @testset "Instance - EC2" begin
-        apply(_http_request_patch) do
+        role_name = "foobar"
+        role_arn = "arn:aws:sts::1234:assumed-role/$role_name"
+        patch = Patches._assume_role_patch(
+            "AssumeRole";
+            access_key=access_key,
+            secret_key=secret_key,
+            session_token=session_token,
+            role_arn=role_arn,
+        )
+
+        apply([_http_request_patch, patch]) do
             result = ec2_instance_credentials("default")
             @test result.access_key_id == test_values["AccessKeyId"]
             @test result.secret_key == test_values["SecretAccessKey"]
@@ -478,54 +488,42 @@ end
             @test result.expiry == test_values["Expiration"]
             @test result.renew !== nothing
 
-            role_name = "foobar"
             access_key = "access-key-$(randstring(6))"
             secret_key = "secret-key-$(randstring(6))"
             session_token = "session-token-$(randstring(6))"
-            role_arn = "arn:aws:sts::1234:assumed-role/$role_name"
+            session_name = "$role_name-session"
 
-            patch = Patches._assume_role_patch(
-                "AssumeRole";
-                access_key=access_key,
-                secret_key=secret_key,
-                session_token=session_token,
-                role_arn=role_arn,
-            )
+            result = mktemp() do config_file, config_io
+                write(
+                    config_io,
+                    """
+                    [profile $role_name]
+                    credential_source = Ec2InstanceMetadata
+                    role_arn = $role_arn
+                    """
+                )
+                close(config_io)
 
-            apply(patch) do
-                session_name = "$role_name-session"
-                result = mktemp() do config_file, config_io
-                    write(
-                        config_io,
-                        """
-                        [profile $role_name]
-                        credential_source = Ec2InstanceMetadata
-                        role_arn = $role_arn
-                        """
-                    )
-                    close(config_io)
-
-                    withenv("AWS_CONFIG_FILE" => config_file, "AWS_ROLE_SESSION_NAME" => session_name) do
-                        ec2_instance_credentials(role_name)
-                    end
+                withenv("AWS_CONFIG_FILE" => config_file, "AWS_ROLE_SESSION_NAME" => session_name) do
+                    ec2_instance_credentials(role_name)
                 end
-
-                @test result.access_key_id == access_key
-                @test result.secret_key == secret_key
-                @test result.token == session_token
-                @test result.user_arn == role_arn * "/" * session_name
-                @test result.renew !== nothing
-                expiry = result.expiry
-
-                result = check_credentials(result)
-
-                @test result.access_key_id == access_key
-                @test result.secret_key == secret_key
-                @test result.token == session_token
-                @test result.user_arn == role_arn * "/" * session_name
-                @test result.renew !== nothing
-                @test expiry != result.expiry
             end
+
+            @test result.access_key_id == access_key
+            @test result.secret_key == secret_key
+            @test result.token == session_token
+            @test result.user_arn == role_arn * "/" * session_name
+            @test result.renew !== nothing
+            expiry = result.expiry
+
+            result = check_credentials(result)
+
+            @test result.access_key_id == access_key
+            @test result.secret_key == secret_key
+            @test result.token == session_token
+            @test result.user_arn == role_arn * "/" * session_name
+            @test result.renew !== nothing
+            @test expiry != result.expiry
         end
     end
 
