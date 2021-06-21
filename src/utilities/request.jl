@@ -56,8 +56,13 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 
         response = @mock _http_request(request)
 
-        if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
-            request.url = HTTP.header(response, "Location")
+        if response.status in REDIRECT_ERROR_CODES
+            if HTTP.header(response, "Location") != ""
+                request.url = HTTP.header(response, "Location")
+            else
+                e = HTTP.StatusError(response.status, response)
+                throw(AWSException(e))
+            end
         end
     catch e
         if e isa HTTP.StatusError
