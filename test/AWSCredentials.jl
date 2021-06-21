@@ -471,6 +471,10 @@ end
     @testset "Instance - EC2" begin
         role_name = "foobar"
         role_arn = "arn:aws:sts::1234:assumed-role/$role_name"
+        access_key = "access-key-$(randstring(6))"
+        secret_key = "secret-key-$(randstring(6))"
+        session_token = "session-token-$(randstring(6))"
+        session_name = "$role_name-session"
         patch = Patches._assume_role_patch(
             "AssumeRole";
             access_key=access_key,
@@ -487,11 +491,6 @@ end
             @test result.user_arn == test_values["InstanceProfileArn"]
             @test result.expiry == test_values["Expiration"]
             @test result.renew !== nothing
-
-            access_key = "access-key-$(randstring(6))"
-            secret_key = "secret-key-$(randstring(6))"
-            session_token = "session-token-$(randstring(6))"
-            session_name = "$role_name-session"
 
             result = mktemp() do config_file, config_io
                 write(
