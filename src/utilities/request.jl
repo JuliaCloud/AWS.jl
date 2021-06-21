@@ -60,7 +60,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
             if HTTP.header(response, "Location") != ""
                 request.url = HTTP.header(response, "Location")
             else
-                e = HTTP.StatusError(response.status, response.request.method, response.request.target, response)
+                e = HTTP.StatusError(response.status, response)
                 throw(AWSException(e))
             end
         end
