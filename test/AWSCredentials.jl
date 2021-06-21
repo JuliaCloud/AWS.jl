@@ -492,7 +492,10 @@ end
             )
 
             apply(patch) do
-                result = ec2_instance_credentials("foobar")
+                session_name = "foobar-session"
+                result = withenv("AWS_ROLE_SESSION_NAME" => session_name) do
+                    ec2_instance_credentials("foobar")
+                end
 
                 @test result.access_key_id == access_key
                 @test result.secret_key == secret_key
@@ -507,7 +510,7 @@ end
                 @test result.secret_key == secret_key
                 @test result.token == session_token
                 @test result.user_arn == role_arn * "/" * session_name
-                @test result.renew == credentials_from_webtoken
+                @test result.renew !== nothing
                 @test expiry != result.expiry
             end
         end

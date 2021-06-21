@@ -274,11 +274,13 @@ function ec2_instance_credentials(profile::AbstractString)
     role_arn === nothing && return instance_profile_creds
 
     # Assume the role.
-    role_session = _role_session_name(
-        "AWS.jl-role-",
-        basename(role_arn),
-        "-" * Dates.format(@mock(now(UTC)), dateformat"yyyymmdd\THHMMSS\Z"),
-    )
+    role_session = get(ENV, "AWS_ROLE_SESSION_NAME") do
+        _role_session_name(
+            "AWS.jl-role-",
+            basename(role_arn),
+            "-" * Dates.format(@mock(now(UTC)), dateformat"yyyymmdd\THHMMSS\Z"),
+        )
+    end
     params = Dict{String, Any}("RoleArn" => role_arn, "RoleSessionName" => role_session)
     duration = _get_ini_value(ini, profile, "duration_seconds")
     if duration !== nothing
