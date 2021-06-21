@@ -477,6 +477,39 @@ end
             @test result.user_arn == test_values["InstanceProfileArn"]
             @test result.expiry == test_values["Expiration"]
             @test result.renew !== nothing
+
+            access_key = "access-key-$(randstring(6))"
+            secret_key = "secret-key-$(randstring(6))"
+            session_token = "session-token-$(randstring(6))"
+            role_arn = "arn:aws:sts::1234:assumed-role/foobar"
+
+            patch = Patches._assume_role_patch(
+                "AssumeRole";
+                access_key=access_key,
+                secret_key=secret_key,
+                session_token=session_token,
+                role_arn=role_arn,
+            )
+
+            apply(patch) do
+                result = ec2_instance_credentials("foobar")
+
+                @test result.access_key_id == access_key
+                @test result.secret_key == secret_key
+                @test result.token == session_token
+                @test result.user_arn == role_arn * "/" * session_name
+                @test result.renew !== nothing
+                expiry = result.expiry
+
+                result = check_credentials(result)
+
+                @test result.access_key_id == access_key
+                @test result.secret_key == secret_key
+                @test result.token == session_token
+                @test result.user_arn == role_arn * "/" * session_name
+                @test result.renew == credentials_from_webtoken
+                @test expiry != result.expiry
+            end
         end
     end
 
@@ -507,7 +540,8 @@ end
             session_token = "session-token-$(randstring(6))"
             role_arn = "arn:aws:sts::1234:assumed-role/foobar"
 
-            patch = Patches._web_identity_patch(;
+            patch = Patches._assume_role_patch(
+                "AssumeRoleWithWebIdentity";
                 access_key=access_key,
                 secret_key=secret_key,
                 session_token=session_token,
