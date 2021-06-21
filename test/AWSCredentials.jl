@@ -478,10 +478,11 @@ end
             @test result.expiry == test_values["Expiration"]
             @test result.renew !== nothing
 
+            role_name = "foobar"
             access_key = "access-key-$(randstring(6))"
             secret_key = "secret-key-$(randstring(6))"
             session_token = "session-token-$(randstring(6))"
-            role_arn = "arn:aws:sts::1234:assumed-role/foobar"
+            role_arn = "arn:aws:sts::1234:assumed-role/$role_name"
 
             patch = Patches._assume_role_patch(
                 "AssumeRole";
@@ -492,9 +493,21 @@ end
             )
 
             apply(patch) do
-                session_name = "foobar-session"
-                result = withenv("AWS_ROLE_SESSION_NAME" => session_name) do
-                    ec2_instance_credentials("foobar")
+                session_name = "$role_name-session"
+                result = mktemp() do config_file, config_io
+                    write(
+                        config_io,
+                        """
+                        [profile $role_name]
+                        credential_source = Ec2InstanceMetadata
+                        role_arn = $role_arn
+                        """
+                    )
+                    close(config_io)
+
+                    withenv("AWS_CONFIG_FILE" => config_file, "AWS_ROLE_SESSION_NAME" => session_name) do
+                        ec2_instance_credentials(role_name)
+                    end
                 end
 
                 @test result.access_key_id == access_key
