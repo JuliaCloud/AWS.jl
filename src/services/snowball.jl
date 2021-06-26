@@ -78,13 +78,13 @@ these five node jobs have been created.
   shipped express are delivered in about a day.   In the European Union (EU), you have access
   to express shipping. Typically, Snow devices shipped express are delivered in about a day.
   In addition, most countries in the EU have access to standard shipping, which typically
-  takes less than a week, one way.   In India, Snow device are delivered in one to seven
+  takes less than a week, one way.   In India, Snow devices are delivered in one to seven
   days.   In the United States of America (US), you have access to one-day shipping and
   two-day shipping.     In Australia, you have access to express shipping. Typically, devices
   shipped express are delivered in about a day.   In the European Union (EU), you have access
   to express shipping. Typically, Snow devices shipped express are delivered in about a day.
   In addition, most countries in the EU have access to standard shipping, which typically
-  takes less than a week, one way.   In India, Snow device are delivered in one to seven
+  takes less than a week, one way.   In India, Snow devices are delivered in one to seven
   days.   In the US, you have access to one-day shipping and two-day shipping.
 - `snowball_type`: The type of AWS Snow Family device to use for this cluster.   For
   cluster jobs, AWS Snow Family currently supports only the EDGE device type.  For more
@@ -105,6 +105,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Service (AWS KMS).
 - `"Notification"`: The Amazon Simple Notification Service (Amazon SNS) notification
   settings for this cluster.
+- `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
+  device that your transferred data will be exported from or imported into. AWS Snow Family
+  supports Amazon S3 and NFS (Network File System).
+- `"RemoteManagement"`: Allows you to securely operate and manage Snow devices in a cluster
+  remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote
+  management will automatically be available when the device arrives at your location.
+  Otherwise, you need to use the Snowball Client to manage the device.
 - `"TaxDocuments"`: The tax documents required in your AWS Region.
 """
 create_cluster(AddressId, JobType, Resources, RoleARN, ShippingOption, SnowballType; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateCluster", Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption, "SnowballType"=>SnowballType); aws_config=aws_config)
@@ -120,7 +127,7 @@ job for a Snow device. If you're creating a job for a node in a cluster, you onl
 provide the clusterId value; the other job attributes are inherited from the cluster.
 Only the Snowball; Edge device type is supported when ordering clustered jobs. The device
 capacity is optional. Availability of device types differ by AWS Region. For more
-information about region availability, see AWS Regional Services.    AWS Snow Family device
+information about Region availability, see AWS Regional Services.    AWS Snow Family device
 types and their capacities.    Snow Family device type: SNC1_SSD    Capacity: T14
 Description: Snowcone       Snow Family device type: SNC1_HDD    Capacity: T8
 Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: Snowball
@@ -148,13 +155,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
 - `"ForwardingAddressId"`: The forwarding address ID for a job. This field is not supported
-  in most regions.
+  in most Regions.
 - `"JobType"`: Defines the type of job that you're creating.
 - `"KmsKeyARN"`: The KmsKeyARN that you want to associate with this job. KmsKeyARNs are
   created using the CreateKey AWS Key Management Service (KMS) API action.
-- `"LongTermPricingId"`: The ID of the long term pricing type for the device.
+- `"LongTermPricingId"`: The ID of the long-term pricing type for the device.
 - `"Notification"`: Defines the Amazon Simple Notification Service (Amazon SNS)
   notification settings for this job.
+- `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
+  device that your transferred data will be exported from or imported into. AWS Snow Family
+  supports Amazon S3 and NFS (Network File System).
+- `"RemoteManagement"`: Allows you to securely operate and manage Snowcone devices remotely
+  from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management
+  will automatically be available when the device arrives at your location. Otherwise, you
+  need to use the Snowball Client to manage the device.
 - `"Resources"`: Defines the Amazon S3 buckets associated with this job. With IMPORT jobs,
   you specify the bucket or buckets that your transferred data will be imported into. With
   EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported
@@ -197,19 +211,19 @@ create_job(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aw
     create_long_term_pricing(long_term_pricing_type)
     create_long_term_pricing(long_term_pricing_type, params::Dict{String,<:Any})
 
-Creates a job with long term usage option for a device. The long term usage is a one year
-or three year long term pricing type for the device. You are billed upfront and AWS give
-discounts for long term pricing. For detailed information see XXXXXXXX
+Creates a job with the long-term usage option for a device. The long-term usage is a 1-year
+or 3-year long-term pricing type for the device. You are billed upfront, and AWS provides
+discounts for long-term pricing.
 
 # Arguments
-- `long_term_pricing_type`: The type of long term pricing option you want for the device -
-  one year or three year long term pricing.
+- `long_term_pricing_type`: The type of long-term pricing option you want for the device,
+  either 1-year or 3-year long-term pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IsLongTermPricingAutoRenew"`: Specifies whether the current long term pricing type for
+- `"IsLongTermPricingAutoRenew"`: Specifies whether the current long-term pricing type for
   the device should be renewed.
-- `"SnowballType"`: The type of AWS Snow Family device to use for the long term pricing job.
+- `"SnowballType"`: The type of AWS Snow Family device to use for the long-term pricing job.
 """
 create_long_term_pricing(LongTermPricingType; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateLongTermPricing", Dict{String, Any}("LongTermPricingType"=>LongTermPricingType); aws_config=aws_config)
 create_long_term_pricing(LongTermPricingType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateLongTermPricing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LongTermPricingType"=>LongTermPricingType), params)); aws_config=aws_config)
@@ -221,8 +235,8 @@ create_long_term_pricing(LongTermPricingType, params::AbstractDict{String}; aws_
 Creates a shipping label that will be used to return the Snow device to AWS.
 
 # Arguments
-- `job_id`: The ID for a job that you want to create the return shipping label for. For
-  example JID123e4567-e89b-12d3-a456-426655440000.
+- `job_id`: The ID for a job that you want to create the return shipping label for; for
+  example, JID123e4567-e89b-12d3-a456-426655440000.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -463,7 +477,7 @@ list_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws
     list_long_term_pricing()
     list_long_term_pricing(params::Dict{String,<:Any})
 
-Lists all long term pricing types.
+Lists all long-term pricing types.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -494,6 +508,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ForwardingAddressId"`: The updated ID for the forwarding address for a cluster. This
   field is not supported in most regions.
 - `"Notification"`: The new or updated Notification object.
+- `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
+  device that your transferred data will be exported from or imported into. AWS Snow Family
+  supports Amazon S3 and NFS (Network File System).
 - `"Resources"`: The updated arrays of JobResource objects that can include updated
   S3Resource objects or LambdaResource objects.
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
@@ -524,6 +541,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ForwardingAddressId"`: The updated ID for the forwarding address for a job. This field
   is not supported in most regions.
 - `"Notification"`: The new or updated Notification object.
+- `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
+  device that your transferred data will be exported from or imported into. AWS Snow Family
+  supports Amazon S3 and NFS (Network File System).
 - `"Resources"`: The updated JobResource object, or the updated JobResource object.
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
   job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM) API
@@ -545,7 +565,7 @@ update_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     update_job_shipment_state(job_id, shipment_state)
     update_job_shipment_state(job_id, shipment_state, params::Dict{String,<:Any})
 
-Updates the state when a the shipment states changes to a different state.
+Updates the state when a shipment state changes to a different state.
 
 # Arguments
 - `job_id`: The job ID of the job whose shipment date you want to update, for example
@@ -562,17 +582,17 @@ update_job_shipment_state(JobId, ShipmentState, params::AbstractDict{String}; aw
     update_long_term_pricing(long_term_pricing_id)
     update_long_term_pricing(long_term_pricing_id, params::Dict{String,<:Any})
 
-Updates the long term pricing type.
+Updates the long-term pricing type.
 
 # Arguments
-- `long_term_pricing_id`: The ID of the long term pricing type for the device.
+- `long_term_pricing_id`: The ID of the long-term pricing type for the device.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IsLongTermPricingAutoRenew"`: If set to true, specifies that the current long term
-  pricing type for the device should be automatically renewed before the long term pricing
+- `"IsLongTermPricingAutoRenew"`: If set to true, specifies that the current long-term
+  pricing type for the device should be automatically renewed before the long-term pricing
   contract expires.
-- `"ReplacementJob"`: Specifies that a device that is ordered with long term pricing should
+- `"ReplacementJob"`: Specifies that a device that is ordered with long-term pricing should
   be replaced with a new device.
 """
 update_long_term_pricing(LongTermPricingId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateLongTermPricing", Dict{String, Any}("LongTermPricingId"=>LongTermPricingId); aws_config=aws_config)

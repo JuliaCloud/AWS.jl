@@ -209,6 +209,45 @@ create_data_source(AwsAccountId, DataSourceId, Name, Type; aws_config::AbstractA
 create_data_source(AwsAccountId, DataSourceId, Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
 
 """
+    create_folder(aws_account_id, folder_id)
+    create_folder(aws_account_id, folder_id, params::Dict{String,<:Any})
+
+Creates an empty shared folder.
+
+# Arguments
+- `aws_account_id`: The AWS Account ID.
+- `folder_id`: The folder ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FolderType"`: The type of folder. By default, folderType is SHARED.
+- `"Name"`: The name of the folder.
+- `"ParentFolderArn"`: The Amazon Resource Name (ARN) for the parent folder.
+  ParentFolderArn can be null. An empty parentFolderArn creates a root-level folder.
+- `"Permissions"`: A structure that describes the principals and the resource-level
+  permissions of a folder. To specify no permissions, omit Permissions.
+- `"Tags"`: Tags for the folder.
+"""
+create_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config)
+create_folder(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config)
+
+"""
+    create_folder_membership(aws_account_id, folder_id, member_id, member_type)
+    create_folder_membership(aws_account_id, folder_id, member_id, member_type, params::Dict{String,<:Any})
+
+Adds an asset, such as a dashboard, analysis, or dataset into a folder.
+
+# Arguments
+- `aws_account_id`: The AWS Account ID.
+- `folder_id`: The folder ID.
+- `member_id`: The ID of the asset (the dashboard, analysis, or dataset).
+- `member_type`: The type of the member, including DASHBOARD, ANALYSIS, and DATASET.
+
+"""
+create_folder_membership(AwsAccountId, FolderId, MemberId, MemberType; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)"; aws_config=aws_config)
+create_folder_membership(AwsAccountId, FolderId, MemberId, MemberType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)", params; aws_config=aws_config)
+
+"""
     create_group(aws_account_id, group_name, namespace)
     create_group(aws_account_id, group_name, namespace, params::Dict{String,<:Any})
 
@@ -527,6 +566,37 @@ the deleted data source.
 """
 delete_data_source(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)"; aws_config=aws_config)
 delete_data_source(AwsAccountId, DataSourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", params; aws_config=aws_config)
+
+"""
+    delete_folder(aws_account_id, folder_id)
+    delete_folder(aws_account_id, folder_id, params::Dict{String,<:Any})
+
+Deletes an empty folder.
+
+# Arguments
+- `aws_account_id`: The AWS Account ID for the folder.
+- `folder_id`: The folder ID.
+
+"""
+delete_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config)
+delete_folder(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config)
+
+"""
+    delete_folder_membership(aws_account_id, folder_id, member_id, member_type)
+    delete_folder_membership(aws_account_id, folder_id, member_id, member_type, params::Dict{String,<:Any})
+
+Removes an asset, such as a dashboard, analysis, or dataset, from a folder.
+
+# Arguments
+- `aws_account_id`: The AWS Account ID.
+- `folder_id`: The Folder ID.
+- `member_id`: The ID of the asset (the dashboard, analysis, or dataset) that you want to
+  delete.
+- `member_type`: The type of the member, including DASHBOARD, ANALYSIS, and DATASET
+
+"""
+delete_folder_membership(AwsAccountId, FolderId, MemberId, MemberType; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)"; aws_config=aws_config)
+delete_folder_membership(AwsAccountId, FolderId, MemberId, MemberType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("DELETE", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members/$(MemberType)/$(MemberId)", params; aws_config=aws_config)
 
 """
     delete_group(aws_account_id, group_name, namespace)
@@ -890,6 +960,49 @@ Describes the resource permissions for a data source.
 """
 describe_data_source_permissions(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions"; aws_config=aws_config)
 describe_data_source_permissions(AwsAccountId, DataSourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions", params; aws_config=aws_config)
+
+"""
+    describe_folder(aws_account_id, folder_id)
+    describe_folder(aws_account_id, folder_id, params::Dict{String,<:Any})
+
+Describes a folder.
+
+# Arguments
+- `aws_account_id`: The AWS account ID.
+- `folder_id`: The folder ID.
+
+"""
+describe_folder(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)"; aws_config=aws_config)
+describe_folder(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)", params; aws_config=aws_config)
+
+"""
+    describe_folder_permissions(aws_account_id, folder_id)
+    describe_folder_permissions(aws_account_id, folder_id, params::Dict{String,<:Any})
+
+Describes permissions for a folder.
+
+# Arguments
+- `aws_account_id`: The AWS Account ID.
+- `folder_id`: The folder ID.
+
+"""
+describe_folder_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions"; aws_config=aws_config)
+describe_folder_permissions(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions", params; aws_config=aws_config)
+
+"""
+    describe_folder_resolved_permissions(aws_account_id, folder_id)
+    describe_folder_resolved_permissions(aws_account_id, folder_id, params::Dict{String,<:Any})
+
+Describes the folder resolved permissions. Permissions consists of both folder direct
+permissions and the inherited permissions from the ancestor folders.
+
+# Arguments
+- `aws_account_id`: The AWS account ID.
+- `folder_id`: The folder ID.
+
+"""
+describe_folder_resolved_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions"; aws_config=aws_config)
+describe_folder_resolved_permissions(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/resolved-permissions", params; aws_config=aws_config)
 
 """
     describe_group(aws_account_id, group_name, namespace)
@@ -1263,6 +1376,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_data_sources(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources"; aws_config=aws_config)
 list_data_sources(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources", params; aws_config=aws_config)
+
+"""
+    list_folder_members(aws_account_id, folder_id)
+    list_folder_members(aws_account_id, folder_id, params::Dict{String,<:Any})
+
+List all assets (DASHBOARD, ANALYSIS, and DATASET) in a folder.
+
+# Arguments
+- `aws_account_id`: The AWS account ID.
+- `folder_id`: The folder ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to be returned per request.
+- `"next-token"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+list_folder_members(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members"; aws_config=aws_config)
+list_folder_members(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders/$(FolderId)/members", params; aws_config=aws_config)
+
+"""
+    list_folders(aws_account_id)
+    list_folders(aws_account_id, params::Dict{String,<:Any})
+
+Lists all folders in an account.
+
+# Arguments
+- `aws_account_id`: The AWS account ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to be returned per request.
+- `"next-token"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+list_folders(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders"; aws_config=aws_config)
+list_folders(AwsAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("GET", "/accounts/$(AwsAccountId)/folders", params; aws_config=aws_config)
 
 """
     list_group_memberships(aws_account_id, group_name, namespace)
@@ -1675,6 +1825,28 @@ search_dashboards(AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aw
 search_dashboards(AwsAccountId, Filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config)
 
 """
+    search_folders(aws_account_id, filters)
+    search_folders(aws_account_id, filters, params::Dict{String,<:Any})
+
+Searches the subfolders in a folder.
+
+# Arguments
+- `aws_account_id`: The AWS account ID.
+- `filters`: The filters to apply to the search. Currently, you can search only by the
+  parent folder ARN. For example, \"Filters\": [ { \"Name\": \"PARENT_FOLDER_ARN\",
+  \"Operator\": \"StringEquals\", \"Value\":
+  \"arn:aws:quicksight:us-east-1:1:folder/folderId\" } ].
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to be returned per request.
+- `"NextToken"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+search_folders(AwsAccountId, Filters; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/folders", Dict{String, Any}("Filters"=>Filters); aws_config=aws_config)
+search_folders(AwsAccountId, Filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/search/folders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), params)); aws_config=aws_config)
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -1986,6 +2158,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_data_source_permissions(AwsAccountId, DataSourceId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions"; aws_config=aws_config)
 update_data_source_permissions(AwsAccountId, DataSourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions", params; aws_config=aws_config)
+
+"""
+    update_folder(aws_account_id, folder_id, name)
+    update_folder(aws_account_id, folder_id, name, params::Dict{String,<:Any})
+
+Updates the name of a folder.
+
+# Arguments
+- `aws_account_id`: The AWS account ID.
+- `folder_id`: The folder ID.
+- `name`: The name of the folder.
+
+"""
+update_folder(AwsAccountId, FolderId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+update_folder(AwsAccountId, FolderId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+
+"""
+    update_folder_permissions(aws_account_id, folder_id)
+    update_folder_permissions(aws_account_id, folder_id, params::Dict{String,<:Any})
+
+Updates permissions of a folder.
+
+# Arguments
+- `aws_account_id`: The AWS account ID.
+- `folder_id`: The folder ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantPermissions"`: The permissions that you want to grant on a resource.
+- `"RevokePermissions"`: The permissions that you want to revoke from a resource.
+"""
+update_folder_permissions(AwsAccountId, FolderId; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions"; aws_config=aws_config)
+update_folder_permissions(AwsAccountId, FolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = quicksight("PUT", "/accounts/$(AwsAccountId)/folders/$(FolderId)/permissions", params; aws_config=aws_config)
 
 """
     update_group(aws_account_id, group_name, namespace)
