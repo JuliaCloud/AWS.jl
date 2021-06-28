@@ -159,8 +159,8 @@ insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
 
 # Arguments
 - `description`: The description for the custom action target.
-- `id`: The ID for the custom action target.
-- `name`: The name of the custom action target.
+- `id`: The ID for the custom action target. Can contain up to 20 alphanumeric characters.
+- `name`: The name of the custom action target. Can contain up to 20 characters.
 
 """
 create_action_target(Description, Id, Name; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/actionTargets", Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name); aws_config=aws_config)

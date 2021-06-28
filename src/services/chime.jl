@@ -168,10 +168,10 @@ batch_suspend_user(UserIdList, accountId, params::AbstractDict{String}; aws_conf
 
 Removes the suspension from up to 50 previously suspended users for the specified Amazon
 Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using
-this action. For more information about different account types, see Managing Your Amazon
-Chime Accounts in the Amazon Chime Administration Guide.  Previously suspended users who
-are unsuspended using this action are returned to Registered status. Users who are not
-previously suspended are ignored.
+this action. For more information about different account types, see  Managing Your Amazon
+Chime Accounts  in the account types, in the Amazon Chime Administration Guide.
+Previously suspended users who are unsuspended using this action are returned to Registered
+status. Users who are not previously suspended are ignored.
 
 # Arguments
 - `user_id_list`: The request containing the user IDs to unsuspend.
@@ -1540,7 +1540,7 @@ get_proxy_session(proxySessionId, voiceConnectorId, params::AbstractDict{String}
 
  Gets the retention settings for the specified Amazon Chime Enterprise account. For more
 information about retention settings, see Managing Chat Retention Policies in the Amazon
-Chime Administration Guide .
+Chime Administration Guide.
 
 # Arguments
 - `account_id`: The Amazon Chime account ID.
@@ -1866,7 +1866,7 @@ list_attendee_tags(attendeeId, meetingId, params::AbstractDict{String}; aws_conf
     list_attendees(meeting_id, params::Dict{String,<:Any})
 
  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about
-the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
+the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
@@ -3054,7 +3054,7 @@ update_sip_rule(Name, sipRuleId, params::AbstractDict{String}; aws_config::Abstr
     update_user(account_id, user_id)
     update_user(account_id, user_id, params::Dict{String,<:Any})
 
- Updates user details for a specified user ID. Currently, only LicenseType updates are
+Updates user details for a specified user ID. Currently, only LicenseType updates are
 supported for this action.
 
 # Arguments

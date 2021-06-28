@@ -243,8 +243,7 @@ create_queue(HoursOfOperationId, InstanceId, Name, params::AbstractDict{String};
     create_quick_connect(instance_id, name, quick_connect_config)
     create_quick_connect(instance_id, name, quick_connect_config, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Creates a quick
-connect for the specified Amazon Connect instance.
+Creates a quick connect for the specified Amazon Connect instance.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -399,8 +398,7 @@ delete_integration_association(InstanceId, IntegrationAssociationId, params::Abs
     delete_quick_connect(instance_id, quick_connect_id)
     delete_quick_connect(instance_id, quick_connect_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Deletes a quick
-connect.
+Deletes a quick connect.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -565,8 +563,7 @@ describe_queue(InstanceId, QueueId, params::AbstractDict{String}; aws_config::Ab
     describe_quick_connect(instance_id, quick_connect_id)
     describe_quick_connect(instance_id, quick_connect_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Describes the
-quick connect.
+Describes the quick connect.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -1210,8 +1207,7 @@ list_queues(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSCon
     list_quick_connects(instance_id)
     list_quick_connects(instance_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Provides
-information about the quick connects for the specified Amazon Connect instance.
+Provides information about the quick connects for the specified Amazon Connect instance.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -1841,8 +1837,7 @@ update_queue_status(InstanceId, QueueId, Status, params::AbstractDict{String}; a
     update_quick_connect_config(instance_id, quick_connect_config, quick_connect_id)
     update_quick_connect_config(instance_id, quick_connect_config, quick_connect_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Updates the
-configuration settings for the specified quick connect.
+Updates the configuration settings for the specified quick connect.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -1859,9 +1854,8 @@ update_quick_connect_config(InstanceId, QuickConnectConfig, QuickConnectId, para
     update_quick_connect_name(instance_id, quick_connect_id)
     update_quick_connect_name(instance_id, quick_connect_id, params::Dict{String,<:Any})
 
-This API is in preview release for Amazon Connect and is subject to change. Updates the
-name and description of a quick connect. The request accepts the following data in JSON
-format. At least Name or Description must be provided.
+Updates the name and description of a quick connect. The request accepts the following data
+in JSON format. At least Name or Description must be provided.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId

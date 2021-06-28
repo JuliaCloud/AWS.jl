@@ -13,8 +13,8 @@ Connections with Amazon CodeGuru Reviewer. When you associate a repository, Code
 Reviewer reviews source code changes in the repository's pull requests and provides
 automatic recommendations. You can view recommendations using the CodeGuru Reviewer
 console. For more information, see Recommendations in Amazon CodeGuru Reviewer in the
-Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit repository, it must be
-in the same AWS Region and AWS account where its CodeGuru Reviewer code reviews are
+Amazon CodeGuru Reviewer User Guide.  If you associate a CodeCommit or S3 repository, it
+must be in the same AWS Region and AWS account where its CodeGuru Reviewer code reviews are
 configured. Bitbucket and GitHub Enterprise Server repositories are managed by AWS CodeStar
 Connections to connect to CodeGuru Reviewer. For more information, see Associate a
 repository in the Amazon CodeGuru Reviewer User Guide.    You cannot use the CodeGuru
@@ -48,8 +48,7 @@ associate_repository(Repository, params::AbstractDict{String}; aws_config::Abstr
 
  Use to create a code review with a  CodeReviewType  of RepositoryAnalysis. This type of
 code review analyzes all code under a specified branch in an associated repository.
-PullRequest code reviews are automatically triggered by a pull request so cannot be created
-using this method.
+PullRequest code reviews are automatically triggered by a pull request.
 
 # Arguments
 - `name`:  The name of the code review. The name of each code review in your AWS account

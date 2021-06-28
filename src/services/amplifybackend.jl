@@ -33,7 +33,7 @@ the time of app creation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"resourceConfig"`: The resource configuration for the backend creation request.
+- `"resourceConfig"`: The resource configuration for the create backend request.
 - `"resourceName"`: The name of the resource.
 """
 create_backend(appId, appName, backendEnvironmentName; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend", Dict{String, Any}("appId"=>appId, "appName"=>appName, "backendEnvironmentName"=>backendEnvironmentName); aws_config=aws_config)
@@ -231,7 +231,7 @@ get_backend_apimodels(appId, backendEnvironmentName, resourceName, params::Abstr
     get_backend_auth(app_id, backend_environment_name, resource_name)
     get_backend_auth(app_id, backend_environment_name, resource_name, params::Dict{String,<:Any})
 
-Gets backend auth details.
+Gets a backend auth details.
 
 # Arguments
 - `app_id`: The app ID.
@@ -270,6 +270,26 @@ Gets the challenge token based on the given appId and sessionId.
 """
 get_token(appId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("GET", "/backend/$(appId)/challenge/$(sessionId)"; aws_config=aws_config)
 get_token(appId, sessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("GET", "/backend/$(appId)/challenge/$(sessionId)", params; aws_config=aws_config)
+
+"""
+    import_backend_auth(app_id, backend_environment_name, native_client_id, user_pool_id, web_client_id)
+    import_backend_auth(app_id, backend_environment_name, native_client_id, user_pool_id, web_client_id, params::Dict{String,<:Any})
+
+Imports an existing backend authentication resource.
+
+# Arguments
+- `app_id`: The app ID.
+- `backend_environment_name`: The name of the backend environment.
+- `native_client_id`: The ID of the Amazon Cognito native client.
+- `user_pool_id`: The ID of the Amazon Cognito user pool.
+- `web_client_id`: The ID of the Amazon Cognito web client.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"identityPoolId"`: The ID of the Amazon Cognito identity pool.
+"""
+import_backend_auth(appId, backendEnvironmentName, nativeClientId, userPoolId, webClientId; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/auth/$(backendEnvironmentName)/import", Dict{String, Any}("nativeClientId"=>nativeClientId, "userPoolId"=>userPoolId, "webClientId"=>webClientId); aws_config=aws_config)
+import_backend_auth(appId, backendEnvironmentName, nativeClientId, userPoolId, webClientId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amplifybackend("POST", "/backend/$(appId)/auth/$(backendEnvironmentName)/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nativeClientId"=>nativeClientId, "userPoolId"=>userPoolId, "webClientId"=>webClientId), params)); aws_config=aws_config)
 
 """
     list_backend_jobs(app_id, backend_environment_name)
@@ -314,7 +334,7 @@ remove_all_backends(appId, params::AbstractDict{String}; aws_config::AbstractAWS
     remove_backend_config(app_id)
     remove_backend_config(app_id, params::Dict{String,<:Any})
 
-Removes the AWS resources that are required to access the Amplify Admin UI.
+Removes the AWS resources required to access the Amplify Admin UI.
 
 # Arguments
 - `app_id`: The app ID.
@@ -362,7 +382,7 @@ update_backend_auth(appId, backendEnvironmentName, resourceConfig, resourceName,
     update_backend_config(app_id)
     update_backend_config(app_id, params::Dict{String,<:Any})
 
-Updates the AWS resources that are required to access the Amplify Admin UI.
+Updates the AWS resources required to access the Amplify Admin UI.
 
 # Arguments
 - `app_id`: The app ID.
@@ -387,7 +407,7 @@ Updates a specific job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"operation"`: Filters the list of response objects to include only those with the
+- `"operation"`: Filters the list of response objects to only include those with the
   specified operation name.
 - `"status"`: Filters the list of response objects to include only those with the specified
   status.
