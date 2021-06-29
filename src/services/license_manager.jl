@@ -116,6 +116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GrantName"`: Grant name.
 - `"SourceVersion"`: Current version of the grant.
 - `"Status"`: Grant status.
+- `"StatusReason"`:
 """
 create_grant_version(ClientToken, GrantArn; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateGrantVersion", Dict{String, Any}("ClientToken"=>ClientToken, "GrantArn"=>GrantArn); aws_config=aws_config)
 create_grant_version(ClientToken, GrantArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("CreateGrantVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GrantArn"=>GrantArn), params)); aws_config=aws_config)
@@ -277,6 +278,9 @@ Deletes the specified grant.
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 - `version`: Current version of the grant.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StatusReason"`:
 """
 delete_grant(GrantArn, Version; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteGrant", Dict{String, Any}("GrantArn"=>GrantArn, "Version"=>Version); aws_config=aws_config)
 delete_grant(GrantArn, Version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = license_manager("DeleteGrant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GrantArn"=>GrantArn, "Version"=>Version), params)); aws_config=aws_config)

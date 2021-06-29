@@ -33,6 +33,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reside after the cluster has been created or updated. If provided, the length of this list
   must equal the ReplicationFactor parameter. If you omit this parameter, DAX will spread the
   nodes across Availability Zones for the highest availability.
+- `"ClusterEndpointEncryptionType"`: The type of encryption the cluster's endpoint should
+  support. Values are:    NONE for no encryption    TLS for Transport Layer Security
 - `"Description"`: A description of the cluster.
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to which
   notifications will be sent.  The Amazon SNS topic owner must be same as the DAX cluster
@@ -394,7 +396,9 @@ cluster configuration parameters by specifying the parameters and the new values
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the changes being made to the cluster.
 - `"NotificationTopicArn"`: The Amazon Resource Name (ARN) that identifies the topic.
-- `"NotificationTopicStatus"`: The current state of the topic.
+- `"NotificationTopicStatus"`: The current state of the topic. A value of “active”
+  means that notifications will be sent to the topic. A value of “inactive” means that
+  notifications will not be sent to the topic.
 - `"ParameterGroupName"`: The name of a parameter group for this cluster.
 - `"PreferredMaintenanceWindow"`: A range of time when maintenance of DAX cluster software
   will be performed. For example: sun:01:00-sun:09:00. Cluster maintenance normally takes
@@ -416,7 +420,9 @@ single request by submitting a list parameter name and value pairs.
 # Arguments
 - `parameter_group_name`: The name of the parameter group.
 - `parameter_name_values`: An array of name-value pairs for the parameters in the group.
-  Each element in the array represents a single parameter.
+  Each element in the array represents a single parameter.   record-ttl-millis and
+  query-ttl-millis are the only supported parameter names. For more details, see Configuring
+  TTL Settings.
 
 """
 update_parameter_group(ParameterGroupName, ParameterNameValues; aws_config::AbstractAWSConfig=global_aws_config()) = dax("UpdateParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues); aws_config=aws_config)

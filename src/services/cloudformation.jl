@@ -5,6 +5,67 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    activate_type()
+    activate_type(params::Dict{String,<:Any})
+
+Activates a public third-party extension, making it available for use in stack templates.
+For more information, see Using public extensions in the CloudFormation User Guide. Once
+you have activated a public third-party extension in your account and region, use
+SetTypeConfiguration to specify configuration properties for the extension. For more
+information, see Configuring extensions at the account level in the CloudFormation User
+Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoUpdate"`: Whether to automatically update the extension in this account and region
+  when a new minor version is published by the extension publisher. Major versions released
+  by the publisher must be manually updated. The default is true.
+- `"ExecutionRoleArn"`: The name of the IAM execution role to use to activate the extension.
+- `"LoggingConfig"`:
+- `"MajorVersion"`: The major version of this extension you want to activate, if multiple
+  major versions are available. The default is the latest major version. CloudFormation uses
+  the latest available minor version of the major version selected. You can specify
+  MajorVersion or VersionBump, but not both.
+- `"PublicTypeArn"`: The Amazon Resource Number (ARN) of the public extension. Conditional:
+  You must specify PublicTypeArn, or TypeName, Type, and PublisherId.
+- `"PublisherId"`: The ID of the extension publisher. Conditional: You must specify
+  PublicTypeArn, or TypeName, Type, and PublisherId.
+- `"Type"`: The extension type. Conditional: You must specify PublicTypeArn, or TypeName,
+  Type, and PublisherId.
+- `"TypeName"`: The name of the extension. Conditional: You must specify PublicTypeArn, or
+  TypeName, Type, and PublisherId.
+- `"TypeNameAlias"`: An alias to assign to the public extension, in this account and
+  region. If you specify an alias for the extension, CloudFormation treats the alias as the
+  extension type name within this account and region. You must use the alias to refer to the
+  extension in your templates, API calls, and CloudFormation console. An extension alias must
+  be unique within a given account and region. You can activate the same public resource
+  multiple times in the same account and region, using different type name aliases.
+- `"VersionBump"`: Manually updates a previously-activated type to a new major or minor
+  version, if available. You can also use this parameter to update the value of AutoUpdate.
+   MAJOR: CloudFormation updates the extension to the newest major version, if one is
+  available.    MINOR: CloudFormation updates the extension to the newest minor version, if
+  one is available.
+"""
+activate_type(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("ActivateType"; aws_config=aws_config)
+activate_type(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("ActivateType", params; aws_config=aws_config)
+
+"""
+    batch_describe_type_configurations(type_configuration_identifiers)
+    batch_describe_type_configurations(type_configuration_identifiers, params::Dict{String,<:Any})
+
+Returns configuration data for the specified CloudFormation extensions, from the
+CloudFormation registry for the account and region. For more information, see Configuring
+extensions at the account level in the CloudFormation User Guide.
+
+# Arguments
+- `type_configuration_identifiers`: The list of identifiers for the desired extension
+  configurations.
+
+"""
+batch_describe_type_configurations(TypeConfigurationIdentifiers; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("BatchDescribeTypeConfigurations", Dict{String, Any}("TypeConfigurationIdentifiers"=>TypeConfigurationIdentifiers); aws_config=aws_config)
+batch_describe_type_configurations(TypeConfigurationIdentifiers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("BatchDescribeTypeConfigurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TypeConfigurationIdentifiers"=>TypeConfigurationIdentifiers), params)); aws_config=aws_config)
+
+"""
     cancel_update_stack(stack_name)
     cancel_update_stack(stack_name, params::Dict{String,<:Any})
 
@@ -485,6 +546,29 @@ create_stack_set(StackSetName; aws_config::AbstractAWSConfig=global_aws_config()
 create_stack_set(StackSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("CreateStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
+    deactivate_type()
+    deactivate_type(params::Dict{String,<:Any})
+
+Deactivates a public extension that was previously activated in this account and region.
+Once deactivated, an extension cannot be used in any CloudFormation operation. This
+includes stack update operations where the stack template includes the extension, even if
+no updates are being made to the extension. In addition, deactivated extensions are not
+automatically updated if a new version of the extension is released.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Arn"`: The Amazon Resource Name (ARN) for the extension, in this account and region.
+  Conditional: You must specify either Arn, or TypeName and Type.
+- `"Type"`: The extension type. Conditional: You must specify either Arn, or TypeName and
+  Type.
+- `"TypeName"`: The type name of the extension, in this account and region. If you
+  specified a type name alias when enabling the extension, use the type name alias.
+  Conditional: You must specify either Arn, or TypeName and Type.
+"""
+deactivate_type(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("DeactivateType"; aws_config=aws_config)
+deactivate_type(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("DeactivateType", params; aws_config=aws_config)
+
+"""
     delete_change_set(change_set_name)
     delete_change_set(change_set_name, params::Dict{String,<:Any})
 
@@ -679,6 +763,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 describe_change_set(ChangeSetName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("DescribeChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName); aws_config=aws_config)
 describe_change_set(ChangeSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), params)); aws_config=aws_config)
+
+"""
+    describe_publisher()
+    describe_publisher(params::Dict{String,<:Any})
+
+Returns information about a CloudFormation extension publisher. If you do not supply a
+PublisherId, and you have registered as an extension publisher, DescribePublisher returns
+information about your own publisher account.  For more information on registering as a
+publisher, see:    RegisterPublisher     Publishing extensions to make them available for
+public use in the CloudFormation CLI User Guide
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PublisherId"`: The ID of the extension publisher. If you do not supply a PublisherId,
+  and you have registered as an extension publisher, DescribePublisher returns information
+  about your own publisher account.
+"""
+describe_publisher(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("DescribePublisher"; aws_config=aws_config)
+describe_publisher(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("DescribePublisher", params; aws_config=aws_config)
 
 """
     describe_stack_drift_detection_status(stack_drift_detection_id)
@@ -919,6 +1022,9 @@ Otherwise, it returns information about the default extension version.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Arn"`: The Amazon Resource Name (ARN) of the extension. Conditional: You must specify
   either TypeName and Type, or Arn.
+- `"PublicVersionNumber"`: The version number of a public third-party extension.
+- `"PublisherId"`: The publisher ID of the extension publisher. Extensions provided by
+  Amazon are not assigned a publisher ID.
 - `"Type"`: The kind of extension.  Conditional: You must specify either TypeName and Type,
   or Arn.
 - `"TypeName"`: The name of the extension. Conditional: You must specify either TypeName
@@ -1139,7 +1245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS CloudFormation returns. To get the user-submitted template, specify Original. To get
   the template after AWS CloudFormation has processed all transforms, specify Processed.  If
   the template doesn't include transforms, Original and Processed return the same template.
-  By default, AWS CloudFormation specifies Original.
+  By default, AWS CloudFormation specifies Processed.
 """
 get_template(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("GetTemplate"; aws_config=aws_config)
 get_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("GetTemplate", params; aws_config=aws_config)
@@ -1470,6 +1576,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of results, call this action again and assign that token to the request object's
   NextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
+- `"PublisherId"`: The publisher ID of the extension publisher. Extensions published by
+  Amazon are not assigned a publisher ID.
 - `"Type"`: The kind of the extension. Conditional: You must specify either TypeName and
   Type, or Arn.
 - `"TypeName"`: The name of the extension for which you want version summary information.
@@ -1490,6 +1598,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   summary information about. Valid values include:    LIVE: The extension is registered for
   use in CloudFormation operations.    DEPRECATED: The extension has been deregistered and
   can no longer be used in CloudFormation operations.
+- `"Filters"`: Filter criteria to use in determining which extensions to return. If you
+  specify a filter, CloudFormation ignores any specified Visibility value when returning the
+  list of types.
 - `"MaxResults"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a NextToken value
   that you can assign to the NextToken request parameter to get the next set of results.
@@ -1498,23 +1609,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of results, call this action again and assign that token to the request object's
   NextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
-- `"ProvisioningType"`: The provisioning behavior of the type. AWS CloudFormation
-  determines the provisioning type during registration, based on the types of handlers in the
-  schema handler package submitted. Valid values include:    FULLY_MUTABLE: The extension
-  includes an update handler to process updates to the extension during stack update
-  operations.    IMMUTABLE: The extension does not include an update handler, so the
-  extension cannot be updated and must instead be replaced during stack update operations.
-  NON_PROVISIONABLE: The extension does not include create, read, and delete handlers, and
-  therefore cannot actually be provisioned.
+- `"ProvisioningType"`: For resource types, the provisioning behavior of the resource type.
+  AWS CloudFormation determines the provisioning type during registration, based on the types
+  of handlers in the schema handler package submitted. Valid values include:
+  FULLY_MUTABLE: The resource type includes an update handler to process updates to the type
+  during stack update operations.    IMMUTABLE: The resource type does not include an update
+  handler, so the type cannot be updated and must instead be replaced during stack update
+  operations.    NON_PROVISIONABLE: The resource type does not include create, read, and
+  delete handlers, and therefore cannot actually be provisioned.   The default is
+  FULLY_MUTABLE.
 - `"Type"`: The type of extension.
-- `"Visibility"`: The scope at which the extension is visible and usable in CloudFormation
-  operations. Valid values include:    PRIVATE: The extension is only visible and usable
-  within the account in which it is registered. Currently, AWS CloudFormation marks any
-  extension you create as PRIVATE.    PUBLIC: The extension is publically visible and usable
-  within any Amazon account.   The default is PRIVATE.
+- `"Visibility"`: The scope at which the extensions are visible and usable in
+  CloudFormation operations. Valid values include:    PRIVATE: Extensions that are visible
+  and usable within this account and region. This includes:   Private extensions you have
+  registered in this account and region.   Public extensions that you have activated in this
+  account and region.      PUBLIC: Extensions that are publicly visible and available to be
+  activated within any Amazon account. This includes extensions from Amazon, as well as
+  third-party publishers.   The default is PRIVATE.
 """
 list_types(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("ListTypes"; aws_config=aws_config)
 list_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("ListTypes", params; aws_config=aws_config)
+
+"""
+    publish_type()
+    publish_type(params::Dict{String,<:Any})
+
+Publishes the specified extension to the CloudFormation registry as a public extension in
+this region. Public extensions are available for use by all CloudFormation users. For more
+information on publishing extensions, see Publishing extensions to make them available for
+public use in the CloudFormation CLI User Guide. To publish an extension, you must be
+registered as a publisher with CloudFormation. For more information, see RegisterPublisher.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Arn"`: The Amazon Resource Number (ARN) of the extension. Conditional: You must specify
+  Arn, or TypeName and Type.
+- `"PublicVersionNumber"`: The version number to assign to this version of the extension.
+  Use the following format, and adhere to semantic versioning when assigning a version number
+  to your extension:   MAJOR.MINOR.PATCH  For more information, see Semantic Versioning
+  2.0.0. If you do not specify a version number, CloudFormation increments the version number
+  by one minor version release.
+- `"Type"`: The type of the extension. Conditional: You must specify Arn, or TypeName and
+  Type.
+- `"TypeName"`: The name of the extension. Conditional: You must specify Arn, or TypeName
+  and Type.
+"""
+publish_type(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("PublishType"; aws_config=aws_config)
+publish_type(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("PublishType", params; aws_config=aws_config)
 
 """
     record_handler_progress(bearer_token, operation_status)
@@ -1539,6 +1680,30 @@ record_handler_progress(BearerToken, OperationStatus; aws_config::AbstractAWSCon
 record_handler_progress(BearerToken, OperationStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("RecordHandlerProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BearerToken"=>BearerToken, "OperationStatus"=>OperationStatus), params)); aws_config=aws_config)
 
 """
+    register_publisher()
+    register_publisher(params::Dict{String,<:Any})
+
+Registers your account as a publisher of public extensions in the CloudFormation registry.
+Public extensions are available for use by all CloudFormation users. This publisher ID
+applies to your account in all AWS regions. For information on requirements for registering
+as a public extension publisher, see Registering your account to publish CloudFormation
+extensions in the CloudFormation CLI User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AcceptTermsAndConditions"`: Whether you accept the terms and conditions for publishing
+  extensions in the CloudFormation registry. You must accept the terms and conditions in
+  order to register to publish public extensions to the CloudFormation registry. The default
+  is false.
+- `"ConnectionArn"`: If you are using a Bitbucket or GitHub account for identity
+  verification, the Amazon Resource Name (ARN) for your connection to that account. For more
+  information, see Registering your account to publish CloudFormation extensions in the
+  CloudFormation CLI User Guide.
+"""
+register_publisher(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("RegisterPublisher"; aws_config=aws_config)
+register_publisher(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("RegisterPublisher", params; aws_config=aws_config)
+
+"""
     register_type(schema_handler_package, type_name)
     register_type(schema_handler_package, type_name, params::Dict{String,<:Any})
 
@@ -1551,7 +1716,10 @@ Resource Providers in the CloudFormation CLI User Guide. You can have a maximum 
 resource extension versions registered at a time. This maximum is per account and per
 region. Use DeregisterType to deregister specific extension versions if necessary. Once you
 have initiated a registration request using  RegisterType , you can use
-DescribeTypeRegistration  to monitor the progress of the registration request.
+DescribeTypeRegistration  to monitor the progress of the registration request. Once you
+have registered a private extension in your account and region, use SetTypeConfiguration to
+specify configuration properties for the extension. For more information, see Configuring
+extensions at the account level in the CloudFormation User Guide.
 
 # Arguments
 - `schema_handler_package`: A url to the S3 bucket containing the extension project package
@@ -1562,9 +1730,11 @@ DescribeTypeRegistration  to monitor the progress of the registration request.
   for the schema handler package. For more information, see Actions, Resources, and Condition
   Keys for Amazon S3 in the AWS Identity and Access Management User Guide.
 - `type_name`: The name of the extension being registered. We recommend that extension
-  names adhere to the following pattern: company_or_organization::service::type.  The
-  following organization namespaces are reserved and cannot be used in your extension names:
-    Alexa     AMZN     Amazon     AWS     Custom     Dev
+  names adhere to the following patterns:    For resource types,
+  company_or_organization::service::type.   For modules,
+  company_or_organization::service::type::MODULE.    The following organization namespaces
+  are reserved and cannot be used in your extension names:    Alexa     AMZN     Amazon
+  AWS     Custom     Dev
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1573,12 +1743,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generating more than one version of an extension from the same registeration request, even
   if the request is submitted multiple times.
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the IAM role for CloudFormation
-  to assume when invoking the extension. If your extension calls AWS APIs in any of its
-  handlers, you must create an  IAM execution role  that includes the necessary permissions
-  to call those AWS APIs, and provision that execution role in your account. When
-  CloudFormation needs to invoke the extension handler, CloudFormation assumes this execution
-  role to create a temporary session token, which it then passes to the extension handler,
-  thereby supplying your extension with the appropriate credentials.
+  to assume when invoking the extension. For CloudFormation to assume the specified execution
+  role, the role must contain a trust relationship with the CloudFormation service principle
+  (resources.cloudformation.amazonaws.com). For more information on adding trust
+  relationships, see Modifying a role trust policy in the AWS Identity and Access Management
+  User Guide. If your extension calls AWS APIs in any of its handlers, you must create an
+  IAM execution role  that includes the necessary permissions to call those AWS APIs, and
+  provision that execution role in your account. When CloudFormation needs to invoke the
+  resource type handler, CloudFormation assumes this execution role to create a temporary
+  session token, which it then passes to the resource type handler, thereby supplying your
+  resource type with the appropriate credentials.
 - `"LoggingConfig"`: Specifies logging configuration information for an extension.
 - `"Type"`: The kind of extension.
 """
@@ -1605,6 +1779,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 set_stack_policy(StackName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("SetStackPolicy", Dict{String, Any}("StackName"=>StackName); aws_config=aws_config)
 set_stack_policy(StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("SetStackPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config)
+
+"""
+    set_type_configuration(configuration)
+    set_type_configuration(configuration, params::Dict{String,<:Any})
+
+Specifies the configuration data for a registered CloudFormation extension, in the given
+account and region. To view the current configuration data for an extension, refer to the
+ConfigurationSchema element of DescribeType. For more information, see Configuring
+extensions at the account level in the CloudFormation User Guide.  It is strongly
+recommended that you use dynamic references to restrict sensitive configuration
+definitions, such as third-party credentials. For more details on dynamic references, see
+Using dynamic references to specify template values in the AWS CloudFormation User Guide.
+
+# Arguments
+- `configuration`: The configuration data for the extension, in this account and region.
+  The configuration data must be formatted as JSON, and validate against the schema returned
+  in the ConfigurationSchema response element of API_DescribeType. For more information, see
+  Defining account-level configuration data for an extension in the CloudFormation CLI User
+  Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigurationAlias"`: An alias by which to refer to this extension configuration data.
+  Conditional: Specifying a configuration alias is required when setting a configuration for
+  a resource type extension.
+- `"Type"`: The type of extension. Conditional: You must specify ConfigurationArn, or Type
+  and TypeName.
+- `"TypeArn"`: The Amazon Resource Name (ARN) for the extension, in this account and
+  region. For public extensions, this will be the ARN assigned when you activate the type in
+  this account and region. For private extensions, this will be the ARN assigned when you
+  register the type in this account and region.  Do not include the extension versions suffix
+  at the end of the ARN. You can set the configuration for an extension, but not for a
+  specific extension version.
+- `"TypeName"`: The name of the extension. Conditional: You must specify ConfigurationArn,
+  or Type and TypeName.
+"""
+set_type_configuration(Configuration; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("SetTypeConfiguration", Dict{String, Any}("Configuration"=>Configuration); aws_config=aws_config)
+set_type_configuration(Configuration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("SetTypeConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration), params)); aws_config=aws_config)
 
 """
     set_type_default_version()
@@ -1678,6 +1890,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 stop_stack_set_operation(OperationId, StackSetName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("StopStackSetOperation", Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName); aws_config=aws_config)
 stop_stack_set_operation(OperationId, StackSetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("StopStackSetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), params)); aws_config=aws_config)
+
+"""
+    test_type()
+    test_type(params::Dict{String,<:Any})
+
+Tests a registered extension to make sure it meets all necessary requirements for being
+published in the CloudFormation registry.   For resource types, this includes passing all
+contracts tests defined for the type.   For modules, this includes determining if the
+module's model meets all necessary requirements.   For more information, see Testing your
+public extension prior to publishing in the CloudFormation CLI User Guide. If you do not
+specify a version, CloudFormation uses the default version of the extension in your account
+and region for testing. To perform testing, CloudFormation assumes the execution role
+specified when the test was registered. For more information, see RegisterType. Once you've
+initiated testing on an extension using TestType, you can use DescribeType to monitor the
+current test status and test status description for the extension. An extension must have a
+test status of PASSED before it can be published. For more information, see Publishing
+extensions to make them available for public use in the CloudFormation CLI User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Arn"`: The Amazon Resource Number (ARN) of the extension. Conditional: You must specify
+  Arn, or TypeName and Type.
+- `"LogDeliveryBucket"`: The S3 bucket to which CloudFormation delivers the contract test
+  execution logs. CloudFormation delivers the logs by the time contract testing has completed
+  and the extension has been assigned a test type status of PASSED or FAILED. The user
+  calling TestType must be able to access items in the specified S3 bucket. Specifically, the
+  user needs the following permissions:   GetObject   PutObject   For more information, see
+  Actions, Resources, and Condition Keys for Amazon S3 in the AWS Identity and Access
+  Management User Guide.
+- `"Type"`: The type of the extension to test. Conditional: You must specify Arn, or
+  TypeName and Type.
+- `"TypeName"`: The name of the extension to test. Conditional: You must specify Arn, or
+  TypeName and Type.
+- `"VersionId"`: The version of the extension to test. You can specify the version id with
+  either Arn, or with TypeName and Type. If you do not specify a version, CloudFormation uses
+  the default version of the extension in this account and region for testing.
+"""
+test_type(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("TestType"; aws_config=aws_config)
+test_type(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudformation("TestType", params; aws_config=aws_config)
 
 """
     update_stack(stack_name)
