@@ -483,7 +483,7 @@ end
             role_arn=role_arn,
         )
 
-        apply([_http_request_patch, patch]) do
+        apply([patch, _http_request_patch]) do
             result = ec2_instance_credentials("default")
             @test result.access_key_id == test_values["AccessKeyId"]
             @test result.secret_key == test_values["SecretAccessKey"]
