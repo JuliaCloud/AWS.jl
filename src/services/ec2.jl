@@ -1302,9 +1302,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecifications"`: The tags to apply to the Capacity Reservation during launch.
 - `"Tenancy"`: Indicates the tenancy of the Capacity Reservation. A Capacity Reservation
   can have one of the following tenancy settings:    default - The Capacity Reservation is
-  created on hardware that is shared with other AWS accounts.    dedicated - The Capacity
-  Reservation is created on single-tenant hardware that is dedicated to a single AWS account.
-  
+  created on hardware that is shared with other accounts.    dedicated - The Capacity
+  Reservation is created on single-tenant hardware that is dedicated to a single account.
 """
 create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType); aws_config=aws_config)
 create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType), params)); aws_config=aws_config)
@@ -1583,6 +1582,7 @@ information, see Launching an EC2 Fleet in the Amazon EC2 User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see Ensuring Idempotency.
+- `"Context"`: Reserved.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1596,12 +1596,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   health checks in the Amazon EC2 User Guide.
 - `"SpotOptions"`: Describes the configuration of Spot Instances in an EC2 Fleet.
 - `"TagSpecification"`: The key-value pair for tagging the EC2 Fleet request on creation.
-  The value for ResourceType must be fleet, otherwise the fleet request fails. To tag
-  instances at launch, specify the tags in the launch template. For information about tagging
-  after launch, see Tagging your resources.
+  For more information, see Tagging your resources. If the fleet type is instant, specify a
+  resource type of fleet to tag the fleet or instance to tag the instances at launch. If the
+  fleet type is maintain or request, specify a resource type of fleet to tag the fleet. You
+  cannot specify a resource type of instance. To tag instances at launch, specify the tags in
+  a launch template.
 - `"TerminateInstancesWithExpiration"`: Indicates whether running instances should be
   terminated when the EC2 Fleet expires.
-- `"Type"`: The type of request. The default value is maintain.    maintain - The EC2 Fleet
+- `"Type"`: The fleet type. The default value is maintain.    maintain - The EC2 Fleet
   places an asynchronous request for your desired capacity, and continues to maintain your
   desired Spot capacity by replenishing interrupted Spot Instances.    request - The EC2
   Fleet places an asynchronous one-time request for your desired capacity, but does submit
@@ -2486,8 +2488,8 @@ create_snapshots(InstanceSpecification, params::AbstractDict{String}; aws_config
     create_spot_datafeed_subscription(bucket, params::Dict{String,<:Any})
 
 Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You
-can create one data feed per AWS account. For more information, see Spot Instance data feed
-in the Amazon EC2 User Guide for Linux Instances.
+can create one data feed per account. For more information, see Spot Instance data feed in
+the Amazon EC2 User Guide for Linux Instances.
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket in which to store the Spot Instance data feed.
@@ -4702,7 +4704,7 @@ describe_byoip_cidrs(MaxResults, params::AbstractDict{String}; aws_config::Abstr
     describe_capacity_reservations(params::Dict{String,<:Any})
 
 Describes one or more of your Capacity Reservations. The results describe only the Capacity
-Reservations in the AWS Region that you're currently using.
+Reservations in the Region that you're currently using.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4711,16 +4713,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: One or more filters.    instance-type - The type of instance for which the
-  Capacity Reservation reserves capacity.    owner-id - The ID of the AWS account that owns
-  the Capacity Reservation.    availability-zone-id - The Availability Zone ID of the
-  Capacity Reservation.    instance-platform - The type of operating system for which the
-  Capacity Reservation reserves capacity.    availability-zone - The Availability Zone ID of
-  the Capacity Reservation.    tenancy - Indicates the tenancy of the Capacity Reservation. A
+  Capacity Reservation reserves capacity.    owner-id - The ID of the account that owns the
+  Capacity Reservation.    availability-zone-id - The Availability Zone ID of the Capacity
+  Reservation.    instance-platform - The type of operating system for which the Capacity
+  Reservation reserves capacity.    availability-zone - The Availability Zone ID of the
+  Capacity Reservation.    tenancy - Indicates the tenancy of the Capacity Reservation. A
   Capacity Reservation can have one of the following tenancy settings:    default - The
-  Capacity Reservation is created on hardware that is shared with other AWS accounts.
+  Capacity Reservation is created on hardware that is shared with other accounts.
   dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated
-  to a single AWS account.      outpost-arn - The Amazon Resource Name (ARN) of the Outpost
-  on which the Capacity Reservation was created.    state - The current state of the Capacity
+  to a single account.      outpost-arn - The Amazon Resource Name (ARN) of the Outpost on
+  which the Capacity Reservation was created.    state - The current state of the Capacity
   Reservation. A Capacity Reservation can be in one of the following states:    active- The
   Capacity Reservation is active and the capacity is available for your use.    expired - The
   Capacity Reservation expired automatically at the date and time specified in your request.
@@ -5946,34 +5948,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network-interface.private-dns-name - The private DNS name of the network interface.
   network-interface.requester-id - The requester ID for the network interface.
   network-interface.requester-managed - Indicates whether the network interface is being
-  managed by AWS.    network-interface.status - The status of the network interface
-  (available) | in-use).    network-interface.source-dest-check - Whether the network
-  interface performs source/destination checking. A value of true means that checking is
-  enabled, and false means that checking is disabled. The value must be false for the network
-  interface to perform network address translation (NAT) in your VPC.
+  managed by Amazon Web Services.    network-interface.status - The status of the network
+  interface (available) | in-use).    network-interface.source-dest-check - Whether the
+  network interface performs source/destination checking. A value of true means that checking
+  is enabled, and false means that checking is disabled. The value must be false for the
+  network interface to perform network address translation (NAT) in your VPC.
   network-interface.subnet-id - The ID of the subnet for the network interface.
   network-interface.vpc-id - The ID of the VPC for the network interface.    outpost-arn -
-  The Amazon Resource Name (ARN) of the Outpost.    owner-id - The AWS account ID of the
-  instance owner.    placement-group-name - The name of the placement group for the instance.
-     placement-partition-number - The partition in which the instance is located.    platform
-  - The platform. To list only Windows instances, use windows.    private-dns-name - The
+  The Amazon Resource Name (ARN) of the Outpost.    owner-id - The account ID of the instance
+  owner.    placement-group-name - The name of the placement group for the instance.
+  placement-partition-number - The partition in which the instance is located.    platform -
+  The platform. To list only Windows instances, use windows.    private-dns-name - The
   private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of
   the instance.    product-code - The product code associated with the AMI used to launch the
   instance.    product-code.type - The type of product code (devpay | marketplace).
   ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance
   (for example, shows \"User Initiated [date]\" when you stop or terminate the instance).
   Similar to the state-reason-code filter.    requester-id - The ID of the entity that
-  launched the instance on your behalf (for example, AWS Management Console, Auto Scaling,
-  and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is
-  created any time you launch an instance. A reservation ID has a one-to-one relationship
-  with an instance launch request, but can be associated with more than one instance if you
-  launch multiple instances using the same launch request. For example, if you launch one
-  instance, you get one reservation ID. If you launch ten instances using the same launch
-  request, you also get one reservation ID.    root-device-name - The device name of the root
-  device volume (for example, /dev/sda1).    root-device-type - The type of the root device
-  volume (ebs | instance-store).    source-dest-check - Indicates whether the instance
-  performs source/destination checking. A value of true means that checking is enabled, and
-  false means that checking is disabled. The value must be false for the instance to perform
+  launched the instance on your behalf (for example, Management Console, Auto Scaling, and so
+  on).    reservation-id - The ID of the instance's reservation. A reservation ID is created
+  any time you launch an instance. A reservation ID has a one-to-one relationship with an
+  instance launch request, but can be associated with more than one instance if you launch
+  multiple instances using the same launch request. For example, if you launch one instance,
+  you get one reservation ID. If you launch ten instances using the same launch request, you
+  also get one reservation ID.    root-device-name - The device name of the root device
+  volume (for example, /dev/sda1).    root-device-type - The type of the root device volume
+  (ebs | instance-store).    source-dest-check - Indicates whether the instance performs
+  source/destination checking. A value of true means that checking is enabled, and false
+  means that checking is disabled. The value must be false for the instance to perform
   network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the
   Spot Instance request.    state-reason-code - The reason code for the state change.
   state-reason-message - A message that describes the state change.    subnet-id - The ID of
@@ -6854,18 +6856,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The
   instance type that is covered by the reservation.    marketplace - Set to true to show only
   Reserved Instance Marketplace offerings. When this filter is not used, which is the default
-  behavior, all offerings from both AWS and the Reserved Instance Marketplace are listed.
-  product-description - The Reserved Instance product platform description. Instances that
-  include (Amazon VPC) in the product platform description will only be displayed to
-  EC2-Classic account holders and are for use with Amazon VPC. (Linux/UNIX | Linux/UNIX
-  (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat
-  Enterprise Linux (Amazon VPC) | Red Hat Enterprise Linux with HA (Amazon VPC) | Windows |
-  Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server Standard
-  (Amazon VPC) | Windows with SQL Server Web |  Windows with SQL Server Web (Amazon VPC) |
-  Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon VPC))
-  reserved-instances-offering-id - The Reserved Instances offering ID.    scope - The scope
-  of the Reserved Instance (Availability Zone or Region).    usage-price - The usage price of
-  the Reserved Instance, per hour (for example, 0.84).
+  behavior, all offerings from both Amazon Web Services and the Reserved Instance Marketplace
+  are listed.    product-description - The Reserved Instance product platform description.
+  Instances that include (Amazon VPC) in the product platform description will only be
+  displayed to EC2-Classic account holders and are for use with Amazon VPC. (Linux/UNIX |
+  Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux |
+  Red Hat Enterprise Linux (Amazon VPC) | Red Hat Enterprise Linux with HA (Amazon VPC) |
+  Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server
+  Standard (Amazon VPC) | Windows with SQL Server Web |  Windows with SQL Server Web (Amazon
+  VPC) | Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon
+  VPC))     reserved-instances-offering-id - The Reserved Instances offering ID.    scope -
+  The scope of the Reserved Instance (Availability Zone or Region).    usage-price - The
+  usage price of the Reserved Instance, per hour (for example, 0.84).
 - `"IncludeMarketplace"`: Include Reserved Instance Marketplace offerings in the response.
 - `"InstanceType"`: The instance type that the reservation will cover (for example,
   m1.small). For more information, see Instance types in the Amazon EC2 User Guide.
@@ -9201,7 +9203,7 @@ get_associated_ipv6_pool_cidrs(PoolId, params::AbstractDict{String}; aws_config:
     get_capacity_reservation_usage(capacity_reservation_id, params::Dict{String,<:Any})
 
 Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared,
-it shows usage information for the Capacity Reservation owner and each AWS account that is
+it shows usage information for the Capacity Reservation owner and each account that is
 currently using the shared capacity. If the Capacity Reservation is not shared, it shows
 only the Capacity Reservation owner's usage.
 
@@ -10015,15 +10017,15 @@ modify_client_vpn_endpoint(ClientVpnEndpointId, params::AbstractDict{String}; aw
     modify_default_credit_specification(cpu_credits, instance_family, params::Dict{String,<:Any})
 
 Modifies the default credit option for CPU usage of burstable performance instances. The
-default credit option is set at the account level per AWS Region, and is specified per
-instance family. All new burstable performance instances in the account launch using the
-default credit option.  ModifyDefaultCreditSpecification is an asynchronous operation,
-which works at an AWS Region level and modifies the credit option for each Availability
-Zone. All zones in a Region are updated within five minutes. But if instances are launched
-during this operation, they might not get the new credit option until the zone is updated.
-To verify whether the update has occurred, you can call GetDefaultCreditSpecification and
-check DefaultCreditSpecification for updates. For more information, see Burstable
-performance instances in the Amazon EC2 User Guide.
+default credit option is set at the account level per Region, and is specified per instance
+family. All new burstable performance instances in the account launch using the default
+credit option.  ModifyDefaultCreditSpecification is an asynchronous operation, which works
+at an Region level and modifies the credit option for each Availability Zone. All zones in
+a Region are updated within five minutes. But if instances are launched during this
+operation, they might not get the new credit option until the zone is updated. To verify
+whether the update has occurred, you can call GetDefaultCreditSpecification and check
+DefaultCreditSpecification for updates. For more information, see Burstable performance
+instances in the Amazon EC2 User Guide.
 
 # Arguments
 - `cpu_credits`: The credit option for CPU usage of the instance family. Valid Values:
@@ -10104,6 +10106,7 @@ can set the target capacity to 0.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Context"`: Reserved.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10355,8 +10358,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the Intel 82599 Virtual Function interface at this time. This option is supported only
   for HVM instances. Specifying this option with a PV instance can make it unreachable.
 - `"userData"`: Changes the instance's user data to the specified value. If you are using
-  an AWS SDK or command line tool, base64-encoding is performed for you, and you can load the
-  text from a file. Otherwise, you must provide base64-encoded text.
+  an Amazon Web Services SDK or command line tool, base64-encoding is performed for you, and
+  you can load the text from a file. Otherwise, you must provide base64-encoded text.
 - `"value"`: A new value for the attribute. Use only with the kernel, ramdisk, userData,
   disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
 """
@@ -10668,6 +10671,7 @@ you can set the target capacity to 0.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Context"`: Reserved.
 - `"LaunchTemplateConfig"`: The launch template and overrides. You can only use this
   parameter if you specified a launch template (LaunchTemplateConfigs) in your Spot Fleet
   request. If you specified LaunchSpecifications in your Spot Fleet request, then omit this
@@ -12021,14 +12025,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent set of Spot Instances could be placed in a different zone from the original
   request, even if you specified the same Availability Zone group. Default: Instances are
   launched in any available Availability Zone.
-- `"blockDurationMinutes"`: The required duration for the Spot Instances (also known as
-  Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or
-  360). The duration period starts as soon as your Spot Instance receives its instance ID. At
-  the end of the duration period, Amazon EC2 marks the Spot Instance for termination and
-  provides a Spot Instance termination notice, which gives the instance a two-minute warning
-  before it terminates. You can't specify an Availability Zone group or a launch group if you
-  specify a duration. New accounts or accounts with no previous billing history with AWS are
-  not eligible for Spot Instances with a defined duration (also known as Spot blocks).
+- `"blockDurationMinutes"`: Deprecated.
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see How to Ensure Idempotency in the
   Amazon EC2 User Guide for Linux Instances.
@@ -12423,12 +12420,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2
   instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify
   accelerators from different generations in the same request.
-- `"EnclaveOptions"`: Indicates whether the instance is enabled for AWS Nitro Enclaves. For
-  more information, see  What is AWS Nitro Enclaves? in the AWS Nitro Enclaves User Guide.
-  You can't enable AWS Nitro Enclaves and hibernation on the same instance.
+- `"EnclaveOptions"`: Indicates whether the instance is enabled for Amazon Web Services
+  Nitro Enclaves. For more information, see  What is Amazon Web Services Nitro Enclaves? in
+  the Amazon Web Services Nitro Enclaves User Guide. You can't enable Amazon Web Services
+  Nitro Enclaves and hibernation on the same instance.
 - `"HibernationOptions"`: Indicates whether an instance is enabled for hibernation. For
   more information, see Hibernate your instance in the Amazon EC2 User Guide. You can't
-  enable hibernation and AWS Nitro Enclaves on the same instance.
+  enable hibernation and Amazon Web Services Nitro Enclaves on the same instance.
 - `"ImageId"`: The ID of the AMI. An AMI ID is required to launch an instance and must be
   specified here or in a launch template.
 - `"InstanceMarketOptions"`: The market (purchasing) option for the instances. For
@@ -12462,9 +12460,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Placement"`: The placement for the instance.
 - `"RamdiskId"`: The ID of the RAM disk to select. Some kernels require additional drivers
   at launch. Check the kernel requirements for information about whether you need to specify
-  a RAM disk. To find kernel requirements, go to the AWS Resource Center and search for the
-  kernel ID.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more
-  information, see  PV-GRUB in the Amazon EC2 User Guide.
+  a RAM disk. To find kernel requirements, go to the Amazon Web Services Resource Center and
+  search for the kernel ID.  We recommend that you use PV-GRUB instead of kernels and RAM
+  disks. For more information, see  PV-GRUB in the Amazon EC2 User Guide.
 - `"SecurityGroup"`: [EC2-Classic, default VPC] The names of the security groups. For a
   nondefault VPC, you must use security group IDs instead. If you specify a network
   interface, you must specify any security groups as part of the network interface. Default:
@@ -12666,15 +12664,12 @@ Amazon EBS volumes as their root devices can be quickly stopped and started. Whe
 instance is stopped, the compute resources are released and you are not billed for instance
 usage. However, your root partition Amazon EBS volume remains and continues to persist your
 data, and you are charged for Amazon EBS volume usage. You can restart your instance at any
-time. Every time you start your Windows instance, Amazon EC2 charges you for a full
-instance hour. If you stop and restart your Windows instance, a new instance hour begins
-and Amazon EC2 charges you for another full instance hour even if you are still within the
-same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon
-EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for
-instance usage. Before stopping an instance, make sure it is in a state from which it can
-be restarted. Stopping an instance does not preserve data stored in RAM. Performing this
-operation on an instance that uses an instance store as its root device returns an error.
-For more information, see Stopping instances in the Amazon EC2 User Guide.
+time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for
+instance usage, and thereafter charges per second for instance usage. Before stopping an
+instance, make sure it is in a state from which it can be restarted. Stopping an instance
+does not preserve data stored in RAM. Performing this operation on an instance that uses an
+instance store as its root device returns an error. For more information, see Stopping
+instances in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
@@ -12744,29 +12739,25 @@ if the instance is enabled for hibernation and it meets the hibernation prerequi
 more information, see Hibernate your instance in the Amazon EC2 User Guide. We don't charge
 usage for a stopped instance, or data transfer fees; however, your root partition Amazon
 EBS volume remains and continues to persist your data, and you are charged for Amazon EBS
-volume usage. Every time you start your Windows instance, Amazon EC2 charges you for a full
-instance hour. If you stop and restart your Windows instance, a new instance hour begins
-and Amazon EC2 charges you for another full instance hour even if you are still within the
-same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon
-EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for
-instance usage. You can't stop or hibernate instance store-backed instances. You can't use
-the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should
-hibernate Spot Instances when they are interrupted. For more information, see Hibernating
-interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an
-instance, we shut it down. You can restart your instance at any time. Before stopping or
-hibernating an instance, make sure it is in a state from which it can be restarted.
-Stopping an instance does not preserve data stored in RAM, but hibernating an instance does
-preserve data stored in RAM. If an instance cannot hibernate successfully, a normal
-shutdown occurs. Stopping and hibernating an instance is different to rebooting or
-terminating it. For example, when you stop or hibernate an instance, the root device and
-any other devices attached to the instance persist. When you terminate an instance, the
-root device and any other devices attached during the instance launch are automatically
-deleted. For more information about the differences between rebooting, stopping,
-hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User
-Guide. When you stop an instance, we attempt to shut it down forcibly after a short while.
-If your instance appears stuck in the stopping state after a period of time, there may be
-an issue with the underlying host computer. For more information, see Troubleshooting
-stopping your instance in the Amazon EC2 User Guide.
+volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum
+for instance usage, and thereafter charges per second for instance usage. You can't stop or
+hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot
+Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they
+are interrupted. For more information, see Hibernating interrupted Spot Instances in the
+Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can
+restart your instance at any time. Before stopping or hibernating an instance, make sure it
+is in a state from which it can be restarted. Stopping an instance does not preserve data
+stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance
+cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an
+instance is different to rebooting or terminating it. For example, when you stop or
+hibernate an instance, the root device and any other devices attached to the instance
+persist. When you terminate an instance, the root device and any other devices attached
+during the instance launch are automatically deleted. For more information about the
+differences between rebooting, stopping, hibernating, and terminating instances, see
+Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to
+shut it down forcibly after a short while. If your instance appears stuck in the stopping
+state after a period of time, there may be an issue with the underlying host computer. For
+more information, see Troubleshooting stopping your instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
@@ -12818,17 +12809,30 @@ terminate_client_vpn_connections(ClientVpnEndpointId, params::AbstractDict{Strin
 Shuts down the specified instances. This operation is idempotent; if you terminate an
 instance more than once, each call succeeds.  If you specify multiple instances and the
 request fails (for example, because of a single incorrect instance ID), none of the
-instances are terminated. Terminated instances remain visible after termination (for
-approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached
-when the instance launched. Volumes attached after instance launch continue running. You
-can stop, start, and terminate EBS-backed instances. You can only terminate instance
-store-backed instances. What happens to an instance differs if you stop it or terminate it.
-For example, when you stop an instance, the root device and any other devices attached to
-the instance persist. When you terminate an instance, any attached EBS volumes with the
-DeleteOnTermination block device mapping parameter set to true are automatically deleted.
-For more information about the differences between stopping and terminating instances, see
-Instance lifecycle in the Amazon EC2 User Guide. For more information about
-troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
+instances are terminated. If you terminate multiple instances across multiple Availability
+Zones, and one or more of the specified instances are enabled for termination protection,
+the request fails with the following results:   The specified instances that are in the
+same Availability Zone as the protected instance are not terminated.   The specified
+instances that are in different Availability Zones, where no other specified instances are
+protected, are successfully terminated.   For example, say you have the following
+instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected
+ Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt
+to terminate all of these instances in the same request, the request reports failure with
+the following results:   Instance A and Instance B are successfully terminated because none
+of the specified instances in us-east-1a are enabled for termination protection.   Instance
+C and Instance D fail to terminate because at least one of the specified instances in
+us-east-1b (Instance C) is enabled for termination protection.   Terminated instances
+remain visible after termination (for approximately one hour). By default, Amazon EC2
+deletes all EBS volumes that were attached when the instance launched. Volumes attached
+after instance launch continue running. You can stop, start, and terminate EBS-backed
+instances. You can only terminate instance store-backed instances. What happens to an
+instance differs if you stop it or terminate it. For example, when you stop an instance,
+the root device and any other devices attached to the instance persist. When you terminate
+an instance, any attached EBS volumes with the DeleteOnTermination block device mapping
+parameter set to true are automatically deleted. For more information about the differences
+between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User
+Guide. For more information about troubleshooting, see Troubleshooting terminating your
+instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances. Constraints: Up to 1000 instance IDs. We

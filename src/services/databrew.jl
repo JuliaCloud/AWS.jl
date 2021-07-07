@@ -41,10 +41,10 @@ Creates a new DataBrew dataset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Format"`: The file format of a dataset that is created from an S3 file or folder.
+- `"Format"`: The file format of a dataset that is created from an Amazon S3 file or folder.
 - `"FormatOptions"`:
-- `"PathOptions"`: A set of options that defines how DataBrew interprets an S3 path of the
-  dataset.
+- `"PathOptions"`: A set of options that defines how DataBrew interprets an Amazon S3 path
+  of the dataset.
 - `"Tags"`: Metadata tags to apply to this dataset.
 """
 create_dataset(Input, Name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/datasets", Dict{String, Any}("Input"=>Input, "Name"=>Name); aws_config=aws_config)
@@ -61,16 +61,16 @@ Creates a new job to analyze a dataset and create its data profile.
 - `name`: The name of the job to be created. Valid characters are alphanumeric (A-Z, a-z,
   0-9), hyphen (-), period (.), and space.
 - `output_location`:
-- `role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  (IAM) role to be assumed when DataBrew runs the job.
+- `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  role to be assumed when DataBrew runs the job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
-   SSE-KMS - SSE-KMS - Server-side encryption with AWS KMS-managed keys.    SSE-S3 -
-  Server-side encryption with keys managed by Amazon S3.
+   SSE-KMS - SSE-KMS - Server-side encryption with KMS-managed keys.    SSE-S3 - Server-side
+  encryption with keys managed by Amazon S3.
 - `"JobSample"`: Sample configuration for profile jobs only. Determines the number of rows
   on which the profile job will be executed. If a JobSample value is not provided, the
   default value will be used. The default value is CUSTOM_ROWS for the mode parameter and
@@ -98,8 +98,8 @@ Creates a new DataBrew project.
 - `name`: A unique name for the new project. Valid characters are alphanumeric (A-Z, a-z,
   0-9), hyphen (-), period (.), and space.
 - `recipe_name`: The name of an existing recipe to associate with the project.
-- `role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  (IAM) role to be assumed for this request.
+- `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  role to be assumed for this request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -130,32 +130,34 @@ create_recipe(Name, Steps; aws_config::AbstractAWSConfig=global_aws_config()) = 
 create_recipe(Name, Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Steps"=>Steps), params)); aws_config=aws_config)
 
 """
-    create_recipe_job(name, outputs, role_arn)
-    create_recipe_job(name, outputs, role_arn, params::Dict{String,<:Any})
+    create_recipe_job(name, role_arn)
+    create_recipe_job(name, role_arn, params::Dict{String,<:Any})
 
-Creates a new job to transform input data, using steps defined in an existing AWS Glue
-DataBrew recipe
+Creates a new job to transform input data, using steps defined in an existing Glue DataBrew
+recipe
 
 # Arguments
 - `name`: A unique name for the job. Valid characters are alphanumeric (A-Z, a-z, 0-9),
   hyphen (-), period (.), and space.
-- `outputs`: One or more artifacts that represent the output from running the job.
-- `role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  (IAM) role to be assumed when DataBrew runs the job.
+- `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  role to be assumed when DataBrew runs the job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataCatalogOutputs"`: One or more artifacts that represent the AWS Glue Data Catalog
+  output from running the job.
 - `"DatasetName"`: The name of the dataset that this job processes.
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
-   SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side
+   SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
 - `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
   logging is enabled, CloudWatch writes one log stream for each job run.
 - `"MaxCapacity"`: The maximum number of nodes that DataBrew can consume when the job
   processes data.
 - `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
+- `"Outputs"`: One or more artifacts that represent the output from running the job.
 - `"ProjectName"`: Either the name of an existing project, or a combination of a recipe and
   a dataset to associate with the recipe.
 - `"RecipeReference"`:
@@ -163,8 +165,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
-create_recipe_job(Name, Outputs, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_recipe_job(Name, Outputs, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Outputs"=>Outputs, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+create_recipe_job(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn); aws_config=aws_config)
+create_recipe_job(Name, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("POST", "/recipeJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     create_schedule(cron_expression, name)
@@ -175,7 +177,7 @@ and time, or at regular intervals.
 
 # Arguments
 - `cron_expression`: The date or dates and time or times when the jobs are to be run. For
-  more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
+  more information, see Cron expressions in the Glue DataBrew Developer Guide.
 - `name`: A unique name for the schedule. Valid characters are alphanumeric (A-Z, a-z,
   0-9), hyphen (-), period (.), and space.
 
@@ -593,10 +595,10 @@ Modifies the definition of an existing DataBrew dataset.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Format"`: The file format of a dataset that is created from an S3 file or folder.
+- `"Format"`: The file format of a dataset that is created from an Amazon S3 file or folder.
 - `"FormatOptions"`:
-- `"PathOptions"`: A set of options that defines how DataBrew interprets an S3 path of the
-  dataset.
+- `"PathOptions"`: A set of options that defines how DataBrew interprets an Amazon S3 path
+  of the dataset.
 """
 update_dataset(Input, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}("Input"=>Input); aws_config=aws_config)
 update_dataset(Input, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/datasets/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Input"=>Input), params)); aws_config=aws_config)
@@ -609,8 +611,8 @@ Modifies the definition of an existing profile job.
 
 # Arguments
 - `output_location`:
-- `role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  (IAM) role to be assumed when DataBrew runs the job.
+- `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  role to be assumed when DataBrew runs the job.
 - `name`: The name of the job to be updated.
 
 # Optional Parameters
@@ -618,7 +620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
-   SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side
+   SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
 - `"JobSample"`: Sample configuration for Profile Jobs only. Determines the number of rows
   on which the Profile job will be executed. If a JobSample value is not provided for profile
@@ -671,34 +673,36 @@ update_recipe(name; aws_config::AbstractAWSConfig=global_aws_config()) = databre
 update_recipe(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipes/$(name)", params; aws_config=aws_config)
 
 """
-    update_recipe_job(outputs, role_arn, name)
-    update_recipe_job(outputs, role_arn, name, params::Dict{String,<:Any})
+    update_recipe_job(role_arn, name)
+    update_recipe_job(role_arn, name, params::Dict{String,<:Any})
 
 Modifies the definition of an existing DataBrew recipe job.
 
 # Arguments
-- `outputs`: One or more artifacts that represent the output from running the job.
-- `role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  (IAM) role to be assumed when DataBrew runs the job.
+- `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+  role to be assumed when DataBrew runs the job.
 - `name`: The name of the job to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataCatalogOutputs"`: One or more artifacts that represent the AWS Glue Data Catalog
+  output from running the job.
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
-   SSE-KMS - Server-side encryption with keys managed by AWS KMS.    SSE-S3 - Server-side
+   SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
 - `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
   logging is enabled, CloudWatch writes one log stream for each job run.
 - `"MaxCapacity"`: The maximum number of nodes that DataBrew can consume when the job
   processes data.
 - `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
+- `"Outputs"`: One or more artifacts that represent the output from running the job.
 - `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
-update_recipe_job(Outputs, RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn); aws_config=aws_config)
-update_recipe_job(Outputs, RoleArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Outputs"=>Outputs, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+update_recipe_job(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
+update_recipe_job(RoleArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = databrew("PUT", "/recipeJobs/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config)
 
 """
     update_schedule(cron_expression, name)
@@ -708,7 +712,7 @@ Modifies the definition of an existing DataBrew schedule.
 
 # Arguments
 - `cron_expression`: The date or dates and time or times when the jobs are to be run. For
-  more information, see Cron expressions in the AWS Glue DataBrew Developer Guide.
+  more information, see Cron expressions in the Glue DataBrew Developer Guide.
 - `name`: The name of the schedule to update.
 
 # Optional Parameters

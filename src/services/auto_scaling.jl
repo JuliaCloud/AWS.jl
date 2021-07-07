@@ -192,6 +192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instance is at an elevated risk of interruption. After launching a new instance, it then
   terminates an old instance. For more information, see Amazon EC2 Auto Scaling Capacity
   Rebalancing in the Amazon EC2 Auto Scaling User Guide.
+- `"Context"`: Reserved.
 - `"DefaultCooldown"`: The amount of time, in seconds, after a scaling activity completes
   before another scaling activity can start. The default value is 300. This setting applies
   when using simple scaling policies, but not when using other scaling policies or scheduled
@@ -541,9 +542,11 @@ delete_warm_pool(AutoScalingGroupName, params::AbstractDict{String}; aws_config:
     describe_account_limits()
     describe_account_limits(params::Dict{String,<:Any})
 
-Describes the current Amazon EC2 Auto Scaling resource quotas for your account. For
-information about requesting an increase, see Amazon EC2 Auto Scaling service quotas in the
-Amazon EC2 Auto Scaling User Guide.
+Describes the current Amazon EC2 Auto Scaling resource quotas for your account. When you
+establish an account, the account has initial quotas on the maximum number of Auto Scaling
+groups and launch configurations that you can create in a given Region. For more
+information, see Amazon EC2 Auto Scaling service quotas in the Amazon EC2 Auto Scaling User
+Guide.
 
 """
 describe_account_limits(; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("DescribeAccountLimits"; aws_config=aws_config)
@@ -1630,6 +1633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AvailabilityZones"`: One or more Availability Zones for the group.
 - `"CapacityRebalance"`: Enables or disables Capacity Rebalancing. For more information,
   see Amazon EC2 Auto Scaling Capacity Rebalancing in the Amazon EC2 Auto Scaling User Guide.
+- `"Context"`: Reserved.
 - `"DefaultCooldown"`: The amount of time, in seconds, after a scaling activity completes
   before another scaling activity can start. The default value is 300. This setting applies
   when using simple scaling policies, but not when using other scaling policies or scheduled
