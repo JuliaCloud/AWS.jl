@@ -40,13 +40,13 @@ Adds or overwrites one or more tags for the specified Amazon SageMaker resource.
 add tags to notebook instances, training jobs, hyperparameter tuning jobs, batch transform
 jobs, models, labeling jobs, work teams, endpoint configurations, and endpoints. Each tag
 consists of a key and an optional value. Tag keys must be unique per resource. For more
-information about tags, see For more information, see AWS Tagging Strategies.  Tags that
-you add to a hyperparameter tuning job by calling this API are also added to any training
-jobs that the hyperparameter tuning job launches after you call this API, but not to
-training jobs that the hyperparameter tuning job launched before you called this API. To
-make sure that the tags associated with a hyperparameter tuning job are also added to all
-training jobs that the hyperparameter tuning job launches, add the tags when you first
-create the tuning job by specifying them in the Tags parameter of
+information about tags, see For more information, see Amazon Web Services Tagging
+Strategies.  Tags that you add to a hyperparameter tuning job by calling this API are also
+added to any training jobs that the hyperparameter tuning job launches after you call this
+API, but not to training jobs that the hyperparameter tuning job launched before you called
+this API. To make sure that the tags associated with a hyperparameter tuning job are also
+added to all training jobs that the hyperparameter tuning job launches, add the tags when
+you first create the tuning job by specifying them in the Tags parameter of
 CreateHyperParameterTuningJob    Tags that you add to a SageMaker Studio Domain or User
 Profile by calling this API are also added to any Apps that the Domain or User Profile
 launches after you call this API, but not to Apps that the Domain or User Profile launched
@@ -57,9 +57,9 @@ of CreateDomain or CreateUserProfile.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
-- `tags`: An array of key-value pairs. You can use tags to categorize your AWS resources in
-  different ways, for example, by purpose, owner, or environment. For more information, see
-  Tagging AWS Resources.
+- `tags`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
 
 """
 add_tags(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("AddTags", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
@@ -94,7 +94,8 @@ notebooks. A call to CreateAction from outside one of these environments results
 error.
 
 # Arguments
-- `action_name`: The name of the action. Must be unique to your account in an AWS Region.
+- `action_name`: The name of the action. Must be unique to your account in an Amazon Web
+  Services Region.
 - `action_type`: The action type.
 - `source`: The source type, ID, and URI.
 
@@ -114,7 +115,7 @@ create_action(ActionName, ActionType, Source, params::AbstractDict{String}; aws_
     create_algorithm(algorithm_name, training_specification, params::Dict{String,<:Any})
 
 Create a machine learning algorithm that you can use in Amazon SageMaker and list in the
-AWS Marketplace.
+Amazon Web Services Marketplace.
 
 # Arguments
 - `algorithm_name`: The name of the algorithm.
@@ -131,15 +132,15 @@ AWS Marketplace.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AlgorithmDescription"`: A description of the algorithm.
 - `"CertifyForMarketplace"`: Whether to certify the algorithm so that it can be listed in
-  AWS Marketplace.
+  Amazon Web Services Marketplace.
 - `"InferenceSpecification"`: Specifies details about inference jobs that the algorithm
   runs, including the following:   The Amazon ECR paths of containers that contain the
   inference code and model artifacts.   The instance types that the algorithm supports for
   transform jobs and real-time endpoints used for inference.   The input and output content
   formats that the algorithm supports for inference.
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
 - `"ValidationSpecification"`: Specifies configurations for one or more training jobs and
   that Amazon SageMaker runs to test the algorithm's training code and, optionally, one or
   more batch transform jobs that Amazon SageMaker runs to test the algorithm's inference code.
@@ -209,8 +210,8 @@ A call to CreateArtifact from outside one of these environments results in an er
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ArtifactName"`: The name of the artifact. Must be unique to your account in an AWS
-  Region.
+- `"ArtifactName"`: The name of the artifact. Must be unique to your account in an Amazon
+  Web Services Region.
 - `"MetadataProperties"`:
 - `"Properties"`: A list of properties to add to the artifact.
 - `"Tags"`: A list of tags to apply to the artifact.
@@ -266,7 +267,7 @@ the repository with notebook instances so that you can use Git source control fo
 notebooks you create. The Git repository is a resource in your Amazon SageMaker account, so
 it can be associated with more than one notebook instance, and it persists independently
 from the lifecycle of any notebook instances it is associated with. The repository can be
-hosted either in AWS CodeCommit or in any other Git repository.
+hosted either in Amazon Web Services CodeCommit or in any other Git repository.
 
 # Arguments
 - `code_repository_name`: The name of the Git repository. The name must have 1 to 63
@@ -276,9 +277,9 @@ hosted either in AWS CodeCommit or in any other Git repository.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
 """
 create_code_repository(CodeRepositoryName, GitConfig; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName, "GitConfig"=>GitConfig); aws_config=aws_config)
 create_code_repository(CodeRepositoryName, GitConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName, "GitConfig"=>GitConfig), params)); aws_config=aws_config)
@@ -291,20 +292,20 @@ Starts a model compilation job. After the model has been compiled, Amazon SageMa
 the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that
 you specify.  If you choose to host your model using Amazon SageMaker hosting services, you
 can use the resulting model artifacts as part of the model. You can also use the artifacts
-with AWS IoT Greengrass. In that case, deploy them as an ML resource. In the request body,
-you provide the following:   A name for the compilation job    Information about the input
-model artifacts    The output location for the compiled model and the device (target) that
-the model runs on    The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker
-assumes to perform the model compilation job.    You can also provide a Tag to track the
-model compilation job's resource use and costs. The response body contains the
-CompilationJobArn for the compiled job. To stop a model compilation job, use
-StopCompilationJob. To get information about a particular model compilation job, use
+with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In
+the request body, you provide the following:   A name for the compilation job
+Information about the input model artifacts    The output location for the compiled model
+and the device (target) that the model runs on    The Amazon Resource Name (ARN) of the IAM
+role that Amazon SageMaker assumes to perform the model compilation job.    You can also
+provide a Tag to track the model compilation job's resource use and costs. The response
+body contains the CompilationJobArn for the compiled job. To stop a model compilation job,
+use StopCompilationJob. To get information about a particular model compilation job, use
 DescribeCompilationJob. To get information about multiple model compilation jobs, use
 ListCompilationJobs.
 
 # Arguments
 - `compilation_job_name`: A name for the model compilation job. The name must be unique
-  within the AWS Region and within your AWS account.
+  within the Amazon Web Services Region and within your Amazon Web Services account.
 - `input_config`: Provides information about the location of input model artifacts, the
   name and shape of the expected data inputs, and the framework in which the model was
   trained.
@@ -323,9 +324,12 @@ ListCompilationJobs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
+- `"VpcConfig"`: A VpcConfig object that specifies the VPC that you want your compilation
+  job to connect to. Control access to your models by configuring the VPC. For more
+  information, see Protect Compilation Jobs by Using an Amazon Virtual Private Cloud.
 """
 create_compilation_job(CompilationJobName, InputConfig, OutputConfig, RoleArn, StoppingCondition; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateCompilationJob", Dict{String, Any}("CompilationJobName"=>CompilationJobName, "InputConfig"=>InputConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition); aws_config=aws_config)
 create_compilation_job(CompilationJobName, InputConfig, OutputConfig, RoleArn, StoppingCondition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateCompilationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CompilationJobName"=>CompilationJobName, "InputConfig"=>InputConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition), params)); aws_config=aws_config)
@@ -342,7 +346,8 @@ includes SageMaker training jobs, processing jobs, transform jobs, and SageMaker
 A call to CreateContext from outside one of these environments results in an error.
 
 # Arguments
-- `context_name`: The name of the context. Must be unique to your account in an AWS Region.
+- `context_name`: The name of the context. Must be unique to your account in an Amazon Web
+  Services Region.
 - `context_type`: The context type.
 - `source`: The source type, ID, and URI.
 
@@ -379,7 +384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkConfig"`: Specifies networking configuration for the monitoring job.
 - `"StoppingCondition"`:
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
-  Allocation Tags in the AWS Billing and Cost Management User Guide.
+  Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
 create_data_quality_job_definition(DataQualityAppSpecification, DataQualityJobInput, DataQualityJobOutputConfig, JobDefinitionName, JobResources, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateDataQualityJobDefinition", Dict{String, Any}("DataQualityAppSpecification"=>DataQualityAppSpecification, "DataQualityJobInput"=>DataQualityJobInput, "DataQualityJobOutputConfig"=>DataQualityJobOutputConfig, "JobDefinitionName"=>JobDefinitionName, "JobResources"=>JobResources, "RoleArn"=>RoleArn); aws_config=aws_config)
 create_data_quality_job_definition(DataQualityAppSpecification, DataQualityJobInput, DataQualityJobOutputConfig, JobDefinitionName, JobResources, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateDataQualityJobDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataQualityAppSpecification"=>DataQualityAppSpecification, "DataQualityJobInput"=>DataQualityJobInput, "DataQualityJobOutputConfig"=>DataQualityJobOutputConfig, "JobDefinitionName"=>JobDefinitionName, "JobResources"=>JobResources, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
@@ -397,12 +402,12 @@ Creates a device fleet.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the fleet.
-- `"EnableIotRoleAlias"`: Whether to create an AWS IoT Role Alias during device fleet
-  creation. The name of the role alias generated will match this pattern:
+- `"EnableIotRoleAlias"`: Whether to create an Amazon Web Services IoT Role Alias during
+  device fleet creation. The name of the role alias generated will match this pattern:
   \"SageMakerEdge-{DeviceFleetName}\". For example, if your device fleet is called
   \"demo-fleet\", the name of the role alias will be \"SageMakerEdge-demo-fleet\".
-- `"RoleArn"`: The Amazon Resource Name (ARN) that has access to AWS Internet of Things
-  (IoT).
+- `"RoleArn"`: The Amazon Resource Name (ARN) that has access to Amazon Web Services
+  Internet of Things (IoT).
 - `"Tags"`: Creates tags for the specified fleet.
 """
 create_device_fleet(DeviceFleetName, OutputConfig; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateDeviceFleet", Dict{String, Any}("DeviceFleetName"=>DeviceFleetName, "OutputConfig"=>OutputConfig); aws_config=aws_config)
@@ -414,26 +419,28 @@ create_device_fleet(DeviceFleetName, OutputConfig, params::AbstractDict{String};
 
 Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon
 Elastic File System (EFS) volume, a list of authorized users, and a variety of security,
-application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account
-is limited to one domain per region. Users within a domain can share notebook files and
-other artifacts with each other.  EFS storage  When a domain is created, an EFS volume is
-created for use by all of the users within the domain. Each user receives a private home
-directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker
-uses the AWS Key Management Service (AWS KMS) to encrypt the EFS volume attached to the
-domain with an AWS managed customer master key (CMK) by default. For more control, you can
-specify a customer managed CMK. For more information, see Protect Data at Rest Using
-Encryption.  VPC configuration  All SageMaker Studio traffic between the domain and the EFS
-volume is through the specified VPC and subnets. For other Studio traffic, you can specify
-the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access
-type that you choose when you onboard to Studio. The following options are available:
-PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which
-allows internet access. This is the default value.    VpcOnly - All Studio traffic is
-through the specified VPC and subnets. Internet access is disabled by default. To allow
-internet access, you must specify a NAT gateway. When internet access is disabled, you
-won't be able to run a Studio notebook or to train or host models unless your VPC has an
-interface endpoint to the SageMaker API and runtime or a NAT gateway and your security
-groups allow outbound connections.   For more information, see Connect SageMaker Studio
-Notebooks to Resources in a VPC.
+application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An Amazon Web
+Services account is limited to one domain per region. Users within a domain can share
+notebook files and other artifacts with each other.  EFS storage  When a domain is created,
+an EFS volume is created for use by all of the users within the domain. Each user receives
+a private home directory within the EFS volume for notebooks, Git repositories, and data
+files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services
+KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed
+customer master key (CMK) by default. For more control, you can specify a customer managed
+CMK. For more information, see Protect Data at Rest Using Encryption.  VPC configuration
+All SageMaker Studio traffic between the domain and the EFS volume is through the specified
+VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType
+parameter. AppNetworkAccessType corresponds to the network access type that you choose when
+you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS
+traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This
+is the default value.    VpcOnly - All Studio traffic is through the specified VPC and
+subnets. Internet access is disabled by default. To allow internet access, you must specify
+a NAT gateway. When internet access is disabled, you won't be able to run a Studio notebook
+or to train or host models unless your VPC has an interface endpoint to the SageMaker API
+and runtime or a NAT gateway and your security groups allow outbound connections.    NFS
+traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in
+order to launch a SageMaker Studio app successfully.  For more information, see Connect
+SageMaker Studio Notebooks to Resources in a VPC.
 
 # Arguments
 - `auth_mode`: The mode of authentication that members use to access the domain.
@@ -453,9 +460,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is
   through the specified VPC and subnets
 - `"HomeEfsFileSystemKmsKeyId"`: This member is deprecated and replaced with KmsKeyId.
-- `"KmsKeyId"`: SageMaker uses AWS KMS to encrypt the EFS volume attached to the domain
-  with an AWS managed customer master key (CMK) by default. For more control, specify a
-  customer managed CMK.
+- `"KmsKeyId"`: SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached
+  to the domain with an Amazon Web Services managed customer master key (CMK) by default. For
+  more control, specify a customer managed CMK.
 - `"Tags"`: Tags to associated with the Domain. Each tag consists of a key and an optional
   value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags
   that you specify for the Domain are also added to all Apps that the Domain launches.
@@ -500,33 +507,35 @@ SageMaker uses the endpoint to provision resources and deploy models. You create
 endpoint configuration with the CreateEndpointConfig API.   Use this API to deploy models
 using Amazon SageMaker hosting services.  For an example that calls this method when
 deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon
-SageMaker Hosting Services (AWS SDK for Python (Boto 3)).    You must not delete an
-EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or
-CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you
-must create a new EndpointConfig.  The endpoint name must be unique within an AWS Region in
-your AWS account.  When it receives the request, Amazon SageMaker creates the endpoint,
-launches the resources (ML compute instances), and deploys the model(s) on them.   When you
-call CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint
-configuration exists. When you read data from a DynamoDB table supporting  Eventually
-Consistent Reads , the response might not reflect the results of a recently completed write
-operation. The response might include some stale data. If the dependent entities are not
-yet in DynamoDB, this causes a validation error. If you repeat your read request after a
-short time, the response should return the latest data. So retry logic is recommended to
-handle these possible issues. We also recommend that customers call DescribeEndpointConfig
-before calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually
-consistent read.  When Amazon SageMaker receives the request, it sets the endpoint status
-to Creating. After it creates the endpoint, it sets the status to InService. Amazon
-SageMaker can then process incoming requests for inferences. To check the status of an
-endpoint, use the DescribeEndpoint API. If any of the models hosted at this endpoint get
-model data from an Amazon S3 location, Amazon SageMaker uses AWS Security Token Service to
-download model artifacts from the S3 path you provided. AWS STS is activated in your IAM
-user account by default. If you previously deactivated AWS STS for a region, you need to
-reactivate AWS STS for that region. For more information, see Activating and Deactivating
-AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.   To add the
-IAM role policies for using this API operation, go to the IAM console, and choose Roles in
-the left navigation pane. Search the IAM role that you want to grant access to use the
-CreateEndpoint and CreateEndpointConfig API operations, add the following policies to the
-role.    Option 1: For a full Amazon SageMaker access, search and attach the
+SageMaker Hosting Services (Amazon Web Services SDK for Python (Boto 3)).    You must not
+delete an EndpointConfig that is in use by an endpoint that is live or while the
+UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update
+an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within
+an Amazon Web Services Region in your Amazon Web Services account.  When it receives the
+request, Amazon SageMaker creates the endpoint, launches the resources (ML compute
+instances), and deploys the model(s) on them.   When you call CreateEndpoint, a load call
+is made to DynamoDB to verify that your endpoint configuration exists. When you read data
+from a DynamoDB table supporting  Eventually Consistent Reads , the response might not
+reflect the results of a recently completed write operation. The response might include
+some stale data. If the dependent entities are not yet in DynamoDB, this causes a
+validation error. If you repeat your read request after a short time, the response should
+return the latest data. So retry logic is recommended to handle these possible issues. We
+also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to
+minimize the potential impact of a DynamoDB eventually consistent read.  When Amazon
+SageMaker receives the request, it sets the endpoint status to Creating. After it creates
+the endpoint, it sets the status to InService. Amazon SageMaker can then process incoming
+requests for inferences. To check the status of an endpoint, use the DescribeEndpoint API.
+If any of the models hosted at this endpoint get model data from an Amazon S3 location,
+Amazon SageMaker uses Amazon Web Services Security Token Service to download model
+artifacts from the S3 path you provided. Amazon Web Services STS is activated in your IAM
+user account by default. If you previously deactivated Amazon Web Services STS for a
+region, you need to reactivate Amazon Web Services STS for that region. For more
+information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web
+Services Region in the Amazon Web Services Identity and Access Management User Guide.   To
+add the IAM role policies for using this API operation, go to the IAM console, and choose
+Roles in the left navigation pane. Search the IAM role that you want to grant access to use
+the CreateEndpoint and CreateEndpointConfig API operations, add the following policies to
+the role.    Option 1: For a full Amazon SageMaker access, search and attach the
 AmazonSageMakerFullAccess policy.   Option 2: For granting a limited access to an IAM role,
 paste the following Action elements manually into the JSON file of the IAM role:
 \"Action\": [\"sagemaker:CreateEndpoint\", \"sagemaker:CreateEndpointConfig\"]
@@ -538,15 +547,15 @@ Reference.
 # Arguments
 - `endpoint_config_name`: The name of an endpoint configuration. For more information, see
   CreateEndpointConfig.
-- `endpoint_name`: The name of the endpoint.The name must be unique within an AWS Region in
-  your AWS account. The name is case-insensitive in CreateEndpoint, but the case is preserved
-  and must be matched in .
+- `endpoint_name`: The name of the endpoint.The name must be unique within an Amazon Web
+  Services Region in your Amazon Web Services account. The name is case-insensitive in
+  CreateEndpoint, but the case is preserved and must be matched in .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
 """
 create_endpoint(EndpointConfigName, EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateEndpoint", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName); aws_config=aws_config)
 create_endpoint(EndpointConfigName, EndpointName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName), params)); aws_config=aws_config)
@@ -568,15 +577,16 @@ For example, suppose that you want to host two models, A and B, and you assign t
 weight 2 for model A and 1 for model B. Amazon SageMaker distributes two-thirds of the
 traffic to Model A, and one-third to model B.  For an example that calls this method when
 deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon
-SageMaker Hosting Services (AWS SDK for Python (Boto 3)).   When you call CreateEndpoint, a
-load call is made to DynamoDB to verify that your endpoint configuration exists. When you
-read data from a DynamoDB table supporting  Eventually Consistent Reads , the response
-might not reflect the results of a recently completed write operation. The response might
-include some stale data. If the dependent entities are not yet in DynamoDB, this causes a
-validation error. If you repeat your read request after a short time, the response should
-return the latest data. So retry logic is recommended to handle these possible issues. We
-also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to
-minimize the potential impact of a DynamoDB eventually consistent read.
+SageMaker Hosting Services (Amazon Web Services SDK for Python (Boto 3)).   When you call
+CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration
+exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads ,
+the response might not reflect the results of a recently completed write operation. The
+response might include some stale data. If the dependent entities are not yet in DynamoDB,
+this causes a validation error. If you repeat your read request after a short time, the
+response should return the latest data. So retry logic is recommended to handle these
+possible issues. We also recommend that customers call DescribeEndpointConfig before
+calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent
+read.
 
 # Arguments
 - `endpoint_config_name`: The name of the endpoint configuration. You specify this name in
@@ -587,26 +597,27 @@ minimize the potential impact of a DynamoDB eventually consistent read.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DataCaptureConfig"`:
-- `"KmsKeyId"`: The Amazon Resource Name (ARN) of a AWS Key Management Service key that
-  Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute
-  instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key
-  ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+- `"KmsKeyId"`: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
+  Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to
+  the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following
+  formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
      The KMS key policy must grant permission to the IAM role that you specify in your
-  CreateEndpoint, UpdateEndpoint requests. For more information, refer to the AWS Key
-  Management Service section Using Key Policies in AWS KMS    Certain Nitro-based instances
-  include local storage, dependent on the instance type. Local storage volumes are encrypted
-  using a hardware module on the instance. You can't request a KmsKeyId when using an
-  instance type with local storage. If any of the models that you specify in the
-  ProductionVariants parameter use nitro-based instances with local storage, do not specify a
-  value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any
-  nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a
-  list of instance types that support local instance storage, see Instance Store Volumes. For
-  more information about local instance storage encryption, see SSD Instance Store Volumes.
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources.
+  CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web
+  Services Key Management Service section Using Key Policies in Amazon Web Services KMS
+  Certain Nitro-based instances include local storage, dependent on the instance type. Local
+  storage volumes are encrypted using a hardware module on the instance. You can't request a
+  KmsKeyId when using an instance type with local storage. If any of the models that you
+  specify in the ProductionVariants parameter use nitro-based instances with local storage,
+  do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when
+  using any nitro-based instances with local storage, the call to CreateEndpointConfig fails.
+  For a list of instance types that support local instance storage, see Instance Store
+  Volumes. For more information about local instance storage encryption, see SSD Instance
+  Store Volumes.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
 """
 create_endpoint_config(EndpointConfigName, ProductionVariants; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateEndpointConfig", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "ProductionVariants"=>ProductionVariants); aws_config=aws_config)
 create_endpoint_config(EndpointConfigName, ProductionVariants, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateEndpointConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "ProductionVariants"=>ProductionVariants), params)); aws_config=aws_config)
@@ -622,18 +633,18 @@ that produce the best model. Multiple trials are performed, each one isolating a
 measuring the impact of a change to one or more inputs, while keeping the remaining inputs
 constant. When you use SageMaker Studio or the SageMaker Python SDK, all experiments,
 trials, and trial components are automatically tracked, logged, and indexed. When you use
-the AWS SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can
-add tags to experiments, trials, trial components and then use the Search API to search for
-the tags. To add a description to an experiment, specify the optional Description
-parameter. To add a description later, or to change the description, call the
+the Amazon Web Services SDK for Python (Boto), you must use the logging APIs provided by
+the SDK. You can add tags to experiments, trials, trial components and then use the Search
+API to search for the tags. To add a description to an experiment, specify the optional
+Description parameter. To add a description later, or to change the description, call the
 UpdateExperiment API. To get a list of all your experiments, call the ListExperiments API.
 To view an experiment's properties, call the DescribeExperiment API. To get a list of all
 the trials associated with an experiment, call the ListTrials API. To create a trial call
 the CreateTrial API.
 
 # Arguments
-- `experiment_name`: The name of the experiment. The name must be unique in your AWS
-  account and is not case-sensitive.
+- `experiment_name`: The name of the experiment. The name must be unique in your Amazon Web
+  Services account and is not case-sensitive.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -654,9 +665,9 @@ Create a new FeatureGroup. A FeatureGroup is a group of Features defined in the
 FeatureStore to describe a Record.  The FeatureGroup defines the schema and features
 contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features,
 a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its
-OnlineStore and OfflineStore. Check AWS service quotas to see the FeatureGroups quota for
-your AWS account.  You must include at least one of OnlineStoreConfig and
-OfflineStoreConfig to create a FeatureGroup.
+OnlineStore and OfflineStore. Check Amazon Web Services service quotas to see the
+FeatureGroups quota for your Amazon Web Services account.  You must include at least one of
+OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
 
 # Arguments
 - `event_time_feature_name`: The name of the feature that stores the EventTime of a Record
@@ -672,9 +683,10 @@ OfflineStoreConfig to create a FeatureGroup.
   Feature.  Valid feature FeatureTypes are Integral, Fractional and String.  FeatureNames
   cannot be any of the following: is_deleted, write_time, api_invocation_time  You can create
   up to 2,500 FeatureDefinitions per FeatureGroup.
-- `feature_group_name`: The name of the FeatureGroup. The name must be unique within an AWS
-  Region in an AWS account. The name:   Must start and end with an alphanumeric character.
-  Can only contain alphanumeric character and hyphens. Spaces are not allowed.
+- `feature_group_name`: The name of the FeatureGroup. The name must be unique within an
+  Amazon Web Services Region in an Amazon Web Services account. The name:   Must start and
+  end with an alphanumeric character.   Can only contain alphanumeric character and hyphens.
+  Spaces are not allowed.
 - `record_identifier_feature_name`: The name of the Feature whose value uniquely identifies
   a Record defined in the FeatureStore. Only the latest record per identifier value will be
   stored in the OnlineStore. RecordIdentifierFeatureName must be one of feature definitions'
@@ -687,12 +699,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A free-form description of a FeatureGroup.
 - `"OfflineStoreConfig"`: Use this to configure an OfflineFeatureStore. This parameter
   allows you to specify:   The Amazon Simple Storage Service (Amazon S3) location of an
-  OfflineStore.   A configuration for an AWS Glue or AWS Hive data cataolgue.    An KMS
-  encryption key to encrypt the Amazon S3 location used for OfflineStore.   To learn more
-  about this parameter, see OfflineStoreConfig.
+  OfflineStore.   A configuration for an Amazon Web Services Glue or Amazon Web Services Hive
+  data cataolgue.    An KMS encryption key to encrypt the Amazon S3 location used for
+  OfflineStore.   To learn more about this parameter, see OfflineStoreConfig.
 - `"OnlineStoreConfig"`: You can turn the OnlineStore on or off by specifying True for the
   EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also
-  include an AWS KMS key ID (KMSKeyId) for at-rest encryption of the OnlineStore.
+  include an Amazon Web Services KMS key ID (KMSKeyId) for at-rest encryption of the
+  OnlineStore.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM execution role used to persist
   data into the OfflineStore if an OfflineStoreConfig is provided.
 - `"Tags"`: Tags used to identify Features in each FeatureGroup.
@@ -767,15 +780,16 @@ objective metric that you choose.
   job. For more information, see How Hyperparameter Tuning Works.
 - `hyper_parameter_tuning_job_name`: The name of the tuning job. This name is the prefix
   for the names of all training jobs that this tuning job launches. The name must be unique
-  within the same AWS account and AWS Region. The name must have 1 to 32 characters. Valid
-  characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen). The name is not case sensitive.
+  within the same Amazon Web Services account and Amazon Web Services Region. The name must
+  have 1 to 32 characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen).
+  The name is not case sensitive.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources. Tags that you specify for the tuning job are also added to all
-  training jobs that the tuning job launches.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources. Tags that you specify for the
+  tuning job are also added to all training jobs that the tuning job launches.
 - `"TrainingJobDefinition"`: The HyperParameterTrainingJobDefinition object that describes
   the training jobs that this tuning job launches, including static hyperparameters, input
   data configuration, output data configuration, resource configuration, and stopping
@@ -830,8 +844,8 @@ Amazon Container Registry (ECR) container image specified by BaseImage.
 - `base_image`: The registry path of the container image to use as the starting point for
   this version. The path is an Amazon Container Registry (ECR) URI in the following format:
   &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt;
-- `client_token`: A unique ID. If not specified, the AWS CLI and AWS SDKs, such as the SDK
-  for Python (Boto3), add a unique value to the call.
+- `client_token`: A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web
+  Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
 - `image_name`: The ImageName of the Image to create a version of.
 
 """
@@ -847,23 +861,24 @@ use the labeled data to train machine learning models.  You can select your work
 one of three providers:   A private workforce that you create. It can include employees,
 contractors, and outside experts. Use a private workforce when want the data to stay within
 your organization or when a specific set of skills is required.   One or more vendors that
-you select from the AWS Marketplace. Vendors provide expertise in specific areas.    The
-Amazon Mechanical Turk workforce. This is the largest workforce, but it should only be used
-for public data or data that has been stripped of any personally identifiable information.
- You can also use automated data labeling to reduce the number of data objects that need to
-be labeled by a human. Automated data labeling uses active learning to determine if a data
-object can be labeled by machine or if it needs to be sent to a human worker. For more
-information, see Using Automated Data Labeling. The data objects to be labeled are
-contained in an Amazon S3 bucket. You create a manifest file that describes the location of
-each object. For more information, see Using Input and Output Data. The output can be used
-as the manifest file for another labeling job or as training data for your machine learning
-models. You can use this operation to create a static labeling job or a streaming labeling
-job. A static labeling job stops if all data objects in the input manifest file identified
-in ManifestS3Uri have been labeled. A streaming labeling job runs perpetually until it is
-manually stopped, or remains idle for 10 days. You can send new data objects to an active
-(InProgress) streaming labeling job in real time. To learn how to create a static labeling
-job, see Create a Labeling Job (API)  in the Amazon SageMaker Developer Guide. To learn how
-to create a streaming labeling job, see Create a Streaming Labeling Job.
+you select from the Amazon Web Services Marketplace. Vendors provide expertise in specific
+areas.    The Amazon Mechanical Turk workforce. This is the largest workforce, but it
+should only be used for public data or data that has been stripped of any personally
+identifiable information.   You can also use automated data labeling to reduce the number
+of data objects that need to be labeled by a human. Automated data labeling uses active
+learning to determine if a data object can be labeled by machine or if it needs to be sent
+to a human worker. For more information, see Using Automated Data Labeling. The data
+objects to be labeled are contained in an Amazon S3 bucket. You create a manifest file that
+describes the location of each object. For more information, see Using Input and Output
+Data. The output can be used as the manifest file for another labeling job or as training
+data for your machine learning models. You can use this operation to create a static
+labeling job or a streaming labeling job. A static labeling job stops if all data objects
+in the input manifest file identified in ManifestS3Uri have been labeled. A streaming
+labeling job runs perpetually until it is manually stopped, or remains idle for 10 days.
+You can send new data objects to an active (InProgress) streaming labeling job in real
+time. To learn how to create a static labeling job, see Create a Labeling Job (API)  in the
+Amazon SageMaker Developer Guide. To learn how to create a streaming labeling job, see
+Create a Streaming Labeling Job.
 
 # Arguments
 - `human_task_config`: Configures the labeling task and how it is presented to workers;
@@ -902,11 +917,11 @@ to create a streaming labeling job, see Create a Streaming Labeling Job.
   adjusted. To learn more about adjustment and verification labeling jobs, see Verify and
   Adjust Labels.
 - `labeling_job_name`: The name of the labeling job. This name is used to identify the job
-  in a list of labeling jobs. Labeling job names must be unique within an AWS account and
-  region. LabelingJobName is not case sensitive. For example, Example-job and example-job are
-  considered the same labeling job name by Ground Truth.
-- `output_config`: The location of the output data and the AWS Key Management Service key
-  ID for the key used to encrypt the output data, if any.
+  in a list of labeling jobs. Labeling job names must be unique within an Amazon Web Services
+  account and region. LabelingJobName is not case sensitive. For example, Example-job and
+  example-job are considered the same labeling job name by Ground Truth.
+- `output_config`: The location of the output data and the Amazon Web Services Key
+  Management Service key ID for the key used to encrypt the output data, if any.
 - `role_arn`: The Amazon Resource Number (ARN) that Amazon SageMaker assumes to perform
   tasks on your behalf during data labeling. You must grant this role the necessary
   permissions so that Amazon SageMaker can successfully complete data labeling.
@@ -936,7 +951,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   conditions are met, the job is automatically stopped. You can use these conditions to
   control the cost of data labeling.
 - `"Tags"`: An array of key/value pairs. For more information, see Using Cost Allocation
-  Tags in the AWS Billing and Cost Management User Guide.
+  Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
 create_labeling_job(HumanTaskConfig, InputConfig, LabelAttributeName, LabelingJobName, OutputConfig, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateLabelingJob", Dict{String, Any}("HumanTaskConfig"=>HumanTaskConfig, "InputConfig"=>InputConfig, "LabelAttributeName"=>LabelAttributeName, "LabelingJobName"=>LabelingJobName, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn); aws_config=aws_config)
 create_labeling_job(HumanTaskConfig, InputConfig, LabelAttributeName, LabelingJobName, OutputConfig, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateLabelingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskConfig"=>HumanTaskConfig, "InputConfig"=>InputConfig, "LabelAttributeName"=>LabelAttributeName, "LabelingJobName"=>LabelingJobName, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
@@ -954,15 +969,16 @@ host your model, you create an endpoint configuration with the CreateEndpointCon
 and then create an endpoint with the CreateEndpoint API. Amazon SageMaker then deploys all
 of the containers that you defined for the model in the hosting environment.  For an
 example that calls this method when deploying a model to Amazon SageMaker hosting services,
-see Deploy the Model to Amazon SageMaker Hosting Services (AWS SDK for Python (Boto 3)).
-To run a batch transform using your model, you start a job with the CreateTransformJob API.
-Amazon SageMaker uses your model and your dataset to get inferences which are then saved to
-a specified S3 location. In the CreateModel request, you must define a container with the
-PrimaryContainer parameter. In the request, you also provide an IAM role that Amazon
-SageMaker can assume to access model artifacts and docker image for deployment on ML
-compute hosting instances or for batch transform jobs. In addition, you also use the IAM
-role to manage permissions the inference code needs. For example, if the inference code
-access any other AWS resources, you grant necessary permissions via this role.
+see Deploy the Model to Amazon SageMaker Hosting Services (Amazon Web Services SDK for
+Python (Boto 3)).  To run a batch transform using your model, you start a job with the
+CreateTransformJob API. Amazon SageMaker uses your model and your dataset to get inferences
+which are then saved to a specified S3 location. In the CreateModel request, you must
+define a container with the PrimaryContainer parameter. In the request, you also provide an
+IAM role that Amazon SageMaker can assume to access model artifacts and docker image for
+deployment on ML compute hosting instances or for batch transform jobs. In addition, you
+also use the IAM role to manage permissions the inference code needs. For example, if the
+inference code access any other Amazon Web Services resources, you grant necessary
+permissions via this role.
 
 # Arguments
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role that Amazon
@@ -982,9 +998,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PrimaryContainer"`: The location of the primary docker image containing inference code,
   associated artifacts, and custom environment map that the inference code uses when the
   model is deployed for predictions.
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
 - `"VpcConfig"`: A VpcConfig object that specifies the VPC that you want your model to
   connect to. Control access to and from your model container by configuring the VPC.
   VpcConfig is used in hosting services and in batch transform. For more information, see
@@ -1002,7 +1018,7 @@ Creates the definition for a model bias job.
 
 # Arguments
 - `job_definition_name`: The name of the bias job definition. The name must be unique
-  within an AWS Region in the AWS account.
+  within an Amazon Web Services Region in the Amazon Web Services account.
 - `job_resources`:
 - `model_bias_app_specification`: Configures the model bias job to run a specified Docker
   container image.
@@ -1017,7 +1033,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkConfig"`: Networking options for a model bias job.
 - `"StoppingCondition"`:
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
-  Allocation Tags in the AWS Billing and Cost Management User Guide.
+  Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
 create_model_bias_job_definition(JobDefinitionName, JobResources, ModelBiasAppSpecification, ModelBiasJobInput, ModelBiasJobOutputConfig, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateModelBiasJobDefinition", Dict{String, Any}("JobDefinitionName"=>JobDefinitionName, "JobResources"=>JobResources, "ModelBiasAppSpecification"=>ModelBiasAppSpecification, "ModelBiasJobInput"=>ModelBiasJobInput, "ModelBiasJobOutputConfig"=>ModelBiasJobOutputConfig, "RoleArn"=>RoleArn); aws_config=aws_config)
 create_model_bias_job_definition(JobDefinitionName, JobResources, ModelBiasAppSpecification, ModelBiasJobInput, ModelBiasJobOutputConfig, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateModelBiasJobDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobDefinitionName"=>JobDefinitionName, "JobResources"=>JobResources, "ModelBiasAppSpecification"=>ModelBiasAppSpecification, "ModelBiasJobInput"=>ModelBiasJobInput, "ModelBiasJobOutputConfig"=>ModelBiasJobOutputConfig, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
@@ -1030,7 +1046,7 @@ Creates the definition for a model explainability job.
 
 # Arguments
 - `job_definition_name`:  The name of the model explainability job definition. The name
-  must be unique within an AWS Region in the AWS account.
+  must be unique within an Amazon Web Services Region in the Amazon Web Services account.
 - `job_resources`:
 - `model_explainability_app_specification`: Configures the model explainability job to run
   a specified Docker container image.
@@ -1046,7 +1062,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkConfig"`: Networking options for a model explainability job.
 - `"StoppingCondition"`:
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
-  Allocation Tags in the AWS Billing and Cost Management User Guide.
+  Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
 create_model_explainability_job_definition(JobDefinitionName, JobResources, ModelExplainabilityAppSpecification, ModelExplainabilityJobInput, ModelExplainabilityJobOutputConfig, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateModelExplainabilityJobDefinition", Dict{String, Any}("JobDefinitionName"=>JobDefinitionName, "JobResources"=>JobResources, "ModelExplainabilityAppSpecification"=>ModelExplainabilityAppSpecification, "ModelExplainabilityJobInput"=>ModelExplainabilityJobInput, "ModelExplainabilityJobOutputConfig"=>ModelExplainabilityJobOutputConfig, "RoleArn"=>RoleArn); aws_config=aws_config)
 create_model_explainability_job_definition(JobDefinitionName, JobResources, ModelExplainabilityAppSpecification, ModelExplainabilityJobInput, ModelExplainabilityJobOutputConfig, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateModelExplainabilityJobDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobDefinitionName"=>JobDefinitionName, "JobResources"=>JobResources, "ModelExplainabilityAppSpecification"=>ModelExplainabilityAppSpecification, "ModelExplainabilityJobInput"=>ModelExplainabilityJobInput, "ModelExplainabilityJobOutputConfig"=>ModelExplainabilityJobOutputConfig, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
@@ -1055,21 +1071,22 @@ create_model_explainability_job_definition(JobDefinitionName, JobResources, Mode
     create_model_package()
     create_model_package(params::Dict{String,<:Any})
 
-Creates a model package that you can use to create Amazon SageMaker models or list on AWS
-Marketplace, or a versioned model that is part of a model group. Buyers can subscribe to
-model packages listed on AWS Marketplace to create models in Amazon SageMaker. To create a
-model package by specifying a Docker container that contains your inference code and the
-Amazon S3 location of your model artifacts, provide values for InferenceSpecification. To
-create a model from an algorithm resource that you created or subscribed to in AWS
-Marketplace, provide a value for SourceAlgorithmSpecification.  There are two types of
-model packages:   Versioned - a model that is part of a model group in the model registry.
- Unversioned - a model package that is not part of a model group.
+Creates a model package that you can use to create Amazon SageMaker models or list on
+Amazon Web Services Marketplace, or a versioned model that is part of a model group. Buyers
+can subscribe to model packages listed on Amazon Web Services Marketplace to create models
+in Amazon SageMaker. To create a model package by specifying a Docker container that
+contains your inference code and the Amazon S3 location of your model artifacts, provide
+values for InferenceSpecification. To create a model from an algorithm resource that you
+created or subscribed to in Amazon Web Services Marketplace, provide a value for
+SourceAlgorithmSpecification.  There are two types of model packages:   Versioned - a model
+that is part of a model group in the model registry.   Unversioned - a model package that
+is not part of a model group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CertifyForMarketplace"`: Whether to certify the model package for listing on AWS
-  Marketplace. This parameter is optional for unversioned models, and does not apply to
-  versioned models.
+- `"CertifyForMarketplace"`: Whether to certify the model package for listing on Amazon Web
+  Services Marketplace. This parameter is optional for unversioned models, and does not apply
+  to versioned models.
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 - `"InferenceSpecification"`: Specifies details about inference jobs that can be run with
   models based on this model package, including the following:   The Amazon ECR paths of
@@ -1091,7 +1108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceAlgorithmSpecification"`: Details about the algorithm that was used to create the
   model package.
 - `"Tags"`: A list of key value pairs associated with the model. For more information, see
-  Tagging AWS resources in the AWS General Reference Guide.
+  Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
 - `"ValidationSpecification"`: Specifies configurations for one or more transform jobs that
   Amazon SageMaker runs to test the model package.
 """
@@ -1111,7 +1128,8 @@ Creates a model group. A model group contains a group of model versions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ModelPackageGroupDescription"`: A description for the model group.
 - `"Tags"`: A list of key value pairs associated with the model group. For more
-  information, see Tagging AWS resources in the AWS General Reference Guide.
+  information, see Tagging Amazon Web Services resources in the Amazon Web Services General
+  Reference Guide.
 """
 create_model_package_group(ModelPackageGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateModelPackageGroup", Dict{String, Any}("ModelPackageGroupName"=>ModelPackageGroupName); aws_config=aws_config)
 create_model_package_group(ModelPackageGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateModelPackageGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelPackageGroupName"=>ModelPackageGroupName), params)); aws_config=aws_config)
@@ -1140,7 +1158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NetworkConfig"`: Specifies the network configuration for the monitoring job.
 - `"StoppingCondition"`:
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
-  Allocation Tags in the AWS Billing and Cost Management User Guide.
+  Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
 create_model_quality_job_definition(JobDefinitionName, JobResources, ModelQualityAppSpecification, ModelQualityJobInput, ModelQualityJobOutputConfig, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateModelQualityJobDefinition", Dict{String, Any}("JobDefinitionName"=>JobDefinitionName, "JobResources"=>JobResources, "ModelQualityAppSpecification"=>ModelQualityAppSpecification, "ModelQualityJobInput"=>ModelQualityJobInput, "ModelQualityJobOutputConfig"=>ModelQualityJobOutputConfig, "RoleArn"=>RoleArn); aws_config=aws_config)
 create_model_quality_job_definition(JobDefinitionName, JobResources, ModelQualityAppSpecification, ModelQualityJobInput, ModelQualityJobOutputConfig, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateModelQualityJobDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobDefinitionName"=>JobDefinitionName, "JobResources"=>JobResources, "ModelQualityAppSpecification"=>ModelQualityAppSpecification, "ModelQualityJobInput"=>ModelQualityJobInput, "ModelQualityJobOutputConfig"=>ModelQualityJobOutputConfig, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
@@ -1156,12 +1174,12 @@ data captured for an Amazon SageMaker Endoint.
 - `monitoring_schedule_config`: The configuration object that specifies the monitoring
   schedule and defines the monitoring job.
 - `monitoring_schedule_name`: The name of the monitoring schedule. The name must be unique
-  within an AWS Region within an AWS account.
+  within an Amazon Web Services Region within an Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
-  Allocation Tags in the AWS Billing and Cost Management User Guide.
+  Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
 create_monitoring_schedule(MonitoringScheduleConfig, MonitoringScheduleName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateMonitoringSchedule", Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName); aws_config=aws_config)
 create_monitoring_schedule(MonitoringScheduleConfig, MonitoringScheduleName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName), params)); aws_config=aws_config)
@@ -1196,13 +1214,13 @@ models.  For more information, see How It Works.
 # Arguments
 - `instance_type`: The type of ML compute instance to launch for the notebook instance.
 - `notebook_instance_name`: The name of the new notebook instance.
-- `role_arn`:  When you send any requests to AWS resources from the notebook instance,
-  Amazon SageMaker assumes this role to perform tasks on your behalf. You must grant this
-  role necessary permissions so Amazon SageMaker can perform these tasks. The policy must
-  allow the Amazon SageMaker service principal (sagemaker.amazonaws.com) permissions to
-  assume this role. For more information, see Amazon SageMaker Roles.   To be able to pass
-  this role to Amazon SageMaker, the caller of this API must have the iam:PassRole
-  permission.
+- `role_arn`:  When you send any requests to Amazon Web Services resources from the
+  notebook instance, Amazon SageMaker assumes this role to perform tasks on your behalf. You
+  must grant this role necessary permissions so Amazon SageMaker can perform these tasks. The
+  policy must allow the Amazon SageMaker service principal (sagemaker.amazonaws.com)
+  permissions to assume this role. For more information, see Amazon SageMaker Roles.   To be
+  able to pass this role to Amazon SageMaker, the caller of this API must have the
+  iam:PassRole permission.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1211,26 +1229,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. For more information, see Using Elastic Inference in Amazon SageMaker.
 - `"AdditionalCodeRepositories"`: An array of up to three Git repositories to associate
   with the notebook instance. These can be either the names of Git repositories stored as
-  resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other
-  Git repository. These repositories are cloned at the same level as the default repository
-  of your notebook instance. For more information, see Associating Git Repositories with
-  Amazon SageMaker Notebook Instances.
+  resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit
+  or in any other Git repository. These repositories are cloned at the same level as the
+  default repository of your notebook instance. For more information, see Associating Git
+  Repositories with Amazon SageMaker Notebook Instances.
 - `"DefaultCodeRepository"`: A Git repository to associate with the notebook instance as
   its default code repository. This can be either the name of a Git repository stored as a
-  resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other
-  Git repository. When you open a notebook instance, it opens in the directory that contains
-  this repository. For more information, see Associating Git Repositories with Amazon
-  SageMaker Notebook Instances.
+  resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit
+  or in any other Git repository. When you open a notebook instance, it opens in the
+  directory that contains this repository. For more information, see Associating Git
+  Repositories with Amazon SageMaker Notebook Instances.
 - `"DirectInternetAccess"`: Sets whether Amazon SageMaker provides internet access to the
   notebook instance. If you set this to Disabled this notebook instance is able to access
   resources only in your VPC, and is not be able to connect to Amazon SageMaker training and
   endpoint services unless you configure a NAT Gateway in your VPC. For more information, see
   Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter
   to Disabled only if you set a value for the SubnetId parameter.
-- `"KmsKeyId"`: The Amazon Resource Name (ARN) of a AWS Key Management Service key that
-  Amazon SageMaker uses to encrypt data on the storage volume attached to your notebook
-  instance. The KMS key you provide must be enabled. For information, see Enabling and
-  Disabling Keys in the AWS Key Management Service Developer Guide.
+- `"KmsKeyId"`: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
+  Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to
+  your notebook instance. The KMS key you provide must be enabled. For information, see
+  Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer
+  Guide.
 - `"LifecycleConfigName"`: The name of a lifecycle configuration to associate with the
   notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional)
   Customize a Notebook Instance.
@@ -1243,9 +1262,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   groups must be for the same VPC as specified in the subnet.
 - `"SubnetId"`: The ID of the subnet in a VPC to which you would like to have a
   connectivity from your ML compute instance.
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
 - `"VolumeSizeInGB"`: The size, in GB, of the ML storage volume to attach to the notebook
   instance. The default value is 5 GB.
 """
@@ -1310,10 +1329,17 @@ create_pipeline(ClientRequestToken, PipelineDefinition, PipelineName, RoleArn, p
 Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the
 user will be automatically signed in to Amazon SageMaker Studio, and granted access to all
 of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume.
-This operation can only be called when the authentication mode equals IAM.   The URL that
-you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can
-configure this value using ExpiresInSeconds. If you try to use the URL after the timeout
-limit expires, you are directed to the AWS console sign-in page.
+This operation can only be called when the authentication mode equals IAM.  The IAM role or
+user used to call this API defines the permissions to access the app. Once the presigned
+URL is created, no additional permission is required to access this URL. IAM authorization
+policies for this API are also enforced for every HTTP request and WebSocket frame that
+attempts to connect to the app. You can restrict access to this API and to the URL that it
+returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify.
+For more information, see Connect to SageMaker Studio Through an Interface VPC Endpoint .
+The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5
+minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL
+after the timeout limit expires, you are directed to the Amazon Web Services console
+sign-in page.
 
 # Arguments
 - `domain_id`: The domain ID.
@@ -1346,7 +1372,8 @@ condition operator and the aws:SourceIP condition context key to specify the lis
 addresses that you want to have access to the notebook instance. For more information, see
 Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to
 CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL
-after the 5-minute limit expires, you are directed to the AWS console sign-in page.
+after the 5-minute limit expires, you are directed to the Amazon Web Services console
+sign-in page.
 
 # Arguments
 - `notebook_instance_name`: The name of the notebook instance.
@@ -1369,7 +1396,7 @@ Creates a processing job.
 - `app_specification`: Configures the processing job to run a specified Docker container
   image.
 - `processing_job_name`:  The name of the processing job. The name must be unique within an
-  AWS Region in the AWS account.
+  Amazon Web Services Region in the Amazon Web Services account.
 - `processing_resources`: Identifies the resources, ML compute instances, and ML storage
   volumes to deploy for a processing job. In distributed training, you specify more than one
   instance.
@@ -1389,7 +1416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProcessingOutputConfig"`: Output configuration for the processing job.
 - `"StoppingCondition"`: The time limit for how long the processing job is allowed to run.
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
-  Allocation Tags in the AWS Billing and Cost Management User Guide.
+  Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
 create_processing_job(AppSpecification, ProcessingJobName, ProcessingResources, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateProcessingJob", Dict{String, Any}("AppSpecification"=>AppSpecification, "ProcessingJobName"=>ProcessingJobName, "ProcessingResources"=>ProcessingResources, "RoleArn"=>RoleArn); aws_config=aws_config)
 create_processing_job(AppSpecification, ProcessingJobName, ProcessingResources, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateProcessingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppSpecification"=>AppSpecification, "ProcessingJobName"=>ProcessingJobName, "ProcessingResources"=>ProcessingResources, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
@@ -1404,14 +1431,15 @@ an ML pipeline from training to deploying an approved model.
 # Arguments
 - `project_name`: The name of the project.
 - `service_catalog_provisioning_details`: The product ID and provisioning artifact ID to
-  provision a service catalog. For information, see What is AWS Service Catalog.
+  provision a service catalog. For information, see What is Amazon Web Services Service
+  Catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ProjectDescription"`: A description for the project.
-- `"Tags"`: An array of key-value pairs that you want to use to organize and track your AWS
-  resource costs. For more information, see Tagging AWS resources in the AWS General
-  Reference Guide.
+- `"Tags"`: An array of key-value pairs that you want to use to organize and track your
+  Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services
+  resources in the Amazon Web Services General Reference Guide.
 """
 create_project(ProjectName, ServiceCatalogProvisioningDetails; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateProject", Dict{String, Any}("ProjectName"=>ProjectName, "ServiceCatalogProvisioningDetails"=>ServiceCatalogProvisioningDetails); aws_config=aws_config)
 create_project(ProjectName, ServiceCatalogProvisioningDetails, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProjectName"=>ProjectName, "ServiceCatalogProvisioningDetails"=>ServiceCatalogProvisioningDetails), params)); aws_config=aws_config)
@@ -1472,8 +1500,8 @@ Works.
   costs. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal, which delays
   job termination for 120 seconds. Algorithms can use this 120-second window to save the
   model artifacts, so the results of training are not lost.
-- `training_job_name`: The name of the training job. The name must be unique within an AWS
-  Region in an AWS account.
+- `training_job_name`: The name of the training job. The name must be unique within an
+  Amazon Web Services Region in an Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1524,9 +1552,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   profiling system and framework metrics.
 - `"RetryStrategy"`: The number of times to retry the job when the job fails due to an
   InternalServerError.
-- `"Tags"`: An array of key-value pairs. You can use tags to categorize your AWS resources
-  in different ways, for example, by purpose, owner, or environment. For more information,
-  see Tagging AWS Resources.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web Services Resources.
 - `"TensorBoardOutputConfig"`:
 - `"VpcConfig"`: A VpcConfig object that specifies the VPC that you want your training job
   to connect to. Control access to and from your training container by configuring the VPC.
@@ -1543,22 +1571,23 @@ Starts a transform job. A transform job uses a trained model to get inferences o
 and saves these results to an Amazon S3 location that you specify. To perform batch
 transformations, you create a transform job and use the data that you have readily
 available. In the request body, you provide the following:    TransformJobName - Identifies
-the transform job. The name must be unique within an AWS Region in an AWS account.
-ModelName - Identifies the model to use. ModelName must be the name of an existing Amazon
-SageMaker model in the same AWS Region and AWS account. For information on creating a
-model, see CreateModel.    TransformInput - Describes the dataset to be transformed and the
-Amazon S3 location where it is stored.    TransformOutput - Identifies the Amazon S3
-location where you want Amazon SageMaker to save the results from the transform job.
-TransformResources - Identifies the ML compute instances for the transform job.   For more
-information about how batch transformation works, see Batch Transform.
+the transform job. The name must be unique within an Amazon Web Services Region in an
+Amazon Web Services account.    ModelName - Identifies the model to use. ModelName must be
+the name of an existing Amazon SageMaker model in the same Amazon Web Services Region and
+Amazon Web Services account. For information on creating a model, see CreateModel.
+TransformInput - Describes the dataset to be transformed and the Amazon S3 location where
+it is stored.    TransformOutput - Identifies the Amazon S3 location where you want Amazon
+SageMaker to save the results from the transform job.    TransformResources - Identifies
+the ML compute instances for the transform job.   For more information about how batch
+transformation works, see Batch Transform.
 
 # Arguments
 - `model_name`: The name of the model that you want to use for the transform job. ModelName
-  must be the name of an existing Amazon SageMaker model within an AWS Region in an AWS
-  account.
+  must be the name of an existing Amazon SageMaker model within an Amazon Web Services Region
+  in an Amazon Web Services account.
 - `transform_input`: Describes the input source and the way the transform job consumes it.
 - `transform_job_name`: The name of the transform job. The name must be unique within an
-  AWS Region in an AWS account.
+  Amazon Web Services Region in an Amazon Web Services account.
 - `transform_output`: Describes the results of the transform job.
 - `transform_resources`: Describes the resources, including ML instance types and ML
   instance count, to use for the transform job.
@@ -1599,7 +1628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ModelClientConfig"`: Configures the timeout and maximum number of retries for
   processing a transform job invocation.
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
-  Allocation Tags in the AWS Billing and Cost Management User Guide.
+  Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
 create_transform_job(ModelName, TransformInput, TransformJobName, TransformOutput, TransformResources; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateTransformJob", Dict{String, Any}("ModelName"=>ModelName, "TransformInput"=>TransformInput, "TransformJobName"=>TransformJobName, "TransformOutput"=>TransformOutput, "TransformResources"=>TransformResources); aws_config=aws_config)
 create_transform_job(ModelName, TransformInput, TransformJobName, TransformOutput, TransformResources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateTransformJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName, "TransformInput"=>TransformInput, "TransformJobName"=>TransformJobName, "TransformOutput"=>TransformOutput, "TransformResources"=>TransformResources), params)); aws_config=aws_config)
@@ -1611,16 +1640,16 @@ create_transform_job(ModelName, TransformInput, TransformJobName, TransformOutpu
 Creates an SageMaker trial. A trial is a set of steps called trial components that produce
 a machine learning model. A trial is part of a single SageMaker experiment. When you use
 SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial components
-are automatically tracked, logged, and indexed. When you use the AWS SDK for Python (Boto),
-you must use the logging APIs provided by the SDK. You can add tags to a trial and then use
-the Search API to search for the tags. To get a list of all your trials, call the
-ListTrials API. To view a trial's properties, call the DescribeTrial API. To create a trial
-component, call the CreateTrialComponent API.
+are automatically tracked, logged, and indexed. When you use the Amazon Web Services SDK
+for Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a
+trial and then use the Search API to search for the tags. To get a list of all your trials,
+call the ListTrials API. To view a trial's properties, call the DescribeTrial API. To
+create a trial component, call the CreateTrialComponent API.
 
 # Arguments
 - `experiment_name`: The name of the experiment to associate the trial with.
-- `trial_name`: The name of the trial. The name must be unique in your AWS account and is
-  not case-sensitive.
+- `trial_name`: The name of the trial. The name must be unique in your Amazon Web Services
+  account and is not case-sensitive.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1641,16 +1670,13 @@ Creates a trial component, which is a stage of a machine learning trial. A trial
 composed of one or more trial components. A trial component can be used in multiple trials.
 Trial components include pre-processing jobs, training jobs, and batch transform jobs. When
 you use SageMaker Studio or the SageMaker Python SDK, all experiments, trials, and trial
-components are automatically tracked, logged, and indexed. When you use the AWS SDK for
-Python (Boto), you must use the logging APIs provided by the SDK. You can add tags to a
-trial component and then use the Search API to search for the tags.   CreateTrialComponent
-can only be invoked from within an SageMaker managed environment. This includes SageMaker
-training jobs, processing jobs, transform jobs, and SageMaker notebooks. A call to
-CreateTrialComponent from outside one of these environments results in an error.
+components are automatically tracked, logged, and indexed. When you use the Amazon Web
+Services SDK for Python (Boto), you must use the logging APIs provided by the SDK. You can
+add tags to a trial component and then use the Search API to search for the tags.
 
 # Arguments
-- `trial_component_name`: The name of the component. The name must be unique in your AWS
-  account and is not case-sensitive.
+- `trial_component_name`: The name of the component. The name must be unique in your Amazon
+  Web Services account and is not case-sensitive.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1694,10 +1720,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SingleSignOnUserValue. Currently, the only supported value is \"UserName\". If the Domain's
   AuthMode is SSO, this field is required. If the Domain's AuthMode is not SSO, this field
   cannot be specified.
-- `"SingleSignOnUserValue"`: The username of the associated AWS Single Sign-On User for
-  this UserProfile. If the Domain's AuthMode is SSO, this field is required, and must match a
-  valid username of a user in your directory. If the Domain's AuthMode is not SSO, this field
-  cannot be specified.
+- `"SingleSignOnUserValue"`: The username of the associated Amazon Web Services Single
+  Sign-On User for this UserProfile. If the Domain's AuthMode is SSO, this field is required,
+  and must match a valid username of a user in your directory. If the Domain's AuthMode is
+  not SSO, this field cannot be specified.
 - `"Tags"`: Each tag consists of a key and an optional value. Tag keys must be unique per
   resource. Tags that you specify for the User Profile are also added to all Apps that the
   User Profile launches.
@@ -1711,17 +1737,17 @@ create_user_profile(DomainId, UserProfileName, params::AbstractDict{String}; aws
     create_workforce(workforce_name, params::Dict{String,<:Any})
 
 Use this operation to create a workforce. This operation will return an error if a
-workforce already exists in the AWS Region that you specify. You can only create one
-workforce in each AWS Region per AWS account. If you want to create a new workforce in an
-AWS Region where a workforce already exists, use the API operation to delete the existing
-workforce and then use CreateWorkforce to create a new workforce. To create a private
-workforce using Amazon Cognito, you must specify a Cognito user pool in CognitoConfig. You
-can also create an Amazon Cognito workforce using the Amazon SageMaker console. For more
-information, see  Create a Private Workforce (Amazon Cognito). To create a private
-workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in
-OidcConfig. Your OIDC IdP must support groups because groups are used by Ground Truth and
-Amazon A2I to create work teams. For more information, see  Create a Private Workforce
-(OIDC IdP).
+workforce already exists in the Amazon Web Services Region that you specify. You can only
+create one workforce in each Amazon Web Services Region per Amazon Web Services account. If
+you want to create a new workforce in an Amazon Web Services Region where a workforce
+already exists, use the API operation to delete the existing workforce and then use
+CreateWorkforce to create a new workforce. To create a private workforce using Amazon
+Cognito, you must specify a Cognito user pool in CognitoConfig. You can also create an
+Amazon Cognito workforce using the Amazon SageMaker console. For more information, see
+Create a Private Workforce (Amazon Cognito). To create a private workforce using your own
+OIDC Identity Provider (IdP), specify your IdP configuration in OidcConfig. Your OIDC IdP
+must support groups because groups are used by Ground Truth and Amazon A2I to create work
+teams. For more information, see  Create a Private Workforce (OIDC IdP).
 
 # Arguments
 - `workforce_name`: The name of the private workforce.
@@ -1770,7 +1796,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationConfiguration"`: Configures notification of workers regarding available or
   expiring work items.
 - `"Tags"`: An array of key-value pairs. For more information, see Resource Tag and Using
-  Cost Allocation Tags in the  AWS Billing and Cost Management User Guide.
+  Cost Allocation Tags in the  Amazon Web Services Billing and Cost Management User Guide.
 - `"WorkforceName"`: The name of the workforce.
 """
 create_workteam(Description, MemberDefinitions, WorkteamName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("CreateWorkteam", Dict{String, Any}("Description"=>Description, "MemberDefinitions"=>MemberDefinitions, "WorkteamName"=>WorkteamName); aws_config=aws_config)
@@ -1986,12 +2012,12 @@ delete_experiment(ExperimentName, params::AbstractDict{String}; aws_config::Abst
 Delete the FeatureGroup and any data that was written to the OnlineStore of the
 FeatureGroup. Data cannot be accessed from the OnlineStore immediately after
 DeleteFeatureGroup is called.  Data written into the OfflineStore will not be deleted. The
-AWS Glue database and tables that are automatically created for your OfflineStore are not
-deleted.
+Amazon Web Services Glue database and tables that are automatically created for your
+OfflineStore are not deleted.
 
 # Arguments
 - `feature_group_name`: The name of the FeatureGroup you want to delete. The name must be
-  unique within an AWS Region in an AWS account.
+  unique within an Amazon Web Services Region in an Amazon Web Services account.
 
 """
 delete_feature_group(FeatureGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DeleteFeatureGroup", Dict{String, Any}("FeatureGroupName"=>FeatureGroupName); aws_config=aws_config)
@@ -2101,8 +2127,8 @@ delete_model_explainability_job_definition(JobDefinitionName, params::AbstractDi
     delete_model_package(model_package_name, params::Dict{String,<:Any})
 
 Deletes a model package. A model package is used to create Amazon SageMaker models or list
-on AWS Marketplace. Buyers can subscribe to model packages listed on AWS Marketplace to
-create models in Amazon SageMaker.
+on Amazon Web Services Marketplace. Buyers can subscribe to model packages listed on Amazon
+Web Services Marketplace to create models in Amazon SageMaker.
 
 # Arguments
 - `model_package_name`: The name or Amazon Resource Name (ARN) of the model package to
@@ -2294,12 +2320,12 @@ delete_user_profile(DomainId, UserProfileName, params::AbstractDict{String}; aws
     delete_workforce(workforce_name)
     delete_workforce(workforce_name, params::Dict{String,<:Any})
 
-Use this operation to delete a workforce. If you want to create a new workforce in an AWS
-Region where a workforce already exists, use this operation to delete the existing
-workforce and then use to create a new workforce.  If a private workforce contains one or
-more work teams, you must use the operation to delete all work teams before you delete the
-workforce. If you try to delete a workforce that contains one or more work teams, you will
-recieve a ResourceInUse error.
+Use this operation to delete a workforce. If you want to create a new workforce in an
+Amazon Web Services Region where a workforce already exists, use this operation to delete
+the existing workforce and then use to create a new workforce.  If a private workforce
+contains one or more work teams, you must use the operation to delete all work teams before
+you delete the workforce. If you try to delete a workforce that contains one or more work
+teams, you will recieve a ResourceInUse error.
 
 # Arguments
 - `workforce_name`: The name of the workforce.
@@ -2689,7 +2715,7 @@ Returns a description of a model bias job definition.
 
 # Arguments
 - `job_definition_name`: The name of the model bias job definition. The name must be unique
-  within an AWS Region in the AWS account.
+  within an Amazon Web Services Region in the Amazon Web Services account.
 
 """
 describe_model_bias_job_definition(JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DescribeModelBiasJobDefinition", Dict{String, Any}("JobDefinitionName"=>JobDefinitionName); aws_config=aws_config)
@@ -2703,7 +2729,7 @@ Returns a description of a model explainability job definition.
 
 # Arguments
 - `job_definition_name`: The name of the model explainability job definition. The name must
-  be unique within an AWS Region in the AWS account.
+  be unique within an Amazon Web Services Region in the Amazon Web Services account.
 
 """
 describe_model_explainability_job_definition(JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DescribeModelExplainabilityJobDefinition", Dict{String, Any}("JobDefinitionName"=>JobDefinitionName); aws_config=aws_config)
@@ -2714,8 +2740,9 @@ describe_model_explainability_job_definition(JobDefinitionName, params::Abstract
     describe_model_package(model_package_name, params::Dict{String,<:Any})
 
 Returns a description of the specified model package, which is used to create Amazon
-SageMaker models or list them on AWS Marketplace. To create models in Amazon SageMaker,
-buyers can subscribe to model packages listed on AWS Marketplace.
+SageMaker models or list them on Amazon Web Services Marketplace. To create models in
+Amazon SageMaker, buyers can subscribe to model packages listed on Amazon Web Services
+Marketplace.
 
 # Arguments
 - `model_package_name`: The name or Amazon Resource Name (ARN) of the model package to
@@ -2747,7 +2774,7 @@ Returns a description of a model quality job definition.
 
 # Arguments
 - `job_definition_name`: The name of the model quality job. The name must be unique within
-  an AWS Region in the AWS account.
+  an Amazon Web Services Region in the Amazon Web Services account.
 
 """
 describe_model_quality_job_definition(JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DescribeModelQualityJobDefinition", Dict{String, Any}("JobDefinitionName"=>JobDefinitionName); aws_config=aws_config)
@@ -2843,7 +2870,7 @@ Returns a description of a processing job.
 
 # Arguments
 - `processing_job_name`: The name of the processing job. The name must be unique within an
-  AWS Region in the AWS account.
+  Amazon Web Services Region in the Amazon Web Services account.
 
 """
 describe_processing_job(ProcessingJobName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("DescribeProcessingJob", Dict{String, Any}("ProcessingJobName"=>ProcessingJobName); aws_config=aws_config)
@@ -2867,7 +2894,7 @@ describe_project(ProjectName, params::AbstractDict{String}; aws_config::Abstract
     describe_subscribed_workteam(workteam_arn, params::Dict{String,<:Any})
 
 Gets information about a work team provided by a vendor. It returns details about the
-subscription with a vendor in the AWS Marketplace.
+subscription with a vendor in the Amazon Web Services Marketplace.
 
 # Arguments
 - `workteam_arn`: The Amazon Resource Name (ARN) of the subscribed work team to describe.
@@ -3038,8 +3065,8 @@ get_device_fleet_report(DeviceFleetName, params::AbstractDict{String}; aws_confi
     get_model_package_group_policy(model_package_group_name, params::Dict{String,<:Any})
 
 Gets a resource policy that manages access for a model group. For information about
-resource policies, see Identity-based policies and resource-based policies in the AWS
-Identity and Access Management User Guide..
+resource policies, see Identity-based policies and resource-based policies in the Amazon
+Web Services Identity and Access Management User Guide..
 
 # Arguments
 - `model_package_group_name`: The name of the model group for which to get the resource
@@ -3816,7 +3843,7 @@ list_model_explainability_job_definitions(params::AbstractDict{String}; aws_conf
     list_model_package_groups()
     list_model_package_groups(params::Dict{String,<:Any})
 
-Gets a list of the model groups in your AWS account.
+Gets a list of the model groups in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4024,7 +4051,7 @@ list_notebook_instance_lifecycle_configs(params::AbstractDict{String}; aws_confi
     list_notebook_instances(params::Dict{String,<:Any})
 
 Returns a list of the Amazon SageMaker notebook instances in the requester's account in an
-AWS Region.
+Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4178,7 +4205,7 @@ list_processing_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig
     list_projects()
     list_projects(params::Dict{String,<:Any})
 
-Gets a list of the projects in an AWS account.
+Gets a list of the projects in an Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4202,8 +4229,9 @@ list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global
     list_subscribed_workteams()
     list_subscribed_workteams(params::Dict{String,<:Any})
 
-Gets a list of the work teams that you are subscribed to in the AWS Marketplace. The list
-may be empty if no work team satisfies the filter specified in the NameContains parameter.
+Gets a list of the work teams that you are subscribed to in the Amazon Web Services
+Marketplace. The list may be empty if no work team satisfies the filter specified in the
+NameContains parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4248,8 +4276,8 @@ For example, if ListTrainingJobs is invoked with the following parameters:  { ..
 MaxResults: 100, StatusEquals: InProgress ... }  First, 100 trainings jobs with any status,
 including those other than InProgress, are selected (sorted according to the creation time,
 from the most current to the oldest). Next, those with a status of InProgress are returned.
-You can quickly test the API using the following AWS CLI code.  aws sagemaker
-list-training-jobs --max-results 100 --status-equals InProgress
+You can quickly test the API using the following Amazon Web Services CLI code.  aws
+sagemaker list-training-jobs --max-results 100 --status-equals InProgress
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4412,8 +4440,8 @@ list_user_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
     list_workforces()
     list_workforces(params::Dict{String,<:Any})
 
-Use this operation to list all private and vendor workforces in an AWS Region. Note that
-you can only have one private workforce per AWS Region.
+Use this operation to list all private and vendor workforces in an Amazon Web Services
+Region. Note that you can only have one private workforce per Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4453,8 +4481,8 @@ list_workteams(params::AbstractDict{String}; aws_config::AbstractAWSConfig=globa
     put_model_package_group_policy(model_package_group_name, resource_policy, params::Dict{String,<:Any})
 
 Adds a resouce policy to control access to a model group. For information about resoure
-policies, see Identity-based policies and resource-based policies in the AWS Identity and
-Access Management User Guide..
+policies, see Identity-based policies and resource-based policies in the Amazon Web
+Services Identity and Access Management User Guide..
 
 # Arguments
 - `model_package_group_name`: The name of the model group to add a resource policy to.
@@ -4733,7 +4761,14 @@ stop_notebook_instance(NotebookInstanceName, params::AbstractDict{String}; aws_c
     stop_pipeline_execution(client_request_token, pipeline_execution_arn)
     stop_pipeline_execution(client_request_token, pipeline_execution_arn, params::Dict{String,<:Any})
 
-Stops a pipeline execution.
+Stops a pipeline execution. A pipeline execution won't stop while a callback step is
+running. When you call StopPipelineExecution on a pipeline execution with a running
+callback step, SageMaker Pipelines sends an additional Amazon SQS message to the specified
+SQS queue. The body of the SQS message contains a \"Status\" field which is set to
+\"Stopping\". You should add logic to your Amazon SQS message consumer to take any needed
+action (for example, resource cleanup) upon receipt of the message followed by a call to
+SendPipelineExecutionStepSuccess or SendPipelineExecutionStepFailure. Only when SageMaker
+Pipelines receives one of these calls will it stop the pipeline execution.
 
 # Arguments
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
@@ -4855,9 +4890,10 @@ Updates the specified Git repository with the specified values.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"GitConfig"`: The configuration of the git repository, including the URL and the Amazon
-  Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to
-  access the repository. The secret must have a staging label of AWSCURRENT and must be in
-  the following format:  {\"username\": UserName, \"password\": Password}
+  Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the
+  credentials used to access the repository. The secret must have a staging label of
+  AWSCURRENT and must be in the following format:  {\"username\": UserName, \"password\":
+  Password}
 """
 update_code_repository(CodeRepositoryName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("UpdateCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName); aws_config=aws_config)
 update_code_repository(CodeRepositoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("UpdateCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName), params)); aws_config=aws_config)
@@ -4893,8 +4929,8 @@ Updates a fleet of devices.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: Description of the fleet.
-- `"EnableIotRoleAlias"`: Whether to create an AWS IoT Role Alias during device fleet
-  creation. The name of the role alias generated will match this pattern:
+- `"EnableIotRoleAlias"`: Whether to create an Amazon Web Services IoT Role Alias during
+  device fleet creation. The name of the role alias generated will match this pattern:
   \"SageMakerEdge-{DeviceFleetName}\". For example, if your device fleet is called
   \"demo-fleet\", the name of the role alias will be \"SageMakerEdge-demo-fleet\".
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the device.
@@ -5056,7 +5092,7 @@ Updates a previously created schedule.
 - `monitoring_schedule_config`: The configuration object that specifies the monitoring
   schedule and defines the monitoring job.
 - `monitoring_schedule_name`: The name of the monitoring schedule. The name must be unique
-  within an AWS Region within an AWS account.
+  within an Amazon Web Services Region within an Amazon Web Services account.
 
 """
 update_monitoring_schedule(MonitoringScheduleConfig, MonitoringScheduleName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker("UpdateMonitoringSchedule", Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName); aws_config=aws_config)
@@ -5080,16 +5116,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notebook instance. For more information, see Using Elastic Inference in Amazon SageMaker.
 - `"AdditionalCodeRepositories"`: An array of up to three Git repositories to associate
   with the notebook instance. These can be either the names of Git repositories stored as
-  resources in your account, or the URL of Git repositories in AWS CodeCommit or in any other
-  Git repository. These repositories are cloned at the same level as the default repository
-  of your notebook instance. For more information, see Associating Git Repositories with
-  Amazon SageMaker Notebook Instances.
+  resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit
+  or in any other Git repository. These repositories are cloned at the same level as the
+  default repository of your notebook instance. For more information, see Associating Git
+  Repositories with Amazon SageMaker Notebook Instances.
 - `"DefaultCodeRepository"`: The Git repository to associate with the notebook instance as
   its default code repository. This can be either the name of a Git repository stored as a
-  resource in your account, or the URL of a Git repository in AWS CodeCommit or in any other
-  Git repository. When you open a notebook instance, it opens in the directory that contains
-  this repository. For more information, see Associating Git Repositories with Amazon
-  SageMaker Notebook Instances.
+  resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit
+  or in any other Git repository. When you open a notebook instance, it opens in the
+  directory that contains this repository. For more information, see Associating Git
+  Repositories with Amazon SageMaker Notebook Instances.
 - `"DisassociateAcceleratorTypes"`: A list of the Elastic Inference (EI) instance types to
   remove from this notebook instance. This operation is idempotent. If you specify an
   accelerator type that is not associated with the notebook instance when you call this

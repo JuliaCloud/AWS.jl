@@ -189,7 +189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HealthCheckPath"`: [HTTP/HTTPS health checks] The destination for health checks on the
   targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
   version] The path of a custom health check method with the format /package.service/method.
-  The default is /AWS.ALB/healthcheck.
+  The default is /Amazon Web Services.ALB/healthcheck.
 - `"HealthCheckPort"`: The port the load balancer uses when performing health checks on
   targets. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or TCP_UDP, the default is
   traffic-port, which is the port on which each target receives traffic from the load
@@ -323,9 +323,10 @@ deregister_targets(TargetGroupArn, Targets, params::AbstractDict{String}; aws_co
     describe_account_limits()
     describe_account_limits(params::Dict{String,<:Any})
 
-Describes the current Elastic Load Balancing resource limits for your AWS account. For more
-information, see the following:    Quotas for your Application Load Balancers     Quotas
-for your Network Load Balancers     Quotas for your Gateway Load Balancers
+Describes the current Elastic Load Balancing resource limits for your Amazon Web Services
+account. For more information, see the following:    Quotas for your Application Load
+Balancers     Quotas for your Network Load Balancers     Quotas for your Gateway Load
+Balancers
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -611,14 +612,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HealthCheckPath"`: [HTTP/HTTPS health checks] The destination for health checks on the
   targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol
   version] The path of a custom health check method with the format /package.service/method.
-  The default is /AWS.ALB/healthcheck.
+  The default is /Amazon Web Services.ALB/healthcheck.
 - `"HealthCheckPort"`: The port the load balancer uses when performing health checks on
   targets.
 - `"HealthCheckProtocol"`: The protocol the load balancer uses when performing health
-  checks on targets. The TCP protocol is supported for health checks only if the protocol of
-  the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE, TLS, UDP, and TCP_UDP protocols
-  are not supported for health checks. With Network Load Balancers, you can't modify this
-  setting.
+  checks on targets. For Application Load Balancers, the default is HTTP. For Network Load
+  Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported
+  for health checks if the protocol of the target group is HTTP or HTTPS. It is supported for
+  health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The
+  GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks. With Network
+  Load Balancers, you can't modify this setting.
 - `"HealthCheckTimeoutSeconds"`: [HTTP/HTTPS health checks] The amount of time, in seconds,
   during which no response means a failed health check. With Network Load Balancers, you
   can't modify this setting.

@@ -48,9 +48,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the OS information is available, a prefix match is performed against the parent image OS
   version during image recipe creation.
 - `"tags"`: The tags of the component.
-- `"uri"`: The uri of the component. Must be an S3 URL and the requester must have
-  permission to access the S3 bucket. If you use S3, you can specify component content up to
-  your service quota. Either data or uri can be used to specify the data within the component.
+- `"uri"`: The uri of the component. Must be an Amazon S3 URL and the requester must have
+  permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component
+  content up to your service quota. Either data or uri can be used to specify the data within
+  the component.
 """
 create_component(clientToken, name, platform, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateComponent", Dict{String, Any}("clientToken"=>clientToken, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion); aws_config=aws_config)
 create_component(clientToken, name, platform, semanticVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion), params)); aws_config=aws_config)
@@ -77,8 +78,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the container recipe.
 - `"dockerfileTemplateData"`: The Dockerfile template used to build your image as an inline
   data blob.
-- `"dockerfileTemplateUri"`: The S3 URI for the Dockerfile that will be used to build your
-  container image.
+- `"dockerfileTemplateUri"`: The Amazon S3 URI for the Dockerfile that will be used to
+  build your container image.
 - `"imageOsVersionOverride"`: Specifies the operating system version for the source image.
 - `"instanceConfiguration"`: A group of options that can be used to configure an instance
   for building and testing container images.
@@ -196,10 +197,12 @@ assessed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"additionalInstanceConfiguration"`: Specify additional settings and launch scripts for
+  your build instances.
 - `"blockDeviceMappings"`: The block device mappings of the image recipe.
 - `"description"`:  The description of the image recipe.
 - `"tags"`:  The tags of the image recipe.
-- `"workingDirectory"`: The working directory to be used during build and test workflows.
+- `"workingDirectory"`: The working directory used during build and test workflows.
 """
 create_image_recipe(clientToken, components, name, parentImage, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImageRecipe", Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion); aws_config=aws_config)
 create_image_recipe(clientToken, components, name, parentImage, semanticVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImageRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion), params)); aws_config=aws_config)
@@ -214,7 +217,7 @@ environment in which your image will be built and tested.
 # Arguments
 - `client_token`: The idempotency token used to make this request idempotent.
 - `instance_profile_name`: The instance profile to associate with the instance used to
-  customize your EC2 AMI.
+  customize your Amazon EC2 AMI.
 - `name`: The name of the infrastructure configuration.
 
 # Optional Parameters
@@ -228,9 +231,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logging"`: The logging configuration of the infrastructure configuration.
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
 - `"securityGroupIds"`: The security group IDs to associate with the instance used to
-  customize your EC2 AMI.
+  customize your Amazon EC2 AMI.
 - `"snsTopicArn"`: The SNS topic on which to send image build events.
-- `"subnetId"`: The subnet ID in which to place the instance used to customize your EC2 AMI.
+- `"subnetId"`: The subnet ID in which to place the instance used to customize your Amazon
+  EC2 AMI.
 - `"tags"`: The tags of the infrastructure configuration.
 - `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the
   infrastructure configuration. Set to false if you want Image Builder to retain the instance
@@ -515,9 +519,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component.
 - `"kmsKeyId"`: The ID of the KMS key that should be used to encrypt this component.
 - `"tags"`: The tags of the component.
-- `"uri"`: The uri of the component. Must be an S3 URL and the requester must have
-  permission to access the S3 bucket. If you use S3, you can specify component content up to
-  your service quota. Either data or uri can be used to specify the data within the component.
+- `"uri"`: The uri of the component. Must be an Amazon S3 URL and the requester must have
+  permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component
+  content up to your service quota. Either data or uri can be used to specify the data within
+  the component.
 """
 import_component(clientToken, format, name, platform, semanticVersion, type; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/ImportComponent", Dict{String, Any}("clientToken"=>clientToken, "format"=>format, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion, "type"=>type); aws_config=aws_config)
 import_component(clientToken, format, name, platform, semanticVersion, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/ImportComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "format"=>format, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion, "type"=>type), params)); aws_config=aws_config)
@@ -623,8 +628,8 @@ list_image_build_versions(imageVersionArn, params::AbstractDict{String}; aws_con
     list_image_packages(image_build_version_arn)
     list_image_packages(image_build_version_arn, params::Dict{String,<:Any})
 
-List the Packages that are associated with an Image Build Version, as determined by AWS
-Systems Manager Inventory at build time.
+List the Packages that are associated with an Image Build Version, as determined by Amazon
+EC2 Systems Manager Inventory at build time.
 
 # Arguments
 - `image_build_version_arn`: Filter results for the ListImagePackages request by the Image
@@ -935,7 +940,7 @@ environment in which your image will be built and tested.
 - `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
   configuration that you want to update.
 - `instance_profile_name`: The instance profile to associate with the instance used to
-  customize your EC2 AMI.
+  customize your Amazon EC2 AMI.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -948,9 +953,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"logging"`: The logging configuration of the infrastructure configuration.
 - `"resourceTags"`: The tags attached to the resource created by Image Builder.
 - `"securityGroupIds"`: The security group IDs to associate with the instance used to
-  customize your EC2 AMI.
+  customize your Amazon EC2 AMI.
 - `"snsTopicArn"`: The SNS topic on which to send image build events.
-- `"subnetId"`: The subnet ID to place the instance used to customize your EC2 AMI in.
+- `"subnetId"`: The subnet ID to place the instance used to customize your Amazon EC2 AMI
+  in.
 - `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the
   infrastructure configuration. Set to false if you want Image Builder to retain the instance
   used to configure your AMI if the build or test phase of your workflow fails.

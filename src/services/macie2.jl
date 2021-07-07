@@ -15,10 +15,11 @@ Accepts an Amazon Macie membership invitation that was received from a specific 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"administratorAccountId"`: The AWS account ID for the account that sent the invitation.
-- `"masterAccount"`: (Deprecated) The AWS account ID for the account that sent the
-  invitation. This property has been replaced by the administratorAccountId property and is
-  retained only for backward compatibility.
+- `"administratorAccountId"`: The Amazon Web Services account ID for the account that sent
+  the invitation.
+- `"masterAccount"`: (Deprecated) The Amazon Web Services account ID for the account that
+  sent the invitation. This property has been replaced by the administratorAccountId property
+  and is retained only for backward compatibility.
 """
 accept_invitation(invitationId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}("invitationId"=>invitationId); aws_config=aws_config)
 accept_invitation(invitationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/accept", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("invitationId"=>invitationId), params)); aws_config=aws_config)
@@ -95,15 +96,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ignoreWords"`: An array that lists specific character sequences (ignore words) to
   exclude from the results. If the text matched by the regular expression is the same as any
   string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
-  words. Each ignore word can contain 4 - 90 characters. Ignore words are case sensitive.
+  words. Each ignore word can contain 4-90 characters. Ignore words are case sensitive.
 - `"keywords"`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
-  array can contain as many as 50 keywords. Each keyword can contain 3 - 90 characters.
+  array can contain as many as 50 keywords. Each keyword can contain 3-90 characters.
   Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between text
   that matches the regex pattern and the character sequences specified by the keywords array.
   Macie includes or excludes a result based on the proximity of a keyword to text that
-  matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.
+  matches the regex pattern. The distance can be 1-300 characters. The default value is 50.
 - `"name"`: A custom name for the custom data identifier. The name can contain as many as
   128 characters. We strongly recommend that you avoid including any sensitive data in the
   name of a custom data identifier. Other users of your account might be able to see the
@@ -160,14 +161,14 @@ create_findings_filter(action, findingCriteria, name, params::AbstractDict{Strin
 Sends an Amazon Macie membership invitation to one or more accounts.
 
 # Arguments
-- `account_ids`: An array that lists AWS account IDs, one for each account to send the
-  invitation to.
+- `account_ids`: An array that lists Amazon Web Services account IDs, one for each account
+  to send the invitation to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"disableEmailNotification"`: Specifies whether to send an email notification to the root
   user of each account that the invitation will be sent to. This notification is in addition
-  to an alert that the root user receives in AWS Personal Health Dashboard. To send an email
+  to an alert that the root user receives in Personal Health Dashboard. To send an email
   notification to the root user of each account, set this value to true.
 - `"message"`: A custom message to include in the invitation. Amazon Macie adds this
   message to the standard content that it sends for an invitation.
@@ -182,7 +183,7 @@ create_invitations(accountIds, params::AbstractDict{String}; aws_config::Abstrac
 Associates an account with an Amazon Macie administrator account.
 
 # Arguments
-- `account`: The details for the account to associate with the administrator account.
+- `account`: The details of the account to associate with the administrator account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -198,7 +199,7 @@ create_member(account, params::AbstractDict{String}; aws_config::AbstractAWSConf
     create_sample_findings()
     create_sample_findings(params::Dict{String,<:Any})
 
- Creates sample findings.
+Creates sample findings.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -216,8 +217,8 @@ create_sample_findings(params::AbstractDict{String}; aws_config::AbstractAWSConf
 Declines Amazon Macie membership invitations that were received from specific accounts.
 
 # Arguments
-- `account_ids`: An array that lists AWS account IDs, one for each account that sent an
-  invitation to decline.
+- `account_ids`: An array that lists Amazon Web Services account IDs, one for each account
+  that sent an invitation to decline.
 
 """
 decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/decline", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -258,8 +259,8 @@ delete_findings_filter(id, params::AbstractDict{String}; aws_config::AbstractAWS
 Deletes Amazon Macie membership invitations that were received from specific accounts.
 
 # Arguments
-- `account_ids`: An array that lists AWS account IDs, one for each account that sent an
-  invitation to delete.
+- `account_ids`: An array that lists Amazon Web Services account IDs, one for each account
+  that sent an invitation to delete.
 
 """
 delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/invitations/delete", Dict{String, Any}("accountIds"=>accountIds); aws_config=aws_config)
@@ -315,7 +316,7 @@ describe_classification_job(jobId, params::AbstractDict{String}; aws_config::Abs
     describe_organization_configuration()
     describe_organization_configuration(params::Dict{String,<:Any})
 
-Retrieves the Amazon Macie configuration settings for an AWS organization.
+Retrieves the Amazon Macie configuration settings for an Amazon Web Services organization.
 
 """
 describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/admin/configuration"; aws_config=aws_config)
@@ -335,12 +336,12 @@ disable_macie(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global
     disable_organization_admin_account(admin_account_id)
     disable_organization_admin_account(admin_account_id, params::Dict{String,<:Any})
 
-Disables an account as the delegated Amazon Macie administrator account for an AWS
-organization.
+Disables an account as the delegated Amazon Macie administrator account for an Amazon Web
+Services organization.
 
 # Arguments
-- `admin_account_id`: The AWS account ID of the delegated Amazon Macie administrator
-  account.
+- `admin_account_id`: The Amazon Web Services account ID of the delegated Amazon Macie
+  administrator account.
 
 """
 disable_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("DELETE", "/admin", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config)
@@ -392,8 +393,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 - `"findingPublishingFrequency"`: Specifies how often to publish updates to policy findings
-  for the account. This includes publishing updates to AWS Security Hub and Amazon
-  EventBridge (formerly called Amazon CloudWatch Events).
+  for the account. This includes publishing updates to Security Hub and Amazon EventBridge
+  (formerly called Amazon CloudWatch Events).
 - `"status"`: Specifies the new status for the account. To enable Amazon Macie and start
   all Macie activities for the account, set this value to ENABLED.
 """
@@ -404,12 +405,12 @@ enable_macie(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_
     enable_organization_admin_account(admin_account_id)
     enable_organization_admin_account(admin_account_id, params::Dict{String,<:Any})
 
-Designates an account as the delegated Amazon Macie administrator account for an AWS
-organization.
+Designates an account as the delegated Amazon Macie administrator account for an Amazon Web
+Services organization.
 
 # Arguments
-- `admin_account_id`: The AWS account ID for the account to designate as the delegated
-  Amazon Macie administrator account for the organization.
+- `admin_account_id`: The Amazon Web Services account ID for the account to designate as
+  the delegated Amazon Macie administrator account for the organization.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -438,7 +439,7 @@ monitors and analyzes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountId"`: The unique identifier for the AWS account.
+- `"accountId"`: The unique identifier for the Amazon Web Services account.
 """
 get_bucket_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics"; aws_config=aws_config)
 get_bucket_statistics(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/datasources/s3/statistics", params; aws_config=aws_config)
@@ -525,7 +526,7 @@ get_findings_filter(id, params::AbstractDict{String}; aws_config::AbstractAWSCon
     get_findings_publication_configuration()
     get_findings_publication_configuration(params::Dict{String,<:Any})
 
-Retrieves the configuration settings for publishing findings to AWS Security Hub.
+Retrieves the configuration settings for publishing findings to Security Hub.
 
 """
 get_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("GET", "/findings-publication-configuration"; aws_config=aws_config)
@@ -652,7 +653,7 @@ list_custom_data_identifiers(params::AbstractDict{String}; aws_config::AbstractA
     list_findings()
     list_findings(params::Dict{String,<:Any})
 
- Retrieves a subset of information about one or more findings.
+Retrieves a subset of information about one or more findings.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -723,8 +724,8 @@ list_members(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_
     list_organization_admin_accounts()
     list_organization_admin_accounts(params::Dict{String,<:Any})
 
-Retrieves information about the delegated Amazon Macie administrator account for an AWS
-organization.
+Retrieves information about the delegated Amazon Macie administrator account for an Amazon
+Web Services organization.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -769,14 +770,14 @@ put_classification_export_configuration(configuration, params::AbstractDict{Stri
     put_findings_publication_configuration()
     put_findings_publication_configuration(params::Dict{String,<:Any})
 
-Updates the configuration settings for publishing findings to AWS Security Hub.
+Updates the configuration settings for publishing findings to Security Hub.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 - `"securityHubConfiguration"`: The configuration settings that determine which findings to
-  publish to AWS Security Hub.
+  publish to Security Hub.
 """
 put_findings_publication_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/findings-publication-configuration", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
 put_findings_publication_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PUT", "/findings-publication-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -785,8 +786,8 @@ put_findings_publication_configuration(params::AbstractDict{String}; aws_config:
     search_resources()
     search_resources(params::Dict{String,<:Any})
 
-Retrieves (queries) statistical data and other information about AWS resources that Amazon
-Macie monitors and analyzes.
+Retrieves (queries) statistical data and other information about Amazon Web Services
+resources that Amazon Macie monitors and analyzes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -837,15 +838,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ignoreWords"`: An array that lists specific character sequences (ignore words) to
   exclude from the results. If the text matched by the regular expression is the same as any
   string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore
-  words. Each ignore word can contain 4 - 90 characters. Ignore words are case sensitive.
+  words. Each ignore word can contain 4-90 characters. Ignore words are case sensitive.
 - `"keywords"`: An array that lists specific character sequences (keywords), one of which
   must be within proximity (maximumMatchDistance) of the regular expression to match. The
-  array can contain as many as 50 keywords. Each keyword can contain 3 - 90 characters.
+  array can contain as many as 50 keywords. Each keyword can contain 3-90 characters.
   Keywords aren't case sensitive.
 - `"maximumMatchDistance"`: The maximum number of characters that can exist between text
   that matches the regex pattern and the character sequences specified by the keywords array.
   Macie includes or excludes a result based on the proximity of a keyword to text that
-  matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.
+  matches the regex pattern. The distance can be 1-300 characters. The default value is 50.
 """
 test_custom_data_identifier(regex, sampleText; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText); aws_config=aws_config)
 test_custom_data_identifier(regex, sampleText, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("POST", "/custom-data-identifiers/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("regex"=>regex, "sampleText"=>sampleText), params)); aws_config=aws_config)
@@ -940,8 +941,8 @@ Macie account.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"findingPublishingFrequency"`: Specifies how often to publish updates to policy findings
-  for the account. This includes publishing updates to AWS Security Hub and Amazon
-  EventBridge (formerly called Amazon CloudWatch Events).
+  for the account. This includes publishing updates to Security Hub and Amazon EventBridge
+  (formerly called Amazon CloudWatch Events).
 - `"status"`: Specifies a new status for the account. Valid values are: ENABLED, resume all
   Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the
   account.
@@ -970,11 +971,11 @@ update_member_session(id, status, params::AbstractDict{String}; aws_config::Abst
     update_organization_configuration(auto_enable)
     update_organization_configuration(auto_enable, params::Dict{String,<:Any})
 
-Updates the Amazon Macie configuration settings for an AWS organization.
+Updates the Amazon Macie configuration settings for an Amazon Web Services organization.
 
 # Arguments
 - `auto_enable`: Specifies whether to enable Amazon Macie automatically for each account,
-  when the account is added to the AWS organization.
+  when the account is added to the Amazon Web Services organization.
 
 """
 update_organization_configuration(autoEnable; aws_config::AbstractAWSConfig=global_aws_config()) = macie2("PATCH", "/admin/configuration", Dict{String, Any}("autoEnable"=>autoEnable); aws_config=aws_config)

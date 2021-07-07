@@ -8,17 +8,20 @@ using AWS.UUIDs
     add_layer_version_permission(action, layer_name, principal, statement_id, version_number)
     add_layer_version_permission(action, layer_name, principal, statement_id, version_number, params::Dict{String,<:Any})
 
-Adds permissions to the resource-based policy of a version of an AWS Lambda layer. Use this
+Adds permissions to the resource-based policy of a version of an Lambda layer. Use this
 action to grant layer usage permission to other accounts. You can grant permission to a
-single account, all AWS accounts, or all accounts in an organization. To revoke permission,
-call RemoveLayerVersionPermission with the statement ID that you specified when you added
-it.
+single account, all accounts in an organization, or all Amazon Web Services accounts.  To
+revoke permission, call RemoveLayerVersionPermission with the statement ID that you
+specified when you added it.
 
 # Arguments
 - `action`: The API action that grants access to the layer. For example,
   lambda:GetLayerVersion.
 - `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
-- `principal`: An account ID, or * to grant permission to all AWS accounts.
+- `principal`: An account ID, or * to grant layer usage permission to all accounts in an
+  organization, or all Amazon Web Services accounts (if organizationId is not specified). For
+  the last case, make sure that you really do want all Amazon Web Services accounts to have
+  usage permission to this layer.
 - `statement_id`: An identifier that distinguishes the policy from others on the same layer
   version.
 - `version_number`: The version number.
@@ -37,17 +40,18 @@ add_layer_version_permission(Action, LayerName, Principal, StatementId, VersionN
     add_permission(action, function_name, principal, statement_id)
     add_permission(action, function_name, principal, statement_id, params::Dict{String,<:Any})
 
-Grants an AWS service or another account permission to use a function. You can apply the
-policy at the function level, or specify a qualifier to restrict access to a single version
-or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN)
-of that version or alias to invoke the function. To grant permission to another account,
-specify the account ID as the Principal. For AWS services, the principal is a domain-style
-identifier defined by the service, like s3.amazonaws.com or sns.amazonaws.com. For AWS
-services, you can also specify the ARN of the associated resource as the SourceArn. If you
-grant permission to a service principal without specifying the source, other accounts could
-potentially configure resources in their account to invoke your Lambda function. This
-action adds a statement to a resource-based permissions policy for the function. For more
-information about function policies, see Lambda Function Policies.
+Grants an Amazon Web Services service or another account permission to use a function. You
+can apply the policy at the function level, or specify a qualifier to restrict access to a
+single version or alias. If you use a qualifier, the invoker must use the full Amazon
+Resource Name (ARN) of that version or alias to invoke the function. To grant permission to
+another account, specify the account ID as the Principal. For Amazon Web Services services,
+the principal is a domain-style identifier defined by the service, like s3.amazonaws.com or
+sns.amazonaws.com. For Amazon Web Services services, you can also specify the ARN of the
+associated resource as the SourceArn. If you grant permission to a service principal
+without specifying the source, other accounts could potentially configure resources in
+their account to invoke your Lambda function. This action adds a statement to a
+resource-based permissions policy for the function. For more information about function
+policies, see Lambda Function Policies.
 
 # Arguments
 - `action`: The action that the principal can use on the function. For example,
@@ -58,9 +62,9 @@ information about function policies, see Lambda Function Policies.
   123456789012:function:my-function.   You can append a version number or alias to any of the
   formats. The length constraint applies only to the full ARN. If you specify only the
   function name, it is limited to 64 characters in length.
-- `principal`: The AWS service or account that invokes the function. If you specify a
-  service, use SourceArn or SourceAccount to limit who can invoke the function through that
-  service.
+- `principal`: The Amazon Web Services service or account that invokes the function. If you
+  specify a service, use SourceArn or SourceAccount to limit who can invoke the function
+  through that service.
 - `statement_id`: A statement identifier that differentiates the statement from others in
   the same policy.
 
@@ -77,8 +81,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   together with SourceArn to ensure that the resource is owned by the specified account. It
   is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another
   account.
-- `"SourceArn"`: For AWS services, the ARN of the AWS resource that invokes the function.
-  For example, an Amazon S3 bucket or Amazon SNS topic.
+- `"SourceArn"`: For Amazon Web Services services, the ARN of the Amazon Web Services
+  resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
 """
 add_permission(Action, FunctionName, Principal, StatementId; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
 add_permission(Action, FunctionName, Principal, StatementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), params)); aws_config=aws_config)
@@ -132,12 +136,14 @@ create_code_signing_config(AllowedPublishers, params::AbstractDict{String}; aws_
     create_event_source_mapping(function_name)
     create_event_source_mapping(function_name, params::Dict{String,<:Any})
 
-Creates a mapping between an event source and an AWS Lambda function. Lambda reads items
-from the event source and triggers the function. For details about each event source type,
-see the following topics.    Using AWS Lambda with Amazon DynamoDB     Using AWS Lambda
-with Amazon Kinesis     Using AWS Lambda with Amazon SQS     Using AWS Lambda with Amazon
-MQ     Using AWS Lambda with Amazon MSK     Using AWS Lambda with Self-Managed Apache Kafka
-   The following error handling options are only available for stream sources (DynamoDB and
+Creates a mapping between an event source and an Lambda function. Lambda reads items from
+the event source and triggers the function. For details about each event source type, see
+the following topics. In particular, each of the topics describes the required and optional
+parameters for the specific event source.      Configuring a Dynamo DB stream as an event
+source      Configuring a Kinesis stream as an event source      Configuring an SQS queue
+as an event source      Configuring an MQ broker as an event source      Configuring MSK as
+an event source      Configuring Self-Managed Apache Kafka as an event source    The
+following error handling options are only available for stream sources (DynamoDB and
 Kinesis):    BisectBatchOnFunctionError - If the function returns an error, split the batch
 in two and retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or
 Amazon SNS topic.    MaximumRecordAgeInSeconds - Discard records older than the specified
@@ -161,27 +167,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO
   queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max
   10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
-- `"BisectBatchOnFunctionError"`: (Streams) If the function returns an error, split the
-  batch in two and retry.
-- `"DestinationConfig"`: (Streams) An Amazon SQS queue or Amazon SNS topic destination for
-  discarded records.
+- `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
+  the batch in two and retry.
+- `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
+  for discarded records.
 - `"Enabled"`: If true, the event source mapping is active. Set to false to pause polling
   and invocation.
 - `"EventSourceArn"`: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis
   - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of
   the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka - The ARN of the cluster.
-- `"FunctionResponseTypes"`: (Streams) A list of current response type enums applied to the
-  event source mapping.
+- `"FunctionResponseTypes"`: (Streams only) A list of current response type enums applied
+  to the event source mapping.
 - `"MaximumBatchingWindowInSeconds"`: (Streams and SQS standard queues) The maximum amount
   of time to gather records before invoking the function, in seconds.
-- `"MaximumRecordAgeInSeconds"`: (Streams) Discard records older than the specified age.
-  The default value is infinite (-1).
-- `"MaximumRetryAttempts"`: (Streams) Discard records after the specified number of
+- `"MaximumRecordAgeInSeconds"`: (Streams only) Discard records older than the specified
+  age. The default value is infinite (-1).
+- `"MaximumRetryAttempts"`: (Streams only) Discard records after the specified number of
   retries. The default value is infinite (-1). When set to infinite (-1), failed records will
   be retried until the record expires.
-- `"ParallelizationFactor"`: (Streams) The number of batches to process from each shard
-  concurrently.
+- `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
+  shard concurrently.
 - `"Queues"`:  (MQ) The name of the Amazon MQ broker destination queue to consume.
 - `"SelfManagedEventSource"`: The Self-Managed Apache Kafka cluster to send records.
 - `"SourceAccessConfigurations"`: An array of the authentication protocol, or the VPC
@@ -192,8 +198,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartingPositionTimestamp"`: With StartingPosition set to AT_TIMESTAMP, the time from
   which to start reading.
 - `"Topics"`: The name of the Kafka topic.
-- `"TumblingWindowInSeconds"`: (Streams) The duration in seconds of a processing window.
-  The range is between 1 second up to 900 seconds.
+- `"TumblingWindowInSeconds"`: (Streams only) The duration in seconds of a processing
+  window. The range is between 1 second up to 900 seconds.
 """
 create_event_source_mapping(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}("FunctionName"=>FunctionName); aws_config=aws_config)
 create_event_source_mapping(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionName"=>FunctionName), params)); aws_config=aws_config)
@@ -204,33 +210,39 @@ create_event_source_mapping(FunctionName, params::AbstractDict{String}; aws_conf
 
 Creates a Lambda function. To create a function, you need a deployment package and an
 execution role. The deployment package is a .zip file archive or container image that
-contains your function code. The execution role grants the function permission to use AWS
-services, such as Amazon CloudWatch Logs for log streaming and AWS X-Ray for request
-tracing. When you create a function, Lambda provisions an instance of the function and its
-supporting resources. If your function connects to a VPC, this process can take a minute or
-so. During this time, you can't invoke or modify the function. The State, StateReason, and
-StateReasonCode fields in the response from GetFunctionConfiguration indicate when the
-function is ready to invoke. For more information, see Function States. A function has an
-unpublished version, and can have published versions and aliases. The unpublished version
-changes when you update your function's code and configuration. A published version is a
-snapshot of your function code and configuration that can't be changed. An alias is a named
-resource that maps to a version, and can be changed to map to a different version. Use the
-Publish parameter to create version 1 of your function from its initial configuration. The
-other parameters let you configure version-specific and function-level settings. You can
-modify version-specific settings later with UpdateFunctionConfiguration. Function-level
-settings apply to both the unpublished and published versions of the function, and include
-tags (TagResource) and per-function concurrency limits (PutFunctionConcurrency). You can
-use code signing if your deployment package is a .zip file archive. To enable code signing
-for this function, specify the ARN of a code-signing configuration. When a user attempts to
-deploy a code package with UpdateFunctionCode, Lambda checks that the code package has a
-valid signature from a trusted publisher. The code-signing configuration includes set set
-of signing profiles, which define the trusted publishers for this function. If another
-account or an AWS service invokes your function, use AddPermission to grant permission by
+contains your function code. The execution role grants the function permission to use
+Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray
+for request tracing. You set the package type to Image if the deployment package is a
+container image. For a container image, the code property must include the URI of a
+container image in the Amazon ECR registry. You do not need to specify the handler and
+runtime properties.  You set the package type to Zip if the deployment package is a .zip
+file archive. For a .zip file archive, the code property specifies the location of the .zip
+file. You must also specify the handler and runtime properties. When you create a function,
+Lambda provisions an instance of the function and its supporting resources. If your
+function connects to a VPC, this process can take a minute or so. During this time, you
+can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in
+the response from GetFunctionConfiguration indicate when the function is ready to invoke.
+For more information, see Function States. A function has an unpublished version, and can
+have published versions and aliases. The unpublished version changes when you update your
+function's code and configuration. A published version is a snapshot of your function code
+and configuration that can't be changed. An alias is a named resource that maps to a
+version, and can be changed to map to a different version. Use the Publish parameter to
+create version 1 of your function from its initial configuration. The other parameters let
+you configure version-specific and function-level settings. You can modify version-specific
+settings later with UpdateFunctionConfiguration. Function-level settings apply to both the
+unpublished and published versions of the function, and include tags (TagResource) and
+per-function concurrency limits (PutFunctionConcurrency). You can use code signing if your
+deployment package is a .zip file archive. To enable code signing for this function,
+specify the ARN of a code-signing configuration. When a user attempts to deploy a code
+package with UpdateFunctionCode, Lambda checks that the code package has a valid signature
+from a trusted publisher. The code-signing configuration includes set set of signing
+profiles, which define the trusted publishers for this function. If another account or an
+Amazon Web Services service invokes your function, use AddPermission to grant permission by
 creating a resource-based IAM policy. You can grant permissions at the function level, on a
 version, or on an alias. To invoke your function directly, use Invoke. To invoke your
-function in response to events in other AWS services, create an event source mapping
-(CreateEventSourceMapping), or configure a function trigger in the other service. For more
-information, see Invoking Functions.
+function in response to events in other Amazon Web Services services, create an event
+source mapping (CreateEventSourceMapping), or configure a function trigger in the other
+service. For more information, see Invoking Functions.
 
 # Arguments
 - `code`: The code for the function.
@@ -256,15 +268,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Handler"`: The name of the method within your code that Lambda calls to execute your
   function. The format includes the file name. It can also include namespaces and other
   qualifiers, depending on the runtime. For more information, see Programming Model.
-- `"ImageConfig"`:  Container image configuration values that override the values in the
+- `"ImageConfig"`: Container image configuration values that override the values in the
   container image Dockerfile.
-- `"KMSKeyArn"`: The ARN of the AWS Key Management Service (AWS KMS) key that's used to
-  encrypt your function's environment variables. If it's not provided, AWS Lambda uses a
+- `"KMSKeyArn"`: The ARN of the Amazon Web Services Key Management Service (KMS) key that's
+  used to encrypt your function's environment variables. If it's not provided, Lambda uses a
   default service key.
 - `"Layers"`: A list of function layers to add to the function's execution environment.
   Specify each layer by its ARN, including the version.
 - `"MemorySize"`: The amount of memory available to the function at runtime. Increasing the
-  function's memory also increases its CPU allocation. The default value is 128 MB. The value
+  function memory also increases its CPU allocation. The default value is 128 MB. The value
   can be any multiple of 1 MB.
 - `"PackageType"`: The type of deployment package. Set to Image for container image and set
   Zip for ZIP archive.
@@ -272,12 +284,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Runtime"`: The identifier of the function's runtime.
 - `"Tags"`: A list of tags to apply to the function.
 - `"Timeout"`: The amount of time that Lambda allows a function to run before stopping it.
-  The default is 3 seconds. The maximum allowed value is 900 seconds.
+  The default is 3 seconds. The maximum allowed value is 900 seconds. For additional
+  information, see Lambda execution environment.
 - `"TracingConfig"`: Set Mode to Active to sample and trace a subset of incoming requests
-  with AWS X-Ray.
-- `"VpcConfig"`: For network connectivity to AWS resources in a VPC, specify a list of
-  security groups and subnets in the VPC. When you connect a function to a VPC, it can only
-  access resources and the internet through that VPC. For more information, see VPC Settings.
+  with X-Ray.
+- `"VpcConfig"`: For network connectivity to Amazon Web Services resources in a VPC,
+  specify a list of security groups and subnets in the VPC. When you connect a function to a
+  VPC, it can only access resources and the internet through that VPC. For more information,
+  see VPC Settings.
 """
 create_function(Code, FunctionName, Role; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role); aws_config=aws_config)
 create_function(Code, FunctionName, Role, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Role"=>Role), params)); aws_config=aws_config)
@@ -335,9 +349,9 @@ delete_event_source_mapping(UUID, params::AbstractDict{String}; aws_config::Abst
 
 Deletes a Lambda function. To delete a specific function version, use the Qualifier
 parameter. Otherwise, all versions and aliases are deleted. To delete Lambda event source
-mappings that invoke a function, use DeleteEventSourceMapping. For AWS services and
-resources that invoke your function directly, delete the trigger in the service where you
-originally configured it.
+mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services
+services and resources that invoke your function directly, delete the trigger in the
+service where you originally configured it.
 
 # Arguments
 - `function_name`: The name of the Lambda function or version.  Name formats     Function
@@ -414,8 +428,8 @@ delete_function_event_invoke_config(FunctionName, params::AbstractDict{String}; 
     delete_layer_version(layer_name, version_number)
     delete_layer_version(layer_name, version_number, params::Dict{String,<:Any})
 
-Deletes a version of an AWS Lambda layer. Deleted versions can no longer be viewed or added
-to functions. To avoid breaking functions, a copy of the version remains in Lambda until no
+Deletes a version of an Lambda layer. Deleted versions can no longer be viewed or added to
+functions. To avoid breaking functions, a copy of the version remains in Lambda until no
 functions refer to it.
 
 # Arguments
@@ -448,7 +462,7 @@ delete_provisioned_concurrency_config(FunctionName, Qualifier, params::AbstractD
     get_account_settings()
     get_account_settings(params::Dict{String,<:Any})
 
-Retrieves details about your account's limits and usage in an AWS Region.
+Retrieves details about your account's limits and usage in an Amazon Web Services Region.
 
 """
 get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2016-08-19/account-settings/"; aws_config=aws_config)
@@ -608,8 +622,8 @@ get_function_event_invoke_config(FunctionName, params::AbstractDict{String}; aws
     get_layer_version(layer_name, version_number)
     get_layer_version(layer_name, version_number, params::Dict{String,<:Any})
 
-Returns information about a version of an AWS Lambda layer, with a link to download the
-layer archive that's valid for 10 minutes.
+Returns information about a version of an Lambda layer, with a link to download the layer
+archive that's valid for 10 minutes.
 
 # Arguments
 - `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
@@ -623,8 +637,8 @@ get_layer_version(LayerName, VersionNumber, params::AbstractDict{String}; aws_co
     get_layer_version_by_arn(arn)
     get_layer_version_by_arn(arn, params::Dict{String,<:Any})
 
-Returns information about a version of an AWS Lambda layer, with a link to download the
-layer archive that's valid for 10 minutes.
+Returns information about a version of an Lambda layer, with a link to download the layer
+archive that's valid for 10 minutes.
 
 # Arguments
 - `arn`: The ARN of the layer version.
@@ -637,8 +651,8 @@ get_layer_version_by_arn(Arn, params::AbstractDict{String}; aws_config::Abstract
     get_layer_version_policy(layer_name, version_number)
     get_layer_version_policy(layer_name, version_number, params::Dict{String,<:Any})
 
-Returns the permission policy for a version of an AWS Lambda layer. For more information,
-see AddLayerVersionPermission.
+Returns the permission policy for a version of an Lambda layer. For more information, see
+AddLayerVersionPermission.
 
 # Arguments
 - `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
@@ -863,7 +877,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   function.
 - `"Marker"`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
-- `"MasterRegion"`: For Lambda@Edge functions, the AWS Region of the master function. For
+- `"MasterRegion"`: For Lambda@Edge functions, the Region of the master function. For
   example, us-east-1 filters the list of functions to only include Lambda@Edge functions
   replicated from a master function in US East (N. Virginia). If specified, you must set
   FunctionVersion to ALL.
@@ -899,7 +913,7 @@ list_functions_by_code_signing_config(CodeSigningConfigArn, params::AbstractDict
     list_layer_versions(layer_name)
     list_layer_versions(layer_name, params::Dict{String,<:Any})
 
-Lists the versions of an AWS Lambda layer. Versions that have been deleted aren't listed.
+Lists the versions of an Lambda layer. Versions that have been deleted aren't listed.
 Specify a runtime identifier to list only versions that indicate that they're compatible
 with that runtime.
 
@@ -919,7 +933,7 @@ list_layer_versions(LayerName, params::AbstractDict{String}; aws_config::Abstrac
     list_layers()
     list_layers(params::Dict{String,<:Any})
 
-Lists AWS Lambda layers and shows information about the latest version of each. Specify a
+Lists Lambda layers and shows information about the latest version of each. Specify a
 runtime identifier to list only layers that indicate that they're compatible with that
 runtime.
 
@@ -984,7 +998,8 @@ up to 50 versions per call.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
-- `"MaxItems"`: The maximum number of versions to return.
+- `"MaxItems"`: The maximum number of versions to return. Note that ListVersionsByFunction
+  returns a maximum of 50 items in each response, even if you set the number higher.
 """
 list_versions_by_function(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config)
 list_versions_by_function(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", params; aws_config=aws_config)
@@ -993,9 +1008,9 @@ list_versions_by_function(FunctionName, params::AbstractDict{String}; aws_config
     publish_layer_version(content, layer_name)
     publish_layer_version(content, layer_name, params::Dict{String,<:Any})
 
-Creates an AWS Lambda layer from a ZIP archive. Each time you call PublishLayerVersion with
-the same layer name, a new version is created. Add layers to your function with
-CreateFunction or UpdateFunctionConfiguration.
+Creates an Lambda layer from a ZIP archive. Each time you call PublishLayerVersion with the
+same layer name, a new version is created. Add layers to your function with CreateFunction
+or UpdateFunctionConfiguration.
 
 # Arguments
 - `content`: The function layer archive.
@@ -1018,7 +1033,7 @@ publish_layer_version(Content, LayerName, params::AbstractDict{String}; aws_conf
     publish_version(function_name, params::Dict{String,<:Any})
 
 Creates a version from the current code and configuration of a function. Use versions to
-create a snapshot of your function code and configuration that doesn't change. AWS Lambda
+create a snapshot of your function code and configuration that doesn't change. Lambda
 doesn't publish a version if the function's configuration and code haven't changed since
 the last version. Use UpdateFunctionCode or UpdateFunctionConfiguration to update the
 function before publishing a version. Clients can invoke versions directly or with an
@@ -1156,8 +1171,8 @@ put_provisioned_concurrency_config(FunctionName, ProvisionedConcurrentExecutions
     remove_layer_version_permission(layer_name, statement_id, version_number)
     remove_layer_version_permission(layer_name, statement_id, version_number, params::Dict{String,<:Any})
 
-Removes a statement from the permissions policy for a version of an AWS Lambda layer. For
-more information, see AddLayerVersionPermission.
+Removes a statement from the permissions policy for a version of an Lambda layer. For more
+information, see AddLayerVersionPermission.
 
 # Arguments
 - `layer_name`: The name or Amazon Resource Name (ARN) of the layer.
@@ -1176,8 +1191,8 @@ remove_layer_version_permission(LayerName, StatementId, VersionNumber, params::A
     remove_permission(function_name, statement_id)
     remove_permission(function_name, statement_id, params::Dict{String,<:Any})
 
-Revokes function-use permission from an AWS service or another account. You can get the ID
-of the statement from the output of GetPolicy.
+Revokes function-use permission from an Amazon Web Services service or another account. You
+can get the ID of the statement from the output of GetPolicy.
 
 # Arguments
 - `function_name`: The name of the Lambda function, version, or alias.  Name formats
@@ -1275,17 +1290,17 @@ update_code_signing_config(CodeSigningConfigArn, params::AbstractDict{String}; a
     update_event_source_mapping(uuid)
     update_event_source_mapping(uuid, params::Dict{String,<:Any})
 
-Updates an event source mapping. You can change the function that AWS Lambda invokes, or
-pause invocation and resume later from the same location. The following error handling
-options are only available for stream sources (DynamoDB and Kinesis):
-BisectBatchOnFunctionError - If the function returns an error, split the batch in two and
-retry.    DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS
-topic.    MaximumRecordAgeInSeconds - Discard records older than the specified age. The
-default value is infinite (-1). When set to infinite (-1), failed records are retried until
-the record expires    MaximumRetryAttempts - Discard records after the specified number of
-retries. The default value is infinite (-1). When set to infinite (-1), failed records are
-retried until the record expires.    ParallelizationFactor - Process multiple batches from
-each shard concurrently.
+Updates an event source mapping. You can change the function that Lambda invokes, or pause
+invocation and resume later from the same location. The following error handling options
+are only available for stream sources (DynamoDB and Kinesis):    BisectBatchOnFunctionError
+- If the function returns an error, split the batch in two and retry.    DestinationConfig
+- Send discarded records to an Amazon SQS queue or Amazon SNS topic.
+MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value
+is infinite (-1). When set to infinite (-1), failed records are retried until the record
+expires    MaximumRetryAttempts - Discard records after the specified number of retries.
+The default value is infinite (-1). When set to infinite (-1), failed records are retried
+until the record expires.    ParallelizationFactor - Process multiple batches from each
+shard concurrently.
 
 # Arguments
 - `uuid`: The identifier of the event source mapping.
@@ -1297,10 +1312,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO
   queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max
   10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
-- `"BisectBatchOnFunctionError"`: (Streams) If the function returns an error, split the
-  batch in two and retry.
-- `"DestinationConfig"`: (Streams) An Amazon SQS queue or Amazon SNS topic destination for
-  discarded records.
+- `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
+  the batch in two and retry.
+- `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
+  for discarded records.
 - `"Enabled"`: If true, the event source mapping is active. Set to false to pause polling
   and invocation.
 - `"FunctionName"`: The name of the Lambda function.  Name formats     Function name -
@@ -1308,21 +1323,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it's limited to 64 characters in length.
-- `"FunctionResponseTypes"`: (Streams) A list of current response type enums applied to the
-  event source mapping.
+- `"FunctionResponseTypes"`: (Streams only) A list of current response type enums applied
+  to the event source mapping.
 - `"MaximumBatchingWindowInSeconds"`: (Streams and SQS standard queues) The maximum amount
   of time to gather records before invoking the function, in seconds.
-- `"MaximumRecordAgeInSeconds"`: (Streams) Discard records older than the specified age.
-  The default value is infinite (-1).
-- `"MaximumRetryAttempts"`: (Streams) Discard records after the specified number of
+- `"MaximumRecordAgeInSeconds"`: (Streams only) Discard records older than the specified
+  age. The default value is infinite (-1).
+- `"MaximumRetryAttempts"`: (Streams only) Discard records after the specified number of
   retries. The default value is infinite (-1). When set to infinite (-1), failed records will
   be retried until the record expires.
-- `"ParallelizationFactor"`: (Streams) The number of batches to process from each shard
-  concurrently.
+- `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
+  shard concurrently.
 - `"SourceAccessConfigurations"`: An array of the authentication protocol, or the VPC
   components to secure your event source.
-- `"TumblingWindowInSeconds"`: (Streams) The duration in seconds of a processing window.
-  The range is between 1 second up to 900 seconds.
+- `"TumblingWindowInSeconds"`: (Streams only) The duration in seconds of a processing
+  window. The range is between 1 second up to 900 seconds.
 """
 update_event_source_mapping(UUID; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
 update_event_source_mapping(UUID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", params; aws_config=aws_config)
@@ -1355,13 +1370,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: Only update the function if the revision ID matches the ID that's
   specified. Use this option to avoid modifying a function that has changed since you last
   read it.
-- `"S3Bucket"`: An Amazon S3 bucket in the same AWS Region as your function. The bucket can
-  be in a different AWS account.
+- `"S3Bucket"`: An Amazon S3 bucket in the same Amazon Web Services Region as your
+  function. The bucket can be in a different Amazon Web Services account.
 - `"S3Key"`: The Amazon S3 key of the deployment package.
 - `"S3ObjectVersion"`: For versioned objects, the version of the deployment package object
   to use.
-- `"ZipFile"`: The base64-encoded contents of the deployment package. AWS SDK and AWS CLI
-  clients handle the encoding for you.
+- `"ZipFile"`: The base64-encoded contents of the deployment package. Amazon Web Services
+  SDK and Amazon Web Services CLI clients handle the encoding for you.
 """
 update_function_code(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code"; aws_config=aws_config)
 update_function_code(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", params; aws_config=aws_config)
@@ -1380,7 +1395,7 @@ processing events with the new configuration. For more information, see Function
 These settings can vary between versions of a function and are locked when you publish a
 version. You can't modify the configuration of a published version, only the unpublished
 version. To configure function concurrency, use PutFunctionConcurrency. To grant invoke
-permissions to an account or AWS service, use AddPermission.
+permissions to an account or Amazon Web Services service, use AddPermission.
 
 # Arguments
 - `function_name`: The name of the Lambda function.  Name formats     Function name -
@@ -1403,13 +1418,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   qualifiers, depending on the runtime. For more information, see Programming Model.
 - `"ImageConfig"`:  Container image configuration values that override the values in the
   container image Dockerfile.
-- `"KMSKeyArn"`: The ARN of the AWS Key Management Service (AWS KMS) key that's used to
-  encrypt your function's environment variables. If it's not provided, AWS Lambda uses a
+- `"KMSKeyArn"`: The ARN of the Amazon Web Services Key Management Service (KMS) key that's
+  used to encrypt your function's environment variables. If it's not provided, Lambda uses a
   default service key.
 - `"Layers"`: A list of function layers to add to the function's execution environment.
   Specify each layer by its ARN, including the version.
 - `"MemorySize"`: The amount of memory available to the function at runtime. Increasing the
-  function's memory also increases its CPU allocation. The default value is 128 MB. The value
+  function memory also increases its CPU allocation. The default value is 128 MB. The value
   can be any multiple of 1 MB.
 - `"RevisionId"`: Only update the function if the revision ID matches the ID that's
   specified. Use this option to avoid modifying a function that has changed since you last
@@ -1417,12 +1432,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Role"`: The Amazon Resource Name (ARN) of the function's execution role.
 - `"Runtime"`: The identifier of the function's runtime.
 - `"Timeout"`: The amount of time that Lambda allows a function to run before stopping it.
-  The default is 3 seconds. The maximum allowed value is 900 seconds.
+  The default is 3 seconds. The maximum allowed value is 900 seconds. For additional
+  information, see Lambda execution environment.
 - `"TracingConfig"`: Set Mode to Active to sample and trace a subset of incoming requests
-  with AWS X-Ray.
-- `"VpcConfig"`: For network connectivity to AWS resources in a VPC, specify a list of
-  security groups and subnets in the VPC. When you connect a function to a VPC, it can only
-  access resources and the internet through that VPC. For more information, see VPC Settings.
+  with X-Ray.
+- `"VpcConfig"`: For network connectivity to Amazon Web Services resources in a VPC,
+  specify a list of security groups and subnets in the VPC. When you connect a function to a
+  VPC, it can only access resources and the internet through that VPC. For more information,
+  see VPC Settings.
 """
 update_function_configuration(FunctionName; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config)
 update_function_configuration(FunctionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", params; aws_config=aws_config)
