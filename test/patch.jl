@@ -56,7 +56,7 @@ end
 
 
 function _aws_http_request_patch(response::HTTP.Messages.Response=_response())
-    return @patch AWS._http_request(request::Request) = response
+    return @patch AWS._http_request(::Any, request::Request) = response
 end
 
 _cred_file_patch = @patch function dot_aws_credentials_file()
@@ -73,7 +73,7 @@ _web_identity_patch = function (;
     session_token="web_session_token",
     role_arn="arn:aws:sts:::assumed-role/role-name",
 )
-    @patch function AWS._http_request(request)
+    @patch function AWS._http_request(::AWS.HTTPBackend, request)
         params = Dict(split.(split(request.content, '&'), '='))
         creds = Dict(
             "AccessKeyId" => access_key,
