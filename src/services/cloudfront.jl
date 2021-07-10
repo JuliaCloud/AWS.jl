@@ -5,6 +5,29 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_alias2020_05_31(alias, target_distribution_id)
+    associate_alias2020_05_31(alias, target_distribution_id, params::Dict{String,<:Any})
+
+Associates an alias (also known as a CNAME or an alternate domain name) with a CloudFront
+distribution. With this operation you can move an alias that’s already in use on a
+CloudFront distribution to a different distribution in one step. This prevents the downtime
+that could occur if you first remove the alias from one distribution and then separately
+add the alias to another distribution. To use this operation to associate an alias with a
+distribution, you provide the alias and the ID of the target distribution for the alias.
+For more information, including how to set up the target distribution, prerequisites that
+you must complete, and other restrictions, see Moving an alternate domain name to a
+different distribution in the Amazon CloudFront Developer Guide.
+
+# Arguments
+- `alias`: The alias (also known as a CNAME) to add to the target distribution.
+- `target_distribution_id`: The ID of the distribution that you’re associating the alias
+  with.
+
+"""
+associate_alias2020_05_31(Alias, TargetDistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias", Dict{String, Any}("Alias"=>Alias); aws_config=aws_config)
+associate_alias2020_05_31(Alias, TargetDistributionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias), params)); aws_config=aws_config)
+
+"""
     create_cache_policy2020_05_31(cache_policy_config)
     create_cache_policy2020_05_31(cache_policy_config, params::Dict{String,<:Any})
 
@@ -889,12 +912,12 @@ get_streaming_distribution_config2020_05_31(Id, params::AbstractDict{String}; aw
     list_cache_policies2020_05_31(params::Dict{String,<:Any})
 
 Gets a list of cache policies. You can optionally apply a filter to return only the managed
-policies created by AWS, or only the custom policies created in your AWS account. You can
-optionally specify the maximum number of items to receive in the response. If the total
-number of items in the list exceeds the maximum that you specify, or the default maximum,
-the response is paginated. To get the next page of items, send a subsequent request that
-specifies the NextMarker value from the current response as the Marker value in the
-subsequent request.
+policies created by Amazon Web Services, or only the custom policies created in your
+account. You can optionally specify the maximum number of items to receive in the response.
+If the total number of items in the list exceeds the maximum that you specify, or the
+default maximum, the response is paginated. To get the next page of items, send a
+subsequent request that specifies the NextMarker value from the current response as the
+Marker value in the subsequent request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -904,8 +927,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextMarker from the current page’s response.
 - `"MaxItems"`: The maximum number of cache policies that you want in the response.
 - `"Type"`: A filter to return only the specified kinds of cache policies. Valid values
-  are:    managed – Returns only the managed policies created by AWS.    custom – Returns
-  only the custom policies created in your AWS account.
+  are:    managed – Returns only the managed policies created by Amazon Web Services.
+  custom – Returns only the custom policies created in your account.
 """
 list_cache_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy"; aws_config=aws_config)
 list_cache_policies2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy", params; aws_config=aws_config)
@@ -927,6 +950,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_cloud_front_origin_access_identities2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront"; aws_config=aws_config)
 list_cloud_front_origin_access_identities2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", params; aws_config=aws_config)
+
+"""
+    list_conflicting_aliases2020_05_31(alias, distribution_id)
+    list_conflicting_aliases2020_05_31(alias, distribution_id, params::Dict{String,<:Any})
+
+Gets a list of aliases (also called CNAMEs or alternate domain names) that conflict or
+overlap with the provided alias, and the associated CloudFront distributions and Amazon Web
+Services accounts for each conflicting alias. In the returned list, the distribution and
+account IDs are partially hidden, which allows you to identify the distributions and
+accounts that you own, but helps to protect the information of ones that you don’t own.
+Use this operation to find aliases that are in use in CloudFront that conflict or overlap
+with the provided alias. For example, if you provide www.example.com as input, the returned
+list can include www.example.com and the overlapping wildcard alternate domain name
+(*.example.com), if they exist. If you provide *.example.com as input, the returned list
+can include *.example.com and any alternate domain names covered by that wildcard (for
+example, www.example.com, test.example.com, dev.example.com, and so on), if they exist. To
+list conflicting aliases, you provide the alias to search and the ID of a distribution in
+your account that has an attached SSL/TLS certificate that includes the provided alias. For
+more information, including how to set up the distribution and certificate, see Moving an
+alternate domain name to a different distribution in the Amazon CloudFront Developer Guide.
+You can optionally specify the maximum number of items to receive in the response. If the
+total number of items in the list exceeds the maximum that you specify, or the default
+maximum, the response is paginated. To get the next page of items, send a subsequent
+request that specifies the NextMarker value from the current response as the Marker value
+in the subsequent request.
+
+# Arguments
+- `alias`: The alias (also called a CNAME) to search for conflicting aliases.
+- `distribution_id`: The ID of a distribution in your account that has an attached SSL/TLS
+  certificate that includes the provided alias.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: Use this field when paginating results to indicate where to begin in the list
+  of conflicting aliases. The response includes conflicting aliases in the list that occur
+  after the marker. To get the next page of the list, set this field’s value to the value
+  of NextMarker from the current page’s response.
+- `"MaxItems"`: The maximum number of conflicting aliases that you want in the response.
+"""
+list_conflicting_aliases2020_05_31(Alias, DistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/conflicting-alias", Dict{String, Any}("Alias"=>Alias, "DistributionId"=>DistributionId); aws_config=aws_config)
+list_conflicting_aliases2020_05_31(Alias, DistributionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/conflicting-alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "DistributionId"=>DistributionId), params)); aws_config=aws_config)
 
 """
     list_distributions2020_05_31()
@@ -1055,10 +1119,10 @@ list_distributions_by_realtime_log_config2020_05_31(params::AbstractDict{String}
     list_distributions_by_web_aclid2020_05_31(web_aclid)
     list_distributions_by_web_aclid2020_05_31(web_aclid, params::Dict{String,<:Any})
 
-List the distributions that are associated with a specified AWS WAF web ACL.
+List the distributions that are associated with a specified WAF web ACL.
 
 # Arguments
-- `web_aclid`: The ID of the AWS WAF web ACL that you want to list the associated
+- `web_aclid`: The ID of the WAF web ACL that you want to list the associated
   distributions. If you specify \"null\" for the ID, the request returns a list of the
   distributions that aren't associated with a web ACL.
 
@@ -1117,10 +1181,10 @@ list_field_level_encryption_profiles2020_05_31(params::AbstractDict{String}; aws
     list_functions2020_05_31()
     list_functions2020_05_31(params::Dict{String,<:Any})
 
-Gets a list of all CloudFront functions in your AWS account. You can optionally apply a
-filter to return only the functions that are in the specified stage, either DEVELOPMENT or
-LIVE. You can optionally specify the maximum number of items to receive in the response. If
-the total number of items in the list exceeds the maximum that you specify, or the default
+Gets a list of all CloudFront functions in your account. You can optionally apply a filter
+to return only the functions that are in the specified stage, either DEVELOPMENT or LIVE.
+You can optionally specify the maximum number of items to receive in the response. If the
+total number of items in the list exceeds the maximum that you specify, or the default
 maximum, the response is paginated. To get the next page of items, send a subsequent
 request that specifies the NextMarker value from the current response as the Marker value
 in the subsequent request.
@@ -1187,10 +1251,10 @@ list_key_groups2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSC
     list_origin_request_policies2020_05_31(params::Dict{String,<:Any})
 
 Gets a list of origin request policies. You can optionally apply a filter to return only
-the managed policies created by AWS, or only the custom policies created in your AWS
-account. You can optionally specify the maximum number of items to receive in the response.
-If the total number of items in the list exceeds the maximum that you specify, or the
-default maximum, the response is paginated. To get the next page of items, send a
+the managed policies created by Amazon Web Services, or only the custom policies created in
+your account. You can optionally specify the maximum number of items to receive in the
+response. If the total number of items in the list exceeds the maximum that you specify, or
+the default maximum, the response is paginated. To get the next page of items, send a
 subsequent request that specifies the NextMarker value from the current response as the
 Marker value in the subsequent request.
 
@@ -1202,8 +1266,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of NextMarker from the current page’s response.
 - `"MaxItems"`: The maximum number of origin request policies that you want in the response.
 - `"Type"`: A filter to return only the specified kinds of origin request policies. Valid
-  values are:    managed – Returns only the managed policies created by AWS.    custom –
-  Returns only the custom policies created in your AWS account.
+  values are:    managed – Returns only the managed policies created by Amazon Web
+  Services.    custom – Returns only the custom policies created in your account.
 """
 list_origin_request_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy"; aws_config=aws_config)
 list_origin_request_policies2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy", params; aws_config=aws_config)

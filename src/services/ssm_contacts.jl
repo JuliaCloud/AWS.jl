@@ -72,7 +72,8 @@ create_contact(Alias, Plan, Type, params::AbstractDict{String}; aws_config::Abst
 A contact channel is the method that Incident Manager uses to engage your contact.
 
 # Arguments
-- `contact_id`: The Amazon Resource Name (ARN) of the contact channel.
+- `contact_id`: The Amazon Resource Name (ARN) of the contact you are adding the contact
+  channel to.
 - `delivery_address`: The details that Incident Manager uses when trying to engage the
   contact channel. The format is dependent on the type of the contact channel. The following
   are the expected formats:   SMS - '+' followed by the country code and phone number   VOICE

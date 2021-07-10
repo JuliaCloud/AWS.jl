@@ -425,6 +425,27 @@ create_channel_moderator(ChannelModeratorArn, channelArn; aws_config::AbstractAW
 create_channel_moderator(ChannelModeratorArn, channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/moderators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelModeratorArn"=>ChannelModeratorArn), params)); aws_config=aws_config)
 
 """
+    create_media_capture_pipeline(sink_arn, sink_type, source_arn, source_type)
+    create_media_capture_pipeline(sink_arn, sink_type, source_arn, source_type, params::Dict{String,<:Any})
+
+Creates a media capture pipeline.
+
+# Arguments
+- `sink_arn`: The ARN of the sink type.
+- `sink_type`: Destination type to which the media artifacts are saved. You must use an S3
+  bucket.
+- `source_arn`: ARN of the source from which the media artifacts are captured.
+- `source_type`: Source type from which the media artifacts will be captured. A Chime SDK
+  Meeting is the only supported source.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: The token assigned to the client making the pipeline request.
+"""
+create_media_capture_pipeline(SinkArn, SinkType, SourceArn, SourceType; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/media-capture-pipelines", Dict{String, Any}("SinkArn"=>SinkArn, "SinkType"=>SinkType, "SourceArn"=>SourceArn, "SourceType"=>SourceType, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+create_media_capture_pipeline(SinkArn, SinkType, SourceArn, SourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/media-capture-pipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SinkArn"=>SinkArn, "SinkType"=>SinkType, "SourceArn"=>SourceArn, "SourceType"=>SourceType, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+
+"""
     create_meeting(client_request_token)
     create_meeting(client_request_token, params::Dict{String,<:Any})
 
@@ -899,6 +920,19 @@ Deletes the events configuration that allows a bot to receive outgoing events.
 """
 delete_events_configuration(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration"; aws_config=aws_config)
 delete_events_configuration(accountId, botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration", params; aws_config=aws_config)
+
+"""
+    delete_media_capture_pipeline(media_pipeline_id)
+    delete_media_capture_pipeline(media_pipeline_id, params::Dict{String,<:Any})
+
+Deletes the media capture pipeline.
+
+# Arguments
+- `media_pipeline_id`: The ID of the media capture pipeline being deleted.
+
+"""
+delete_media_capture_pipeline(mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/media-capture-pipelines/$(mediaPipelineId)"; aws_config=aws_config)
+delete_media_capture_pipeline(mediaPipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("DELETE", "/media-capture-pipelines/$(mediaPipelineId)", params; aws_config=aws_config)
 
 """
     delete_meeting(meeting_id)
@@ -1455,6 +1489,19 @@ Business Calling and Amazon Chime Voice Connector settings.
 """
 get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings"; aws_config=aws_config)
 get_global_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/settings", params; aws_config=aws_config)
+
+"""
+    get_media_capture_pipeline(media_pipeline_id)
+    get_media_capture_pipeline(media_pipeline_id, params::Dict{String,<:Any})
+
+Gets an existing media capture pipeline.
+
+# Arguments
+- `media_pipeline_id`: The ID of the pipeline that you want to get.
+
+"""
+get_media_capture_pipeline(mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/media-capture-pipelines/$(mediaPipelineId)"; aws_config=aws_config)
+get_media_capture_pipeline(mediaPipelineId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/media-capture-pipelines/$(mediaPipelineId)", params; aws_config=aws_config)
 
 """
     get_meeting(meeting_id)
@@ -2055,6 +2102,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_channels_moderated_by_app_instance_user(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels"; aws_config=aws_config)
 list_channels_moderated_by_app_instance_user(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/channels?scope=app-instance-user-moderated-channels", params; aws_config=aws_config)
+
+"""
+    list_media_capture_pipelines()
+    list_media_capture_pipelines(params::Dict{String,<:Any})
+
+Returns a list of media capture pipelines.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to return in a single call. Valid Range: 1
+  - 99.
+- `"next-token"`: The token used to retrieve the next page of results.
+"""
+list_media_capture_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/media-capture-pipelines"; aws_config=aws_config)
+list_media_capture_pipelines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("GET", "/media-capture-pipelines", params; aws_config=aws_config)
 
 """
     list_meeting_tags(meeting_id)
