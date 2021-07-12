@@ -9,11 +9,11 @@ using AWS.UUIDs
     activate_gateway(activation_key, gateway_name, gateway_region, gateway_timezone, params::Dict{String,<:Any})
 
 Activates the gateway you previously deployed on your host. In the activation process, you
-specify information such as the AWS Region that you want to use for storing snapshots or
-tapes, the time zone for scheduled snapshots the gateway snapshot schedule window, an
-activation key, and a name for your gateway. The activation process also associates your
-gateway with your account. For more information, see UpdateGatewayInformation.  You must
-turn on the gateway VM before you can activate your gateway.
+specify information such as the Region that you want to use for storing snapshots or tapes,
+the time zone for scheduled snapshots the gateway snapshot schedule window, an activation
+key, and a name for your gateway. The activation process also associates your gateway with
+your account. For more information, see UpdateGatewayInformation.  You must turn on the
+gateway VM before you can activate your gateway.
 
 # Arguments
 - `activation_key`: Your gateway activation key. You can obtain the activation key by
@@ -22,14 +22,14 @@ turn on the gateway VM before you can activate your gateway.
   the query string parameter activationKey. It may also include other activation-related
   parameters, however, these are merely defaults -- the arguments you pass to the
   ActivateGateway API call determine the actual configuration of your gateway. For more
-  information, see Getting activation key in the AWS Storage Gateway User Guide.
+  information, see Getting activation key in the Storage Gateway User Guide.
 - `gateway_name`: The name you configured for your gateway.
-- `gateway_region`: A value that indicates the AWS Region where you want to store your
-  data. The gateway AWS Region specified must be the same AWS Region as the AWS Region in
-  your Host header in the request. For more information about available AWS Regions and
-  endpoints for AWS Storage Gateway, see AWS Storage Gateway endpoints and quotas in the AWS
-  General Reference. Valid Values: See AWS Storage Gateway endpoints and quotas in the AWS
-  General Reference.
+- `gateway_region`: A value that indicates the Region where you want to store your data.
+  The gateway Region specified must be the same Region as the Region in your Host header in
+  the request. For more information about available Regions and endpoints for Storage
+  Gateway, see  Storage Gateway endpoints and quotas in the Amazon Web Services General
+  Reference. Valid Values: See  Storage Gateway endpoints and quotas in the Amazon Web
+  Services General Reference.
 - `gateway_timezone`: A value that indicates the time zone you want to set for the gateway.
   The time zone is of the format \"GMT-hr:mm\" or \"GMT+hr:mm\". For example, GMT-4:00
   indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of
@@ -40,7 +40,7 @@ turn on the gateway VM before you can activate your gateway.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"GatewayType"`: A value that defines the type of gateway to activate. The type specified
   is critical to all later functions of the gateway and cannot be changed after activation.
-  The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3
+  The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB|
 - `"MediumChangerType"`: The value that indicates the type of medium changer to use for
   tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL |
   IBM-03584L32-0402
@@ -60,9 +60,9 @@ activate_gateway(ActivationKey, GatewayName, GatewayRegion, GatewayTimezone, par
     add_cache(disk_ids, gateway_arn, params::Dict{String,<:Any})
 
 Configures one or more gateway local disks as cache for a gateway. This operation is only
-supported in the cached volume, tape, and file gateway type (see How AWS Storage Gateway
-works (architecture). In the request, you specify the gateway Amazon Resource Name (ARN) to
-which you want to add cache, and one or more disk IDs that you want to configure as cache.
+supported in the cached volume, tape, and file gateway type (see How Storage Gateway works
+(architecture). In the request, you specify the gateway Amazon Resource Name (ARN) to which
+you want to add cache, and one or more disk IDs that you want to configure as cache.
 
 # Arguments
 - `disk_ids`: An array of strings that identify disks that are to be configured as working
@@ -81,10 +81,10 @@ add_cache(DiskIds, GatewayARN, params::AbstractDict{String}; aws_config::Abstrac
 Adds one or more tags to the specified resource. You use tags to add metadata to resources,
 which you can use to categorize these resources. For example, you can categorize resources
 by purpose, owner, environment, or team. Each tag consists of a key and a value, which you
-define. You can add tags to the following AWS Storage Gateway resources:   Storage gateways
-of all types   Storage volumes   Virtual tapes   NFS and SMB file shares   You can create a
-maximum of 50 tags for each resource. Virtual tapes and storage volumes that are recovered
-to a new gateway maintain their tags.
+define. You can add tags to the following Storage Gateway resources:   Storage gateways of
+all types   Storage volumes   Virtual tapes   NFS and SMB file shares   File System
+associations   You can create a maximum of 50 tags for each resource. Virtual tapes and
+storage volumes that are recovered to a new gateway maintain their tags.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to add tags to.
@@ -172,16 +172,16 @@ assign_tape_pool(PoolId, TapeARN, params::AbstractDict{String}; aws_config::Abst
     associate_file_system(client_token, gateway_arn, location_arn, password, user_name)
     associate_file_system(client_token, gateway_arn, location_arn, password, user_name, params::Dict{String,<:Any})
 
-Associate an Amazon FSx file system with the Amazon FSx file gateway. After the association
+Associate an Amazon FSx file system with the FSx File Gateway. After the association
 process is complete, the file shares on the Amazon FSx file system are available for access
-through the gateway. This operation only supports the Amazon FSx file gateway type.
+through the gateway. This operation only supports the FSx File Gateway type.
 
 # Arguments
-- `client_token`: A unique string value that you supply that is used by the file gateway to
-  ensure idempotent file system association creation.
+- `client_token`: A unique string value that you supply that is used by the FSx File
+  Gateway to ensure idempotent file system association creation.
 - `gateway_arn`:
 - `location_arn`: The Amazon Resource Name (ARN) of the Amazon FSx file system to associate
-  with the Amazon FSx file gateway.
+  with the FSx File Gateway.
 - `password`: The password of the user credential.
 - `user_name`: The user name of the user credential that has permission to access the root
   share D of the Amazon FSx file system. The user account must belong to the Amazon FSx
@@ -192,6 +192,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuditDestinationARN"`: The Amazon Resource Name (ARN) of the storage used for the audit
   logs.
 - `"CacheAttributes"`:
+- `"EndpointNetworkConfiguration"`: Specifies the network configuration information for the
+  gateway associated with the Amazon FSx file system.  If multiple file systems are
+  associated with this gateway, this parameter's IpAddresses field is required.
 - `"Tags"`: A list of up to 50 tags that can be assigned to the file system association.
   Each tag is a key-value pair.
 """
@@ -300,8 +303,8 @@ bytes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own AWS
-  KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+  key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
@@ -326,41 +329,50 @@ create_cachedi_scsivolume(ClientToken, GatewayARN, NetworkInterfaceId, TargetNam
     create_nfsfile_share(client_token, gateway_arn, location_arn, role)
     create_nfsfile_share(client_token, gateway_arn, location_arn, role, params::Dict{String,<:Any})
 
-Creates a Network File System (NFS) file share on an existing file gateway. In Storage
+Creates a Network File System (NFS) file share on an existing S3 File Gateway. In Storage
 Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage.
 Storage Gateway exposes file shares using an NFS interface. This operation is only
-supported for file gateways.  File gateway requires AWS Security Token Service (AWS STS) to
-be activated to enable you to create a file share. Make sure AWS STS is activated in the
-AWS Region you are creating your file gateway in. If AWS STS is not activated in the AWS
-Region, activate it. For information about how to activate AWS STS, see Activating and
-deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.
-File gateway does not support creating hard or symbolic links on a file share.
+supported for S3 File Gateways.  S3 File gateway requires Security Token Service (STS) to
+be activated to enable you to create a file share. Make sure STS is activated in the Region
+you are creating your S3 File Gateway in. If STS is not activated in the Region, activate
+it. For information about how to activate STS, see Activating and deactivating STS in an
+Region in the Identity and Access Management User Guide. S3 File Gateways do not support
+creating hard or symbolic links on a file share.
 
 # Arguments
-- `client_token`: A unique string value that you supply that is used by file gateway to
+- `client_token`: A unique string value that you supply that is used by S3 File Gateway to
   ensure idempotent file share creation.
-- `gateway_arn`: The Amazon Resource Name (ARN) of the file gateway on which you want to
+- `gateway_arn`: The Amazon Resource Name (ARN) of the S3 File Gateway on which you want to
   create a file share.
 - `location_arn`: The ARN of the backend storage used for storing file data. A prefix name
-  can be added to the S3 bucket name. It must end with a \"/\".
-- `role`: The ARN of the AWS Identity and Access Management (IAM) role that a file gateway
+  can be added to the S3 bucket name. It must end with a \"/\".  You can specify a bucket
+  attached to an access point using a complete ARN that includes the bucket region as shown:
+  arn:aws:s3:region:account-id:accesspoint/access-point-name   If you specify a bucket
+  attached to an access point, the bucket policy must be configured to delegate access
+  control to the access point. For information, see Delegating access control to access
+  points in the Amazon S3 User Guide.
+- `role`: The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway
   assumes when it accesses the underlying storage.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BucketRegion"`: Specifies the Region of the S3 bucket where the NFS file share stores
+  files.  This parameter is required for NFS file shares that connect to Amazon S3 through a
+  VPC endpoint, a VPC access point, or an access point alias that points to a VPC access
+  point.
 - `"CacheAttributes"`: Specifies refresh cache information for the file share.
-- `"ClientList"`: The list of clients that are allowed to access the file gateway. The list
-  must contain either valid IP addresses or valid CIDR blocks.
+- `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
+  list must contain either valid IP addresses or valid CIDR blocks.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
-  bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
+  bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN.
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
-- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own AWS
-  KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+  key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
@@ -375,7 +387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
   following example sets NotificationPolicy off.  {}
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
-  the S3 bucket that a file gateway puts objects into. The default value is private.
+  the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
 - `"ReadOnly"`: A value that sets the write status of a file share. Set this value to true
   to set the write status to read-only, otherwise set to false. Valid Values: true | false
 - `"RequesterPays"`: A value that sets who pays the cost of the request and the cost
@@ -392,6 +404,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
+- `"VPCEndpointDNSName"`: Specifies the DNS name for the VPC endpoint that the NFS file
+  share uses to connect to Amazon S3.  This parameter is required for NFS file shares that
+  connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias
+  that points to a VPC access point.
 """
 create_nfsfile_share(ClientToken, GatewayARN, LocationARN, Role; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("CreateNFSFileShare", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role); aws_config=aws_config)
 create_nfsfile_share(ClientToken, GatewayARN, LocationARN, Role, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("CreateNFSFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role), params)); aws_config=aws_config)
@@ -400,23 +416,28 @@ create_nfsfile_share(ClientToken, GatewayARN, LocationARN, Role, params::Abstrac
     create_smbfile_share(client_token, gateway_arn, location_arn, role)
     create_smbfile_share(client_token, gateway_arn, location_arn, role, params::Dict{String,<:Any})
 
-Creates a Server Message Block (SMB) file share on an existing file gateway. In Storage
+Creates a Server Message Block (SMB) file share on an existing S3 File Gateway. In Storage
 Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage.
 Storage Gateway exposes file shares using an SMB interface. This operation is only
-supported for file gateways.  File gateways require AWS Security Token Service (AWS STS) to
-be activated to enable you to create a file share. Make sure that AWS STS is activated in
-the AWS Region you are creating your file gateway in. If AWS STS is not activated in this
-AWS Region, activate it. For information about how to activate AWS STS, see Activating and
-deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.
-File gateways don't support creating hard or symbolic links on a file share.
+supported for S3 File Gateways.  S3 File Gateways require Security Token Service (STS) to
+be activated to enable you to create a file share. Make sure that STS is activated in the
+Region you are creating your S3 File Gateway in. If STS is not activated in this Region,
+activate it. For information about how to activate STS, see Activating and deactivating STS
+in an Region in the Identity and Access Management User Guide. File gateways don't support
+creating hard or symbolic links on a file share.
 
 # Arguments
-- `client_token`: A unique string value that you supply that is used by file gateway to
+- `client_token`: A unique string value that you supply that is used by S3 File Gateway to
   ensure idempotent file share creation.
-- `gateway_arn`: The ARN of the file gateway on which you want to create a file share.
+- `gateway_arn`: The ARN of the S3 File Gateway on which you want to create a file share.
 - `location_arn`: The ARN of the backend storage used for storing file data. A prefix name
-  can be added to the S3 bucket name. It must end with a \"/\".
-- `role`: The ARN of the AWS Identity and Access Management (IAM) role that a file gateway
+  can be added to the S3 bucket name. It must end with a \"/\".  You can specify a bucket
+  attached to an access point using a complete ARN that includes the bucket region as shown:
+  arn:aws:s3:region:account-id:accesspoint/access-point-name   If you specify a bucket
+  attached to an access point, the bucket policy must be configured to delegate access
+  control to the access point. For information, see Delegating access control to access
+  points in the Amazon S3 User Guide.
+- `role`: The ARN of the Identity and Access Management (IAM) role that an S3 File Gateway
   assumes when it accesses the underlying storage.
 
 # Optional Parameters
@@ -432,12 +453,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   logs.
 - `"Authentication"`: The authentication method that users use to access the file share.
   The default is ActiveDirectory. Valid Values: ActiveDirectory | GuestAccess
+- `"BucketRegion"`: Specifies the Region of the S3 bucket where the SMB file share stores
+  files.  This parameter is required for SMB file shares that connect to Amazon S3 through a
+  VPC endpoint, a VPC access point, or an access point alias that points to a VPC access
+  point.
 - `"CacheAttributes"`: Specifies refresh cache information for the file share.
 - `"CaseSensitivity"`: The case of an object name in an Amazon S3 bucket. For
   ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway
   determines the case sensitivity. The default value is ClientSpecified.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
-  bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
+  bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN.
@@ -448,8 +473,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed to access the file share. A group must be prefixed with the @ character. Acceptable
   formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if
   Authentication is set to ActiveDirectory.
-- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own AWS
-  KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+  key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
@@ -463,7 +488,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
   following example sets NotificationPolicy off.  {}
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
-  the S3 bucket that a file gateway puts objects into. The default value is private.
+  the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
+- `"OplocksEnabled"`: Specifies whether opportunistic locking is enabled for the SMB file
+  share.  Enabling opportunistic locking on case-sensitive shares is not recommended for
+  workloads that involve access to files with the same name in different case.  Valid Values:
+  true | false
 - `"ReadOnly"`: A value that sets the write status of a file share. Set this value to true
   to set the write status to read-only, otherwise set to false. Valid Values: true | false
 - `"RequesterPays"`: A value that sets who pays the cost of the request and the cost
@@ -475,12 +504,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SMBACLEnabled"`: Set this value to true to enable access control list (ACL) on the SMB
   file share. Set it to false to map file and directory permissions to the POSIX permissions.
   For more information, see Using Microsoft Windows ACLs to control access to an SMB file
-  share in the AWS Storage Gateway User Guide. Valid Values: true | false
+  share in the Storage Gateway User Guide. Valid Values: true | false
 - `"Tags"`: A list of up to 50 tags that can be assigned to the NFS file share. Each tag is
   a key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
   maximum length of a tag's key is 128 characters, and the maximum length for a tag's value
   is 256.
+- `"VPCEndpointDNSName"`: Specifies the DNS name for the VPC endpoint that the SMB file
+  share uses to connect to Amazon S3.  This parameter is required for SMB file shares that
+  connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias
+  that points to a VPC access point.
 - `"ValidUserList"`: A list of users or groups in the Active Directory that are allowed to
   access the file  share. A group must be prefixed with the @ character. Acceptable formats
   include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if Authentication
@@ -493,26 +526,25 @@ create_smbfile_share(ClientToken, GatewayARN, LocationARN, Role, params::Abstrac
     create_snapshot(snapshot_description, volume_arn)
     create_snapshot(snapshot_description, volume_arn, params::Dict{String,<:Any})
 
-Initiates a snapshot of a volume. AWS Storage Gateway provides the ability to back up
+Initiates a snapshot of a volume. Storage Gateway provides the ability to back up
 point-in-time snapshots of your data to Amazon Simple Storage (Amazon S3) for durable
 off-site recovery, and also import the data to an Amazon Elastic Block Store (EBS) volume
 in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a
 scheduled or ad hoc basis. This API enables you to take an ad hoc snapshot. For more
 information, see Editing a snapshot schedule. In the CreateSnapshot request, you identify
 the volume by providing its Amazon Resource Name (ARN). You must also provide description
-for the snapshot. When AWS Storage Gateway takes the snapshot of specified volume, the
-snapshot and description appears in the AWS Storage Gateway console. In response, AWS
-Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the
-snapshot progress or later use it when you want to create a volume from a snapshot. This
-operation is only supported in stored and cached volume gateway type.  To list or delete a
-snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or
-DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference.   Volume and snapshot IDs
-are changing to a longer length ID format. For more information, see the important note on
-the Welcome page.
+for the snapshot. When Storage Gateway takes the snapshot of specified volume, the snapshot
+and description appears in the Storage Gateway console. In response, Storage Gateway
+returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or
+later use it when you want to create a volume from a snapshot. This operation is only
+supported in stored and cached volume gateway type.  To list or delete a snapshot, you must
+use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in
+the Amazon Elastic Compute Cloud API Reference.   Volume and snapshot IDs are changing to a
+longer length ID format. For more information, see the important note on the Welcome page.
 
 # Arguments
 - `snapshot_description`: Textual description of the snapshot that appears in the Amazon
-  EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS
+  EC2 console, Elastic Block Store snapshots panel in the Description field, and in the
   Storage Gateway snapshot Details pane, Description field.
 - `volume_arn`: The Amazon Resource Name (ARN) of the volume. Use the ListVolumes operation
   to return a list of gateway volumes.
@@ -539,15 +571,15 @@ a list of volume recovery point for cached volume gateway, use ListVolumeRecover
 the CreateSnapshotFromVolumeRecoveryPoint request, you identify the volume by providing its
 Amazon Resource Name (ARN). You must also provide a description for the snapshot. When the
 gateway takes a snapshot of the specified volume, the snapshot and its description appear
-in the AWS Storage Gateway console. In response, the gateway returns you a snapshot ID. You
-can use this snapshot ID to check the snapshot progress or later use it when you want to
-create a volume from a snapshot.  To list or delete a snapshot, you must use the Amazon EC2
-API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic
-Compute Cloud API Reference.
+in the Storage Gateway console. In response, the gateway returns you a snapshot ID. You can
+use this snapshot ID to check the snapshot progress or later use it when you want to create
+a volume from a snapshot.  To list or delete a snapshot, you must use the Amazon EC2 API.
+For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute
+Cloud API Reference.
 
 # Arguments
 - `snapshot_description`: Textual description of the snapshot that appears in the Amazon
-  EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS
+  EC2 console, Elastic Block Store snapshots panel in the Description field, and in the
   Storage Gateway snapshot Details pane, Description field.
 - `volume_arn`: The Amazon Resource Name (ARN) of the iSCSI volume target. Use the
   DescribeStorediSCSIVolumes operation to return to retrieve the TargetARN for specified
@@ -596,8 +628,8 @@ size, and the iSCSI target ARN that initiators can use to connect to the volume 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own AWS
-  KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+  key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
@@ -632,9 +664,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetentionLockTimeInDays"`: Tape retention lock time is set in days. Tape retention lock
   can be enabled for up to 100 years (36,500 days).
 - `"RetentionLockType"`: Tape retention lock can be configured in two modes. When
-  configured in governance mode, AWS accounts with specific IAM permissions are authorized to
+  configured in governance mode, accounts with specific IAM permissions are authorized to
   remove the tape retention lock from archived virtual tapes. When configured in compliance
-  mode, the tape retention lock cannot be removed by any user, including the root AWS account.
+  mode, the tape retention lock cannot be removed by any user, including the root account.
 - `"Tags"`: A list of up to 50 tags that can be assigned to tape pool. Each tag is a
   key-value pair.  Valid characters for key and value are letters, spaces, and numbers
   representable in UTF-8 format, and the following special characters: + - = . _ : / @. The
@@ -657,7 +689,7 @@ create a virtual tape. Use the AddCache operation to add cache storage to a gate
 # Arguments
 - `gateway_arn`: The unique Amazon Resource Name (ARN) that represents the gateway to
   associate the virtual tape with. Use the ListGateways operation to return a list of
-  gateways for your account and AWS Region.
+  gateways for your account and Region.
 - `tape_barcode`: The barcode that you want to assign to the tape.  Barcodes cannot be
   reused. This includes barcodes used for tapes that have been deleted.
 - `tape_size_in_bytes`: The size, in bytes, of the virtual tape that you want to create.
@@ -665,8 +697,8 @@ create a virtual tape. Use the AddCache operation to add cache storage to a gate
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own AWS
-  KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+  key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
@@ -701,7 +733,7 @@ add cache storage to a gateway.
   ClientToken prevents creating the tape multiple times.
 - `gateway_arn`: The unique Amazon Resource Name (ARN) that represents the gateway to
   associate the virtual tapes with. Use the ListGateways operation to return a list of
-  gateways for your account and AWS Region.
+  gateways for your account and Region.
 - `num_tapes_to_create`: The number of virtual tapes that you want to create.
 - `tape_barcode_prefix`: A prefix that you append to the barcode of the virtual tape you
   are creating. This prefix makes the barcode unique.  The prefix must be 1-4 characters in
@@ -711,8 +743,8 @@ add cache storage to a gateway.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own AWS
-  KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+  key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
@@ -788,8 +820,8 @@ delete_chap_credentials(InitiatorName, TargetARN, params::AbstractDict{String}; 
     delete_file_share(file_share_arn)
     delete_file_share(file_share_arn, params::Dict{String,<:Any})
 
-Deletes a file share from a file gateway. This operation is only supported for file
-gateways.
+Deletes a file share from an S3 File Gateway. This operation is only supported for S3 File
+Gateways.
 
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the file share to be deleted.
@@ -797,9 +829,10 @@ gateways.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ForceDelete"`: If this value is set to true, the operation deletes a file share
-  immediately and aborts all data uploads to AWS. Otherwise, the file share is not deleted
-  until all data is uploaded to AWS. This process aborts the data upload process, and the
-  file share enters the FORCE_DELETING status. Valid Values: true | false
+  immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file share
+  is not deleted until all data is uploaded to Amazon Web Services. This process aborts the
+  data upload process, and the file share enters the FORCE_DELETING status. Valid Values:
+  true | false
 """
 delete_file_share(FileShareARN; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DeleteFileShare", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
 delete_file_share(FileShareARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("DeleteFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), params)); aws_config=aws_config)
@@ -818,7 +851,7 @@ software charges after the gateway is deleted; however, your existing Amazon EBS
 persist and you will continue to be billed for these snapshots. You can choose to remove
 all remaining Amazon EBS snapshots by canceling your Amazon EC2 subscription.  If you
 prefer not to cancel your Amazon EC2 subscription, you can delete your snapshots using the
-Amazon EC2 console. For more information, see the AWS Storage Gateway detail page.
+Amazon EC2 console. For more information, see the Storage Gateway detail page.
 
 # Arguments
 - `gateway_arn`:
@@ -856,7 +889,7 @@ type.
 # Arguments
 - `gateway_arn`: The unique Amazon Resource Name (ARN) of the gateway that the virtual tape
   to delete is associated with. Use the ListGateways operation to return a list of gateways
-  for your account and AWS Region.
+  for your account and Region.
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape to delete.
 
 # Optional Parameters
@@ -1007,7 +1040,7 @@ describe_cache(GatewayARN, params::AbstractDict{String}; aws_config::AbstractAWS
 
 Returns a description of the gateway volumes specified in the request. This operation is
 only supported in the cached volume gateway types. The list of gateway volumes in the
-request must be from one gateway. In the response, AWS Storage Gateway returns volume
+request must be from one gateway. In the response, Storage Gateway returns volume
 information sorted by volume Amazon Resource Name (ARN).
 
 # Arguments
@@ -1040,8 +1073,8 @@ describe_chap_credentials(TargetARN, params::AbstractDict{String}; aws_config::A
     describe_file_system_associations(file_system_association_arnlist)
     describe_file_system_associations(file_system_association_arnlist, params::Dict{String,<:Any})
 
-Gets the file system association information. This operation is only supported for Amazon
-FSx file gateways.
+Gets the file system association information. This operation is only supported for FSx File
+Gateways.
 
 # Arguments
 - `file_system_association_arnlist`: An array containing the Amazon Resource Name (ARN) of
@@ -1084,8 +1117,8 @@ describe_maintenance_start_time(GatewayARN, params::AbstractDict{String}; aws_co
     describe_nfsfile_shares(file_share_arnlist)
     describe_nfsfile_shares(file_share_arnlist, params::Dict{String,<:Any})
 
-Gets a description for one or more Network File System (NFS) file shares from a file
-gateway. This operation is only supported for file gateways.
+Gets a description for one or more Network File System (NFS) file shares from an S3 File
+Gateway. This operation is only supported for S3 File Gateways.
 
 # Arguments
 - `file_share_arnlist`: An array containing the Amazon Resource Name (ARN) of each file
@@ -1099,8 +1132,8 @@ describe_nfsfile_shares(FileShareARNList, params::AbstractDict{String}; aws_conf
     describe_smbfile_shares(file_share_arnlist)
     describe_smbfile_shares(file_share_arnlist, params::Dict{String,<:Any})
 
-Gets a description for one or more Server Message Block (SMB) file shares from a file
-gateway. This operation is only supported for file gateways.
+Gets a description for one or more Server Message Block (SMB) file shares from a S3 File
+Gateway. This operation is only supported for S3 File Gateways.
 
 # Arguments
 - `file_share_arnlist`: An array containing the Amazon Resource Name (ARN) of each file
@@ -1145,9 +1178,9 @@ describe_snapshot_schedule(VolumeARN, params::AbstractDict{String}; aws_config::
     describe_storedi_scsivolumes(volume_arns, params::Dict{String,<:Any})
 
 Returns the description of the gateway volumes specified in the request. The list of
-gateway volumes in the request must be from one gateway. In the response, AWS Storage
-Gateway returns volume information sorted by volume ARNs. This operation is only supported
-in stored volume gateway type.
+gateway volumes in the request must be from one gateway. In the response, Storage Gateway
+returns volume information sorted by volume ARNs. This operation is only supported in
+stored volume gateway type.
 
 # Arguments
 - `volume_arns`: An array of strings where each string represents the Amazon Resource Name
@@ -1164,7 +1197,7 @@ describe_storedi_scsivolumes(VolumeARNs, params::AbstractDict{String}; aws_confi
 
 Returns a description of specified virtual tapes in the virtual tape shelf (VTS). This
 operation is only supported in the tape gateway type. If a specific TapeARN is not
-specified, AWS Storage Gateway returns a description of all virtual tapes found in the VTS
+specified, Storage Gateway returns a description of all virtual tapes found in the VTS
 associated with your account.
 
 # Optional Parameters
@@ -1248,7 +1281,7 @@ describe_upload_buffer(GatewayARN, params::AbstractDict{String}; aws_config::Abs
     describe_vtldevices(gateway_arn, params::Dict{String,<:Any})
 
 Returns a description of virtual tape library (VTL) devices for the specified tape gateway.
-In the response, AWS Storage Gateway returns VTL device information. This operation is only
+In the response, Storage Gateway returns VTL device information. This operation is only
 supported in the tape gateway type.
 
 # Arguments
@@ -1332,7 +1365,7 @@ disable_gateway(GatewayARN, params::AbstractDict{String}; aws_config::AbstractAW
 
 Disassociates an Amazon FSx file system from the specified gateway. After the
 disassociation process finishes, the gateway can no longer access the Amazon FSx file
-system. This operation is only supported in the Amazon FSx file gateway type.
+system. This operation is only supported in the FSx File Gateway type.
 
 # Arguments
 - `file_system_association_arn`: The Amazon Resource Name (ARN) of the file system
@@ -1358,7 +1391,7 @@ file gateways that support the SMB file protocol.
 # Arguments
 - `domain_name`: The name of the domain that you want the gateway to join.
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway. Use the ListGateways
-  operation to return a list of gateways for your account and AWS Region.
+  operation to return a list of gateways for your account and Region.
 - `password`: Sets the password of the user who has permission to add the gateway to the
   Active Directory domain.
 - `user_name`: Sets the user name of user who has permission to add the gateway to the
@@ -1399,8 +1432,9 @@ list_automatic_tape_creation_policies(params::AbstractDict{String}; aws_config::
     list_file_shares()
     list_file_shares(params::Dict{String,<:Any})
 
-Gets a list of the file shares for a specific file gateway, or the list of file shares that
-belong to the calling user account. This operation is only supported for file gateways.
+Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares
+that belong to the calling user account. This operation is only supported for S3 File
+Gateways.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1420,7 +1454,7 @@ list_file_shares(params::AbstractDict{String}; aws_config::AbstractAWSConfig=glo
     list_file_system_associations(params::Dict{String,<:Any})
 
 Gets a list of FileSystemAssociationSummary objects. Each object contains a summary of a
-file system association. This operation is only supported for Amazon FSx file gateways.
+file system association. This operation is only supported for FSx File Gateways.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1438,12 +1472,12 @@ list_file_system_associations(params::AbstractDict{String}; aws_config::Abstract
     list_gateways()
     list_gateways(params::Dict{String,<:Any})
 
-Lists gateways owned by an AWS account in an AWS Region specified in the request. The
-returned list is ordered by gateway Amazon Resource Name (ARN). By default, the operation
-returns a maximum of 100 gateways. This operation supports pagination that allows you to
-optionally reduce the number of gateways returned in a response. If you have more gateways
-than are returned in a response (that is, the response returns only a truncated list of
-your gateways), the response contains a marker that you can specify in your next request to
+Lists gateways owned by an account in an Region specified in the request. The returned list
+is ordered by gateway Amazon Resource Name (ARN). By default, the operation returns a
+maximum of 100 gateways. This operation supports pagination that allows you to optionally
+reduce the number of gateways returned in a response. If you have more gateways than are
+returned in a response (that is, the response returns only a truncated list of your
+gateways), the response contains a marker that you can specify in your next request to
 fetch the next page of gateways.
 
 # Optional Parameters
@@ -1608,14 +1642,14 @@ list_volumes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_
     notify_when_uploaded(file_share_arn, params::Dict{String,<:Any})
 
 Sends you notification through CloudWatch Events when all files written to your file share
-have been uploaded to Amazon S3. AWS Storage Gateway can send a notification through Amazon
+have been uploaded to Amazon S3. Storage Gateway can send a notification through Amazon
 CloudWatch Events when all files written to your file share up to that point in time have
 been uploaded to Amazon S3. These files include files written to the file share up to the
 time that you make a request for notification. When the upload is done, Storage Gateway
 sends you notification through an Amazon CloudWatch Event. You can configure CloudWatch
-Events to send the notification through event targets such as Amazon SNS or AWS Lambda
-function. This operation is only supported for file gateways. For more information, see
-Getting file upload notification in the AWS Storage Gateway User Guide.
+Events to send the notification through event targets such as Amazon SNS or Lambda
+function. This operation is only supported for S3 File Gateways. For more information, see
+Getting file upload notification in the Storage Gateway User Guide.
 
 # Arguments
 - `file_share_arn`:
@@ -1631,23 +1665,24 @@ notify_when_uploaded(FileShareARN, params::AbstractDict{String}; aws_config::Abs
 Refreshes the cached inventory of objects for the specified file share. This operation
 finds objects in the Amazon S3 bucket that were added, removed, or replaced since the
 gateway last listed the bucket's contents and cached the results. This operation does not
-import files into the file gateway cache storage. It only updates the cached inventory to
-reflect changes in the inventory of the objects in the S3 bucket. This operation is only
-supported in the file gateway type. You can subscribe to be notified through an Amazon
+import files into the S3 File Gateway cache storage. It only updates the cached inventory
+to reflect changes in the inventory of the objects in the S3 bucket. This operation is only
+supported in the S3 File Gateway types. You can subscribe to be notified through an Amazon
 CloudWatch event when your RefreshCache operation completes. For more information, see
-Getting notified about file operations in the AWS Storage Gateway User Guide. When this API
-is called, it only initiates the refresh operation. When the API call completes and returns
-a success code, it doesn't necessarily mean that the file refresh has completed. You should
-use the refresh-complete notification to determine that the operation has completed before
-you check for new files on the gateway file share. You can subscribe to be notified through
-a CloudWatch event when your RefreshCache operation completes. Throttle limit: This API is
-asynchronous, so the gateway will accept no more than two refreshes at any time. We
-recommend using the refresh-complete CloudWatch event notification before issuing
-additional requests. For more information, see Getting notified about file operations in
-the AWS Storage Gateway User Guide. If you invoke the RefreshCache API when two requests
-are already being processed, any new request will cause an InvalidGatewayRequestException
-error because too many requests were sent to the server. For more information, see Getting
-notified about file operations in the AWS Storage Gateway User Guide.
+Getting notified about file operations in the Storage Gateway User Guide. This operation is
+Only supported for S3 File Gateways. When this API is called, it only initiates the refresh
+operation. When the API call completes and returns a success code, it doesn't necessarily
+mean that the file refresh has completed. You should use the refresh-complete notification
+to determine that the operation has completed before you check for new files on the gateway
+file share. You can subscribe to be notified through a CloudWatch event when your
+RefreshCache operation completes. Throttle limit: This API is asynchronous, so the gateway
+will accept no more than two refreshes at any time. We recommend using the refresh-complete
+CloudWatch event notification before issuing additional requests. For more information, see
+Getting notified about file operations in the Storage Gateway User Guide. If you invoke the
+RefreshCache API when two requests are already being processed, any new request will cause
+an InvalidGatewayRequestException error because too many requests were sent to the server.
+For more information, see Getting notified about file operations in the Storage Gateway
+User Guide.
 
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the file share you want to refresh.
@@ -1722,8 +1757,8 @@ is only supported in the tape gateway type.
 # Arguments
 - `gateway_arn`: The Amazon Resource Name (ARN) of the gateway you want to retrieve the
   virtual tape to. Use the ListGateways operation to return a list of gateways for your
-  account and AWS Region. You retrieve archived virtual tapes to only one gateway and the
-  gateway must be a tape gateway.
+  account and Region. You retrieve archived virtual tapes to only one gateway and the gateway
+  must be a tape gateway.
 - `tape_arn`: The Amazon Resource Name (ARN) of the virtual tape you want to retrieve from
   the virtual tape shelf (VTS).
 
@@ -1772,11 +1807,12 @@ set_local_console_password(GatewayARN, LocalConsolePassword, params::AbstractDic
     set_smbguest_password(gateway_arn, password, params::Dict{String,<:Any})
 
 Sets the password for the guest user smbguest. The smbguest user is the user when the
-authentication method for the file share is set to GuestAccess.
+authentication method for the file share is set to GuestAccess. This operation only
+supported for S3 File Gateways
 
 # Arguments
-- `gateway_arn`: The Amazon Resource Name (ARN) of the file gateway the SMB file share is
-  associated with.
+- `gateway_arn`: The Amazon Resource Name (ARN) of the S3 File Gateway the SMB file share
+  is associated with.
 - `password`: The password that you want to set for your SMB server.
 
 """
@@ -1940,8 +1976,8 @@ update_chap_credentials(InitiatorName, SecretToAuthenticateInitiator, TargetARN,
     update_file_system_association(file_system_association_arn)
     update_file_system_association(file_system_association_arn, params::Dict{String,<:Any})
 
-Updates a file system association. This operation is only supported in the Amazon FSx file
-gateway type.
+Updates a file system association. This operation is only supported in the FSx File
+Gateways.
 
 # Arguments
 - `file_system_association_arn`: The Amazon Resource Name (ARN) of the file system
@@ -1978,6 +2014,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CloudWatchLogGroupARN"`: The Amazon Resource Name (ARN) of the Amazon CloudWatch log
   group that you want to use to monitor and log events in the gateway. For more information,
   see What is Amazon CloudWatch Logs?
+- `"GatewayCapacity"`: Specifies the size of the gateway's metadata cache.
 - `"GatewayName"`:
 - `"GatewayTimezone"`: A value that indicates the time zone of the gateway.
 """
@@ -2035,11 +2072,11 @@ update_maintenance_start_time(GatewayARN, HourOfDay, MinuteOfHour, params::Abstr
     update_nfsfile_share(file_share_arn)
     update_nfsfile_share(file_share_arn, params::Dict{String,<:Any})
 
-Updates a Network File System (NFS) file share. This operation is only supported in the
-file gateway type.  To leave a file share field unchanged, set the corresponding input
-field to null.  Updates the following file share settings:   Default storage class for your
-S3 bucket   Metadata defaults for your S3 bucket   Allowed NFS clients for your file share
- Squash settings   Write status of your file share
+Updates a Network File System (NFS) file share. This operation is only supported in S3 File
+Gateways.  To leave a file share field unchanged, set the corresponding input field to
+null.  Updates the following file share settings:   Default storage class for your S3
+bucket   Metadata defaults for your S3 bucket   Allowed NFS clients for your file share
+Squash settings   Write status of your file share
 
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the file share to be updated.
@@ -2047,18 +2084,18 @@ S3 bucket   Metadata defaults for your S3 bucket   Allowed NFS clients for your 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CacheAttributes"`: specifies refresh cache information for the file share.
-- `"ClientList"`: The list of clients that are allowed to access the file gateway. The list
-  must contain either valid IP addresses or valid CIDR blocks.
+- `"ClientList"`: The list of clients that are allowed to access the S3 File Gateway. The
+  list must contain either valid IP addresses or valid CIDR blocks.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
-  bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
+  bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN.
 - `"GuessMIMETypeEnabled"`: A value that enables guessing of the MIME type for uploaded
   objects based on file extensions. Set this value to true to enable MIME type guessing,
   otherwise set to false. The default value is true. Valid Values: true | false
-- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own AWS
-  KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+  key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
@@ -2073,7 +2110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
   following example sets NotificationPolicy off.  {}
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
-  the S3 bucket that a file gateway puts objects into. The default value is private.
+  the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
 - `"ReadOnly"`: A value that sets the write status of a file share. Set this value to true
   to set the write status to read-only, otherwise set to false. Valid Values: true | false
 - `"RequesterPays"`: A value that sets who pays the cost of the request and the cost
@@ -2093,14 +2130,14 @@ update_nfsfile_share(FileShareARN, params::AbstractDict{String}; aws_config::Abs
     update_smbfile_share(file_share_arn)
     update_smbfile_share(file_share_arn, params::Dict{String,<:Any})
 
-Updates a Server Message Block (SMB) file share. This operation is only supported for file
-gateways.  To leave a file share field unchanged, set the corresponding input field to
-null.   File gateways require AWS Security Token Service (AWS STS) to be activated to
-enable you to create a file share. Make sure that AWS STS is activated in the AWS Region
-you are creating your file gateway in. If AWS STS is not activated in this AWS Region,
-activate it. For information about how to activate AWS STS, see Activating and deactivating
-AWS STS in an AWS Region in the AWS Identity and Access Management User Guide. File
-gateways don't support creating hard or symbolic links on a file share.
+Updates a Server Message Block (SMB) file share. This operation is only supported for S3
+File Gateways.  To leave a file share field unchanged, set the corresponding input field to
+null.   File gateways require Security Token Service (STS) to be activated to enable you to
+create a file share. Make sure that STS is activated in the Region you are creating your
+file gateway in. If STS is not activated in this Region, activate it. For information about
+how to activate STS, see Activating and deactivating STS in an Region in the Identity and
+Access Management User Guide. File gateways don't support creating hard or symbolic links
+on a file share.
 
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the SMB file share that you want to
@@ -2121,7 +2158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway
   determines the case sensitivity. The default value is ClientSpecified.
 - `"DefaultStorageClass"`: The default storage class for objects put into an Amazon S3
-  bucket by the file gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
+  bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid
   Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
 - `"FileShareName"`: The name of the file share. Optional.   FileShareName must be set if
   an S3 prefix name is set in LocationARN.
@@ -2132,8 +2169,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed to access the file share. A group must be prefixed with the @ character. Acceptable
   formats include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if
   Authentication is set to ActiveDirectory.
-- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own AWS
-  KMS key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
+- `"KMSEncrypted"`: Set to true to use Amazon S3 server-side encryption with your own KMS
+  key, or false to use a key managed by Amazon S3. Optional. Valid Values: true | false
 - `"KMSKey"`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used
   for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs.
   This value can only be set when KMSEncrypted is true. Optional.
@@ -2147,7 +2184,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SettlingTimeInSeconds set to 60.  {\"Upload\": {\"SettlingTimeInSeconds\": 60}}  The
   following example sets NotificationPolicy off.  {}
 - `"ObjectACL"`: A value that sets the access control list (ACL) permission for objects in
-  the S3 bucket that a file gateway puts objects into. The default value is private.
+  the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
+- `"OplocksEnabled"`: Specifies whether opportunistic locking is enabled for the SMB file
+  share.  Enabling opportunistic locking on case-sensitive shares is not recommended for
+  workloads that involve access to files with the same name in different case.  Valid Values:
+  true | false
 - `"ReadOnly"`: A value that sets the write status of a file share. Set this value to true
   to set write status to read-only, otherwise set to false. Valid Values: true | false
 - `"RequesterPays"`: A value that sets who pays the cost of the request and the cost
@@ -2159,7 +2200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SMBACLEnabled"`: Set this value to true to enable access control list (ACL) on the SMB
   file share. Set it to false to map file and directory permissions to the POSIX permissions.
   For more information, see Using Microsoft Windows ACLs to control access to an SMB file
-  share in the AWS Storage Gateway User Guide. Valid Values: true | false
+  share in the Storage Gateway User Guide. Valid Values: true | false
 - `"ValidUserList"`: A list of users or groups in the Active Directory that are allowed to
   access the file share. A group must be prefixed with the @ character. Acceptable formats
   include: DOMAINUser1, user1, @group1, and @DOMAINgroup1. Can only be set if Authentication
@@ -2172,7 +2213,8 @@ update_smbfile_share(FileShareARN, params::AbstractDict{String}; aws_config::Abs
     update_smbfile_share_visibility(file_shares_visible, gateway_arn)
     update_smbfile_share_visibility(file_shares_visible, gateway_arn, params::Dict{String,<:Any})
 
-Controls whether the shares on a gateway are visible in a net view or browse list.
+Controls whether the shares on an S3 File Gateway are visible in a net view or browse list.
+The operation is only supported for S3 File Gateways.
 
 # Arguments
 - `file_shares_visible`: The shares on this gateway appear when listing shares.
@@ -2195,13 +2237,13 @@ affect performance of the gateway.
 - `smbsecurity_strategy`: Specifies the type of security strategy. ClientSpecified: if you
   use this option, requests are established based on what is negotiated by the client. This
   option is recommended when you want to maximize compatibility across different clients in
-  your environment. MandatorySigning: if you use this option, file gateway only allows
-  connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with
-  SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer. MandatoryEncryption:
-  if you use this option, file gateway only allows connections from SMBv3 clients that have
-  encryption enabled. This option is highly recommended for environments that handle
-  sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server
-  2012 or newer.
+  your environment. Supported only in S3 File Gateway. MandatorySigning: if you use this
+  option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing
+  enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008
+  or newer. MandatoryEncryption: if you use this option, file gateway only allows connections
+  from SMBv3 clients that have encryption enabled. This option is highly recommended for
+  environments that handle sensitive data. This option works with SMB clients on Microsoft
+  Windows 8, Windows Server 2012 or newer.
 
 """
 update_smbsecurity_strategy(GatewayARN, SMBSecurityStrategy; aws_config::AbstractAWSConfig=global_aws_config()) = storage_gateway("UpdateSMBSecurityStrategy", Dict{String, Any}("GatewayARN"=>GatewayARN, "SMBSecurityStrategy"=>SMBSecurityStrategy); aws_config=aws_config)
