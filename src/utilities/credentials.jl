@@ -57,7 +57,7 @@ end
 Retrieve the `AWSCredentials` for a given role from Security Token Services (STS).
 """
 function _aws_get_role(role::AbstractString, ini::Inifile)
-    source_profile, role_arn = aws_get_role_details(role, ini)
+    source_profile, role_arn, mfa_serial = aws_get_role_details(role, ini)
     source_profile === nothing && return nothing
     credentials = nothing
 
@@ -68,14 +68,21 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
 
     credentials === nothing && return nothing
     config = AWSConfig(creds=credentials, region=aws_get_region(config=ini, profile=source_profile))
+    params = LittleDict(
+        "RoleArn" => role_arn,
+        "RoleSessionName" => replace(role, r"[^\w+=,.@-]" => s"-")
+    )
+    if mfa_serial !== nothing
+        params["SerialNumber"] = mfa_serial
+        token = Base.getpass("Enter MFA code for $mfa_serial")
+        # TODO: Find out if there a secure way of providing the token to the service
+        params["TokenCode"] = read(token, String)
+        Base.shred!(token)
+    end
 
     # RoleSessionName Documentation
     # https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html
-    role = AWSServices.sts(
-        "AssumeRole",
-        LittleDict("RoleArn" => role_arn, "RoleSessionName" => replace(role, r"[^\w+=,.@-]" => s"-"));
-        aws_config=config
-    )
+    role = AWSServices.sts("AssumeRole", params; aws_config=config)
 
     role_creds = role["AssumeRoleResult"]["Credentials"]
 

@@ -546,6 +546,7 @@ Return a tuple of `profile` details and the `role arn`.
 function aws_get_role_details(profile::AbstractString, ini::Inifile)
     role_arn = _get_ini_value(ini, profile, "role_arn")
     source_profile = _get_ini_value(ini, profile, "source_profile")
+    mfa_serial = _get_ini_value(ini, profile, "mfa_serial")
 
-    return (source_profile, role_arn)
+    return (source_profile, role_arn, mfa_serial)
 end
