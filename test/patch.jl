@@ -67,10 +67,11 @@ _config_file_patch = @patch function dot_aws_config_file()
     return ""
 end
 
-_web_identity_patch = function (;
-    access_key="web_identity_access_key",
-    secret_key="web_identity_secret_key",
-    session_token="web_session_token",
+_assume_role_patch = function (
+    op;
+    access_key="access_key",
+    secret_key="secret_key",
+    session_token="token",
     role_arn="arn:aws:sts:::assumed-role/role-name",
 )
     @patch function AWS._http_request(request)
@@ -83,7 +84,7 @@ _web_identity_patch = function (;
         )
 
         result = Dict(
-            "AssumeRoleWithWebIdentityResult" => Dict(
+            "$(op)Result" => Dict(
                 "Credentials" => creds,
                 "AssumedRoleUser" => Dict(
                     "Arn" => role_arn * "/" * params["RoleSessionName"],

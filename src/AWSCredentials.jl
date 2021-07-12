@@ -114,7 +114,7 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
         () -> dot_aws_config(profile),
         credentials_from_webtoken,
         ecs_instance_credentials,
-        ec2_instance_credentials
+        () -> ec2_instance_credentials(profile),
     ]
 
     # Loop through our search locations until we get credentials back
@@ -235,32 +235,71 @@ ec2_instance_region() = ec2_instance_metadata("/latest/meta-data/placement/regio
 
 
 """
-    ec2_instance_credentials() -> AWSCredentials
+    ec2_instance_credentials(profile::AbstractString) -> AWSCredentials
 
 Parse the EC2 metadata to retrieve AWSCredentials.
 """
-function ec2_instance_credentials()
-    info = ec2_instance_metadata("/latest/meta-data/iam/info")
-
-    if info === nothing
-        return nothing
+function ec2_instance_credentials(profile::AbstractString)
+    path = dot_aws_config_file()
+    ini = Inifile()
+    if isfile(path)
+        ini = read(ini, path)
     end
 
+    # Any profile except default must specify the credential_source as Ec2InstanceMetadata.
+    if profile != "default"
+        source = _get_ini_value(ini, profile, "credential_source")
+        source == "Ec2InstanceMetadata" || return nothing
+    end
+
+    info = ec2_instance_metadata("/latest/meta-data/iam/info")
+    info === nothing && return nothing
     info = JSON.parse(info)
 
+    # Get credentials for the role associated to the instance via instance profile.
     name = ec2_instance_metadata("/latest/meta-data/iam/security-credentials/")
     creds = ec2_instance_metadata("/latest/meta-data/iam/security-credentials/$name")
-    new_creds = JSON.parse(creds)
-
-    expiry = DateTime(rstrip(new_creds["Expiration"], 'Z'))
-
-    return AWSCredentials(
-        new_creds["AccessKeyId"],
-        new_creds["SecretAccessKey"],
-        new_creds["Token"],
+    parsed = JSON.parse(creds)
+    instance_profile_creds = AWSCredentials(
+        parsed["AccessKeyId"],
+        parsed["SecretAccessKey"],
+        parsed["Token"],
         info["InstanceProfileArn"];
-        expiry=expiry,
-        renew=ec2_instance_credentials
+        expiry=DateTime(rstrip(parsed["Expiration"], 'Z')),
+        renew=() -> ec2_instance_credentials(profile),
+    )
+
+    # Look for a role to assume and return instance profile credentials if there is none.
+    role_arn = _get_ini_value(ini, profile, "role_arn")
+    role_arn === nothing && return instance_profile_creds
+
+    # Assume the role.
+    role_session = get(ENV, "AWS_ROLE_SESSION_NAME") do
+        _role_session_name(
+            "AWS.jl-role-",
+            basename(role_arn),
+            "-" * Dates.format(@mock(now(UTC)), dateformat"yyyymmdd\THHMMSS\Z"),
+        )
+    end
+    params = Dict{String, Any}("RoleArn" => role_arn, "RoleSessionName" => role_session)
+    duration = _get_ini_value(ini, profile, "duration_seconds")
+    if duration !== nothing
+        params["DurationSeconds"] = parse(Int, duration)
+    end
+    resp = AWSServices.sts(
+        "AssumeRole",
+        params;
+        aws_config=AWSConfig(creds=instance_profile_creds),
+    )
+    role_creds = resp["AssumeRoleResult"]["Credentials"]
+    role_user = resp["AssumeRoleResult"]["AssumedRoleUser"]
+    return AWSCredentials(
+        role_creds["AccessKeyId"],
+        role_creds["SecretAccessKey"],
+        role_creds["SessionToken"],
+        role_user["Arn"],
+        expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
+        renew=() -> ec2_instance_credentials(profile),
     )
 end
 
