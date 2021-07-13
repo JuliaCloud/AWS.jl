@@ -8,8 +8,8 @@ An `HTTPBackend` can hold default `http_options::AbstractDict{Symbol,<:Any}`
 to pass to HTTP.jl, which can be overwritten per-request by any `http_options`
 supplied there.
 """
-struct HTTPBackend{T<:AbstractDict{Symbol,<:Any}} <: AbstractBackend
-    http_options::T
+struct HTTPBackend <: AbstractBackend
+    http_options::AbstractDict{Symbol,<:Any}
 end
 
 HTTPBackend() = HTTPBackend(LittleDict{Symbol,String}())
