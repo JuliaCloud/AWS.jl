@@ -563,6 +563,46 @@ get_intents(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_bui
 get_intents(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/intents/", params; aws_config=aws_config)
 
 """
+    get_migration(migration_id)
+    get_migration(migration_id, params::Dict{String,<:Any})
+
+Provides details about an ongoing or complete migration from an Amazon Lex V1 bot to an
+Amazon Lex V2 bot. Use this operation to view the migration alerts and warnings related to
+the migration.
+
+# Arguments
+- `migration_id`: The unique identifier of the migration to view. The migrationID is
+  returned by the operation.
+
+"""
+get_migration(migrationId; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/migrations/$(migrationId)"; aws_config=aws_config)
+get_migration(migrationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/migrations/$(migrationId)", params; aws_config=aws_config)
+
+"""
+    get_migrations()
+    get_migrations(params::Dict{String,<:Any})
+
+Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of migrations to return in the response. The default
+  is 10.
+- `"migrationStatusEquals"`: Filters the list to contain only migrations in the specified
+  state.
+- `"nextToken"`: A pagination token that fetches the next page of migrations. If the
+  response to this operation is truncated, Amazon Lex returns a pagination token in the
+  response. To fetch the next page of migrations, specify the pagination token in the request.
+- `"sortByAttribute"`: The field to sort the list of migrations by. You can sort by the
+  Amazon Lex V1 bot name or the date and time that the migration was started.
+- `"sortByOrder"`: The order so sort the list.
+- `"v1BotNameContains"`: Filters the list to contain only bots whose name contains the
+  specified string. The string is matched anywhere in bot name.
+"""
+get_migrations(; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/migrations"; aws_config=aws_config)
+get_migrations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("GET", "/migrations", params; aws_config=aws_config)
+
+"""
     get_slot_type(name, version)
     get_slot_type(name, version, params::Dict{String,<:Any})
 
@@ -644,9 +684,10 @@ performance across the two versions.  Utterance statistics are generated once a 
 is available for the last 15 days. You can request information for up to 5 versions of your
 bot in each request. Amazon Lex returns the most frequent utterances received by the bot in
 the last 15 days. The response contains information about a maximum of 100 utterances for
-each version. If you set childDirected field to true when you created your bot, or if you
-opted out of participating in improving Amazon Lex, utterances are not available. This
-operation requires permissions for the lex:GetUtterancesView action.
+each version. If you set childDirected field to true when you created your bot, if you are
+using slot obfuscation with one or more slots, or if you opted out of participating in
+improving Amazon Lex, utterances are not available. This operation requires permissions for
+the lex:GetUtterancesView action.
 
 # Arguments
 - `bot_versions`: An array of bot versions for which utterance information should be
@@ -1028,6 +1069,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 start_import(mergeStrategy, payload, resourceType; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/imports/", Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType); aws_config=aws_config)
 start_import(mergeStrategy, payload, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/imports/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("mergeStrategy"=>mergeStrategy, "payload"=>payload, "resourceType"=>resourceType), params)); aws_config=aws_config)
+
+"""
+    start_migration(migration_strategy, v1_bot_name, v1_bot_version, v2_bot_name, v2_bot_role)
+    start_migration(migration_strategy, v1_bot_name, v1_bot_version, v2_bot_name, v2_bot_role, params::Dict{String,<:Any})
+
+Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your bot when you want
+to take advantage of the new features of Amazon Lex V2. For more information, see Migrating
+a bot in the Amazon Lex developer guide.
+
+# Arguments
+- `migration_strategy`: The strategy used to conduct the migration.    CREATE_NEW - Creates
+  a new Amazon Lex V2 bot and migrates the Amazon Lex V1 bot to the new bot.
+  UPDATE_EXISTING - Overwrites the existing Amazon Lex V2 bot metadata and the locale being
+  migrated. It doesn't change any other locales in the Amazon Lex V2 bot. If the locale
+  doesn't exist, a new locale is created in the Amazon Lex V2 bot.
+- `v1_bot_name`: The name of the Amazon Lex V1 bot that you are migrating to Amazon Lex V2.
+- `v1_bot_version`: The version of the bot to migrate to Amazon Lex V2. You can migrate the
+  LATEST version as well as any numbered version.
+- `v2_bot_name`: The name of the Amazon Lex V2 bot that you are migrating the Amazon Lex V1
+  bot to.    If the Amazon Lex V2 bot doesn't exist, you must use the CREATE_NEW migration
+  strategy.   If the Amazon Lex V2 bot exists, you must use the UPDATE_EXISTING migration
+  strategy to change the contents of the Amazon Lex V2 bot.
+- `v2_bot_role`: The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
+
+"""
+start_migration(migrationStrategy, v1BotName, v1BotVersion, v2BotName, v2BotRole; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/migrations", Dict{String, Any}("migrationStrategy"=>migrationStrategy, "v1BotName"=>v1BotName, "v1BotVersion"=>v1BotVersion, "v2BotName"=>v2BotName, "v2BotRole"=>v2BotRole); aws_config=aws_config)
+start_migration(migrationStrategy, v1BotName, v1BotVersion, v2BotName, v2BotRole, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lex_model_building_service("POST", "/migrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("migrationStrategy"=>migrationStrategy, "v1BotName"=>v1BotName, "v1BotVersion"=>v1BotVersion, "v2BotName"=>v2BotName, "v2BotRole"=>v2BotRole), params)); aws_config=aws_config)
 
 """
     tag_resource(resource_arn, tags)
