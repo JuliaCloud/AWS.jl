@@ -14,7 +14,7 @@ end
 
 HTTPBackend() = HTTPBackend(LittleDict{Symbol,String}())
 
-const DEFAULT_BACKEND = Ref{Union{Nothing, AbstractBackend}}(HTTPBackend())
+const DEFAULT_BACKEND = Ref{AbstractBackend}(HTTPBackend())
 
 Base.@kwdef mutable struct Request
     service::String
