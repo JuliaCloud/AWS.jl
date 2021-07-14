@@ -10,8 +10,8 @@ using AWS.UUIDs
 
 Removes one or more documents from an index. The documents must have been added with the
 BatchPutDocument operation. The documents are deleted asynchronously. You can see the
-progress of the deletion by using AWS CloudWatch. Any error messages related to the
-processing of the batch are sent to you CloudWatch log.
+progress of the deletion by using Amazon Web Services CloudWatch. Any error messages
+related to the processing of the batch are sent to you CloudWatch log.
 
 # Arguments
 - `document_id_list`: One or more identifiers for documents to delete from the index.
@@ -55,9 +55,9 @@ Adds one or more documents to an index. The BatchPutDocument operation enables y
 ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this
 operation to ingest your text and unstructured text into an index, add custom attributes to
 the documents, and to attach an access control list to the documents added to the index.
-The documents are indexed asynchronously. You can see the progress of the batch using AWS
-CloudWatch. Any error messages related to processing the batch are sent to your AWS
-CloudWatch log.
+The documents are indexed asynchronously. You can see the progress of the batch using
+Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent
+to your Amazon Web Services CloudWatch log.
 
 # Arguments
 - `documents`: One or more documents to add to the index. Documents can include custom
@@ -178,7 +178,7 @@ one of the supported data sources.
 
 # Arguments
 - `name`: The name for the new index.
-- `role_arn`: An AWS Identity and Access Management (IAM) role that gives Amazon Kendra
+- `role_arn`: An Identity and Access Management(IAM) role that gives Amazon Kendra
   permissions to access your Amazon CloudWatch logs and metrics. This is also the role used
   when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
 
@@ -192,9 +192,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for
   your production databases. Once you set the edition for an index, it can't be changed.  The
   Edition parameter is optional. If you don't supply a value, the default is
-  ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer
-  editions, see Quotas.
-- `"ServerSideEncryptionConfiguration"`: The identifier of the AWS KMS customer managed key
+  ENTERPRISE_EDITION.
+- `"ServerSideEncryptionConfiguration"`: The identifier of the KMScustomer managed key
   (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support
   asymmetric CMKs.
 - `"Tags"`: A list of key-value pairs that identify the index. You can use the tags to
@@ -317,6 +316,48 @@ delete_index(Id; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("De
 delete_index(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
 
 """
+    delete_principal_mapping(group_id, index_id)
+    delete_principal_mapping(group_id, index_id, params::Dict{String,<:Any})
+
+Deletes a group so that all users and sub groups that belong to the group can no longer
+access documents only available to that group. For example, after deleting the group
+\"Summer Interns\", all interns who belonged to that group no longer see intern-only
+documents in their search results. If you want to delete or replace users or sub groups of
+a group, you need to use the PutPrincipalMapping operation. For example, if a user in the
+group \"Engineering\" leaves the engineering team and another user takes their place, you
+provide an updated list of users or sub groups that belong to the \"Engineering\" group
+when calling PutPrincipalMapping. You can update your internal list of users or sub groups
+and input this list when calling PutPrincipalMapping.
+
+# Arguments
+- `group_id`: The identifier of the group you want to delete.
+- `index_id`: The identifier of the index you want to delete a group from.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataSourceId"`: The identifier of the data source you want to delete a group from. This
+  is useful if a group is tied to multiple data sources and you want to delete a group from
+  accessing documents in a certain data source. For example, the groups \"Research\",
+  \"Engineering\", and \"Sales and Marketing\" are all tied to the company's documents stored
+  in the data sources Confluence and Salesforce. You want to delete \"Research\" and
+  \"Engineering\" groups from Salesforce, so that these groups cannot access customer-related
+  documents stored in Salesforce. Only \"Sales and Marketing\" should access documents in the
+  Salesforce data source.
+- `"OrderingId"`: The timestamp identifier you specify to ensure Amazon Kendra does not
+  override the latest DELETE action with previous actions. The highest number ID, which is
+  the ordering ID, is the latest action you want to process and apply on top of other actions
+  with lower number IDs. This prevents previous actions with lower number IDs from possibly
+  overriding the latest action. The ordering ID can be the UNIX time of the last update you
+  made to a group members list. You would then provide this list when calling
+  PutPrincipalMapping. This ensures your DELETE action for that updated group with the latest
+  members list doesn't get overwritten by earlier DELETE actions for the same group which are
+  yet to be processed. The default ordering ID is the current UNIX time in milliseconds that
+  the action was received by Amazon Kendra.
+"""
+delete_principal_mapping(GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeletePrincipalMapping", Dict{String, Any}("GroupId"=>GroupId, "IndexId"=>IndexId); aws_config=aws_config)
+delete_principal_mapping(GroupId, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeletePrincipalMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
     delete_query_suggestions_block_list(id, index_id)
     delete_query_suggestions_block_list(id, index_id, params::Dict{String,<:Any})
 
@@ -386,6 +427,30 @@ Describes an existing Amazon Kendra index
 """
 describe_index(Id; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
 describe_index(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+
+"""
+    describe_principal_mapping(group_id, index_id)
+    describe_principal_mapping(group_id, index_id, params::Dict{String,<:Any})
+
+Describes the processing of PUT and DELETE actions for mapping users to their groups. This
+includes information on the status of actions currently processing or yet to be processed,
+when actions were last updated, when actions were received by Amazon Kendra, the latest
+action that should process and apply after other actions, and useful error messages if an
+action could not be processed.
+
+# Arguments
+- `group_id`: The identifier of the group required to check the processing of PUT and
+  DELETE actions for mapping users to their groups.
+- `index_id`: The identifier of the index required to check the processing of PUT and
+  DELETE actions for mapping users to their groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataSourceId"`: The identifier of the data source to check the processing of PUT and
+  DELETE actions for mapping users to their groups.
+"""
+describe_principal_mapping(GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribePrincipalMapping", Dict{String, Any}("GroupId"=>GroupId, "IndexId"=>IndexId); aws_config=aws_config)
+describe_principal_mapping(GroupId, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribePrincipalMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "IndexId"=>IndexId), params)); aws_config=aws_config)
 
 """
     describe_query_suggestions_block_list(id, index_id)
@@ -516,6 +581,30 @@ list_faqs(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("
 list_faqs(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListFaqs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
 
 """
+    list_groups_older_than_ordering_id(index_id, ordering_id)
+    list_groups_older_than_ordering_id(index_id, ordering_id, params::Dict{String,<:Any})
+
+Provides a list of groups that are mapped to users before a given ordering or timestamp
+identifier.
+
+# Arguments
+- `index_id`: The identifier of the index for getting a list of groups mapped to users
+  before a given ordering or timestamp identifier.
+- `ordering_id`: The timestamp identifier used for the latest PUT or DELETE action for
+  mapping users to their groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataSourceId"`: The identifier of the data source for getting a list of groups mapped
+  to users before a given ordering timestamp identifier.
+- `"MaxResults"`:  The maximum results shown for a list of groups that are mapped to users
+  before a given ordering or timestamp identifier.
+- `"NextToken"`:  The next items in the list of groups that go beyond the maximum.
+"""
+list_groups_older_than_ordering_id(IndexId, OrderingId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListGroupsOlderThanOrderingId", Dict{String, Any}("IndexId"=>IndexId, "OrderingId"=>OrderingId); aws_config=aws_config)
+list_groups_older_than_ordering_id(IndexId, OrderingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListGroupsOlderThanOrderingId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "OrderingId"=>OrderingId), params)); aws_config=aws_config)
+
+"""
     list_indices()
     list_indices(params::Dict{String,<:Any})
 
@@ -586,6 +675,56 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_thesauri(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListThesauri", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
 list_thesauri(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListThesauri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+
+"""
+    put_principal_mapping(group_id, group_members, index_id)
+    put_principal_mapping(group_id, group_members, index_id, params::Dict{String,<:Any})
+
+Maps users to their groups. You can also map sub groups to groups. For example, the group
+\"Company Intellectual Property Teams\" includes sub groups \"Research\" and
+\"Engineering\". These sub groups include their own list of users or people who work in
+these teams. Only users who work in research and engineering, and therefore belong in the
+intellectual property group, can see top-secret company documents in their search results.
+You map users to their groups when you want to filter search results for different users
+based on their group’s access to documents. For more information on filtering search
+results for different users, see Filtering on user context. If more than five PUT actions
+for a group are currently processing, a validation exception is thrown.
+
+# Arguments
+- `group_id`: The identifier of the group you want to map its users to.
+- `group_members`: The list that contains your users or sub groups that belong the same
+  group. For example, the group \"Company\" includes the user \"CEO\" and the sub groups
+  \"Research\", \"Engineering\", and \"Sales and Marketing\". If you have more than 1000
+  users and/or sub groups for a single group, you need to provide the path to the S3 file
+  that lists your users and sub groups for a group. Your sub groups can contain more than
+  1000 users, but the list of sub groups that belong to a group (and/or users) must be no
+  more than 1000.
+- `index_id`: The identifier of the index you want to map users to their groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataSourceId"`: The identifier of the data source you want to map users to their
+  groups. This is useful if a group is tied to multiple data sources, but you only want the
+  group to access documents of a certain data source. For example, the groups \"Research\",
+  \"Engineering\", and \"Sales and Marketing\" are all tied to the company's documents stored
+  in the data sources Confluence and Salesforce. However, \"Sales and Marketing\" team only
+  needs access to customer-related documents stored in Salesforce.
+- `"OrderingId"`: The timestamp identifier you specify to ensure Amazon Kendra does not
+  override the latest PUT action with previous actions. The highest number ID, which is the
+  ordering ID, is the latest action you want to process and apply on top of other actions
+  with lower number IDs. This prevents previous actions with lower number IDs from possibly
+  overriding the latest action. The ordering ID can be the UNIX time of the last update you
+  made to a group members list. You would then provide this list when calling
+  PutPrincipalMapping. This ensures your PUT action for that updated group with the latest
+  members list doesn't get overwritten by earlier PUT actions for the same group which are
+  yet to be processed. The default ordering ID is the current UNIX time in milliseconds that
+  the action was received by Amazon Kendra.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of a role that has access to the S3 file that
+  contains your list of users or sub groups that belong to a group. For more information, see
+  IAM roles for Amazon Kendra.
+"""
+put_principal_mapping(GroupId, GroupMembers, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("PutPrincipalMapping", Dict{String, Any}("GroupId"=>GroupId, "GroupMembers"=>GroupMembers, "IndexId"=>IndexId); aws_config=aws_config)
+put_principal_mapping(GroupId, GroupMembers, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("PutPrincipalMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "GroupMembers"=>GroupMembers, "IndexId"=>IndexId), params)); aws_config=aws_config)
 
 """
     query(index_id, query_text)

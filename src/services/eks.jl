@@ -11,7 +11,7 @@ using AWS.UUIDs
 Associate encryption configuration to an existing cluster. You can use this API to enable
 encryption on existing clusters which do not have encryption already enabled. This allows
 you to implement a defense-in-depth security strategy without migrating applications to new
-EKS clusters.
+Amazon EKS clusters.
 
 # Arguments
 - `encryption_config`: The configuration you are using for encryption.
@@ -63,7 +63,7 @@ which is only available in Kubernetes 1.18 and later.
 
 # Arguments
 - `addon_name`: The name of the add-on. The name must match one of the names returned by
-  ListAddons .
+  DescribeAddonVersions .
 - `name`: The name of the cluster to create the add-on for.
 
 # Optional Parameters
@@ -93,19 +93,19 @@ create_addon(addonName, name, params::AbstractDict{String}; aws_config::Abstract
 
 Creates an Amazon EKS control plane.  The Amazon EKS control plane consists of control
 plane instances that run the Kubernetes software, such as etcd and the API server. The
-control plane runs in an account managed by AWS, and the Kubernetes API is exposed via the
-Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single-tenant and
-unique and runs on its own set of Amazon EC2 instances. The cluster control plane is
-provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing
-Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC
-subnets to provide connectivity from the control plane instances to the nodes (for example,
-to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your AWS
-account and connect to your cluster's control plane via the Kubernetes API server endpoint
-and a certificate file that is created for your cluster. Cluster creation typically takes
-several minutes. After you create an Amazon EKS cluster, you must configure your Kubernetes
-tooling to communicate with the API server and launch nodes into your cluster. For more
-information, see Managing Cluster Authentication and Launching Amazon EKS nodes in the
-Amazon EKS User Guide.
+control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is
+exposed via the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is
+single-tenant and unique and runs on its own set of Amazon EC2 instances. The cluster
+control plane is provisioned across multiple Availability Zones and fronted by an Elastic
+Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces
+in your VPC subnets to provide connectivity from the control plane instances to the nodes
+(for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in
+your Amazon Web Services account and connect to your cluster's control plane via the
+Kubernetes API server endpoint and a certificate file that is created for your cluster.
+Cluster creation typically takes several minutes. After you create an Amazon EKS cluster,
+you must configure your Kubernetes tooling to communicate with the API server and launch
+nodes into your cluster. For more information, see Managing Cluster Authentication and
+Launching Amazon EKS nodes in the Amazon EKS User Guide.
 
 # Arguments
 - `name`: The unique name to give to your cluster.
@@ -116,8 +116,9 @@ Amazon EKS User Guide.
   five security groups, but we recommend that you use a dedicated security group for your
   cluster control plane.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that provides permissions for
-  the Kubernetes control plane to make calls to AWS API operations on your behalf. For more
-  information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
+  the Kubernetes control plane to make calls to Amazon Web Services API operations on your
+  behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide
+  .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -127,10 +128,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"kubernetesNetworkConfig"`: The Kubernetes network configuration for the cluster.
 - `"logging"`: Enable or disable exporting the Kubernetes control plane logs for your
   cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to
-  CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the
+  CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the
   Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning
-  rates apply to exported control plane logs. For more information, see Amazon CloudWatch
-  Pricing.
+  rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
 - `"tags"`: The metadata to apply to the cluster to assist with categorization and
   organization. Each tag consists of a key and an optional value, both of which you define.
 - `"version"`: The desired Kubernetes version for your cluster. If you don't specify a
@@ -143,9 +143,9 @@ create_cluster(name, resourcesVpcConfig, roleArn, params::AbstractDict{String}; 
     create_fargate_profile(fargate_profile_name, name, pod_execution_role_arn)
     create_fargate_profile(fargate_profile_name, name, pod_execution_role_arn, params::Dict{String,<:Any})
 
-Creates an AWS Fargate profile for your Amazon EKS cluster. You must have at least one
-Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows
-an administrator to declare which pods run on Fargate and specify which pods run on which
+Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate
+profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an
+administrator to declare which pods run on Fargate and specify which pods run on which
 Fargate profile. This declaration is done through the profile’s selectors. Each profile
 can have up to five selectors that contain a namespace and labels. A namespace is required
 for every selector. The label field consists of multiple optional key-value pairs. Pods
@@ -162,7 +162,7 @@ However, you can create a new updated profile to replace an existing profile and
 delete the original after the updated profile has finished creating. If any Fargate
 profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to
 finish deleting before you can create any other profiles in that cluster. For more
-information, see AWS Fargate Profile in the Amazon EKS User Guide.
+information, see Fargate Profile in the Amazon EKS User Guide.
 
 # Arguments
 - `fargate_profile_name`: The name of the Fargate profile.
@@ -201,21 +201,21 @@ groups are created with the latest AMI release version for the respective minor 
 version of the cluster, unless you deploy a custom AMI using a launch template. For more
 information about using launch templates, see Launch template support. An Amazon EKS
 managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances
-that are managed by AWS for an Amazon EKS cluster. Each node group uses a version of the
-Amazon EKS optimized Amazon Linux 2 AMI. For more information, see Managed Node Groups in
-the Amazon EKS User Guide.
+that are managed by Amazon Web Services for an Amazon EKS cluster. Each node group uses a
+version of the Amazon EKS optimized Amazon Linux 2 AMI. For more information, see Managed
+Node Groups in the Amazon EKS User Guide.
 
 # Arguments
 - `name`: The name of the cluster to create the node group in.
 - `node_role`: The Amazon Resource Name (ARN) of the IAM role to associate with your node
-  group. The Amazon EKS worker node kubelet daemon makes calls to AWS APIs on your behalf.
-  Nodes receive permissions for these API calls through an IAM instance profile and
-  associated policies. Before you can launch nodes and register them into a cluster, you must
-  create an IAM role for those nodes to use when they are launched. For more information, see
-  Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate,
-  then don't specify  IamInstanceProfile  in your launch template, or the node group
-  deployment will fail. For more information about using launch templates with Amazon EKS,
-  see Launch template support in the Amazon EKS User Guide.
+  group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on
+  your behalf. Nodes receive permissions for these API calls through an IAM instance profile
+  and associated policies. Before you can launch nodes and register them into a cluster, you
+  must create an IAM role for those nodes to use when they are launched. For more
+  information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify
+  launchTemplate, then don't specify  IamInstanceProfile  in your launch template, or the
+  node group deployment will fail. For more information about using launch templates with
+  Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 - `nodegroup_name`: The unique name to give your node group.
 - `subnets`: The subnets to use for the Auto Scaling group that is created for your node
   group. If you specify launchTemplate, then don't specify  SubnetId  in your launch
@@ -270,7 +270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Node group tags do not propagate to any other resources associated with the node group,
   such as the Amazon EC2 instances or subnets.
 - `"taints"`: The Kubernetes taints to be applied to the nodes in the node group.
-- `"updateConfig"`:
+- `"updateConfig"`: The node group update configuration.
 - `"version"`: The Kubernetes version to use for your managed nodes. By default, the
   Kubernetes version of the cluster is used, and this is the only accepted specified value.
   If you specify launchTemplate, and your launch template uses a custom AMI, then don't
@@ -319,8 +319,8 @@ delete_cluster(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig
     delete_fargate_profile(fargate_profile_name, name)
     delete_fargate_profile(fargate_profile_name, name, params::Dict{String,<:Any})
 
-Deletes an AWS Fargate profile. When you delete a Fargate profile, any pods running on
-Fargate that were created with the profile are deleted. If those pods match another Fargate
+Deletes an Fargate profile. When you delete a Fargate profile, any pods running on Fargate
+that were created with the profile are deleted. If those pods match another Fargate
 profile, then they are scheduled on Fargate with that profile. If they no longer match any
 Fargate profiles, then they are not scheduled on Fargate and they may remain in a pending
 state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You
@@ -406,7 +406,7 @@ describe_cluster(name, params::AbstractDict{String}; aws_config::AbstractAWSConf
     describe_fargate_profile(fargate_profile_name, name)
     describe_fargate_profile(fargate_profile_name, name, params::Dict{String,<:Any})
 
-Returns descriptive information about an AWS Fargate profile.
+Returns descriptive information about an Fargate profile.
 
 # Arguments
 - `fargate_profile_name`: The name of the Fargate profile to describe.
@@ -472,7 +472,7 @@ describe_update(name, updateId, params::AbstractDict{String}; aws_config::Abstra
 
 Disassociates an identity provider configuration from a cluster. If you disassociate an
 identity provider from your cluster, users included in the provider can no longer access
-the cluster. However, you can still access the cluster with AWS IAM users.
+the cluster. However, you can still access the cluster with Amazon Web Services IAM users.
 
 # Arguments
 - `identity_provider_config`: An object that represents an identity provider configuration.
@@ -516,7 +516,7 @@ list_addons(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     list_clusters()
     list_clusters(params::Dict{String,<:Any})
 
-Lists the Amazon EKS clusters in your AWS account in the specified Region.
+Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -539,11 +539,12 @@ list_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global
     list_fargate_profiles(name)
     list_fargate_profiles(name, params::Dict{String,<:Any})
 
-Lists the AWS Fargate profiles associated with the specified cluster in your AWS account in
-the specified Region.
+Lists the Fargate profiles associated with the specified cluster in your Amazon Web
+Services account in the specified Region.
 
 # Arguments
-- `name`: The name of the Amazon EKS cluster that you would like to listFargate profiles in.
+- `name`: The name of the Amazon EKS cluster that you would like to list Fargate profiles
+  in.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -591,8 +592,9 @@ list_identity_provider_configs(name, params::AbstractDict{String}; aws_config::A
     list_nodegroups(name)
     list_nodegroups(name, params::Dict{String,<:Any})
 
-Lists the Amazon EKS managed node groups associated with the specified cluster in your AWS
-account in the specified Region. Self-managed node groups are not listed.
+Lists the Amazon EKS managed node groups associated with the specified cluster in your
+Amazon Web Services account in the specified Region. Self-managed node groups are not
+listed.
 
 # Arguments
 - `name`: The name of the Amazon EKS cluster that you would like to list node groups in.
@@ -631,8 +633,8 @@ list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::Ab
     list_updates(name)
     list_updates(name, params::Dict{String,<:Any})
 
-Lists the updates associated with an Amazon EKS cluster or managed node group in your AWS
-account, in the specified Region.
+Lists the updates associated with an Amazon EKS cluster or managed node group in your
+Amazon Web Services account, in the specified Region.
 
 # Arguments
 - `name`: The name of the Amazon EKS cluster to list updates for.
@@ -730,11 +732,11 @@ to enable or disable exporting the Kubernetes control plane logs for your cluste
 CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs.
 For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User
 Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to
-exported control plane logs. For more information, see Amazon CloudWatch Pricing.  You can
-also use this API operation to enable or disable public and private access to your
-cluster's Kubernetes API server endpoint. By default, public access is enabled, and private
-access is disabled. For more information, see Amazon EKS Cluster Endpoint Access Control in
-the  Amazon EKS User Guide .   You can't update the subnets or security group IDs for an
+exported control plane logs. For more information, see CloudWatch Pricing.  You can also
+use this API operation to enable or disable public and private access to your cluster's
+Kubernetes API server endpoint. By default, public access is enabled, and private access is
+disabled. For more information, see Amazon EKS cluster endpoint access control in the
+Amazon EKS User Guide .   You can't update the subnets or security group IDs for an
 existing cluster.  Cluster updates are asynchronous, and they should finish within a few
 minutes. During an update, the cluster status moves to UPDATING (this status transition is
 eventually consistent). When the update is complete (either Failed or Successful), the
@@ -749,10 +751,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"logging"`: Enable or disable exporting the Kubernetes control plane logs for your
   cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to
-  CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the
+  CloudWatch Logs. For more information, see Amazon EKS cluster control plane logs in the
   Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning
-  rates apply to exported control plane logs. For more information, see Amazon CloudWatch
-  Pricing.
+  rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
 - `"resourcesVpcConfig"`:
 """
 update_cluster_config(name; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
@@ -807,7 +808,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   update.
 - `"taints"`: The Kubernetes taints to be applied to the nodes in the node group after the
   update.
-- `"updateConfig"`:
+- `"updateConfig"`: The node group update configuration.
 """
 update_nodegroup_config(name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
 update_nodegroup_config(name, nodegroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)

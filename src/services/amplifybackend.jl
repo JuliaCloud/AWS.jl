@@ -407,7 +407,7 @@ Updates a specific job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"operation"`: Filters the list of response objects to only include those with the
+- `"operation"`: Filters the list of response objects to include only those with the
   specified operation name.
 - `"status"`: Filters the list of response objects to include only those with the specified
   status.
