@@ -56,7 +56,7 @@ end
 
 
 function _aws_http_request_patch(response::HTTP.Messages.Response=_response())
-    return @patch AWS._http_request(::Any, request::Request) = response
+    return @patch AWS._http_request(::AWS.HTTPBackend, request::Request) = response
 end
 
 _cred_file_patch = @patch function dot_aws_credentials_file()
