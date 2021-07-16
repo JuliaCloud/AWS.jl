@@ -12,7 +12,9 @@ struct HTTPBackend <: AbstractBackend
     http_options::AbstractDict{Symbol,<:Any}
 end
 
-HTTPBackend(; kwargs...) = HTTPBackend(LittleDict(kwargs))
+function HTTPBackend(; kwargs...)
+    isempty(kwargs) ? HTTPBackend(LittleDict{Symbol, Any}()) : HTTPBackend(LittleDict(kwargs))
+end
 
 const DEFAULT_BACKEND = Ref{AbstractBackend}(HTTPBackend())
 
