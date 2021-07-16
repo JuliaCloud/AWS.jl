@@ -562,7 +562,7 @@ end
                     @test result.access_key_id == access_key
                     @test result.secret_key == secret_key
                     @test result.token == session_token
-                    @test result.user_arn == role_arn * "/" * session_name
+                    @test result.user_arn == "$(role_arn)/$(session_name)"
                     @test result.renew == credentials_from_webtoken
                     expiry = result.expiry
 
@@ -571,7 +571,7 @@ end
                     @test result.access_key_id == access_key
                     @test result.secret_key == secret_key
                     @test result.token == session_token
-                    @test result.user_arn == role_arn * "/" * session_name
+                    @test result.user_arn == "$(role_arn)/$(session_name)"
                     @test result.renew == credentials_from_webtoken
                     @test expiry != result.expiry
                 end
@@ -590,7 +590,7 @@ end
             ) do
                 apply(patches) do
                     result = credentials_from_webtoken()
-                    @test result.user_arn == role_arn * "/" * session_name
+                    @test result.user_arn == "$(role_arn)/$(session_name)"
                 end
             end
         end
