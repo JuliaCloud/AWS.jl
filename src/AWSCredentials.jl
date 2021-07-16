@@ -286,7 +286,7 @@ function ec2_instance_credentials(profile::AbstractString)
     if duration !== nothing
         params["DurationSeconds"] = parse(Int, duration)
     end
-    resp = AWSServices.sts(
+    resp = @mock AWSServices.sts(
         "AssumeRole",
         params;
         aws_config=AWSConfig(creds=instance_profile_creds),
@@ -519,14 +519,14 @@ function credentials_from_webtoken()
         )
     end
 
-    resp = AWSServices.sts(
+    resp = @mock AWSServices.sts(
         "AssumeRoleWithWebIdentity",
         Dict(
             "RoleArn" => role_arn,
             "RoleSessionName" => role_session,  # Required by AssumeRoleWithWebIdentity
             "WebIdentityToken" => web_identity,
         );
-        aws_config=AWSConfig(creds=nothing)
+        aws_config=AWSConfig(creds=nothing),
     )
 
     role_creds = resp["AssumeRoleWithWebIdentityResult"]["Credentials"]

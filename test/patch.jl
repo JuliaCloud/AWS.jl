@@ -74,25 +74,20 @@ _assume_role_patch = function (
     session_token="token",
     role_arn="arn:aws:sts:::assumed-role/role-name",
 )
-    @patch function AWS._http_request(request)
-        params = Dict(split.(split(request.content, '&'), '='))
-        creds = Dict(
-            "AccessKeyId" => access_key,
-            "SecretAccessKey" => secret_key,
-            "SessionToken" => session_token,
-            "Expiration" => string(now(UTC)),
-        )
-
-        result = Dict(
+    @patch function AWSServices.sts(op, params; aws_config)
+        return Dict(
             "$(op)Result" => Dict(
-                "Credentials" => creds,
+                "Credentials" => Dict(
+                    "AccessKeyId" => access_key,
+                    "SecretAccessKey" => secret_key,
+                    "SessionToken" => session_token,
+                    "Expiration" => string(now(UTC)),
+                ),
                 "AssumedRoleUser" => Dict(
                     "Arn" => role_arn * "/" * params["RoleSessionName"],
                 ),
             ),
         )
-
-        return HTTP.Response(200, ["Content-Type" => "text/json", "charset" => "utf-8"], body=json(result))
     end
 end
 

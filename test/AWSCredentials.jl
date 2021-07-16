@@ -513,16 +513,6 @@ end
             @test result.token == session_token
             @test result.user_arn == role_arn * "/" * session_name
             @test result.renew !== nothing
-            expiry = result.expiry
-
-            result = check_credentials(result)
-
-            @test result.access_key_id == access_key
-            @test result.secret_key == secret_key
-            @test result.token == session_token
-            @test result.user_arn == role_arn * "/" * session_name
-            @test result.renew !== nothing
-            @test expiry != result.expiry
         end
     end
 
