@@ -440,19 +440,19 @@ associate_dhcp_options(DhcpOptionsId, VpcId, params::AbstractDict{String}; aws_c
     associate_enclave_certificate_iam_role()
     associate_enclave_certificate_iam_role(params::Dict{String,<:Any})
 
-Associates an AWS Identity and Access Management (IAM) role with an AWS Certificate Manager
-(ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves
-application inside an enclave. For more information, see AWS Certificate Manager for Nitro
-Enclaves in the AWS Nitro Enclaves User Guide. When the IAM role is associated with the ACM
-certificate, the certificate, certificate chain, and encrypted private key are placed in an
-Amazon S3 bucket that only the associated IAM role can access. The private key of the
-certificate is encrypted with an AWS-managed KMS customer master (CMK) that has an attached
-attestation-based CMK policy. To enable the IAM role to access the Amazon S3 object, you
-must grant it permission to call s3:GetObject on the Amazon S3 bucket returned by the
-command. To enable the IAM role to access the AWS KMS CMK, you must grant it permission to
-call kms:Decrypt on the AWS KMS CMK returned by the command. For more information, see
-Grant the role permission to access the certificate and encryption key in the AWS Nitro
-Enclaves User Guide.
+Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM)
+certificate. This enables the certificate to be used by the ACM for Nitro Enclaves
+application inside an enclave. For more information, see Certificate Manager for Nitro
+Enclaves in the Amazon Web Services Nitro Enclaves User Guide. When the IAM role is
+associated with the ACM certificate, the certificate, certificate chain, and encrypted
+private key are placed in an Amazon S3 bucket that only the associated IAM role can access.
+The private key of the certificate is encrypted with an Amazon Web Services managed key
+that has an attached attestation-based key policy. To enable the IAM role to access the
+Amazon S3 object, you must grant it permission to call s3:GetObject on the Amazon S3 bucket
+returned by the command. To enable the IAM role to access the KMS key, you must grant it
+permission to call kms:Decrypt on the KMS key returned by the command. For more
+information, see  Grant the role permission to access the certificate and encryption key in
+the Amazon Web Services Nitro Enclaves User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -784,21 +784,22 @@ authorize_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr, params::Abs
     authorize_security_group_egress(group_id)
     authorize_security_group_egress(group_id, params::Dict{String,<:Any})
 
-[VPC only] Adds the specified egress rules to a security group for use with a VPC. An
-outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address
-ranges, or to the instances associated with the specified destination security groups. You
-specify a protocol for each rule (for example, TCP). For the TCP and UDP protocols, you
-must also specify the destination port or port range. For the ICMP protocol, you must also
-specify the ICMP type and code. You can use -1 for the type or code to mean all types or
-all codes. Rule changes are propagated to affected instances as quickly as possible.
-However, a small delay might occur. For more information about VPC security group limits,
-see Amazon VPC Limits.
+[VPC only] Adds the specified outbound (egress) rules to a security group for use with a
+VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR
+address ranges, or to the instances that are associated with the specified destination
+security groups. You specify a protocol for each rule (for example, TCP). For the TCP and
+UDP protocols, you must also specify the destination port or port range. For the ICMP
+protocol, you must also specify the ICMP type and code. You can use -1 for the type or code
+to mean all types or all codes. Rule changes are propagated to affected instances as
+quickly as possible. However, a small delay might occur. For information about VPC security
+group quotas, see Amazon VPC quotas.
 
 # Arguments
 - `group_id`: The ID of the security group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TagSpecification"`: The tags applied to the security group rule.
 - `"cidrIp"`: Not supported. Use a set of IP permissions to specify the CIDR.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -821,14 +822,14 @@ authorize_security_group_egress(groupId, params::AbstractDict{String}; aws_confi
     authorize_security_group_ingress()
     authorize_security_group_ingress(params::Dict{String,<:Any})
 
-Adds the specified ingress rules to a security group. An inbound rule permits instances to
-receive traffic from the specified IPv4 or IPv6 CIDR address ranges, or from the instances
-associated with the specified destination security groups. You specify a protocol for each
-rule (for example, TCP). For TCP and UDP, you must also specify the destination port or
-port range. For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code. You can
-use -1 to mean all types or all codes. Rule changes are propagated to instances within the
-security group as quickly as possible. However, a small delay might occur. For more
-information about VPC security group limits, see Amazon VPC Limits.
+Adds the specified inbound (ingress) rules to a security group. An inbound rule permits
+instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from
+the instances that are associated with the specified destination security groups. You
+specify a protocol for each rule (for example, TCP). For TCP and UDP, you must also specify
+the destination port or port range. For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6
+type and code. You can use -1 to mean all types or all codes. Rule changes are propagated
+to instances within the security group as quickly as possible. However, a small delay might
+occur. For more information about VPC security group quotas, see Amazon VPC quotas.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -857,12 +858,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   port range. Creates rules that grant full ICMP, UDP, and TCP access. To create a rule with
   a specific IP protocol and port range, use a set of IP permissions instead. For EC2-VPC,
   the source security group must be in the same VPC.
-- `"SourceSecurityGroupOwnerId"`: [nondefault VPC] The AWS account ID for the source
-  security group, if the source security group is in a different account. You can't specify
-  this parameter in combination with the following parameters: the CIDR IP address range, the
-  IP protocol, the start of the port range, and the end of the port range. Creates rules that
-  grant full ICMP, UDP, and TCP access. To create a rule with a specific IP protocol and port
-  range, use a set of IP permissions instead.
+- `"SourceSecurityGroupOwnerId"`: [nondefault VPC] The Amazon Web Services account ID for
+  the source security group, if the source security group is in a different account. You
+  can't specify this parameter in combination with the following parameters: the CIDR IP
+  address range, the IP protocol, the start of the port range, and the end of the port range.
+  Creates rules that grant full ICMP, UDP, and TCP access. To create a rule with a specific
+  IP protocol and port range, use a set of IP permissions instead.
+- `"TagSpecification"`: [VPC Only] The tags applied to the security group rule.
 - `"ToPort"`: The end of port range for the TCP and UDP protocols, or an ICMP code number.
   For the ICMP code number, use -1 to specify all codes. If you specify all ICMP types, you
   must specify all codes. Alternatively, use a set of IP permissions to specify multiple
@@ -6073,7 +6075,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag value as the filter value. For example, to find all resources that have a tag with the
   key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the
   filter value.
-- `"KeyName"`: The key pair names. Default: Describes all your key pairs.
+- `"KeyName"`: The key pair names. Default: Describes all of your key pairs.
 - `"KeyPairId"`: The IDs of the key pairs.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -7036,6 +7038,32 @@ describe_security_group_references(item; aws_config::AbstractAWSConfig=global_aw
 describe_security_group_references(item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), params)); aws_config=aws_config)
 
 """
+    describe_security_group_rules()
+    describe_security_group_rules(params::Dict{String,<:Any})
+
+Describes one or more of your security group rules.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters.    group-id - The ID of the security group.
+  security-group-rule-id - The ID of the security group rule.    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.
+- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
+  remaining results, make another request with the returned NextToken value. This value can
+  be between 5 and 1000. If this parameter is not specified, then all results are returned.
+- `"NextToken"`: The token for the next page of results.
+- `"SecurityGroupRuleId"`: The IDs of the security group rules.
+"""
+describe_security_group_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupRules"; aws_config=aws_config)
+describe_security_group_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupRules", params; aws_config=aws_config)
+
+"""
     describe_security_groups()
     describe_security_groups(params::Dict{String,<:Any})
 
@@ -7060,33 +7088,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   egress.ip-permission.protocol - The IP protocol for an outbound security group rule (tcp |
   udp | icmp, a protocol number, or -1 for all protocols).    egress.ip-permission.to-port -
   For an outbound rule, the end of port range for the TCP and UDP protocols, or an ICMP code.
-     egress.ip-permission.user-id - The ID of an AWS account that has been referenced in an
-  outbound security group rule.    group-id - The ID of the security group.     group-name -
-  The name of the security group.    ip-permission.cidr - An IPv4 CIDR block for an inbound
-  security group rule.    ip-permission.from-port - For an inbound rule, the start of port
-  range for the TCP and UDP protocols, or an ICMP type number.    ip-permission.group-id -
-  The ID of a security group that has been referenced in an inbound security group rule.
-  ip-permission.group-name - The name of a security group that is referenced in an inbound
-  security group rule.    ip-permission.ipv6-cidr - An IPv6 CIDR block for an inbound
-  security group rule.    ip-permission.prefix-list-id - The ID of a prefix list from which a
-  security group rule allows inbound access.    ip-permission.protocol - The IP protocol for
-  an inbound security group rule (tcp | udp | icmp, a protocol number, or -1 for all
-  protocols).    ip-permission.to-port - For an inbound rule, the end of port range for the
-  TCP and UDP protocols, or an ICMP code.    ip-permission.user-id - The ID of an AWS account
-  that has been referenced in an inbound security group rule.    owner-id - The AWS account
-  ID of the owner of the security group.    tag:&lt;key&gt; - The key/value combination of a
-  tag assigned to the resource. Use the tag key in the filter name and the tag value as the
+     egress.ip-permission.user-id - The ID of an Amazon Web Services account that has been
+  referenced in an outbound security group rule.    group-id - The ID of the security group.
+     group-name - The name of the security group.    ip-permission.cidr - An IPv4 CIDR block
+  for an inbound security group rule.    ip-permission.from-port - For an inbound rule, the
+  start of port range for the TCP and UDP protocols, or an ICMP type number.
+  ip-permission.group-id - The ID of a security group that has been referenced in an inbound
+  security group rule.    ip-permission.group-name - The name of a security group that is
+  referenced in an inbound security group rule.    ip-permission.ipv6-cidr - An IPv6 CIDR
+  block for an inbound security group rule.    ip-permission.prefix-list-id - The ID of a
+  prefix list from which a security group rule allows inbound access.
+  ip-permission.protocol - The IP protocol for an inbound security group rule (tcp | udp |
+  icmp, a protocol number, or -1 for all protocols).    ip-permission.to-port - For an
+  inbound rule, the end of port range for the TCP and UDP protocols, or an ICMP code.
+  ip-permission.user-id - The ID of an Amazon Web Services account that has been referenced
+  in an inbound security group rule.    owner-id - The Amazon Web Services account ID of the
+  owner of the security group.    tag:&lt;key&gt; - The key/value combination of a tag
+  assigned to the resource. Use the tag key in the filter name and the tag value as the
   filter value. For example, to find all resources that have a tag with the key Owner and the
   value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
   tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
   assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
   VPC specified when the security group was created.
 - `"GroupId"`: The IDs of the security groups. Required for security groups in a nondefault
-  VPC. Default: Describes all your security groups.
+  VPC. Default: Describes all of your security groups.
 - `"GroupName"`: [EC2-Classic and default VPC only] The names of the security groups. You
   can specify either the security group name or the security group ID. For security groups in
   a nondefault VPC, use the group-name filter to describe security groups by name. Default:
-  Describes all your security groups.
+  Describes all of your security groups.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another request with the returned NextToken value. This value can
   be between 5 and 1000. If this parameter is not specified, then all results are returned.
@@ -8717,12 +8746,11 @@ disassociate_client_vpn_target_network(AssociationId, ClientVpnEndpointId, param
     disassociate_enclave_certificate_iam_role()
     disassociate_enclave_certificate_iam_role(params::Dict{String,<:Any})
 
-Disassociates an IAM role from an AWS Certificate Manager (ACM) certificate. Disassociating
-an IAM role from an ACM certificate removes the Amazon S3 object that contains the
+Disassociates an IAM role from an Certificate Manager (ACM) certificate. Disassociating an
+IAM role from an ACM certificate removes the Amazon S3 object that contains the
 certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It
-also revokes the IAM role's permission to use the AWS Key Management Service (KMS) customer
-master key (CMK) used to encrypt the private key. This effectively revokes the role's
-permission to use the certificate.
+also revokes the IAM role's permission to use the KMS key used to encrypt the private key.
+This effectively revokes the role's permission to use the certificate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9160,11 +9188,10 @@ export_transit_gateway_routes(S3Bucket, TransitGatewayRouteTableId, params::Abst
     get_associated_enclave_certificate_iam_roles()
     get_associated_enclave_certificate_iam_roles(params::Dict{String,<:Any})
 
-Returns the IAM roles that are associated with the specified AWS Certificate Manager (ACM)
-certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key
-where the certificate, certificate chain, and encrypted private key bundle are stored, and
-the ARN of the AWS Key Management Service (KMS) customer master key (CMK) that's used to
-encrypt the private key.
+Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also
+returns the name of the Amazon S3 bucket and the Amazon S3 object key where the
+certificate, certificate chain, and encrypted private key bundle are stored, and the ARN of
+the KMS key that's used to encrypt the private key.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9800,11 +9827,11 @@ import_instance(platform, params::AbstractDict{String}; aws_config::AbstractAWSC
     import_key_pair(key_name, public_key_material, params::Dict{String,<:Any})
 
 Imports the public key from an RSA key pair that you created with a third-party tool.
-Compare this with CreateKeyPair, in which AWS creates the key pair and gives the keys to
-you (AWS keeps a copy of the public key). With ImportKeyPair, you create the key pair and
-give AWS just the public key. The private key is never transferred between you and AWS. For
-more information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User
-Guide.
+Compare this with CreateKeyPair, in which Amazon Web Services creates the key pair and
+gives the keys to you (Amazon Web Services keeps a copy of the public key). With
+ImportKeyPair, you create the key pair and give Amazon Web Services just the public key.
+The private key is never transferred between you and Amazon Web Services. For more
+information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `key_name`: A unique name for the key pair.
@@ -10609,6 +10636,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId); aws_config=aws_config)
 modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId), params)); aws_config=aws_config)
+
+"""
+    modify_security_group_rules(group_id, security_group_rule)
+    modify_security_group_rules(group_id, security_group_rule, params::Dict{String,<:Any})
+
+Modifies the rules of a security group.
+
+# Arguments
+- `group_id`: The ID of the security group.
+- `security_group_rule`: Information about the security group properties to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+modify_security_group_rules(GroupId, SecurityGroupRule; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifySecurityGroupRules", Dict{String, Any}("GroupId"=>GroupId, "SecurityGroupRule"=>SecurityGroupRule); aws_config=aws_config)
+modify_security_group_rules(GroupId, SecurityGroupRule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifySecurityGroupRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "SecurityGroupRule"=>SecurityGroupRule), params)); aws_config=aws_config)
 
 """
     modify_snapshot_attribute(snapshot_id)
@@ -12268,24 +12314,26 @@ revoke_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr, params::Abstra
     revoke_security_group_egress(group_id)
     revoke_security_group_egress(group_id, params::Dict{String,<:Any})
 
-[VPC only] Removes the specified egress rules from a security group for EC2-VPC. This
-action does not apply to security groups for use in EC2-Classic. To remove a rule, the
+[VPC only] Removes the specified outbound (egress) rules from a security group for EC2-VPC.
+This action does not apply to security groups for use in EC2-Classic. You can specify rules
+using either rule IDs or security group rule properties. If you use rule properties, the
 values that you specify (for example, ports) must match the existing rule's values exactly.
- [Default VPC] If the values you specify do not match the existing rule's values, no error
-is returned, and the output describes the security group rules that were not revoked.  AWS
-recommends that you use DescribeSecurityGroups to verify that the rule has been removed.
-Each rule consists of the protocol and the IPv4 or IPv6 CIDR range or source security
-group. For the TCP and UDP protocols, you must also specify the destination port or range
-of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the
-security group rule has a description, you do not have to specify the description to revoke
-the rule. Rule changes are propagated to instances within the security group as quickly as
-possible. However, a small delay might occur.
+Each rule has a protocol, from and to ports, and destination (CIDR range, security group,
+or prefix list). For the TCP and UDP protocols, you must also specify the destination port
+or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If
+the security group rule has a description, you do not need to specify the description to
+revoke the rule. [Default VPC] If the values you specify do not match the existing rule's
+values, no error is returned, and the output describes the security group rules that were
+not revoked. Amazon Web Services recommends that you describe the security group to verify
+that the rules were removed. Rule changes are propagated to instances within the security
+group as quickly as possible. However, a small delay might occur.
 
 # Arguments
 - `group_id`: The ID of the security group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SecurityGroupRuleId"`: The IDs of the security group rules.
 - `"cidrIp"`: Not supported. Use a set of IP permissions to specify the CIDR.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -12308,17 +12356,18 @@ revoke_security_group_egress(groupId, params::AbstractDict{String}; aws_config::
     revoke_security_group_ingress()
     revoke_security_group_ingress(params::Dict{String,<:Any})
 
-Removes the specified ingress rules from a security group. To remove a rule, the values
-that you specify (for example, ports) must match the existing rule's values exactly.
-[EC2-Classic , default VPC] If the values you specify do not match the existing rule's
-values, no error is returned, and the output describes the security group rules that were
-not revoked.  AWS recommends that you use DescribeSecurityGroups to verify that the rule
-has been removed.  Each rule consists of the protocol and the CIDR range or source security
-group. For the TCP and UDP protocols, you must also specify the destination port or range
-of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the
-security group rule has a description, you do not have to specify the description to revoke
-the rule. Rule changes are propagated to instances within the security group as quickly as
-possible. However, a small delay might occur.
+Removes the specified inbound (ingress) rules from a security group. You can specify rules
+using either rule IDs or security group rule properties. If you use rule properties, the
+values that you specify (for example, ports) must match the existing rule's values exactly.
+Each rule has a protocol, from and to ports, and source (CIDR range, security group, or
+prefix list). For the TCP and UDP protocols, you must also specify the destination port or
+range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the
+security group rule has a description, you do not need to specify the description to revoke
+the rule. [EC2-Classic, default VPC] If the values you specify do not match the existing
+rule's values, no error is returned, and the output describes the security group rules that
+were not revoked. Amazon Web Services recommends that you describe the security group to
+verify that the rules were removed. Rule changes are propagated to instances within the
+security group as quickly as possible. However, a small delay might occur.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -12335,16 +12384,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and a CIDR IP address range in the same set of permissions.
 - `"IpProtocol"`: The IP protocol name (tcp, udp, icmp) or number (see Protocol Numbers).
   Use -1 to specify all.
+- `"SecurityGroupRuleId"`: The IDs of the security group rules.
 - `"SourceSecurityGroupName"`: [EC2-Classic, default VPC] The name of the source security
   group. You can't specify this parameter in combination with the following parameters: the
   CIDR IP address range, the start of the port range, the IP protocol, and the end of the
   port range. For EC2-VPC, the source security group must be in the same VPC. To revoke a
   specific rule for an IP protocol and port range, use a set of IP permissions instead.
-- `"SourceSecurityGroupOwnerId"`: [EC2-Classic] The AWS account ID of the source security
-  group, if the source security group is in a different account. You can't specify this
-  parameter in combination with the following parameters: the CIDR IP address range, the IP
-  protocol, the start of the port range, and the end of the port range. To revoke a specific
-  rule for an IP protocol and port range, use a set of IP permissions instead.
+- `"SourceSecurityGroupOwnerId"`: [EC2-Classic] The Amazon Web Services account ID of the
+  source security group, if the source security group is in a different account. You can't
+  specify this parameter in combination with the following parameters: the CIDR IP address
+  range, the IP protocol, the start of the port range, and the end of the port range. To
+  revoke a specific rule for an IP protocol and port range, use a set of IP permissions
+  instead.
 - `"ToPort"`: The end of port range for the TCP and UDP protocols, or an ICMP code number.
   For the ICMP code number, use -1 to specify all ICMP codes for the ICMP type.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
@@ -12896,17 +12947,13 @@ unmonitor_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(
 unmonitor_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnmonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    update_security_group_rule_descriptions_egress(item)
-    update_security_group_rule_descriptions_egress(item, params::Dict{String,<:Any})
+    update_security_group_rule_descriptions_egress()
+    update_security_group_rule_descriptions_egress(params::Dict{String,<:Any})
 
 [VPC only] Updates the description of an egress (outbound) security group rule. You can
 replace an existing description, or add a description to a rule that did not have one
-previously. You specify the description as part of the IP permissions structure. You can
-remove a description for a security group rule by omitting the description parameter in the
-request.
-
-# Arguments
-- `item`: The IP permissions for the security group rule.
+previously. You can remove a description for a security group rule by omitting the
+description parameter in the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -12918,22 +12965,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify the security group ID.
 - `"GroupName"`: [Default VPC] The name of the security group. You must specify either the
   security group ID or the security group name in the request.
-- `"IpPermissions"`: The IP permissions for the security group rule.
+- `"IpPermissions"`: The IP permissions for the security group rule. You must specify
+  either the IP permissions or the description.
+- `"SecurityGroupRuleDescription"`: The description for the egress security group rules.
+  You must specify either the description or the IP permissions.
 """
-update_security_group_rule_descriptions_egress(item; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", Dict{String, Any}("item"=>item); aws_config=aws_config)
-update_security_group_rule_descriptions_egress(item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), params)); aws_config=aws_config)
+update_security_group_rule_descriptions_egress(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress"; aws_config=aws_config)
+update_security_group_rule_descriptions_egress(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", params; aws_config=aws_config)
 
 """
-    update_security_group_rule_descriptions_ingress(item)
-    update_security_group_rule_descriptions_ingress(item, params::Dict{String,<:Any})
+    update_security_group_rule_descriptions_ingress()
+    update_security_group_rule_descriptions_ingress(params::Dict{String,<:Any})
 
 Updates the description of an ingress (inbound) security group rule. You can replace an
 existing description, or add a description to a rule that did not have one previously. You
-specify the description as part of the IP permissions structure. You can remove a
-description for a security group rule by omitting the description parameter in the request.
-
-# Arguments
-- `item`: The IP permissions for the security group rule.
+can remove a description for a security group rule by omitting the description parameter in
+the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -12945,10 +12992,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify the security group ID.
 - `"GroupName"`: [EC2-Classic, default VPC] The name of the security group. You must
   specify either the security group ID or the security group name in the request.
-- `"IpPermissions"`: The IP permissions for the security group rule.
+- `"IpPermissions"`: The IP permissions for the security group rule. You must specify
+  either IP permissions or a description.
+- `"SecurityGroupRuleDescription"`: [VPC only] The description for the ingress security
+  group rules. You must specify either a description or IP permissions.
 """
-update_security_group_rule_descriptions_ingress(item; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", Dict{String, Any}("item"=>item); aws_config=aws_config)
-update_security_group_rule_descriptions_ingress(item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), params)); aws_config=aws_config)
+update_security_group_rule_descriptions_ingress(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress"; aws_config=aws_config)
+update_security_group_rule_descriptions_ingress(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", params; aws_config=aws_config)
 
 """
     withdraw_byoip_cidr(cidr)

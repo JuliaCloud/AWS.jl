@@ -31,7 +31,7 @@ updates for the specified database. To complete the integration, you also set up
 integration on the partner website.
 
 # Arguments
-- `account_id`: The AWS account ID that owns the cluster.
+- `account_id`: The Region ID that owns the cluster.
 - `cluster_identifier`: The cluster identifier of the cluster that receives data from the
   partner.
 - `database_name`: The name of the database that receives data from the partner.
@@ -51,8 +51,8 @@ instance, you can authorize inbound access to either a Classless Interdomain Rou
 (CIDR)/Internet Protocol (IP) range or to an Amazon EC2 security group. You can add as many
 as 20 ingress rules to an Amazon Redshift security group. If you authorize access to an
 Amazon EC2 security group, specify EC2SecurityGroupName and EC2SecurityGroupOwnerId. The
-Amazon EC2 security group and Amazon Redshift cluster must be in the same AWS Region.  If
-you authorize access to a CIDR/IP address range, specify CIDRIP. For an overview of CIDR
+Amazon EC2 security group and Amazon Redshift cluster must be in the same Region.  If you
+authorize access to a CIDR/IP address range, specify CIDRIP. For an overview of CIDR
 blocks, see the Wikipedia article on Classless Inter-Domain Routing.  You must also
 associate the security group with a cluster so that clients running on these IP addresses
 or the EC2 instance are authorized to connect to the cluster. For information about
@@ -68,9 +68,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CIDRIP"`: The IP range to be added the Amazon Redshift security group.
 - `"EC2SecurityGroupName"`: The EC2 security group to be added the Amazon Redshift security
   group.
-- `"EC2SecurityGroupOwnerId"`: The AWS account number of the owner of the security group
-  specified by the EC2SecurityGroupName parameter. The AWS Access Key ID is not an acceptable
-  value.  Example: 111122223333
+- `"EC2SecurityGroupOwnerId"`: The account number of the owner of the security group
+  specified by the EC2SecurityGroupName parameter. The Amazon Web Services Access Key ID is
+  not an acceptable value.  Example: 111122223333
 """
 authorize_cluster_security_group_ingress(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeClusterSecurityGroupIngress", Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName); aws_config=aws_config)
 authorize_cluster_security_group_ingress(ClusterSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("AuthorizeClusterSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config)
@@ -82,7 +82,7 @@ authorize_cluster_security_group_ingress(ClusterSecurityGroupName, params::Abstr
 Grants access to a cluster.
 
 # Arguments
-- `account`: The AWS account ID to grant access to.
+- `account`: The account ID to grant access to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -96,13 +96,13 @@ authorize_endpoint_access(Account, params::AbstractDict{String}; aws_config::Abs
     authorize_snapshot_access(account_with_restore_access, snapshot_identifier)
     authorize_snapshot_access(account_with_restore_access, snapshot_identifier, params::Dict{String,<:Any})
 
-Authorizes the specified AWS customer account to restore the specified snapshot.  For more
-information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon
-Redshift Cluster Management Guide.
+Authorizes the specified account to restore the specified snapshot.  For more information
+about working with snapshots, go to Amazon Redshift Snapshots in the Amazon Redshift
+Cluster Management Guide.
 
 # Arguments
-- `account_with_restore_access`: The identifier of the AWS customer account authorized to
-  restore the specified snapshot. To share a snapshot with AWS support, specify
+- `account_with_restore_access`: The identifier of the account authorized to restore the
+  specified snapshot. To share a snapshot with Amazon Web Services Support, specify
   amazon-redshift-support.
 - `snapshot_identifier`: The identifier of the snapshot the account is authorized to
   restore.
@@ -190,7 +190,7 @@ Management Guide.
 - `target_snapshot_identifier`: The identifier given to the new manual snapshot.
   Constraints:   Cannot be null, empty, or blank.   Must contain from 1 to 255 alphanumeric
   characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or
-  contain two consecutive hyphens.   Must be unique for the AWS account that is making the
+  contain two consecutive hyphens.   Must be unique for the account that is making the
   request.
 
 # Optional Parameters
@@ -205,6 +205,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 copy_cluster_snapshot(SourceSnapshotIdentifier, TargetSnapshotIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CopyClusterSnapshot", Dict{String, Any}("SourceSnapshotIdentifier"=>SourceSnapshotIdentifier, "TargetSnapshotIdentifier"=>TargetSnapshotIdentifier); aws_config=aws_config)
 copy_cluster_snapshot(SourceSnapshotIdentifier, TargetSnapshotIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CopyClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotIdentifier"=>SourceSnapshotIdentifier, "TargetSnapshotIdentifier"=>TargetSnapshotIdentifier), params)); aws_config=aws_config)
+
+"""
+    create_authentication_profile(authentication_profile_content, authentication_profile_name)
+    create_authentication_profile(authentication_profile_content, authentication_profile_name, params::Dict{String,<:Any})
+
+Creates an authentication profile with the specified parameters.
+
+# Arguments
+- `authentication_profile_content`: The content of the authentication profile in JSON
+  format. The maximum length of the JSON string is determined by a quota for your account.
+- `authentication_profile_name`: The name of the authentication profile to be created.
+
+"""
+create_authentication_profile(AuthenticationProfileContent, AuthenticationProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateAuthenticationProfile", Dict{String, Any}("AuthenticationProfileContent"=>AuthenticationProfileContent, "AuthenticationProfileName"=>AuthenticationProfileName); aws_config=aws_config)
+create_authentication_profile(AuthenticationProfileContent, AuthenticationProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateAuthenticationProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationProfileContent"=>AuthenticationProfileContent, "AuthenticationProfileName"=>AuthenticationProfileName), params)); aws_config=aws_config)
 
 """
     create_cluster(cluster_identifier, master_user_password, master_username, node_type)
@@ -222,14 +237,13 @@ Redshift Cluster Management Guide.
   The identifier also appears in the Amazon Redshift console. Constraints:   Must contain
   from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.
     First character must be a letter.   Cannot end with a hyphen or contain two consecutive
-  hyphens.   Must be unique for all clusters within an AWS account.   Example:
-  myexamplecluster
-- `master_user_password`: The password associated with the master user account for the
+  hyphens.   Must be unique for all clusters within an account.   Example: myexamplecluster
+- `master_user_password`: The password associated with the admin user account for the
   cluster that is being created. Constraints:   Must be between 8 and 64 characters in
   length.   Must contain at least one uppercase letter.   Must contain at least one lowercase
   letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to
   126) except ' (single quote), \" (double quote), , /, @, or space.
-- `master_username`: The user name associated with the master user account for the cluster
+- `master_username`: The user name associated with the admin user account for the cluster
   that is being created. Constraints:   Must be 1 - 128 alphanumeric characters. The user
   name can't be PUBLIC.   First character must be a letter.   Cannot be a reserved word. A
   list of reserved words can be found in Reserved Words in the Amazon Redshift Database
@@ -249,7 +263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is running on your cluster. Default: true
 - `"AquaConfigurationStatus"`: The value represents how the cluster is configured to use
   AQUA (Advanced Query Accelerator) when it is created. Possible values include the
-  following.   enabled - Use AQUA if it is available for the current AWS Region and Amazon
+  following.   enabled - Use AQUA if it is available for the current Region and Amazon
   Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines
   whether to use AQUA.
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
@@ -303,12 +317,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
 - `"HsmConfigurationIdentifier"`: Specifies the name of the HSM configuration that contains
   the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
-- `"IamRoles"`: A list of AWS Identity and Access Management (IAM) roles that can be used
-  by the cluster to access other AWS services. You must supply the IAM roles in their Amazon
-  Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A
-  cluster can have up to 10 IAM roles associated with it at any time.
-- `"KmsKeyId"`: The AWS Key Management Service (KMS) key ID of the encryption key that you
-  want to use to encrypt data in the cluster.
+- `"IamRoles"`: A list of Identity and Access Management (IAM) roles that can be used by
+  the cluster to access other Amazon Web Services services. You must supply the IAM roles in
+  their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single
+  request. A cluster can have up to 10 IAM roles associated with it at any time.
+- `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that you want
+  to use to encrypt data in the cluster.
 - `"MaintenanceTrackName"`: An optional parameter for the name of the maintenance track for
   the cluster. If you don't provide a maintenance track name, the cluster is assigned to the
   current track.
@@ -361,14 +375,14 @@ in the Amazon Redshift Cluster Management Guide.
   parameter group applies. The cluster engine version determines the set of parameters. To
   get a list of valid parameter group family names, you can call
   DescribeClusterParameterGroups. By default, Amazon Redshift returns a list of all the
-  parameter groups that are owned by your AWS account, including the default parameter groups
-  for each Amazon Redshift engine version. The parameter group family names associated with
-  the default parameter groups provide you the valid values. For example, a valid family name
-  is \"redshift-1.0\".
+  parameter groups that are owned by your account, including the default parameter groups for
+  each Amazon Redshift engine version. The parameter group family names associated with the
+  default parameter groups provide you the valid values. For example, a valid family name is
+  \"redshift-1.0\".
 - `parameter_group_name`: The name of the cluster parameter group. Constraints:   Must be 1
   to 255 alphanumeric characters or hyphens   First character must be a letter.   Cannot end
-  with a hyphen or contain two consecutive hyphens.   Must be unique withing your AWS
-  account.    This value is stored as a lower-case string.
+  with a hyphen or contain two consecutive hyphens.   Must be unique withing your account.
+  This value is stored as a lower-case string.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -389,7 +403,7 @@ Cluster Security Groups in the Amazon Redshift Cluster Management Guide.
 - `cluster_security_group_name`: The name for the security group. Amazon Redshift stores
   the value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric
   characters or hyphens.   Must not be \"Default\".   Must be unique for all security groups
-  that are created by your AWS account.   Example: examplesecuritygroup
+  that are created by your account.   Example: examplesecuritygroup
 - `description`: A description for the security group.
 
 # Optional Parameters
@@ -410,8 +424,8 @@ in the Amazon Redshift Cluster Management Guide.
 # Arguments
 - `cluster_identifier`: The cluster identifier for which you want a snapshot.
 - `snapshot_identifier`: A unique identifier for the snapshot that you are requesting. This
-  identifier must be unique for all snapshots within the AWS account. Constraints:   Cannot
-  be null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens
+  identifier must be unique for all snapshots within the account. Constraints:   Cannot be
+  null, empty, or blank   Must contain from 1 to 255 alphanumeric characters or hyphens
   First character must be a letter   Cannot end with a hyphen or contain two consecutive
   hyphens   Example: my-snapshot-id
 
@@ -438,7 +452,7 @@ Groups in the Amazon Redshift Cluster Management Guide.
 - `cluster_subnet_group_name`: The name for the subnet group. Amazon Redshift stores the
   value as a lowercase string. Constraints:   Must contain no more than 255 alphanumeric
   characters or hyphens.   Must not be \"Default\".   Must be unique for all subnet groups
-  that are created by your AWS account.   Example: examplesubnetgroup
+  that are created by your account.   Example: examplesubnetgroup
 - `description`: A description for the subnet group.
 - `subnet_identifier`: An array of VPC subnet IDs. A maximum of 20 subnets can be modified
   in a single request.
@@ -468,8 +482,8 @@ Creates a Redshift-managed VPC endpoint.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClusterIdentifier"`: The cluster identifier of the cluster to access.
-- `"ResourceOwner"`: The AWS account ID of the owner of the cluster. This is only required
-  if the cluster is in another AWS account.
+- `"ResourceOwner"`: The account ID of the owner of the cluster. This is only required if
+  the cluster is in another account.
 - `"VpcSecurityGroupIds"`: The security group that defines the ports, protocols, and
   sources for inbound traffic that you are authorizing into your endpoint.
 """
@@ -493,10 +507,10 @@ and Backup categories for the specified clusters. If you specify both the source
 source IDs, such as source type = cluster and source identifier = my-cluster-1,
 notifications will be sent for all the cluster events for my-cluster-1. If you specify a
 source type but do not specify a source identifier, you will receive notice of the events
-for the objects of that type in your AWS account. If you do not specify either the
-SourceType nor the SourceIdentifier, you will be notified of events generated from all
-Amazon Redshift sources belonging to your AWS account. You must specify a source type if
-you specify a source ID.
+for the objects of that type in your account. If you do not specify either the SourceType
+nor the SourceIdentifier, you will be notified of events generated from all Amazon Redshift
+sources belonging to your account. You must specify a source type if you specify a source
+ID.
 
 # Arguments
 - `sns_topic_arn`: The Amazon Resource Name (ARN) of the Amazon SNS topic used to transmit
@@ -523,7 +537,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceType"`: The type of source that will be generating the events. For example, if
   you want to be notified of events generated by a cluster, you would set this parameter to
   cluster. If this value is not specified, events are returned for all Amazon Redshift
-  objects in your AWS account. You must specify a source type in order to specify source IDs.
+  objects in your account. You must specify a source type in order to specify source IDs.
   Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
   and scheduled-action.
 - `"Tags"`: A list of tag instances.
@@ -623,16 +637,16 @@ create_scheduled_action(IamRole, Schedule, ScheduledActionName, TargetAction, pa
     create_snapshot_copy_grant(snapshot_copy_grant_name, params::Dict{String,<:Any})
 
 Creates a snapshot copy grant that permits Amazon Redshift to use a customer master key
-(CMK) from AWS Key Management Service (AWS KMS) to encrypt copied snapshots in a
-destination region.  For more information about managing snapshot copy grants, go to Amazon
-Redshift Database Encryption in the Amazon Redshift Cluster Management Guide.
+(CMK) from Key Management Service (KMS) to encrypt copied snapshots in a destination
+region.  For more information about managing snapshot copy grants, go to Amazon Redshift
+Database Encryption in the Amazon Redshift Cluster Management Guide.
 
 # Arguments
 - `snapshot_copy_grant_name`: The name of the snapshot copy grant. This name must be unique
-  in the region for the AWS account. Constraints:   Must contain from 1 to 63 alphanumeric
+  in the region for the account. Constraints:   Must contain from 1 to 63 alphanumeric
   characters or hyphens.   Alphabetic characters must be lowercase.   First character must be
   a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique
-  for all clusters within an AWS account.
+  for all clusters within an account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -719,6 +733,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_usage_limit(Amount, ClusterIdentifier, FeatureType, LimitType; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateUsageLimit", Dict{String, Any}("Amount"=>Amount, "ClusterIdentifier"=>ClusterIdentifier, "FeatureType"=>FeatureType, "LimitType"=>LimitType); aws_config=aws_config)
 create_usage_limit(Amount, ClusterIdentifier, FeatureType, LimitType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("CreateUsageLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Amount"=>Amount, "ClusterIdentifier"=>ClusterIdentifier, "FeatureType"=>FeatureType, "LimitType"=>LimitType), params)); aws_config=aws_config)
+
+"""
+    delete_authentication_profile(authentication_profile_name)
+    delete_authentication_profile(authentication_profile_name, params::Dict{String,<:Any})
+
+Deletes an authentication profile.
+
+# Arguments
+- `authentication_profile_name`: The name of the authentication profile to delete.
+
+"""
+delete_authentication_profile(AuthenticationProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteAuthenticationProfile", Dict{String, Any}("AuthenticationProfileName"=>AuthenticationProfileName); aws_config=aws_config)
+delete_authentication_profile(AuthenticationProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DeleteAuthenticationProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationProfileName"=>AuthenticationProfileName), params)); aws_config=aws_config)
 
 """
     delete_cluster(cluster_identifier)
@@ -896,7 +923,7 @@ Deletes a partner integration from a cluster. Data can still flow to the cluster
 integration is deleted at the partner's website.
 
 # Arguments
-- `account_id`: The AWS account ID that owns the cluster.
+- `account_id`: The Region ID that owns the cluster.
 - `cluster_identifier`: The cluster identifier of the cluster that receives data from the
   partner.
 - `database_name`: The name of the database that receives data from the partner.
@@ -991,6 +1018,20 @@ describe_account_attributes(; aws_config::AbstractAWSConfig=global_aws_config())
 describe_account_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeAccountAttributes", params; aws_config=aws_config)
 
 """
+    describe_authentication_profiles()
+    describe_authentication_profiles(params::Dict{String,<:Any})
+
+Describes an authentication profile.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthenticationProfileName"`: The name of the authentication profile to describe. If not
+  specified then all authentication profiles owned by the account are listed.
+"""
+describe_authentication_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeAuthenticationProfiles"; aws_config=aws_config)
+describe_authentication_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeAuthenticationProfiles", params; aws_config=aws_config)
+
+"""
     describe_cluster_db_revisions()
     describe_cluster_db_revisions(params::Dict{String,<:Any})
 
@@ -1037,9 +1078,9 @@ values associated with them.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterParameterGroups request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1082,9 +1123,9 @@ Redshift Cluster Management Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterParameters request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1120,10 +1161,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClusterSecurityGroupName parameter, but not both.   Example: securitygroup1
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterSecurityGroups request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.  Constraints: You can specify either the
-  ClusterSecurityGroupName parameter or the Marker parameter, but not both.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.  Constraints: You can
+  specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not
+  both.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1149,15 +1191,15 @@ describe_cluster_security_groups(params::AbstractDict{String}; aws_config::Abstr
 
 Returns one or more snapshot objects, which contain metadata about your cluster snapshots.
 By default, this operation returns information about all snapshots of all clusters that are
-owned by you AWS customer account. No information is returned for snapshots owned by
-inactive AWS customer accounts. If you specify both tag keys and tag values in the same
-request, Amazon Redshift returns all snapshots that match any combination of the specified
-keys and values. For example, if you have owner and environment for tag keys, and admin and
-test for tag values, all snapshots that have any combination of those values are returned.
-Only snapshots that you own are returned in the response; shared snapshots are not returned
-with the tag key and tag value request parameters. If both tag keys and values are omitted
-from the request, snapshots are returned regardless of whether they have tag keys or values
-associated with them.
+owned by your account. No information is returned for snapshots owned by inactive accounts.
+If you specify both tag keys and tag values in the same request, Amazon Redshift returns
+all snapshots that match any combination of the specified keys and values. For example, if
+you have owner and environment for tag keys, and admin and test for tag values, all
+snapshots that have any combination of those values are returned. Only snapshots that you
+own are returned in the response; shared snapshots are not returned with the tag key and
+tag value request parameters. If both tag keys and values are omitted from the request,
+snapshots are returned regardless of whether they have tag keys or values associated with
+them.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1177,18 +1219,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   go to the ISO8601 Wikipedia page.  Example: 2012-07-16T18:00:00Z
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterSnapshots request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.  Default: 100  Constraints: minimum
   20, maximum 100.
-- `"OwnerAccount"`: The AWS customer account used to create or copy the snapshot. Use this
-  field to filter the results to snapshots owned by a particular account. To describe
-  snapshots you own, either specify your AWS customer account, or do not specify the
-  parameter.
+- `"OwnerAccount"`: The account used to create or copy the snapshot. Use this field to
+  filter the results to snapshots owned by a particular account. To describe snapshots you
+  own, either specify your account, or do not specify the parameter.
 - `"SnapshotIdentifier"`: The snapshot identifier of the snapshot about which to return
   information.
 - `"SnapshotType"`: The type of snapshots for which you are requesting information. By
@@ -1217,12 +1258,12 @@ describe_cluster_snapshots(params::AbstractDict{String}; aws_config::AbstractAWS
 
 Returns one or more cluster subnet group objects, which contain metadata about your cluster
 subnet groups. By default, this operation returns information about all cluster subnet
-groups that are defined in you AWS account. If you specify both tag keys and tag values in
-the same request, Amazon Redshift returns all subnet groups that match any combination of
-the specified keys and values. For example, if you have owner and environment for tag keys,
-and admin and test for tag values, all subnet groups that have any combination of those
-values are returned. If both tag keys and values are omitted from the request, subnet
-groups are returned regardless of whether they have tag keys or values associated with them.
+groups that are defined in your account. If you specify both tag keys and tag values in the
+same request, Amazon Redshift returns all subnet groups that match any combination of the
+specified keys and values. For example, if you have owner and environment for tag keys, and
+admin and test for tag values, all subnet groups that have any combination of those values
+are returned. If both tag keys and values are omitted from the request, subnet groups are
+returned regardless of whether they have tag keys or values associated with them.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1230,9 +1271,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requested.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterSubnetGroups request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1288,9 +1329,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterVersion"`: The specific cluster version to return. Example: 1.0
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusterVersions request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1322,9 +1363,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an account are returned.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeClusters request exceed the value specified
-  in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve
-  the next set of response records by providing the returned marker value in the Marker
-  parameter and retrying the request.  Constraints: You can specify either the
+  in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You
+  can retrieve the next set of response records by providing the returned marker value in the
+  Marker parameter and retrying the request.  Constraints: You can specify either the
   ClusterIdentifier parameter or the Marker parameter, but not both.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
@@ -1360,9 +1401,9 @@ in the Amazon Redshift Cluster Management Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeDefaultClusterParameters request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1388,7 +1429,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxRecords"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxRecords value, a pagination token called a Marker is included
   in the response so that the remaining results can be retrieved.
-- `"ResourceOwner"`: The AWS account ID of the owner of the cluster.
+- `"ResourceOwner"`: The account ID of the owner of the cluster.
 - `"VpcId"`: The virtual private cloud (VPC) identifier with access to the cluster.
 """
 describe_endpoint_access(; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeEndpointAccess"; aws_config=aws_config)
@@ -1402,8 +1443,8 @@ Describes an endpoint authorization.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Account"`: The AWS account ID of either the cluster owner (grantor) or grantee. If
-  Grantee parameter is true, then the Account value is of the grantor.
+- `"Account"`: The Aaccount ID of either the cluster owner (grantor) or grantee. If Grantee
+  parameter is true, then the Account value is of the grantor.
 - `"ClusterIdentifier"`: The cluster identifier of the cluster to access.
 - `"Grantee"`: Indicates whether to check authorization from a grantor or grantee point of
   view. If true, Amazon Redshift returns endpoint authorizations that you've been granted. If
@@ -1453,9 +1494,9 @@ returned regardless of whether they have tag keys or values associated with them
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeEventSubscriptions request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1497,9 +1538,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Example: 2009-07-08T18:00Z
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeEvents request exceed the value specified
-  in MaxRecords, AWS returns a value in the Marker field of the response. You can retrieve
-  the next set of response records by providing the returned marker value in the Marker
-  parameter and retrying the request.
+  in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You
+  can retrieve the next set of response records by providing the returned marker value in the
+  Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1530,24 +1571,24 @@ describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=glob
     describe_hsm_client_certificates(params::Dict{String,<:Any})
 
 Returns information about the specified HSM client certificate. If no certificate ID is
-specified, returns information about all the HSM certificates owned by your AWS customer
-account. If you specify both tag keys and tag values in the same request, Amazon Redshift
-returns all HSM client certificates that match any combination of the specified keys and
-values. For example, if you have owner and environment for tag keys, and admin and test for
-tag values, all HSM client certificates that have any combination of those values are
-returned. If both tag keys and values are omitted from the request, HSM client certificates
-are returned regardless of whether they have tag keys or values associated with them.
+specified, returns information about all the HSM certificates owned by your account. If you
+specify both tag keys and tag values in the same request, Amazon Redshift returns all HSM
+client certificates that match any combination of the specified keys and values. For
+example, if you have owner and environment for tag keys, and admin and test for tag values,
+all HSM client certificates that have any combination of those values are returned. If both
+tag keys and values are omitted from the request, HSM client certificates are returned
+regardless of whether they have tag keys or values associated with them.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HsmClientCertificateIdentifier"`: The identifier of a specific HSM client certificate
   for which you want information. If no identifier is specified, information is returned for
-  all HSM client certificates owned by your AWS customer account.
+  all HSM client certificates owned by your account.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeHsmClientCertificates request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1574,24 +1615,23 @@ describe_hsm_client_certificates(params::AbstractDict{String}; aws_config::Abstr
 
 Returns information about the specified Amazon Redshift HSM configuration. If no
 configuration ID is specified, returns information about all the HSM configurations owned
-by your AWS customer account. If you specify both tag keys and tag values in the same
-request, Amazon Redshift returns all HSM connections that match any combination of the
-specified keys and values. For example, if you have owner and environment for tag keys, and
-admin and test for tag values, all HSM connections that have any combination of those
-values are returned. If both tag keys and values are omitted from the request, HSM
-connections are returned regardless of whether they have tag keys or values associated with
-them.
+by your account. If you specify both tag keys and tag values in the same request, Amazon
+Redshift returns all HSM connections that match any combination of the specified keys and
+values. For example, if you have owner and environment for tag keys, and admin and test for
+tag values, all HSM connections that have any combination of those values are returned. If
+both tag keys and values are omitted from the request, HSM connections are returned
+regardless of whether they have tag keys or values associated with them.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HsmConfigurationIdentifier"`: The identifier of a specific Amazon Redshift HSM
   configuration to be described. If no identifier is specified, information is returned for
-  all HSM configurations owned by your AWS customer account.
+  all HSM configurations owned by your account.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeHsmConfigurations request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1648,16 +1688,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: A set of name, operator, and value items to filter the results.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeNodeConfigurationOptions request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.  Default: 500  Constraints: minimum
   100, maximum 500.
-- `"OwnerAccount"`: The AWS customer account used to create or copy the snapshot. Required
-  if you are restoring a snapshot you do not own, optional if you own the snapshot.
+- `"OwnerAccount"`: The account used to create or copy the snapshot. Required if you are
+  restoring a snapshot you do not own, optional if you own the snapshot.
 - `"SnapshotIdentifier"`: The identifier of the snapshot to evaluate for possible node
   configurations.
 """
@@ -1670,11 +1710,11 @@ describe_node_configuration_options(ActionType, params::AbstractDict{String}; aw
 
 Returns a list of orderable cluster options. Before you create a new cluster you can use
 this operation to find what options are available, such as the EC2 Availability Zones (AZ)
-in the specific AWS Region that you can specify, and the node types you can request. The
-node types differ by available storage, memory, CPU and price. With the cost involved you
-might want to obtain a list of cluster options in the specific region and specify values
-when creating a cluster. For more information about managing clusters, go to Amazon
-Redshift Clusters in the Amazon Redshift Cluster Management Guide.
+in the specific Region that you can specify, and the node types you can request. The node
+types differ by available storage, memory, CPU and price. With the cost involved you might
+want to obtain a list of cluster options in the specific region and specify values when
+creating a cluster. For more information about managing clusters, go to Amazon Redshift
+Clusters in the Amazon Redshift Cluster Management Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1683,9 +1723,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Must be one of the version returned from DescribeClusterVersions.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeOrderableClusterOptions request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1704,7 +1744,7 @@ describe_orderable_cluster_options(params::AbstractDict{String}; aws_config::Abs
 Returns information about the partner integrations defined for a cluster.
 
 # Arguments
-- `account_id`: The AWS account ID that owns the cluster.
+- `account_id`: The Region ID that owns the cluster.
 - `cluster_identifier`: The cluster identifier of the cluster whose partner integration is
   being described.
 
@@ -1734,9 +1774,9 @@ Nodes in the Amazon Redshift Cluster Management Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeReservedNodeOfferings request exceed the
-  value specified in MaxRecords, AWS returns a value in the Marker field of the response. You
-  can retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1757,9 +1797,9 @@ Returns the descriptions of the reserved nodes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeReservedNodes request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1783,7 +1823,7 @@ and specifying a different number or type of nodes for the cluster.
 # Arguments
 - `cluster_identifier`: The unique identifier of a cluster whose resize progress you are
   requesting. This parameter is case-sensitive. By default, resize operations for all
-  clusters defined for an AWS account are returned.
+  clusters defined for an account are returned.
 
 """
 describe_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("DescribeResize", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
@@ -1804,9 +1844,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: List of scheduled action filters.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeScheduledActions request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1824,18 +1864,18 @@ describe_scheduled_actions(params::AbstractDict{String}; aws_config::AbstractAWS
     describe_snapshot_copy_grants()
     describe_snapshot_copy_grants(params::Dict{String,<:Any})
 
-Returns a list of snapshot copy grants owned by the AWS account in the destination region.
-For more information about managing snapshot copy grants, go to Amazon Redshift Database
+Returns a list of snapshot copy grants owned by the account in the destination region.  For
+more information about managing snapshot copy grants, go to Amazon Redshift Database
 Encryption in the Amazon Redshift Cluster Management Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeSnapshotCopyGrant request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.  Constraints: You can specify either the
-  SnapshotCopyGrantName parameter or the Marker parameter, but not both.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.  Constraints: You can
+  specify either the SnapshotCopyGrantName parameter or the Marker parameter, but not both.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -1989,9 +2029,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FeatureType"`: The feature type for which you want to describe usage limits.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeUsageLimits request exceed the value
-  specified in MaxRecords, AWS returns a value in the Marker field of the response. You can
-  retrieve the next set of response records by providing the returned marker value in the
-  Marker parameter and retrying the request.
+  specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
+  response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
 - `"MaxRecords"`: The maximum number of response records to return in each call. If the
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
@@ -2034,8 +2074,8 @@ disable_logging(ClusterIdentifier, params::AbstractDict{String}; aws_config::Abs
 
 Disables the automatic copying of snapshots from one region to another region for a
 specified cluster. If your cluster and its snapshots are encrypted using a customer master
-key (CMK) from AWS KMS, use DeleteSnapshotCopyGrant to delete the grant that grants Amazon
-Redshift permission to the CMK in the destination region.
+key (CMK) from Key Management Service, use DeleteSnapshotCopyGrant to delete the grant that
+grants Amazon Redshift permission to the CMK in the destination region.
 
 # Arguments
 - `cluster_identifier`: The unique identifier of the source cluster that you want to
@@ -2081,21 +2121,21 @@ cluster.
 - `cluster_identifier`: The unique identifier of the source cluster to copy snapshots from.
   Constraints: Must be the valid name of an existing cluster that does not already have
   cross-region snapshot copy enabled.
-- `destination_region`: The destination AWS Region that you want to copy snapshots to.
-  Constraints: Must be the name of a valid AWS Region. For more information, see Regions and
+- `destination_region`: The destination Region that you want to copy snapshots to.
+  Constraints: Must be the name of a valid Region. For more information, see Regions and
   Endpoints in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ManualSnapshotRetentionPeriod"`: The number of days to retain newly copied snapshots in
-  the destination AWS Region after they are copied from the source AWS Region. If the value
-  is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an
-  integer between 1 and 3,653.
+  the destination Region after they are copied from the source Region. If the value is -1,
+  the manual snapshot is retained indefinitely.  The value must be either -1 or an integer
+  between 1 and 3,653.
 - `"RetentionPeriod"`: The number of days to retain automated snapshots in the destination
   region after they are copied from the source region. Default: 7. Constraints: Must be at
   least 1 and no more than 35.
 - `"SnapshotCopyGrantName"`: The name of the snapshot copy grant to use when snapshots of
-  an AWS KMS-encrypted cluster are copied to the destination region.
+  an Amazon Web Services KMS-encrypted cluster are copied to the destination region.
 """
 enable_snapshot_copy(ClusterIdentifier, DestinationRegion; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("EnableSnapshotCopy", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "DestinationRegion"=>DestinationRegion); aws_config=aws_config)
 enable_snapshot_copy(ClusterIdentifier, DestinationRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("EnableSnapshotCopy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier, "DestinationRegion"=>DestinationRegion), params)); aws_config=aws_config)
@@ -2111,7 +2151,7 @@ or more database user groups that the user will join at log on. By default, the 
 credentials expire in 900 seconds. You can optionally specify a duration between 900
 seconds (15 minutes) and 3600 seconds (60 minutes). For more information, see Using IAM
 Authentication to Generate Database User Credentials in the Amazon Redshift Cluster
-Management Guide. The AWS Identity and Access Management (IAM)user or role that executes
+Management Guide. The Identity and Access Management (IAM) user or role that runs
 GetClusterCredentials must have an IAM policy attached that allows access to all necessary
 actions and resources. For more information about permissions, see Resource Policies for
 GetClusterCredentials in the Amazon Redshift Cluster Management Guide. If the DbGroups
@@ -2195,12 +2235,27 @@ Modifies whether a cluster can use AQUA (Advanced Query Accelerator).
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AquaConfigurationStatus"`: The new value of AQUA configuration status. Possible values
-  include the following.   enabled - Use AQUA if it is available for the current AWS Region
-  and Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift
+  include the following.   enabled - Use AQUA if it is available for the current Region and
+  Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift
   determines whether to use AQUA.
 """
 modify_aqua_configuration(ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyAquaConfiguration", Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier); aws_config=aws_config)
 modify_aqua_configuration(ClusterIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyAquaConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterIdentifier"=>ClusterIdentifier), params)); aws_config=aws_config)
+
+"""
+    modify_authentication_profile(authentication_profile_content, authentication_profile_name)
+    modify_authentication_profile(authentication_profile_content, authentication_profile_name, params::Dict{String,<:Any})
+
+Modifies an authentication profile.
+
+# Arguments
+- `authentication_profile_content`: The new content of the authentication profile in JSON
+  format. The maximum length of the JSON string is determined by a quota for your account.
+- `authentication_profile_name`: The name of the authentication profile to replace.
+
+"""
+modify_authentication_profile(AuthenticationProfileContent, AuthenticationProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyAuthenticationProfile", Dict{String, Any}("AuthenticationProfileContent"=>AuthenticationProfileContent, "AuthenticationProfileName"=>AuthenticationProfileName); aws_config=aws_config)
+modify_authentication_profile(AuthenticationProfileContent, AuthenticationProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("ModifyAuthenticationProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationProfileContent"=>AuthenticationProfileContent, "AuthenticationProfileName"=>AuthenticationProfileName), params)); aws_config=aws_config)
 
 """
     modify_cluster(cluster_identifier)
@@ -2209,11 +2264,11 @@ modify_aqua_configuration(ClusterIdentifier, params::AbstractDict{String}; aws_c
 Modifies the settings for a cluster. You can also change node type and the number of nodes
 to scale up or down the cluster. When resizing a cluster, you must specify both the number
 of nodes and the node type even if one of the parameters does not change. You can add
-another security or parameter group, or change the master user password. Resetting a
-cluster password or modifying the security groups associated with a cluster do not need a
-reboot. However, modifying a parameter group requires a reboot for parameters to take
-effect. For more information about managing clusters, go to Amazon Redshift Clusters in the
-Amazon Redshift Cluster Management Guide.
+another security or parameter group, or change the admin user password. Resetting a cluster
+password or modifying the security groups associated with a cluster do not need a reboot.
+However, modifying a parameter group requires a reboot for parameters to take effect. For
+more information about managing clusters, go to Amazon Redshift Clusters in the Amazon
+Redshift Cluster Management Guide.
 
 # Arguments
 - `cluster_identifier`: The unique identifier of the cluster to be modified. Example:
@@ -2273,8 +2328,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
 - `"HsmConfigurationIdentifier"`: Specifies the name of the HSM configuration that contains
   the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
-- `"KmsKeyId"`: The AWS Key Management Service (KMS) key ID of the encryption key that you
-  want to use to encrypt data in the cluster.
+- `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that you want
+  to use to encrypt data in the cluster.
 - `"MaintenanceTrackName"`: The name for the maintenance track that you want to assign for
   the cluster. This name change is asynchronous. The new track name stays in the
   PendingModifiedValues for the cluster until the next maintenance window. When the
@@ -2285,12 +2340,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indefinitely. This value doesn't retroactively change the retention periods of existing
   manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The
   default value is -1.
-- `"MasterUserPassword"`: The new password for the cluster master user. This change is
+- `"MasterUserPassword"`: The new password for the cluster admin user. This change is
   asynchronously applied as soon as possible. Between the time of the request and the
   completion of the request, the MasterUserPassword element exists in the
   PendingModifiedValues element of the operation response.   Operations never return the
-  password, so this operation provides a way to regain access to the master user account for
-  a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be
+  password, so this operation provides a way to regain access to the admin user account for a
+  cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be
   between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must
   contain at least one lowercase letter.   Must contain one number.   Can be any printable
   ASCII character (ASCII code 33 to 126) except ' (single quote), \" (double quote), , /, @,
@@ -2298,7 +2353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NewClusterIdentifier"`: The new identifier for the cluster. Constraints:   Must contain
   from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.
     First character must be a letter.   Cannot end with a hyphen or contain two consecutive
-  hyphens.   Must be unique for all clusters within an AWS account.   Example: examplecluster
+  hyphens.   Must be unique for all clusters within an account.   Example: examplecluster
 - `"NodeType"`: The new node type of the cluster. If you specify a new node type, you must
   also specify the number of nodes parameter.  For more information about resizing clusters,
   go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide.
@@ -2346,9 +2401,9 @@ modify_cluster_db_revision(ClusterIdentifier, RevisionTarget, params::AbstractDi
     modify_cluster_iam_roles(cluster_identifier)
     modify_cluster_iam_roles(cluster_identifier, params::Dict{String,<:Any})
 
-Modifies the list of AWS Identity and Access Management (IAM) roles that can be used by the
-cluster to access other AWS services. A cluster can have up to 10 IAM roles associated at
-any time.
+Modifies the list of Identity and Access Management (IAM) roles that can be used by the
+cluster to access other Amazon Web Services services. A cluster can have up to 10 IAM roles
+associated at any time.
 
 # Arguments
 - `cluster_identifier`: The unique identifier of the cluster for which you want to
@@ -2525,7 +2580,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceType"`: The type of source that will be generating the events. For example, if
   you want to be notified of events generated by a cluster, you would set this parameter to
   cluster. If this value is not specified, events are returned for all Amazon Redshift
-  objects in your AWS account. You must specify a source type in order to specify source IDs.
+  objects in your account. You must specify a source type in order to specify source IDs.
   Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
   and scheduled-action.
 """
@@ -2564,28 +2619,28 @@ modify_scheduled_action(ScheduledActionName, params::AbstractDict{String}; aws_c
     modify_snapshot_copy_retention_period(cluster_identifier, retention_period)
     modify_snapshot_copy_retention_period(cluster_identifier, retention_period, params::Dict{String,<:Any})
 
-Modifies the number of days to retain snapshots in the destination AWS Region after they
-are copied from the source AWS Region. By default, this operation only changes the
-retention period of copied automated snapshots. The retention periods for both new and
-existing copied automated snapshots are updated with the new retention period. You can set
-the manual option to change only the retention periods of copied manual snapshots. If you
-set this option, only newly copied manual snapshots have the new retention period.
+Modifies the number of days to retain snapshots in the destination Region after they are
+copied from the source Region. By default, this operation only changes the retention period
+of copied automated snapshots. The retention periods for both new and existing copied
+automated snapshots are updated with the new retention period. You can set the manual
+option to change only the retention periods of copied manual snapshots. If you set this
+option, only newly copied manual snapshots have the new retention period.
 
 # Arguments
 - `cluster_identifier`: The unique identifier of the cluster for which you want to change
   the retention period for either automated or manual snapshots that are copied to a
-  destination AWS Region. Constraints: Must be the valid name of an existing cluster that has
+  destination Region. Constraints: Must be the valid name of an existing cluster that has
   cross-region snapshot copy enabled.
 - `retention_period`: The number of days to retain automated snapshots in the destination
-  AWS Region after they are copied from the source AWS Region. By default, this only changes
-  the retention period of copied automated snapshots.  If you decrease the retention period
-  for automated snapshots that are copied to a destination AWS Region, Amazon Redshift
-  deletes any existing automated snapshots that were copied to the destination AWS Region and
-  that fall outside of the new retention period. Constraints: Must be at least 1 and no more
-  than 35 for automated snapshots.  If you specify the manual option, only newly copied
-  manual snapshots will have the new retention period.  If you specify the value of -1 newly
-  copied manual snapshots are retained indefinitely. Constraints: The number of days must be
-  either -1 or an integer between 1 and 3,653 for manual snapshots.
+  Region after they are copied from the source Region. By default, this only changes the
+  retention period of copied automated snapshots.  If you decrease the retention period for
+  automated snapshots that are copied to a destination Region, Amazon Redshift deletes any
+  existing automated snapshots that were copied to the destination Region and that fall
+  outside of the new retention period. Constraints: Must be at least 1 and no more than 35
+  for automated snapshots.  If you specify the manual option, only newly copied manual
+  snapshots will have the new retention period.  If you specify the value of -1 newly copied
+  manual snapshots are retained indefinitely. Constraints: The number of days must be either
+  -1 or an integer between 1 and 3,653 for manual snapshots.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2760,7 +2815,7 @@ Management Guide.
   the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.
    Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end
   with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within
-  an AWS account.
+  an account.
 - `snapshot_identifier`: The name of the snapshot from which to create the new cluster.
   This parameter isn't case sensitive. Example: my-snapshot-id
 
@@ -2772,9 +2827,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true
 - `"AquaConfigurationStatus"`: The value represents how the cluster is configured to use
   AQUA (Advanced Query Accelerator) after the cluster is restored. Possible values include
-  the following.   enabled - Use AQUA if it is available for the current AWS Region and
-  Amazon Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift
-  determines whether to use AQUA.
+  the following.   enabled - Use AQUA if it is available for the current Region and Amazon
+  Redshift node type.   disabled - Don't use AQUA.    auto - Amazon Redshift determines
+  whether to use AQUA.
 - `"AutomatedSnapshotRetentionPeriod"`: The number of days that automated snapshots are
   retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots
   are disabled, you can still create manual snapshots when you want with
@@ -2806,12 +2861,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
 - `"HsmConfigurationIdentifier"`: Specifies the name of the HSM configuration that contains
   the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
-- `"IamRoles"`: A list of AWS Identity and Access Management (IAM) roles that can be used
-  by the cluster to access other AWS services. You must supply the IAM roles in their Amazon
-  Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A
-  cluster can have up to 10 IAM roles associated at any time.
-- `"KmsKeyId"`: The AWS Key Management Service (KMS) key ID of the encryption key that you
-  want to use to encrypt data in the cluster that you restore from a shared snapshot.
+- `"IamRoles"`: A list of Identity and Access Management (IAM) roles that can be used by
+  the cluster to access other Amazon Web Services services. You must supply the IAM roles in
+  their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single
+  request. A cluster can have up to 10 IAM roles associated at any time.
+- `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that you want
+  to use to encrypt data in the cluster that you restore from a shared snapshot.
 - `"MaintenanceTrackName"`: The name of the maintenance track for the restored cluster.
   When you take a snapshot, the snapshot inherits the MaintenanceTrack value from the
   cluster. The snapshot might be on a different track than the cluster that was the source
@@ -2833,8 +2888,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cluster. For more information about node types, see  About Clusters and Nodes in the Amazon
   Redshift Cluster Management Guide.
 - `"NumberOfNodes"`: The number of nodes specified when provisioning the restored cluster.
-- `"OwnerAccount"`: The AWS customer account used to create or copy the snapshot. Required
-  if you are restoring a snapshot you do not own, optional if you own the snapshot.
+- `"OwnerAccount"`: The account used to create or copy the snapshot. Required if you are
+  restoring a snapshot you do not own, optional if you own the snapshot.
 - `"Port"`: The port number on which the cluster accepts connections. Default: The same
   port as the original cluster. Constraints: Must be between 1115 and 65535.
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which automated
@@ -2928,10 +2983,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EC2SecurityGroupName"`: The name of the EC2 Security Group whose access is to be
   revoked. If EC2SecurityGroupName is specified, EC2SecurityGroupOwnerId must also be
   provided and CIDRIP cannot be provided.
-- `"EC2SecurityGroupOwnerId"`: The AWS account number of the owner of the security group
-  specified in the EC2SecurityGroupName parameter. The AWS access key ID is not an acceptable
-  value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must also be provided.
-  and CIDRIP cannot be provided.  Example: 111122223333
+- `"EC2SecurityGroupOwnerId"`: The account number of the owner of the security group
+  specified in the EC2SecurityGroupName parameter. The Amazon Web Services access key ID is
+  not an acceptable value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must
+  also be provided. and CIDRIP cannot be provided.  Example: 111122223333
 """
 revoke_cluster_security_group_ingress(ClusterSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeClusterSecurityGroupIngress", Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName); aws_config=aws_config)
 revoke_cluster_security_group_ingress(ClusterSecurityGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = redshift("RevokeClusterSecurityGroupIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterSecurityGroupName"=>ClusterSecurityGroupName), params)); aws_config=aws_config)
@@ -2944,7 +2999,7 @@ Revokes access to a cluster.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Account"`: The AWS account ID whose access is to be revoked.
+- `"Account"`: The account ID whose access is to be revoked.
 - `"ClusterIdentifier"`: The cluster to revoke access from.
 - `"Force"`: Indicates whether to force the revoke action. If true, the Redshift-managed
   VPC endpoints associated with the endpoint authorization are also deleted.
@@ -2957,14 +3012,14 @@ revoke_endpoint_access(params::AbstractDict{String}; aws_config::AbstractAWSConf
     revoke_snapshot_access(account_with_restore_access, snapshot_identifier)
     revoke_snapshot_access(account_with_restore_access, snapshot_identifier, params::Dict{String,<:Any})
 
-Removes the ability of the specified AWS customer account to restore the specified
-snapshot. If the account is currently restoring the snapshot, the restore will run to
-completion.  For more information about working with snapshots, go to Amazon Redshift
-Snapshots in the Amazon Redshift Cluster Management Guide.
+Removes the ability of the specified account to restore the specified snapshot. If the
+account is currently restoring the snapshot, the restore will run to completion.  For more
+information about working with snapshots, go to Amazon Redshift Snapshots in the Amazon
+Redshift Cluster Management Guide.
 
 # Arguments
-- `account_with_restore_access`: The identifier of the AWS customer account that can no
-  longer restore the specified snapshot.
+- `account_with_restore_access`: The identifier of the account that can no longer restore
+  the specified snapshot.
 - `snapshot_identifier`: The identifier of the snapshot that the account can no longer
   access.
 
@@ -2999,7 +3054,7 @@ rotate_encryption_key(ClusterIdentifier, params::AbstractDict{String}; aws_confi
 Updates the status of a partner integration.
 
 # Arguments
-- `account_id`: The AWS account ID that owns the cluster.
+- `account_id`: The Region ID that owns the cluster.
 - `cluster_identifier`: The cluster identifier of the cluster whose partner integration
   status is being updated.
 - `database_name`: The name of the database whose partner integration status is being

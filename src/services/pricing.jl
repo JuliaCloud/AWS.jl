@@ -33,8 +33,8 @@ describe_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     get_attribute_values(attribute_name, service_code, params::Dict{String,<:Any})
 
 Returns a list of attribute values. Attibutes are similar to the details in a Price List
-API offer file. For a list of available attributes, see Offer File Definitions in the AWS
-Billing and Cost Management User Guide.
+API offer file. For a list of available attributes, see Offer File Definitions in the
+Amazon Web Services Billing and Cost Management User Guide.
 
 # Arguments
 - `attribute_name`: The name of the attribute that you want to retrieve the values for,
