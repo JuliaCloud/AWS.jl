@@ -12,7 +12,7 @@ struct HTTPBackend <: AbstractBackend
     http_options::AbstractDict{Symbol,<:Any}
 end
 
-HTTPBackend() = HTTPBackend(LittleDict{Symbol,String}())
+HTTPBackend(; kwargs...) = HTTPBackend(LittleDict(kwargs))
 
 const DEFAULT_BACKEND = Ref{AbstractBackend}(HTTPBackend())
 
@@ -170,7 +170,7 @@ function _http_request(http_backend::HTTPBackend, request::Request)
             request.response_stream = Base.BufferStream()
         end
 
-        return HTTP.request(
+        return @mock HTTP.request(
             http_stack,
             request.request_method,
             HTTP.URI(request.url),

@@ -351,6 +351,50 @@ end
     end
 end
 
+@testset "HTTPBackend" begin
+    request = Request(
+        service="s3",
+        api_version="api_version",
+        request_method="GET",
+        url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+    )
+    apply(Patches._http_options_patch) do
+        # No default options
+        @test isempty(AWS._http_request(request.backend, request))
+
+        # We can pass options via the backend
+        custom_backend = AWS.HTTPBackend(Dict(:connection_limit => 5))
+        @test custom_backend isa AWS.AbstractBackend
+        @test AWS._http_request(custom_backend, request) == Dict(:connection_limit => 5)
+
+        # We can pass options per-request
+        request.http_options = Dict(:pipeline_limit => 20)
+        @test AWS._http_request(request.backend, request) == Dict(:pipeline_limit => 20)
+        @test AWS._http_request(custom_backend, request) == Dict(:pipeline_limit => 20, :connection_limit => 5)
+
+        # per-request options override backend options:
+        custom_backend = AWS.HTTPBackend(Dict(:pipeline_limit => 5))
+        @test AWS._http_request(custom_backend, request) == Dict(:pipeline_limit => 20)
+    end
+
+    # Let's test setting the default backend
+    try
+        AWS.DEFAULT_BACKEND[] = AWS.HTTPBackend(; connection_limit = 3)
+        request = Request(
+            service="s3",
+            api_version="api_version",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        )
+        @test request.backend.http_options == Dict(:connection_limit => 3)
+        apply(Patches._http_options_patch) do
+            @test AWS._http_request(request.backend, request) == Dict(:connection_limit => 3)
+        end
+    finally
+        AWS.DEFAULT_BACKEND[] = AWS.HTTPBackend()
+    end
+end
+
 @testset "_generate_rest_resource" begin
     request_uri = "/{Bucket}/{Key+}"
     args = Dict{String, Any}(

@@ -107,4 +107,15 @@ _instance_metadata_timeout_patch = @patch function HTTP.request(method::String, 
     throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
 end
 
+# This patch causes `HTTP.request` to return all of its keyword arguments
+# except `require_ssl_verification` and `response_stream`. This is used to
+# test which other options are being passed to `HTTP.Request` inside of
+# `_http_request`.
+_http_options_patch = @patch function HTTP.request(args...; kwargs...)
+    options = Dict(kwargs)
+    delete!(options, :require_ssl_verification)
+    delete!(options, :response_stream)
+    return options
+end
+
 end
