@@ -67,31 +67,27 @@ _config_file_patch = @patch function dot_aws_config_file()
     return ""
 end
 
-_web_identity_patch = function (;
-    access_key="web_identity_access_key",
-    secret_key="web_identity_secret_key",
-    session_token="web_session_token",
+_assume_role_patch = function (
+    op;
+    access_key="access_key",
+    secret_key="secret_key",
+    session_token="token",
     role_arn="arn:aws:sts:::assumed-role/role-name",
 )
-    @patch function AWS._http_request(request)
-        params = Dict(split.(split(request.content, '&'), '='))
-        creds = Dict(
-            "AccessKeyId" => access_key,
-            "SecretAccessKey" => secret_key,
-            "SessionToken" => session_token,
-            "Expiration" => string(now(UTC)),
-        )
-
-        result = Dict(
-            "AssumeRoleWithWebIdentityResult" => Dict(
-                "Credentials" => creds,
+    @patch function AWSServices.sts(op, params; aws_config)
+        return Dict(
+            "$(op)Result" => Dict(
+                "Credentials" => Dict(
+                    "AccessKeyId" => access_key,
+                    "SecretAccessKey" => secret_key,
+                    "SessionToken" => session_token,
+                    "Expiration" => string(now(UTC)),
+                ),
                 "AssumedRoleUser" => Dict(
-                    "Arn" => role_arn * "/" * params["RoleSessionName"],
+                    "Arn" => "$(role_arn)/$(params["RoleSessionName"])",
                 ),
             ),
         )
-
-        return HTTP.Response(200, ["Content-Type" => "text/json", "charset" => "utf-8"], body=json(result))
     end
 end
 
