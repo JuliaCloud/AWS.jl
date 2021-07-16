@@ -8,7 +8,7 @@ using AWS.UUIDs
     create_outpost(name, site_id)
     create_outpost(name, site_id, params::Dict{String,<:Any})
 
-Creates an Outpost.
+Creates an Outpost. You can specify AvailabilityZone or AvailabilityZoneId.
 
 # Arguments
 - `name`:
@@ -84,10 +84,26 @@ get_outpost_instance_types(OutpostId, params::AbstractDict{String}; aws_config::
     list_outposts()
     list_outposts(params::Dict{String,<:Any})
 
-List the Outposts for your AWS account.
+Create a list of the Outposts for your AWS account. Add filters to your request to return a
+more specific list of results. Use filters to match an Outpost lifecycle status,
+Availibility Zone (us-east-1a), and AZ ID (use1-az1).  If you specify multiple filters, the
+filters are joined with an AND, and the request returns only results that match all of the
+specified filters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AvailabilityZoneFilter"`:  A filter for the Availibility Zone (us-east-1a) of the
+  Outpost.   Filter values are case sensitive. If you specify multiple values for a filter,
+  the values are joined with an OR, and the request returns all results that match any of the
+  specified values.
+- `"AvailabilityZoneIdFilter"`:  A filter for the AZ IDs (use1-az1) of the Outpost.
+  Filter values are case sensitive. If you specify multiple values for a filter, the values
+  are joined with an OR, and the request returns all results that match any of the specified
+  values.
+- `"LifeCycleStatusFilter"`:  A filter for the lifecycle status of the Outpost.   Filter
+  values are case sensitive. If you specify multiple values for a filter, the values are
+  joined with an OR, and the request returns all results that match any of the specified
+  values.
 - `"MaxResults"`:
 - `"NextToken"`:
 """

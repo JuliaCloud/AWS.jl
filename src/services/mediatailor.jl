@@ -265,6 +265,25 @@ get_playback_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config
 get_playback_configuration(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfiguration/$(Name)", params; aws_config=aws_config)
 
 """
+    list_alerts(resource_arn)
+    list_alerts(resource_arn, params::Dict{String,<:Any})
+
+Returns a list of alerts for the given resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Upper bound on number of records to return. The maximum number of results
+  is 100.
+- `"nextToken"`: Pagination token from the GET list request. Use the token to fetch the
+  next page of results.
+"""
+list_alerts(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/alerts", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
+list_alerts(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = mediatailor("GET", "/alerts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+
+"""
     list_channels()
     list_channels(params::Dict{String,<:Any})
 

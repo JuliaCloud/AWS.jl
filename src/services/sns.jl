@@ -8,13 +8,13 @@ using AWS.UUIDs
     add_permission(awsaccount_id, action_name, label, topic_arn)
     add_permission(awsaccount_id, action_name, label, topic_arn, params::Dict{String,<:Any})
 
-Adds a statement to a topic's access control policy, granting access for the specified AWS
+Adds a statement to a topic's access control policy, granting access for the specified
 accounts to the specified actions.
 
 # Arguments
-- `awsaccount_id`: The AWS account IDs of the users (principals) who will be given access
-  to the specified actions. The users must have AWS accounts, but do not need to be signed up
-  for this service.
+- `awsaccount_id`: The account IDs of the users (principals) who will be given access to
+  the specified actions. The users must have account, but do not need to be signed up for
+  this service.
 - `action_name`: The action you want to allow for the specified principal(s). Valid values:
   Any Amazon SNS action name, for example Publish.
 - `label`: A unique identifier for the new policy statement.
@@ -55,9 +55,9 @@ signature only when the AuthenticateOnUnsubscribe flag is set to \"true\".
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AuthenticateOnUnsubscribe"`: Disallows unauthenticated unsubscribes of the
-  subscription. If the value of this parameter is true and the request has an AWS signature,
-  then only the topic owner and the subscription owner can unsubscribe the endpoint. The
-  unsubscribe action requires AWS authentication.
+  subscription. If the value of this parameter is true and the request has an Amazon Web
+  Services signature, then only the topic owner and the subscription owner can unsubscribe
+  the endpoint. The unsubscribe action requires Amazon Web Services authentication.
 """
 confirm_subscription(Token, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ConfirmSubscription", Dict{String, Any}("Token"=>Token, "TopicArn"=>TopicArn); aws_config=aws_config)
 confirm_subscription(Token, TopicArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sns("ConfirmSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Token"=>Token, "TopicArn"=>TopicArn), params)); aws_config=aws_config)
@@ -128,10 +128,10 @@ create_platform_endpoint(PlatformApplicationArn, Token, params::AbstractDict{Str
     create_smssandbox_phone_number(phone_number)
     create_smssandbox_phone_number(phone_number, params::Dict{String,<:Any})
 
-Adds a destination phone number to an AWS account in the SMS sandbox and sends a one-time
+Adds a destination phone number to an account in the SMS sandbox and sends a one-time
 password (OTP) to that phone number. When you start using Amazon SNS to send SMS messages,
-your AWS account is in the SMS sandbox. The SMS sandbox provides a safe environment for you
-to try Amazon SNS features without risking your reputation as an SMS sender. While your
+your account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to
+try Amazon SNS features without risking your reputation as an SMS sender. While your
 account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you
 can send SMS messages only to verified destination phone numbers. For more information,
 including how to move out of the sandbox to send messages without restrictions, see SMS
@@ -153,9 +153,10 @@ create_smssandbox_phone_number(PhoneNumber, params::AbstractDict{String}; aws_co
     create_topic(name, params::Dict{String,<:Any})
 
 Creates a topic to which notifications can be published. Users can create at most 100,000
-standard topics (at most 1,000 FIFO topics). For more information, see
-https://aws.amazon.com/sns. This action is idempotent, so if the requester already owns a
-topic with the specified name, that topic's ARN is returned without creating a new topic.
+standard topics (at most 1,000 FIFO topics). For more information, see Creating an Amazon
+SNS topic in the Amazon SNS Developer Guide. This action is idempotent, so if the requester
+already owns a topic with the specified name, that topic's ARN is returned without creating
+a new topic.
 
 # Arguments
 - `name`: The name of the topic you want to create. Constraints: Topic names must be made
@@ -172,17 +173,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The
   policy that defines who can access your topic. By default, only the topic owner can publish
   or subscribe to the topic.   The following attribute applies only to server-side
-  encryption:    KmsMasterKeyId – The ID of an AWS managed customer master key (CMK) for
-  Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see
-  KeyId in the AWS Key Management Service API Reference.    The following attributes apply
-  only to FIFO topics:    FifoTopic – When this is set to true, a FIFO topic is created.
-  ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
-  default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this
-  attribute is false, you must specify a value for the MessageDeduplicationId parameter for
-  the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a
-  SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not
-  the attributes of the message). (Optional) To override the generated value, you can specify
-  a value for the MessageDeduplicationId parameter for the Publish action.
+  encryption:    KmsMasterKeyId – The ID of an Amazon Web Services managed customer master
+  key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more
+  examples, see KeyId in the Key Management Service API Reference.    The following
+  attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO
+  topic is created.    ContentBasedDeduplication – Enables content-based deduplication for
+  FIFO topics.   By default, ContentBasedDeduplication is set to false. If you create a FIFO
+  topic and this attribute is false, you must specify a value for the MessageDeduplicationId
+  parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon
+  SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the
+  message (but not the attributes of the message). (Optional) To override the generated
+  value, you can specify a value for the MessageDeduplicationId parameter for the Publish
+  action.
 - `"Tags"`: The list of tags to add to a new topic.  To be able to tag a topic on creation,
   you must have the sns:CreateTopic and sns:TagResource permissions.
 """
@@ -225,13 +227,13 @@ delete_platform_application(PlatformApplicationArn, params::AbstractDict{String}
     delete_smssandbox_phone_number(phone_number)
     delete_smssandbox_phone_number(phone_number, params::Dict{String,<:Any})
 
-Deletes an AWS account's verified or pending phone number from the SMS sandbox. When you
-start using Amazon SNS to send SMS messages, your AWS account is in the SMS sandbox. The
-SMS sandbox provides a safe environment for you to try Amazon SNS features without risking
-your reputation as an SMS sender. While your account is in the SMS sandbox, you can use all
-of the features of Amazon SNS. However, you can send SMS messages only to verified
-destination phone numbers. For more information, including how to move out of the sandbox
-to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+Deletes an account's verified or pending phone number from the SMS sandbox. When you start
+using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS sandbox
+provides a safe environment for you to try Amazon SNS features without risking your
+reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of
+the features of Amazon SNS. However, you can send SMS messages only to verified destination
+phone numbers. For more information, including how to move out of the sandbox to send
+messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 # Arguments
 - `phone_number`: The destination phone number to delete.
@@ -306,13 +308,13 @@ get_smsattributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     get_smssandbox_account_status()
     get_smssandbox_account_status(params::Dict{String,<:Any})
 
-Retrieves the SMS sandbox status for the calling AWS account in the target AWS Region. When
-you start using Amazon SNS to send SMS messages, your AWS account is in the SMS sandbox.
-The SMS sandbox provides a safe environment for you to try Amazon SNS features without
-risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can
-use all of the features of Amazon SNS. However, you can send SMS messages only to verified
-destination phone numbers. For more information, including how to move out of the sandbox
-to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
+Retrieves the SMS sandbox status for the calling account in the target Region. When you
+start using Amazon SNS to send SMS messages, your account is in the SMS sandbox. The SMS
+sandbox provides a safe environment for you to try Amazon SNS features without risking your
+reputation as an SMS sender. While your account is in the SMS sandbox, you can use all of
+the features of Amazon SNS. However, you can send SMS messages only to verified destination
+phone numbers. For more information, including how to move out of the sandbox to send
+messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 """
 get_smssandbox_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) = sns("GetSMSSandboxAccountStatus"; aws_config=aws_config)
@@ -375,7 +377,7 @@ list_endpoints_by_platform_application(PlatformApplicationArn, params::AbstractD
     list_origination_numbers()
     list_origination_numbers(params::Dict{String,<:Any})
 
-Lists the calling AWS account's dedicated origination numbers and their metadata. For more
+Lists the calling account's dedicated origination numbers and their metadata. For more
 information about origination numbers, see Origination numbers in the Amazon SNS Developer
 Guide.
 
@@ -431,14 +433,14 @@ list_platform_applications(params::AbstractDict{String}; aws_config::AbstractAWS
     list_smssandbox_phone_numbers()
     list_smssandbox_phone_numbers(params::Dict{String,<:Any})
 
-Lists the calling AWS account's current verified and pending destination phone numbers in
-the SMS sandbox. When you start using Amazon SNS to send SMS messages, your AWS account is
-in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS
-features without risking your reputation as an SMS sender. While your account is in the SMS
-sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages
-only to verified destination phone numbers. For more information, including how to move out
-of the sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS
-Developer Guide.
+Lists the calling account's current verified and pending destination phone numbers in the
+SMS sandbox. When you start using Amazon SNS to send SMS messages, your account is in the
+SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features
+without risking your reputation as an SMS sender. While your account is in the SMS sandbox,
+you can use all of the features of Amazon SNS. However, you can send SMS messages only to
+verified destination phone numbers. For more information, including how to move out of the
+sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer
+Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -541,7 +543,7 @@ message to a mobile endpoint, such as an app on a Kindle device or mobile phone,
 specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when
 making a call with the CreatePlatformEndpoint action.  For more information about
 formatting messages, see Send Custom Platform-Specific Payloads in Messages to Mobile
-Devices.   You can publish messages only to topics and endpoints in the same AWS Region.
+Devices.   You can publish messages only to topics and endpoints in the same Region.
 
 # Arguments
 - `message`: The message you want to send. If you are publishing to a topic and you want to
@@ -723,7 +725,7 @@ the s3:ListBucket action.
   phone number   Message type   Delivery status   Message price (in USD)   Part number (a
   message is split into multiple parts if it is too long for a single message)   Total number
   of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS
-  service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an
+  service principal to perform the s3:PutObject and s3:GetBucketLocation actions. For an
   example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS
   Developer Guide.
 
@@ -779,10 +781,10 @@ Allows a topic owner to set an attribute of the topic to a new value.
   use for a topic with SMS subscriptions.    Policy – The policy that defines who can
   access your topic. By default, only the topic owner can publish or subscribe to the topic.
    The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The
-  ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more
-  information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service
-  API Reference.    The following attribute applies only to FIFO topics:
-  ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
+  ID of an Amazon Web Services managed customer master key (CMK) for Amazon SNS or a custom
+  CMK. For more information, see Key Terms. For more examples, see KeyId in the Key
+  Management Service API Reference.    The following attribute applies only to FIFO topics:
+   ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
   default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this
   attribute is false, you must specify a value for the MessageDeduplicationId parameter for
   the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a
@@ -803,11 +805,10 @@ set_topic_attributes(AttributeName, TopicArn, params::AbstractDict{String}; aws_
     subscribe(protocol, topic_arn, params::Dict{String,<:Any})
 
 Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or
-if the endpoint and the topic are not in the same AWS account, the endpoint owner must run
-the ConfirmSubscription action to confirm the subscription. You call the
-ConfirmSubscription action with the token from the subscription response. Confirmation
-tokens are valid for three days. This action is throttled at 100 transactions per second
-(TPS).
+if the endpoint and the topic are not in the same account, the endpoint owner must run the
+ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription
+action with the token from the subscription response. Confirmation tokens are valid for
+three days. This action is throttled at 100 transactions per second (TPS).
 
 # Arguments
 - `protocol`: The protocol that you want to use. Supported protocols include:    http –
@@ -816,31 +817,30 @@ tokens are valid for three days. This action is throttled at 100 transactions pe
   of JSON-encoded message via SMTP    sms – delivery of message via SMS    sqs – delivery
   of JSON-encoded message to an Amazon SQS queue    application – delivery of JSON-encoded
   message to an EndpointArn for a mobile app and device    lambda – delivery of
-  JSON-encoded message to an AWS Lambda function    firehose – delivery of JSON-encoded
-  message to an Amazon Kinesis Data Firehose delivery stream.
+  JSON-encoded message to an Lambda function    firehose – delivery of JSON-encoded message
+  to an Amazon Kinesis Data Firehose delivery stream.
 - `topic_arn`: The ARN of the topic you want to subscribe to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Attributes"`: A map of attributes with their corresponding values. The following lists
-  the names, descriptions, and values of the special request parameters that the
-  SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon
-  SNS retries failed deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON
-  object that lets your subscriber receive only a subset of messages, rather than receiving
-  every message published to the topic.    RawMessageDelivery – When set to true, enables
-  raw message delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the
-  endpoints to process JSON formatting, which is otherwise created for Amazon SNS metadata.
-   RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS
-  dead-letter queue. Messages that can't be delivered due to client errors (for example, when
-  the subscribed endpoint is unreachable) or server errors (for example, when the service
-  that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue
-  for further analysis or reprocessing.   The following attribute applies only to Amazon
-  Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of
-  the IAM role that has the following:   Permission to write to the Kinesis Data Firehose
-  delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this
-  attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more
-  information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS
-  Developer Guide.
+  the names, descriptions, and values of the special request parameters that the Subscribe
+  action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed
+  deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your
+  subscriber receive only a subset of messages, rather than receiving every message published
+  to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to
+  Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON
+  formatting, which is otherwise created for Amazon SNS metadata.    RedrivePolicy – When
+  specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue.
+  Messages that can't be delivered due to client errors (for example, when the subscribed
+  endpoint is unreachable) or server errors (for example, when the service that powers the
+  subscribed endpoint becomes unavailable) are held in the dead-letter queue for further
+  analysis or reprocessing.   The following attribute applies only to Amazon Kinesis Data
+  Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role
+  that has the following:   Permission to write to the Kinesis Data Firehose delivery stream
+   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this attribute is
+  required for Kinesis Data Firehose delivery stream subscriptions. For more information, see
+  Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS Developer Guide.
 - `"Endpoint"`: The endpoint that you want to receive notifications. Endpoints vary by
   protocol:   For the http protocol, the (public) endpoint is a URL beginning with http://.
   For the https protocol, the (public) endpoint is a URL beginning with https://.   For the
@@ -848,7 +848,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   endpoint is an email address.   For the sms protocol, the endpoint is a phone number of an
   SMS-enabled device.   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue.
     For the application protocol, the endpoint is the EndpointArn of a mobile app and device.
-    For the lambda protocol, the endpoint is the ARN of an AWS Lambda function.   For the
+    For the lambda protocol, the endpoint is the ARN of an Lambda function.   For the
   firehose protocol, the endpoint is the ARN of an Amazon Kinesis Data Firehose delivery
   stream.
 - `"ReturnSubscriptionArn"`: Sets whether the response from the Subscribe request includes
@@ -871,8 +871,8 @@ Amazon SNS Developer Guide. When you use topic tags, keep the following guidelin
   Adding more than 50 tags to a topic isn't recommended.   Tags don't have any semantic
 meaning. Amazon SNS interprets tags as character strings.   Tags are case-sensitive.   A
 new tag with a key identical to that of an existing tag overwrites the existing tag.
-Tagging actions are limited to 10 TPS per AWS account, per AWS region. If your application
-requires a higher throughput, file a technical support request.
+Tagging actions are limited to 10 TPS per account, per Region. If your application requires
+a higher throughput, file a technical support request.
 
 # Arguments
 - `resource_arn`: The ARN of the topic to which to add tags.
@@ -888,11 +888,11 @@ tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::Abstra
     unsubscribe(subscription_arn, params::Dict{String,<:Any})
 
 Deletes a subscription. If the subscription requires authentication for deletion, only the
-owner of the subscription or the topic's owner can unsubscribe, and an AWS signature is
-required. If the Unsubscribe call does not require authentication and the requester is not
-the subscription owner, a final cancellation message is delivered to the endpoint, so that
-the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was
-unintended. This action is throttled at 100 transactions per second (TPS).
+owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services
+signature is required. If the Unsubscribe call does not require authentication and the
+requester is not the subscription owner, a final cancellation message is delivered to the
+endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe
+request was unintended. This action is throttled at 100 transactions per second (TPS).
 
 # Arguments
 - `subscription_arn`: The ARN of the subscription to be deleted.
@@ -920,14 +920,13 @@ untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::A
     verify_smssandbox_phone_number(one_time_password, phone_number)
     verify_smssandbox_phone_number(one_time_password, phone_number, params::Dict{String,<:Any})
 
-Verifies a destination phone number with a one-time password (OTP) for the calling AWS
-account. When you start using Amazon SNS to send SMS messages, your AWS account is in the
-SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features
-without risking your reputation as an SMS sender. While your account is in the SMS sandbox,
-you can use all of the features of Amazon SNS. However, you can send SMS messages only to
-verified destination phone numbers. For more information, including how to move out of the
-sandbox to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer
-Guide.
+Verifies a destination phone number with a one-time password (OTP) for the calling account.
+When you start using Amazon SNS to send SMS messages, your account is in the SMS sandbox.
+The SMS sandbox provides a safe environment for you to try Amazon SNS features without
+risking your reputation as an SMS sender. While your account is in the SMS sandbox, you can
+use all of the features of Amazon SNS. However, you can send SMS messages only to verified
+destination phone numbers. For more information, including how to move out of the sandbox
+to send messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 # Arguments
 - `one_time_password`: The OTP sent to the destination number from the

@@ -440,19 +440,19 @@ associate_dhcp_options(DhcpOptionsId, VpcId, params::AbstractDict{String}; aws_c
     associate_enclave_certificate_iam_role()
     associate_enclave_certificate_iam_role(params::Dict{String,<:Any})
 
-Associates an AWS Identity and Access Management (IAM) role with an AWS Certificate Manager
-(ACM) certificate. This enables the certificate to be used by the ACM for Nitro Enclaves
-application inside an enclave. For more information, see AWS Certificate Manager for Nitro
-Enclaves in the AWS Nitro Enclaves User Guide. When the IAM role is associated with the ACM
-certificate, the certificate, certificate chain, and encrypted private key are placed in an
-Amazon S3 bucket that only the associated IAM role can access. The private key of the
-certificate is encrypted with an AWS-managed KMS customer master (CMK) that has an attached
-attestation-based CMK policy. To enable the IAM role to access the Amazon S3 object, you
-must grant it permission to call s3:GetObject on the Amazon S3 bucket returned by the
-command. To enable the IAM role to access the AWS KMS CMK, you must grant it permission to
-call kms:Decrypt on the AWS KMS CMK returned by the command. For more information, see
-Grant the role permission to access the certificate and encryption key in the AWS Nitro
-Enclaves User Guide.
+Associates an Identity and Access Management (IAM) role with an Certificate Manager (ACM)
+certificate. This enables the certificate to be used by the ACM for Nitro Enclaves
+application inside an enclave. For more information, see Certificate Manager for Nitro
+Enclaves in the Amazon Web Services Nitro Enclaves User Guide. When the IAM role is
+associated with the ACM certificate, the certificate, certificate chain, and encrypted
+private key are placed in an Amazon S3 bucket that only the associated IAM role can access.
+The private key of the certificate is encrypted with an Amazon Web Services managed key
+that has an attached attestation-based key policy. To enable the IAM role to access the
+Amazon S3 object, you must grant it permission to call s3:GetObject on the Amazon S3 bucket
+returned by the command. To enable the IAM role to access the KMS key, you must grant it
+permission to call kms:Decrypt on the KMS key returned by the command. For more
+information, see  Grant the role permission to access the certificate and encryption key in
+the Amazon Web Services Nitro Enclaves User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -784,21 +784,22 @@ authorize_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr, params::Abs
     authorize_security_group_egress(group_id)
     authorize_security_group_egress(group_id, params::Dict{String,<:Any})
 
-[VPC only] Adds the specified egress rules to a security group for use with a VPC. An
-outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address
-ranges, or to the instances associated with the specified destination security groups. You
-specify a protocol for each rule (for example, TCP). For the TCP and UDP protocols, you
-must also specify the destination port or port range. For the ICMP protocol, you must also
-specify the ICMP type and code. You can use -1 for the type or code to mean all types or
-all codes. Rule changes are propagated to affected instances as quickly as possible.
-However, a small delay might occur. For more information about VPC security group limits,
-see Amazon VPC Limits.
+[VPC only] Adds the specified outbound (egress) rules to a security group for use with a
+VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR
+address ranges, or to the instances that are associated with the specified destination
+security groups. You specify a protocol for each rule (for example, TCP). For the TCP and
+UDP protocols, you must also specify the destination port or port range. For the ICMP
+protocol, you must also specify the ICMP type and code. You can use -1 for the type or code
+to mean all types or all codes. Rule changes are propagated to affected instances as
+quickly as possible. However, a small delay might occur. For information about VPC security
+group quotas, see Amazon VPC quotas.
 
 # Arguments
 - `group_id`: The ID of the security group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TagSpecification"`: The tags applied to the security group rule.
 - `"cidrIp"`: Not supported. Use a set of IP permissions to specify the CIDR.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -821,14 +822,14 @@ authorize_security_group_egress(groupId, params::AbstractDict{String}; aws_confi
     authorize_security_group_ingress()
     authorize_security_group_ingress(params::Dict{String,<:Any})
 
-Adds the specified ingress rules to a security group. An inbound rule permits instances to
-receive traffic from the specified IPv4 or IPv6 CIDR address ranges, or from the instances
-associated with the specified destination security groups. You specify a protocol for each
-rule (for example, TCP). For TCP and UDP, you must also specify the destination port or
-port range. For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6 type and code. You can
-use -1 to mean all types or all codes. Rule changes are propagated to instances within the
-security group as quickly as possible. However, a small delay might occur. For more
-information about VPC security group limits, see Amazon VPC Limits.
+Adds the specified inbound (ingress) rules to a security group. An inbound rule permits
+instances to receive traffic from the specified IPv4 or IPv6 CIDR address range, or from
+the instances that are associated with the specified destination security groups. You
+specify a protocol for each rule (for example, TCP). For TCP and UDP, you must also specify
+the destination port or port range. For ICMP/ICMPv6, you must also specify the ICMP/ICMPv6
+type and code. You can use -1 to mean all types or all codes. Rule changes are propagated
+to instances within the security group as quickly as possible. However, a small delay might
+occur. For more information about VPC security group quotas, see Amazon VPC quotas.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -857,12 +858,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   port range. Creates rules that grant full ICMP, UDP, and TCP access. To create a rule with
   a specific IP protocol and port range, use a set of IP permissions instead. For EC2-VPC,
   the source security group must be in the same VPC.
-- `"SourceSecurityGroupOwnerId"`: [nondefault VPC] The AWS account ID for the source
-  security group, if the source security group is in a different account. You can't specify
-  this parameter in combination with the following parameters: the CIDR IP address range, the
-  IP protocol, the start of the port range, and the end of the port range. Creates rules that
-  grant full ICMP, UDP, and TCP access. To create a rule with a specific IP protocol and port
-  range, use a set of IP permissions instead.
+- `"SourceSecurityGroupOwnerId"`: [nondefault VPC] The Amazon Web Services account ID for
+  the source security group, if the source security group is in a different account. You
+  can't specify this parameter in combination with the following parameters: the CIDR IP
+  address range, the IP protocol, the start of the port range, and the end of the port range.
+  Creates rules that grant full ICMP, UDP, and TCP access. To create a rule with a specific
+  IP protocol and port range, use a set of IP permissions instead.
+- `"TagSpecification"`: [VPC Only] The tags applied to the security group rule.
 - `"ToPort"`: The end of port range for the TCP and UDP protocols, or an ICMP code number.
   For the ICMP code number, use -1 to specify all codes. If you specify all ICMP types, you
   must specify all codes. Alternatively, use a set of IP permissions to specify multiple
@@ -1302,9 +1304,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecifications"`: The tags to apply to the Capacity Reservation during launch.
 - `"Tenancy"`: Indicates the tenancy of the Capacity Reservation. A Capacity Reservation
   can have one of the following tenancy settings:    default - The Capacity Reservation is
-  created on hardware that is shared with other AWS accounts.    dedicated - The Capacity
-  Reservation is created on single-tenant hardware that is dedicated to a single AWS account.
-  
+  created on hardware that is shared with other accounts.    dedicated - The Capacity
+  Reservation is created on single-tenant hardware that is dedicated to a single account.
 """
 create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType); aws_config=aws_config)
 create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType), params)); aws_config=aws_config)
@@ -1583,6 +1584,7 @@ information, see Launching an EC2 Fleet in the Amazon EC2 User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see Ensuring Idempotency.
+- `"Context"`: Reserved.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1596,12 +1598,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   health checks in the Amazon EC2 User Guide.
 - `"SpotOptions"`: Describes the configuration of Spot Instances in an EC2 Fleet.
 - `"TagSpecification"`: The key-value pair for tagging the EC2 Fleet request on creation.
-  The value for ResourceType must be fleet, otherwise the fleet request fails. To tag
-  instances at launch, specify the tags in the launch template. For information about tagging
-  after launch, see Tagging your resources.
+  For more information, see Tagging your resources. If the fleet type is instant, specify a
+  resource type of fleet to tag the fleet or instance to tag the instances at launch. If the
+  fleet type is maintain or request, specify a resource type of fleet to tag the fleet. You
+  cannot specify a resource type of instance. To tag instances at launch, specify the tags in
+  a launch template.
 - `"TerminateInstancesWithExpiration"`: Indicates whether running instances should be
   terminated when the EC2 Fleet expires.
-- `"Type"`: The type of request. The default value is maintain.    maintain - The EC2 Fleet
+- `"Type"`: The fleet type. The default value is maintain.    maintain - The EC2 Fleet
   places an asynchronous request for your desired capacity, and continues to maintain your
   desired Spot capacity by replenishing interrupted Spot Instances.    request - The EC2
   Fleet places an asynchronous one-time request for your desired capacity, but does submit
@@ -2486,8 +2490,8 @@ create_snapshots(InstanceSpecification, params::AbstractDict{String}; aws_config
     create_spot_datafeed_subscription(bucket, params::Dict{String,<:Any})
 
 Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You
-can create one data feed per AWS account. For more information, see Spot Instance data feed
-in the Amazon EC2 User Guide for Linux Instances.
+can create one data feed per account. For more information, see Spot Instance data feed in
+the Amazon EC2 User Guide for Linux Instances.
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket in which to store the Spot Instance data feed.
@@ -4702,7 +4706,7 @@ describe_byoip_cidrs(MaxResults, params::AbstractDict{String}; aws_config::Abstr
     describe_capacity_reservations(params::Dict{String,<:Any})
 
 Describes one or more of your Capacity Reservations. The results describe only the Capacity
-Reservations in the AWS Region that you're currently using.
+Reservations in the Region that you're currently using.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4711,16 +4715,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: One or more filters.    instance-type - The type of instance for which the
-  Capacity Reservation reserves capacity.    owner-id - The ID of the AWS account that owns
-  the Capacity Reservation.    availability-zone-id - The Availability Zone ID of the
-  Capacity Reservation.    instance-platform - The type of operating system for which the
-  Capacity Reservation reserves capacity.    availability-zone - The Availability Zone ID of
-  the Capacity Reservation.    tenancy - Indicates the tenancy of the Capacity Reservation. A
+  Capacity Reservation reserves capacity.    owner-id - The ID of the account that owns the
+  Capacity Reservation.    availability-zone-id - The Availability Zone ID of the Capacity
+  Reservation.    instance-platform - The type of operating system for which the Capacity
+  Reservation reserves capacity.    availability-zone - The Availability Zone ID of the
+  Capacity Reservation.    tenancy - Indicates the tenancy of the Capacity Reservation. A
   Capacity Reservation can have one of the following tenancy settings:    default - The
-  Capacity Reservation is created on hardware that is shared with other AWS accounts.
+  Capacity Reservation is created on hardware that is shared with other accounts.
   dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated
-  to a single AWS account.      outpost-arn - The Amazon Resource Name (ARN) of the Outpost
-  on which the Capacity Reservation was created.    state - The current state of the Capacity
+  to a single account.      outpost-arn - The Amazon Resource Name (ARN) of the Outpost on
+  which the Capacity Reservation was created.    state - The current state of the Capacity
   Reservation. A Capacity Reservation can be in one of the following states:    active- The
   Capacity Reservation is active and the capacity is available for your use.    expired - The
   Capacity Reservation expired automatically at the date and time specified in your request.
@@ -5946,34 +5950,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network-interface.private-dns-name - The private DNS name of the network interface.
   network-interface.requester-id - The requester ID for the network interface.
   network-interface.requester-managed - Indicates whether the network interface is being
-  managed by AWS.    network-interface.status - The status of the network interface
-  (available) | in-use).    network-interface.source-dest-check - Whether the network
-  interface performs source/destination checking. A value of true means that checking is
-  enabled, and false means that checking is disabled. The value must be false for the network
-  interface to perform network address translation (NAT) in your VPC.
+  managed by Amazon Web Services.    network-interface.status - The status of the network
+  interface (available) | in-use).    network-interface.source-dest-check - Whether the
+  network interface performs source/destination checking. A value of true means that checking
+  is enabled, and false means that checking is disabled. The value must be false for the
+  network interface to perform network address translation (NAT) in your VPC.
   network-interface.subnet-id - The ID of the subnet for the network interface.
   network-interface.vpc-id - The ID of the VPC for the network interface.    outpost-arn -
-  The Amazon Resource Name (ARN) of the Outpost.    owner-id - The AWS account ID of the
-  instance owner.    placement-group-name - The name of the placement group for the instance.
-     placement-partition-number - The partition in which the instance is located.    platform
-  - The platform. To list only Windows instances, use windows.    private-dns-name - The
+  The Amazon Resource Name (ARN) of the Outpost.    owner-id - The account ID of the instance
+  owner.    placement-group-name - The name of the placement group for the instance.
+  placement-partition-number - The partition in which the instance is located.    platform -
+  The platform. To list only Windows instances, use windows.    private-dns-name - The
   private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of
   the instance.    product-code - The product code associated with the AMI used to launch the
   instance.    product-code.type - The type of product code (devpay | marketplace).
   ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance
   (for example, shows \"User Initiated [date]\" when you stop or terminate the instance).
   Similar to the state-reason-code filter.    requester-id - The ID of the entity that
-  launched the instance on your behalf (for example, AWS Management Console, Auto Scaling,
-  and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is
-  created any time you launch an instance. A reservation ID has a one-to-one relationship
-  with an instance launch request, but can be associated with more than one instance if you
-  launch multiple instances using the same launch request. For example, if you launch one
-  instance, you get one reservation ID. If you launch ten instances using the same launch
-  request, you also get one reservation ID.    root-device-name - The device name of the root
-  device volume (for example, /dev/sda1).    root-device-type - The type of the root device
-  volume (ebs | instance-store).    source-dest-check - Indicates whether the instance
-  performs source/destination checking. A value of true means that checking is enabled, and
-  false means that checking is disabled. The value must be false for the instance to perform
+  launched the instance on your behalf (for example, Management Console, Auto Scaling, and so
+  on).    reservation-id - The ID of the instance's reservation. A reservation ID is created
+  any time you launch an instance. A reservation ID has a one-to-one relationship with an
+  instance launch request, but can be associated with more than one instance if you launch
+  multiple instances using the same launch request. For example, if you launch one instance,
+  you get one reservation ID. If you launch ten instances using the same launch request, you
+  also get one reservation ID.    root-device-name - The device name of the root device
+  volume (for example, /dev/sda1).    root-device-type - The type of the root device volume
+  (ebs | instance-store).    source-dest-check - Indicates whether the instance performs
+  source/destination checking. A value of true means that checking is enabled, and false
+  means that checking is disabled. The value must be false for the instance to perform
   network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the
   Spot Instance request.    state-reason-code - The reason code for the state change.
   state-reason-message - A message that describes the state change.    subnet-id - The ID of
@@ -6071,7 +6075,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag value as the filter value. For example, to find all resources that have a tag with the
   key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the
   filter value.
-- `"KeyName"`: The key pair names. Default: Describes all your key pairs.
+- `"KeyName"`: The key pair names. Default: Describes all of your key pairs.
 - `"KeyPairId"`: The IDs of the key pairs.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -6854,18 +6858,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   purchase price of the Reserved Instance (for example, 9800.0).    instance-type - The
   instance type that is covered by the reservation.    marketplace - Set to true to show only
   Reserved Instance Marketplace offerings. When this filter is not used, which is the default
-  behavior, all offerings from both AWS and the Reserved Instance Marketplace are listed.
-  product-description - The Reserved Instance product platform description. Instances that
-  include (Amazon VPC) in the product platform description will only be displayed to
-  EC2-Classic account holders and are for use with Amazon VPC. (Linux/UNIX | Linux/UNIX
-  (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux | Red Hat
-  Enterprise Linux (Amazon VPC) | Red Hat Enterprise Linux with HA (Amazon VPC) | Windows |
-  Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server Standard
-  (Amazon VPC) | Windows with SQL Server Web |  Windows with SQL Server Web (Amazon VPC) |
-  Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon VPC))
-  reserved-instances-offering-id - The Reserved Instances offering ID.    scope - The scope
-  of the Reserved Instance (Availability Zone or Region).    usage-price - The usage price of
-  the Reserved Instance, per hour (for example, 0.84).
+  behavior, all offerings from both Amazon Web Services and the Reserved Instance Marketplace
+  are listed.    product-description - The Reserved Instance product platform description.
+  Instances that include (Amazon VPC) in the product platform description will only be
+  displayed to EC2-Classic account holders and are for use with Amazon VPC. (Linux/UNIX |
+  Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux |
+  Red Hat Enterprise Linux (Amazon VPC) | Red Hat Enterprise Linux with HA (Amazon VPC) |
+  Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server
+  Standard (Amazon VPC) | Windows with SQL Server Web |  Windows with SQL Server Web (Amazon
+  VPC) | Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon
+  VPC))     reserved-instances-offering-id - The Reserved Instances offering ID.    scope -
+  The scope of the Reserved Instance (Availability Zone or Region).    usage-price - The
+  usage price of the Reserved Instance, per hour (for example, 0.84).
 - `"IncludeMarketplace"`: Include Reserved Instance Marketplace offerings in the response.
 - `"InstanceType"`: The instance type that the reservation will cover (for example,
   m1.small). For more information, see Instance types in the Amazon EC2 User Guide.
@@ -7034,6 +7038,32 @@ describe_security_group_references(item; aws_config::AbstractAWSConfig=global_aw
 describe_security_group_references(item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupReferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), params)); aws_config=aws_config)
 
 """
+    describe_security_group_rules()
+    describe_security_group_rules(params::Dict{String,<:Any})
+
+Describes one or more of your security group rules.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters.    group-id - The ID of the security group.
+  security-group-rule-id - The ID of the security group rule.    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.
+- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
+  remaining results, make another request with the returned NextToken value. This value can
+  be between 5 and 1000. If this parameter is not specified, then all results are returned.
+- `"NextToken"`: The token for the next page of results.
+- `"SecurityGroupRuleId"`: The IDs of the security group rules.
+"""
+describe_security_group_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupRules"; aws_config=aws_config)
+describe_security_group_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeSecurityGroupRules", params; aws_config=aws_config)
+
+"""
     describe_security_groups()
     describe_security_groups(params::Dict{String,<:Any})
 
@@ -7058,33 +7088,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   egress.ip-permission.protocol - The IP protocol for an outbound security group rule (tcp |
   udp | icmp, a protocol number, or -1 for all protocols).    egress.ip-permission.to-port -
   For an outbound rule, the end of port range for the TCP and UDP protocols, or an ICMP code.
-     egress.ip-permission.user-id - The ID of an AWS account that has been referenced in an
-  outbound security group rule.    group-id - The ID of the security group.     group-name -
-  The name of the security group.    ip-permission.cidr - An IPv4 CIDR block for an inbound
-  security group rule.    ip-permission.from-port - For an inbound rule, the start of port
-  range for the TCP and UDP protocols, or an ICMP type number.    ip-permission.group-id -
-  The ID of a security group that has been referenced in an inbound security group rule.
-  ip-permission.group-name - The name of a security group that is referenced in an inbound
-  security group rule.    ip-permission.ipv6-cidr - An IPv6 CIDR block for an inbound
-  security group rule.    ip-permission.prefix-list-id - The ID of a prefix list from which a
-  security group rule allows inbound access.    ip-permission.protocol - The IP protocol for
-  an inbound security group rule (tcp | udp | icmp, a protocol number, or -1 for all
-  protocols).    ip-permission.to-port - For an inbound rule, the end of port range for the
-  TCP and UDP protocols, or an ICMP code.    ip-permission.user-id - The ID of an AWS account
-  that has been referenced in an inbound security group rule.    owner-id - The AWS account
-  ID of the owner of the security group.    tag:&lt;key&gt; - The key/value combination of a
-  tag assigned to the resource. Use the tag key in the filter name and the tag value as the
+     egress.ip-permission.user-id - The ID of an Amazon Web Services account that has been
+  referenced in an outbound security group rule.    group-id - The ID of the security group.
+     group-name - The name of the security group.    ip-permission.cidr - An IPv4 CIDR block
+  for an inbound security group rule.    ip-permission.from-port - For an inbound rule, the
+  start of port range for the TCP and UDP protocols, or an ICMP type number.
+  ip-permission.group-id - The ID of a security group that has been referenced in an inbound
+  security group rule.    ip-permission.group-name - The name of a security group that is
+  referenced in an inbound security group rule.    ip-permission.ipv6-cidr - An IPv6 CIDR
+  block for an inbound security group rule.    ip-permission.prefix-list-id - The ID of a
+  prefix list from which a security group rule allows inbound access.
+  ip-permission.protocol - The IP protocol for an inbound security group rule (tcp | udp |
+  icmp, a protocol number, or -1 for all protocols).    ip-permission.to-port - For an
+  inbound rule, the end of port range for the TCP and UDP protocols, or an ICMP code.
+  ip-permission.user-id - The ID of an Amazon Web Services account that has been referenced
+  in an inbound security group rule.    owner-id - The Amazon Web Services account ID of the
+  owner of the security group.    tag:&lt;key&gt; - The key/value combination of a tag
+  assigned to the resource. Use the tag key in the filter name and the tag value as the
   filter value. For example, to find all resources that have a tag with the key Owner and the
   value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
   tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
   assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
   VPC specified when the security group was created.
 - `"GroupId"`: The IDs of the security groups. Required for security groups in a nondefault
-  VPC. Default: Describes all your security groups.
+  VPC. Default: Describes all of your security groups.
 - `"GroupName"`: [EC2-Classic and default VPC only] The names of the security groups. You
   can specify either the security group name or the security group ID. For security groups in
   a nondefault VPC, use the group-name filter to describe security groups by name. Default:
-  Describes all your security groups.
+  Describes all of your security groups.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another request with the returned NextToken value. This value can
   be between 5 and 1000. If this parameter is not specified, then all results are returned.
@@ -8715,12 +8746,11 @@ disassociate_client_vpn_target_network(AssociationId, ClientVpnEndpointId, param
     disassociate_enclave_certificate_iam_role()
     disassociate_enclave_certificate_iam_role(params::Dict{String,<:Any})
 
-Disassociates an IAM role from an AWS Certificate Manager (ACM) certificate. Disassociating
-an IAM role from an ACM certificate removes the Amazon S3 object that contains the
+Disassociates an IAM role from an Certificate Manager (ACM) certificate. Disassociating an
+IAM role from an ACM certificate removes the Amazon S3 object that contains the
 certificate, certificate chain, and encrypted private key from the Amazon S3 bucket. It
-also revokes the IAM role's permission to use the AWS Key Management Service (KMS) customer
-master key (CMK) used to encrypt the private key. This effectively revokes the role's
-permission to use the certificate.
+also revokes the IAM role's permission to use the KMS key used to encrypt the private key.
+This effectively revokes the role's permission to use the certificate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9158,11 +9188,10 @@ export_transit_gateway_routes(S3Bucket, TransitGatewayRouteTableId, params::Abst
     get_associated_enclave_certificate_iam_roles()
     get_associated_enclave_certificate_iam_roles(params::Dict{String,<:Any})
 
-Returns the IAM roles that are associated with the specified AWS Certificate Manager (ACM)
-certificate. It also returns the name of the Amazon S3 bucket and the Amazon S3 object key
-where the certificate, certificate chain, and encrypted private key bundle are stored, and
-the ARN of the AWS Key Management Service (KMS) customer master key (CMK) that's used to
-encrypt the private key.
+Returns the IAM roles that are associated with the specified ACM (ACM) certificate. It also
+returns the name of the Amazon S3 bucket and the Amazon S3 object key where the
+certificate, certificate chain, and encrypted private key bundle are stored, and the ARN of
+the KMS key that's used to encrypt the private key.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9201,7 +9230,7 @@ get_associated_ipv6_pool_cidrs(PoolId, params::AbstractDict{String}; aws_config:
     get_capacity_reservation_usage(capacity_reservation_id, params::Dict{String,<:Any})
 
 Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared,
-it shows usage information for the Capacity Reservation owner and each AWS account that is
+it shows usage information for the Capacity Reservation owner and each account that is
 currently using the shared capacity. If the Capacity Reservation is not shared, it shows
 only the Capacity Reservation owner's usage.
 
@@ -9798,11 +9827,11 @@ import_instance(platform, params::AbstractDict{String}; aws_config::AbstractAWSC
     import_key_pair(key_name, public_key_material, params::Dict{String,<:Any})
 
 Imports the public key from an RSA key pair that you created with a third-party tool.
-Compare this with CreateKeyPair, in which AWS creates the key pair and gives the keys to
-you (AWS keeps a copy of the public key). With ImportKeyPair, you create the key pair and
-give AWS just the public key. The private key is never transferred between you and AWS. For
-more information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User
-Guide.
+Compare this with CreateKeyPair, in which Amazon Web Services creates the key pair and
+gives the keys to you (Amazon Web Services keeps a copy of the public key). With
+ImportKeyPair, you create the key pair and give Amazon Web Services just the public key.
+The private key is never transferred between you and Amazon Web Services. For more
+information about key pairs, see Key Pairs in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `key_name`: A unique name for the key pair.
@@ -10015,15 +10044,15 @@ modify_client_vpn_endpoint(ClientVpnEndpointId, params::AbstractDict{String}; aw
     modify_default_credit_specification(cpu_credits, instance_family, params::Dict{String,<:Any})
 
 Modifies the default credit option for CPU usage of burstable performance instances. The
-default credit option is set at the account level per AWS Region, and is specified per
-instance family. All new burstable performance instances in the account launch using the
-default credit option.  ModifyDefaultCreditSpecification is an asynchronous operation,
-which works at an AWS Region level and modifies the credit option for each Availability
-Zone. All zones in a Region are updated within five minutes. But if instances are launched
-during this operation, they might not get the new credit option until the zone is updated.
-To verify whether the update has occurred, you can call GetDefaultCreditSpecification and
-check DefaultCreditSpecification for updates. For more information, see Burstable
-performance instances in the Amazon EC2 User Guide.
+default credit option is set at the account level per Region, and is specified per instance
+family. All new burstable performance instances in the account launch using the default
+credit option.  ModifyDefaultCreditSpecification is an asynchronous operation, which works
+at an Region level and modifies the credit option for each Availability Zone. All zones in
+a Region are updated within five minutes. But if instances are launched during this
+operation, they might not get the new credit option until the zone is updated. To verify
+whether the update has occurred, you can call GetDefaultCreditSpecification and check
+DefaultCreditSpecification for updates. For more information, see Burstable performance
+instances in the Amazon EC2 User Guide.
 
 # Arguments
 - `cpu_credits`: The credit option for CPU usage of the instance family. Valid Values:
@@ -10104,6 +10133,7 @@ can set the target capacity to 0.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Context"`: Reserved.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -10355,8 +10385,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the Intel 82599 Virtual Function interface at this time. This option is supported only
   for HVM instances. Specifying this option with a PV instance can make it unreachable.
 - `"userData"`: Changes the instance's user data to the specified value. If you are using
-  an AWS SDK or command line tool, base64-encoding is performed for you, and you can load the
-  text from a file. Otherwise, you must provide base64-encoded text.
+  an Amazon Web Services SDK or command line tool, base64-encoding is performed for you, and
+  you can load the text from a file. Otherwise, you must provide base64-encoded text.
 - `"value"`: A new value for the attribute. Use only with the kernel, ramdisk, userData,
   disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
 """
@@ -10608,6 +10638,25 @@ modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedIns
 modify_reserved_instances(ReservedInstancesConfigurationSetItemType, ReservedInstancesId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyReservedInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedInstancesConfigurationSetItemType"=>ReservedInstancesConfigurationSetItemType, "ReservedInstancesId"=>ReservedInstancesId), params)); aws_config=aws_config)
 
 """
+    modify_security_group_rules(group_id, security_group_rule)
+    modify_security_group_rules(group_id, security_group_rule, params::Dict{String,<:Any})
+
+Modifies the rules of a security group.
+
+# Arguments
+- `group_id`: The ID of the security group.
+- `security_group_rule`: Information about the security group properties to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+modify_security_group_rules(GroupId, SecurityGroupRule; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifySecurityGroupRules", Dict{String, Any}("GroupId"=>GroupId, "SecurityGroupRule"=>SecurityGroupRule); aws_config=aws_config)
+modify_security_group_rules(GroupId, SecurityGroupRule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifySecurityGroupRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "SecurityGroupRule"=>SecurityGroupRule), params)); aws_config=aws_config)
+
+"""
     modify_snapshot_attribute(snapshot_id)
     modify_snapshot_attribute(snapshot_id, params::Dict{String,<:Any})
 
@@ -10668,6 +10717,7 @@ you can set the target capacity to 0.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Context"`: Reserved.
 - `"LaunchTemplateConfig"`: The launch template and overrides. You can only use this
   parameter if you specified a launch template (LaunchTemplateConfigs) in your Spot Fleet
   request. If you specified LaunchSpecifications in your Spot Fleet request, then omit this
@@ -12021,14 +12071,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent set of Spot Instances could be placed in a different zone from the original
   request, even if you specified the same Availability Zone group. Default: Instances are
   launched in any available Availability Zone.
-- `"blockDurationMinutes"`: The required duration for the Spot Instances (also known as
-  Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or
-  360). The duration period starts as soon as your Spot Instance receives its instance ID. At
-  the end of the duration period, Amazon EC2 marks the Spot Instance for termination and
-  provides a Spot Instance termination notice, which gives the instance a two-minute warning
-  before it terminates. You can't specify an Availability Zone group or a launch group if you
-  specify a duration. New accounts or accounts with no previous billing history with AWS are
-  not eligible for Spot Instances with a defined duration (also known as Spot blocks).
+- `"blockDurationMinutes"`: Deprecated.
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see How to Ensure Idempotency in the
   Amazon EC2 User Guide for Linux Instances.
@@ -12271,24 +12314,26 @@ revoke_client_vpn_ingress(ClientVpnEndpointId, TargetNetworkCidr, params::Abstra
     revoke_security_group_egress(group_id)
     revoke_security_group_egress(group_id, params::Dict{String,<:Any})
 
-[VPC only] Removes the specified egress rules from a security group for EC2-VPC. This
-action does not apply to security groups for use in EC2-Classic. To remove a rule, the
+[VPC only] Removes the specified outbound (egress) rules from a security group for EC2-VPC.
+This action does not apply to security groups for use in EC2-Classic. You can specify rules
+using either rule IDs or security group rule properties. If you use rule properties, the
 values that you specify (for example, ports) must match the existing rule's values exactly.
- [Default VPC] If the values you specify do not match the existing rule's values, no error
-is returned, and the output describes the security group rules that were not revoked.  AWS
-recommends that you use DescribeSecurityGroups to verify that the rule has been removed.
-Each rule consists of the protocol and the IPv4 or IPv6 CIDR range or source security
-group. For the TCP and UDP protocols, you must also specify the destination port or range
-of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the
-security group rule has a description, you do not have to specify the description to revoke
-the rule. Rule changes are propagated to instances within the security group as quickly as
-possible. However, a small delay might occur.
+Each rule has a protocol, from and to ports, and destination (CIDR range, security group,
+or prefix list). For the TCP and UDP protocols, you must also specify the destination port
+or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If
+the security group rule has a description, you do not need to specify the description to
+revoke the rule. [Default VPC] If the values you specify do not match the existing rule's
+values, no error is returned, and the output describes the security group rules that were
+not revoked. Amazon Web Services recommends that you describe the security group to verify
+that the rules were removed. Rule changes are propagated to instances within the security
+group as quickly as possible. However, a small delay might occur.
 
 # Arguments
 - `group_id`: The ID of the security group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SecurityGroupRuleId"`: The IDs of the security group rules.
 - `"cidrIp"`: Not supported. Use a set of IP permissions to specify the CIDR.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -12311,17 +12356,18 @@ revoke_security_group_egress(groupId, params::AbstractDict{String}; aws_config::
     revoke_security_group_ingress()
     revoke_security_group_ingress(params::Dict{String,<:Any})
 
-Removes the specified ingress rules from a security group. To remove a rule, the values
-that you specify (for example, ports) must match the existing rule's values exactly.
-[EC2-Classic , default VPC] If the values you specify do not match the existing rule's
-values, no error is returned, and the output describes the security group rules that were
-not revoked.  AWS recommends that you use DescribeSecurityGroups to verify that the rule
-has been removed.  Each rule consists of the protocol and the CIDR range or source security
-group. For the TCP and UDP protocols, you must also specify the destination port or range
-of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the
-security group rule has a description, you do not have to specify the description to revoke
-the rule. Rule changes are propagated to instances within the security group as quickly as
-possible. However, a small delay might occur.
+Removes the specified inbound (ingress) rules from a security group. You can specify rules
+using either rule IDs or security group rule properties. If you use rule properties, the
+values that you specify (for example, ports) must match the existing rule's values exactly.
+Each rule has a protocol, from and to ports, and source (CIDR range, security group, or
+prefix list). For the TCP and UDP protocols, you must also specify the destination port or
+range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the
+security group rule has a description, you do not need to specify the description to revoke
+the rule. [EC2-Classic, default VPC] If the values you specify do not match the existing
+rule's values, no error is returned, and the output describes the security group rules that
+were not revoked. Amazon Web Services recommends that you describe the security group to
+verify that the rules were removed. Rule changes are propagated to instances within the
+security group as quickly as possible. However, a small delay might occur.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -12338,16 +12384,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and a CIDR IP address range in the same set of permissions.
 - `"IpProtocol"`: The IP protocol name (tcp, udp, icmp) or number (see Protocol Numbers).
   Use -1 to specify all.
+- `"SecurityGroupRuleId"`: The IDs of the security group rules.
 - `"SourceSecurityGroupName"`: [EC2-Classic, default VPC] The name of the source security
   group. You can't specify this parameter in combination with the following parameters: the
   CIDR IP address range, the start of the port range, the IP protocol, and the end of the
   port range. For EC2-VPC, the source security group must be in the same VPC. To revoke a
   specific rule for an IP protocol and port range, use a set of IP permissions instead.
-- `"SourceSecurityGroupOwnerId"`: [EC2-Classic] The AWS account ID of the source security
-  group, if the source security group is in a different account. You can't specify this
-  parameter in combination with the following parameters: the CIDR IP address range, the IP
-  protocol, the start of the port range, and the end of the port range. To revoke a specific
-  rule for an IP protocol and port range, use a set of IP permissions instead.
+- `"SourceSecurityGroupOwnerId"`: [EC2-Classic] The Amazon Web Services account ID of the
+  source security group, if the source security group is in a different account. You can't
+  specify this parameter in combination with the following parameters: the CIDR IP address
+  range, the IP protocol, the start of the port range, and the end of the port range. To
+  revoke a specific rule for an IP protocol and port range, use a set of IP permissions
+  instead.
 - `"ToPort"`: The end of port range for the TCP and UDP protocols, or an ICMP code number.
   For the ICMP code number, use -1 to specify all ICMP codes for the ICMP type.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
@@ -12423,12 +12471,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2
   instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify
   accelerators from different generations in the same request.
-- `"EnclaveOptions"`: Indicates whether the instance is enabled for AWS Nitro Enclaves. For
-  more information, see  What is AWS Nitro Enclaves? in the AWS Nitro Enclaves User Guide.
-  You can't enable AWS Nitro Enclaves and hibernation on the same instance.
+- `"EnclaveOptions"`: Indicates whether the instance is enabled for Amazon Web Services
+  Nitro Enclaves. For more information, see  What is Amazon Web Services Nitro Enclaves? in
+  the Amazon Web Services Nitro Enclaves User Guide. You can't enable Amazon Web Services
+  Nitro Enclaves and hibernation on the same instance.
 - `"HibernationOptions"`: Indicates whether an instance is enabled for hibernation. For
   more information, see Hibernate your instance in the Amazon EC2 User Guide. You can't
-  enable hibernation and AWS Nitro Enclaves on the same instance.
+  enable hibernation and Amazon Web Services Nitro Enclaves on the same instance.
 - `"ImageId"`: The ID of the AMI. An AMI ID is required to launch an instance and must be
   specified here or in a launch template.
 - `"InstanceMarketOptions"`: The market (purchasing) option for the instances. For
@@ -12462,9 +12511,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Placement"`: The placement for the instance.
 - `"RamdiskId"`: The ID of the RAM disk to select. Some kernels require additional drivers
   at launch. Check the kernel requirements for information about whether you need to specify
-  a RAM disk. To find kernel requirements, go to the AWS Resource Center and search for the
-  kernel ID.  We recommend that you use PV-GRUB instead of kernels and RAM disks. For more
-  information, see  PV-GRUB in the Amazon EC2 User Guide.
+  a RAM disk. To find kernel requirements, go to the Amazon Web Services Resource Center and
+  search for the kernel ID.  We recommend that you use PV-GRUB instead of kernels and RAM
+  disks. For more information, see  PV-GRUB in the Amazon EC2 User Guide.
 - `"SecurityGroup"`: [EC2-Classic, default VPC] The names of the security groups. For a
   nondefault VPC, you must use security group IDs instead. If you specify a network
   interface, you must specify any security groups as part of the network interface. Default:
@@ -12666,15 +12715,12 @@ Amazon EBS volumes as their root devices can be quickly stopped and started. Whe
 instance is stopped, the compute resources are released and you are not billed for instance
 usage. However, your root partition Amazon EBS volume remains and continues to persist your
 data, and you are charged for Amazon EBS volume usage. You can restart your instance at any
-time. Every time you start your Windows instance, Amazon EC2 charges you for a full
-instance hour. If you stop and restart your Windows instance, a new instance hour begins
-and Amazon EC2 charges you for another full instance hour even if you are still within the
-same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon
-EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for
-instance usage. Before stopping an instance, make sure it is in a state from which it can
-be restarted. Stopping an instance does not preserve data stored in RAM. Performing this
-operation on an instance that uses an instance store as its root device returns an error.
-For more information, see Stopping instances in the Amazon EC2 User Guide.
+time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for
+instance usage, and thereafter charges per second for instance usage. Before stopping an
+instance, make sure it is in a state from which it can be restarted. Stopping an instance
+does not preserve data stored in RAM. Performing this operation on an instance that uses an
+instance store as its root device returns an error. For more information, see Stopping
+instances in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
@@ -12744,29 +12790,25 @@ if the instance is enabled for hibernation and it meets the hibernation prerequi
 more information, see Hibernate your instance in the Amazon EC2 User Guide. We don't charge
 usage for a stopped instance, or data transfer fees; however, your root partition Amazon
 EBS volume remains and continues to persist your data, and you are charged for Amazon EBS
-volume usage. Every time you start your Windows instance, Amazon EC2 charges you for a full
-instance hour. If you stop and restart your Windows instance, a new instance hour begins
-and Amazon EC2 charges you for another full instance hour even if you are still within the
-same 60-minute period when it was stopped. Every time you start your Linux instance, Amazon
-EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for
-instance usage. You can't stop or hibernate instance store-backed instances. You can't use
-the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should
-hibernate Spot Instances when they are interrupted. For more information, see Hibernating
-interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an
-instance, we shut it down. You can restart your instance at any time. Before stopping or
-hibernating an instance, make sure it is in a state from which it can be restarted.
-Stopping an instance does not preserve data stored in RAM, but hibernating an instance does
-preserve data stored in RAM. If an instance cannot hibernate successfully, a normal
-shutdown occurs. Stopping and hibernating an instance is different to rebooting or
-terminating it. For example, when you stop or hibernate an instance, the root device and
-any other devices attached to the instance persist. When you terminate an instance, the
-root device and any other devices attached during the instance launch are automatically
-deleted. For more information about the differences between rebooting, stopping,
-hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User
-Guide. When you stop an instance, we attempt to shut it down forcibly after a short while.
-If your instance appears stuck in the stopping state after a period of time, there may be
-an issue with the underlying host computer. For more information, see Troubleshooting
-stopping your instance in the Amazon EC2 User Guide.
+volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum
+for instance usage, and thereafter charges per second for instance usage. You can't stop or
+hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot
+Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they
+are interrupted. For more information, see Hibernating interrupted Spot Instances in the
+Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can
+restart your instance at any time. Before stopping or hibernating an instance, make sure it
+is in a state from which it can be restarted. Stopping an instance does not preserve data
+stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance
+cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an
+instance is different to rebooting or terminating it. For example, when you stop or
+hibernate an instance, the root device and any other devices attached to the instance
+persist. When you terminate an instance, the root device and any other devices attached
+during the instance launch are automatically deleted. For more information about the
+differences between rebooting, stopping, hibernating, and terminating instances, see
+Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to
+shut it down forcibly after a short while. If your instance appears stuck in the stopping
+state after a period of time, there may be an issue with the underlying host computer. For
+more information, see Troubleshooting stopping your instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances.
@@ -12818,17 +12860,30 @@ terminate_client_vpn_connections(ClientVpnEndpointId, params::AbstractDict{Strin
 Shuts down the specified instances. This operation is idempotent; if you terminate an
 instance more than once, each call succeeds.  If you specify multiple instances and the
 request fails (for example, because of a single incorrect instance ID), none of the
-instances are terminated. Terminated instances remain visible after termination (for
-approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached
-when the instance launched. Volumes attached after instance launch continue running. You
-can stop, start, and terminate EBS-backed instances. You can only terminate instance
-store-backed instances. What happens to an instance differs if you stop it or terminate it.
-For example, when you stop an instance, the root device and any other devices attached to
-the instance persist. When you terminate an instance, any attached EBS volumes with the
-DeleteOnTermination block device mapping parameter set to true are automatically deleted.
-For more information about the differences between stopping and terminating instances, see
-Instance lifecycle in the Amazon EC2 User Guide. For more information about
-troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
+instances are terminated. If you terminate multiple instances across multiple Availability
+Zones, and one or more of the specified instances are enabled for termination protection,
+the request fails with the following results:   The specified instances that are in the
+same Availability Zone as the protected instance are not terminated.   The specified
+instances that are in different Availability Zones, where no other specified instances are
+protected, are successfully terminated.   For example, say you have the following
+instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected
+ Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt
+to terminate all of these instances in the same request, the request reports failure with
+the following results:   Instance A and Instance B are successfully terminated because none
+of the specified instances in us-east-1a are enabled for termination protection.   Instance
+C and Instance D fail to terminate because at least one of the specified instances in
+us-east-1b (Instance C) is enabled for termination protection.   Terminated instances
+remain visible after termination (for approximately one hour). By default, Amazon EC2
+deletes all EBS volumes that were attached when the instance launched. Volumes attached
+after instance launch continue running. You can stop, start, and terminate EBS-backed
+instances. You can only terminate instance store-backed instances. What happens to an
+instance differs if you stop it or terminate it. For example, when you stop an instance,
+the root device and any other devices attached to the instance persist. When you terminate
+an instance, any attached EBS volumes with the DeleteOnTermination block device mapping
+parameter set to true are automatically deleted. For more information about the differences
+between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User
+Guide. For more information about troubleshooting, see Troubleshooting terminating your
+instance in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The IDs of the instances. Constraints: Up to 1000 instance IDs. We
@@ -12892,17 +12947,13 @@ unmonitor_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(
 unmonitor_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnmonitorInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    update_security_group_rule_descriptions_egress(item)
-    update_security_group_rule_descriptions_egress(item, params::Dict{String,<:Any})
+    update_security_group_rule_descriptions_egress()
+    update_security_group_rule_descriptions_egress(params::Dict{String,<:Any})
 
 [VPC only] Updates the description of an egress (outbound) security group rule. You can
 replace an existing description, or add a description to a rule that did not have one
-previously. You specify the description as part of the IP permissions structure. You can
-remove a description for a security group rule by omitting the description parameter in the
-request.
-
-# Arguments
-- `item`: The IP permissions for the security group rule.
+previously. You can remove a description for a security group rule by omitting the
+description parameter in the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -12914,22 +12965,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify the security group ID.
 - `"GroupName"`: [Default VPC] The name of the security group. You must specify either the
   security group ID or the security group name in the request.
-- `"IpPermissions"`: The IP permissions for the security group rule.
+- `"IpPermissions"`: The IP permissions for the security group rule. You must specify
+  either the IP permissions or the description.
+- `"SecurityGroupRuleDescription"`: The description for the egress security group rules.
+  You must specify either the description or the IP permissions.
 """
-update_security_group_rule_descriptions_egress(item; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", Dict{String, Any}("item"=>item); aws_config=aws_config)
-update_security_group_rule_descriptions_egress(item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), params)); aws_config=aws_config)
+update_security_group_rule_descriptions_egress(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress"; aws_config=aws_config)
+update_security_group_rule_descriptions_egress(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsEgress", params; aws_config=aws_config)
 
 """
-    update_security_group_rule_descriptions_ingress(item)
-    update_security_group_rule_descriptions_ingress(item, params::Dict{String,<:Any})
+    update_security_group_rule_descriptions_ingress()
+    update_security_group_rule_descriptions_ingress(params::Dict{String,<:Any})
 
 Updates the description of an ingress (inbound) security group rule. You can replace an
 existing description, or add a description to a rule that did not have one previously. You
-specify the description as part of the IP permissions structure. You can remove a
-description for a security group rule by omitting the description parameter in the request.
-
-# Arguments
-- `item`: The IP permissions for the security group rule.
+can remove a description for a security group rule by omitting the description parameter in
+the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -12941,10 +12992,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must specify the security group ID.
 - `"GroupName"`: [EC2-Classic, default VPC] The name of the security group. You must
   specify either the security group ID or the security group name in the request.
-- `"IpPermissions"`: The IP permissions for the security group rule.
+- `"IpPermissions"`: The IP permissions for the security group rule. You must specify
+  either IP permissions or a description.
+- `"SecurityGroupRuleDescription"`: [VPC only] The description for the ingress security
+  group rules. You must specify either a description or IP permissions.
 """
-update_security_group_rule_descriptions_ingress(item; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", Dict{String, Any}("item"=>item); aws_config=aws_config)
-update_security_group_rule_descriptions_ingress(item, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("item"=>item), params)); aws_config=aws_config)
+update_security_group_rule_descriptions_ingress(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress"; aws_config=aws_config)
+update_security_group_rule_descriptions_ingress(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UpdateSecurityGroupRuleDescriptionsIngress", params; aws_config=aws_config)
 
 """
     withdraw_byoip_cidr(cidr)
