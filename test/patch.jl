@@ -84,7 +84,7 @@ _assume_role_patch = function (
                     "Expiration" => string(now(UTC)),
                 ),
                 "AssumedRoleUser" => Dict(
-                    "Arn" => "$(role_arn)/$(params["RoleSessionName"]),
+                    "Arn" => "$(role_arn)/$(params["RoleSessionName"])",
                 ),
             ),
         )
