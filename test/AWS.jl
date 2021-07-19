@@ -388,6 +388,15 @@ end
     request.backend = TestBackend(2)
     @test AWS._http_request(request.backend, request) == 2
 
+    request = Request(
+        service="s3",
+        api_version="api_version",
+        request_method="GET",
+        url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        backend = TestBackend(4)
+    )
+    @test AWS._http_request(request.backend, request) == 4
+
     # Let's test setting the default backend
     prev_backend = AWS.DEFAULT_BACKEND[]
     try
