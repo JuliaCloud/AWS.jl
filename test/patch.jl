@@ -56,7 +56,7 @@ end
 
 
 function _aws_http_request_patch(response::HTTP.Messages.Response=_response())
-    return @patch AWS._http_request(request::Request) = response
+    return @patch AWS._http_request(::AWS.AbstractBackend, request::Request) = response
 end
 
 _cred_file_patch = @patch function dot_aws_credentials_file()
@@ -101,6 +101,17 @@ end
 
 _instance_metadata_timeout_patch = @patch function HTTP.request(method::String, url; kwargs...)
     throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
+end
+
+# This patch causes `HTTP.request` to return all of its keyword arguments
+# except `require_ssl_verification` and `response_stream`. This is used to
+# test which other options are being passed to `HTTP.Request` inside of
+# `_http_request`.
+_http_options_patch = @patch function HTTP.request(args...; kwargs...)
+    options = Dict(kwargs)
+    delete!(options, :require_ssl_verification)
+    delete!(options, :response_stream)
+    return options
 end
 
 end

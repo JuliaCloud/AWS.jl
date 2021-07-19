@@ -351,6 +351,68 @@ end
     end
 end
 
+struct TestBackend <: AWS.AbstractBackend
+    param::Int
+end
+
+function AWS._http_request(backend::TestBackend, request)
+    return backend.param
+end
+
+@testset "HTTPBackend" begin
+    request = Request(
+        service="s3",
+        api_version="api_version",
+        request_method="GET",
+        url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+    )
+    apply(Patches._http_options_patch) do
+        # No default options
+        @test isempty(AWS._http_request(request.backend, request))
+
+        # We can pass HTTP options via the backend
+        custom_backend = AWS.HTTPBackend(Dict(:connection_limit => 5))
+        @test custom_backend isa AWS.AbstractBackend
+        @test AWS._http_request(custom_backend, request) == Dict(:connection_limit => 5)
+
+        # We can pass options per-request
+        request.http_options = Dict(:pipeline_limit => 20)
+        @test AWS._http_request(request.backend, request) == Dict(:pipeline_limit => 20)
+        @test AWS._http_request(custom_backend, request) == Dict(:pipeline_limit => 20, :connection_limit => 5)
+
+        # per-request options override backend options:
+        custom_backend = AWS.HTTPBackend(Dict(:pipeline_limit => 5))
+        @test AWS._http_request(custom_backend, request) == Dict(:pipeline_limit => 20)
+    end
+    
+    request.backend = TestBackend(2)
+    @test AWS._http_request(request.backend, request) == 2
+
+    request = Request(
+        service="s3",
+        api_version="api_version",
+        request_method="GET",
+        url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        backend = TestBackend(4)
+    )
+    @test AWS._http_request(request.backend, request) == 4
+
+    # Let's test setting the default backend
+    prev_backend = AWS.DEFAULT_BACKEND[]
+    try
+        AWS.DEFAULT_BACKEND[] = TestBackend(3)
+        request = Request(
+            service="s3",
+            api_version="api_version",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        )
+        @test AWS._http_request(request.backend, request) == 3
+    finally
+        AWS.DEFAULT_BACKEND[] = prev_backend
+    end
+end
+
 @testset "_generate_rest_resource" begin
     request_uri = "/{Bucket}/{Key+}"
     args = Dict{String, Any}(

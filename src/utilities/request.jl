@@ -1,3 +1,24 @@
+# Used to allow custom dispatches to `_http_request`
+abstract type AbstractBackend end
+
+"""
+    AWS.HTTPBackend <: AWS.AbstractBackend
+
+An `HTTPBackend` can hold default `http_options::AbstractDict{Symbol,<:Any}`
+to pass to HTTP.jl, which can be overwritten per-request by any `http_options`
+supplied there.
+"""
+struct HTTPBackend <: AbstractBackend
+    http_options::AbstractDict{Symbol,<:Any}
+end
+
+function HTTPBackend(; kwargs...)
+    isempty(kwargs) ? HTTPBackend(LittleDict{Symbol, Any}()) : HTTPBackend(LittleDict(kwargs))
+end
+
+# populated in `__init__`
+const DEFAULT_BACKEND = Ref{AbstractBackend}()
+
 Base.@kwdef mutable struct Request
     service::String
     api_version::String
@@ -13,6 +34,7 @@ Base.@kwdef mutable struct Request
     http_options::AbstractDict{Symbol,<:Any}=LittleDict{Symbol,String}()
     return_raw::Bool=false
     response_dict_type::Type{<:AbstractDict}=LittleDict
+    backend::AbstractBackend=DEFAULT_BACKEND[]
 end
 
 
@@ -54,7 +76,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
     @repeat 3 try
         credentials(aws) === nothing || sign!(aws, request)
 
-        response = @mock _http_request(request)
+        response = @mock _http_request(request.backend, request)
 
         if response.status in REDIRECT_ERROR_CODES
             if HTTP.header(response, "Location") != ""
@@ -141,7 +163,9 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
 end
 
 
-function _http_request(request::Request)
+function _http_request(http_backend::HTTPBackend, request::Request)
+    http_options = merge(http_backend.http_options, request.http_options)
+
     @repeat 4 try
         http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)
 
@@ -149,7 +173,7 @@ function _http_request(request::Request)
             request.response_stream = Base.BufferStream()
         end
 
-        return HTTP.request(
+        return @mock HTTP.request(
             http_stack,
             request.request_method,
             HTTP.URI(request.url),
@@ -157,7 +181,7 @@ function _http_request(request::Request)
             request.content;
             require_ssl_verification=false,
             response_stream=request.response_stream,
-            request.http_options...
+            http_options...
         )
     catch e
         # Base.IOError is needed because HTTP.jl can often have errors that aren't

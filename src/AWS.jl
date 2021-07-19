@@ -353,4 +353,9 @@ function (service::RestJSONService)(
     return submit_request(aws_config, request; return_headers=return_headers)
 end
 
+function __init__()
+    DEFAULT_BACKEND[] = HTTPBackend()
+    return nothing
+end
+
 end  # module AWS
