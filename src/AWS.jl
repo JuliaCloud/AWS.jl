@@ -3,6 +3,7 @@ module AWS
 using Compat: Compat, @something
 using Base64
 using Dates
+using Downloads
 using HTTP
 using MbedTLS
 using Mocking
@@ -33,6 +34,7 @@ include("AWSMetadata.jl")
 
 include(joinpath("utilities", "request.jl"))
 include(joinpath("utilities", "sign.jl"))
+include(joinpath("utilities", "downloads_backend.jl"))
 
 
 using ..AWSExceptions
