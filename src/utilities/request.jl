@@ -16,7 +16,8 @@ function HTTPBackend(; kwargs...)
     isempty(kwargs) ? HTTPBackend(LittleDict{Symbol, Any}()) : HTTPBackend(LittleDict(kwargs))
 end
 
-const DEFAULT_BACKEND = Ref{AbstractBackend}(HTTPBackend())
+# populated in `__init__`
+const DEFAULT_BACKEND = Ref{AbstractBackend}()
 
 Base.@kwdef mutable struct Request
     service::String
