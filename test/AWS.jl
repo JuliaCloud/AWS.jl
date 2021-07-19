@@ -351,6 +351,14 @@ end
     end
 end
 
+struct TestBackend <: AWS.AbstractBackend
+    param::Int
+end
+
+function AWS._http_request(backend::TestBackend, request)
+    return backend.param
+end
+
 @testset "HTTPBackend" begin
     request = Request(
         service="s3",
@@ -362,7 +370,7 @@ end
         # No default options
         @test isempty(AWS._http_request(request.backend, request))
 
-        # We can pass options via the backend
+        # We can pass HTTP options via the backend
         custom_backend = AWS.HTTPBackend(Dict(:connection_limit => 5))
         @test custom_backend isa AWS.AbstractBackend
         @test AWS._http_request(custom_backend, request) == Dict(:connection_limit => 5)
@@ -376,22 +384,23 @@ end
         custom_backend = AWS.HTTPBackend(Dict(:pipeline_limit => 5))
         @test AWS._http_request(custom_backend, request) == Dict(:pipeline_limit => 20)
     end
+    
+    request.backend = TestBackend(2)
+    @test AWS._http_request(request.backend, request) == 2
 
     # Let's test setting the default backend
+    prev_backend = AWS.DEFAULT_BACKEND[]
     try
-        AWS.DEFAULT_BACKEND[] = AWS.HTTPBackend(; connection_limit = 3)
+        AWS.DEFAULT_BACKEND[] = TestBackend(3)
         request = Request(
             service="s3",
             api_version="api_version",
             request_method="GET",
             url="https://s3.us-east-1.amazonaws.com/sample-bucket",
         )
-        @test request.backend.http_options == Dict(:connection_limit => 3)
-        apply(Patches._http_options_patch) do
-            @test AWS._http_request(request.backend, request) == Dict(:connection_limit => 3)
-        end
+        @test AWS._http_request(request.backend, request) == 3
     finally
-        AWS.DEFAULT_BACKEND[] = AWS.HTTPBackend()
+        AWS.DEFAULT_BACKEND[] = prev_backend
     end
 end
 
