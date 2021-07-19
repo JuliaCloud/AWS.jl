@@ -34,6 +34,8 @@ function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
 
+AWS.DEFAULT_BACKEND[] = AWS.DownloadsBackend()
+
 @testset "AWS.jl" begin
     include("AWS.jl")
     include("AWSCredentials.jl")
