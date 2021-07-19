@@ -1,4 +1,4 @@
-# this is used to allow custom dispatches to `_http_request`
+# Used to allow custom dispatches to `_http_request`
 abstract type AbstractBackend end
 
 """
