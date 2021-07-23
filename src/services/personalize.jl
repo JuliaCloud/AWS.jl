@@ -32,8 +32,8 @@ create_batch_inference_job(jobInput, jobName, jobOutput, roleArn, solutionVersio
 create_batch_inference_job(jobInput, jobName, jobOutput, roleArn, solutionVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
 
 """
-    create_campaign(min_provisioned_tps, name, solution_version_arn)
-    create_campaign(min_provisioned_tps, name, solution_version_arn, params::Dict{String,<:Any})
+    create_campaign(name, solution_version_arn)
+    create_campaign(name, solution_version_arn, params::Dict{String,<:Any})
 
 Creates a campaign by deploying a solution version. When a client calls the
 GetRecommendations and GetPersonalizedRanking APIs, a campaign is specified in the request.
@@ -55,17 +55,17 @@ campaign for recommendations.   Related APIs     ListCampaigns     DescribeCampa
 UpdateCampaign     DeleteCampaign
 
 # Arguments
-- `min_provisioned_tps`: Specifies the requested minimum provisioned transactions
-  (recommendations) per second that Amazon Personalize will support.
 - `name`: A name for the new campaign. The campaign name must be unique within your account.
 - `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version to deploy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"campaignConfig"`: The configuration details of a campaign.
+- `"minProvisionedTPS"`: Specifies the requested minimum provisioned transactions
+  (recommendations) per second that Amazon Personalize will support.
 """
-create_campaign(minProvisionedTPS, name, solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateCampaign", Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
-create_campaign(minProvisionedTPS, name, solutionVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
+create_campaign(name, solutionVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateCampaign", Dict{String, Any}("name"=>name, "solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
+create_campaign(name, solutionVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "solutionVersionArn"=>solutionVersionArn), params)); aws_config=aws_config)
 
 """
     create_dataset(dataset_group_arn, dataset_type, name, schema_arn)
@@ -98,23 +98,23 @@ create_dataset(datasetGroupArn, datasetType, name, schemaArn, params::AbstractDi
     create_dataset_export_job(dataset_arn, job_name, job_output, role_arn, params::Dict{String,<:Any})
 
  Creates a job that exports data from your dataset to an Amazon S3 bucket. To allow Amazon
-Personalize to export the training data, you must specify an service-linked AWS Identity
-and Access Management (IAM) role that gives Amazon Personalize PutObject permissions for
-your Amazon S3 bucket. For information, see Exporting a dataset in the Amazon Personalize
-developer guide.   Status  A dataset export job can be in one of the following states:
-CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED    To get the status
-of the export job, call DescribeDatasetExportJob, and specify the Amazon Resource Name
-(ARN) of the dataset export job. The dataset export is complete when the status shows as
-ACTIVE. If the status shows as CREATE FAILED, the response includes a failureReason key,
-which describes why the job failed.
+Personalize to export the training data, you must specify an service-linked IAM role that
+gives Amazon Personalize PutObject permissions for your Amazon S3 bucket. For information,
+see Exporting a dataset in the Amazon Personalize developer guide.   Status  A dataset
+export job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS
+&gt; ACTIVE -or- CREATE FAILED    To get the status of the export job, call
+DescribeDatasetExportJob, and specify the Amazon Resource Name (ARN) of the dataset export
+job. The dataset export is complete when the status shows as ACTIVE. If the status shows as
+CREATE FAILED, the response includes a failureReason key, which describes why the job
+failed.
 
 # Arguments
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset that contains the data to
   export.
 - `job_name`: The name for the dataset export job.
 - `job_output`: The path to the Amazon S3 bucket where the job's output is stored.
-- `role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access Management
-  service role that has permissions to add data to your output Amazon S3 bucket.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM service role that has permissions
+  to add data to your output Amazon S3 bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -139,8 +139,8 @@ PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING 
 the status of the dataset group, call DescribeDatasetGroup. If the status shows as CREATE
 FAILED, the response includes a failureReason key, which describes why the creation failed.
  You must wait until the status of the dataset group is ACTIVE before adding a dataset to
-the group.  You can specify an AWS Key Management Service (KMS) key to encrypt the datasets
-in the group. If you specify a KMS key, you must also include an AWS Identity and Access
+the group.  You can specify an Key Management Service (KMS) key to encrypt the datasets in
+the group. If you specify a KMS key, you must also include an Identity and Access
 Management (IAM) role that has permission to access the key.  APIs that require a dataset
 group ARN in the request     CreateDataset     CreateEventTracker     CreateSolution
 Related APIs     ListDatasetGroups     DescribeDatasetGroup     DeleteDatasetGroup
@@ -150,9 +150,11 @@ Related APIs     ListDatasetGroups     DescribeDatasetGroup     DeleteDatasetGro
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of a KMS key used to encrypt the datasets.
-- `"roleArn"`: The ARN of the IAM role that has permissions to access the KMS key.
-  Supplying an IAM role is only valid when also specifying a KMS key.
+- `"kmsKeyArn"`: The Amazon Resource Name (ARN) of a Key Management Service (KMS) key used
+  to encrypt the datasets.
+- `"roleArn"`: The ARN of the Identity and Access Management (IAM) role that has
+  permissions to access the Key Management Service (KMS) key. Supplying an IAM role is only
+  valid when also specifying a KMS key.
 """
 create_dataset_group(name; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetGroup", Dict{String, Any}("name"=>name); aws_config=aws_config)
 create_dataset_group(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
@@ -163,19 +165,18 @@ create_dataset_group(name, params::AbstractDict{String}; aws_config::AbstractAWS
 
 Creates a job that imports training data from your data source (an Amazon S3 bucket) to an
 Amazon Personalize dataset. To allow Amazon Personalize to import the training data, you
-must specify an AWS Identity and Access Management (IAM) service role that has permission
-to read from the data source, as Amazon Personalize makes a copy of your data and processes
-it in an internal AWS system. For information on granting access to your Amazon S3 bucket,
-see Giving Amazon Personalize Access to Amazon S3 Resources.   The dataset import job
-replaces any existing data in the dataset that you imported in bulk.   Status  A dataset
-import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS
-&gt; ACTIVE -or- CREATE FAILED   To get the status of the import job, call
-DescribeDatasetImportJob, providing the Amazon Resource Name (ARN) of the dataset import
-job. The dataset import is complete when the status shows as ACTIVE. If the status shows as
-CREATE FAILED, the response includes a failureReason key, which describes why the job
-failed.  Importing takes time. You must wait until the status shows as ACTIVE before
-training a model using the dataset.   Related APIs     ListDatasetImportJobs
-DescribeDatasetImportJob
+must specify an IAM service role that has permission to read from the data source, as
+Amazon Personalize makes a copy of your data and processes it internally. For information
+on granting access to your Amazon S3 bucket, see Giving Amazon Personalize Access to Amazon
+S3 Resources.   The dataset import job replaces any existing data in the dataset that you
+imported in bulk.   Status  A dataset import job can be in one of the following states:
+CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   To get the status
+of the import job, call DescribeDatasetImportJob, providing the Amazon Resource Name (ARN)
+of the dataset import job. The dataset import is complete when the status shows as ACTIVE.
+If the status shows as CREATE FAILED, the response includes a failureReason key, which
+describes why the job failed.  Importing takes time. You must wait until the status shows
+as ACTIVE before training a model using the dataset.   Related APIs
+ListDatasetImportJobs     DescribeDatasetImportJob
 
 # Arguments
 - `data_source`: The Amazon S3 bucket that contains the training data to import.

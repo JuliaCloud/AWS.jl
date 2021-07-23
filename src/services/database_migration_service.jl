@@ -8,14 +8,14 @@ using AWS.UUIDs
     add_tags_to_resource(resource_arn, tags)
     add_tags_to_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds metadata tags to an AWS DMS resource, including replication instance, endpoint,
-security group, and migration task. These tags can also be used with cost allocation
-reporting to track cost associated with DMS resources, or used in a Condition statement in
-an IAM policy for DMS. For more information, see  Tag  data type description.
+Adds metadata tags to an DMS resource, including replication instance, endpoint, security
+group, and migration task. These tags can also be used with cost allocation reporting to
+track cost associated with DMS resources, or used in a Condition statement in an IAM policy
+for DMS. For more information, see  Tag  data type description.
 
 # Arguments
-- `resource_arn`: Identifies the AWS DMS resource to which tags should be added. The value
-  for this parameter is an Amazon Resource Name (ARN). For AWS DMS, you can tag a replication
+- `resource_arn`: Identifies the DMS resource to which tags should be added. The value for
+  this parameter is an Amazon Resource Name (ARN). For DMS, you can tag a replication
   instance, an endpoint, or a replication task.
 - `tags`: One or more tags to be assigned to the resource.
 
@@ -36,8 +36,8 @@ Applies a pending maintenance action to a resource (for example, to a replicatio
   Apply the maintenance action immediately.    next-maintenance - Apply the maintenance
   action during the next maintenance window for the resource.    undo-opt-in - Cancel any
   existing next-maintenance opt-in requests.
-- `replication_instance_arn`: The Amazon Resource Name (ARN) of the AWS DMS resource that
-  the pending maintenance action applies to.
+- `replication_instance_arn`: The Amazon Resource Name (ARN) of the DMS resource that the
+  pending maintenance action applies to.
 
 """
 apply_pending_maintenance_action(ApplyAction, OptInType, ReplicationInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws_config=aws_config)
@@ -63,7 +63,11 @@ cancel_replication_task_assessment_run(ReplicationTaskAssessmentRunArn, params::
     create_endpoint(endpoint_identifier, endpoint_type, engine_name)
     create_endpoint(endpoint_identifier, endpoint_type, engine_name, params::Dict{String,<:Any})
 
-Creates an endpoint using the provided settings.
+Creates an endpoint using the provided settings.  For a MySQL source or target endpoint,
+don't explicitly specify the database using the DatabaseName request parameter on the
+CreateEndpoint API call. Specifying DatabaseName when you create a MySQL endpoint
+replicates all the task tables to this single database. For MySQL endpoints, you specify
+the database only when you specify the schema in the table-mapping rules of the DMS task.
 
 # Arguments
 - `endpoint_identifier`: The database endpoint identifier. Identifiers must begin with a
@@ -79,69 +83,68 @@ Creates an endpoint using the provided settings.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CertificateArn"`: The Amazon Resource Name (ARN) for the certificate.
-- `"DatabaseName"`: The name of the endpoint database.
+- `"DatabaseName"`: The name of the endpoint database. For a MySQL source or target
+  endpoint, do not specify DatabaseName.
 - `"DmsTransferSettings"`: The settings in JSON format for the DMS transfer type of source
   endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The IAM role
-  that has permission to access the Amazon S3 bucket.    BucketName - The name of the S3
-  bucket to use.    CompressionType - An optional parameter to use GZIP to compress the
-  target files. To use GZIP, set this value to NONE (the default). To keep the files
-  uncompressed, don't use this value.   Shorthand syntax for these settings is as follows:
-  ServiceAccessRoleArn=string,BucketName=string,CompressionType=string  JSON syntax for these
-  settings is as follows: { \"ServiceAccessRoleArn\": \"string\", \"BucketName\": \"string\",
-  \"CompressionType\": \"none\"|\"gzip\" }
+  that has permission to access the Amazon S3 bucket. The role must allow the iam:PassRole
+  action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these
+  settings is as follows: ServiceAccessRoleArn=string,BucketName=string  JSON syntax for
+  these settings is as follows: { \"ServiceAccessRoleArn\": \"string\", \"BucketName\":
+  \"string\", }
 - `"DocDbSettings"`:
 - `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint.
   For information about other available settings, see Using Object Mapping to Migrate Data to
-  DynamoDB in the AWS Database Migration Service User Guide.
+  DynamoDB in the Database Migration Service User Guide.
 - `"ElasticsearchSettings"`: Settings in JSON format for the target Elasticsearch endpoint.
   For more information about the available settings, see Extra Connection Attributes When
-  Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration Service User
-  Guide.
+  Using Elasticsearch as a Target for DMS in the Database Migration Service User Guide.
 - `"ExternalTableDefinition"`: The external table definition.
 - `"ExtraConnectionAttributes"`: Additional attributes associated with the connection. Each
   attribute is specified as a name-value pair associated by an equal sign (=). Multiple
   attributes are separated by a semicolon (;) with no additional white space. For information
   on the attributes available for connecting your source or target endpoint, see Working with
-  AWS DMS Endpoints in the AWS Database Migration Service User Guide.
+  DMS Endpoints in the Database Migration Service User Guide.
 - `"IBMDb2Settings"`: Settings in JSON format for the source IBM Db2 LUW endpoint. For
   information about other available settings, see Extra connection attributes when using Db2
-  LUW as a source for AWS DMS in the AWS Database Migration Service User Guide.
+  LUW as a source for DMS in the Database Migration Service User Guide.
 - `"KafkaSettings"`: Settings in JSON format for the target Apache Kafka endpoint. For more
-  information about the available settings, see Using Apache Kafka as a Target for AWS
-  Database Migration Service in the AWS Database Migration Service User Guide.
+  information about the available settings, see Using object mapping to migrate data to a
+  Kafka topic in the Database Migration Service User Guide.
 - `"KinesisSettings"`: Settings in JSON format for the target endpoint for Amazon Kinesis
-  Data Streams. For more information about the available settings, see Using Amazon Kinesis
-  Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration
-  Service User Guide.
-- `"KmsKeyId"`: An AWS KMS key identifier that is used to encrypt the connection parameters
-  for the endpoint. If you don't specify a value for the KmsKeyId parameter, then AWS DMS
-  uses your default encryption key. AWS KMS creates the default encryption key for your AWS
-  account. Your AWS account has a different default encryption key for each AWS Region.
+  Data Streams. For more information about the available settings, see Using object mapping
+  to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
+- `"KmsKeyId"`: An KMS key identifier that is used to encrypt the connection parameters for
+  the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your
+  default encryption key. KMS creates the default encryption key for your account. Your
+  account has a different default encryption key for each Region.
 - `"MicrosoftSQLServerSettings"`: Settings in JSON format for the source and target
   Microsoft SQL Server endpoint. For information about other available settings, see Extra
-  connection attributes when using SQL Server as a source for AWS DMS and  Extra connection
-  attributes when using SQL Server as a target for AWS DMS in the AWS Database Migration
-  Service User Guide.
+  connection attributes when using SQL Server as a source for DMS and  Extra connection
+  attributes when using SQL Server as a target for DMS in the Database Migration Service User
+  Guide.
 - `"MongoDbSettings"`: Settings in JSON format for the source MongoDB endpoint. For more
-  information about the available settings, see Using MongoDB as a Target for AWS Database
-  Migration Service in the AWS Database Migration Service User Guide.
+  information about the available settings, see Endpoint configuration settings when using
+  MongoDB as a source for Database Migration Service in the Database Migration Service User
+  Guide.
 - `"MySQLSettings"`: Settings in JSON format for the source and target MySQL endpoint. For
   information about other available settings, see Extra connection attributes when using
-  MySQL as a source for AWS DMS and Extra connection attributes when using a MySQL-compatible
-  database as a target for AWS DMS in the AWS Database Migration Service User Guide.
+  MySQL as a source for DMS and Extra connection attributes when using a MySQL-compatible
+  database as a target for DMS in the Database Migration Service User Guide.
 - `"NeptuneSettings"`: Settings in JSON format for the target Amazon Neptune endpoint. For
-  more information about the available settings, see Specifying Endpoint Settings for Amazon
-  Neptune as a Target in the AWS Database Migration Service User Guide.
+  more information about the available settings, see Specifying graph-mapping rules using
+  Gremlin and R2RML for Amazon Neptune as a target in the Database Migration Service User
+  Guide.
 - `"OracleSettings"`: Settings in JSON format for the source and target Oracle endpoint.
   For information about other available settings, see Extra connection attributes when using
-  Oracle as a source for AWS DMS and  Extra connection attributes when using Oracle as a
-  target for AWS DMS in the AWS Database Migration Service User Guide.
+  Oracle as a source for DMS and  Extra connection attributes when using Oracle as a target
+  for DMS in the Database Migration Service User Guide.
 - `"Password"`: The password to be used to log in to the endpoint database.
 - `"Port"`: The port used by the endpoint database.
 - `"PostgreSQLSettings"`: Settings in JSON format for the source and target PostgreSQL
   endpoint. For information about other available settings, see Extra connection attributes
-  when using PostgreSQL as a source for AWS DMS and  Extra connection attributes when using
-  PostgreSQL as a target for AWS DMS in the AWS Database Migration Service User Guide.
+  when using PostgreSQL as a source for DMS and  Extra connection attributes when using
+  PostgreSQL as a target for DMS in the Database Migration Service User Guide.
 - `"RedshiftSettings"`:
 - `"ResourceIdentifier"`: A friendly name for the resource identifier at the end of the
   EndpointArn response parameter that is returned in the created Endpoint object. The value
@@ -149,20 +152,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and
   can only begin with a letter, such as Example-App-ARN1. For example, this value might
   result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1. If
-  you don't specify a ResourceIdentifier value, AWS DMS generates a default identifier value
-  for the end of EndpointArn.
+  you don't specify a ResourceIdentifier value, DMS generates a default identifier value for
+  the end of EndpointArn.
 - `"S3Settings"`: Settings in JSON format for the target Amazon S3 endpoint. For more
   information about the available settings, see Extra Connection Attributes When Using Amazon
-  S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide.
+  S3 as a Target for DMS in the Database Migration Service User Guide.
 - `"ServerName"`: The name of the server where the endpoint database resides.
 - `"ServiceAccessRoleArn"`:  The Amazon Resource Name (ARN) for the service access role
-  that you want to use to create the endpoint.
+  that you want to use to create the endpoint. The role must allow the iam:PassRole action.
 - `"SslMode"`: The Secure Sockets Layer (SSL) mode to use for the SSL connection. The
   default is none
 - `"SybaseSettings"`: Settings in JSON format for the source and target SAP ASE endpoint.
   For information about other available settings, see Extra connection attributes when using
-  SAP ASE as a source for AWS DMS and Extra connection attributes when using SAP ASE as a
-  target for AWS DMS in the AWS Database Migration Service User Guide.
+  SAP ASE as a source for DMS and Extra connection attributes when using SAP ASE as a target
+  for DMS in the Database Migration Service User Guide.
 - `"Tags"`: One or more tags to be assigned to the endpoint.
 - `"Username"`: The user name to be used to log in to the endpoint database.
 """
@@ -173,40 +176,40 @@ create_endpoint(EndpointIdentifier, EndpointType, EngineName, params::AbstractDi
     create_event_subscription(sns_topic_arn, subscription_name)
     create_event_subscription(sns_topic_arn, subscription_name, params::Dict{String,<:Any})
 
- Creates an AWS DMS event notification subscription.  You can specify the type of source
-(SourceType) you want to be notified of, provide a list of AWS DMS source IDs (SourceIds)
-that triggers the events, and provide a list of event categories (EventCategories) for
-events you want to be notified of. If you specify both the SourceType and SourceIds, such
-as SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be
+ Creates an DMS event notification subscription.  You can specify the type of source
+(SourceType) you want to be notified of, provide a list of DMS source IDs (SourceIds) that
+triggers the events, and provide a list of event categories (EventCategories) for events
+you want to be notified of. If you specify both the SourceType and SourceIds, such as
+SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be
 notified of all the replication instance events for the specified source. If you specify a
 SourceType but don't specify a SourceIdentifier, you receive notice of the events for that
-source type for all your AWS DMS sources. If you don't specify either SourceType nor
-SourceIdentifier, you will be notified of events generated from all AWS DMS sources
-belonging to your customer account. For more information about AWS DMS events, see Working
-with Events and Notifications in the AWS Database Migration Service User Guide.
+source type for all your DMS sources. If you don't specify either SourceType nor
+SourceIdentifier, you will be notified of events generated from all DMS sources belonging
+to your customer account. For more information about DMS events, see Working with Events
+and Notifications in the Database Migration Service User Guide.
 
 # Arguments
 - `sns_topic_arn`:  The Amazon Resource Name (ARN) of the Amazon SNS topic created for
   event notification. The ARN is created by Amazon SNS when you create a topic and subscribe
   to it.
-- `subscription_name`: The name of the AWS DMS event notification subscription. This name
-  must be less than 255 characters.
+- `subscription_name`: The name of the DMS event notification subscription. This name must
+  be less than 255 characters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Enabled"`:  A Boolean value; set to true to activate the subscription, or set to false
   to create the subscription but not activate it.
 - `"EventCategories"`: A list of event categories for a source type that you want to
-  subscribe to. For more information, see Working with Events and Notifications in the AWS
+  subscribe to. For more information, see Working with Events and Notifications in the
   Database Migration Service User Guide.
-- `"SourceIds"`: A list of identifiers for which AWS DMS provides notification events. If
-  you don't specify a value, notifications are provided for all sources. If you specify
-  multiple values, they must be of the same type. For example, if you specify a database
-  instance ID, then all of the other values must be database instance IDs.
-- `"SourceType"`:  The type of AWS DMS resource that generates the events. For example, if
-  you want to be notified of events generated by a replication instance, you set this
-  parameter to replication-instance. If this value isn't specified, all events are returned.
-  Valid values: replication-instance | replication-task
+- `"SourceIds"`: A list of identifiers for which DMS provides notification events. If you
+  don't specify a value, notifications are provided for all sources. If you specify multiple
+  values, they must be of the same type. For example, if you specify a database instance ID,
+  then all of the other values must be database instance IDs.
+- `"SourceType"`:  The type of DMS resource that generates the events. For example, if you
+  want to be notified of events generated by a replication instance, you set this parameter
+  to replication-instance. If this value isn't specified, all events are returned.  Valid
+  values: replication-instance | replication-task
 - `"Tags"`: One or more tags to be assigned to the event subscription.
 """
 create_event_subscription(SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
@@ -216,18 +219,18 @@ create_event_subscription(SnsTopicArn, SubscriptionName, params::AbstractDict{St
     create_replication_instance(replication_instance_class, replication_instance_identifier)
     create_replication_instance(replication_instance_class, replication_instance_identifier, params::Dict{String,<:Any})
 
-Creates the replication instance using the specified parameters. AWS DMS requires that your
+Creates the replication instance using the specified parameters. DMS requires that your
 account have certain roles with appropriate permissions before you can create a replication
 instance. For information on the required roles, see Creating the IAM Roles to Use With the
-AWS CLI and AWS DMS API. For information on the required permissions, see IAM Permissions
-Needed to Use AWS DMS.
+CLI and DMS API. For information on the required permissions, see IAM Permissions Needed to
+Use DMS.
 
 # Arguments
 - `replication_instance_class`: The compute and memory capacity of the replication instance
   as defined for the specified replication instance class. For example to specify the
   instance class dms.c4.large, set this parameter to \"dms.c4.large\". For more information
   on the settings and capacities for the available replication instance classes, see
-  Selecting the right AWS DMS replication instance for your migration.
+  Selecting the right DMS replication instance for your migration.
 - `replication_instance_identifier`: The replication instance identifier. This parameter is
   stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or
   hyphens.   First character must be a letter.   Can't end with a hyphen or contain two
@@ -242,7 +245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter defaults to true. Default: true
 - `"AvailabilityZone"`: The Availability Zone where the replication instance will be
   created. The default value is a random, system-chosen Availability Zone in the endpoint's
-  AWS Region, for example: us-east-1d
+  Region, for example: us-east-1d
 - `"DnsNameServers"`: A list of custom DNS name servers supported for the replication
   instance to access your on-premise source or target database. This list overrides the
   default name servers supported by the replication instance. You can specify a
@@ -251,17 +254,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EngineVersion"`: The engine version number of the replication instance. If an engine
   version number is not specified when a replication instance is created, the default is the
   latest engine version available.
-- `"KmsKeyId"`: An AWS KMS key identifier that is used to encrypt the data on the
-  replication instance. If you don't specify a value for the KmsKeyId parameter, then AWS DMS
-  uses your default encryption key. AWS KMS creates the default encryption key for your AWS
-  account. Your AWS account has a different default encryption key for each AWS Region.
+- `"KmsKeyId"`: An KMS key identifier that is used to encrypt the data on the replication
+  instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your
+  default encryption key. KMS creates the default encryption key for your account. Your
+  account has a different default encryption key for each Region.
 - `"MultiAZ"`:  Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A
-  30-minute window selected at random from an 8-hour block of time per AWS Region, occurring
-  on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints:
-  Minimum 30-minute window.
+  30-minute window selected at random from an 8-hour block of time per Region, occurring on a
+  random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum
+  30-minute window.
 - `"PubliclyAccessible"`:  Specifies the accessibility options for the replication
   instance. A value of true represents an instance with a public IP address. A value of false
   represents an instance with a private IP address. The default value is true.
@@ -273,8 +276,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and
   can only begin with a letter, such as Example-App-ARN1. For example, this value might
   result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1. If
-  you don't specify a ResourceIdentifier value, AWS DMS generates a default identifier value
-  for the end of EndpointArn.
+  you don't specify a ResourceIdentifier value, DMS generates a default identifier value for
+  the end of EndpointArn.
 - `"Tags"`: One or more tags to be assigned to the replication instance.
 - `"VpcSecurityGroupIds"`:  Specifies the VPC security group to be used with the
   replication instance. The VPC security group must work with the VPC containing the
@@ -319,7 +322,7 @@ Creates a replication task using the specified parameters.
 - `source_endpoint_arn`: An Amazon Resource Name (ARN) that uniquely identifies the source
   endpoint.
 - `table_mappings`: The table mappings for the task, in JSON format. For more information,
-  see Using Table Mapping to Specify Task Settings in the AWS Database Migration Service User
+  see Using Table Mapping to Specify Task Settings in the Database Migration Service User
   Guide.
 - `target_endpoint_arn`: An Amazon Resource Name (ARN) that uniquely identifies the target
   endpoint.
@@ -337,7 +340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PostgreSQL database, a logical replication slot should already be created and associated
   with the source endpoint. You can verify this by setting the slotName extra connection
   attribute to the name of this logical replication slot. For more information, see Extra
-  Connection Attributes When Using PostgreSQL as a Source for AWS DMS.
+  Connection Attributes When Using PostgreSQL as a Source for DMS.
 - `"CdcStartTime"`: Indicates the start time for a change data capture (CDC) operation. Use
   either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start.
   Specifying both values results in an error. Timestamp Example: --cdc-start-time
@@ -347,20 +350,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example:
   --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
 - `"ReplicationTaskSettings"`: Overall settings for the task, in JSON format. For more
-  information, see Specifying Task Settings for AWS Database Migration Service Tasks in the
-  AWS Database Migration User Guide.
+  information, see Specifying Task Settings for Database Migration Service Tasks in the
+  Database Migration Service User Guide.
 - `"ResourceIdentifier"`: A friendly name for the resource identifier at the end of the
   EndpointArn response parameter that is returned in the created Endpoint object. The value
   for this parameter can have up to 31 characters. It can contain only ASCII letters, digits,
   and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and
   can only begin with a letter, such as Example-App-ARN1. For example, this value might
   result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1. If
-  you don't specify a ResourceIdentifier value, AWS DMS generates a default identifier value
-  for the end of EndpointArn.
+  you don't specify a ResourceIdentifier value, DMS generates a default identifier value for
+  the end of EndpointArn.
 - `"Tags"`: One or more tags to be assigned to the replication task.
 - `"TaskData"`: Supplemental information that the task requires to migrate the data for
   certain source and target endpoints. For more information, see Specifying Supplemental Data
-  for Task Settings in the AWS Database Migration Service User Guide.
+  for Task Settings in the Database Migration Service User Guide.
 """
 create_replication_task(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("CreateReplicationTask", Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn); aws_config=aws_config)
 create_replication_task(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("CreateReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn), params)); aws_config=aws_config)
@@ -412,7 +415,7 @@ delete_endpoint(EndpointArn, params::AbstractDict{String}; aws_config::AbstractA
     delete_event_subscription(subscription_name)
     delete_event_subscription(subscription_name, params::Dict{String,<:Any})
 
- Deletes an AWS DMS event subscription.
+ Deletes an DMS event subscription.
 
 # Arguments
 - `subscription_name`: The name of the DMS event notification subscription to be deleted.
@@ -468,7 +471,7 @@ delete_replication_task(ReplicationTaskArn, params::AbstractDict{String}; aws_co
     delete_replication_task_assessment_run(replication_task_assessment_run_arn, params::Dict{String,<:Any})
 
 Deletes the record of a single premigration assessment run. This operation removes all
-metadata that AWS DMS maintains about this assessment run. However, the operation leaves
+metadata that DMS maintains about this assessment run. However, the operation leaves
 untouched all information about this assessment run that is stored in your Amazon S3 bucket.
 
 # Arguments
@@ -483,9 +486,9 @@ delete_replication_task_assessment_run(ReplicationTaskAssessmentRunArn, params::
     describe_account_attributes()
     describe_account_attributes(params::Dict{String,<:Any})
 
-Lists all of the AWS DMS attributes for a customer account. These attributes include AWS
-DMS quotas for the account and a unique account identifier in a particular DMS region. DMS
-quotas include a list of resource quotas supported by the account, such as the number of
+Lists all of the DMS attributes for a customer account. These attributes include DMS quotas
+for the account and a unique account identifier in a particular DMS region. DMS quotas
+include a list of resource quotas supported by the account, such as the number of
 replication instances allowed. The description for each resource quota, includes the quota
 name, current usage toward that quota, and the quota's maximum value. DMS uses the unique
 account identifier to name each artifact used by DMS in the given region. This command does
@@ -648,12 +651,12 @@ describe_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
 
 Lists categories for all event source types, or, if specified, for a specified source type.
 You can see a list of the event categories and source types in Working with Events and
-Notifications in the AWS Database Migration Service User Guide.
+Notifications in the Database Migration Service User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: Filters applied to the event categories.
-- `"SourceType"`:  The type of AWS DMS resource that generates events.  Valid values:
+- `"SourceType"`:  The type of DMS resource that generates events.  Valid values:
   replication-instance | replication-task
 """
 describe_event_categories(; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("DescribeEventCategories"; aws_config=aws_config)
@@ -678,7 +681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   records exist than the specified MaxRecords value, a pagination token called a marker is
   included in the response so that the remaining results can be retrieved.  Default: 100
   Constraints: Minimum 20, maximum 100.
-- `"SubscriptionName"`: The name of the AWS DMS event subscription to be described.
+- `"SubscriptionName"`: The name of the DMS event subscription to be described.
 """
 describe_event_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("DescribeEventSubscriptions"; aws_config=aws_config)
 describe_event_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("DescribeEventSubscriptions", params; aws_config=aws_config)
@@ -688,8 +691,8 @@ describe_event_subscriptions(params::AbstractDict{String}; aws_config::AbstractA
     describe_events(params::Dict{String,<:Any})
 
  Lists events for a given source identifier and source type. You can also specify a start
-and end time. For more information on AWS DMS events, see Working with Events and
-Notifications in the AWS Database Migration User Guide.
+and end time. For more information on DMS events, see Working with Events and Notifications
+in the Database Migration Service User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -705,7 +708,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the response so that the remaining results can be retrieved.  Default: 100
   Constraints: Minimum 20, maximum 100.
 - `"SourceIdentifier"`:  The identifier of an event source.
-- `"SourceType"`: The type of AWS DMS resource that generates events. Valid values:
+- `"SourceType"`: The type of DMS resource that generates events. Valid values:
   replication-instance | replication-task
 - `"StartTime"`: The start time for the events to be listed.
 """
@@ -836,8 +839,10 @@ describe_replication_subnet_groups(params::AbstractDict{String}; aws_config::Abs
     describe_replication_task_assessment_results()
     describe_replication_task_assessment_results(params::Dict{String,<:Any})
 
-Returns the task assessment results from Amazon S3. This action always returns the latest
-results.
+Returns the task assessment results from the Amazon S3 bucket that DMS creates in your
+account. This action always returns the latest results. For more information about DMS task
+assessments, see Creating a task assessment report in the  Database Migration Service User
+Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -957,7 +962,7 @@ describe_schemas(EndpointArn, params::AbstractDict{String}; aws_config::Abstract
 
 Returns table statistics on the database migration task, including table name, rows
 inserted, rows updated, and rows deleted. Note that the \"last updated\" column the DMS
-console only indicates the time that AWS DMS last updated the table statistics record for a
+console only indicates the time that DMS last updated the table statistics record for a
 table. It does not indicate the time of the last update to the table.
 
 # Arguments
@@ -994,7 +999,8 @@ Uploads the specified certificate.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CertificatePem"`: The contents of a .pem file, which contains an X.509 certificate.
 - `"CertificateWallet"`: The location of an imported Oracle Wallet certificate for use with
-  SSL.
+  SSL. Provide the name of a .sso file using the fileb:// prefix. You can't provide the
+  certificate inline.
 - `"Tags"`: The tags associated with the certificate.
 """
 import_certificate(CertificateIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("ImportCertificate", Dict{String, Any}("CertificateIdentifier"=>CertificateIdentifier); aws_config=aws_config)
@@ -1004,13 +1010,13 @@ import_certificate(CertificateIdentifier, params::AbstractDict{String}; aws_conf
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists all metadata tags attached to an AWS DMS resource, including replication instance,
+Lists all metadata tags attached to an DMS resource, including replication instance,
 endpoint, security group, and migration task. For more information, see  Tag  data type
 description.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) string that uniquely identifies the AWS
-  DMS resource.
+- `resource_arn`: The Amazon Resource Name (ARN) string that uniquely identifies the DMS
+  resource.
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
@@ -1020,7 +1026,11 @@ list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::Ab
     modify_endpoint(endpoint_arn)
     modify_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
-Modifies the specified endpoint.
+Modifies the specified endpoint.  For a MySQL source or target endpoint, don't explicitly
+specify the database using the DatabaseName request parameter on the ModifyEndpoint API
+call. Specifying DatabaseName when you modify a MySQL endpoint replicates all the task
+tables to this single database. For MySQL endpoints, you specify the database only when you
+specify the schema in the table-mapping rules of the DMS task.
 
 # Arguments
 - `endpoint_arn`: The Amazon Resource Name (ARN) string that uniquely identifies the
@@ -1030,27 +1040,25 @@ Modifies the specified endpoint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CertificateArn"`: The Amazon Resource Name (ARN) of the certificate used for SSL
   connection.
-- `"DatabaseName"`: The name of the endpoint database.
+- `"DatabaseName"`: The name of the endpoint database. For a MySQL source or target
+  endpoint, do not specify DatabaseName.
 - `"DmsTransferSettings"`: The settings in JSON format for the DMS transfer type of source
-  endpoint.  Attributes include the following:   serviceAccessRoleArn - The AWS Identity and
-  Access Management (IAM) role that has permission to access the Amazon S3 bucket.
-  BucketName - The name of the S3 bucket to use.   compressionType - An optional parameter to
-  use GZIP to compress the target files. Either set this parameter to NONE (the default) or
-  don't use it to leave the files uncompressed.   Shorthand syntax for these settings is as
-  follows: ServiceAccessRoleArn=string ,BucketName=string,CompressionType=string  JSON syntax
-  for these settings is as follows: { \"ServiceAccessRoleArn\": \"string\", \"BucketName\":
-  \"string\", \"CompressionType\": \"none\"|\"gzip\" }
+  endpoint.  Attributes include the following:   serviceAccessRoleArn - The Identity and
+  Access Management (IAM) role that has permission to access the Amazon S3 bucket. The role
+  must allow the iam:PassRole action.   BucketName - The name of the S3 bucket to use.
+  Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string
+  ,BucketName=string  JSON syntax for these settings is as follows: {
+  \"ServiceAccessRoleArn\": \"string\", \"BucketName\": \"string\"}
 - `"DocDbSettings"`: Settings in JSON format for the source DocumentDB endpoint. For more
   information about the available settings, see the configuration properties section in
-  Using DocumentDB as a Target for AWS Database Migration Service in the AWS Database
-  Migration Service User Guide.
+  Using DocumentDB as a Target for Database Migration Service  in the Database Migration
+  Service User Guide.
 - `"DynamoDbSettings"`: Settings in JSON format for the target Amazon DynamoDB endpoint.
   For information about other available settings, see Using Object Mapping to Migrate Data to
-  DynamoDB in the AWS Database Migration Service User Guide.
+  DynamoDB in the Database Migration Service User Guide.
 - `"ElasticsearchSettings"`: Settings in JSON format for the target Elasticsearch endpoint.
   For more information about the available settings, see Extra Connection Attributes When
-  Using Elasticsearch as a Target for AWS DMS in the AWS Database Migration Service User
-  Guide.
+  Using Elasticsearch as a Target for DMS in the Database Migration Service User Guide.
 - `"EndpointIdentifier"`: The database endpoint identifier. Identifiers must begin with a
   letter and must contain only ASCII letters, digits, and hyphens. They can't end with a
   hyphen or contain two consecutive hyphens.
@@ -1060,57 +1068,69 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"aurora-postgresql\", \"redshift\", \"s3\", \"db2\", \"azuredb\", \"sybase\",
   \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\", \"documentdb\",
   \"sqlserver\", and \"neptune\".
+- `"ExactSettings"`: If this attribute is Y, the current call to ModifyEndpoint replaces
+  all existing endpoint settings with the exact settings that you specify in this call. If
+  this attribute is N, the current call to ModifyEndpoint does two things:    It replaces any
+  endpoint settings that already exist with new values, for settings with the same names.
+  It creates new endpoint settings that you specify in the call, for settings with different
+  names.    For example, if you call create-endpoint ... --endpoint-settings '{\"a\":1}' ...,
+  the endpoint has the following endpoint settings: '{\"a\":1}'. If you then call
+  modify-endpoint ... --endpoint-settings '{\"b\":2}' ... for the same endpoint, the endpoint
+  has the following settings: '{\"a\":1,\"b\":2}'.  However, suppose that you follow this
+  with a call to modify-endpoint ... --endpoint-settings '{\"b\":2}' --exact-settings ... for
+  that same endpoint again. Then the endpoint has the following settings: '{\"b\":2}'. All
+  existing settings are replaced with the exact settings that you specify.
 - `"ExternalTableDefinition"`: The external table definition.
 - `"ExtraConnectionAttributes"`: Additional attributes associated with the connection. To
   reset this parameter, pass the empty string (\"\") as an argument.
 - `"IBMDb2Settings"`: Settings in JSON format for the source IBM Db2 LUW endpoint. For
   information about other available settings, see Extra connection attributes when using Db2
-  LUW as a source for AWS DMS in the AWS Database Migration Service User Guide.
+  LUW as a source for DMS in the Database Migration Service User Guide.
 - `"KafkaSettings"`: Settings in JSON format for the target Apache Kafka endpoint. For more
-  information about the available settings, see Using Apache Kafka as a Target for AWS
-  Database Migration Service in the AWS Database Migration Service User Guide.
+  information about the available settings, see Using object mapping to migrate data to a
+  Kafka topic in the Database Migration Service User Guide.
 - `"KinesisSettings"`: Settings in JSON format for the target endpoint for Amazon Kinesis
-  Data Streams. For more information about the available settings, see Using Amazon Kinesis
-  Data Streams as a Target for AWS Database Migration Service in the AWS Database Migration
-  Service User Guide.
+  Data Streams. For more information about the available settings, see Using object mapping
+  to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
 - `"MicrosoftSQLServerSettings"`: Settings in JSON format for the source and target
   Microsoft SQL Server endpoint. For information about other available settings, see Extra
-  connection attributes when using SQL Server as a source for AWS DMS and  Extra connection
-  attributes when using SQL Server as a target for AWS DMS in the AWS Database Migration
-  Service User Guide.
+  connection attributes when using SQL Server as a source for DMS and  Extra connection
+  attributes when using SQL Server as a target for DMS in the Database Migration Service User
+  Guide.
 - `"MongoDbSettings"`: Settings in JSON format for the source MongoDB endpoint. For more
   information about the available settings, see the configuration properties section in
-  Using MongoDB as a Target for AWS Database Migration Service in the AWS Database Migration
-  Service User Guide.
+  Endpoint configuration settings when using MongoDB as a source for Database Migration
+  Service in the Database Migration Service User Guide.
 - `"MySQLSettings"`: Settings in JSON format for the source and target MySQL endpoint. For
   information about other available settings, see Extra connection attributes when using
-  MySQL as a source for AWS DMS and Extra connection attributes when using a MySQL-compatible
-  database as a target for AWS DMS in the AWS Database Migration Service User Guide.
+  MySQL as a source for DMS and Extra connection attributes when using a MySQL-compatible
+  database as a target for DMS in the Database Migration Service User Guide.
 - `"NeptuneSettings"`: Settings in JSON format for the target Amazon Neptune endpoint. For
-  more information about the available settings, see Specifying Endpoint Settings for Amazon
-  Neptune as a Target in the AWS Database Migration Service User Guide.
+  more information about the available settings, see Specifying graph-mapping rules using
+  Gremlin and R2RML for Amazon Neptune as a target in the Database Migration Service User
+  Guide.
 - `"OracleSettings"`: Settings in JSON format for the source and target Oracle endpoint.
   For information about other available settings, see Extra connection attributes when using
-  Oracle as a source for AWS DMS and  Extra connection attributes when using Oracle as a
-  target for AWS DMS in the AWS Database Migration Service User Guide.
+  Oracle as a source for DMS and  Extra connection attributes when using Oracle as a target
+  for DMS in the Database Migration Service User Guide.
 - `"Password"`: The password to be used to login to the endpoint database.
 - `"Port"`: The port used by the endpoint database.
 - `"PostgreSQLSettings"`: Settings in JSON format for the source and target PostgreSQL
   endpoint. For information about other available settings, see Extra connection attributes
-  when using PostgreSQL as a source for AWS DMS and  Extra connection attributes when using
-  PostgreSQL as a target for AWS DMS in the AWS Database Migration Service User Guide.
+  when using PostgreSQL as a source for DMS and  Extra connection attributes when using
+  PostgreSQL as a target for DMS in the Database Migration Service User Guide.
 - `"RedshiftSettings"`:
 - `"S3Settings"`: Settings in JSON format for the target Amazon S3 endpoint. For more
   information about the available settings, see Extra Connection Attributes When Using Amazon
-  S3 as a Target for AWS DMS in the AWS Database Migration Service User Guide.
+  S3 as a Target for DMS in the Database Migration Service User Guide.
 - `"ServerName"`: The name of the server where the endpoint database resides.
-- `"ServiceAccessRoleArn"`:  The Amazon Resource Name (ARN) for the service access role you
-  want to use to modify the endpoint.
+- `"ServiceAccessRoleArn"`:  The Amazon Resource Name (ARN) for the IAM role you want to
+  use to modify the endpoint. The role must allow the iam:PassRole action.
 - `"SslMode"`: The SSL mode used to connect to the endpoint. The default value is none.
 - `"SybaseSettings"`: Settings in JSON format for the source and target SAP ASE endpoint.
   For information about other available settings, see Extra connection attributes when using
-  SAP ASE as a source for AWS DMS and Extra connection attributes when using SAP ASE as a
-  target for AWS DMS in the AWS Database Migration Service User Guide.
+  SAP ASE as a source for DMS and Extra connection attributes when using SAP ASE as a target
+  for DMS in the Database Migration Service User Guide.
 - `"Username"`: The user name to be used to login to the endpoint database.
 """
 modify_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("ModifyEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config)
@@ -1120,11 +1140,10 @@ modify_endpoint(EndpointArn, params::AbstractDict{String}; aws_config::AbstractA
     modify_event_subscription(subscription_name)
     modify_event_subscription(subscription_name, params::Dict{String,<:Any})
 
-Modifies an existing AWS DMS event notification subscription.
+Modifies an existing DMS event notification subscription.
 
 # Arguments
-- `subscription_name`: The name of the AWS DMS event notification subscription to be
-  modified.
+- `subscription_name`: The name of the DMS event notification subscription to be modified.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1134,8 +1153,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnsTopicArn"`:  The Amazon Resource Name (ARN) of the Amazon SNS topic created for
   event notification. The ARN is created by Amazon SNS when you create a topic and subscribe
   to it.
-- `"SourceType"`:  The type of AWS DMS resource that generates the events you want to
-  subscribe to.  Valid values: replication-instance | replication-task
+- `"SourceType"`:  The type of DMS resource that generates the events you want to subscribe
+  to.  Valid values: replication-instance | replication-task
 """
 modify_event_subscription(SubscriptionName; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
 modify_event_subscription(SubscriptionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), params)); aws_config=aws_config)
@@ -1167,7 +1186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter doesn't result in an outage, except in the case described following. The
   change is asynchronously applied as soon as possible.  An outage does result if these
   factors apply:    This parameter is set to true during the maintenance window.   A newer
-  minor version is available.    AWS DMS has enabled automatic patching for the given engine
+  minor version is available.    DMS has enabled automatic patching for the given engine
   version.
 - `"EngineVersion"`: The engine version number of the replication instance. When modifying
   a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
@@ -1184,7 +1203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as defined for the specified replication instance class. For example to specify the
   instance class dms.c4.large, set this parameter to \"dms.c4.large\". For more information
   on the settings and capacities for the available replication instance classes, see
-  Selecting the right AWS DMS replication instance for your migration.
+  Selecting the right DMS replication instance for your migration.
 - `"ReplicationInstanceIdentifier"`: The replication instance identifier. This parameter is
   stored as a lowercase string.
 - `"VpcSecurityGroupIds"`:  Specifies the VPC security group to be used with the
@@ -1217,8 +1236,8 @@ modify_replication_subnet_group(ReplicationSubnetGroupIdentifier, SubnetIds, par
     modify_replication_task(replication_task_arn, params::Dict{String,<:Any})
 
 Modifies the specified replication task. You can't modify the task endpoints. The task must
-be stopped before you can modify it.  For more information about AWS DMS tasks, see Working
-with Migration Tasks in the AWS Database Migration Service User Guide.
+be stopped before you can modify it.  For more information about DMS tasks, see Working
+with Migration Tasks in the Database Migration Service User Guide.
 
 # Arguments
 - `replication_task_arn`: The Amazon Resource Name (ARN) of the replication task.
@@ -1236,7 +1255,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PostgreSQL database, a logical replication slot should already be created and associated
   with the source endpoint. You can verify this by setting the slotName extra connection
   attribute to the name of this logical replication slot. For more information, see Extra
-  Connection Attributes When Using PostgreSQL as a Source for AWS DMS.
+  Connection Attributes When Using PostgreSQL as a Source for DMS.
 - `"CdcStartTime"`: Indicates the start time for a change data capture (CDC) operation. Use
   either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start.
   Specifying both values results in an error. Timestamp Example: --cdc-start-time
@@ -1251,13 +1270,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cannot end with a hyphen or contain two consecutive hyphens.
 - `"ReplicationTaskSettings"`: JSON file that contains settings for the task, such as task
   metadata settings.
-- `"TableMappings"`: When using the AWS CLI or boto3, provide the path of the JSON file
-  that contains the table mappings. Precede the path with file://. For example,
-  --table-mappings file://mappingfile.json. When working with the DMS API, provide the JSON
-  as the parameter value.
+- `"TableMappings"`: When using the CLI or boto3, provide the path of the JSON file that
+  contains the table mappings. Precede the path with file://. For example, --table-mappings
+  file://mappingfile.json. When working with the DMS API, provide the JSON as the parameter
+  value.
 - `"TaskData"`: Supplemental information that the task requires to migrate the data for
   certain source and target endpoints. For more information, see Specifying Supplemental Data
-  for Task Settings in the AWS Database Migration Service User Guide.
+  for Task Settings in the Database Migration Service User Guide.
 """
 modify_replication_task(ReplicationTaskArn; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("ModifyReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws_config=aws_config)
 modify_replication_task(ReplicationTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("ModifyReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), params)); aws_config=aws_config)
@@ -1268,7 +1287,7 @@ modify_replication_task(ReplicationTaskArn, params::AbstractDict{String}; aws_co
 
 Moves a replication task from its current replication instance to a different target
 replication instance using the specified parameters. The target replication instance must
-be created with the same or later AWS DMS version as the current replication instance.
+be created with the same or later DMS version as the current replication instance.
 
 # Arguments
 - `replication_task_arn`: The Amazon Resource Name (ARN) of the task that you want to move.
@@ -1338,12 +1357,12 @@ reload_tables(ReplicationTaskArn, TablesToReload, params::AbstractDict{String}; 
     remove_tags_from_resource(resource_arn, tag_keys)
     remove_tags_from_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes metadata tags from an AWS DMS resource, including replication instance, endpoint,
+Removes metadata tags from an DMS resource, including replication instance, endpoint,
 security group, and migration task. For more information, see  Tag  data type description.
 
 # Arguments
-- `resource_arn`: An AWS DMS resource from which you want to remove tag(s). The value for
-  this parameter is an Amazon Resource Name (ARN).
+- `resource_arn`: An DMS resource from which you want to remove tag(s). The value for this
+  parameter is an Amazon Resource Name (ARN).
 - `tag_keys`: The tag key (name) of the tag to be removed.
 
 """
@@ -1354,8 +1373,8 @@ remove_tags_from_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aw
     start_replication_task(replication_task_arn, start_replication_task_type)
     start_replication_task(replication_task_arn, start_replication_task_type, params::Dict{String,<:Any})
 
-Starts the replication task. For more information about AWS DMS tasks, see Working with
-Migration Tasks  in the AWS Database Migration Service User Guide.
+Starts the replication task. For more information about DMS tasks, see Working with
+Migration Tasks  in the Database Migration Service User Guide.
 
 # Arguments
 - `replication_task_arn`: The Amazon Resource Name (ARN) of the replication task to be
@@ -1375,7 +1394,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PostgreSQL database, a logical replication slot should already be created and associated
   with the source endpoint. You can verify this by setting the slotName extra connection
   attribute to the name of this logical replication slot. For more information, see Extra
-  Connection Attributes When Using PostgreSQL as a Source for AWS DMS.
+  Connection Attributes When Using PostgreSQL as a Source for DMS.
 - `"CdcStartTime"`: Indicates the start time for a change data capture (CDC) operation. Use
   either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start.
   Specifying both values results in an error. Timestamp Example: --cdc-start-time
@@ -1416,39 +1435,38 @@ after the assessment run and its individual assessments complete.
 - `assessment_run_name`: Unique name to identify the assessment run.
 - `replication_task_arn`: Amazon Resource Name (ARN) of the migration task associated with
   the premigration assessment run that you want to start.
-- `result_location_bucket`: Amazon S3 bucket where you want AWS DMS to store the results of
+- `result_location_bucket`: Amazon S3 bucket where you want DMS to store the results of
   this assessment run.
-- `service_access_role_arn`: ARN of a service role needed to start the assessment run.
+- `service_access_role_arn`: ARN of the service role needed to start the assessment run.
+  The role must allow the iam:PassRole action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Exclude"`: Space-separated list of names for specific individual assessments that you
-  want to exclude. These names come from the default list of individual assessments that AWS
-  DMS supports for the associated migration task. This task is specified by
-  ReplicationTaskArn.  You can't set a value for Exclude if you also set a value for
-  IncludeOnly in the API operation. To identify the names of the default individual
-  assessments that AWS DMS supports for the associated migration task, run the
-  DescribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request
-  parameter.
+  want to exclude. These names come from the default list of individual assessments that DMS
+  supports for the associated migration task. This task is specified by ReplicationTaskArn.
+  You can't set a value for Exclude if you also set a value for IncludeOnly in the API
+  operation. To identify the names of the default individual assessments that DMS supports
+  for the associated migration task, run the DescribeApplicableIndividualAssessments
+  operation using its own ReplicationTaskArn request parameter.
 - `"IncludeOnly"`: Space-separated list of names for specific individual assessments that
   you want to include. These names come from the default list of individual assessments that
-  AWS DMS supports for the associated migration task. This task is specified by
+  DMS supports for the associated migration task. This task is specified by
   ReplicationTaskArn.  You can't set a value for IncludeOnly if you also set a value for
   Exclude in the API operation.  To identify the names of the default individual assessments
-  that AWS DMS supports for the associated migration task, run the
+  that DMS supports for the associated migration task, run the
   DescribeApplicableIndividualAssessments operation using its own ReplicationTaskArn request
   parameter.
 - `"ResultEncryptionMode"`: Encryption mode that you can specify to encrypt the results of
-  this assessment run. If you don't specify this request parameter, AWS DMS stores the
-  assessment run results without encryption. You can specify one of the options following:
-  \"SSE_S3\" – The server-side encryption provided as a default by Amazon S3.
-  \"SSE_KMS\" – AWS Key Management Service (AWS KMS) encryption. This encryption can use
-  either a custom KMS encryption key that you specify or the default KMS encryption key that
-  DMS provides.
+  this assessment run. If you don't specify this request parameter, DMS stores the assessment
+  run results without encryption. You can specify one of the options following:    \"SSE_S3\"
+  – The server-side encryption provided as a default by Amazon S3.    \"SSE_KMS\" – Key
+  Management Service (KMS) encryption. This encryption can use either a custom KMS encryption
+  key that you specify or the default KMS encryption key that DMS provides.
 - `"ResultKmsKeyArn"`: ARN of a custom KMS encryption key that you specify when you set
   ResultEncryptionMode to \"SSE_KMS\".
-- `"ResultLocationFolder"`: Folder within an Amazon S3 bucket where you want AWS DMS to
-  store the results of this assessment run.
+- `"ResultLocationFolder"`: Folder within an Amazon S3 bucket where you want DMS to store
+  the results of this assessment run.
 """
 start_replication_task_assessment_run(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn); aws_config=aws_config)
 start_replication_task_assessment_run(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn), params)); aws_config=aws_config)

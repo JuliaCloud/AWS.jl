@@ -53,7 +53,7 @@ attach_certificate_to_distribution(certificateName, distributionName, params::Ab
 Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to
 the instance with the specified disk name. The attach disk operation supports tag-based
 access control via resource tags applied to the resource identified by disk name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `disk_name`: The unique Lightsail disk name (e.g., my-disk).
@@ -73,7 +73,7 @@ Attaches one or more Lightsail instances to a load balancer. After some time, th
 are attached to the load balancer and the health check status is available. The attach
 instances to load balancer operation supports tag-based access control via resource tags
 applied to the resource identified by load balancer name. For more information, see the
-Lightsail Dev Guide.
+Lightsail Developer Guide.
 
 # Arguments
 - `instance_names`: An array of strings representing the instance name(s) you want to
@@ -98,7 +98,7 @@ rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificat
 with the non-attached certificate, and it will replace the existing one and become the
 attached certificate. The AttachLoadBalancerTlsCertificate operation supports tag-based
 access control via resource tags applied to the resource identified by load balancer name.
-For more information, see the Lightsail Dev Guide.
+For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `certificate_name`: The name of your SSL/TLS certificate.
@@ -129,7 +129,7 @@ attach_static_ip(instanceName, staticIpName, params::AbstractDict{String}; aws_c
 
 Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action
 supports tag-based access control via resource tags applied to the resource identified by
-instanceName. For more information, see the Lightsail Dev Guide.
+instanceName. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance for which to close ports.
@@ -164,11 +164,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when copying an automatic snapshot as a manual snapshot. For more information, see the
-  Lightsail Dev Guide.
+  Amazon Lightsail Developer Guide.
 - `"sourceResourceName"`: The name of the source instance or disk from which the source
   automatic snapshot was created. Constraint:   Define this parameter only when copying an
-  automatic snapshot as a manual snapshot. For more information, see the Lightsail Dev Guide.
-  
+  automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail
+  Developer Guide.
 - `"sourceSnapshotName"`: The name of the source manual snapshot to copy. Constraint:
   Define this parameter only when copying a manual snapshot as another manual snapshot.
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
@@ -176,10 +176,61 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    This parameter cannot be defined together with the restore date parameter. The use latest
   restorable auto snapshot and restore date parameters are mutually exclusive.   Define this
   parameter only when copying an automatic snapshot as a manual snapshot. For more
-  information, see the Lightsail Dev Guide.
+  information, see the Amazon Lightsail Developer Guide.
 """
 copy_snapshot(sourceRegion, targetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CopySnapshot", Dict{String, Any}("sourceRegion"=>sourceRegion, "targetSnapshotName"=>targetSnapshotName); aws_config=aws_config)
 copy_snapshot(sourceRegion, targetSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sourceRegion"=>sourceRegion, "targetSnapshotName"=>targetSnapshotName), params)); aws_config=aws_config)
+
+"""
+    create_bucket(bucket_name, bundle_id)
+    create_bucket(bucket_name, bundle_id, params::Dict{String,<:Any})
+
+Creates an Amazon Lightsail bucket. A bucket is a cloud storage resource available in the
+Lightsail object storage service. Use buckets to store objects such as data and its
+descriptive metadata. For more information about buckets, see Buckets in Amazon Lightsail
+in the Amazon Lightsail Developer Guide.
+
+# Arguments
+- `bucket_name`: The name for the bucket. For more information about bucket names, see
+  Bucket naming rules in Amazon Lightsail in the Amazon Lightsail Developer Guide.
+- `bundle_id`: The ID of the bundle to use for the bucket. A bucket bundle specifies the
+  monthly cost, storage space, and data transfer quota for a bucket. Use the GetBucketBundles
+  action to get a list of bundle IDs that you can specify. Use the UpdateBucketBundle action
+  to change the bundle after the bucket is created.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enableObjectVersioning"`: A Boolean value that indicates whether to enable versioning
+  of objects in the bucket. For more information about versioning, see Enabling and
+  suspending bucket object versioning in Amazon Lightsail in the Amazon Lightsail Developer
+  Guide.
+- `"tags"`: The tag keys and optional values to add to the bucket during creation. Use the
+  TagResource action to tag the bucket after it's created.
+"""
+create_bucket(bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateBucket", Dict{String, Any}("bucketName"=>bucketName, "bundleId"=>bundleId); aws_config=aws_config)
+create_bucket(bucketName, bundleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "bundleId"=>bundleId), params)); aws_config=aws_config)
+
+"""
+    create_bucket_access_key(bucket_name)
+    create_bucket_access_key(bucket_name, params::Dict{String,<:Any})
+
+Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of
+an access key ID and corresponding secret access key. Access keys grant full programmatic
+access to the specified bucket and its objects. You can have a maximum of two access keys
+per bucket. Use the GetBucketAccessKeys action to get a list of current access keys for a
+specific bucket. For more information about access keys, see Creating access keys for a
+bucket in Amazon Lightsail in the Amazon Lightsail Developer Guide.  The secretAccessKey
+value is returned only in response to the CreateBucketAccessKey action. You can get a
+secret access key only when you first create an access key; you cannot get the secret
+access key later. If you lose the secret access key, you must create a new access key.
+
+# Arguments
+- `bucket_name`: The name of the bucket that the new access key will belong to, and grant
+  access to.
+
+"""
+create_bucket_access_key(bucketName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateBucketAccessKey", Dict{String, Any}("bucketName"=>bucketName); aws_config=aws_config)
+create_bucket_access_key(bucketName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateBucketAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config)
 
 """
     create_certificate(certificate_name, domain_name)
@@ -311,8 +362,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with your container service. Use the CreateCertificate action to create a certificate for
   the public domain names you want to use with your container service.  You can specify
   public domain names using a string to array map as shown in the example later on this page.
-- `"tags"`: The tag keys and optional values for the container service. For more
-  information about tags in Lightsail, see the Lightsail Dev Guide.
+- `"tags"`: The tag keys and optional values to add to the certificate during create. Use
+  the TagResource action to tag a resource after it's created. For more information about
+  tags in Lightsail, see the Amazon Lightsail Developer Guide.
 """
 create_container_service(power, scale, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerService", Dict{String, Any}("power"=>power, "scale"=>scale, "serviceName"=>serviceName); aws_config=aws_config)
 create_container_service(power, scale, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("power"=>power, "scale"=>scale, "serviceName"=>serviceName), params)); aws_config=aws_config)
@@ -328,7 +380,8 @@ also specifies the container that will serve as the public endpoint of the deplo
 its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
 You can deploy containers to your container service using container images from a public
 registry like Docker Hub, or from your local machine. For more information, see Creating
-container images for your Amazon Lightsail container services in the Lightsail Dev Guide.
+container images for your Amazon Lightsail container services in the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `service_name`: The name of the container service for which to create the deployment.
@@ -360,7 +413,7 @@ account, use the RegisterContainerImage action to register the pushed images to 
 Lightsail container service.  This action is not required if you install and use the
 Lightsail Control (lightsailctl) plugin to push container images to your Lightsail
 container service. For more information, see Pushing and managing container images on your
-Amazon Lightsail container services in the Lightsail Dev Guide.
+Amazon Lightsail container services in the Amazon Lightsail Developer Guide.
 
 """
 create_container_service_registry_login(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateContainerServiceRegistryLogin"; aws_config=aws_config)
@@ -372,7 +425,8 @@ create_container_service_registry_login(params::AbstractDict{String}; aws_config
 
 Creates a block storage disk that can be attached to an Amazon Lightsail instance in the
 same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based
-access control via request tags. For more information, see the Lightsail Dev Guide.
+access control via request tags. For more information, see the Amazon Lightsail Developer
+Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone where you want to create the disk (e.g.,
@@ -399,7 +453,7 @@ Creates a block storage disk from a manual or automatic snapshot of a disk. The 
 disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g.,
 us-east-2a). The create disk from snapshot operation supports tag-based access control via
 request tags and resource tags applied to the resource identified by disk snapshot name.
-For more information, see the Lightsail Dev Guide.
+For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone where you want to create the disk (e.g.,
@@ -422,19 +476,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when creating a new disk from an automatic snapshot. For more information, see the
-  Lightsail Dev Guide.
+  Amazon Lightsail Developer Guide.
 - `"sourceDiskName"`: The name of the source disk from which the source automatic snapshot
   was created. Constraints:   This parameter cannot be defined together with the disk
   snapshot name parameter. The source disk name and disk snapshot name parameters are
   mutually exclusive.   Define this parameter only when creating a new disk from an automatic
-  snapshot. For more information, see the Lightsail Dev Guide.
+  snapshot. For more information, see the Amazon Lightsail Developer Guide.
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
   latest available automatic snapshot. Constraints:   This parameter cannot be defined
   together with the restore date parameter. The use latest restorable auto snapshot and
   restore date parameters are mutually exclusive.   Define this parameter only when creating
-  a new disk from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+  a new disk from an automatic snapshot. For more information, see the Amazon Lightsail
+  Developer Guide.
 """
 create_disk_from_snapshot(availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDiskFromSnapshot", Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb); aws_config=aws_config)
 create_disk_from_snapshot(availabilityZone, diskName, sizeInGb, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateDiskFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "diskName"=>diskName, "sizeInGb"=>sizeInGb), params)); aws_config=aws_config)
@@ -460,7 +515,8 @@ just define the instance name parameter when issuing the snapshot command, and a
 of the defined instance's system volume will be created. After the snapshot is available,
 you can create a block storage disk from the snapshot and attach it to a running instance
 to access the data on the disk. The create disk snapshot operation supports tag-based
-access control via request tags. For more information, see the Lightsail Dev Guide.
+access control via request tags. For more information, see the Amazon Lightsail Developer
+Guide.
 
 # Arguments
 - `disk_snapshot_name`: The name of the destination disk snapshot (e.g., my-disk-snapshot)
@@ -522,7 +578,7 @@ create_distribution(bundleId, defaultCacheBehavior, distributionName, origin, pa
 
 Creates a domain resource for the specified domain (e.g., example.com). The create domain
 operation supports tag-based access control via request tags. For more information, see the
-Lightsail Dev Guide.
+Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_name`: The domain name to manage (e.g., example.com).  You cannot register a new
@@ -546,7 +602,7 @@ Creates one of the following domain name system (DNS) records in a domain DNS zo
 (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority
 (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports
 tag-based access control via resource tags applied to the resource identified by domain
-name. For more information, see the Lightsail Dev Guide.
+name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_entry`: An array of key-value pairs containing information about the domain entry
@@ -565,7 +621,7 @@ create_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_c
 Creates a snapshot of a specific virtual private server, or instance. You can use a
 snapshot to create a new instance that is based on that snapshot. The create instance
 snapshot operation supports tag-based access control via request tags. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The Lightsail instance on which to base your snapshot.
@@ -584,8 +640,8 @@ create_instance_snapshot(instanceName, instanceSnapshotName, params::AbstractDic
     create_instances(availability_zone, blueprint_id, bundle_id, instance_names, params::Dict{String,<:Any})
 
 Creates one or more Amazon Lightsail instances. The create instances operation supports
-tag-based access control via request tags. For more information, see the Lightsail Dev
-Guide.
+tag-based access control via request tags. For more information, see the Lightsail
+Developer Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone in which to create your instance. Use the
@@ -618,7 +674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   user data. For example, you might want to run apt-get -y update.  Depending on the machine
   image you choose, the command to get software on your instance varies. Amazon Linux and
   CentOS use yum, Debian and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list,
-  see the Dev Guide.
+  see the Amazon Lightsail Developer Guide.
 """
 create_instances(availabilityZone, blueprintId, bundleId, instanceNames; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstances", Dict{String, Any}("availabilityZone"=>availabilityZone, "blueprintId"=>blueprintId, "bundleId"=>bundleId, "instanceNames"=>instanceNames); aws_config=aws_config)
 create_instances(availabilityZone, blueprintId, bundleId, instanceNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "blueprintId"=>blueprintId, "bundleId"=>bundleId, "instanceNames"=>instanceNames), params)); aws_config=aws_config)
@@ -630,7 +686,7 @@ create_instances(availabilityZone, blueprintId, bundleId, instanceNames, params:
 Creates one or more new instances from a manual or automatic snapshot of an instance. The
 create instances from snapshot operation supports tag-based access control via request tags
 and resource tags applied to the resource identified by instance snapshot name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone where you want to create your instances. Use
@@ -659,24 +715,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   together with the use latest restorable auto snapshot parameter. The restore date and use
   latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter
   only when creating a new instance from an automatic snapshot. For more information, see the
-  Lightsail Dev Guide.
+  Amazon Lightsail Developer Guide.
 - `"sourceInstanceName"`: The name of the source instance from which the source automatic
   snapshot was created. Constraints:   This parameter cannot be defined together with the
   instance snapshot name parameter. The source instance name and instance snapshot name
   parameters are mutually exclusive.   Define this parameter only when creating a new
-  instance from an automatic snapshot. For more information, see the Lightsail Dev Guide.
+  instance from an automatic snapshot. For more information, see the Amazon Lightsail
+  Developer Guide.
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 - `"useLatestRestorableAutoSnapshot"`: A Boolean value to indicate whether to use the
   latest available automatic snapshot. Constraints:   This parameter cannot be defined
   together with the restore date parameter. The use latest restorable auto snapshot and
   restore date parameters are mutually exclusive.   Define this parameter only when creating
-  a new instance from an automatic snapshot. For more information, see the Lightsail Dev
-  Guide.
+  a new instance from an automatic snapshot. For more information, see the Amazon Lightsail
+  Developer Guide.
 - `"userData"`: You can create a launch script that configures a server with additional
   user data. For example, apt-get -y update.  Depending on the machine image you choose, the
   command to get software on your instance varies. Amazon Linux and CentOS use yum, Debian
-  and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide.
+  and Ubuntu use apt-get, and FreeBSD uses pkg. For a complete list, see the Amazon Lightsail
+  Developer Guide.
 """
 create_instances_from_snapshot(availabilityZone, bundleId, instanceNames; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstancesFromSnapshot", Dict{String, Any}("availabilityZone"=>availabilityZone, "bundleId"=>bundleId, "instanceNames"=>instanceNames); aws_config=aws_config)
 create_instances_from_snapshot(availabilityZone, bundleId, instanceNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("CreateInstancesFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZone"=>availabilityZone, "bundleId"=>bundleId, "instanceNames"=>instanceNames), params)); aws_config=aws_config)
@@ -686,7 +744,7 @@ create_instances_from_snapshot(availabilityZone, bundleId, instanceNames, params
     create_key_pair(key_pair_name, params::Dict{String,<:Any})
 
 Creates an SSH key pair. The create key pair operation supports tag-based access control
-via request tags. For more information, see the Lightsail Dev Guide.
+via request tags. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `key_pair_name`: The name for your new key pair.
@@ -708,8 +766,8 @@ your application, see Configure your Lightsail instances for load balancing. You
 up to 5 load balancers per AWS Region in your account. When you create a load balancer, you
 can specify a unique name and port settings. To change additional load balancer settings,
 use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports
-tag-based access control via request tags. For more information, see the Lightsail Dev
-Guide.
+tag-based access control via request tags. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `instance_port`: The instance port where you're creating your load balancer.
@@ -745,7 +803,7 @@ Creates an SSL/TLS certificate for an Amazon Lightsail load balancer. TLS is jus
 updated, more secure version of Secure Socket Layer (SSL). The
 CreateLoadBalancerTlsCertificate operation supports tag-based access control via resource
 tags applied to the resource identified by load balancer name. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `certificate_domain_name`: The domain name (e.g., example.com) for your SSL/TLS
@@ -774,8 +832,8 @@ create_load_balancer_tls_certificate(certificateDomainName, certificateName, loa
     create_relational_database(master_database_name, master_username, relational_database_blueprint_id, relational_database_bundle_id, relational_database_name, params::Dict{String,<:Any})
 
 Creates a new database in Amazon Lightsail. The create relational database operation
-supports tag-based access control via request tags. For more information, see the Lightsail
-Dev Guide.
+supports tag-based access control via request tags. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `master_database_name`: The meaning of this parameter differs according to the database
@@ -854,7 +912,8 @@ create a new database from a snapshot in if something goes wrong with your origi
 database, or to change it to a different plan, such as a high availability or standard
 plan. The create relational database from snapshot operation supports tag-based access
 control via request tags and resource tags applied to the resource identified by
-relationalDatabaseSnapshotName. For more information, see the Lightsail Dev Guide.
+relationalDatabaseSnapshotName. For more information, see the Amazon Lightsail Developer
+Guide.
 
 # Arguments
 - `relational_database_name`: The name to use for your new Lightsail database resource.
@@ -899,7 +958,7 @@ create_relational_database_from_snapshot(relationalDatabaseName, params::Abstrac
 Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups,
 to make copies of a database, and to save data before deleting a database. The create
 relational database snapshot operation supports tag-based access control via request tags.
-For more information, see the Lightsail Dev Guide.
+For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of the database on which to base your new snapshot.
@@ -935,8 +994,8 @@ delete_alarm(alarmName, params::AbstractDict{String}; aws_config::AbstractAWSCon
     delete_auto_snapshot(date, resource_name)
     delete_auto_snapshot(date, resource_name, params::Dict{String,<:Any})
 
-Deletes an automatic snapshot of an instance or disk. For more information, see the
-Lightsail Dev Guide.
+Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `date`: The date of the automatic snapshot to delete in YYYY-MM-DD format. Use the get
@@ -947,6 +1006,47 @@ Lightsail Dev Guide.
 """
 delete_auto_snapshot(date, resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteAutoSnapshot", Dict{String, Any}("date"=>date, "resourceName"=>resourceName); aws_config=aws_config)
 delete_auto_snapshot(date, resourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteAutoSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("date"=>date, "resourceName"=>resourceName), params)); aws_config=aws_config)
+
+"""
+    delete_bucket(bucket_name)
+    delete_bucket(bucket_name, params::Dict{String,<:Any})
+
+Deletes a Amazon Lightsail bucket.  When you delete your bucket, the bucket name is
+released and can be reused for a new bucket in your account or another AWS account.
+
+# Arguments
+- `bucket_name`: The name of the bucket to delete. Use the GetBuckets action to get a list
+  of bucket names that you can specify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"forceDelete"`: A Boolean value that indicates whether to force delete the bucket. You
+  must force delete the bucket if it has one of the following conditions:   The bucket is the
+  origin of a distribution.   The bucket has instances that were granted access to it using
+  the SetResourceAccessForBucket action.   The bucket has objects.   The bucket has access
+  keys.    Force deleting a bucket might impact other resources that rely on the bucket, such
+  as instances, distributions, or software that use the issued access keys.
+"""
+delete_bucket(bucketName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteBucket", Dict{String, Any}("bucketName"=>bucketName); aws_config=aws_config)
+delete_bucket(bucketName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config)
+
+"""
+    delete_bucket_access_key(access_key_id, bucket_name)
+    delete_bucket_access_key(access_key_id, bucket_name, params::Dict{String,<:Any})
+
+Deletes an access key for the specified Amazon Lightsail bucket. We recommend that you
+delete an access key if the secret access key is compromised. For more information about
+access keys, see Creating access keys for a bucket in Amazon Lightsail in the Amazon
+Lightsail Developer Guide.
+
+# Arguments
+- `access_key_id`: The ID of the access key to delete. Use the GetBucketAccessKeys action
+  to get a list of access key IDs that you can specify.
+- `bucket_name`: The name of the bucket that the access key belongs to.
+
+"""
+delete_bucket_access_key(accessKeyId, bucketName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteBucketAccessKey", Dict{String, Any}("accessKeyId"=>accessKeyId, "bucketName"=>bucketName); aws_config=aws_config)
+delete_bucket_access_key(accessKeyId, bucketName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("DeleteBucketAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessKeyId"=>accessKeyId, "bucketName"=>bucketName), params)); aws_config=aws_config)
 
 """
     delete_certificate(certificate_name)
@@ -1024,8 +1124,8 @@ delete_container_service(serviceName, params::AbstractDict{String}; aws_config::
 Deletes the specified block storage disk. The disk must be in the available state (not
 attached to a Lightsail instance).  The disk may remain in the deleting state for several
 minutes.  The delete disk operation supports tag-based access control via resource tags
-applied to the resource identified by disk name. For more information, see the Lightsail
-Dev Guide.
+applied to the resource identified by disk name. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `disk_name`: The unique name of the disk you want to delete (e.g., my-disk).
@@ -1049,7 +1149,7 @@ needed for any other snapshot is removed. So regardless of which prior snapshots
 deleted, all active snapshots will have access to all the information needed to restore the
 disk. The delete disk snapshot operation supports tag-based access control via resource
 tags applied to the resource identified by disk snapshot name. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `disk_snapshot_name`: The name of the disk snapshot you want to delete (e.g.,
@@ -1079,7 +1179,7 @@ delete_distribution(params::AbstractDict{String}; aws_config::AbstractAWSConfig=
 
 Deletes the specified domain recordset and all of its domain records. The delete domain
 operation supports tag-based access control via resource tags applied to the resource
-identified by domain name. For more information, see the Lightsail Dev Guide.
+identified by domain name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_name`: The specific domain name to delete.
@@ -1094,7 +1194,7 @@ delete_domain(domainName, params::AbstractDict{String}; aws_config::AbstractAWSC
 
 Deletes a specific domain entry. The delete domain entry operation supports tag-based
 access control via resource tags applied to the resource identified by domain name. For
-more information, see the Lightsail Dev Guide.
+more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_entry`: An array of key-value pairs containing information about your domain
@@ -1111,7 +1211,7 @@ delete_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_c
 
 Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based
 access control via resource tags applied to the resource identified by instance name. For
-more information, see the Lightsail Dev Guide.
+more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance to delete.
@@ -1130,8 +1230,8 @@ delete_instance(instanceName, params::AbstractDict{String}; aws_config::Abstract
 
 Deletes a specific snapshot of a virtual private server (or instance). The delete instance
 snapshot operation supports tag-based access control via resource tags applied to the
-resource identified by instance snapshot name. For more information, see the Lightsail Dev
-Guide.
+resource identified by instance snapshot name. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `instance_snapshot_name`: The name of the snapshot to delete.
@@ -1146,7 +1246,7 @@ delete_instance_snapshot(instanceSnapshotName, params::AbstractDict{String}; aws
 
 Deletes a specific SSH key pair. The delete key pair operation supports tag-based access
 control via resource tags applied to the resource identified by key pair name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `key_pair_name`: The name of the key pair to delete.
@@ -1183,7 +1283,7 @@ Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. O
 load balancer is deleted, you will need to create a new load balancer, create a new
 certificate, and verify domain ownership again. The delete load balancer operation supports
 tag-based access control via resource tags applied to the resource identified by load
-balancer name. For more information, see the Lightsail Dev Guide.
+balancer name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `load_balancer_name`: The name of the load balancer you want to delete.
@@ -1199,7 +1299,7 @@ delete_load_balancer(loadBalancerName, params::AbstractDict{String}; aws_config:
 Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The
 DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource
 tags applied to the resource identified by load balancer name. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `certificate_name`: The SSL/TLS certificate name.
@@ -1221,7 +1321,7 @@ delete_load_balancer_tls_certificate(certificateName, loadBalancerName, params::
 
 Deletes a database in Amazon Lightsail. The delete relational database operation supports
 tag-based access control via resource tags applied to the resource identified by
-relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of the database that you are deleting.
@@ -1248,7 +1348,8 @@ delete_relational_database(relationalDatabaseName, params::AbstractDict{String};
 
 Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot
 operation supports tag-based access control via resource tags applied to the resource
-identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+identified by relationalDatabaseName. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `relational_database_snapshot_name`: The name of the database snapshot that you are
@@ -1282,7 +1383,7 @@ Detaches a stopped block storage disk from a Lightsail instance. Make sure to un
 file systems on the device within your operating system before stopping the instance and
 detaching the disk. The detach disk operation supports tag-based access control via
 resource tags applied to the resource identified by disk name. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `disk_name`: The unique name of the disk you want to detach from your instance (e.g.,
@@ -1300,7 +1401,7 @@ Detaches the specified instances from a Lightsail load balancer. This operation 
 the instances are no longer needed before they are detached from the load balancer. The
 detach instances from load balancer operation supports tag-based access control via
 resource tags applied to the resource identified by load balancer name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_names`: An array of strings containing the names of the instances you want to
@@ -1328,8 +1429,8 @@ detach_static_ip(staticIpName, params::AbstractDict{String}; aws_config::Abstrac
     disable_add_on(add_on_type, resource_name)
     disable_add_on(add_on_type, resource_name, params::Dict{String,<:Any})
 
-Disables an add-on for an Amazon Lightsail resource. For more information, see the
-Lightsail Dev Guide.
+Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `add_on_type`: The add-on type to disable.
@@ -1354,7 +1455,7 @@ download_default_key_pair(params::AbstractDict{String}; aws_config::AbstractAWSC
     enable_add_on(add_on_request, resource_name, params::Dict{String,<:Any})
 
 Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
-the Lightsail Dev Guide.
+the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `add_on_request`: An array of strings representing the add-on to enable or modify.
@@ -1376,9 +1477,9 @@ instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volum
 disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the
 same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot.  The export
 snapshot operation supports tag-based access control via resource tags applied to the
-resource identified by source snapshot name. For more information, see the Lightsail Dev
-Guide.  Use the get instance snapshots or get disk snapshots operations to get a list of
-snapshots that you can export to Amazon EC2.
+resource identified by source snapshot name. For more information, see the Amazon Lightsail
+Developer Guide.  Use the get instance snapshots or get disk snapshots operations to get a
+list of snapshots that you can export to Amazon EC2.
 
 # Arguments
 - `source_snapshot_name`: The name of the instance or disk snapshot to be exported to
@@ -1435,7 +1536,7 @@ get_alarms(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aw
     get_auto_snapshots(resource_name, params::Dict{String,<:Any})
 
 Returns the available automatic snapshots for an instance or disk. For more information,
-see the Lightsail Dev Guide.
+see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `resource_name`: The name of the source instance or disk from which to get automatic
@@ -1468,6 +1569,105 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 get_blueprints(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBlueprints"; aws_config=aws_config)
 get_blueprints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBlueprints", params; aws_config=aws_config)
+
+"""
+    get_bucket_access_keys(bucket_name)
+    get_bucket_access_keys(bucket_name, params::Dict{String,<:Any})
+
+Returns the existing access key IDs for the specified Amazon Lightsail bucket.  This action
+does not return the secret access key value of an access key. You can get a secret access
+key only when you create it from the response of the CreateBucketAccessKey action. If you
+lose the secret access key, you must create a new access key.
+
+# Arguments
+- `bucket_name`: The name of the bucket for which to return access keys.
+
+"""
+get_bucket_access_keys(bucketName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBucketAccessKeys", Dict{String, Any}("bucketName"=>bucketName); aws_config=aws_config)
+get_bucket_access_keys(bucketName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBucketAccessKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config)
+
+"""
+    get_bucket_bundles()
+    get_bucket_bundles(params::Dict{String,<:Any})
+
+Returns the bundles that you can apply to a Amazon Lightsail bucket. The bucket bundle
+specifies the monthly cost, storage quota, and data transfer quota for a bucket. Use the
+UpdateBucketBundle action to update the bundle for a bucket.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includeInactive"`: A Boolean value that indicates whether to include inactive
+  (unavailable) bundles in the response.
+"""
+get_bucket_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBucketBundles"; aws_config=aws_config)
+get_bucket_bundles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBucketBundles", params; aws_config=aws_config)
+
+"""
+    get_bucket_metric_data(bucket_name, end_time, metric_name, period, start_time, statistics, unit)
+    get_bucket_metric_data(bucket_name, end_time, metric_name, period, start_time, statistics, unit, params::Dict{String,<:Any})
+
+Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report
+the utilization of a bucket. View and collect metric data regularly to monitor the number
+of objects stored in a bucket (including object versions) and the storage space used by
+those objects.
+
+# Arguments
+- `bucket_name`: The name of the bucket for which to get metric data.
+- `end_time`: The timestamp indicating the latest data to be returned.
+- `metric_name`: The metric for which you want to return information. Valid bucket metric
+  names are listed below, along with the most useful statistics to include in your request,
+  and the published unit value.  These bucket metrics are reported once per day.
+  BucketSizeBytes  - The amount of data in bytes stored in a bucket. This value is calculated
+  by summing the size of all objects in the bucket (including object versions), including the
+  size of all parts for all incomplete multipart uploads to the bucket. Statistics: The most
+  useful statistic is Maximum. Unit: The published unit is Bytes.     NumberOfObjects  - The
+  total number of objects stored in a bucket. This value is calculated by counting all
+  objects in the bucket (including object versions) and the total number of parts for all
+  incomplete multipart uploads to the bucket. Statistics: The most useful statistic is
+  Average. Unit: The published unit is Count.
+- `period`: The granularity, in seconds, of the returned data points.  Bucket storage
+  metrics are reported once per day. Therefore, you should specify a period of 86400 seconds,
+  which is the number of seconds in a day.
+- `start_time`: The timestamp indicating the earliest data to be returned.
+- `statistics`: The statistic for the metric. The following statistics are available:
+  Minimum - The lowest value observed during the specified period. Use this value to
+  determine low volumes of activity for your application.    Maximum - The highest value
+  observed during the specified period. Use this value to determine high volumes of activity
+  for your application.    Sum - The sum of all values submitted for the matching metric. You
+  can use this statistic to determine the total volume of a metric.    Average - The value of
+  Sum / SampleCount during the specified period. By comparing this statistic with the Minimum
+  and Maximum values, you can determine the full scope of a metric and how close the average
+  use is to the Minimum and Maximum values. This comparison helps you to know when to
+  increase or decrease your resources.    SampleCount - The count, or number, of data points
+  used for the statistical calculation.
+- `unit`: The unit for the metric data request. Valid units depend on the metric data being
+  requested. For the valid units with each available metric, see the metricName parameter.
+
+"""
+get_bucket_metric_data(bucketName, endTime, metricName, period, startTime, statistics, unit; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBucketMetricData", Dict{String, Any}("bucketName"=>bucketName, "endTime"=>endTime, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit); aws_config=aws_config)
+get_bucket_metric_data(bucketName, endTime, metricName, period, startTime, statistics, unit, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBucketMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "endTime"=>endTime, "metricName"=>metricName, "period"=>period, "startTime"=>startTime, "statistics"=>statistics, "unit"=>unit), params)); aws_config=aws_config)
+
+"""
+    get_buckets()
+    get_buckets(params::Dict{String,<:Any})
+
+Returns information about one or more Amazon Lightsail buckets. For more information about
+buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide..
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"bucketName"`: The name of the bucket for which to return information. When omitted, the
+  response includes all of your buckets in the AWS Region where the request is made.
+- `"includeConnectedResources"`: A Boolean value that indicates whether to include
+  Lightsail instances that were given access to the bucket using the
+  SetResourceAccessForBucket action.
+- `"pageToken"`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetBuckets request. If your results are paginated, the
+  response will return a next page token that you can specify as the page token in a
+  subsequent request.
+"""
+get_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBuckets"; aws_config=aws_config)
+get_buckets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetBuckets", params; aws_config=aws_config)
 
 """
     get_bundles()
@@ -1770,9 +1970,9 @@ get_disks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws
     get_distribution_bundles()
     get_distribution_bundles(params::Dict{String,<:Any})
 
-Returns the list bundles that can be applied to you Amazon Lightsail content delivery
-network (CDN) distributions. A distribution bundle specifies the monthly network transfer
-quota and monthly cost of your dsitribution.
+Returns the bundles that can be applied to your Amazon Lightsail content delivery network
+(CDN) distributions. A distribution bundle specifies the monthly network transfer quota and
+monthly cost of your dsitribution.
 
 """
 get_distribution_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("GetDistributionBundles"; aws_config=aws_config)
@@ -1866,8 +2066,7 @@ Returns information about one or more of your Amazon Lightsail content delivery 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"distributionName"`: The name of the distribution for which to return information. Use
-  the GetDistributions action to get a list of distribution names that you can specify. When
+- `"distributionName"`: The name of the distribution for which to return information. When
   omitted, the response includes all of your distributions in the AWS Region where the
   request is made.
 - `"pageToken"`: The token to advance to the next page of results from your request. To get
@@ -1911,9 +2110,9 @@ get_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_a
     get_export_snapshot_records()
     get_export_snapshot_records(params::Dict{String,<:Any})
 
-Returns the export snapshot record created as a result of the export snapshot operation. An
-export snapshot record can be used to create a new Amazon EC2 instance and its related
-resources with the create cloud formation stack operation.
+Returns all export snapshot records created as a result of the export snapshot operation.
+An export snapshot record can be used to create a new Amazon EC2 instance and its related
+resources with the CreateCloudFormationStack action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1946,7 +2145,7 @@ get_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAWS
 Returns temporary SSH keys you can use to connect to a specific virtual private server, or
 instance. The get instance access details operation supports tag-based access control via
 resource tags applied to the resource identified by instance name. For more information,
-see the Lightsail Dev Guide.
+see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance to access.
@@ -2658,8 +2857,8 @@ is_vpc_peered(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global
 Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses
 allowed to connect to the instance through the ports, and the protocol. The
 OpenInstancePublicPorts action supports tag-based access control via resource tags applied
-to the resource identified by instanceName. For more information, see the Lightsail Dev
-Guide.
+to the resource identified by instanceName. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance for which to open ports.
@@ -2673,7 +2872,7 @@ open_instance_public_ports(instanceName, portInfo, params::AbstractDict{String};
     peer_vpc()
     peer_vpc(params::Dict{String,<:Any})
 
-Tries to peer the Lightsail VPC with the user's default VPC.
+Peers the Lightsail VPC with the user's default VPC.
 
 """
 peer_vpc(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("PeerVpc"; aws_config=aws_config)
@@ -2770,8 +2969,8 @@ closes all currently open ports that are not included in the request. Include al
 ports and the protocols you want to open in your PutInstancePublicPortsrequest. Or use the
 OpenInstancePublicPorts action to open ports without closing currently open ports. The
 PutInstancePublicPorts action supports tag-based access control via resource tags applied
-to the resource identified by instanceName. For more information, see the Lightsail Dev
-Guide.
+to the resource identified by instanceName. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance for which to open ports.
@@ -2788,7 +2987,7 @@ put_instance_public_ports(instanceName, portInfos, params::AbstractDict{String};
 
 Restarts a specific instance. The reboot instance operation supports tag-based access
 control via resource tags applied to the resource identified by instance name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance to reboot.
@@ -2803,7 +3002,7 @@ reboot_instance(instanceName, params::AbstractDict{String}; aws_config::Abstract
 
 Restarts a specific database in Amazon Lightsail. The reboot relational database operation
 supports tag-based access control via resource tags applied to the resource identified by
-relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of your database to reboot.
@@ -2819,8 +3018,8 @@ reboot_relational_database(relationalDatabaseName, params::AbstractDict{String};
 Registers a container image to your Amazon Lightsail container service.  This action is not
 required if you install and use the Lightsail Control (lightsailctl) plugin to push
 container images to your Lightsail container service. For more information, see Pushing and
-managing container images on your Amazon Lightsail container services in the Lightsail Dev
-Guide.
+managing container images on your Amazon Lightsail container services in the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `digest`: The digest of the container image to be registered.
@@ -2915,6 +3114,27 @@ set_ip_address_type(ipAddressType, resourceName, resourceType; aws_config::Abstr
 set_ip_address_type(ipAddressType, resourceName, resourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("SetIpAddressType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipAddressType"=>ipAddressType, "resourceName"=>resourceName, "resourceType"=>resourceType), params)); aws_config=aws_config)
 
 """
+    set_resource_access_for_bucket(access, bucket_name, resource_name)
+    set_resource_access_for_bucket(access, bucket_name, resource_name, params::Dict{String,<:Any})
+
+Sets the Amazon Lightsail resources that can access the specified Lightsail bucket.
+Lightsail buckets currently support setting access for Lightsail instances in the same AWS
+Region.
+
+# Arguments
+- `access`: The access setting. The following access settings are available:    allow -
+  Allows access to the bucket and its objects.    deny - Denies access to the bucket and its
+  objects. Use this setting to remove access for a resource previously set to allow.
+- `bucket_name`: The name of the bucket for which to set access to another Lightsail
+  resource.
+- `resource_name`: The name of the Lightsail instance for which to set bucket access. The
+  instance must be in a running or stopped state.
+
+"""
+set_resource_access_for_bucket(access, bucketName, resourceName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("SetResourceAccessForBucket", Dict{String, Any}("access"=>access, "bucketName"=>bucketName, "resourceName"=>resourceName); aws_config=aws_config)
+set_resource_access_for_bucket(access, bucketName, resourceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("SetResourceAccessForBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("access"=>access, "bucketName"=>bucketName, "resourceName"=>resourceName), params)); aws_config=aws_config)
+
+"""
     start_instance(instance_name)
     start_instance(instance_name, params::Dict{String,<:Any})
 
@@ -2922,9 +3142,9 @@ Starts a specific Amazon Lightsail instance from a stopped state. To restart an 
 use the reboot instance operation.  When you start a stopped instance, Lightsail assigns a
 new public IP address to the instance. To use the same IP address after stopping and
 starting an instance, create a static IP address and attach it to the instance. For more
-information, see the Lightsail Dev Guide.  The start instance operation supports tag-based
-access control via resource tags applied to the resource identified by instance name. For
-more information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.  The start instance operation
+supports tag-based access control via resource tags applied to the resource identified by
+instance name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance (a virtual private server) to start.
@@ -2940,7 +3160,7 @@ start_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractA
 Starts a specific database from a stopped state in Amazon Lightsail. To restart a database,
 use the reboot relational database operation. The start relational database operation
 supports tag-based access control via resource tags applied to the resource identified by
-relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of your database to start.
@@ -2956,9 +3176,10 @@ start_relational_database(relationalDatabaseName, params::AbstractDict{String}; 
 Stops a specific Amazon Lightsail instance that is currently running.  When you start a
 stopped instance, Lightsail assigns a new public IP address to the instance. To use the
 same IP address after stopping and starting an instance, create a static IP address and
-attach it to the instance. For more information, see the Lightsail Dev Guide.  The stop
-instance operation supports tag-based access control via resource tags applied to the
-resource identified by instance name. For more information, see the Lightsail Dev Guide.
+attach it to the instance. For more information, see the Amazon Lightsail Developer Guide.
+The stop instance operation supports tag-based access control via resource tags applied to
+the resource identified by instance name. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `instance_name`: The name of the instance (a virtual private server) to stop.
@@ -2979,8 +3200,8 @@ stop_instance(instanceName, params::AbstractDict{String}; aws_config::AbstractAW
 
 Stops a specific database that is currently running in Amazon Lightsail. The stop
 relational database operation supports tag-based access control via resource tags applied
-to the resource identified by relationalDatabaseName. For more information, see the
-Lightsail Dev Guide.
+to the resource identified by relationalDatabaseName. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of your database to stop.
@@ -2999,10 +3220,10 @@ stop_relational_database(relationalDatabaseName, params::AbstractDict{String}; a
 
 Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a
 maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be
-unique per resource. For more information about tags, see the Lightsail Dev Guide. The tag
-resource operation supports tag-based access control via request tags and resource tags
-applied to the resource identified by resource name. For more information, see the
-Lightsail Dev Guide.
+unique per resource. For more information about tags, see the Amazon Lightsail Developer
+Guide. The tag resource operation supports tag-based access control via request tags and
+resource tags applied to the resource identified by resource name. For more information,
+see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `resource_name`: The name of the resource to which you are adding tags.
@@ -3043,7 +3264,7 @@ test_alarm(alarmName, state, params::AbstractDict{String}; aws_config::AbstractA
     unpeer_vpc()
     unpeer_vpc(params::Dict{String,<:Any})
 
-Attempts to unpeer the Lightsail VPC from the user's default VPC.
+Unpeers the Lightsail VPC from the user's default VPC.
 
 """
 unpeer_vpc(; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UnpeerVpc"; aws_config=aws_config)
@@ -3056,7 +3277,7 @@ unpeer_vpc(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aw
 Deletes the specified set of tag keys and their values from the specified Amazon Lightsail
 resource. The untag resource operation supports tag-based access control via request tags
 and resource tags applied to the resource identified by resource name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `resource_name`: The name of the resource from which you are removing a tag.
@@ -3069,6 +3290,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 untag_resource(resourceName, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UntagResource", Dict{String, Any}("resourceName"=>resourceName, "tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceName, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceName"=>resourceName, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+
+"""
+    update_bucket(bucket_name)
+    update_bucket(bucket_name, params::Dict{String,<:Any})
+
+Updates an existing Amazon Lightsail bucket. Use this action to update the configuration of
+an existing bucket, such as versioning, public accessibility, and the AWS accounts that can
+access the bucket.
+
+# Arguments
+- `bucket_name`: The name of the bucket to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accessRules"`: An object that sets the public accessibility of objects in the specified
+  bucket.
+- `"readonlyAccessAccounts"`: An array of strings to specify the AWS account IDs that can
+  access the bucket. You can give a maximum of 10 AWS accounts access to a bucket.
+- `"versioning"`: Specifies whether to enable or suspend versioning of objects in the
+  bucket. The following options can be specified:    Enabled - Enables versioning of objects
+  in the specified bucket.    Suspended - Suspends versioning of objects in the specified
+  bucket. Existing object versions are retained.
+"""
+update_bucket(bucketName; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateBucket", Dict{String, Any}("bucketName"=>bucketName); aws_config=aws_config)
+update_bucket(bucketName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName), params)); aws_config=aws_config)
+
+"""
+    update_bucket_bundle(bucket_name, bundle_id)
+    update_bucket_bundle(bucket_name, bundle_id, params::Dict{String,<:Any})
+
+Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket. A bucket
+bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You
+can update a bucket's bundle only one time within a monthly AWS billing cycle. To determine
+if you can update a bucket's bundle, use the GetBuckets action. The ableToUpdateBundle
+parameter in the response will indicate whether you can currently update a bucket's bundle.
+Update a bucket's bundle if it's consistently going over its storage space or data transfer
+quota, or if a bucket's usage is consistently in the lower range of its storage space or
+data transfer quota. Due to the unpredictable usage fluctuations that a bucket might
+experience, we strongly recommend that you update a bucket's bundle only as a long-term
+strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle
+that will provide the bucket with ample storage space and data transfer for a long time to
+come.
+
+# Arguments
+- `bucket_name`: The name of the bucket for which to update the bundle.
+- `bundle_id`: The ID of the new bundle to apply to the bucket. Use the GetBucketBundles
+  action to get a list of bundle IDs that you can specify.
+
+"""
+update_bucket_bundle(bucketName, bundleId; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateBucketBundle", Dict{String, Any}("bucketName"=>bucketName, "bundleId"=>bundleId); aws_config=aws_config)
+update_bucket_bundle(bucketName, bundleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lightsail("UpdateBucketBundle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("bucketName"=>bucketName, "bundleId"=>bundleId), params)); aws_config=aws_config)
 
 """
     update_container_service(service_name)
@@ -3111,7 +3383,7 @@ update_container_service(serviceName, params::AbstractDict{String}; aws_config::
     update_distribution(distribution_name, params::Dict{String,<:Any})
 
 Updates an existing Amazon Lightsail content delivery network (CDN) distribution. Use this
-action to update the configuration of your existing distribution
+action to update the configuration of your existing distribution.
 
 # Arguments
 - `distribution_name`: The name of the distribution to update. Use the GetDistributions
@@ -3163,7 +3435,7 @@ update_distribution_bundle(params::AbstractDict{String}; aws_config::AbstractAWS
 
 Updates a domain recordset after it is created. The update domain entry operation supports
 tag-based access control via resource tags applied to the resource identified by domain
-name. For more information, see the Lightsail Dev Guide.
+name. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `domain_entry`: An array of key-value pairs containing information about the domain entry.
@@ -3180,7 +3452,7 @@ update_domain_entry(domainEntry, domainName, params::AbstractDict{String}; aws_c
 Updates the specified attribute for a load balancer. You can only update one attribute at a
 time. The update load balancer attribute operation supports tag-based access control via
 resource tags applied to the resource identified by load balancer name. For more
-information, see the Lightsail Dev Guide.
+information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
 - `attribute_name`: The name of the attribute you want to update. Valid values are below.
@@ -3200,7 +3472,8 @@ Allows the update of one or more attributes of a database in Amazon Lightsail. U
 applied immediately, or in cases where the updates could result in an outage, are applied
 during the database's predefined maintenance window. The update relational database
 operation supports tag-based access control via resource tags applied to the resource
-identified by relationalDatabaseName. For more information, see the Lightsail Dev Guide.
+identified by relationalDatabaseName. For more information, see the Amazon Lightsail
+Developer Guide.
 
 # Arguments
 - `relational_database_name`: The name of your Lightsail database resource to update.
@@ -3255,8 +3528,8 @@ dynamic or pending-reboot. Parameters marked with a dynamic apply type are appli
 immediately. Parameters marked with a pending-reboot apply type are applied only after the
 database is rebooted using the reboot relational database operation. The update relational
 database parameters operation supports tag-based access control via resource tags applied
-to the resource identified by relationalDatabaseName. For more information, see the
-Lightsail Dev Guide.
+to the resource identified by relationalDatabaseName. For more information, see the Amazon
+Lightsail Developer Guide.
 
 # Arguments
 - `parameters`: The database parameters to update.

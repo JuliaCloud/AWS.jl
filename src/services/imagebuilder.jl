@@ -31,8 +31,14 @@ Creates a new component that can be used to build, validate, test, and assess yo
 - `name`: The name of the component.
 - `platform`: The platform of the component.
 - `semantic_version`: The semantic version of the component. This version follows the
-  semantic version syntax. For example, major.minor.patch. This could be versioned like
-  software (2.0.1) or like a date (2019.12.01).
+  semantic version syntax.  The semantic version has four nodes:
+  &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+  first three, and can filter on all of them.  Assignment: For the first three nodes you can
+  assign any positive integer value, including zero, with an upper limit of 2^30-1, or
+  1073741823 for each node. Image Builder automatically assigns the build number, and that is
+  not open for updates.  Patterns: You can use any numeric pattern that adheres to the
+  assignment requirements for the nodes that you can assign. For example, you might choose a
+  software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -69,8 +75,15 @@ and assessed.
 - `container_type`: The type of container to create.
 - `name`: The name of the container recipe.
 - `parent_image`: The source image for the container recipe.
-- `semantic_version`: The semantic version of the container recipe
-  (&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;).
+- `semantic_version`: The semantic version of the container recipe. This version follows
+  the semantic version syntax.  The semantic version has four nodes:
+  &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+  first three, and can filter on all of them.  Assignment: For the first three nodes you can
+  assign any positive integer value, including zero, with an upper limit of 2^30-1, or
+  1073741823 for each node. Image Builder automatically assigns the build number, and that is
+  not open for updates.  Patterns: You can use any numeric pattern that adheres to the
+  assignment requirements for the nodes that you can assign. For example, you might choose a
+  software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 - `target_repository`: The destination repository for the container image.
 
 # Optional Parameters
@@ -193,7 +206,15 @@ assessed.
   You can provide the specific version that you want to use, or you can use a wildcard in all
   of the fields. If you enter an AMI ID for the string value, you must have access to the
   AMI, and the AMI must be in the same Region in which you are using Image Builder.
-- `semantic_version`: The semantic version of the image recipe.
+- `semantic_version`: The semantic version of the image recipe. This version follows the
+  semantic version syntax.  The semantic version has four nodes:
+  &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+  first three, and can filter on all of them.  Assignment: For the first three nodes you can
+  assign any positive integer value, including zero, with an upper limit of 2^30-1, or
+  1073741823 for each node. Image Builder automatically assigns the build number, and that is
+  not open for updates.  Patterns: You can use any numeric pattern that adheres to the
+  assignment requirements for the nodes that you can assign. For example, you might choose a
+  software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -503,10 +524,16 @@ Imports a component and transforms its data into a component document.
 - `name`:  The name of the component.
 - `platform`: The platform of the component.
 - `semantic_version`: The semantic version of the component. This version follows the
-  semantic version syntax. For example, major.minor.patch. This could be versioned like
-  software (2.0.1) or like a date (2019.12.01).
+  semantic version syntax.  The semantic version has four nodes:
+  &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+  first three, and can filter on all of them.  Filtering: When you retrieve or reference a
+  resource with a semantic version, you can use wildcards (x) to filter your results. When
+  you use a wildcard in any node, all nodes to the right of the first wildcard must also be
+  wildcards. For example, specifying \"1.2.x\", or \"1.x.x\" works to filter list results,
+  but neither \"1.x.2\", nor \"x.2.x\" will work. You do not have to specify the build -
+  Image Builder automatically uses a wildcard for that, if applicable.
 - `type`: The type of the component denotes whether the component is used to build the
-  image or only to test it.
+  image, or only to test it.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -531,7 +558,15 @@ import_component(clientToken, format, name, platform, semanticVersion, type, par
     list_component_build_versions(component_version_arn)
     list_component_build_versions(component_version_arn, params::Dict{String,<:Any})
 
- Returns the list of component build versions for the specified semantic version.
+ Returns the list of component build versions for the specified semantic version.  The
+semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
+You can assign values for the first three, and can filter on all of them.  Filtering: When
+you retrieve or reference a resource with a semantic version, you can use wildcards (x) to
+filter your results. When you use a wildcard in any node, all nodes to the right of the
+first wildcard must also be wildcards. For example, specifying \"1.2.x\", or \"1.x.x\"
+works to filter list results, but neither \"1.x.2\", nor \"x.2.x\" will work. You do not
+have to specify the build - Image Builder automatically uses a wildcard for that, if
+applicable.
 
 # Arguments
 - `component_version_arn`: The component version Amazon Resource Name (ARN) whose versions
@@ -550,12 +585,19 @@ list_component_build_versions(componentVersionArn, params::AbstractDict{String};
     list_components()
     list_components(params::Dict{String,<:Any})
 
-Returns the list of component build versions for the specified semantic version.
+Returns the list of component build versions for the specified semantic version.  The
+semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
+You can assign values for the first three, and can filter on all of them.  Filtering: When
+you retrieve or reference a resource with a semantic version, you can use wildcards (x) to
+filter your results. When you use a wildcard in any node, all nodes to the right of the
+first wildcard must also be wildcards. For example, specifying \"1.2.x\", or \"1.x.x\"
+works to filter list results, but neither \"1.x.2\", nor \"x.2.x\" will work. You do not
+have to specify the build - Image Builder automatically uses a wildcard for that, if
+applicable.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"byName"`: Returns the list of component build versions for the specified semantic
-  version.
+- `"byName"`: Returns the list of component build versions for the specified name.
 - `"filters"`: The filters.
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a

@@ -50,16 +50,16 @@ user. Calling this action requires developer credentials.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
   custom workflows that this action triggers.  If your user pool configuration includes
-  triggers, the AdminConfirmSignUp API action invokes the AWS Lambda function that is
-  specified for the post confirmation trigger. When Amazon Cognito invokes this function, it
-  passes a JSON payload, which the function receives as input. In this payload, the
-  clientMetadata attribute provides the data that you assigned to the ClientMetadata
-  parameter in your AdminConfirmSignUp request. In your function code in AWS Lambda, you can
-  process the ClientMetadata value to enhance your workflow for your specific needs. For more
+  triggers, the AdminConfirmSignUp API action invokes the Lambda function that is specified
+  for the post confirmation trigger. When Amazon Cognito invokes this function, it passes a
+  JSON payload, which the function receives as input. In this payload, the clientMetadata
+  attribute provides the data that you assigned to the ClientMetadata parameter in your
+  AdminConfirmSignUp request. In your function code in Lambda, you can process the
+  ClientMetadata value to enhance your workflow for your specific needs. For more
   information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
   Developer Guide.  Take the following limitations into consideration when you use the
   ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
-  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  data is available only to Lambda triggers that are assigned to a user pool to support
   custom workflows. If your user pool configuration does not include triggers, the
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
@@ -79,10 +79,10 @@ origination phone number before you can send SMS messages to U.S. phone numbers.
 SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint.
 Cognito will use the the registered number automatically. Otherwise, Cognito users that
 must receive SMS messages might be unable to sign up, activate their accounts, or sign in.
-If you have never used SMS text messages with Amazon Cognito or any other AWS service,
-Amazon SNS might place your account in SMS sandbox. In  sandbox mode , you’ll have
-limitations, such as sending messages to only verified phone numbers. After testing in the
-sandbox environment, you can move out of the SMS sandbox and into production. For more
+If you have never used SMS text messages with Amazon Cognito or any other Amazon Web
+Service, Amazon SNS might place your account in SMS sandbox. In  sandbox mode , you’ll
+have limitations, such as sending messages to only verified phone numbers. After testing in
+the sandbox environment, you can move out of the SMS sandbox and into production. For more
 information, see  SMS message settings for Cognito User Pools in the Amazon Cognito
 Developer Guide.   This message is based on a template that you configured in your call to
 create or update a user pool. This template includes your custom sign-up instructions and
@@ -101,21 +101,21 @@ credentials.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the AdminCreateUser API action, Amazon
   Cognito invokes the function that is assigned to the pre sign-up trigger. When Amazon
   Cognito invokes this function, it passes a JSON payload, which the function receives as
   input. This payload contains a clientMetadata attribute, which provides the data that you
   assigned to the ClientMetadata parameter in your AdminCreateUser request. In your function
-  code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for
-  your specific needs. For more information, see Customizing User Pool Workflows with Lambda
+  code in Lambda, you can process the clientMetadata value to enhance your workflow for your
+  specific needs. For more information, see Customizing User Pool Workflows with Lambda
   Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into
   consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store
-  the ClientMetadata value. This data is available only to AWS Lambda triggers that are
-  assigned to a user pool to support custom workflows. If your user pool configuration does
-  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
-  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
-  ClientMetadata value, so don't use it to provide sensitive information.
+  the ClientMetadata value. This data is available only to Lambda triggers that are assigned
+  to a user pool to support custom workflows. If your user pool configuration does not
+  include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not
+  validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata
+  value, so don't use it to provide sensitive information.
 - `"DesiredDeliveryMediums"`: Specify \"EMAIL\" if email will be used to send the welcome
   message. Specify \"SMS\" if the phone number will be used. The default value is \"SMS\".
   More than one value can be specified.
@@ -317,10 +317,10 @@ origination phone number before you can send SMS messages to U.S. phone numbers.
 SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint.
 Cognito will use the the registered number automatically. Otherwise, Cognito users that
 must receive SMS messages might be unable to sign up, activate their accounts, or sign in.
-If you have never used SMS text messages with Amazon Cognito or any other AWS service,
-Amazon SNS might place your account in SMS sandbox. In  sandbox mode , you’ll have
-limitations, such as sending messages to only verified phone numbers. After testing in the
-sandbox environment, you can move out of the SMS sandbox and into production. For more
+If you have never used SMS text messages with Amazon Cognito or any other Amazon Web
+Service, Amazon SNS might place your account in SMS sandbox. In  sandbox mode , you’ll
+have limitations, such as sending messages to only verified phone numbers. After testing in
+the sandbox environment, you can move out of the SMS sandbox and into production. For more
 information, see  SMS message settings for Cognito User Pools in the Amazon Cognito
 Developer Guide.   Calling this action requires developer credentials.
 
@@ -360,14 +360,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   password verification, include ChallengeName: SRP_A and SRP_A: (The SRP_A Value).
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for
   certain custom workflows that this action triggers. You create custom workflows by
-  assigning AWS Lambda functions to user pool triggers. When you use the AdminInitiateAuth
-  API action, Amazon Cognito invokes the AWS Lambda functions that are specified for various
+  assigning Lambda functions to user pool triggers. When you use the AdminInitiateAuth API
+  action, Amazon Cognito invokes the Lambda functions that are specified for various
   triggers. The ClientMetadata value is passed as input to the functions for only the
   following triggers:   Pre signup   Pre authentication   User migration   When Amazon
   Cognito invokes the functions for these triggers, it passes a JSON payload, which the
   function receives as input. This payload contains a validationData attribute, which
   provides the data that you assigned to the ClientMetadata parameter in your
-  AdminInitiateAuth request. In your function code in AWS Lambda, you can process the
+  AdminInitiateAuth request. In your function code in Lambda, you can process the
   validationData value to enhance your workflow for your specific needs. When you use the
   AdminInitiateAuth API action, Amazon Cognito also invokes the functions for the following
   triggers, but it does not provide the ClientMetadata value as input:   Post authentication
@@ -375,11 +375,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Verify auth challenge   For more information, see Customizing User Pool Workflows with
   Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into
   consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store
-  the ClientMetadata value. This data is available only to AWS Lambda triggers that are
-  assigned to a user pool to support custom workflows. If your user pool configuration does
-  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
-  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
-  ClientMetadata value, so don't use it to provide sensitive information.
+  the ClientMetadata value. This data is available only to Lambda triggers that are assigned
+  to a user pool to support custom workflows. If your user pool configuration does not
+  include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not
+  validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata
+  value, so don't use it to provide sensitive information.
 - `"ContextData"`: Contextual data such as the user's device fingerprint, IP address, or
   location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
@@ -526,12 +526,12 @@ SMS messages to U.S. phone numbers. If you use SMS text messages in Amazon Cogni
 must register a phone number with Amazon Pinpoint. Cognito will use the the registered
 number automatically. Otherwise, Cognito users that must receive SMS messages might be
 unable to sign up, activate their accounts, or sign in. If you have never used SMS text
-messages with Amazon Cognito or any other AWS service, Amazon SNS might place your account
-in SMS sandbox. In  sandbox mode , you’ll have limitations, such as sending messages to
-only verified phone numbers. After testing in the sandbox environment, you can move out of
-the SMS sandbox and into production. For more information, see  SMS message settings for
-Cognito User Pools in the Amazon Cognito Developer Guide.   Calling this action requires
-developer credentials.
+messages with Amazon Cognito or any other Amazon Web Service, Amazon SNS might place your
+account in SMS sandbox. In  sandbox mode , you’ll have limitations, such as sending
+messages to only verified phone numbers. After testing in the sandbox environment, you can
+move out of the SMS sandbox and into production. For more information, see  SMS message
+settings for Cognito User Pools in the Amazon Cognito Developer Guide.   Calling this
+action requires developer credentials.
 
 # Arguments
 - `user_pool_id`: The user pool ID for the user pool where you want to reset the user's
@@ -541,17 +541,17 @@ developer credentials.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the AdminResetUserPassword API action,
   Amazon Cognito invokes the function that is assigned to the custom message trigger. When
   Amazon Cognito invokes this function, it passes a JSON payload, which the function receives
   as input. This payload contains a clientMetadata attribute, which provides the data that
   you assigned to the ClientMetadata parameter in your AdminResetUserPassword request. In
-  your function code in AWS Lambda, you can process the clientMetadata value to enhance your
+  your function code in Lambda, you can process the clientMetadata value to enhance your
   workflow for your specific needs. For more information, see Customizing User Pool Workflows
   with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations
   into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not
-  store the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  store the ClientMetadata value. This data is available only to Lambda triggers that are
   assigned to a user pool to support custom workflows. If your user pool configuration does
   not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
   not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
@@ -570,12 +570,12 @@ an origination phone number before you can send SMS messages to U.S. phone numbe
 use SMS text messages in Amazon Cognito, you must register a phone number with Amazon
 Pinpoint. Cognito will use the the registered number automatically. Otherwise, Cognito
 users that must receive SMS messages might be unable to sign up, activate their accounts,
-or sign in. If you have never used SMS text messages with Amazon Cognito or any other AWS
-service, Amazon SNS might place your account in SMS sandbox. In  sandbox mode , you’ll
-have limitations, such as sending messages to only verified phone numbers. After testing in
-the sandbox environment, you can move out of the SMS sandbox and into production. For more
-information, see  SMS message settings for Cognito User Pools in the Amazon Cognito
-Developer Guide.   Calling this action requires developer credentials.
+or sign in. If you have never used SMS text messages with Amazon Cognito or any other
+Amazon Web Service, Amazon SNS might place your account in SMS sandbox. In  sandbox mode ,
+you’ll have limitations, such as sending messages to only verified phone numbers. After
+testing in the sandbox environment, you can move out of the SMS sandbox and into
+production. For more information, see  SMS message settings for Cognito User Pools in the
+Amazon Cognito Developer Guide.   Calling this action requires developer credentials.
 
 # Arguments
 - `challenge_name`: The challenge name. For more information, see AdminInitiateAuth.
@@ -600,7 +600,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   username value in the USERNAMEUSER_ID_FOR_SRP attribute, even if you specified an alias in
   your call to AdminInitiateAuth.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the AdminRespondToAuthChallenge API
   action, Amazon Cognito invokes any functions that are assigned to the following triggers:
   pre sign-up, custom message, post authentication, user migration, pre token generation,
@@ -608,11 +608,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function
   receives as input. This payload contains a clientMetadata attribute, which provides the
   data that you assigned to the ClientMetadata parameter in your AdminRespondToAuthChallenge
-  request. In your function code in AWS Lambda, you can process the clientMetadata value to
+  request. In your function code in Lambda, you can process the clientMetadata value to
   enhance your workflow for your specific needs. For more information, see Customizing User
   Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the
   following limitations into consideration when you use the ClientMetadata parameter:
-  Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS
+  Amazon Cognito does not store the ClientMetadata value. This data is available only to
   Lambda triggers that are assigned to a user pool to support custom workflows. If your user
   pool configuration does not include triggers, the ClientMetadata parameter serves no
   purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does
@@ -748,12 +748,12 @@ number before you can send SMS messages to U.S. phone numbers. If you use SMS te
 in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Cognito will use
 the the registered number automatically. Otherwise, Cognito users that must receive SMS
 messages might be unable to sign up, activate their accounts, or sign in. If you have never
-used SMS text messages with Amazon Cognito or any other AWS service, Amazon SNS might place
-your account in SMS sandbox. In  sandbox mode , you’ll have limitations, such as sending
-messages to only verified phone numbers. After testing in the sandbox environment, you can
-move out of the SMS sandbox and into production. For more information, see  SMS message
-settings for Cognito User Pools in the Amazon Cognito Developer Guide.   Calling this
-action requires developer credentials.
+used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon SNS
+might place your account in SMS sandbox. In  sandbox mode , you’ll have limitations, such
+as sending messages to only verified phone numbers. After testing in the sandbox
+environment, you can move out of the SMS sandbox and into production. For more information,
+see  SMS message settings for Cognito User Pools in the Amazon Cognito Developer Guide.
+Calling this action requires developer credentials.
 
 # Arguments
 - `user_attributes`: An array of name-value pairs representing user attributes. For custom
@@ -765,17 +765,17 @@ action requires developer credentials.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the AdminUpdateUserAttributes API
   action, Amazon Cognito invokes the function that is assigned to the custom message trigger.
   When Amazon Cognito invokes this function, it passes a JSON payload, which the function
   receives as input. This payload contains a clientMetadata attribute, which provides the
   data that you assigned to the ClientMetadata parameter in your AdminUpdateUserAttributes
-  request. In your function code in AWS Lambda, you can process the clientMetadata value to
+  request. In your function code in Lambda, you can process the clientMetadata value to
   enhance your workflow for your specific needs. For more information, see Customizing User
   Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the
   following limitations into consideration when you use the ClientMetadata parameter:
-  Amazon Cognito does not store the ClientMetadata value. This data is available only to AWS
+  Amazon Cognito does not store the ClientMetadata value. This data is available only to
   Lambda triggers that are assigned to a user pool to support custom workflows. If your user
   pool configuration does not include triggers, the ClientMetadata parameter serves no
   purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito does
@@ -875,21 +875,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   ConfirmForgotPassword calls.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the ConfirmForgotPassword API action,
   Amazon Cognito invokes the function that is assigned to the post confirmation trigger. When
   Amazon Cognito invokes this function, it passes a JSON payload, which the function receives
   as input. This payload contains a clientMetadata attribute, which provides the data that
   you assigned to the ClientMetadata parameter in your ConfirmForgotPassword request. In your
-  function code in AWS Lambda, you can process the clientMetadata value to enhance your
-  workflow for your specific needs. For more information, see Customizing User Pool Workflows
-  with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations
-  into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not
-  store the ClientMetadata value. This data is available only to AWS Lambda triggers that are
-  assigned to a user pool to support custom workflows. If your user pool configuration does
-  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
-  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
-  ClientMetadata value, so don't use it to provide sensitive information.
+  function code in Lambda, you can process the clientMetadata value to enhance your workflow
+  for your specific needs. For more information, see Customizing User Pool Workflows with
+  Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into
+  consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store
+  the ClientMetadata value. This data is available only to Lambda triggers that are assigned
+  to a user pool to support custom workflows. If your user pool configuration does not
+  include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not
+  validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata
+  value, so don't use it to provide sensitive information.
 - `"SecretHash"`: A keyed-hash message authentication code (HMAC) calculated using the
   secret key of a user pool client and username plus the client ID in the message.
 - `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
@@ -916,21 +916,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   ConfirmSignUp calls.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the ConfirmSignUp API action, Amazon
   Cognito invokes the function that is assigned to the post confirmation trigger. When Amazon
   Cognito invokes this function, it passes a JSON payload, which the function receives as
   input. This payload contains a clientMetadata attribute, which provides the data that you
   assigned to the ClientMetadata parameter in your ConfirmSignUp request. In your function
-  code in AWS Lambda, you can process the clientMetadata value to enhance your workflow for
-  your specific needs. For more information, see Customizing User Pool Workflows with Lambda
+  code in Lambda, you can process the clientMetadata value to enhance your workflow for your
+  specific needs. For more information, see Customizing User Pool Workflows with Lambda
   Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into
   consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store
-  the ClientMetadata value. This data is available only to AWS Lambda triggers that are
-  assigned to a user pool to support custom workflows. If your user pool configuration does
-  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
-  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
-  ClientMetadata value, so don't use it to provide sensitive information.
+  the ClientMetadata value. This data is available only to Lambda triggers that are assigned
+  to a user pool to support custom workflows. If your user pool configuration does not
+  include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not
+  validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata
+  value, so don't use it to provide sensitive information.
 - `"ForceAliasCreation"`: Boolean to be specified to force user confirmation irrespective
   of existing alias. By default set to False. If this parameter is set to True and the phone
   number/email used for sign up confirmation already exists as an alias with a different
@@ -1053,7 +1053,7 @@ U.S. phone numbers. If you use SMS text messages in Amazon Cognito, you must reg
 phone number with Amazon Pinpoint. Cognito will use the the registered number
 automatically. Otherwise, Cognito users that must receive SMS messages might be unable to
 sign up, activate their accounts, or sign in. If you have never used SMS text messages with
-Amazon Cognito or any other AWS service, Amazon SNS might place your account in SMS
+Amazon Cognito or any other Amazon Web Service, Amazon SNS might place your account in SMS
 sandbox. In  sandbox mode , you’ll have limitations, such as sending messages to only
 verified phone numbers. After testing in the sandbox environment, you can move out of the
 SMS sandbox and into production. For more information, see  SMS message settings for
@@ -1085,7 +1085,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a push model, event sources (such as Amazon S3 and custom applications) need permission to
   invoke a function. So you will need to make an extra call to add permission for these event
   sources to invoke your Lambda function.  For more information on using the Lambda API to
-  add permission, see  AddPermission .  For adding permission using the AWS CLI, see
+  add permission, see  AddPermission .  For adding permission using the CLI, see
   add-permission .
 - `"MfaConfiguration"`: Specifies MFA configuration details.
 - `"Policies"`: The policies associated with the new user pool.
@@ -1138,7 +1138,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllowedOAuthFlowsUserPoolClient"`: Set to true if the client is allowed to follow the
   OAuth protocol when interacting with Cognito user pools.
 - `"AllowedOAuthScopes"`: The allowed OAuth scopes. Possible values provided by OAuth are:
-  phone, email, openid, and profile. Possible values provided by AWS are:
+  phone, email, openid, and profile. Possible values provided by Amazon Web Services are:
   aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
 - `"AnalyticsConfiguration"`: The Amazon Pinpoint analytics configuration for collecting
   metrics for this user pool.  In regions where Pinpoint is not available, Cognito User Pools
@@ -1470,11 +1470,11 @@ number before you can send SMS messages to U.S. phone numbers. If you use SMS te
 in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Cognito will use
 the the registered number automatically. Otherwise, Cognito users that must receive SMS
 messages might be unable to sign up, activate their accounts, or sign in. If you have never
-used SMS text messages with Amazon Cognito or any other AWS service, Amazon SNS might place
-your account in SMS sandbox. In  sandbox mode , you’ll have limitations, such as sending
-messages to only verified phone numbers. After testing in the sandbox environment, you can
-move out of the SMS sandbox and into production. For more information, see  SMS message
-settings for Cognito User Pools in the Amazon Cognito Developer Guide.
+used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon SNS
+might place your account in SMS sandbox. In  sandbox mode , you’ll have limitations, such
+as sending messages to only verified phone numbers. After testing in the sandbox
+environment, you can move out of the SMS sandbox and into production. For more information,
+see  SMS message settings for Cognito User Pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `client_id`: The ID of the client associated with the user pool.
@@ -1486,18 +1486,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   ForgotPassword calls.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the ForgotPassword API action, Amazon
   Cognito invokes any functions that are assigned to the following triggers: pre sign-up,
   custom message, and user migration. When Amazon Cognito invokes any of these functions, it
   passes a JSON payload, which the function receives as input. This payload contains a
   clientMetadata attribute, which provides the data that you assigned to the ClientMetadata
-  parameter in your ForgotPassword request. In your function code in AWS Lambda, you can
-  process the clientMetadata value to enhance your workflow for your specific needs. For more
+  parameter in your ForgotPassword request. In your function code in Lambda, you can process
+  the clientMetadata value to enhance your workflow for your specific needs. For more
   information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
   Developer Guide.  Take the following limitations into consideration when you use the
   ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
-  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  data is available only to Lambda triggers that are assigned to a user pool to support
   custom workflows. If your user pool configuration does not include triggers, the
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
@@ -1625,11 +1625,11 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Cognito will use the the registered number automatically.
 Otherwise, Cognito users that must receive SMS messages might be unable to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other AWS service, Amazon SNS might place your account in SMS sandbox. In
-sandbox mode , you’ll have limitations, such as sending messages to only verified phone
-numbers. After testing in the sandbox environment, you can move out of the SMS sandbox and
-into production. For more information, see  SMS message settings for Cognito User Pools in
-the Amazon Cognito Developer Guide.
+Cognito or any other Amazon Web Service, Amazon SNS might place your account in SMS
+sandbox. In  sandbox mode , you’ll have limitations, such as sending messages to only
+verified phone numbers. After testing in the sandbox environment, you can move out of the
+SMS sandbox and into production. For more information, see  SMS message settings for
+Cognito User Pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `access_token`: The access token returned by the server response to get the user
@@ -1640,18 +1640,18 @@ the Amazon Cognito Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the GetUserAttributeVerificationCode
   API action, Amazon Cognito invokes the function that is assigned to the custom message
   trigger. When Amazon Cognito invokes this function, it passes a JSON payload, which the
   function receives as input. This payload contains a clientMetadata attribute, which
   provides the data that you assigned to the ClientMetadata parameter in your
-  GetUserAttributeVerificationCode request. In your function code in AWS Lambda, you can
-  process the clientMetadata value to enhance your workflow for your specific needs. For more
+  GetUserAttributeVerificationCode request. In your function code in Lambda, you can process
+  the clientMetadata value to enhance your workflow for your specific needs. For more
   information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
   Developer Guide.  Take the following limitations into consideration when you use the
   ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
-  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  data is available only to Lambda triggers that are assigned to a user pool to support
   custom workflows. If your user pool configuration does not include triggers, the
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
@@ -1698,11 +1698,11 @@ number before you can send SMS messages to U.S. phone numbers. If you use SMS te
 in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Cognito will use
 the the registered number automatically. Otherwise, Cognito users that must receive SMS
 messages might be unable to sign up, activate their accounts, or sign in. If you have never
-used SMS text messages with Amazon Cognito or any other AWS service, Amazon SNS might place
-your account in SMS sandbox. In  sandbox mode , you’ll have limitations, such as sending
-messages to only verified phone numbers. After testing in the sandbox environment, you can
-move out of the SMS sandbox and into production. For more information, see  SMS message
-settings for Cognito User Pools in the Amazon Cognito Developer Guide.
+used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon SNS
+might place your account in SMS sandbox. In  sandbox mode , you’ll have limitations, such
+as sending messages to only verified phone numbers. After testing in the sandbox
+environment, you can move out of the SMS sandbox and into production. For more information,
+see  SMS message settings for Cognito User Pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `auth_flow`: The authentication flow for this call to execute. The API action will depend
@@ -1736,26 +1736,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SRP_A: (The SRP_A Value).
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for
   certain custom workflows that this action triggers. You create custom workflows by
-  assigning AWS Lambda functions to user pool triggers. When you use the InitiateAuth API
-  action, Amazon Cognito invokes the AWS Lambda functions that are specified for various
-  triggers. The ClientMetadata value is passed as input to the functions for only the
-  following triggers:   Pre signup   Pre authentication   User migration   When Amazon
-  Cognito invokes the functions for these triggers, it passes a JSON payload, which the
-  function receives as input. This payload contains a validationData attribute, which
-  provides the data that you assigned to the ClientMetadata parameter in your InitiateAuth
-  request. In your function code in AWS Lambda, you can process the validationData value to
-  enhance your workflow for your specific needs. When you use the InitiateAuth API action,
-  Amazon Cognito also invokes the functions for the following triggers, but it does not
-  provide the ClientMetadata value as input:   Post authentication   Custom message   Pre
-  token generation   Create auth challenge   Define auth challenge   Verify auth challenge
-  For more information, see Customizing User Pool Workflows with Lambda Triggers in the
-  Amazon Cognito Developer Guide.  Take the following limitations into consideration when you
-  use the ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value.
-  This data is available only to AWS Lambda triggers that are assigned to a user pool to
-  support custom workflows. If your user pool configuration does not include triggers, the
-  ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
-  ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
-  don't use it to provide sensitive information.
+  assigning Lambda functions to user pool triggers. When you use the InitiateAuth API action,
+  Amazon Cognito invokes the Lambda functions that are specified for various triggers. The
+  ClientMetadata value is passed as input to the functions for only the following triggers:
+  Pre signup   Pre authentication   User migration   When Amazon Cognito invokes the
+  functions for these triggers, it passes a JSON payload, which the function receives as
+  input. This payload contains a validationData attribute, which provides the data that you
+  assigned to the ClientMetadata parameter in your InitiateAuth request. In your function
+  code in Lambda, you can process the validationData value to enhance your workflow for your
+  specific needs. When you use the InitiateAuth API action, Amazon Cognito also invokes the
+  functions for the following triggers, but it does not provide the ClientMetadata value as
+  input:   Post authentication   Custom message   Pre token generation   Create auth
+  challenge   Define auth challenge   Verify auth challenge   For more information, see
+  Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito Developer Guide.
+   Take the following limitations into consideration when you use the ClientMetadata
+  parameter:   Amazon Cognito does not store the ClientMetadata value. This data is available
+  only to Lambda triggers that are assigned to a user pool to support custom workflows. If
+  your user pool configuration does not include triggers, the ClientMetadata parameter serves
+  no purpose.   Amazon Cognito does not validate the ClientMetadata value.   Amazon Cognito
+  does not encrypt the the ClientMetadata value, so don't use it to provide sensitive
+  information.
 - `"UserContextData"`: Contextual data such as the user's device fingerprint, IP address,
   or location used for evaluating the risk of an unexpected event by Amazon Cognito advanced
   security.
@@ -1892,7 +1892,7 @@ list_user_pool_clients(UserPoolId, params::AbstractDict{String}; aws_config::Abs
     list_user_pools(max_results)
     list_user_pools(max_results, params::Dict{String,<:Any})
 
-Lists the user pools associated with an AWS account.
+Lists the user pools associated with an account.
 
 # Arguments
 - `max_results`: The maximum number of results you want the request to return when listing
@@ -1972,7 +1972,7 @@ messages to U.S. phone numbers. If you use SMS text messages in Amazon Cognito, 
 register a phone number with Amazon Pinpoint. Cognito will use the the registered number
 automatically. Otherwise, Cognito users that must receive SMS messages might be unable to
 sign up, activate their accounts, or sign in. If you have never used SMS text messages with
-Amazon Cognito or any other AWS service, Amazon SNS might place your account in SMS
+Amazon Cognito or any other Amazon Web Service, Amazon SNS might place your account in SMS
 sandbox. In  sandbox mode , you’ll have limitations, such as sending messages to only
 verified phone numbers. After testing in the sandbox environment, you can move out of the
 SMS sandbox and into production. For more information, see  SMS message settings for
@@ -1987,17 +1987,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   ResendConfirmationCode calls.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the ResendConfirmationCode API action,
   Amazon Cognito invokes the function that is assigned to the custom message trigger. When
   Amazon Cognito invokes this function, it passes a JSON payload, which the function receives
   as input. This payload contains a clientMetadata attribute, which provides the data that
   you assigned to the ClientMetadata parameter in your ResendConfirmationCode request. In
-  your function code in AWS Lambda, you can process the clientMetadata value to enhance your
+  your function code in Lambda, you can process the clientMetadata value to enhance your
   workflow for your specific needs. For more information, see Customizing User Pool Workflows
   with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations
   into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not
-  store the ClientMetadata value. This data is available only to AWS Lambda triggers that are
+  store the ClientMetadata value. This data is available only to Lambda triggers that are
   assigned to a user pool to support custom workflows. If your user pool configuration does
   not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
   not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
@@ -2021,11 +2021,11 @@ number before you can send SMS messages to U.S. phone numbers. If you use SMS te
 in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Cognito will use
 the the registered number automatically. Otherwise, Cognito users that must receive SMS
 messages might be unable to sign up, activate their accounts, or sign in. If you have never
-used SMS text messages with Amazon Cognito or any other AWS service, Amazon SNS might place
-your account in SMS sandbox. In  sandbox mode , you’ll have limitations, such as sending
-messages to only verified phone numbers. After testing in the sandbox environment, you can
-move out of the SMS sandbox and into production. For more information, see  SMS message
-settings for Cognito User Pools in the Amazon Cognito Developer Guide.
+used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon SNS
+might place your account in SMS sandbox. In  sandbox mode , you’ll have limitations, such
+as sending messages to only verified phone numbers. After testing in the sandbox
+environment, you can move out of the SMS sandbox and into production. For more information,
+see  SMS message settings for Cognito User Pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `challenge_name`: The challenge name. For more information, see InitiateAuth.
@@ -2047,19 +2047,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PASSWORD_VERIFIER requires plus DEVICE_KEY.    MFA_SETUP requires USERNAME, plus you need
   to use the session value returned by VerifySoftwareToken in the Session parameter.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the RespondToAuthChallenge API action,
   Amazon Cognito invokes any functions that are assigned to the following triggers: post
   authentication, pre token generation, define auth challenge, create auth challenge, and
   verify auth challenge. When Amazon Cognito invokes any of these functions, it passes a JSON
   payload, which the function receives as input. This payload contains a clientMetadata
   attribute, which provides the data that you assigned to the ClientMetadata parameter in
-  your RespondToAuthChallenge request. In your function code in AWS Lambda, you can process
-  the clientMetadata value to enhance your workflow for your specific needs. For more
+  your RespondToAuthChallenge request. In your function code in Lambda, you can process the
+  clientMetadata value to enhance your workflow for your specific needs. For more
   information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
   Developer Guide.  Take the following limitations into consideration when you use the
   ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
-  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  data is available only to Lambda triggers that are assigned to a user pool to support
   custom workflows. If your user pool configuration does not include triggers, the
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
@@ -2183,9 +2183,9 @@ numbers. If you use SMS text messages in Amazon Cognito, you must register a pho
 with Amazon Pinpoint. Cognito will use the the registered number automatically. Otherwise,
 Cognito users that must receive SMS messages might be unable to sign up, activate their
 accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any
-other AWS service, Amazon SNS might place your account in SMS sandbox. In  sandbox mode ,
-you’ll have limitations, such as sending messages to only verified phone numbers. After
-testing in the sandbox environment, you can move out of the SMS sandbox and into
+other Amazon Web Service, Amazon SNS might place your account in SMS sandbox. In  sandbox
+mode , you’ll have limitations, such as sending messages to only verified phone numbers.
+After testing in the sandbox environment, you can move out of the SMS sandbox and into
 production. For more information, see  SMS message settings for Cognito User Pools in the
 Amazon Cognito Developer Guide.
 
@@ -2233,11 +2233,11 @@ SMS messages to U.S. phone numbers. If you use SMS text messages in Amazon Cogni
 must register a phone number with Amazon Pinpoint. Cognito will use the the registered
 number automatically. Otherwise, Cognito users that must receive SMS messages might be
 unable to sign up, activate their accounts, or sign in. If you have never used SMS text
-messages with Amazon Cognito or any other AWS service, Amazon SNS might place your account
-in SMS sandbox. In  sandbox mode , you’ll have limitations, such as sending messages to
-only verified phone numbers. After testing in the sandbox environment, you can move out of
-the SMS sandbox and into production. For more information, see  SMS message settings for
-Cognito User Pools in the Amazon Cognito Developer Guide.
+messages with Amazon Cognito or any other Amazon Web Service, Amazon SNS might place your
+account in SMS sandbox. In  sandbox mode , you’ll have limitations, such as sending
+messages to only verified phone numbers. After testing in the sandbox environment, you can
+move out of the SMS sandbox and into production. For more information, see  SMS message
+settings for Cognito User Pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `client_id`: The ID of the client associated with the user pool.
@@ -2249,18 +2249,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AnalyticsMetadata"`: The Amazon Pinpoint analytics metadata for collecting metrics for
   SignUp calls.
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the SignUp API action, Amazon Cognito
   invokes any functions that are assigned to the following triggers: pre sign-up, custom
   message, and post confirmation. When Amazon Cognito invokes any of these functions, it
   passes a JSON payload, which the function receives as input. This payload contains a
   clientMetadata attribute, which provides the data that you assigned to the ClientMetadata
-  parameter in your SignUp request. In your function code in AWS Lambda, you can process the
+  parameter in your SignUp request. In your function code in Lambda, you can process the
   clientMetadata value to enhance your workflow for your specific needs. For more
   information, see Customizing User Pool Workflows with Lambda Triggers in the Amazon Cognito
   Developer Guide.  Take the following limitations into consideration when you use the
   ClientMetadata parameter:   Amazon Cognito does not store the ClientMetadata value. This
-  data is available only to AWS Lambda triggers that are assigned to a user pool to support
+  data is available only to Lambda triggers that are assigned to a user pool to support
   custom workflows. If your user pool configuration does not include triggers, the
   ClientMetadata parameter serves no purpose.   Amazon Cognito does not validate the
   ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata value, so
@@ -2386,8 +2386,7 @@ update_device_status(AccessToken, DeviceKey, params::AbstractDict{String}; aws_c
     update_group(group_name, user_pool_id, params::Dict{String,<:Any})
 
 Updates the specified group with the specified attributes. Calling this action requires
-developer credentials.  If you don't provide a value for an attribute, it will be set to
-the default value.
+developer credentials.
 
 # Arguments
 - `group_name`: The name of the group.
@@ -2453,12 +2452,12 @@ an origination phone number before you can send SMS messages to U.S. phone numbe
 use SMS text messages in Amazon Cognito, you must register a phone number with Amazon
 Pinpoint. Cognito will use the the registered number automatically. Otherwise, Cognito
 users that must receive SMS messages might be unable to sign up, activate their accounts,
-or sign in. If you have never used SMS text messages with Amazon Cognito or any other AWS
-service, Amazon SNS might place your account in SMS sandbox. In  sandbox mode , you’ll
-have limitations, such as sending messages to only verified phone numbers. After testing in
-the sandbox environment, you can move out of the SMS sandbox and into production. For more
-information, see  SMS message settings for Cognito User Pools in the Amazon Cognito
-Developer Guide.
+or sign in. If you have never used SMS text messages with Amazon Cognito or any other
+Amazon Web Service, Amazon SNS might place your account in SMS sandbox. In  sandbox mode ,
+you’ll have limitations, such as sending messages to only verified phone numbers. After
+testing in the sandbox environment, you can move out of the SMS sandbox and into
+production. For more information, see  SMS message settings for Cognito User Pools in the
+Amazon Cognito Developer Guide.
 
 # Arguments
 - `access_token`: The access token for the request to update user attributes.
@@ -2468,21 +2467,21 @@ Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientMetadata"`: A map of custom key-value pairs that you can provide as input for any
-  custom workflows that this action triggers.  You create custom workflows by assigning AWS
+  custom workflows that this action triggers.  You create custom workflows by assigning
   Lambda functions to user pool triggers. When you use the UpdateUserAttributes API action,
   Amazon Cognito invokes the function that is assigned to the custom message trigger. When
   Amazon Cognito invokes this function, it passes a JSON payload, which the function receives
   as input. This payload contains a clientMetadata attribute, which provides the data that
   you assigned to the ClientMetadata parameter in your UpdateUserAttributes request. In your
-  function code in AWS Lambda, you can process the clientMetadata value to enhance your
-  workflow for your specific needs. For more information, see Customizing User Pool Workflows
-  with Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations
-  into consideration when you use the ClientMetadata parameter:   Amazon Cognito does not
-  store the ClientMetadata value. This data is available only to AWS Lambda triggers that are
-  assigned to a user pool to support custom workflows. If your user pool configuration does
-  not include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does
-  not validate the ClientMetadata value.   Amazon Cognito does not encrypt the the
-  ClientMetadata value, so don't use it to provide sensitive information.
+  function code in Lambda, you can process the clientMetadata value to enhance your workflow
+  for your specific needs. For more information, see Customizing User Pool Workflows with
+  Lambda Triggers in the Amazon Cognito Developer Guide.  Take the following limitations into
+  consideration when you use the ClientMetadata parameter:   Amazon Cognito does not store
+  the ClientMetadata value. This data is available only to Lambda triggers that are assigned
+  to a user pool to support custom workflows. If your user pool configuration does not
+  include triggers, the ClientMetadata parameter serves no purpose.   Amazon Cognito does not
+  validate the ClientMetadata value.   Amazon Cognito does not encrypt the the ClientMetadata
+  value, so don't use it to provide sensitive information.
 """
 update_user_attributes(AccessToken, UserAttributes; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserAttributes", Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributes"=>UserAttributes); aws_config=aws_config)
 update_user_attributes(AccessToken, UserAttributes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cognito_identity_provider("UpdateUserAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessToken"=>AccessToken, "UserAttributes"=>UserAttributes), params)); aws_config=aws_config)
@@ -2499,10 +2498,10 @@ origination phone number before you can send SMS messages to U.S. phone numbers.
 SMS text messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint.
 Cognito will use the the registered number automatically. Otherwise, Cognito users that
 must receive SMS messages might be unable to sign up, activate their accounts, or sign in.
-If you have never used SMS text messages with Amazon Cognito or any other AWS service,
-Amazon SNS might place your account in SMS sandbox. In  sandbox mode , you’ll have
-limitations, such as sending messages to only verified phone numbers. After testing in the
-sandbox environment, you can move out of the SMS sandbox and into production. For more
+If you have never used SMS text messages with Amazon Cognito or any other Amazon Web
+Service, Amazon SNS might place your account in SMS sandbox. In  sandbox mode , you’ll
+have limitations, such as sending messages to only verified phone numbers. After testing in
+the sandbox environment, you can move out of the SMS sandbox and into production. For more
 information, see  SMS message settings for Cognito User Pools in the Amazon Cognito
 Developer Guide.
 
@@ -2524,7 +2523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EmailConfiguration"`: Email configuration.
 - `"EmailVerificationMessage"`: The contents of the email verification message.
 - `"EmailVerificationSubject"`: The subject of the email verification message.
-- `"LambdaConfig"`: The AWS Lambda configuration information from the request to update the
+- `"LambdaConfig"`: The Lambda configuration information from the request to update the
   user pool.
 - `"MfaConfiguration"`: Can be one of the following values:    OFF - MFA tokens are not
   required and cannot be specified during user registration.    ON - MFA tokens are required
@@ -2575,7 +2574,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AllowedOAuthFlowsUserPoolClient"`: Set to true if the client is allowed to follow the
   OAuth protocol when interacting with Cognito user pools.
 - `"AllowedOAuthScopes"`: The allowed OAuth scopes. Possible values provided by OAuth are:
-  phone, email, openid, and profile. Possible values provided by AWS are:
+  phone, email, openid, and profile. Possible values provided by Amazon Web Services are:
   aws.cognito.signin.user.admin. Custom scopes created in Resource Servers are also supported.
 - `"AnalyticsConfiguration"`: The Amazon Pinpoint analytics configuration for collecting
   metrics for this user pool.  In regions where Pinpoint is not available, Cognito User Pools
@@ -2642,15 +2641,15 @@ pool. You can use this operation to provide the Amazon Resource Name (ARN) of a 
 certificate to Amazon Cognito. You cannot use it to change the domain for a user pool. A
 custom domain is used to host the Amazon Cognito hosted UI, which provides sign-up and
 sign-in pages for your application. When you set up a custom domain, you provide a
-certificate that you manage with AWS Certificate Manager (ACM). When necessary, you can use
+certificate that you manage with Certificate Manager (ACM). When necessary, you can use
 this operation to change the certificate that you applied to your custom domain. Usually,
 this is unnecessary following routine certificate renewal with ACM. When you renew your
 existing certificate in ACM, the ARN for your certificate remains the same, and your custom
 domain uses the new certificate automatically. However, if you replace your existing
 certificate with a new one, ACM gives the new certificate a new ARN. To apply the new
 certificate to your custom domain, you must provide this ARN to Amazon Cognito. When you
-add your new certificate in ACM, you must choose US East (N. Virginia) as the AWS Region.
-After you submit your request, Amazon Cognito requires up to 1 hour to distribute your new
+add your new certificate in ACM, you must choose US East (N. Virginia) as the Region. After
+you submit your request, Amazon Cognito requires up to 1 hour to distribute your new
 certificate to your custom domain. For more information about adding a custom domain to
 your user pool, see Using Your Own Domain for the Hosted UI.
 

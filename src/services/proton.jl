@@ -12,7 +12,7 @@ In a management account, an environment account connection request is accepted. 
 environment account connection request is accepted, AWS Proton can use the associated IAM
 role to provision environment infrastructure resources in the associated environment
 account. For more information, see Environment account connections in the AWS Proton
-Administration guide.
+Administrator guide.
 
 # Arguments
 - `id`: The ID of the environment account connection.
@@ -27,9 +27,9 @@ accept_environment_account_connection(id, params::AbstractDict{String}; aws_conf
 
 Attempts to cancel an environment deployment on an UpdateEnvironment action, if the
 deployment is IN_PROGRESS. For more information, see Update an environment in the AWS
-Proton Administration guide. The following list includes potential cancellation scenarios.
- If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If
-the cancellation attempt fails, the resulting deployment state is FAILED.   If the current
+Proton Administrator guide. The following list includes potential cancellation scenarios.
+If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the
+cancellation attempt fails, the resulting deployment state is FAILED.   If the current
 UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting
 deployment state is SUCCEEDED and the cancellation attempt has no effect.
 
@@ -46,7 +46,7 @@ cancel_environment_deployment(environmentName, params::AbstractDict{String}; aws
 
 Attempts to cancel a service instance deployment on an UpdateServiceInstance action, if the
 deployment is IN_PROGRESS. For more information, see Update a service instance in the AWS
-Proton Administration guide or the AWS Proton User guide. The following list includes
+Proton Administrator guide or the AWS Proton User guide. The following list includes
 potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting
 deployment state is CANCELLED.   If the cancellation attempt fails, the resulting
 deployment state is FAILED.   If the current UpdateServiceInstance action succeeds before
@@ -67,7 +67,7 @@ cancel_service_instance_deployment(serviceInstanceName, serviceName, params::Abs
 
 Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the
 deployment is IN_PROGRESS. For more information, see Update a service pipeline in the AWS
-Proton Administration guide or the AWS Proton User guide. The following list includes
+Proton Administrator guide or the AWS Proton User guide. The following list includes
 potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting
 deployment state is CANCELLED.   If the cancellation attempt fails, the resulting
 deployment state is FAILED.   If the current UpdateServicePipeline action succeeds before
@@ -87,16 +87,16 @@ cancel_service_pipeline_deployment(serviceName, params::AbstractDict{String}; aw
 
 Deploy a new environment. An AWS Proton environment is created from an environment template
 that defines infrastructure and resources that can be shared across services. For more
-information, see the Environments in the AWS Proton Administration Guide.
+information, see the Environments in the AWS Proton Administrator Guide.
 
 # Arguments
 - `name`: The name of the environment.
 - `spec`: A link to a YAML formatted spec file that provides inputs as defined in the
   environment template bundle schema file. For more information, see Environments in the AWS
-  Proton Administration Guide.
+  Proton Administrator Guide.
 - `template_major_version`: The ID of the major version of the environment template.
 - `template_name`: The name of the environment template. For more information, see
-  Environment Templates in the AWS Proton Administration Guide.
+  Environment Templates in the AWS Proton Administrator Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -105,12 +105,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide if you're provisioning your environment infrastructure resources to an environment
   account. You must include either the environmentAccountConnectionId or protonServiceRoleArn
   parameter and value. For more information, see Environment account connections in the AWS
-  Proton Administration guide.
+  Proton Administrator guide.
 - `"protonServiceRoleArn"`: The Amazon Resource Name (ARN) of the AWS Proton service role
   that allows AWS Proton to make calls to other services on your behalf. You must include
   either the environmentAccountConnectionId or protonServiceRoleArn parameter and value.
 - `"tags"`: Create tags for your environment. For more information, see AWS Proton
-  resources and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+  resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 - `"templateMinorVersion"`: The ID of the minor version of the environment template.
 """
 create_environment(name, spec, templateMajorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironment", Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName); aws_config=aws_config)
@@ -121,10 +121,10 @@ create_environment(name, spec, templateMajorVersion, templateName, params::Abstr
     create_environment_account_connection(environment_name, management_account_id, role_arn, params::Dict{String,<:Any})
 
 Create an environment account connection in an environment account so that environment
-infrastructure resources can be provisioned in the environment account from the management
+infrastructure resources can be provisioned in the environment account from a management
 account. An environment account connection is a secure bi-directional connection between a
 management account and an environment account that maintains authorization and permissions.
-For more information, see Environment account connections in the AWS Proton Administration
+For more information, see Environment account connections in the AWS Proton Administrator
 guide.
 
 # Arguments
@@ -152,7 +152,7 @@ create_environment_account_connection(environmentName, managementAccountId, role
     create_environment_template(name, params::Dict{String,<:Any})
 
 Create an environment template for AWS Proton. For more information, see Environment
-Templates in the AWS Proton Administration Guide. You can create an environment template in
+Templates in the AWS Proton Administrator Guide. You can create an environment template in
 one of the two following ways:   Register and publish a standard environment template that
 instructs AWS Proton to deploy and manage environment infrastructure.   Register and
 publish a customer managed environment template that connects AWS Proton to your existing
@@ -160,7 +160,7 @@ provisioned infrastructure that you manage. AWS Proton doesn't manage your exist
 provisioned infrastructure. To create an environment template for customer provisioned and
 managed infrastructure, include the provisioning parameter and set the value to
 CUSTOMER_MANAGED. For more information, see Register and publish an environment template in
-the AWS Proton Administration Guide.
+the AWS Proton Administrator Guide.
 
 # Arguments
 - `name`: The name of the environment template.
@@ -174,7 +174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"provisioning"`: When included, indicates that the environment template is for customer
   provisioned and managed infrastructure.
 - `"tags"`: Create tags for your environment template. For more information, see AWS Proton
-  resources and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+  resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 """
 create_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
 create_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
@@ -211,7 +211,7 @@ create_environment_template_version(source, templateName, params::AbstractDict{S
 
 Create an AWS Proton service. An AWS Proton service is an instantiation of a service
 template and often includes several service instances and pipeline. For more information,
-see Services in the AWS Proton Administration Guide and Services in the AWS Proton User
+see Services in the AWS Proton Administrator Guide and Services in the AWS Proton User
 Guide.
 
 # Arguments
@@ -219,7 +219,7 @@ Guide.
 - `spec`: A link to a spec file that provides inputs as defined in the service template
   bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the
   spec if your service template doesn’t include a service pipeline. For more information,
-  see Create a service in the AWS Proton Administration Guide and Create a service in the AWS
+  see Create a service in the AWS Proton Administrator Guide and Create a service in the AWS
   Proton User Guide.
 - `template_major_version`: The ID of the major version of the service template that was
   used to create the service.
@@ -231,14 +231,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deployed in AWS Proton. Don't include this parameter if your service template doesn't
   include a service pipeline.
 - `"description"`: A description of the AWS Proton service.
-- `"repositoryConnectionArn"`: The ARN of the repository connection. For more information,
-  see Set up repository connection in the AWS Proton Administration Guide and Getting started
-  in the AWS Proton User Guide. Don't include this parameter if your service template doesn't
-  include a service pipeline.
+- `"repositoryConnectionArn"`: The Amazon Resource Name (ARN) of the repository connection.
+  For more information, see Set up repository connection in the AWS Proton Administrator
+  Guide and Setting up with AWS Proton in the AWS Proton User Guide. Don't include this
+  parameter if your service template doesn't include a service pipeline.
 - `"repositoryId"`: The ID of the code repository. Don't include this parameter if your
   service template doesn't include a service pipeline.
 - `"tags"`: Create tags for your service. For more information, see AWS Proton resources
-  and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+  and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 - `"templateMinorVersion"`: The ID of the minor version of the service template that was
   used to create the service.
 """
@@ -254,8 +254,7 @@ standardized infrastructure and an optional CICD service pipeline. Developers, i
 select the service template from AWS Proton. If the selected service template includes a
 service pipeline definition, they provide a link to their source code repository. AWS
 Proton then deploys and manages the infrastructure defined by the selected service
-template. For more information, see Service Templates in the AWS Proton Administration
-Guide.
+template. For more information, see Service Templates in the AWS Proton Administrator Guide.
 
 # Arguments
 - `name`: The name of the service template.
@@ -268,9 +267,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pipelineProvisioning"`: AWS Proton includes a service pipeline for your service by
   default. When included, this parameter indicates that an AWS Proton service pipeline won't
   be included for your service. Once specified, this parameter can't be changed. For more
-  information, see Service template bundles in the AWS Proton Administration Guide.
+  information, see Service template bundles in the AWS Proton Administrator Guide.
 - `"tags"`: Create tags for your service template. For more information, see AWS Proton
-  resources and tagging in the AWS Proton Administration Guide or AWS Proton User Guide.
+  resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 """
 create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
 create_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
@@ -326,7 +325,7 @@ can’t manage the environment infrastructure resources until a new environment 
 connection is accepted for the environment account and associated environment. You're
 responsible for cleaning up provisioned resources that remain without an environment
 connection. For more information, see Environment account connections in the AWS Proton
-Administration guide.
+Administrator guide.
 
 # Arguments
 - `id`: The ID of the environment account connection to delete.
@@ -448,8 +447,7 @@ get_environment(name, params::AbstractDict{String}; aws_config::AbstractAWSConfi
     get_environment_account_connection(id, params::Dict{String,<:Any})
 
 In an environment account, view the detail data for an environment account connection. For
-more information, see Environment account connections in the AWS Proton Administration
-guide.
+more information, see Environment account connections in the AWS Proton Administrator guide.
 
 # Arguments
 - `id`: The ID of the environment account connection.
@@ -549,7 +547,7 @@ get_service_template_version(majorVersion, minorVersion, templateName, params::A
     list_environment_account_connections(requested_by, params::Dict{String,<:Any})
 
 View a list of environment account connections. For more information, see Environment
-account connections in the AWS Proton Administration guide.
+account connections in the AWS Proton Administrator guide.
 
 # Arguments
 - `requested_by`: The type of account making the ListEnvironmentAccountConnections request.
@@ -696,10 +694,10 @@ list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 List tags for a resource. For more information, see AWS Proton resources and tagging in the
-AWS Proton Administration Guide or AWS Proton User Guide.
+AWS Proton Administrator Guide or AWS Proton User Guide.
 
 # Arguments
-- `resource_arn`: The ARN of the resource for the listed tags.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for the listed tags.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -718,7 +716,7 @@ In a management account, reject an environment account connection from another e
 account. After you reject an environment account connection request, you won’t be able to
 accept or use the rejected environment account connection. You can’t reject an
 environment account connection that is connected to an environment. For more information,
-see Environment account connections in the AWS Proton Administration guide.
+see Environment account connections in the AWS Proton Administrator guide.
 
 # Arguments
 - `id`: The ID of the environment account connection to reject.
@@ -732,7 +730,7 @@ reject_environment_account_connection(id, params::AbstractDict{String}; aws_conf
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Tag a resource. For more information, see AWS Proton resources and tagging in the AWS
-Proton Administration Guide or AWS Proton User Guide.
+Proton Administrator Guide or AWS Proton User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that the resource tag is
@@ -748,7 +746,7 @@ tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::Abstra
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Remove a tag from a resource. For more information, see AWS Proton resources and tagging in
-the AWS Proton Administration Guide or AWS Proton User Guide.
+the AWS Proton Administrator Guide or AWS Proton User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that the tag is to be
@@ -782,7 +780,7 @@ Update an environment. If the environment is associated with an environment acco
 connection, don't update or include the protonServiceRoleArn parameter to update or connect
 to an environment account connection.  You can only update to a new environment account
 connection if it was created in the same environment account that the current environment
-account connection was created in and associated with the current environment. If the
+account connection was created in and is associated with the current environment. If the
 environment isn't associated with an environment account connection, don't update or
 include the environmentAccountConnectionId parameter to update or connect to an environment
 account connection. You can update either the environmentAccountConnectionId or
@@ -820,10 +818,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the environment update.
 - `"environmentAccountConnectionId"`: The ID of the environment account connection. You can
   only update to a new environment account connection if it was created in the same
-  environment account that the current environment account connection was created in and
+  environment account that the current environment account connection was created in and is
   associated with the current environment.
-- `"protonServiceRoleArn"`: The ARN of the AWS Proton service role that allows AWS Proton
-  to make API calls to other services your behalf.
+- `"protonServiceRoleArn"`: The Amazon Resource Name (ARN) of the AWS Proton service role
+  that allows AWS Proton to make API calls to other services your behalf.
 - `"spec"`: The formatted specification that defines the update.
 - `"templateMajorVersion"`: The ID of the major version of the environment to update.
 - `"templateMinorVersion"`: The ID of the minor version of the environment to update.
@@ -836,7 +834,7 @@ update_environment(deploymentType, name, params::AbstractDict{String}; aws_confi
     update_environment_account_connection(id, role_arn, params::Dict{String,<:Any})
 
 In an environment account, update an environment account connection to use a new IAM role.
-For more information, see Environment account connections in the AWS Proton Administration
+For more information, see Environment account connections in the AWS Proton Administrator
 guide.
 
 # Arguments
@@ -905,7 +903,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"spec"`: Lists the service instances to add and the existing service instances to
   remain. Omit the existing service instances to delete from the list. Don't include edits to
   the existing service instances or pipeline. For more information, see Edit a service in the
-  AWS Proton Administration Guide or the AWS Proton User Guide.
+  AWS Proton Administrator Guide or the AWS Proton User Guide.
 """
 update_service(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateService", Dict{String, Any}("name"=>name); aws_config=aws_config)
 update_service(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
