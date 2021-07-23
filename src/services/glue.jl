@@ -776,6 +776,7 @@ Creates a new trigger.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the new trigger.
+- `"EventBatchingCondition"`:
 - `"Predicate"`: A predicate to specify when the new trigger should fire. This field is
   required when the trigger type is CONDITIONAL.
 - `"Schedule"`: A cron expression used to specify the schedule (see Time-Based Schedules

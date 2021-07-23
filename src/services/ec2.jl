@@ -274,13 +274,21 @@ automatically assigned from within the subnet's IPv6 CIDR block range. You can a
 many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and
 the limit varies per instance type. For information, see IP Addresses Per Network Interface
 Per Instance Type in the Amazon Elastic Compute Cloud User Guide. You must specify either
-the IPv6 addresses or the IPv6 address count in the request.
+the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix
+Delegation on the network interface. You must specify either the IPV6 Prefix Delegation
+prefixes, or the IPv6 Prefix Delegation count. For information, see Prefix Delegation in
+the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `network_interface_id`: The ID of the network interface.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Ipv6Prefix"`: One or more IPv6 Prefix Delegation prefixes assigned to the network
+  interface. You cannot use this option if you use the Ipv6PrefixCount option.
+- `"Ipv6PrefixCount"`: The number of IPv6 Prefix Delegation prefixes that AWS automatically
+  assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes
+  option.
 - `"ipv6AddressCount"`: The number of additional IPv6 addresses to assign to the network
   interface. The specified number of IPv6 addresses are assigned in addition to the existing
   IPv6 addresses that are already assigned to the network interface. Amazon EC2 automatically
@@ -308,13 +316,20 @@ IP address is also moved. Remapping an IP address is an asynchronous operation. 
 move an IP address from one network interface to another, check
 network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the
 remapping is complete. You must specify either the IP addresses or the IP address count in
-the request.
+the request. You can optionally use Prefix Delegation on the network interface. You must
+specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count.
+For information, see Prefix Delegation in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `network_interface_id`: The ID of the network interface.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Ipv4Prefix"`: One or more IPv4 Prefix Delegation prefixes assigned to the network
+  interface. You cannot use this option if you use the Ipv4PrefixCount option.
+- `"Ipv4PrefixCount"`: The number of IPv4 Prefix Delegation prefixes that AWS automatically
+  assigns to the network interface. You cannot use this option if you use the Ipv4 Prefixes
+  option.
 - `"allowReassignment"`: Indicates whether to allow an IP address that is already assigned
   to another network interface or instance to be reassigned to the specified network
   interface.
@@ -420,7 +435,7 @@ any existing instances and all new instances that you launch in that VPC use the
 You don't need to restart or relaunch the instances. They automatically pick up the changes
 within a few hours, depending on how frequently the instance renews its DHCP lease. You can
 explicitly renew the lease using the operating system on the instance. For more
-information, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide.
+information, see DHCP options sets in the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
 - `dhcp_options_id`: The ID of the DHCP options set, or default to associate no DHCP
@@ -482,6 +497,27 @@ associate_iam_instance_profile(IamInstanceProfile, InstanceId; aws_config::Abstr
 associate_iam_instance_profile(IamInstanceProfile, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("AssociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IamInstanceProfile"=>IamInstanceProfile, "InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
+    associate_instance_event_window(association_target, instance_event_window_id)
+    associate_instance_event_window(association_target, instance_event_window_id, params::Dict{String,<:Any})
+
+Associates one or more targets with an event window. Only one type of target (instance IDs,
+Dedicated Host IDs, or tags) can be specified with an event window. For more information,
+see Define event windows for scheduled events in the Amazon EC2 User Guide.
+
+# Arguments
+- `association_target`: One or more targets associated with the specified event window.
+- `instance_event_window_id`: The ID of the event window.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+associate_instance_event_window(AssociationTarget, InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("AssociateInstanceEventWindow", Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId); aws_config=aws_config)
+associate_instance_event_window(AssociationTarget, InstanceEventWindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("AssociateInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config)
+
+"""
     associate_route_table(route_table_id)
     associate_route_table(route_table_id, params::Dict{String,<:Any})
 
@@ -489,7 +525,7 @@ Associates a subnet in your VPC or an internet gateway or virtual private gatewa
 to your VPC with a route table in your VPC. This association causes traffic from the subnet
 or gateway to be routed according to the routes in the route table. The action returns an
 association ID, which you need in order to disassociate the route table later. A route
-table can be associated with multiple subnets. For more information, see Route Tables in
+table can be associated with multiple subnets. For more information, see Route tables in
 the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
@@ -601,7 +637,7 @@ Amazon-provided IPv6 CIDR block, or an IPv6 CIDR block from an IPv6 address pool
 provisioned through bring your own IP addresses (BYOIP). The IPv6 CIDR block size is fixed
 at /56. You must specify one of the following in the request: an IPv4 CIDR block, an IPv6
 pool, or an Amazon-provided IPv6 CIDR block. For more information about associating CIDR
-blocks with your VPC and applicable restrictions, see VPC and Subnet Sizing in the Amazon
+blocks with your VPC and applicable restrictions, see VPC and subnet sizing in the Amazon
 Virtual Private Cloud User Guide.
 
 # Arguments
@@ -705,13 +741,13 @@ Attaches an EBS volume to a running or stopped instance and exposes it to the in
 the specified device name. Encrypted EBS volumes must be attached to instances that support
 Amazon EBS encryption. For more information, see Amazon EBS encryption in the Amazon
 Elastic Compute Cloud User Guide. After you attach an EBS volume, you must make it
-available. For more information, see Making an EBS volume available for use. If a volume
-has an AWS Marketplace product code:   The volume can be attached only to a stopped
-instance.   AWS Marketplace product codes are copied from the volume to the instance.   You
-must be subscribed to the product.   The instance type and operating system of the instance
-must support the product. For example, you can't detach a volume from a Windows instance
-and attach it to a Linux instance.   For more information, see Attaching Amazon EBS volumes
-in the Amazon Elastic Compute Cloud User Guide.
+available. For more information, see Make an EBS volume available for use. If a volume has
+an Marketplace product code:   The volume can be attached only to a stopped instance.
+Marketplace product codes are copied from the volume to the instance.   You must be
+subscribed to the product.   The instance type and operating system of the instance must
+support the product. For example, you can't detach a volume from a Windows instance and
+attach it to a Linux instance.   For more information, see Attach an Amazon EBS volume to
+an instance in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `device`: The device name (for example, /dev/sdh or xvdh).
@@ -1170,16 +1206,15 @@ another, or within the same Outpost. You can use the snapshot to create EBS volu
 Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS
 snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you
 enable encryption for the snapshot copy operation. By default, encrypted snapshot copies
-use the default AWS Key Management Service (AWS KMS) customer master key (CMK); however,
-you can specify a different CMK. To copy an encrypted snapshot that has been shared from
-another account, you must have permissions for the CMK used to encrypt the snapshot.
-Snapshots copied to an Outpost are encrypted by default using the default encryption key
-for the Region, or a different key that you specify in the request using KmsKeyId. Outposts
-do not support unencrypted snapshots. For more information,  Amazon EBS local snapshots on
-Outposts in the Amazon Elastic Compute Cloud User Guide. Snapshots created by copying
-another snapshot have an arbitrary volume ID that should not be used for any purpose. For
-more information, see Copying an Amazon EBS snapshot in the Amazon Elastic Compute Cloud
-User Guide.
+use the default Key Management Service (KMS) KMS key; however, you can specify a different
+KMS key. To copy an encrypted snapshot that has been shared from another account, you must
+have permissions for the KMS key used to encrypt the snapshot. Snapshots copied to an
+Outpost are encrypted by default using the default encryption key for the Region, or a
+different key that you specify in the request using KmsKeyId. Outposts do not support
+unencrypted snapshots. For more information,  Amazon EBS local snapshots on Outposts in the
+Amazon Elastic Compute Cloud User Guide. Snapshots created by copying another snapshot have
+an arbitrary volume ID that should not be used for any purpose. For more information, see
+Copy an Amazon EBS snapshot in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `source_region`: The ID of the Region that contains the snapshot to be copied.
@@ -1189,18 +1224,18 @@ User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the EBS snapshot.
 - `"DestinationOutpostArn"`: The Amazon Resource Name (ARN) of the Outpost to which to copy
-  the snapshot. Only specify this parameter when copying a snapshot from an AWS Region to an
-  Outpost. The snapshot must be in the Region for the destination Outpost. You cannot copy a
-  snapshot from an Outpost to a Region, from one Outpost to another, or within the same
-  Outpost. For more information, see  Copying snapshots from an AWS Region to an Outpost in
-  the Amazon Elastic Compute Cloud User Guide.
+  the snapshot. Only specify this parameter when copying a snapshot from an Amazon Web
+  Services Region to an Outpost. The snapshot must be in the Region for the destination
+  Outpost. You cannot copy a snapshot from an Outpost to a Region, from one Outpost to
+  another, or within the same Outpost. For more information, see  Copy snapshots from an
+  Amazon Web Services Region to an Outpost in the Amazon Elastic Compute Cloud User Guide.
 - `"TagSpecification"`: The tags to apply to the new snapshot.
 - `"destinationRegion"`: The destination Region to use in the PresignedUrl parameter of a
   snapshot copy operation. This parameter is only valid for specifying the destination Region
   in a PresignedUrl parameter, where it is required. The snapshot copy is sent to the
   regional endpoint that you sent the HTTP request to (for example,
-  ec2.us-east-1.amazonaws.com). With the AWS CLI, this is specified using the --region
-  parameter or the default Region in your AWS configuration file.
+  ec2.us-east-1.amazonaws.com). With the CLI, this is specified using the --region parameter
+  or the default Region in your Amazon Web Services configuration file.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1209,26 +1244,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Encrypted snapshots are encrypted, even if you omit this parameter and encryption by
   default is not enabled. You cannot set this parameter to false. For more information, see
   Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
-- `"kmsKeyId"`: The identifier of the AWS Key Management Service (AWS KMS) customer master
-  key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS
-  managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true.
-  You can specify the CMK using any of the following:   Key ID. For example,
+- `"kmsKeyId"`: The identifier of the Key Management Service (KMS) KMS key to use for
+  Amazon EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is
+  used. If KmsKeyId is specified, the encrypted state must be true. You can specify the KMS
+  key using any of the following:   Key ID. For example,
   1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key
   ARN. For example,
   arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN.
-  For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the
-  CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the
-  action can appear to complete, but eventually fails.
+  For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services
+  authenticates the KMS key asynchronously. Therefore, if you specify an ID, alias, or ARN
+  that is not valid, the action can appear to complete, but eventually fails.
 - `"presignedUrl"`: When you copy an encrypted source snapshot using the Amazon EC2 Query
   API, you must supply a pre-signed URL. This parameter is optional for unencrypted
   snapshots. For more information, see Query requests. The PresignedUrl should use the
   snapshot source endpoint, the CopySnapshot action, and include the SourceRegion,
   SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using
-  AWS Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing
-  algorithm for this parameter uses the same logic that is described in Authenticating
-  Requests: Using Query Parameters (AWS Signature Version 4) in the Amazon Simple Storage
-  Service API Reference. An invalid or improperly signed PresignedUrl will cause the copy
-  operation to fail asynchronously, and the snapshot will move to an error state.
+  Amazon Web Services Signature Version 4. Because EBS snapshots are stored in Amazon S3, the
+  signing algorithm for this parameter uses the same logic that is described in
+  Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)
+  in the Amazon Simple Storage Service API Reference. An invalid or improperly signed
+  PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will
+  move to an error state.
 """
 copy_snapshot(SourceRegion, SourceSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CopySnapshot", Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId); aws_config=aws_config)
 copy_snapshot(SourceRegion, SourceSnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceRegion"=>SourceRegion, "SourceSnapshotId"=>SourceSnapshotId), params)); aws_config=aws_config)
@@ -1315,7 +1351,7 @@ create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType, param
     create_carrier_gateway(vpc_id, params::Dict{String,<:Any})
 
 Creates a carrier gateway. For more information about carrier gateways, see Carrier
-gateways in the AWS Wavelength Developer Guide.
+gateways in the Amazon Web Services Wavelength Developer Guide.
 
 # Arguments
 - `vpc_id`: The ID of the VPC to associate with the carrier gateway.
@@ -1323,7 +1359,7 @@ gateways in the AWS Wavelength Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1464,7 +1500,7 @@ create_customer_gateway(BgpAsn, Type, params::AbstractDict{String}; aws_config::
 
 Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availability Zone
 in your default VPC. You can have only one default subnet per Availability Zone. For more
-information, see Creating a Default Subnet in the Amazon Virtual Private Cloud User Guide.
+information, see Creating a default subnet in the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone in which to create the default subnet.
@@ -1484,7 +1520,7 @@ create_default_subnet(AvailabilityZone, params::AbstractDict{String}; aws_config
 
 Creates a default VPC with a size /16 IPv4 CIDR block and a default subnet in each
 Availability Zone. For more information about the components of a default VPC, see Default
-VPC and Default Subnets in the Amazon Virtual Private Cloud User Guide. You cannot specify
+VPC and default subnets in the Amazon Virtual Private Cloud User Guide. You cannot specify
 the components of the default VPC yourself. If you deleted your previous default VPC, you
 can create a default VPC. You cannot have more than one default VPC per Region. If your
 account supports EC2-Classic, you cannot use this action to create a default VPC in a
@@ -1529,7 +1565,7 @@ node types, see RFC 2132.   Your VPC automatically starts out with a set of DHCP
 that includes only a DNS server that we provide (AmazonProvidedDNS). If you create a set of
 options, and if your VPC has an internet gateway, make sure to set the domain-name-servers
 option either to AmazonProvidedDNS or to a domain name server of your choice. For more
-information, see DHCP Options Sets in the Amazon Virtual Private Cloud User Guide.
+information, see DHCP options sets in the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
 - `dhcp_configuration`: A DHCP configuration option.
@@ -1559,7 +1595,7 @@ with your instance.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -1630,7 +1666,7 @@ create_fleet(TargetCapacitySpecification, item, params::AbstractDict{String}; aw
 Creates one or more flow logs to capture information about IP traffic for a specific
 network interface, subnet, or VPC.  Flow log data for a monitored network interface is
 recorded as flow log records, which are log events consisting of fields that describe the
-traffic flow. For more information, see Flow Log Records in the Amazon Virtual Private
+traffic flow. For more information, see Flow log records in the Amazon Virtual Private
 Cloud User Guide. When publishing to CloudWatch Logs, flow log records are published to a
 log group, and each network interface has a unique log stream in the log group. When
 publishing to Amazon S3, flow log records for all of the monitored network interfaces are
@@ -1648,7 +1684,7 @@ information, see VPC Flow Logs in the Amazon Virtual Private Cloud User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
 - `"DeliverLogsPermissionArn"`: The ARN for the IAM role that permits Amazon EC2 to publish
   flow logs to a CloudWatch Logs log group in your account. If you specify LogDestinationType
   as s3, do not specify DeliverLogsPermissionArn or LogGroupName.
@@ -1673,10 +1709,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon S3, specify s3. If you specify LogDestinationType as s3, do not specify
   DeliverLogsPermissionArn or LogGroupName. Default: cloud-watch-logs
 - `"LogFormat"`: The fields to include in the flow log record, in the order in which they
-  should appear. For a list of available fields, see Flow Log Records. If you omit this
+  should appear. For a list of available fields, see Flow log records. If you omit this
   parameter, the flow log is created using the default format. If you specify this parameter,
   you must specify at least one field. Specify the fields using the {field-id} format,
-  separated by spaces. For the AWS CLI, use single quotation marks (' ') to surround the
+  separated by spaces. For the CLI, use single quotation marks (' ') to surround the
   parameter value.
 - `"LogGroupName"`: The name of a new or existing CloudWatch Logs log group where Amazon
   EC2 publishes your flow logs. If you specify LogDestinationType as s3, do not specify
@@ -1760,6 +1796,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_image(instanceId, name; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateImage", Dict{String, Any}("instanceId"=>instanceId, "name"=>name); aws_config=aws_config)
 create_image(instanceId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("instanceId"=>instanceId, "name"=>name), params)); aws_config=aws_config)
+
+"""
+    create_instance_event_window()
+    create_instance_event_window(params::Dict{String,<:Any})
+
+Creates an event window in which scheduled events for the associated Amazon EC2 instances
+can run. You can define either a set of time ranges or a cron expression when creating the
+event window, but not both. All event window times are in UTC. You can create up to 200
+event windows per Amazon Web Services Region. When you create the event window, targets
+(instance IDs, Dedicated Host IDs, or tags) are not yet associated with it. To ensure that
+the event window can be used, you must associate one or more targets with it by using the
+AssociateInstanceEventWindow API.  Event windows are applicable only for scheduled events
+that stop, reboot, or terminate instances. Event windows are not applicable for:
+Expedited scheduled events and network maintenance events.    Unscheduled maintenance such
+as AutoRecovery and unplanned reboots.    For more information, see Define event windows
+for scheduled events in the Amazon EC2 User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CronExpression"`: The cron expression for the event window, for example, * 0-4,20-23 *
+  * 1,5. If you specify a cron expression, you can't specify a time range. Constraints:
+  Only hour and day of the week values are supported.   For day of the week values, you can
+  specify either integers 0 through 6, or alternative single values SUN through SAT.   The
+  minute, month, and year must be specified by *.   The hour value must be one or a multiple
+  range, for example, 0-4 or 0-4,20-23.   Each hour range must be &gt;= 2 hours, for example,
+  0-2 or 20-23.   The event window must be &gt;= 4 hours. The combined total time ranges in
+  the event window must be &gt;= 4 hours.   For more information about cron expressions, see
+  cron on the Wikipedia website.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Name"`: The name of the event window.
+- `"TagSpecification"`: The tags to apply to the event window.
+- `"TimeRange"`: The time range for the event window. If you specify a time range, you
+  can't specify a cron expression.
+"""
+create_instance_event_window(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateInstanceEventWindow"; aws_config=aws_config)
+create_instance_event_window(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateInstanceEventWindow", params; aws_config=aws_config)
 
 """
     create_instance_export_task(export_to_s3, instance_id, target_environment)
@@ -1972,7 +2046,7 @@ instances in a private subnet can connect to the internet. With a private NAT ga
 private communication is routed across VPCs and on-premises networks through a transit
 gateway or virtual private gateway. Common use cases include running large workloads behind
 a small pool of allowlisted IPv4 addresses, preserving private IPv4 addresses, and
-communicating between overlapping networks. For more information, see NAT Gateways in the
+communicating between overlapping networks. For more information, see NAT gateways in the
 Amazon Virtual Private Cloud User Guide.
 
 # Arguments
@@ -1985,7 +2059,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NAT gateway. If the Elastic IP address is associated with another resource, you must first
   disassociate it.
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
   Constraint: Maximum 64 ASCII characters.
 - `"ConnectivityType"`: Indicates whether the NAT gateway supports public or private
   connectivity. The default is public connectivity.
@@ -2077,19 +2151,21 @@ For more information, see What is Reachability Analyzer.
 
 # Arguments
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
-- `destination`: The AWS resource that is the destination of the path.
+  idempotency of the request. For more information, see How to ensure idempotency.
+- `destination`: The Amazon Web Services resource that is the destination of the path.
 - `protocol`: The protocol.
-- `source`: The AWS resource that is the source of the path.
+- `source`: The Amazon Web Services resource that is the source of the path.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DestinationIp"`: The IP address of the AWS resource that is the destination of the path.
+- `"DestinationIp"`: The IP address of the Amazon Web Services resource that is the
+  destination of the path.
 - `"DestinationPort"`: The destination port.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"SourceIp"`: The IP address of the AWS resource that is the source of the path.
+- `"SourceIp"`: The IP address of the Amazon Web Services resource that is the source of
+  the path.
 - `"TagSpecification"`: The tags to add to the path.
 """
 create_network_insights_path(ClientToken, Destination, Protocol, Source; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateNetworkInsightsPath", Dict{String, Any}("ClientToken"=>ClientToken, "Destination"=>Destination, "Protocol"=>Protocol, "Source"=>Source); aws_config=aws_config)
@@ -2114,6 +2190,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Elastic Compute Cloud User Guide. To create a trunk network interface, specify efa. For
   more information, see  Network interface trunking in the Amazon Elastic Compute Cloud User
   Guide.
+- `"Ipv4Prefix"`: One or moreIPv4 Prefix Delegation prefixes assigned to the network
+  interface. You cannot use this option if you use the Ipv4PrefixCount option.
+- `"Ipv4PrefixCount"`: The number of IPv4 Prefix Delegation prefixes that AWS automatically
+  assigns to the network interface. You cannot use this option if you use the Ipv4 Prefixes
+  option.
+- `"Ipv6Prefix"`: One or moreIPv6 Prefix Delegation prefixes assigned to the network
+  interface. You cannot use this option if you use the Ipv6PrefixCount option.
+- `"Ipv6PrefixCount"`: The number of IPv6 Prefix Delegation prefixes that AWS automatically
+  assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes
+  option.
 - `"SecurityGroupId"`: The IDs of one or more security groups.
 - `"TagSpecification"`: The tags to apply to the new network interface.
 - `"description"`: A description for the network interface.
@@ -2210,7 +2296,7 @@ Cloud User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, a randomly generated token is used
-  for the request to ensure idempotency. For more information, see Ensuring Idempotency.
+  for the request to ensure idempotency. For more information, see Ensuring idempotency.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -2299,7 +2385,7 @@ the following two IPv4 routes:    192.0.2.0/24 (goes to some target A)    192.0.
 (goes to some target B)   Both routes apply to the traffic destined for 192.0.2.3. However,
 the second route in the list covers a smaller number of IP addresses and is therefore more
 specific, so we use that route to determine where to target the traffic. For more
-information about route tables, see Route Tables in the Amazon Virtual Private Cloud User
+information about route tables, see Route tables in the Amazon Virtual Private Cloud User
 Guide.
 
 # Arguments
@@ -2341,7 +2427,7 @@ create_route(routeTableId, params::AbstractDict{String}; aws_config::AbstractAWS
     create_route_table(vpc_id, params::Dict{String,<:Any})
 
 Creates a route table for the specified VPC. After you create a route table, you can add
-routes and associate the table with a subnet. For more information, see Route Tables in the
+routes and associate the table with a subnet. For more information, see Route tables in the
 Amazon Virtual Private Cloud User Guide.
 
 # Arguments
@@ -2406,38 +2492,38 @@ You can create snapshots of volumes in a Region and volumes on an Outpost. If yo
 snapshot of a volume in a Region, the snapshot must be stored in the same Region as the
 volume. If you create a snapshot of a volume on an Outpost, the snapshot can be stored on
 the same Outpost as the volume, or in the Region for that Outpost. When a snapshot is
-created, any AWS Marketplace product codes that are associated with the source volume are
+created, any Marketplace product codes that are associated with the source volume are
 propagated to the snapshot. You can take a snapshot of an attached volume that is in use.
-However, snapshots only capture data that has been written to your EBS volume at the time
-the snapshot command is issued; this might exclude any data that has been cached by any
-applications or the operating system. If you can pause any file systems on the volume long
-enough to take a snapshot, your snapshot should be complete. However, if you cannot pause
-all file writes to the volume, you should unmount the volume from within the instance,
-issue the snapshot command, and then remount the volume to ensure a consistent and complete
-snapshot. You may remount and use your volume while the snapshot status is pending. To
-create a snapshot for EBS volumes that serve as root devices, you should stop the instance
-before taking the snapshot. Snapshots that are taken from encrypted volumes are
-automatically encrypted. Volumes that are created from encrypted snapshots are also
-automatically encrypted. Your encrypted volumes and any associated snapshots always remain
-protected. You can tag your snapshots during creation. For more information, see Tagging
+However, snapshots only capture data that has been written to your Amazon EBS volume at the
+time the snapshot command is issued; this might exclude any data that has been cached by
+any applications or the operating system. If you can pause any file systems on the volume
+long enough to take a snapshot, your snapshot should be complete. However, if you cannot
+pause all file writes to the volume, you should unmount the volume from within the
+instance, issue the snapshot command, and then remount the volume to ensure a consistent
+and complete snapshot. You may remount and use your volume while the snapshot status is
+pending. To create a snapshot for Amazon EBS volumes that serve as root devices, you should
+stop the instance before taking the snapshot. Snapshots that are taken from encrypted
+volumes are automatically encrypted. Volumes that are created from encrypted snapshots are
+also automatically encrypted. Your encrypted volumes and any associated snapshots always
+remain protected. You can tag your snapshots during creation. For more information, see Tag
 your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more
 information, see Amazon Elastic Block Store and Amazon EBS encryption in the Amazon Elastic
 Compute Cloud User Guide.
 
 # Arguments
-- `volume_id`: The ID of the EBS volume.
+- `volume_id`: The ID of the Amazon EBS volume.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description for the snapshot.
-- `"OutpostArn"`: The Amazon Resource Name (ARN) of the AWS Outpost on which to create a
-  local snapshot.   To create a snapshot of a volume in a Region, omit this parameter. The
-  snapshot is created in the same Region as the volume.   To create a snapshot of a volume on
-  an Outpost and store the snapshot in the Region, omit this parameter. The snapshot is
-  created in the Region for the Outpost.   To create a snapshot of a volume on an Outpost and
-  store the snapshot on an Outpost, specify the ARN of the destination Outpost. The snapshot
-  must be created on the same Outpost as the volume.   For more information, see  Creating
-  local snapshots from volumes on an Outpost in the Amazon Elastic Compute Cloud User Guide.
+- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost on which to create a local
+  snapshot.   To create a snapshot of a volume in a Region, omit this parameter. The snapshot
+  is created in the same Region as the volume.   To create a snapshot of a volume on an
+  Outpost and store the snapshot in the Region, omit this parameter. The snapshot is created
+  in the Region for the Outpost.   To create a snapshot of a volume on an Outpost and store
+  the snapshot on an Outpost, specify the ARN of the destination Outpost. The snapshot must
+  be created on the same Outpost as the volume.   For more information, see Create local
+  snapshots from volumes on an Outpost in the Amazon Elastic Compute Cloud User Guide.
 - `"TagSpecification"`: The tags to apply to the snapshot during creation.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -2471,14 +2557,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"OutpostArn"`: The Amazon Resource Name (ARN) of the AWS Outpost on which to create the
+- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost on which to create the
   local snapshots.   To create snapshots from an instance in a Region, omit this parameter.
   The snapshots are created in the same Region as the instance.   To create snapshots from an
   instance on an Outpost and store the snapshots in the Region, omit this parameter. The
   snapshots are created in the Region for the Outpost.   To create snapshots from an instance
   on an Outpost and store the snapshots on an Outpost, specify the ARN of the destination
   Outpost. The snapshots must be created on the same Outpost as the instance.   For more
-  information, see  Creating multi-volume local snapshots from instances on an Outpost in the
+  information, see  Create multi-volume local snapshots from instances on an Outpost in the
   Amazon Elastic Compute Cloud User Guide.
 - `"TagSpecification"`: Tags to apply to every snapshot specified by the instance.
 """
@@ -2543,13 +2629,13 @@ After you create a subnet, you can't change its CIDR block. The allowed block si
 between a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses). The CIDR
 block must not overlap with the CIDR block of an existing subnet in the VPC. If you've
 associated an IPv6 CIDR block with your VPC, you can create a subnet with an IPv6 CIDR
-block that uses a /64 prefix length.   AWS reserves both the first four and the last IPv4
-address in each subnet's CIDR block. They're not available for use.  If you add more than
-one subnet to a VPC, they're set up in a star topology with a logical router in the middle.
-When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore
-possible to have a subnet with no running instances (they're all stopped), but no remaining
-IP addresses available. For more information about subnets, see Your VPC and Subnets in the
-Amazon Virtual Private Cloud User Guide.
+block that uses a /64 prefix length.   Amazon Web Services reserves both the first four and
+the last IPv4 address in each subnet's CIDR block. They're not available for use.  If you
+add more than one subnet to a VPC, they're set up in a star topology with a logical router
+in the middle. When you stop an instance in a subnet, it retains its private IPv4 address.
+It's therefore possible to have a subnet with no running instances (they're all stopped),
+but no remaining IP addresses available. For more information about subnets, see Your VPC
+and subnets in the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
 - `cidr_block`: The IPv4 network range for the subnet, in CIDR notation. For example,
@@ -2559,13 +2645,13 @@ Amazon Virtual Private Cloud User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AvailabilityZone"`: The Availability Zone or Local Zone for the subnet. Default: AWS
-  selects one for you. If you create more than one subnet in your VPC, we do not necessarily
-  select a different zone for each subnet. To create a subnet in a Local Zone, set this value
-  to the Local Zone ID, for example us-west-2-lax-1a. For information about the Regions that
-  support Local Zones, see Available Regions in the Amazon Elastic Compute Cloud User Guide.
-  To create a subnet in an Outpost, set this value to the Availability Zone for the Outpost
-  and specify the Outpost ARN.
+- `"AvailabilityZone"`: The Availability Zone or Local Zone for the subnet. Default: Amazon
+  Web Services selects one for you. If you create more than one subnet in your VPC, we do not
+  necessarily select a different zone for each subnet. To create a subnet in a Local Zone,
+  set this value to the Local Zone ID, for example us-west-2-lax-1a. For information about
+  the Regions that support Local Zones, see Available Regions in the Amazon Elastic Compute
+  Cloud User Guide. To create a subnet in an Outpost, set this value to the Availability Zone
+  for the Outpost and specify the Outpost ARN.
 - `"AvailabilityZoneId"`: The AZ ID or the Local Zone ID of the subnet.
 - `"Ipv6CidrBlock"`: The IPv6 network range for the subnet, in CIDR notation. The subnet
   size must use a /64 prefix length.
@@ -2578,6 +2664,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_subnet(CidrBlock, VpcId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateSubnet", Dict{String, Any}("CidrBlock"=>CidrBlock, "VpcId"=>VpcId); aws_config=aws_config)
 create_subnet(CidrBlock, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrBlock"=>CidrBlock, "VpcId"=>VpcId), params)); aws_config=aws_config)
+
+"""
+    create_subnet_cidr_reservation(cidr, reservation_type, subnet_id)
+    create_subnet_cidr_reservation(cidr, reservation_type, subnet_id, params::Dict{String,<:Any})
+
+Creates a subnet CIDR reservation. For information about subnet CIDR reservations, see
+Subnet CIDR reservations in the Amazon Virtual Private Cloud User Guide.
+
+# Arguments
+- `cidr`: The IPv4 or IPV6 CIDR range to reserve.
+- `reservation_type`: The type of reservation. The following are valid values:    prefix:
+  The Amazon EC2 Prefix Delegation feature assigns the IP addresses to network interfaces
+  that are associated with an instance. For information about Prefix Delegation, see Prefix
+  Delegation for Amazon EC2 network interfaces in the Amazon Elastic Compute Cloud User
+  Guide.    explicit: You manually assign the IP addresses to resources that reside in your
+  subnet.
+- `subnet_id`: The ID of the subnet.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description to assign to the subnet CIDR reservation.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"TagSpecification"`: The tags to assign to the subnet CIDR reservation.
+"""
+create_subnet_cidr_reservation(Cidr, ReservationType, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateSubnetCidrReservation", Dict{String, Any}("Cidr"=>Cidr, "ReservationType"=>ReservationType, "SubnetId"=>SubnetId); aws_config=aws_config)
+create_subnet_cidr_reservation(Cidr, ReservationType, SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateSubnetCidrReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "ReservationType"=>ReservationType, "SubnetId"=>SubnetId), params)); aws_config=aws_config)
 
 """
     create_tags(resource_id, tag)
@@ -2972,40 +3086,41 @@ create_transit_gateway_vpc_attachment(TransitGatewayId, VpcId, item, params::Abs
     create_volume(availability_zone, params::Dict{String,<:Any})
 
 Creates an EBS volume that can be attached to an instance in the same Availability Zone.
-You can create a new empty volume or restore a volume from an EBS snapshot. Any AWS
-Marketplace product codes from the snapshot are propagated to the volume. You can create
-encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS
+You can create a new empty volume or restore a volume from an EBS snapshot. Any Marketplace
+product codes from the snapshot are propagated to the volume. You can create encrypted
+volumes. Encrypted volumes must be attached to instances that support Amazon EBS
 encryption. Volumes that are created from encrypted snapshots are also automatically
 encrypted. For more information, see Amazon EBS encryption in the Amazon Elastic Compute
-Cloud User Guide. You can tag your volumes during creation. For more information, see
-Tagging your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more
-information, see Creating an Amazon EBS volume in the Amazon Elastic Compute Cloud User
-Guide.
+Cloud User Guide. You can tag your volumes during creation. For more information, see Tag
+your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more
+information, see Create an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone in which to create the volume.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensure Idempotency.
 - `"Iops"`: The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes,
   this represents the number of IOPS that are provisioned for the volume. For gp2 volumes,
   this represents the baseline performance of the volume and the rate at which the volume
   accumulates I/O credits for bursting. The following are the supported values for each
   volume type:    gp3: 3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS
-  For io1 and io2 volumes, we guarantee 64,000 IOPS only for Instances built on the Nitro
-  System. Other instance families guarantee performance up to 32,000 IOPS. This parameter is
-  required for io1 and io2 volumes. The default for gp3 volumes is 3,000 IOPS. This parameter
-  is not supported for gp2, st1, sc1, or standard volumes.
-- `"KmsKeyId"`: The identifier of the AWS Key Management Service (AWS KMS) customer master
-  key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS
-  managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true.
-  You can specify the CMK using any of the following:   Key ID. For example,
+  io1 and io2 volumes support up to 64,000 IOPS only on Instances built on the Nitro System.
+  Other instance families support performance up to 32,000 IOPS. This parameter is required
+  for io1 and io2 volumes. The default for gp3 volumes is 3,000 IOPS. This parameter is not
+  supported for gp2, st1, sc1, or standard volumes.
+- `"KmsKeyId"`: The identifier of the Key Management Service (KMS) KMS key to use for
+  Amazon EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is
+  used. If KmsKeyId is specified, the encrypted state must be true. You can specify the KMS
+  key using any of the following:   Key ID. For example,
   1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key
   ARN. For example,
   arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN.
-  For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the
-  CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the
-  action can appear to complete, but eventually fails.
+  For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services
+  authenticates the KMS key asynchronously. Therefore, if you specify an ID, alias, or ARN
+  that is not valid, the action can appear to complete, but eventually fails.
 - `"MultiAttachEnabled"`: Indicates whether to enable Amazon EBS Multi-Attach. If you
   enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro
   System in the same Availability Zone. This parameter is supported with io1 and io2 volumes
@@ -3037,8 +3152,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Encrypted Amazon EBS volumes must be attached to instances that support Amazon EBS
   encryption. For more information, see Supported instance types.
 """
-create_volume(AvailabilityZone; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateVolume", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone); aws_config=aws_config)
-create_volume(AvailabilityZone, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone), params)); aws_config=aws_config)
+create_volume(AvailabilityZone; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateVolume", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClientToken"=>string(uuid4())); aws_config=aws_config)
+create_volume(AvailabilityZone, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     create_vpc(cidr_block)
@@ -3046,13 +3161,13 @@ create_volume(AvailabilityZone, params::AbstractDict{String}; aws_config::Abstra
 
 Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a
 /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4
-addresses). For more information about how large to make your VPC, see Your VPC and Subnets
+addresses). For more information about how large to make your VPC, see Your VPC and subnets
 in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR
 block for the VPC. You can request an Amazon-provided IPv6 CIDR block from Amazon's pool of
 IPv6 addresses, or an IPv6 CIDR block from an IPv6 address pool that you provisioned
 through bring your own IP addresses (BYOIP). By default, each instance you launch in the
 VPC has the default DHCP options, which include only a default DNS server that we provide
-(AmazonProvidedDNS). For more information, see DHCP Options Sets in the Amazon Virtual
+(AmazonProvidedDNS). For more information, see DHCP options sets in the Amazon Virtual
 Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you
 create it. You can't change this value for the VPC after you create it. For more
 information, see Dedicated Instances in the Amazon Elastic Compute Cloud User Guide.
@@ -3214,7 +3329,7 @@ create_vpc_endpoint_service_configuration(params::AbstractDict{String}; aws_conf
 
 Requests a VPC peering connection between two VPCs: a requester VPC that you own and an
 accepter VPC with which to create the connection. The accepter VPC can belong to another
-AWS account and can be in a different Region to the requester VPC. The requester VPC and
+account and can be in a different Region to the requester VPC. The requester VPC and
 accepter VPC cannot have overlapping CIDR blocks.  Limitations and rules apply to a VPC
 peering connection. For more information, see the limitations section in the VPC Peering
 Guide.  The owner of the accepter VPC must accept the peering request to activate the
@@ -3231,8 +3346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"peerOwnerId"`: The AWS account ID of the owner of the accepter VPC. Default: Your AWS
-  account ID
+- `"peerOwnerId"`: The account ID of the owner of the accepter VPC. Default: Your account ID
 - `"peerVpcId"`: The ID of the VPC with which you are creating the VPC peering connection.
   You must specify this parameter in the request.
 - `"vpcId"`: The ID of the requester VPC. You must specify this parameter in the request.
@@ -3508,6 +3622,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 delete_fpga_image(FpgaImageId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteFpgaImage", Dict{String, Any}("FpgaImageId"=>FpgaImageId); aws_config=aws_config)
 delete_fpga_image(FpgaImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteFpgaImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FpgaImageId"=>FpgaImageId), params)); aws_config=aws_config)
+
+"""
+    delete_instance_event_window(instance_event_window_id)
+    delete_instance_event_window(instance_event_window_id, params::Dict{String,<:Any})
+
+Deletes the specified event window. For more information, see Define event windows for
+scheduled events in the Amazon EC2 User Guide.
+
+# Arguments
+- `instance_event_window_id`: The ID of the event window.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"ForceDelete"`: Specify true to force delete the event window. Use the force delete
+  parameter if the event window is currently associated with targets.
+"""
+delete_instance_event_window(InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteInstanceEventWindow", Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId); aws_config=aws_config)
+delete_instance_event_window(InstanceEventWindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config)
 
 """
     delete_internet_gateway(internet_gateway_id)
@@ -3894,7 +4029,7 @@ needed for any other snapshot is removed. So regardless of which prior snapshots
 deleted, all active snapshots will have access to all the information needed to restore the
 volume. You cannot delete a snapshot of the root device of an EBS volume used by a
 registered AMI. You must first de-register the AMI before you can delete the snapshot. For
-more information, see Deleting an Amazon EBS snapshot in the Amazon Elastic Compute Cloud
+more information, see Delete an Amazon EBS snapshot in the Amazon Elastic Compute Cloud
 User Guide.
 
 # Arguments
@@ -3944,6 +4079,24 @@ delete_subnet(SubnetId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2
 delete_subnet(SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteSubnet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId), params)); aws_config=aws_config)
 
 """
+    delete_subnet_cidr_reservation(subnet_cidr_reservation_id)
+    delete_subnet_cidr_reservation(subnet_cidr_reservation_id, params::Dict{String,<:Any})
+
+Deletes a subnet CIDR reservation.
+
+# Arguments
+- `subnet_cidr_reservation_id`: The ID of the subnet CIDR reservation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+delete_subnet_cidr_reservation(SubnetCidrReservationId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteSubnetCidrReservation", Dict{String, Any}("SubnetCidrReservationId"=>SubnetCidrReservationId); aws_config=aws_config)
+delete_subnet_cidr_reservation(SubnetCidrReservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteSubnetCidrReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetCidrReservationId"=>SubnetCidrReservationId), params)); aws_config=aws_config)
+
+"""
     delete_tags(resource_id)
     delete_tags(resource_id, params::Dict{String,<:Any})
 
@@ -3964,8 +4117,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specific tags. If you specify a tag key without a tag value, we delete any tag with this
   key regardless of its value. If you specify a tag key with an empty string as the tag
   value, we delete the tag only if its value is an empty string. If you omit this parameter,
-  we delete all user-defined tags for the specified resources. We do not delete AWS-generated
-  tags (tags that have the aws: prefix).
+  we delete all user-defined tags for the specified resources. We do not delete Amazon Web
+  Services-generated tags (tags that have the aws: prefix).
 """
 delete_tags(resourceId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteTags", Dict{String, Any}("resourceId"=>resourceId); aws_config=aws_config)
 delete_tags(resourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceId"=>resourceId), params)); aws_config=aws_config)
@@ -4217,8 +4370,7 @@ delete_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, params::Abstra
 
 Deletes the specified EBS volume. The volume must be in the available state (not attached
 to an instance). The volume can remain in the deleting state for several minutes. For more
-information, see Deleting an Amazon EBS volume in the Amazon Elastic Compute Cloud User
-Guide.
+information, see Delete an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `volume_id`: The ID of the volume.
@@ -4453,7 +4605,7 @@ deregister_image(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSC
     deregister_instance_event_notification_attributes()
     deregister_instance_event_notification_attributes(params::Dict{String,<:Any})
 
-Deregisters tag keys to prevent tags that have the specified tag keys from being included
+c Deregisters tag keys to prevent tags that have the specified tag keys from being included
 in scheduled event notifications for resources in the Region.
 
 # Optional Parameters
@@ -4773,7 +4925,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: One or more filters.    carrier-gateway-id - The ID of the carrier gateway.
    state - The state of the carrier gateway (pending | failed | available | deleting |
-  deleted).    owner-id - The AWS account ID of the owner of the carrier gateway.
+  deleted).    owner-id - The account ID of the owner of the carrier gateway.
   tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
   key in the filter name and the tag value as the filter value. For example, to find all
   resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
@@ -5016,8 +5168,8 @@ describe_customer_gateways(params::AbstractDict{String}; aws_config::AbstractAWS
     describe_dhcp_options()
     describe_dhcp_options(params::Dict{String,<:Any})
 
-Describes one or more of your DHCP options sets. For more information, see DHCP Options
-Sets in the Amazon Virtual Private Cloud User Guide.
+Describes one or more of your DHCP options sets. For more information, see DHCP options
+sets in the Amazon Virtual Private Cloud User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5025,9 +5177,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DHCP options sets.
 - `"Filter"`: One or more filters.    dhcp-options-id - The ID of a DHCP options set.
   key - The key for one of the options (for example, domain-name).    value - The value for
-  one of the options.    owner-id - The ID of the AWS account that owns the DHCP options set.
-     tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the
-  tag key in the filter name and the tag value as the filter value. For example, to find all
+  one of the options.    owner-id - The ID of the account that owns the DHCP options set.
+  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
+  key in the filter name and the tag value as the filter value. For example, to find all
   resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
   filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
   resource. Use this filter to find all resources assigned a tag with a specific key,
@@ -5140,9 +5292,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: The filters. The possible values are:    availability-zone: The Availability
-  Zone of the snapshot.    owner-id: The ID of the AWS account that enabled fast snapshot
-  restore on the snapshot.    snapshot-id: The ID of the snapshot.    state: The state of
-  fast snapshot restores for the snapshot (enabling | optimizing | enabled | disabling |
+  Zone of the snapshot.    owner-id: The ID of the account that enabled fast snapshot restore
+  on the snapshot.    snapshot-id: The ID of the snapshot.    state: The state of fast
+  snapshot restores for the snapshot (enabling | optimizing | enabled | disabling |
   disabled).
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
@@ -5705,6 +5857,47 @@ describe_instance_event_notification_attributes(; aws_config::AbstractAWSConfig=
 describe_instance_event_notification_attributes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeInstanceEventNotificationAttributes", params; aws_config=aws_config)
 
 """
+    describe_instance_event_windows()
+    describe_instance_event_windows(params::Dict{String,<:Any})
+
+Describes the specified event windows or all event windows. If you specify event window
+IDs, the output includes information for only the specified event windows. If you specify
+filters, the output includes information for only those event windows that meet the filter
+criteria. If you do not specify event windows IDs or filters, the output includes
+information for all event windows, which can affect performance. We recommend that you use
+pagination to ensure that the operation returns quickly and successfully.  For more
+information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters.    dedicated-host-id - The event windows associated with
+  the specified Dedicated Host ID.    event-window-name - The event windows associated with
+  the specified names.     instance-id - The event windows associated with the specified
+  instance ID.    instance-tag - The event windows associated with the specified tag and
+  value.    instance-tag-key - The event windows associated with the specified tag key,
+  regardless of the value.    instance-tag-value - The event windows associated with the
+  specified tag value, regardless of the key.    tag:&lt;key&gt; - The key/value combination
+  of a tag assigned to the event window. Use the tag key in the filter name and the tag value
+  as the filter value. For example, to find all resources that have a tag with the key Owner
+  and the value CMX, specify tag:Owner for the filter name and CMX for the filter value.
+  tag-key - The key of a tag assigned to the event window. Use this filter to find all event
+  windows that have a tag with a specific key, regardless of the tag value.     tag-value -
+  The value of a tag assigned to the event window. Use this filter to find all event windows
+  that have a tag with a specific value, regardless of the tag key.
+- `"InstanceEventWindowId"`: The IDs of the event windows.
+- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
+  remaining results, make another call with the returned NextToken value. This value can be
+  between 20 and 500. You cannot specify this parameter and the event window IDs parameter in
+  the same call.
+- `"NextToken"`: The token to request the next page of results.
+"""
+describe_instance_event_windows(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeInstanceEventWindows"; aws_config=aws_config)
+describe_instance_event_windows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeInstanceEventWindows", params; aws_config=aws_config)
+
+"""
     describe_instance_status()
     describe_instance_status(params::Dict{String,<:Any})
 
@@ -6014,8 +6207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: One or more filters.    attachment.state - The current state of the
   attachment between the gateway and the VPC (available). Present only if a VPC is attached.
     attachment.vpc-id - The ID of an attached VPC.    internet-gateway-id - The ID of the
-  Internet gateway.    owner-id - The ID of the AWS account that owns the internet gateway.
-   tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
+  Internet gateway.    owner-id - The ID of the account that owns the internet gateway.
+  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
   key in the filter name and the tag value as the filter value. For example, to find all
   resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
   filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
@@ -6395,7 +6588,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   entry (tcp | udp | icmp or a protocol number).    entry.rule-action - Allows or denies the
   matching traffic (allow | deny).    entry.rule-number - The number of an entry (in other
   words, rule) in the set of ACL entries.    network-acl-id - The ID of the network ACL.
-  owner-id - The ID of the AWS account that owns the network ACL.    tag:&lt;key&gt; - The
+  owner-id - The ID of the account that owns the network ACL.    tag:&lt;key&gt; - The
   key/value combination of a tag assigned to the resource. Use the tag key in the filter name
   and the tag value as the filter value. For example, to find all resources that have a tag
   with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
@@ -6909,7 +7102,7 @@ describe_reserved_instances_offerings(params::AbstractDict{String}; aws_config::
 Describes one or more of your route tables. Each subnet in your VPC must be associated with
 a route table. If a subnet is not explicitly associated with any route table, it is
 implicitly associated with the main route table. This command does not return the subnet ID
-for implicit associations. For more information, see Route Tables in the Amazon Virtual
+for implicit associations. For more information, see Route tables in the Amazon Virtual
 Private Cloud User Guide.
 
 # Optional Parameters
@@ -6919,15 +7112,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table involved in the association.    association.subnet-id - The ID of the subnet involved
   in the association.    association.main - Indicates whether the route table is the main
   route table for the VPC (true | false). Route tables that do not have an association ID are
-  not returned in the response.    owner-id - The ID of the AWS account that owns the route
+  not returned in the response.    owner-id - The ID of the account that owns the route
   table.    route-table-id - The ID of the route table.    route.destination-cidr-block - The
   IPv4 CIDR range specified in a route in the table.    route.destination-ipv6-cidr-block -
   The IPv6 CIDR range specified in a route in the route table.
-  route.destination-prefix-list-id - The ID (prefix) of the AWS service specified in a route
-  in the table.    route.egress-only-internet-gateway-id - The ID of an egress-only Internet
-  gateway specified in a route in the route table.    route.gateway-id - The ID of a gateway
-  specified in a route in the table.    route.instance-id - The ID of an instance specified
-  in a route in the table.    route.nat-gateway-id - The ID of a NAT gateway.
+  route.destination-prefix-list-id - The ID (prefix) of the Amazon Web Service specified in a
+  route in the table.    route.egress-only-internet-gateway-id - The ID of an egress-only
+  Internet gateway specified in a route in the route table.    route.gateway-id - The ID of a
+  gateway specified in a route in the table.    route.instance-id - The ID of an instance
+  specified in a route in the table.    route.nat-gateway-id - The ID of a NAT gateway.
   route.transit-gateway-id - The ID of a transit gateway.    route.origin - Describes how the
   route was created. CreateRouteTable indicates that the route was automatically created when
   the route table was created; CreateRoute indicates that the route was manually added to the
@@ -7154,41 +7347,40 @@ describe_snapshot_attribute(Attribute, SnapshotId, params::AbstractDict{String};
 
 Describes the specified EBS snapshots available to you or all of the EBS snapshots
 available to you. The snapshots available to you include public snapshots, private
-snapshots that you own, and private snapshots owned by other AWS accounts for which you
-have explicit create volume permissions. The create volume permissions fall into the
-following categories:    public: The owner of the snapshot granted create volume
-permissions for the snapshot to the all group. All AWS accounts have create volume
-permissions for these snapshots.    explicit: The owner of the snapshot granted create
-volume permissions to a specific AWS account.    implicit: An AWS account has implicit
-create volume permissions for all snapshots it owns.   The list of snapshots returned can
-be filtered by specifying snapshot IDs, snapshot owners, or AWS accounts with create volume
-permissions. If no options are specified, Amazon EC2 returns all snapshots for which you
-have create volume permissions. If you specify one or more snapshot IDs, only snapshots
-that have the specified IDs are returned. If you specify an invalid snapshot ID, an error
-is returned. If you specify a snapshot ID for which you do not have access, it is not
-included in the returned results. If you specify one or more snapshot owners using the
-OwnerIds option, only snapshots from the specified owners and for which you have access are
-returned. The results can include the AWS account IDs of the specified owners, amazon for
-snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of
-restorable users, only snapshots with create snapshot permissions for those users are
-returned. You can specify AWS account IDs (if you own the snapshots), self for snapshots
-for which you own or have explicit permissions, or all for public snapshots. If you are
-describing a long list of snapshots, we recommend that you paginate the output to make the
-list more manageable. The MaxResults parameter sets the maximum number of results returned
-in a single page. If the list of results exceeds your MaxResults value, then that number of
-results is returned along with a NextToken value that can be passed to a subsequent
-DescribeSnapshots request to retrieve the remaining results. To get the state of fast
-snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information
-about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User
-Guide.
+snapshots that you own, and private snapshots owned by other accounts for which you have
+explicit create volume permissions. The create volume permissions fall into the following
+categories:    public: The owner of the snapshot granted create volume permissions for the
+snapshot to the all group. All accounts have create volume permissions for these snapshots.
+   explicit: The owner of the snapshot granted create volume permissions to a specific
+account.    implicit: An account has implicit create volume permissions for all snapshots
+it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs,
+snapshot owners, or accounts with create volume permissions. If no options are specified,
+Amazon EC2 returns all snapshots for which you have create volume permissions. If you
+specify one or more snapshot IDs, only snapshots that have the specified IDs are returned.
+If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID
+for which you do not have access, it is not included in the returned results. If you
+specify one or more snapshot owners using the OwnerIds option, only snapshots from the
+specified owners and for which you have access are returned. The results can include the
+account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for
+snapshots that you own. If you specify a list of restorable users, only snapshots with
+create snapshot permissions for those users are returned. You can specify account IDs (if
+you own the snapshots), self for snapshots for which you own or have explicit permissions,
+or all for public snapshots. If you are describing a long list of snapshots, we recommend
+that you paginate the output to make the list more manageable. The MaxResults parameter
+sets the maximum number of results returned in a single page. If the list of results
+exceeds your MaxResults value, then that number of results is returned along with a
+NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve
+the remaining results. To get the state of fast snapshot restores for a snapshot, use
+DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS
+snapshots in the Amazon Elastic Compute Cloud User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filter"`: The filters.    description - A description of the snapshot.    encrypted -
   Indicates whether the snapshot is encrypted (true | false)    owner-alias - The owner
-  alias, from an Amazon-maintained list (amazon). This is not the user-configured AWS account
+  alias, from an Amazon-maintained list (amazon). This is not the user-configured account
   alias set using the IAM console. We recommend that you use the related parameter instead of
-  this filter.    owner-id - The AWS account ID of the owner. We recommend that you use the
+  this filter.    owner-id - The account ID of the owner. We recommend that you use the
   related parameter instead of this filter.    progress - The progress of the snapshot, as a
   percentage (for example, 80%).    snapshot-id - The snapshot ID.    start-time - The time
   stamp when the snapshot was initiated.    status - The status of the snapshot (pending |
@@ -7212,8 +7404,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pagination continues from the end of the previous results that returned the NextToken
   value. This value is null when there are no more results to return.
 - `"Owner"`: Scopes the results to snapshots with the specified owners. You can specify a
-  combination of AWS account IDs, self, and amazon.
-- `"RestorableBy"`: The IDs of the AWS accounts that can create volumes from the snapshot.
+  combination of account IDs, self, and amazon.
+- `"RestorableBy"`: The IDs of the accounts that can create volumes from the snapshot.
 - `"SnapshotId"`: The snapshot IDs. Default: Describes the snapshots for which you have
   create volume permissions.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
@@ -7485,7 +7677,7 @@ describe_store_image_tasks(params::AbstractDict{String}; aws_config::AbstractAWS
     describe_subnets()
     describe_subnets(params::Dict{String,<:Any})
 
-Describes one or more of your subnets. For more information, see Your VPC and Subnets in
+Describes one or more of your subnets. For more information, see Your VPC and subnets in
 the Amazon Virtual Private Cloud User Guide.
 
 # Optional Parameters
@@ -7503,7 +7695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   association ID for an IPv6 CIDR block associated with the subnet.
   ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the
   subnet.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The
-  ID of the AWS account that owns the subnet.    state - The state of the subnet (pending |
+  ID of the account that owns the subnet.    state - The state of the subnet (pending |
   available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.    subnet-id -
   The ID of the subnet.    tag:&lt;key&gt; - The key/value combination of a tag assigned to
   the resource. Use the tag key in the filter name and the tag value as the filter value. For
@@ -7907,7 +8099,7 @@ the volume. The possible values are ok, impaired , warning, or insufficient-data
 checks pass, the overall status of the volume is ok. If the check fails, the overall status
 is impaired. If the status is insufficient-data, then the checks might still be taking
 place on your volume at the time. We recommend that you retry the request. For more
-information about volume status, see Monitoring the status of your volumes in the Amazon
+information about volume status, see Monitor the status of your volumes in the Amazon
 Elastic Compute Cloud User Guide.  Events: Reflect the cause of a volume status and might
 require you to take action. For example, if your volume returns an impaired status, then
 the volume event might be potential-data-inconsistency. This means that your volume has
@@ -8018,8 +8210,8 @@ volume has never been modified, some information in the output will be null. If 
 has been modified more than once, the output includes only the most recent modification
 request. You can also use CloudWatch Events to check the status of a modification to an EBS
 volume. For information about CloudWatch Events, see the Amazon CloudWatch Events User
-Guide. For more information, see Monitoring volume modifications in the Amazon Elastic
-Compute Cloud User Guide.
+Guide. For more information, see Monitor the progress of volume modifications in the Amazon
+Elastic Compute Cloud User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -8286,11 +8478,11 @@ Describes one or more of your VPC peering connections.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filter"`: One or more filters.    accepter-vpc-info.cidr-block - The IPv4 CIDR block of
-  the accepter VPC.    accepter-vpc-info.owner-id - The AWS account ID of the owner of the
+  the accepter VPC.    accepter-vpc-info.owner-id - The ID of the account that owns the
   accepter VPC.    accepter-vpc-info.vpc-id - The ID of the accepter VPC.    expiration-time
   - The expiration date and time for the VPC peering connection.
   requester-vpc-info.cidr-block - The IPv4 CIDR block of the requester's VPC.
-  requester-vpc-info.owner-id - The AWS account ID of the owner of the requester VPC.
+  requester-vpc-info.owner-id - The ID of the account that owns the requester VPC.
   requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code - The status of the
   VPC peering connection (pending-acceptance | failed | expired | provisioning | active |
   deleting | deleted | rejected).    status-message - A message that provides more
@@ -8334,9 +8526,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IPv6 CIDR block is allocated.    ipv6-cidr-block-association.association-id - The
   association ID for an IPv6 CIDR block associated with the VPC.
   ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the
-  VPC.    isDefault - Indicates whether the VPC is the default VPC.    owner-id - The ID of
-  the AWS account that owns the VPC.    state - The state of the VPC (pending | available).
-   tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
+  VPC.    is-default - Indicates whether the VPC is the default VPC.    owner-id - The ID of
+  the account that owns the VPC.    state - The state of the VPC (pending | available).
+  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
   key in the filter name and the tag value as the filter value. For example, to find all
   resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
   filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
@@ -8497,9 +8689,9 @@ result in the volume becoming stuck in the busy state while detaching. If this h
 detachment can be delayed indefinitely until you unmount the volume, force detachment,
 reboot the instance, or all three. If an EBS volume is the root device of an instance, it
 can't be detached while the instance is running. To detach the root volume, stop the
-instance first. When a volume with an AWS Marketplace product code is detached from an
+instance first. When a volume with an Marketplace product code is detached from an
 instance, the product code is no longer associated with the instance. For more information,
-see Detaching an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
+see Detach an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `volume_id`: The ID of the volume.
@@ -8779,12 +8971,32 @@ disassociate_iam_instance_profile(AssociationId; aws_config::AbstractAWSConfig=g
 disassociate_iam_instance_profile(AssociationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisassociateIamInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationId"=>AssociationId), params)); aws_config=aws_config)
 
 """
+    disassociate_instance_event_window(association_target, instance_event_window_id)
+    disassociate_instance_event_window(association_target, instance_event_window_id, params::Dict{String,<:Any})
+
+Disassociates one or more targets from an event window. For more information, see Define
+event windows for scheduled events in the Amazon EC2 User Guide.
+
+# Arguments
+- `association_target`: One or more targets to disassociate from the specified event window.
+- `instance_event_window_id`: The ID of the event window.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+disassociate_instance_event_window(AssociationTarget, InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisassociateInstanceEventWindow", Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId); aws_config=aws_config)
+disassociate_instance_event_window(AssociationTarget, InstanceEventWindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DisassociateInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssociationTarget"=>AssociationTarget, "InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config)
+
+"""
     disassociate_route_table(association_id)
     disassociate_route_table(association_id, params::Dict{String,<:Any})
 
 Disassociates a subnet or gateway from a route table. After you perform this action, the
 subnet no longer uses the routes in the route table. Instead, it uses the routes in the
-VPC's main route table. For more information about route tables, see Route Tables in the
+VPC's main route table. For more information about route tables, see Route tables in the
 Amazon Virtual Private Cloud User Guide.
 
 # Arguments
@@ -8895,13 +9107,13 @@ disassociate_vpc_cidr_block(associationId, params::AbstractDict{String}; aws_con
 
 Enables EBS encryption by default for your account in the current Region. After you enable
 encryption by default, the EBS volumes that you create are always encrypted, either using
-the default CMK or the CMK that you specified when you created each volume. For more
-information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. You
-can specify the default CMK for encryption by default using ModifyEbsDefaultKmsKeyId or
-ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption
-status of your existing volumes. After you enable encryption by default, you can no longer
-launch instances using instance types that do not support encryption. For more information,
-see Supported instance types.
+the default KMS key or the KMS key that you specified when you created each volume. For
+more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide.
+You can specify the default KMS key for encryption by default using
+ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no
+effect on the encryption status of your existing volumes. After you enable encryption by
+default, you can no longer launch instances using instance types that do not support
+encryption. For more information, see Supported instance types.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -8927,7 +9139,7 @@ the Amazon Elastic Compute Cloud User Guide.
 - `availability_zone`: One or more Availability Zones. For example, us-east-2a.
 - `source_snapshot_id`: The IDs of one or more snapshots. For example,
   snap-1234567890abcdef0. You can specify a snapshot that was shared with you from another
-  AWS account.
+  account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9349,8 +9561,8 @@ get_default_credit_specification(InstanceFamily, params::AbstractDict{String}; a
     get_ebs_default_kms_key_id()
     get_ebs_default_kms_key_id(params::Dict{String,<:Any})
 
-Describes the default customer master key (CMK) for EBS encryption by default for your
-account in this Region. You can change the default CMK for encryption by default using
+Describes the default KMS key for EBS encryption by default for your account in this
+Region. You can change the default KMS key for encryption by default using
 ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. For more information, see Amazon EBS
 encryption in the Amazon Elastic Compute Cloud User Guide.
 
@@ -9586,6 +9798,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 get_serial_console_access_status(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetSerialConsoleAccessStatus"; aws_config=aws_config)
 get_serial_console_access_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetSerialConsoleAccessStatus", params; aws_config=aws_config)
+
+"""
+    get_subnet_cidr_reservations(subnet_id)
+    get_subnet_cidr_reservations(subnet_id, params::Dict{String,<:Any})
+
+Gets information about the subnet CIDR reservations.
+
+# Arguments
+- `subnet_id`: The ID of the subnet.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters.    reservationType - The type of reservation (prefix |
+  explicit).    subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The key/value
+  combination of a tag assigned to the resource. Use the tag key in the filter name and the
+  tag value as the filter value. For example, to find all resources that have a tag with the
+  key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the
+  filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to
+  find all resources assigned a tag with a specific key, regardless of the tag value.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"NextToken"`: The token for the next page of results.
+"""
+get_subnet_cidr_reservations(SubnetId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetSubnetCidrReservations", Dict{String, Any}("SubnetId"=>SubnetId); aws_config=aws_config)
+get_subnet_cidr_reservations(SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("GetSubnetCidrReservations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetId"=>SubnetId), params)); aws_config=aws_config)
 
 """
     get_transit_gateway_attachment_propagations(transit_gateway_attachment_id)
@@ -10072,27 +10312,28 @@ modify_default_credit_specification(CpuCredits, InstanceFamily, params::Abstract
     modify_ebs_default_kms_key_id(kms_key_id)
     modify_ebs_default_kms_key_id(kms_key_id, params::Dict{String,<:Any})
 
-Changes the default customer master key (CMK) for EBS encryption by default for your
-account in this Region. AWS creates a unique AWS managed CMK in each Region for use with
-encryption by default. If you change the default CMK to a symmetric customer managed CMK,
-it is used instead of the AWS managed CMK. To reset the default CMK to the AWS managed CMK
-for EBS, use ResetEbsDefaultKmsKeyId. Amazon EBS does not support asymmetric CMKs. If you
-delete or disable the customer managed CMK that you specified for use with encryption by
-default, your instances will fail to launch. For more information, see Amazon EBS
-encryption in the Amazon Elastic Compute Cloud User Guide.
+Changes the default KMS key for EBS encryption by default for your account in this Region.
+Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for
+use with encryption by default. If you change the default KMS key to a symmetric customer
+managed KMS key, it is used instead of the Amazon Web Services managed KMS key. To reset
+the default KMS key to the Amazon Web Services managed KMS key for EBS, use
+ResetEbsDefaultKmsKeyId. Amazon EBS does not support asymmetric KMS keys. If you delete or
+disable the customer managed KMS key that you specified for use with encryption by default,
+your instances will fail to launch. For more information, see Amazon EBS encryption in the
+Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
-- `kms_key_id`: The identifier of the AWS Key Management Service (AWS KMS) customer master
-  key (CMK) to use for Amazon EBS encryption. If this parameter is not specified, your AWS
-  managed CMK for EBS is used. If KmsKeyId is specified, the encrypted state must be true.
-  You can specify the CMK using any of the following:   Key ID. For example,
+- `kms_key_id`: The identifier of the Key Management Service (KMS) KMS key to use for
+  Amazon EBS encryption. If this parameter is not specified, your KMS key for Amazon EBS is
+  used. If KmsKeyId is specified, the encrypted state must be true. You can specify the KMS
+  key using any of the following:   Key ID. For example,
   1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key
   ARN. For example,
   arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN.
-  For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   AWS authenticates the
-  CMK asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the
-  action can appear to complete, but eventually fails. Amazon EBS does not support asymmetric
-  CMKs.
+  For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services
+  authenticates the KMS key asynchronously. Therefore, if you specify an ID, alias, or ARN
+  that is not valid, the action can appear to complete, but eventually fails. Amazon EBS does
+  not support asymmetric KMS keys.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -10458,6 +10699,39 @@ modify_instance_event_start_time(InstanceEventId, InstanceId, NotBefore; aws_con
 modify_instance_event_start_time(InstanceEventId, InstanceId, NotBefore, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyInstanceEventStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventId"=>InstanceEventId, "InstanceId"=>InstanceId, "NotBefore"=>NotBefore), params)); aws_config=aws_config)
 
 """
+    modify_instance_event_window(instance_event_window_id)
+    modify_instance_event_window(instance_event_window_id, params::Dict{String,<:Any})
+
+Modifies the specified event window. You can define either a set of time ranges or a cron
+expression when modifying the event window, but not both. To modify the targets associated
+with the event window, use the AssociateInstanceEventWindow and
+DisassociateInstanceEventWindow API. If Amazon Web Services has already scheduled an event,
+modifying an event window won't change the time of the scheduled event. For more
+information, see Define event windows for scheduled events in the Amazon EC2 User Guide.
+
+# Arguments
+- `instance_event_window_id`: The ID of the event window.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CronExpression"`: The cron expression of the event window, for example, * 0-4,20-23 * *
+  1,5. Constraints:   Only hour and day of the week values are supported.   For day of the
+  week values, you can specify either integers 0 through 6, or alternative single values SUN
+  through SAT.   The minute, month, and year must be specified by *.   The hour value must be
+  one or a multiple range, for example, 0-4 or 0-4,20-23.   Each hour range must be &gt;= 2
+  hours, for example, 0-2 or 20-23.   The event window must be &gt;= 4 hours. The combined
+  total time ranges in the event window must be &gt;= 4 hours.   For more information about
+  cron expressions, see cron on the Wikipedia website.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Name"`: The name of the event window.
+- `"TimeRange"`: The time ranges of the event window.
+"""
+modify_instance_event_window(InstanceEventWindowId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyInstanceEventWindow", Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId); aws_config=aws_config)
+modify_instance_event_window(InstanceEventWindowId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyInstanceEventWindow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceEventWindowId"=>InstanceEventWindowId), params)); aws_config=aws_config)
+
+"""
     modify_instance_metadata_options(instance_id)
     modify_instance_metadata_options(instance_id, params::Dict{String,<:Any})
 
@@ -10661,13 +10935,13 @@ modify_security_group_rules(GroupId, SecurityGroupRule, params::AbstractDict{Str
     modify_snapshot_attribute(snapshot_id, params::Dict{String,<:Any})
 
 Adds or removes permission settings for the specified snapshot. You may add or remove
-specified AWS account IDs from a snapshot's list of create volume permissions, but you
-cannot do both in a single operation. If you need to both add and remove account IDs for a
+specified account IDs from a snapshot's list of create volume permissions, but you cannot
+do both in a single operation. If you need to both add and remove account IDs for a
 snapshot, you must use multiple operations. You can make up to 500 modifications to a
-snapshot in a single operation. Encrypted snapshots and snapshots with AWS Marketplace
-product codes cannot be made public. Snapshots encrypted with your default CMK cannot be
-shared with other accounts. For more information about modifying snapshot permissions, see
-Sharing snapshots in the Amazon Elastic Compute Cloud User Guide.
+snapshot in a single operation. Encrypted snapshots and snapshots with Marketplace product
+codes cannot be made public. Snapshots encrypted with your default KMS key cannot be shared
+with other accounts. For more information about modifying snapshot permissions, see Share a
+snapshot in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `snapshot_id`: The ID of the snapshot.
@@ -10928,22 +11202,19 @@ modify_transit_gateway_vpc_attachment(TransitGatewayAttachmentId, params::Abstra
 You can modify several parameters of an existing EBS volume, including volume size, volume
 type, and IOPS capacity. If your EBS volume is attached to a current-generation EC2
 instance type, you might be able to apply these changes without stopping the instance or
-detaching the volume from it. For more information about modifying an EBS volume running
-Linux, see Modifying the size, IOPS, or type of an EBS volume on Linux. For more
-information about modifying an EBS volume running Windows, see Modifying the size, IOPS, or
-type of an EBS volume on Windows.  When you complete a resize operation on your volume, you
-need to extend the volume's file-system size to take advantage of the new storage capacity.
-For information about extending a Linux file system, see Extending a Linux file system. For
-information about extending a Windows file system, see Extending a Windows file system.
-You can use CloudWatch Events to check the status of a modification to an EBS volume. For
-information about CloudWatch Events, see the Amazon CloudWatch Events User Guide. You can
-also track the status of a modification using DescribeVolumesModifications. For information
-about tracking status changes using either method, see Monitoring volume modifications.
-With previous-generation instance types, resizing an EBS volume might require detaching and
-reattaching the volume or stopping and restarting the instance. For more information, see
-Amazon EBS Elastic Volumes (Linux) or Amazon EBS Elastic Volumes (Windows). If you reach
-the maximum volume modification rate per volume limit, you will need to wait at least six
-hours before applying further modifications to the affected EBS volume.
+detaching the volume from it. For more information about modifying EBS volumes, see Amazon
+EBS Elastic Volumes (Linux instances) or Amazon EBS Elastic Volumes (Windows instances).
+When you complete a resize operation on your volume, you need to extend the volume's
+file-system size to take advantage of the new storage capacity. For more information, see
+Extend a Linux file system or Extend a Windows file system.  You can use CloudWatch Events
+to check the status of a modification to an EBS volume. For information about CloudWatch
+Events, see the Amazon CloudWatch Events User Guide. You can also track the status of a
+modification using DescribeVolumesModifications. For information about tracking status
+changes using either method, see Monitor the progress of volume modifications. With
+previous-generation instance types, resizing an EBS volume might require detaching and
+reattaching the volume or stopping and restarting the instance. If you reach the maximum
+volume modification rate per volume limit, you must wait at least six hours before applying
+further modifications to the affected EBS volume.
 
 # Arguments
 - `volume_id`: The ID of the volume.
@@ -10955,9 +11226,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Iops"`: The target IOPS rate of the volume. This parameter is valid only for gp3, io1,
   and io2 volumes. The following are the supported values for each volume type:    gp3:
-  3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   Default: If no IOPS
-  value is specified, the existing value is retained, unless a volume type is modified that
-  supports different values.
+  3,000-16,000 IOPS    io1: 100-64,000 IOPS    io2: 100-64,000 IOPS   Default: The existing
+  value is retained if you keep the same volume type. If you change the volume type to io1,
+  io2, or gp3, the default is 3,000.
 - `"MultiAttachEnabled"`: Specifies whether to enable Amazon EBS Multi-Attach. If you
   enable Multi-Attach, you can attach the volume to up to 16  Nitro-based instances in the
   same Availability Zone. This parameter is supported with io1 and io2 volumes only. For more
@@ -10965,15 +11236,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Size"`: The target size of the volume, in GiB. The target volume size must be greater
   than or equal to the existing size of the volume. The following are the supported volumes
   sizes for each volume type:    gp2 and gp3: 1-16,384    io1 and io2: 4-16,384    st1 and
-  sc1: 125-16,384    standard: 1-1,024   Default: If no size is specified, the existing size
-  is retained.
+  sc1: 125-16,384    standard: 1-1,024   Default: The existing size is retained.
 - `"Throughput"`: The target throughput of the volume, in MiB/s. This parameter is valid
-  only for gp3 volumes. The maximum value is 1,000. Default: If no throughput value is
-  specified, the existing value is retained. Valid Range: Minimum value of 125. Maximum value
-  of 1000.
+  only for gp3 volumes. The maximum value is 1,000. Default: The existing value is retained
+  if the source and target volume type is gp3. Otherwise, the default value is 125. Valid
+  Range: Minimum value of 125. Maximum value of 1000.
 - `"VolumeType"`: The target EBS volume type of the volume. For more information, see
-  Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: If no type
-  is specified, the existing type is retained.
+  Amazon EBS volume types in the Amazon Elastic Compute Cloud User Guide. Default: The
+  existing type is retained.
 """
 modify_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyVolume", Dict{String, Any}("VolumeId"=>VolumeId); aws_config=aws_config)
 modify_volume(VolumeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("ModifyVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeId"=>VolumeId), params)); aws_config=aws_config)
@@ -11163,11 +11433,11 @@ EC2-Classic instance that's linked to your VPC (using ClassicLink) and instances
 peer VPC.   Enable/disable communication over the peering connection between instances in
 your VPC and an EC2-Classic instance that's linked to the peer VPC.   Enable/disable the
 ability to resolve public DNS hostnames to private IP addresses when queried from instances
-in the peer VPC.   If the peered VPCs are in the same AWS account, you can enable DNS
+in the peer VPC.   If the peered VPCs are in the same account, you can enable DNS
 resolution for queries from the local VPC. This ensures that queries from the local VPC
 resolve to private IP addresses in the peer VPC. This option is not available if the peered
-VPCs are in different AWS accounts or different Regions. For peered VPCs in different AWS
-accounts, each AWS account owner must initiate a separate request to modify the peering
+VPCs are in different different accounts or different Regions. For peered VPCs in different
+accounts, each account owner must initiate a separate request to modify the peering
 connection options. For inter-region peering connections, you must use the Region for the
 requester VPC to modify the requester VPC peering options and the Region for the accepter
 VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and
@@ -11896,7 +12166,7 @@ replace_network_acl_entry(egress, networkAclId, protocol, ruleAction, ruleNumber
 Replaces an existing route within a route table in a VPC. You must provide only one of the
 following: internet gateway, virtual private gateway, NAT instance, NAT gateway, VPC
 peering connection, network interface, egress-only internet gateway, or transit gateway.
-For more information, see Route Tables in the Amazon Virtual Private Cloud User Guide.
+For more information, see Route tables in the Amazon Virtual Private Cloud User Guide.
 
 # Arguments
 - `route_table_id`: The ID of the route table.
@@ -11934,7 +12204,7 @@ replace_route(routeTableId, params::AbstractDict{String}; aws_config::AbstractAW
 
 Changes the route table associated with a given subnet, internet gateway, or virtual
 private gateway in a VPC. After the operation completes, the subnet or gateway uses the
-routes in the new route table. For more information about route tables, see Route Tables in
+routes in the new route table. For more information about route tables, see Route tables in
 the Amazon Virtual Private Cloud User Guide. You can also use this operation to change
 which table is the main route table in the VPC. Specify the main route table's association
 ID and the route table ID of the new main route table.
@@ -12124,11 +12394,11 @@ reset_address_attribute(AllocationId, Attribute, params::AbstractDict{String}; a
     reset_ebs_default_kms_key_id()
     reset_ebs_default_kms_key_id(params::Dict{String,<:Any})
 
-Resets the default customer master key (CMK) for EBS encryption for your account in this
-Region to the AWS managed CMK for EBS. After resetting the default CMK to the AWS managed
-CMK, you can continue to encrypt by a customer managed CMK by specifying it when you create
-the volume. For more information, see Amazon EBS encryption in the Amazon Elastic Compute
-Cloud User Guide.
+Resets the default KMS key for EBS encryption for your account in this Region to the Amazon
+Web Services managed KMS key for EBS. After resetting the default KMS key to the Amazon Web
+Services managed KMS key, you can continue to encrypt by a customer managed KMS key by
+specifying it when you create the volume. For more information, see Amazon EBS encryption
+in the Amazon Elastic Compute Cloud User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -12229,7 +12499,7 @@ reset_network_interface_attribute(networkInterfaceId, params::AbstractDict{Strin
     reset_snapshot_attribute(attribute, snapshot_id, params::Dict{String,<:Any})
 
 Resets permission settings for the specified snapshot. For more information about modifying
-snapshot permissions, see Sharing snapshots in the Amazon Elastic Compute Cloud User Guide.
+snapshot permissions, see Share a snapshot in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `attribute`: The attribute to reset. Currently, only the attribute for permission to
@@ -12744,7 +13014,7 @@ shortest feasible path.
 
 # Arguments
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request. For more information, see How to Ensure Idempotency.
+  idempotency of the request. For more information, see How to ensure idempotency.
 - `network_insights_path_id`: The ID of the path.
 
 # Optional Parameters
@@ -12899,33 +13169,43 @@ terminate_instances(InstanceId; aws_config::AbstractAWSConfig=global_aws_config(
 terminate_instances(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("TerminateInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId), params)); aws_config=aws_config)
 
 """
-    unassign_ipv6_addresses(ipv6_addresses, network_interface_id)
-    unassign_ipv6_addresses(ipv6_addresses, network_interface_id, params::Dict{String,<:Any})
+    unassign_ipv6_addresses(network_interface_id)
+    unassign_ipv6_addresses(network_interface_id, params::Dict{String,<:Any})
 
-Unassigns one or more IPv6 addresses from a network interface.
-
-# Arguments
-- `ipv6_addresses`: The IPv6 addresses to unassign from the network interface.
-- `network_interface_id`: The ID of the network interface.
-
-"""
-unassign_ipv6_addresses(ipv6Addresses, networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}("ipv6Addresses"=>ipv6Addresses, "networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
-unassign_ipv6_addresses(ipv6Addresses, networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ipv6Addresses"=>ipv6Addresses, "networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config)
-
-"""
-    unassign_private_ip_addresses(network_interface_id, private_ip_address)
-    unassign_private_ip_addresses(network_interface_id, private_ip_address, params::Dict{String,<:Any})
-
-Unassigns one or more secondary private IP addresses from a network interface.
+Unassigns one or more IPv6 addresses IPv4 Prefix Delegation prefixes from a network
+interface.
 
 # Arguments
 - `network_interface_id`: The ID of the network interface.
-- `private_ip_address`: The secondary private IP addresses to unassign from the network
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Ipv6Prefix"`: One or moreIPv6 Prefix Delegation prefixes to unassign from the network
+  interface.
+- `"ipv6Addresses"`: The IPv6 addresses to unassign from the network interface.
+"""
+unassign_ipv6_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+unassign_ipv6_addresses(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnassignIpv6Addresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config)
+
+"""
+    unassign_private_ip_addresses(network_interface_id)
+    unassign_private_ip_addresses(network_interface_id, params::Dict{String,<:Any})
+
+Unassigns one or more secondary private IP addresses, or IPv4 Prefix Delegation prefixes
+from a network interface.
+
+# Arguments
+- `network_interface_id`: The ID of the network interface.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Ipv4Prefix"`: The IPv4 Prefix Delegation prefixes to unassign from the network
+  interface.
+- `"privateIpAddress"`: The secondary private IP addresses to unassign from the network
   interface. You can specify this option multiple times to unassign more than one IP address.
-
 """
-unassign_private_ip_addresses(networkInterfaceId, privateIpAddress; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId, "privateIpAddress"=>privateIpAddress); aws_config=aws_config)
-unassign_private_ip_addresses(networkInterfaceId, privateIpAddress, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId, "privateIpAddress"=>privateIpAddress), params)); aws_config=aws_config)
+unassign_private_ip_addresses(networkInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}("networkInterfaceId"=>networkInterfaceId); aws_config=aws_config)
+unassign_private_ip_addresses(networkInterfaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("UnassignPrivateIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("networkInterfaceId"=>networkInterfaceId), params)); aws_config=aws_config)
 
 """
     unmonitor_instances(instance_id)

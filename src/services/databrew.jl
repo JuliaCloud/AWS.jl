@@ -66,6 +66,9 @@ Creates a new job to analyze a dataset and create its data profile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Configuration"`: Configuration for profile jobs. Used to select columns, do
+  evaluations, and override default parameters of evaluations. When configuration is null,
+  the profile job will run with default settings.
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
@@ -144,8 +147,10 @@ recipe
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataCatalogOutputs"`: One or more artifacts that represent the AWS Glue Data Catalog
-  output from running the job.
+- `"DataCatalogOutputs"`: One or more artifacts that represent the Glue Data Catalog output
+  from running the job.
+- `"DatabaseOutputs"`: Represents a list of JDBC database output objects which defines the
+  output destination for a DataBrew recipe job to write to.
 - `"DatasetName"`: The name of the dataset that this job processes.
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
@@ -617,6 +622,9 @@ Modifies the definition of an existing profile job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Configuration"`: Configuration for profile jobs. Used to select columns, do
+  evaluations, and override default parameters of evaluations. When configuration is null,
+  the profile job will run with default settings.
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
@@ -685,8 +693,10 @@ Modifies the definition of an existing DataBrew recipe job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataCatalogOutputs"`: One or more artifacts that represent the AWS Glue Data Catalog
-  output from running the job.
+- `"DataCatalogOutputs"`: One or more artifacts that represent the Glue Data Catalog output
+  from running the job.
+- `"DatabaseOutputs"`: Represents a list of JDBC database output objects which defines the
+  output destination for a DataBrew recipe job to write into.
 - `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
   protect the job.
 - `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:

@@ -21,6 +21,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreloadDataConfig"`: Optional parameter to preload data upon creation of the Data
   Store. Currently, the only supported preloaded data is synthetic data generated from
   Synthea.
+- `"SseConfiguration"`:  The server-side encryption key configuration for a customer
+  provided encryption key specified for creating a Data Store.
+- `"Tags"`:  Resource tags that are applied to a Data Store when it is created.
 """
 create_fhirdatastore(DatastoreTypeVersion; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("CreateFHIRDatastore", Dict{String, Any}("DatastoreTypeVersion"=>DatastoreTypeVersion, "ClientToken"=>string(uuid4())); aws_config=aws_config)
 create_fhirdatastore(DatastoreTypeVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("CreateFHIRDatastore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreTypeVersion"=>DatastoreTypeVersion, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -103,6 +106,76 @@ list_fhirdatastores(; aws_config::AbstractAWSConfig=global_aws_config()) = healt
 list_fhirdatastores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRDatastores", params; aws_config=aws_config)
 
 """
+    list_fhirexport_jobs(datastore_id)
+    list_fhirexport_jobs(datastore_id, params::Dict{String,<:Any})
+
+ Lists all FHIR export jobs associated with an account and their statuses.
+
+# Arguments
+- `datastore_id`:  This parameter limits the response to the export job with the specified
+  Data Store ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"JobName"`:  This parameter limits the response to the export job with the specified job
+  name.
+- `"JobStatus"`:  This parameter limits the response to the export jobs with the specified
+  job status.
+- `"MaxResults"`:  This parameter limits the number of results returned for a
+  ListFHIRExportJobs to a maximum quantity specified by the user.
+- `"NextToken"`:  A pagination token used to identify the next page of results to return
+  for a ListFHIRExportJobs query.
+- `"SubmittedAfter"`:  This parameter limits the response to FHIR export jobs submitted
+  after a user specified date.
+- `"SubmittedBefore"`:  This parameter limits the response to FHIR export jobs submitted
+  before a user specified date.
+"""
+list_fhirexport_jobs(DatastoreId; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRExportJobs", Dict{String, Any}("DatastoreId"=>DatastoreId); aws_config=aws_config)
+list_fhirexport_jobs(DatastoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRExportJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreId"=>DatastoreId), params)); aws_config=aws_config)
+
+"""
+    list_fhirimport_jobs(datastore_id)
+    list_fhirimport_jobs(datastore_id, params::Dict{String,<:Any})
+
+ Lists all FHIR import jobs associated with an account and their statuses.
+
+# Arguments
+- `datastore_id`:  This parameter limits the response to the import job with the specified
+  Data Store ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"JobName"`:  This parameter limits the response to the import job with the specified job
+  name.
+- `"JobStatus"`:  This parameter limits the response to the import job with the specified
+  job status.
+- `"MaxResults"`:  This parameter limits the number of results returned for a
+  ListFHIRImportJobs to a maximum quantity specified by the user.
+- `"NextToken"`:  A pagination token used to identify the next page of results to return
+  for a ListFHIRImportJobs query.
+- `"SubmittedAfter"`:  This parameter limits the response to FHIR import jobs submitted
+  after a user specified date.
+- `"SubmittedBefore"`:  This parameter limits the response to FHIR import jobs submitted
+  before a user specified date.
+"""
+list_fhirimport_jobs(DatastoreId; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRImportJobs", Dict{String, Any}("DatastoreId"=>DatastoreId); aws_config=aws_config)
+list_fhirimport_jobs(DatastoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListFHIRImportJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatastoreId"=>DatastoreId), params)); aws_config=aws_config)
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+ Returns a list of all existing tags associated with a Data Store.
+
+# Arguments
+- `resource_arn`:  The Amazon Resource Name(ARN) of the Data Store for which tags are being
+  added.
+
+"""
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+
+"""
     start_fhirexport_job(client_token, data_access_role_arn, datastore_id, output_data_config)
     start_fhirexport_job(client_token, data_access_role_arn, datastore_id, output_data_config, params::Dict{String,<:Any})
 
@@ -124,8 +197,8 @@ start_fhirexport_job(ClientToken, DataAccessRoleArn, DatastoreId, OutputDataConf
 start_fhirexport_job(ClientToken, DataAccessRoleArn, DatastoreId, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "OutputDataConfig"=>OutputDataConfig), params)); aws_config=aws_config)
 
 """
-    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config)
-    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config, params::Dict{String,<:Any})
+    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config, job_output_data_config)
+    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config, job_output_data_config, params::Dict{String,<:Any})
 
 Begins a FHIR Import job.
 
@@ -136,10 +209,41 @@ Begins a FHIR Import job.
 - `datastore_id`: The AWS-generated Data Store ID.
 - `input_data_config`: The input properties of the FHIR Import job in the StartFHIRImport
   job request.
+- `job_output_data_config`:
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"JobName"`: The name of the FHIR Import job in the StartFHIRImport job request.
 """
-start_fhirimport_job(ClientToken, DataAccessRoleArn, DatastoreId, InputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRImportJob", Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "InputDataConfig"=>InputDataConfig); aws_config=aws_config)
-start_fhirimport_job(ClientToken, DataAccessRoleArn, DatastoreId, InputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "InputDataConfig"=>InputDataConfig), params)); aws_config=aws_config)
+start_fhirimport_job(ClientToken, DataAccessRoleArn, DatastoreId, InputDataConfig, JobOutputDataConfig; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRImportJob", Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "InputDataConfig"=>InputDataConfig, "JobOutputDataConfig"=>JobOutputDataConfig); aws_config=aws_config)
+start_fhirimport_job(ClientToken, DataAccessRoleArn, DatastoreId, InputDataConfig, JobOutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("StartFHIRImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "DatastoreId"=>DatastoreId, "InputDataConfig"=>InputDataConfig, "JobOutputDataConfig"=>JobOutputDataConfig), params)); aws_config=aws_config)
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+ Adds a user specifed key and value tag to a Data Store.
+
+# Arguments
+- `resource_arn`:  The Amazon Resource Name(ARN)that gives Amazon HealthLake access to the
+  Data Store which tags are being added to.
+- `tags`:  The user specified key and value pair tags being added to a Data Store.
+
+"""
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+ Removes tags from a Data Store.
+
+# Arguments
+- `resource_arn`:  \"The Amazon Resource Name(ARN) of the Data Store for which tags are
+  being removed
+- `tag_keys`:  The keys for the tags to be removed from the Healthlake Data Store.
+
+"""
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = healthlake("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)

@@ -131,7 +131,7 @@ disassociate_lenses(LensAliases, WorkloadId, params::AbstractDict{String}; aws_c
     get_answer(lens_alias, question_id, workload_id)
     get_answer(lens_alias, question_id, workload_id, params::Dict{String,<:Any})
 
-Get lens review.
+Get the answer to a specific question in a workload review.
 
 # Arguments
 - `lens_alias`:
@@ -403,11 +403,13 @@ tag_resource(Tags, WorkloadArn, params::AbstractDict{String}; aws_config::Abstra
     untag_resource(workload_arn, tag_keys)
     untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
 
-Deletes specified tags from a resource.
+Deletes specified tags from a resource. To specify multiple tags, use separate tagKeys
+parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
 
 # Arguments
 - `workload_arn`:
-- `tag_keys`: The keys of the tags to be removed.
+- `tag_keys`: A list of tag keys. Existing tags of the resource whose keys are members of
+  this list are removed from the resource.
 
 """
 untag_resource(WorkloadArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("DELETE", "/tags/$(WorkloadArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
@@ -426,8 +428,11 @@ Update the answer to a specific question in a workload review.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChoiceUpdates"`: A list of choices to update on a question in your workload. The String
+  key corresponds to the choice ID to be updated.
 - `"IsApplicable"`:
 - `"Notes"`:
+- `"Reason"`: The reason why a question is not applicable to your workload.
 - `"SelectedChoices"`:
 """
 update_answer(LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)"; aws_config=aws_config)

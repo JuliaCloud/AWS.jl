@@ -87,8 +87,9 @@ add_tags(ResourceId, Tags, params::AbstractDict{String}; aws_config::AbstractAWS
 Cancels a pending step or steps in a running cluster. Available only in Amazon EMR versions
 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each
 CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that
-a step will be canceled, even if the request is successfully submitted. You can only cancel
-steps that are in a PENDING state.
+a step will be canceled, even if the request is successfully submitted. When you use Amazon
+EMR versions 5.28.0 and later, you can cancel steps that are in a PENDING or RUNNING state.
+In earlier versions of Amazon EMR, you can only cancel steps that are in a PENDING state.
 
 # Arguments
 - `cluster_id`: The ClusterID for the specified steps that will be canceled. Use RunJobFlow
@@ -137,7 +138,8 @@ Creates a new Amazon EMR Studio.
   it must be in the same VPC specified by VpcId.
 - `name`: A descriptive name for the Amazon EMR Studio.
 - `service_role`: The IAM role that will be assumed by the Amazon EMR Studio. The service
-  role provides a way for Amazon EMR Studio to interoperate with other AWS services.
+  role provides a way for Amazon EMR Studio to interoperate with other Amazon Web Services
+  services.
 - `subnet_ids`: A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can
   have a maximum of 5 subnets. The subnets must belong to the VPC specified by VpcId. Studio
   users can create a Workspace in any of the specified subnets.
@@ -171,18 +173,20 @@ policy to refine Studio permissions for that user or group.
 - `identity_type`: Specifies whether the identity to map to the Amazon EMR Studio is a user
   or a group.
 - `session_policy_arn`: The Amazon Resource Name (ARN) for the session policy that will be
-  applied to the user or group. Session policies refine Studio user permissions without the
-  need to use multiple IAM user roles.
+  applied to the user or group. You should specify the ARN for the session policy that you
+  want to apply, not the ARN of your user role. For more information, see Create an EMR
+  Studio User Role with Session Policies.
 - `studio_id`: The ID of the Amazon EMR Studio to which the user or group will be mapped.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdentityId"`: The globally unique identifier (GUID) of the user or group from the AWS
-  SSO Identity Store. For more information, see UserId and GroupId in the AWS SSO Identity
-  Store API Reference. Either IdentityName or IdentityId must be specified.
-- `"IdentityName"`: The name of the user or group. For more information, see UserName and
-  DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName or IdentityId
+- `"IdentityId"`: The globally unique identifier (GUID) of the user or group from the
+  Amazon Web Services SSO Identity Store. For more information, see UserId and GroupId in the
+  Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId
   must be specified.
+- `"IdentityName"`: The name of the user or group. For more information, see UserName and
+  DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either
+  IdentityName or IdentityId must be specified.
 """
 create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
 create_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("CreateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), params)); aws_config=aws_config)
@@ -227,11 +231,12 @@ Removes a user or group from an Amazon EMR Studio.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdentityId"`: The globally unique identifier (GUID) of the user or group to remove from
-  the Amazon EMR Studio. For more information, see UserId and GroupId in the AWS SSO Identity
-  Store API Reference. Either IdentityName or IdentityId must be specified.
+  the Amazon EMR Studio. For more information, see UserId and GroupId in the Amazon Web
+  Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be
+  specified.
 - `"IdentityName"`: The name of the user name or group to remove from the Amazon EMR
-  Studio. For more information, see UserName and DisplayName in the AWS SSO Identity Store
-  API Reference. Either IdentityName or IdentityId must be specified.
+  Studio. For more information, see UserName and DisplayName in the Amazon Web Services SSO
+  Store API Reference. Either IdentityName or IdentityId must be specified.
 """
 delete_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
 delete_studio_session_mapping(IdentityType, StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DeleteStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), params)); aws_config=aws_config)
@@ -289,6 +294,23 @@ describe_notebook_execution(NotebookExecutionId; aws_config::AbstractAWSConfig=g
 describe_notebook_execution(NotebookExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeNotebookExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookExecutionId"=>NotebookExecutionId), params)); aws_config=aws_config)
 
 """
+    describe_release_label()
+    describe_release_label(params::Dict{String,<:Any})
+
+Provides EMR release label details, such as releases available the region where the API
+request is run, and the available applications for a specific EMR release label. Can also
+list EMR release versions that support a specified version of Spark.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Reserved for future use. Currently set to null.
+- `"NextToken"`: The pagination token. Reserved for future use. Currently set to null.
+- `"ReleaseLabel"`: The target release label to be described.
+"""
+describe_release_label(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeReleaseLabel"; aws_config=aws_config)
+describe_release_label(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("DescribeReleaseLabel", params; aws_config=aws_config)
+
+"""
     describe_security_configuration(name)
     describe_security_configuration(name, params::Dict{String,<:Any})
 
@@ -333,9 +355,9 @@ describe_studio(StudioId, params::AbstractDict{String}; aws_config::AbstractAWSC
     get_block_public_access_configuration()
     get_block_public_access_configuration(params::Dict{String,<:Any})
 
-Returns the Amazon EMR block public access configuration for your AWS account in the
-current Region. For more information see Configure Block Public Access for Amazon EMR in
-the Amazon EMR Management Guide.
+Returns the Amazon EMR block public access configuration for your account in the current
+Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon
+EMR Management Guide.
 
 """
 get_block_public_access_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetBlockPublicAccessConfiguration"; aws_config=aws_config)
@@ -368,11 +390,11 @@ Fetches mapping details for the specified Amazon EMR Studio and identity (user o
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdentityId"`: The globally unique identifier (GUID) of the user or group. For more
-  information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either
-  IdentityName or IdentityId must be specified.
+  information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API
+  Reference. Either IdentityName or IdentityId must be specified.
 - `"IdentityName"`: The name of the user or group to fetch. For more information, see
-  UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName
-  or IdentityId must be specified.
+  UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
+  Either IdentityName or IdentityId must be specified.
 """
 get_studio_session_mapping(IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId); aws_config=aws_config)
 get_studio_session_mapping(IdentityType, StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("GetStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "StudioId"=>StudioId), params)); aws_config=aws_config)
@@ -397,14 +419,17 @@ list_bootstrap_actions(ClusterId, params::AbstractDict{String}; aws_config::Abst
     list_clusters()
     list_clusters(params::Dict{String,<:Any})
 
-Provides the status of all clusters visible to this AWS account. Allows you to filter the
-list of clusters based on certain criteria; for example, filtering by cluster creation date
-and time or by status. This call returns a maximum of 50 clusters per call, but returns a
-marker to track the paging of the cluster list across multiple ListClusters calls.
+Provides the status of all clusters visible to this account. Allows you to filter the list
+of clusters based on certain criteria; for example, filtering by cluster creation date and
+time or by status. This call returns a maximum of 50 clusters in unsorted order per call,
+but returns a marker to track the paging of the cluster list across multiple ListClusters
+calls.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClusterStates"`: The cluster state filters to apply when listing clusters.
+- `"ClusterStates"`: The cluster state filters to apply when listing clusters. Clusters
+  that change state while this action runs may be not be returned as expected in the list of
+  clusters.
 - `"CreatedAfter"`: The creation date and time beginning value filter for listing clusters.
 - `"CreatedBefore"`: The creation date and time end value filter for listing clusters.
 - `"Marker"`: The pagination token that indicates the next set of results to retrieve.
@@ -505,6 +530,29 @@ list_notebook_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = 
 list_notebook_executions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListNotebookExecutions", params; aws_config=aws_config)
 
 """
+    list_release_labels()
+    list_release_labels(params::Dict{String,<:Any})
+
+Retrieves release labels of EMR services in the region where the API is called.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters the results of the request. Prefix specifies the prefix of release
+  labels to return. Application specifies the application (with/without version) of release
+  labels to return.
+- `"MaxResults"`: Defines the maximum number of release labels to return in a single
+  response. The default is 100.
+- `"NextToken"`: Specifies the next page of results. If NextToken is not specified, which
+  is usually the case for the first request of ListReleaseLabels, the first page of results
+  are determined by other filtering parameters or by the latest version. The
+  ListReleaseLabels request fails if the identity (AWS AccountID) and all filtering
+  parameters are different from the original request, or if the NextToken is expired or
+  tampered with.
+"""
+list_release_labels(; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListReleaseLabels"; aws_config=aws_config)
+list_release_labels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ListReleaseLabels", params; aws_config=aws_config)
+
+"""
     list_security_configurations()
     list_security_configurations(params::Dict{String,<:Any})
 
@@ -525,14 +573,19 @@ list_security_configurations(params::AbstractDict{String}; aws_config::AbstractA
     list_steps(cluster_id, params::Dict{String,<:Any})
 
 Provides a list of steps for the cluster in reverse order unless you specify stepIds with
-the request of filter by StepStates. You can specify a maximum of 10 stepIDs.
+the request or filter by StepStates. You can specify a maximum of 10 stepIDs. The CLI
+automatically paginates results to return a list greater than 50 steps. To return more than
+50 steps using the CLI, specify a Marker, which is a pagination token that indicates the
+next set of steps to retrieve.
 
 # Arguments
 - `cluster_id`: The identifier of the cluster for which to list the steps.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Marker"`: The pagination token that indicates the next set of results to retrieve.
+- `"Marker"`: The maximum number of steps that a single ListSteps action returns is 50. To
+  return a longer list of steps, use multiple ListSteps actions along with the Marker
+  parameter, which is a pagination token that indicates the next set of results to retrieve.
 - `"StepIds"`: The filter to limit the step list based on the identifier of the steps. You
   can specify a maximum of ten Step IDs. The character constraint applies to the overall
   length of the array.
@@ -562,7 +615,7 @@ list_studio_session_mappings(params::AbstractDict{String}; aws_config::AbstractA
     list_studios()
     list_studios(params::Dict{String,<:Any})
 
-Returns a list of all Amazon EMR Studios associated with the AWS account. The list includes
+Returns a list of all Amazon EMR Studios associated with the account. The list includes
 details such as ID, Studio Access URL, and creation time for each Studio.
 
 # Optional Parameters
@@ -585,7 +638,9 @@ using ClusterID.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"StepConcurrencyLevel"`: The number of steps that can be executed concurrently. You can
-  specify a minimum of 1 step and a maximum of 256 steps.
+  specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not change
+  this parameter while steps are running or the ActionOnFailure setting may not behave as
+  expected. For more information see StepActionOnFailure.
 """
 modify_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
 modify_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
@@ -601,7 +656,7 @@ EMR versions 4.8.0 and later, excluding 5.0.x versions.
 
 # Arguments
 - `cluster_id`: The unique identifier of the cluster.
-- `instance_fleet`: The unique identifier of the instance fleet.
+- `instance_fleet`: The configuration parameters of the instance fleet.
 
 """
 modify_instance_fleet(ClusterId, InstanceFleet; aws_config::AbstractAWSConfig=global_aws_config()) = emr("ModifyInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws_config=aws_config)
@@ -647,9 +702,9 @@ put_auto_scaling_policy(AutoScalingPolicy, ClusterId, InstanceGroupId, params::A
     put_block_public_access_configuration(block_public_access_configuration)
     put_block_public_access_configuration(block_public_access_configuration, params::Dict{String,<:Any})
 
-Creates or updates an Amazon EMR block public access configuration for your AWS account in
-the current Region. For more information see Configure Block Public Access for Amazon EMR
-in the Amazon EMR Management Guide.
+Creates or updates an Amazon EMR block public access configuration for your account in the
+current Region. For more information see Configure Block Public Access for Amazon EMR in
+the Amazon EMR Management Guide.
 
 # Arguments
 - `block_public_access_configuration`: A configuration for Amazon EMR block public access.
@@ -796,9 +851,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KerberosAttributes"`: Attributes for Kerberos configuration when Kerberos
   authentication is enabled using a security configuration. For more information see Use
   Kerberos Authentication in the Amazon EMR Management Guide.
-- `"LogEncryptionKmsKeyId"`: The AWS KMS customer master key (CMK) used for encrypting log
-  files. If a value is not provided, the logs remain encrypted by AES-256. This attribute is
-  only available with Amazon EMR version 5.30.0 and later, excluding Amazon EMR 6.0.0.
+- `"LogEncryptionKmsKeyId"`: The KMS key used for encrypting log files. If a value is not
+  provided, the logs remain encrypted by AES-256. This attribute is only available with
+  Amazon EMR version 5.30.0 and later, excluding Amazon EMR 6.0.0.
 - `"LogUri"`: The location in Amazon S3 to write the log files of the job flow. If a value
   is not provided, logs are not created.
 - `"ManagedScalingPolicy"`:  The specified managed scaling policy for an Amazon EMR
@@ -842,7 +897,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
 - `"SecurityConfiguration"`: The name of a security configuration to apply to the cluster.
 - `"ServiceRole"`: The IAM role that will be assumed by the Amazon EMR service to access
-  AWS resources on your behalf.
+  Amazon Web Services resources on your behalf.
 - `"StepConcurrencyLevel"`: Specifies the number of steps that can be executed
   concurrently. The default value is 1. The maximum value is 256.
 - `"Steps"`: A list of steps to run.
@@ -853,10 +908,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   flow using MapR M5 Edition.
 - `"Tags"`: A list of tags to associate with a cluster and propagate to Amazon EC2
   instances.
-- `"VisibleToAllUsers"`: A value of true indicates that all IAM users in the AWS account
-  can perform cluster actions if they have the proper IAM policy permissions. This is the
-  default. A value of false indicates that only the IAM user who created the cluster can
-  perform actions.
+- `"VisibleToAllUsers"`: Set this value to true so that IAM principals in the account
+  associated with the cluster can perform EMR actions on the cluster that their IAM policies
+  allow. This value defaults to false for clusters created using the EMR API or the CLI
+  create-cluster command. When set to false, only the IAM principal that created the cluster
+  and the account root user can perform EMR actions for the cluster, regardless of the IAM
+  permissions policies attached to other IAM principals. For more information, see
+  Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMR Management Guide.
 """
 run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}("Instances"=>Instances, "Name"=>Name); aws_config=aws_config)
 run_job_flow(Instances, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), params)); aws_config=aws_config)
@@ -892,21 +950,20 @@ set_termination_protection(JobFlowIds, TerminationProtected, params::AbstractDic
     set_visible_to_all_users(job_flow_ids, visible_to_all_users)
     set_visible_to_all_users(job_flow_ids, visible_to_all_users, params::Dict{String,<:Any})
 
-Sets the ClusterVisibleToAllUsers value, which determines whether the cluster is visible to
-all IAM users of the AWS account associated with the cluster. Only the IAM user who created
-the cluster or the AWS account root user can call this action. The default value, true,
-indicates that all IAM users in the AWS account can perform cluster actions if they have
-the proper IAM policy permissions. If set to false, only the IAM user that created the
-cluster can perform actions. This action works on running clusters. You can override the
-default true setting when you create a cluster by using the VisibleToAllUsers parameter
-with RunJobFlow.
+Sets the ClusterVisibleToAllUsers value for an EMR cluster. When true, IAM principals in
+the account can perform EMR cluster actions that their IAM policies allow. When false, only
+the IAM principal that created the cluster and the account root user can perform EMR
+actions on the cluster, regardless of IAM permissions policies attached to other IAM
+principals. This action works on running clusters. When you create a cluster, use the
+RunJobFlowInputVisibleToAllUsers parameter. For more information, see Understanding the EMR
+Cluster VisibleToAllUsers Setting in the Amazon EMR Management Guide.
 
 # Arguments
 - `job_flow_ids`: The unique identifier of the job flow (cluster).
-- `visible_to_all_users`: A value of true indicates that all IAM users in the AWS account
-  can perform cluster actions if they have the proper IAM policy permissions. This is the
-  default. A value of false indicates that only the IAM user who created the cluster can
-  perform actions.
+- `visible_to_all_users`: A value of true indicates that an IAM principal in the account
+  can perform EMR actions on the cluster that the IAM policies attached to the principal
+  allow. A value of false indicates that only the IAM principal that created the cluster and
+  the Amazon Web Services root user can perform EMR actions on the cluster.
 
 """
 set_visible_to_all_users(JobFlowIds, VisibleToAllUsers; aws_config::AbstractAWSConfig=global_aws_config()) = emr("SetVisibleToAllUsers", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers); aws_config=aws_config)
@@ -1019,11 +1076,11 @@ Studio.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdentityId"`: The globally unique identifier (GUID) of the user or group. For more
-  information, see UserId and GroupId in the AWS SSO Identity Store API Reference. Either
-  IdentityName or IdentityId must be specified.
+  information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API
+  Reference. Either IdentityName or IdentityId must be specified.
 - `"IdentityName"`: The name of the user or group to update. For more information, see
-  UserName and DisplayName in the AWS SSO Identity Store API Reference. Either IdentityName
-  or IdentityId must be specified.
+  UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
+  Either IdentityName or IdentityId must be specified.
 """
 update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId); aws_config=aws_config)
 update_studio_session_mapping(IdentityType, SessionPolicyArn, StudioId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = emr("UpdateStudioSessionMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityType"=>IdentityType, "SessionPolicyArn"=>SessionPolicyArn, "StudioId"=>StudioId), params)); aws_config=aws_config)

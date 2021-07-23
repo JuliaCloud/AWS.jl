@@ -26,12 +26,12 @@ cancel_journal_kinesis_stream(name, streamId, params::AbstractDict{String}; aws_
     create_ledger(name, permissions_mode)
     create_ledger(name, permissions_mode, params::Dict{String,<:Any})
 
-Creates a new ledger in your AWS account in the current Region.
+Creates a new ledger in your account in the current Region.
 
 # Arguments
 - `name`: The name of the ledger that you want to create. The name must be unique among all
-  of your ledgers in the current AWS Region. Naming constraints for ledger names are defined
-  in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
+  of the ledgers in your account in the current Region. Naming constraints for ledger names
+  are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
 - `permissions_mode`: The permissions mode to assign to the ledger that you want to create.
   This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions
   mode that enables access control with API-level granularity for ledgers. This mode allows
@@ -53,6 +53,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If not provided on ledger creation, this feature is enabled (true) by default. If deletion
   protection is enabled, you must first disable it before you can delete the ledger. You can
   disable it by calling the UpdateLedger operation to set the flag to false.
+- `"KmsKey"`: The key in Key Management Service (KMS) to use for encryption of data at rest
+  in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer
+  Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY:
+  Use an KMS key that is owned and managed by Amazon Web Services on your behalf.
+  Undefined: By default, use an Amazon Web Services owned KMS key.    A valid symmetric
+  customer managed KMS key: Use the specified KMS key in your account that you create, own,
+  and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using
+  symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a
+  customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name,
+  or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a key in a
+  different account, you must use the key ARN or alias ARN. For example:   Key ID:
+  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
+  alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+  For more information, see Key identifiers (KeyId) in the Key Management Service Developer
+  Guide.
 - `"Tags"`: The key-value pairs to add as tags to the ledger that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
@@ -117,7 +133,8 @@ describe_journal_s3_export(exportId, name, params::AbstractDict{String}; aws_con
     describe_ledger(name)
     describe_ledger(name, params::Dict{String,<:Any})
 
-Returns information about a ledger, including its state and when it was created.
+Returns information about a ledger, including its state, permissions mode, encryption at
+rest settings, and when it was created.
 
 # Arguments
 - `name`: The name of the ledger that you want to describe.
@@ -150,8 +167,8 @@ LimitExceededException.
   ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions
   for a journal export job to do the following:   Write objects into your Amazon Simple
-  Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS
-  Key Management Service (AWS KMS) for server-side encryption of your exported data.
+  Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in Key
+  Management Service (KMS) for server-side encryption of your exported data.
 - `s3_export_configuration`: The configuration settings of the Amazon S3 bucket destination
   for your export request.
 - `name`: The name of the ledger.
@@ -256,8 +273,8 @@ list_journal_kinesis_streams_for_ledger(name, params::AbstractDict{String}; aws_
     list_journal_s3_exports(params::Dict{String,<:Any})
 
 Returns an array of journal export job descriptions for all ledgers that are associated
-with the current AWS account and Region. This action returns a maximum of MaxResults items,
-and is paginated so that you can retrieve all the items by calling ListJournalS3Exports
+with the current account and Region. This action returns a maximum of MaxResults items, and
+is paginated so that you can retrieve all the items by calling ListJournalS3Exports
 multiple times. This action does not return any expired export jobs. For more information,
 see Export job expiration in the Amazon QLDB Developer Guide.
 
@@ -301,7 +318,7 @@ list_journal_s3_exports_for_ledger(name, params::AbstractDict{String}; aws_confi
     list_ledgers()
     list_ledgers(params::Dict{String,<:Any})
 
-Returns an array of ledger summaries that are associated with the current AWS account and
+Returns an array of ledger summaries that are associated with the current account and
 Region. This action returns a maximum of 100 items and is paginated so that you can
 retrieve all the items by calling ListLedgers multiple times.
 
@@ -418,6 +435,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If not provided on ledger creation, this feature is enabled (true) by default. If deletion
   protection is enabled, you must first disable it before you can delete the ledger. You can
   disable it by calling the UpdateLedger operation to set the flag to false.
+- `"KmsKey"`: The key in Key Management Service (KMS) to use for encryption of data at rest
+  in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer
+  Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY:
+  Use an KMS key that is owned and managed by Amazon Web Services on your behalf.
+  Undefined: Make no changes to the KMS key of the ledger.    A valid symmetric customer
+  managed KMS key: Use the specified KMS key in your account that you create, own, and
+  manage. Amazon QLDB does not support asymmetric keys. For more information, see Using
+  symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a
+  customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name,
+  or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a key in a
+  different account, you must use the key ARN or alias ARN. For example:   Key ID:
+  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
+  alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+  For more information, see Key identifiers (KeyId) in the Key Management Service Developer
+  Guide.
 """
 update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)"; aws_config=aws_config)
 update_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)", params; aws_config=aws_config)

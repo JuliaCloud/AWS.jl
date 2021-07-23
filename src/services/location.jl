@@ -9,9 +9,10 @@ using AWS.UUIDs
     associate_tracker_consumer(consumer_arn, tracker_name, params::Dict{String,<:Any})
 
 Creates an association between a geofence collection and a tracker resource. This allows
-the tracker resource to communicate location data to the linked geofence collection.
-Currently not supported — Cross-account configurations, such as creating associations
-between a tracker resource in one account and a geofence collection in another account.
+the tracker resource to communicate location data to the linked geofence collection.  You
+can associate up to five geofence collections to each tracker resource.  Currently not
+supported — Cross-account configurations, such as creating associations between a tracker
+resource in one account and a geofence collection in another account.
 
 # Arguments
 - `consumer_arn`: The Amazon Resource Name (ARN) for the geofence collection to be
@@ -61,10 +62,13 @@ batch_delete_geofence(CollectionName, GeofenceIds, params::AbstractDict{String};
     batch_evaluate_geofences(collection_name, device_position_updates, params::Dict{String,<:Any})
 
 Evaluates device positions against the geofence geometries from a given geofence
-collection. The evaluation determines if the device has entered or exited a geofenced area,
-which publishes ENTER or EXIT geofence events to Amazon EventBridge.  The last geofence
-that a device was observed within, if any, is tracked for 30 days after the most recent
-device position update
+collection. This operation always returns an empty response because geofences are
+asynchronously evaluated. The evaluation determines if the device has entered or exited a
+geofenced area, and then publishes one of the following events to Amazon EventBridge:
+ENTER if Amazon Location determines that the tracked device has entered a geofenced area.
+ EXIT if Amazon Location determines that the tracked device has exited a geofenced area.
+The last geofence that a device was observed within is tracked for 30 days after the most
+recent device position update.
 
 # Arguments
 - `collection_name`: The geofence collection used in evaluating the position of devices
@@ -80,7 +84,7 @@ batch_evaluate_geofences(CollectionName, DevicePositionUpdates, params::Abstract
     batch_get_device_position(device_ids, tracker_name)
     batch_get_device_position(device_ids, tracker_name, params::Dict{String,<:Any})
 
-A batch request to retrieve all device positions.
+Lists the latest device positions for requested devices.
 
 # Arguments
 - `device_ids`: Devices whose position you want to retrieve.   For example, for two
@@ -128,13 +132,13 @@ batch_update_device_position(TrackerName, Updates, params::AbstractDict{String};
     calculate_route(calculator_name, departure_position, destination_position, params::Dict{String,<:Any})
 
  Calculates a route given the following required parameters: DeparturePostiton and
-DestinationPosition. Requires that you first create aroute calculator resource  By default,
-a request that doesn't specify a departure time uses the best time of day to travel with
-the best traffic conditions when calculating the route. Additional options include:
-Specifying a departure time using either DepartureTime or DepartureNow. This calculates a
-route based on predictive traffic data at the given time.   You can't specify both
-DepartureTime and DepartureNow in a single request. Specifying both parameters returns an
-error message.     Specifying a travel mode using TravelMode. This lets you specify
+DestinationPosition. Requires that you first create a route calculator resource  By
+default, a request that doesn't specify a departure time uses the best time of day to
+travel with the best traffic conditions when calculating the route. Additional options
+include:    Specifying a departure time using either DepartureTime or DepartureNow. This
+calculates a route based on predictive traffic data at the given time.   You can't specify
+both DepartureTime and DepartureNow in a single request. Specifying both parameters returns
+an error message.     Specifying a travel mode using TravelMode. This lets you specify an
 additional route preference such as CarModeOptions if traveling by Car, or TruckModeOptions
 if traveling by Truck.
 
@@ -256,11 +260,14 @@ geospatial data sourced from your chosen data provider.
 
 # Arguments
 - `data_source`: Specifies the data provider of geospatial data.  This field is
-  case-sensitive. Enter the valid values as shown. For example, entering HERE will return an
-  error.  Valid values include:    Esri     Here   Place index resources using HERE as a data
-  provider can't be used to store results for locations in Japan. For more information, see
-  the AWS Service Terms for Amazon Location Service.    For additional details on data
-  providers, see the Amazon Location Service data providers page.
+  case-sensitive. Enter the valid values as shown. For example, entering HERE returns an
+  error.  Valid values include:    Esri – For additional information about Esri's coverage
+  in your region of interest, see Esri details on geocoding coverage.    Here – For
+  additional information about HERE Technologies's coverage in your region of interest, see
+  HERE details on goecoding coverage.  Place index resources using HERE Technologies as a
+  data provider can't store results for locations in Japan. For more information, see the AWS
+  Service Terms for Amazon Location Service.    For additional information , see Data
+  providers on the Amazon Location Service Developer Guide.
 - `index_name`: The name of the place index resource.  Requirements:   Contain only
   alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores
   (_).   Must be a unique place index resource name.   No spaces allowed. For example,
@@ -271,7 +278,7 @@ geospatial data sourced from your chosen data provider.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataSourceConfiguration"`: Specifies the data storage option for requesting Places.
+- `"DataSourceConfiguration"`: Specifies the data storage option requesting Places.
 - `"Description"`: The optional description for the place index resource.
 - `"Tags"`: Applies one or more tags to the place index resource. A tag is a key-value pair
   helps manage, identify, search, and filter your resources by labelling them. Format:
@@ -298,8 +305,11 @@ calculator sources traffic and road network data from your chosen data provider.
   ExampleRouteCalculator.
 - `data_source`: Specifies the data provider of traffic and road network data.  This field
   is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an
-  error.  Valid Values: Esri | Here  For more information about data providers, see Amazon
-  Location Service data providers.
+  error.  Valid values include:    Esri – For additional information about Esri's coverage
+  in your region of interest, see Esri details on street networks and traffic coverage.
+  Here – For additional information about HERE Technologies's coverage in your region of
+  interest, see HERE car routing coverage and HERE truck routing coverage.   For additional
+  information , see Data providers on the Amazon Location Service Developer Guide.
 - `pricing_plan`: Specifies the pricing plan for your route calculator resource. For
   additional details and restrictions on each pricing plan option, see Amazon Location
   Service pricing.
@@ -574,8 +584,15 @@ get_geofence(CollectionName, GeofenceId, params::AbstractDict{String}; aws_confi
 Retrieves glyphs used to display labels on a map.
 
 # Arguments
-- `font_stack`: A comma-separated list of fonts to load glyphs from in order of
-  preference.. For example, Noto Sans, Arial Unicode.
+- `font_stack`: A comma-separated list of fonts to load glyphs from in order of preference.
+  For example, Noto Sans Regular, Arial Unicode. Valid fonts for Esri styles:
+  VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu
+  Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular |
+  Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans
+  Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic
+  VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation –
+  Arial Regular | Arial Italic | Arial Bold    Valid fonts for HERE Technologies styles:
+  VectorHereBerlin – Fira GO Regular | Fira GO Bold
 - `font_unicode_range`: A Unicode range of characters to download glyphs for. Each response
   will contain 256 characters. For example, 0–255 includes all characters from range U+0000
   to 00FF. Must be aligned to multiples of 256.
@@ -644,7 +661,7 @@ get_map_tile(MapName, X, Y, Z, params::AbstractDict{String}; aws_config::Abstrac
     list_device_positions(tracker_name)
     list_device_positions(tracker_name, params::Dict{String,<:Any})
 
-Lists the latest device positions for requested devices.
+A batch request to retrieve all device positions.
 
 # Arguments
 - `tracker_name`: The tracker resource containing the requested devices.
@@ -744,11 +761,11 @@ list_route_calculators(params::AbstractDict{String}; aws_config::AbstractAWSConf
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Returns the tags for the specified Amazon Location Service resource.
+Returns a list of tags that are applied to the specified Amazon Location resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
-  retrieve.
+  retrieve.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
 
 """
 list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
@@ -874,20 +891,20 @@ search_place_index_for_text(IndexName, Text, params::AbstractDict{String}; aws_c
 Assigns one or more tags (key-value pairs) to the specified Amazon Location Service
 resource.  &lt;p&gt;Tags can help you organize and categorize your resources. You can also
 use them to scope user permissions, by granting a user permission to access or change only
-resources with certain tag values.&lt;/p&gt; &lt;p&gt;Tags don't have any semantic meaning
-to AWS and are interpreted strictly as strings of characters.&lt;/p&gt; &lt;p&gt;You can
-use the &lt;code&gt;TagResource&lt;/code&gt; action with an Amazon Location Service
-resource that already has tags. If you specify a new tag key for the resource, this tag is
-appended to the tags already associated with the resource. If you specify a tag key that is
-already associated with the resource, the new tag value that you specify replaces the
-previous value for that tag. &lt;/p&gt; &lt;p&gt;You can associate as many as 50 tags with
-a resource.&lt;/p&gt;
+resources with certain tag values.&lt;/p&gt; &lt;p&gt;You can use the
+&lt;code&gt;TagResource&lt;/code&gt; operation with an Amazon Location Service resource
+that already has tags. If you specify a new tag key for the resource, this tag is appended
+to the tags already associated with the resource. If you specify a tag key that's already
+associated with the resource, the new tag value that you specify replaces the previous
+value for that tag. &lt;/p&gt; &lt;p&gt;You can associate up to 50 tags with a
+resource.&lt;/p&gt;
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
-  update.
-- `tags`: The mapping from tag key to tag value for each tag associated with the specified
-  resource.
+  update.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
+- `tags`: Tags that have been applied to the specified resource. Tags are mapped from the
+  tag key to the tag value: \"TagKey\" : \"TagValue\".   Format example: {\"tag1\" :
+  \"value1\", \"tag2\" : \"value2\"}
 
 """
 tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
@@ -897,13 +914,121 @@ tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::Abstra
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes one or more tags from the specified Amazon Location Service resource.
+Removes one or more tags from the specified Amazon Location resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which you want to
-  remove tags.
-- `tag_keys`: The list of tag keys to remove from the resource.
+  remove tags.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
+- `tag_keys`: The list of tag keys to remove from the specified resource.
 
 """
 untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+
+"""
+    update_geofence_collection(collection_name)
+    update_geofence_collection(collection_name, params::Dict{String,<:Any})
+
+Updates the specified properties of a given geofence collection.
+
+# Arguments
+- `collection_name`: The name of the geofence collection to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Updates the description for the geofence collection.
+- `"PricingPlan"`: Updates the pricing plan for the geofence collection. For more
+  information about each pricing plan option restrictions, see Amazon Location Service
+  pricing.
+- `"PricingPlanDataSource"`: Updates the data provider for the geofence collection.  A
+  required value for the following pricing plans: MobileAssetTracking| MobileAssetManagement
+  For more information about data providers and pricing plans, see the Amazon Location
+  Service product page.  This can only be updated when updating the PricingPlan in the same
+  request. Amazon Location Service uses PricingPlanDataSource to calculate billing for your
+  geofence collection. Your data won't be shared with the data provider, and will remain in
+  your AWS account and Region unless you move it.
+"""
+update_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config)
+update_geofence_collection(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config)
+
+"""
+    update_map(map_name)
+    update_map(map_name, params::Dict{String,<:Any})
+
+Updates the specified properties of a given map resource.
+
+# Arguments
+- `map_name`: The name of the map resource to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Updates the description for the map resource.
+- `"PricingPlan"`: Updates the pricing plan for the map resource. For more information
+  about each pricing plan option restrictions, see Amazon Location Service pricing.
+"""
+update_map(MapName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/maps/v0/maps/$(MapName)"; aws_config=aws_config)
+update_map(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config)
+
+"""
+    update_place_index(index_name)
+    update_place_index(index_name, params::Dict{String,<:Any})
+
+Updates the specified properties of a given place index resource.
+
+# Arguments
+- `index_name`: The name of the place index resource to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataSourceConfiguration"`: Updates the data storage option for the place index resource.
+- `"Description"`: Updates the description for the place index resource.
+- `"PricingPlan"`: Updates the pricing plan for the place index resource. For more
+  information about each pricing plan option restrictions, see Amazon Location Service
+  pricing.
+"""
+update_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config)
+update_place_index(IndexName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config)
+
+"""
+    update_route_calculator(calculator_name)
+    update_route_calculator(calculator_name, params::Dict{String,<:Any})
+
+Updates the specified properties for a given route calculator resource.
+
+# Arguments
+- `calculator_name`: The name of the route calculator resource to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Updates the description for the route calculator resource.
+- `"PricingPlan"`: Updates the pricing plan for the route calculator resource. For more
+  information about each pricing plan option restrictions, see Amazon Location Service
+  pricing.
+"""
+update_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config)
+update_route_calculator(CalculatorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config)
+
+"""
+    update_tracker(tracker_name)
+    update_tracker(tracker_name, params::Dict{String,<:Any})
+
+Updates the specified properties of a given tracker resource.
+
+# Arguments
+- `tracker_name`: The name of the tracker resource to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Updates the description for the tracker resource.
+- `"PricingPlan"`: Updates the pricing plan for the tracker resource. For more information
+  about each pricing plan option restrictions, see Amazon Location Service pricing.
+- `"PricingPlanDataSource"`: Updates the data provider for the tracker resource.  A
+  required value for the following pricing plans: MobileAssetTracking| MobileAssetManagement
+  For more information about data providers and pricing plans, see the Amazon Location
+  Service product page  This can only be updated when updating the PricingPlan in the same
+  request. Amazon Location Service uses PricingPlanDataSource to calculate billing for your
+  tracker resource. Your data won't be shared with the data provider, and will remain in your
+  AWS account and Region unless you move it.
+"""
+update_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config)
+update_tracker(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config)

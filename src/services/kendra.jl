@@ -190,9 +190,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the index.
 - `"Edition"`: The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for
   indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for
-  your production databases. Once you set the edition for an index, it can't be changed.  The
+  your production databases. Once you set the edition for an index, it can't be changed. The
   Edition parameter is optional. If you don't supply a value, the default is
-  ENTERPRISE_EDITION.
+  ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer
+  editions, see Quotas.
 - `"ServerSideEncryptionConfiguration"`: The identifier of the KMScustomer managed key
   (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support
   asymmetric CMKs.
@@ -821,7 +822,7 @@ stop_data_source_sync_job(Id, IndexId, params::AbstractDict{String}; aws_config:
     submit_feedback(index_id, query_id)
     submit_feedback(index_id, query_id, params::Dict{String,<:Any})
 
-Enables you to provide feedback to Amazon Kendra to improve the performance of the service.
+Enables you to provide feedback to Amazon Kendra to improve the performance of your index.
 
 # Arguments
 - `index_id`: The identifier of the index that was queried.
