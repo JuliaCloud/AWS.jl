@@ -8,14 +8,13 @@ using AWS.UUIDs
     create_event_integration(event_bridge_bus, event_filter, name)
     create_event_integration(event_bridge_bus, event_filter, name, params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Creates
-an EventIntegration, given a specified name, description, and a reference to an Amazon
-Eventbridge bus in your account and a partner event source that will push events to that
-bus. No objects are created in the your account, only metadata that is persisted on the
-EventIntegration control plane.
+Creates an EventIntegration, given a specified name, description, and a reference to an
+Amazon EventBridge bus in your account and a partner event source that pushes events to
+that bus. No objects are created in the your account, only metadata that is persisted on
+the EventIntegration control plane.
 
 # Arguments
-- `event_bridge_bus`: The Eventbridge bus.
+- `event_bridge_bus`: The EventBridge bus.
 - `event_filter`: The event filter.
 - `name`: The name of the event integration.
 
@@ -33,9 +32,8 @@ create_event_integration(EventBridgeBus, EventFilter, Name, params::AbstractDict
     delete_event_integration(name)
     delete_event_integration(name, params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Deletes
-the specified existing event integration. If the event integration is associated with
-clients, the request is rejected.
+Deletes the specified existing event integration. If the event integration is associated
+with clients, the request is rejected.
 
 # Arguments
 - `name`: The name of the event integration.
@@ -48,8 +46,7 @@ delete_event_integration(Name, params::AbstractDict{String}; aws_config::Abstrac
     get_event_integration(name)
     get_event_integration(name, params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Return
-information about the event integration.
+Return information about the event integration.
 
 # Arguments
 - `name`: The name of the event integration.
@@ -62,8 +59,7 @@ get_event_integration(Name, params::AbstractDict{String}; aws_config::AbstractAW
     list_event_integration_associations(name)
     list_event_integration_associations(name, params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Returns a
-paginated list of event integration associations in the account.
+Returns a paginated list of event integration associations in the account.
 
 # Arguments
 - `name`: The name of the event integration.
@@ -81,8 +77,7 @@ list_event_integration_associations(Name, params::AbstractDict{String}; aws_conf
     list_event_integrations()
     list_event_integrations(params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Returns a
-paginated list of event integrations in the account.
+Returns a paginated list of event integrations in the account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -97,8 +92,7 @@ list_event_integrations(params::AbstractDict{String}; aws_config::AbstractAWSCon
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Lists the
-tags for the specified resource.
+Lists the tags for the specified resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -111,8 +105,7 @@ list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::Ab
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Adds the
-specified tags to the specified resource.
+Adds the specified tags to the specified resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -126,8 +119,7 @@ tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::Abstra
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Removes
-the specified tags from the specified resource.
+Removes the specified tags from the specified resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -141,8 +133,7 @@ untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::A
     update_event_integration(name)
     update_event_integration(name, params::Dict{String,<:Any})
 
-The Amazon AppIntegrations APIs are in preview release and are subject to change. Updates
-the description of an event integration.
+Updates the description of an event integration.
 
 # Arguments
 - `name`: The name of the event integration.

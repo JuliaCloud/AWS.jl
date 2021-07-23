@@ -190,8 +190,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   shard concurrently.
 - `"Queues"`:  (MQ) The name of the Amazon MQ broker destination queue to consume.
 - `"SelfManagedEventSource"`: The Self-Managed Apache Kafka cluster to send records.
-- `"SourceAccessConfigurations"`: An array of the authentication protocol, or the VPC
-  components to secure your event source.
+- `"SourceAccessConfigurations"`: An array of authentication protocols or VPC components
+  required to secure your event source.
 - `"StartingPosition"`: The position in a stream from which to start reading. Required for
   Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is only
   supported for Amazon Kinesis streams.
@@ -832,7 +832,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the
   full ARN. If you specify only the function name, it's limited to 64 characters in length.
 - `"Marker"`: A pagination token returned by a previous call.
-- `"MaxItems"`: The maximum number of event source mappings to return.
+- `"MaxItems"`: The maximum number of event source mappings to return. Note that
+  ListEventSourceMappings returns a maximum of 100 items in each response, even if you set
+  the number higher.
 """
 list_event_source_mappings(; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/"; aws_config=aws_config)
 list_event_source_mappings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lambda("GET", "/2015-03-31/event-source-mappings/", params; aws_config=aws_config)
@@ -1334,8 +1336,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be retried until the record expires.
 - `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
   shard concurrently.
-- `"SourceAccessConfigurations"`: An array of the authentication protocol, or the VPC
-  components to secure your event source.
+- `"SourceAccessConfigurations"`: An array of authentication protocols or VPC components
+  required to secure your event source.
 - `"TumblingWindowInSeconds"`: (Streams only) The duration in seconds of a processing
   window. The range is between 1 second up to 900 seconds.
 """
