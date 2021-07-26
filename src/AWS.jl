@@ -174,9 +174,13 @@ function generate_service_url(aws::AbstractAWSConfig, service::String, resource:
     if service in regionless_services || (service == "sdb" && reg == DEFAULT_REGION)
         reg = ""
     end
-
-    return string("https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
+    if service == "ses"
+        return string("https://", "email", ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
+    else
+        return string("https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
+    end
 end
+
 
 
 """
