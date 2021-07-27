@@ -57,6 +57,7 @@ function AWS._http_request(backend::DownloadsBackend, request)
     if !isempty(request.content)
         input = IOBuffer()
         write(input, request.content)
+        seekstart(input)
         input_arg = (; input=input)
     else
         input_arg = NamedTuple()
