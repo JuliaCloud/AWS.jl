@@ -73,8 +73,8 @@ function AWS._http_request(backend::DownloadsBackend, request)
         end
         response = Downloads.request(request.url; input_arg..., output_arg...,
                                     method = request.request_method,
-                                    request.headers, verbose=false, throw=true,
-                                    downloader)
+                                    headers = request.headers, verbose=false, throw=true,
+                                    downloader=downloader)
         http_response = HTTP.Response(response.status, response.headers; body_arg()..., request=nothing) 
 
         if HTTP.iserror(http_response)
