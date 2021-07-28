@@ -44,6 +44,23 @@ analyze_document(Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aw
 analyze_document(Document, FeatureTypes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config)
 
 """
+    analyze_expense(document)
+    analyze_expense(document, params::Dict{String,<:Any})
+
+Analyzes an input document for financially related relationships between text. Information
+is returned as ExpenseDocuments and seperated as follows.    LineItemGroups- A data set
+containing LineItems which store information about the lines of text, such as an item
+purchased and its price on a receipt.    SummaryFields- Contains all other information a
+receipt, such as header information or the vendors name.
+
+# Arguments
+- `document`:
+
+"""
+analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeExpense", Dict{String, Any}("Document"=>Document); aws_config=aws_config)
+analyze_expense(Document, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeExpense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config)
+
+"""
     detect_document_text(document)
     detect_document_text(document, params::Dict{String,<:Any})
 

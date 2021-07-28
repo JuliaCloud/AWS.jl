@@ -24,6 +24,7 @@ Canaries.
 # Arguments
 - `artifact_s3_location`: The location in Amazon S3 where Synthetics stores artifacts from
   the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
+  The name of the S3 bucket can't include a period (.).
 - `code`: A structure that includes the entry point from which the canary should start
   running your script. If the script is stored in an S3 bucket, the bucket name, key, and
   version are also included.
@@ -234,12 +235,12 @@ stop_canary(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
 Assigns one or more tags (key-value pairs) to the specified canary.  Tags can help you
 organize and categorize your resources. You can also use them to scope user permissions, by
 granting a user permission to access or change only resources with certain tag values. Tags
-don't have any semantic meaning to AWS and are interpreted strictly as strings of
-characters. You can use the TagResource action with a canary that already has tags. If you
-specify a new tag key for the alarm, this tag is appended to the list of tags associated
-with the alarm. If you specify a tag key that is already associated with the alarm, the new
-tag value that you specify replaces the previous value for that tag. You can associate as
-many as 50 tags with a canary.
+don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
+strings of characters. You can use the TagResource action with a canary that already has
+tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags
+associated with the alarm. If you specify a tag key that is already associated with the
+alarm, the new tag value that you specify replaces the previous value for that tag. You can
+associate as many as 50 tags with a canary.
 
 # Arguments
 - `tags`: The list of key-value pairs to associate with the canary.
@@ -299,6 +300,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and when these runs are to stop.
 - `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
   of this canary.
+- `"VisualReference"`:
 - `"VpcConfig"`: If this canary is to test an endpoint in a VPC, this structure contains
   information about the subnet and security groups of the VPC endpoint. For more information,
   see  Running a Canary in a VPC.
