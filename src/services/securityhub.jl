@@ -55,7 +55,7 @@ accept_invitation(InvitationId, MasterId, params::AbstractDict{String}; aws_conf
     batch_disable_standards(standards_subscription_arns, params::Dict{String,<:Any})
 
 Disables the standards specified by the provided StandardsSubscriptionArns. For more
-information, see Security Standards section of the AWS Security Hub User Guide.
+information, see Security Standards section of the Security Hub User Guide.
 
 # Arguments
 - `standards_subscription_arns`: The ARNs of the standards subscriptions to disable.
@@ -69,8 +69,8 @@ batch_disable_standards(StandardsSubscriptionArns, params::AbstractDict{String};
     batch_enable_standards(standards_subscription_requests, params::Dict{String,<:Any})
 
 Enables the standards specified by the provided StandardsArn. To obtain the ARN for a
-standard, use the  DescribeStandards  operation. For more information, see the Security
-Standards section of the AWS Security Hub User Guide.
+standard, use the DescribeStandards operation. For more information, see the Security
+Standards section of the Security Hub User Guide.
 
 # Arguments
 - `standards_subscription_requests`: The list of standards checks to enable.
@@ -95,7 +95,7 @@ Instead, finding providers use FindingProviderFields to provide values for these
 
 # Arguments
 - `findings`: A list of findings to import. To successfully import a finding, it must
-  follow the AWS Security Finding Format. Maximum of 100 findings per request.
+  follow the Amazon Web Services Security Finding Format. Maximum of 100 findings per request.
 
 """
 batch_import_findings(Findings; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/findings/import", Dict{String, Any}("Findings"=>Findings); aws_config=aws_config)
@@ -114,7 +114,7 @@ update the following finding fields and objects.    Confidence     Criticality  
 RelatedFindings     Severity     Types     UserDefinedFields     VerificationState
 Workflow    You can configure IAM policies to restrict access to fields and field values.
 For example, you might not want member accounts to be able to suppress findings or change
-the finding severity. See Configuring access to BatchUpdateFindings in the AWS Security Hub
+the finding severity. See Configuring access to BatchUpdateFindings in the Security Hub
 User Guide.
 
 # Arguments
@@ -195,20 +195,23 @@ Creates a member association in Security Hub between the specified accounts and 
 used to make the request, which is the administrator account. If you are integrated with
 Organizations, then the administrator account is designated by the organization management
 account.  CreateMembers is always used to add accounts that are not organization members.
-For accounts that are part of an organization, CreateMembers is only used in the following
-cases:   Security Hub is not configured to automatically add new accounts in an
-organization.   The account was disassociated or deleted in Security Hub.   This action can
+For accounts that are managed using Organizations, CreateMembers is only used in the
+following cases:   Security Hub is not configured to automatically add new organization
+accounts.   The account was disassociated or deleted in Security Hub.   This action can
 only be used by an account that has Security Hub enabled. To enable Security Hub, you can
-use the  EnableSecurityHub  operation. For accounts that are not organization members, you
+use the EnableSecurityHub operation. For accounts that are not organization members, you
 create the account association and then send an invitation to the member account. To send
-the invitation, you use the  InviteMembers  operation. If the account owner accepts the
-invitation, the account becomes a member account in Security Hub. Accounts that are part of
-an organization do not receive an invitation. They automatically become a member account in
-Security Hub. A permissions policy is added that permits the administrator account to view
-the findings generated in the member account. When Security Hub is enabled in a member
-account, the member account findings are also visible to the administrator account.  To
-remove the association between the administrator and member accounts, use the
-DisassociateFromMasterAccount  or  DisassociateMembers  operation.
+the invitation, you use the InviteMembers operation. If the account owner accepts the
+invitation, the account becomes a member account in Security Hub. Accounts that are managed
+using Organizations do not receive an invitation. They automatically become a member
+account in Security Hub, and Security Hub is automatically enabled for those accounts. Note
+that Security Hub cannot be enabled automatically for the organization management account.
+The organization management account must enable Security Hub before the administrator
+account enables it as a member account. A permissions policy is added that permits the
+administrator account to view the findings generated in the member account. When Security
+Hub is enabled in a member account, the member account findings are also visible to the
+administrator account.  To remove the association between the administrator and member
+accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
 
 # Arguments
 - `account_details`: The list of accounts to associate with the Security Hub administrator
@@ -266,9 +269,9 @@ delete_insight(InsightArn, params::AbstractDict{String}; aws_config::AbstractAWS
     delete_invitations(account_ids)
     delete_invitations(account_ids, params::Dict{String,<:Any})
 
-Deletes invitations received by the AWS account to become a member account. This operation
-is only used by accounts that are not part of an organization. Organization accounts do not
-receive invitations.
+Deletes invitations received by the Amazon Web Services account to become a member account.
+This operation is only used by accounts that are not part of an organization. Organization
+accounts do not receive invitations.
 
 # Arguments
 - `account_ids`: The list of the account IDs that sent the invitations to delete.
@@ -386,7 +389,7 @@ information.
 # Arguments
 - `standards_subscription_arn`: The ARN of a resource that represents your subscription to
   a supported standard. To get the subscription ARNs of the standards you have enabled, use
-  the  GetEnabledStandards  operation.
+  the GetEnabledStandards operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -422,7 +425,8 @@ Disables a Security Hub administrator account. Can only be called by the organiz
 management account.
 
 # Arguments
-- `admin_account_id`: The AWS account identifier of the Security Hub administrator account.
+- `admin_account_id`: The Amazon Web Services account identifier of the Security Hub
+  administrator account.
 
 """
 disable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/disable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
@@ -515,8 +519,8 @@ Designates the Security Hub administrator account for an organization. Can only 
 by the organization management account.
 
 # Arguments
-- `admin_account_id`: The AWS account identifier of the account to designate as the
-  Security Hub administrator account.
+- `admin_account_id`: The Amazon Web Services account identifier of the account to
+  designate as the Security Hub administrator account.
 
 """
 enable_organization_admin_account(AdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/organization/admin/enable", Dict{String, Any}("AdminAccountId"=>AdminAccountId); aws_config=aws_config)
@@ -530,12 +534,13 @@ Enables Security Hub for your account in the current Region or the Region you sp
 the request. When you enable Security Hub, you grant to Security Hub the permissions
 necessary to gather findings from other services that are integrated with Security Hub.
 When you use the EnableSecurityHub operation to enable Security Hub, you also automatically
-enable the following standards.   CIS AWS Foundations   AWS Foundational Security Best
-Practices   You do not enable the Payment Card Industry Data Security Standard (PCI DSS)
-standard.  To not enable the automatically enabled standards, set EnableDefaultStandards to
-false. After you enable Security Hub, to enable a standard, use the  BatchEnableStandards
-operation. To disable a standard, use the  BatchDisableStandards  operation. To learn more,
-see Setting Up AWS Security Hub in the AWS Security Hub User Guide.
+enable the following standards.   CIS Amazon Web Services Foundations   Amazon Web Services
+Foundational Security Best Practices   You do not enable the Payment Card Industry Data
+Security Standard (PCI DSS) standard.  To not enable the automatically enabled standards,
+set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard,
+use the BatchEnableStandards operation. To disable a standard, use the
+BatchDisableStandards operation. To learn more, see the setup information in the Security
+Hub User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -684,17 +689,17 @@ get_members(AccountIds, params::AbstractDict{String}; aws_config::AbstractAWSCon
     invite_members(account_ids)
     invite_members(account_ids, params::Dict{String,<:Any})
 
-Invites other AWS accounts to become member accounts for the Security Hub administrator
-account that the invitation is sent from. This operation is only used to invite accounts
-that do not belong to an organization. Organization accounts do not receive invitations.
-Before you can use this action to invite a member, you must first use the  CreateMembers
-action to create the member account in Security Hub. When the account owner enables
-Security Hub and accepts the invitation to become a member account, the administrator
-account can view the findings generated from the member account.
+Invites other Amazon Web Services accounts to become member accounts for the Security Hub
+administrator account that the invitation is sent from. This operation is only used to
+invite accounts that do not belong to an organization. Organization accounts do not receive
+invitations. Before you can use this action to invite a member, you must first use the
+CreateMembers action to create the member account in Security Hub. When the account owner
+enables Security Hub and accepts the invitation to become a member account, the
+administrator account can view the findings generated from the member account.
 
 # Arguments
-- `account_ids`: The list of account IDs of the AWS accounts to invite to Security Hub as
-  members.
+- `account_ids`: The list of account IDs of the Amazon Web Services accounts to invite to
+  Security Hub as members.
 
 """
 invite_members(AccountIds; aws_config::AbstractAWSConfig=global_aws_config()) = securityhub("POST", "/members/invite", Dict{String, Any}("AccountIds"=>AccountIds); aws_config=aws_config)
@@ -722,9 +727,10 @@ list_enabled_products_for_import(params::AbstractDict{String}; aws_config::Abstr
     list_invitations()
     list_invitations(params::Dict{String,<:Any})
 
-Lists all Security Hub membership invitations that were sent to the current AWS account.
-This operation is only used by accounts that are managed by invitation. Accounts that are
-managed using the integration with AWS Organizations do not receive invitations.
+Lists all Security Hub membership invitations that were sent to the current Amazon Web
+Services account. This operation is only used by accounts that are managed by invitation.
+Accounts that are managed using the integration with Organizations do not receive
+invitations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
