@@ -177,13 +177,13 @@ function generate_service_url(aws::AbstractAWSConfig, service::String, resource:
     if service in regionless_services || (service == "sdb" && reg == DEFAULT_REGION)
         reg = ""
     end
-    if haskey(CUSTOM_ENDPOINTS, service)
-        return string("https://", CUSTOM_ENDPOINTS[service], ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
-    else
-        return string("https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
-    end
-end
 
+    # Quick fix for services which have a different endpoint prefix from their service name
+    # TODO: pull endpoint prefix from service definitions
+    endpoint = get(CUSTOM_ENDPOINTS, service, service)
+
+    return string("https://", endpoint, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
+end
 
 
 """
