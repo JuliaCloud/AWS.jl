@@ -23,6 +23,9 @@ export JSONService, RestJSONService, RestXMLService, QueryService
 
 
 const DEFAULT_REGION = "us-east-1"
+const CUSTOM_ENDPOINTS = Dict("ses" => "email",
+                            "detective" => "api.detective",
+                            "execute-api" => "iot")
 
 include(joinpath("utilities", "utilities.jl"))
 
@@ -174,8 +177,8 @@ function generate_service_url(aws::AbstractAWSConfig, service::String, resource:
     if service in regionless_services || (service == "sdb" && reg == DEFAULT_REGION)
         reg = ""
     end
-    if service == "ses"
-        return string("https://", "email", ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
+    if haskey(CUSTOM_ENDPOINTS, service)
+        return string("https://", CUSTOM_ENDPOINTS[service], ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
     else
         return string("https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
     end
