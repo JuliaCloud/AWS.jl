@@ -470,8 +470,8 @@ if you collect data using a period of 1 minute, the data remains available for 1
 retrievable only with a resolution of 5 minutes. After 63 days, the data is further
 aggregated and is available with a resolution of 1 hour. CloudWatch started retaining
 5-minute and 1-hour metric data as of July 9, 2016. For information about metrics and
-dimensions supported by AWS services, see the Amazon CloudWatch Metrics and Dimensions
-Reference in the Amazon CloudWatch User Guide.
+dimensions supported by Amazon Web Services services, see the Amazon CloudWatch Metrics and
+Dimensions Reference in the Amazon CloudWatch User Guide.
 
 # Arguments
 - `end_time`: The time stamp that determines the last data point to return. The value
@@ -579,9 +579,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   &lt;/GetMetricWidgetImageResult&gt;    &lt;ResponseMetadata&gt;
   &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;
   &lt;/ResponseMetadata&gt;   &lt;/GetMetricWidgetImageResponse&gt;  The image/png setting is
-  intended only for custom HTTP requests. For most use cases, and all actions using an AWS
-  SDK, you should use png. If you specify image/png, the HTTP response has a content-type set
-  to image/png, and the body of the response is a PNG image.
+  intended only for custom HTTP requests. For most use cases, and all actions using an Amazon
+  Web Services SDK, you should use png. If you specify image/png, the HTTP response has a
+  content-type set to image/png, and the body of the response is a PNG image.
 """
 get_metric_widget_image(MetricWidget; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}("MetricWidget"=>MetricWidget); aws_config=aws_config)
 get_metric_widget_image(MetricWidget, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricWidget"=>MetricWidget), params)); aws_config=aws_config)
@@ -852,11 +852,22 @@ an existing alarm, its state is left unchanged, but the update completely overwr
 previous configuration of the alarm. If you are an IAM user, you must have Amazon EC2
 permissions for some alarm operations:   The iam:CreateServiceLinkedRole for all alarms
 with EC2 actions   The iam:CreateServiceLinkedRole to create an alarm with Systems Manager
-OpsItem actions.   The first time you create an alarm in the AWS Management Console, the
-CLI, or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked
-role for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and
-AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see AWS service-linked
-role.
+OpsItem actions.   The first time you create an alarm in the Management Console, the CLI,
+or by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role
+for you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and
+AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services
+service-linked role.  Cross-account alarms  You can set an alarm on metrics in the current
+account, or in another account. To create a cross-account alarm that watches a metric in a
+different account, you must have completed the following pre-requisites:   The account
+where the metrics are located (the sharing account) must already have a sharing role named
+CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create
+it using the instructions in Set up a sharing account in  Cross-account cross-Region
+CloudWatch console. The policy for that role must grant access to the ID of the account
+where you are creating the alarm.    The account where you are creating the alarm (the
+monitoring account) must already have a service-linked role named
+AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in
+the sharing account. If it does not, you must create it following the directions in Set up
+a monitoring account in  Cross-account cross-Region CloudWatch console.
 
 # Arguments
 - `alarm_name`: The name for the alarm. This name must be unique within the Region.
@@ -882,10 +893,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:sns:region:account-id:sns-topic-name  |
   arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-fri
   endly-name:policyName/policy-friendly-name  |
-  arn:aws:ssm:region:account-id:opsitem:severity   Valid Values (for use with IAM roles):
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
+  arn:aws:ssm:region:account-id:opsitem:severity  |
+  arn:aws:ssm-incidents::account-id:response-plan:response-plan-name   Valid Values (for use
+  with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 |
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
 - `"AlarmDescription"`: The description for the alarm.
 - `"DatapointsToAlarm"`: The number of data points that must be breaching to trigger the
   alarm. This is used only if you are setting an \"M out of N\" alarm. In that case, this
@@ -1023,8 +1036,8 @@ by SampleCount.
 # Arguments
 - `metric_data`: The data for the metric. The array can include no more than 20 metrics per
   call.
-- `namespace`: The namespace for the metric data. To avoid conflicts with AWS service
-  namespaces, you should not specify a namespace that begins with AWS/
+- `namespace`: The namespace for the metric data. To avoid conflicts with Amazon Web
+  Services service namespaces, you should not specify a namespace that begins with AWS/
 
 """
 put_metric_data(MetricData, Namespace; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricData", Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace); aws_config=aws_config)
@@ -1035,16 +1048,16 @@ put_metric_data(MetricData, Namespace, params::AbstractDict{String}; aws_config:
     put_metric_stream(firehose_arn, name, output_format, role_arn, params::Dict{String,<:Any})
 
 Creates or updates a metric stream. Metric streams can automatically stream CloudWatch
-metrics to AWS destinations including Amazon S3 and to many third-party solutions. For more
-information, see  Using Metric Streams. To create a metric stream, you must be logged on to
-an account that has the iam:PassRole permission and either the CloudWatchFullAccess policy
-or the cloudwatch:PutMetricStream permission. When you create or update a metric stream,
-you choose one of the following:   Stream metrics from all metric namespaces in the
-account.   Stream metrics from all metric namespaces in the account, except for the
-namespaces that you list in ExcludeFilters.   Stream metrics from only the metric
-namespaces that you list in IncludeFilters.   When you use PutMetricStream to create a new
-metric stream, the stream is created in the running state. If you use it to update an
-existing stream, the state of the stream is not changed.
+metrics to Amazon Web Services destinations including Amazon S3 and to many third-party
+solutions. For more information, see  Using Metric Streams. To create a metric stream, you
+must be logged on to an account that has the iam:PassRole permission and either the
+CloudWatchFullAccess policy or the cloudwatch:PutMetricStream permission. When you create
+or update a metric stream, you choose one of the following:   Stream metrics from all
+metric namespaces in the account.   Stream metrics from all metric namespaces in the
+account, except for the namespaces that you list in ExcludeFilters.   Stream metrics from
+only the metric namespaces that you list in IncludeFilters.   When you use PutMetricStream
+to create a new metric stream, the stream is created in the running state. If you use it to
+update an existing stream, the state of the stream is not changed.
 
 # Arguments
 - `firehose_arn`: The ARN of the Amazon Kinesis Firehose delivery stream to use for this
@@ -1073,7 +1086,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs to associate with the metric stream. You can
   associate as many as 50 tags with a metric stream. Tags can help you organize and
   categorize your resources. You can also use them to scope user permissions by granting a
-  user permission to access or change only resources with certain tag values.
+  user permission to access or change only resources with certain tag values. You can use
+  this parameter only when you are creating a new metric stream. If you are using this
+  operation to update an existing metric stream, any tags you specify in this parameter are
+  ignored. To change the tags of an existing metric stream, use TagResource or UntagResource.
 """
 put_metric_stream(FirehoseArn, Name, OutputFormat, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricStream", Dict{String, Any}("FirehoseArn"=>FirehoseArn, "Name"=>Name, "OutputFormat"=>OutputFormat, "RoleArn"=>RoleArn); aws_config=aws_config)
 put_metric_stream(FirehoseArn, Name, OutputFormat, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch("PutMetricStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirehoseArn"=>FirehoseArn, "Name"=>Name, "OutputFormat"=>OutputFormat, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
@@ -1148,12 +1164,12 @@ Assigns one or more tags (key-value pairs) to the specified CloudWatch resource.
 the only CloudWatch resources that can be tagged are alarms and Contributor Insights rules.
 Tags can help you organize and categorize your resources. You can also use them to scope
 user permissions by granting a user permission to access or change only resources with
-certain tag values. Tags don't have any semantic meaning to AWS and are interpreted
-strictly as strings of characters. You can use the TagResource action with an alarm that
-already has tags. If you specify a new tag key for the alarm, this tag is appended to the
-list of tags associated with the alarm. If you specify a tag key that is already associated
-with the alarm, the new tag value that you specify replaces the previous value for that
-tag. You can associate as many as 50 tags with a CloudWatch resource.
+certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are
+interpreted strictly as strings of characters. You can use the TagResource action with an
+alarm that already has tags. If you specify a new tag key for the alarm, this tag is
+appended to the list of tags associated with the alarm. If you specify a tag key that is
+already associated with the alarm, the new tag value that you specify replaces the previous
+value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
 
 # Arguments
 - `resource_arn`: The ARN of the CloudWatch resource that you're adding tags to. The ARN
