@@ -202,8 +202,8 @@ in the Amazon Lightsail Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"enableObjectVersioning"`: A Boolean value that indicates whether to enable versioning
   of objects in the bucket. For more information about versioning, see Enabling and
-  suspending bucket object versioning in Amazon Lightsail in the Amazon Lightsail Developer
-  Guide.
+  suspending object versioning in a bucket in Amazon Lightsail in the Amazon Lightsail
+  Developer Guide.
 - `"tags"`: The tag keys and optional values to add to the bucket during creation. Use the
   TagResource action to tag the bucket after it's created.
 """

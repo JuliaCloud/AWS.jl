@@ -2719,6 +2719,34 @@ send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn;
 send_channel_message(ClientRequestToken, Content, Persistence, Type, channelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/channels/$(channelArn)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Content"=>Content, "Persistence"=>Persistence, "Type"=>Type), params)); aws_config=aws_config)
 
 """
+    start_meeting_transcription(transcription_configuration, meeting_id)
+    start_meeting_transcription(transcription_configuration, meeting_id, params::Dict{String,<:Any})
+
+Start transcription for the specified meetingId.
+
+# Arguments
+- `transcription_configuration`: The configuration for the current transcription operation.
+  Must contain EngineTranscribeSettings or EngineTranscribeMedicalSettings.
+- `meeting_id`: The unique ID of the meeting being transcribed.
+
+"""
+start_meeting_transcription(TranscriptionConfiguration, meetingId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/transcription?operation=start", Dict{String, Any}("TranscriptionConfiguration"=>TranscriptionConfiguration); aws_config=aws_config)
+start_meeting_transcription(TranscriptionConfiguration, meetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/transcription?operation=start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionConfiguration"=>TranscriptionConfiguration), params)); aws_config=aws_config)
+
+"""
+    stop_meeting_transcription(meeting_id)
+    stop_meeting_transcription(meeting_id, params::Dict{String,<:Any})
+
+Stops transcription for the specified meetingId.
+
+# Arguments
+- `meeting_id`: The unique ID of the meeting for which you stop transcription.
+
+"""
+stop_meeting_transcription(meetingId; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/transcription?operation=stop"; aws_config=aws_config)
+stop_meeting_transcription(meetingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = chime("POST", "/meetings/$(meetingId)/transcription?operation=stop", params; aws_config=aws_config)
+
+"""
     tag_attendee(tags, attendee_id, meeting_id)
     tag_attendee(tags, attendee_id, meeting_id, params::Dict{String,<:Any})
 

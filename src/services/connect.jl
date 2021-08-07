@@ -144,6 +144,28 @@ associate_security_key(InstanceId, Key; aws_config::AbstractAWSConfig=global_aws
 associate_security_key(InstanceId, Key, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/instance/$(InstanceId)/security-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Key"=>Key), params)); aws_config=aws_config)
 
 """
+    create_agent_status(instance_id, name, state)
+    create_agent_status(instance_id, name, state, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Creates an
+agent status for the specified Amazon Connect instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `name`: The name of the status.
+- `state`: The state of the status.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the status.
+- `"DisplayOrder"`: The display order of the status.
+- `"Tags"`: One or more tags.
+"""
+create_agent_status(InstanceId, Name, State; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/agent-status/$(InstanceId)", Dict{String, Any}("Name"=>Name, "State"=>State); aws_config=aws_config)
+create_agent_status(InstanceId, Name, State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/agent-status/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "State"=>State), params)); aws_config=aws_config)
+
+"""
     create_contact_flow(content, instance_id, name, type)
     create_contact_flow(content, instance_id, name, type, params::Dict{String,<:Any})
 
@@ -164,6 +186,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 create_contact_flow(Content, InstanceId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/contact-flows/$(InstanceId)", Dict{String, Any}("Content"=>Content, "Name"=>Name, "Type"=>Type); aws_config=aws_config)
 create_contact_flow(Content, InstanceId, Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/contact-flows/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
+
+"""
+    create_hours_of_operation(config, instance_id, name, time_zone)
+    create_hours_of_operation(config, instance_id, name, time_zone, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Creates hours
+of operation.
+
+# Arguments
+- `config`: Configuration information for the hours of operation: day, start time, and end
+  time.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `name`: The name of the hours of operation.
+- `time_zone`: The time zone of the hours of operation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the hours of operation.
+- `"Tags"`: One or more tags.
+"""
+create_hours_of_operation(Config, InstanceId, Name, TimeZone; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/hours-of-operations/$(InstanceId)", Dict{String, Any}("Config"=>Config, "Name"=>Name, "TimeZone"=>TimeZone); aws_config=aws_config)
+create_hours_of_operation(Config, InstanceId, Name, TimeZone, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/hours-of-operations/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config, "Name"=>Name, "TimeZone"=>TimeZone), params)); aws_config=aws_config)
 
 """
     create_instance(identity_management_type, inbound_calls_enabled, outbound_calls_enabled)
@@ -360,6 +405,22 @@ create_user_hierarchy_group(InstanceId, Name; aws_config::AbstractAWSConfig=glob
 create_user_hierarchy_group(InstanceId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("PUT", "/user-hierarchy-groups/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
 
 """
+    delete_hours_of_operation(hours_of_operation_id, instance_id)
+    delete_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Deletes an
+hours of operation.
+
+# Arguments
+- `hours_of_operation_id`: The identifier for the hours of operation.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+delete_hours_of_operation(HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)"; aws_config=aws_config)
+delete_hours_of_operation(HoursOfOperationId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)", params; aws_config=aws_config)
+
+"""
     delete_instance(instance_id)
     delete_instance(instance_id, params::Dict{String,<:Any})
 
@@ -457,6 +518,22 @@ any active child groups.
 """
 delete_user_hierarchy_group(HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)"; aws_config=aws_config)
 delete_user_hierarchy_group(HierarchyGroupId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)", params; aws_config=aws_config)
+
+"""
+    describe_agent_status(agent_status_id, instance_id)
+    describe_agent_status(agent_status_id, instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Describes an
+agent status.
+
+# Arguments
+- `agent_status_id`: The identifier for the agent status.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+describe_agent_status(AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/agent-status/$(InstanceId)/$(AgentStatusId)"; aws_config=aws_config)
+describe_agent_status(AgentStatusId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/agent-status/$(InstanceId)/$(AgentStatusId)", params; aws_config=aws_config)
 
 """
     describe_contact_flow(contact_flow_id, instance_id)
@@ -910,6 +987,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/metrics/historical/$(InstanceId)", Dict{String, Any}("EndTime"=>EndTime, "Filters"=>Filters, "HistoricalMetrics"=>HistoricalMetrics, "StartTime"=>StartTime); aws_config=aws_config)
 get_metric_data(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/metrics/historical/$(InstanceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Filters"=>Filters, "HistoricalMetrics"=>HistoricalMetrics, "StartTime"=>StartTime), params)); aws_config=aws_config)
+
+"""
+    list_agent_statuses(instance_id)
+    list_agent_statuses(instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Lists agent
+statuses.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AgentStatusTypes"`: Available agent status types.
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/agent-status/$(InstanceId)"; aws_config=aws_config)
+list_agent_statuses(InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("GET", "/agent-status/$(InstanceId)", params; aws_config=aws_config)
 
 """
     list_approved_origins(instance_id)
@@ -1607,9 +1705,9 @@ suspend_contact_recording(ContactId, InitialContactId, InstanceId, params::Abstr
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds the specified tags to the specified resource. The supported resource types are users,
-routing profiles, queues, quick connects, and contact flows. For sample policies that use
-tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator
-Guide.
+routing profiles, queues, quick connects, contact flows, agent status, and hours of
+operation. For sample policies that use tags, see Amazon Connect Identity-Based Policy
+Examples in the Amazon Connect Administrator Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -1633,6 +1731,29 @@ Removes the specified tags from the specified resource.
 """
 untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
 untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+
+"""
+    update_agent_status(agent_status_id, instance_id)
+    update_agent_status(agent_status_id, instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Updates agent
+status.
+
+# Arguments
+- `agent_status_id`: The identifier of the agent status.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the agent status.
+- `"DisplayOrder"`: The display order of the agent status.
+- `"Name"`: The name of the agent status.
+- `"ResetOrderNumber"`: A number indicating the reset order of the agent status.
+- `"State"`: The state of the agent status.
+"""
+update_agent_status(AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/agent-status/$(InstanceId)/$(AgentStatusId)"; aws_config=aws_config)
+update_agent_status(AgentStatusId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/agent-status/$(InstanceId)/$(AgentStatusId)", params; aws_config=aws_config)
 
 """
     update_contact_attributes(attributes, initial_contact_id, instance_id)
@@ -1705,6 +1826,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_contact_flow_name(ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/name"; aws_config=aws_config)
 update_contact_flow_name(ContactFlowId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/contact-flows/$(InstanceId)/$(ContactFlowId)/name", params; aws_config=aws_config)
+
+"""
+    update_hours_of_operation(hours_of_operation_id, instance_id)
+    update_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. Updates the
+hours of operation.
+
+# Arguments
+- `hours_of_operation_id`: The identifier of the hours of operation.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Config"`: Configuration information of the hours of operation.
+- `"Description"`: The description of the hours of operation.
+- `"Name"`: The name of the hours of operation.
+- `"TimeZone"`: The time zone of the hours of operation.
+"""
+update_hours_of_operation(HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)"; aws_config=aws_config)
+update_hours_of_operation(HoursOfOperationId, InstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = connect("POST", "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)", params; aws_config=aws_config)
 
 """
     update_instance_attribute(attribute_type, instance_id, value)

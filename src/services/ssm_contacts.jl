@@ -17,6 +17,13 @@ Used to acknowledge an engagement to a contact channel during an incident.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AcceptCodeValidation"`: An optional field that Incident Manager uses to ENFORCE
+  AcceptCode validation when acknowledging an page. Acknowledgement can occur by replying to
+  a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation
+  causes Incident Manager to verify that the code entered by the user matches the code sent
+  by Incident Manager with the page. Incident Manager can also IGNORE AcceptCode validation.
+  Ignoring AcceptCode validation causes Incident Manager to accept any value entered for the
+  AcceptCode.
 - `"ContactChannelId"`: The ARN of the contact channel.
 - `"Note"`: Information provided by the user when the user acknowledges the page.
 """

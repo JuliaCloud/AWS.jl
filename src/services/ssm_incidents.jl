@@ -50,8 +50,8 @@ create_response_plan(incidentTemplate, name; aws_config::AbstractAWSConfig=globa
 create_response_plan(incidentTemplate, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("incidentTemplate"=>incidentTemplate, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    create_timeline_event(client_token, event_data, event_time, event_type, incident_record_arn)
-    create_timeline_event(client_token, event_data, event_time, event_type, incident_record_arn, params::Dict{String,<:Any})
+    create_timeline_event(event_data, event_time, event_type, incident_record_arn)
+    create_timeline_event(event_data, event_time, event_type, incident_record_arn, params::Dict{String,<:Any})
 
 Creates a custom timeline event on the incident details page of an incident record.
 Timeline events are automatically created by Incident Manager, marking key moment during an
@@ -59,17 +59,20 @@ incident. You can create custom timeline events to mark important events that ar
 automatically detected by Incident Manager.
 
 # Arguments
-- `client_token`: A token ensuring that the action is called only once with the specified
-  details.
-- `event_data`: A short description of the event.
+- `event_data`: A valid JSON string. There is no other schema imposed. A short description
+  of the event.
 - `event_time`: The time that the event occurred.
 - `event_type`: The type of the event. You can create timeline events of type Custom Event.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record you are
   adding the event to.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token ensuring that the action is called only once with the specified
+  details.
 """
-create_timeline_event(clientToken, eventData, eventTime, eventType, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createTimelineEvent", Dict{String, Any}("clientToken"=>clientToken, "eventData"=>eventData, "eventTime"=>eventTime, "eventType"=>eventType, "incidentRecordArn"=>incidentRecordArn); aws_config=aws_config)
-create_timeline_event(clientToken, eventData, eventTime, eventType, incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "eventData"=>eventData, "eventTime"=>eventTime, "eventType"=>eventType, "incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config)
+create_timeline_event(eventData, eventTime, eventType, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createTimelineEvent", Dict{String, Any}("eventData"=>eventData, "eventTime"=>eventTime, "eventType"=>eventType, "incidentRecordArn"=>incidentRecordArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
+create_timeline_event(eventData, eventTime, eventType, incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/createTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventData"=>eventData, "eventTime"=>eventTime, "eventType"=>eventType, "incidentRecordArn"=>incidentRecordArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
     delete_incident_record(arn)
@@ -434,10 +437,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     3 - Medium impact, the application is providing reduced service to customers.    4 - Low
   impact, customer might aren't impacted by the problem yet.    5 - No impact, customers
   aren't currently impacted but urgent action is needed to avoid impact.
-- `"notificationTargets"`: The SNS targets that AWS Chatbot uses to notify the chat channel
-  of updates to an incident. You can also make updates to the incident through the chat
-  channel using the SNS topics.  Using multiple SNS topics creates redundancy in the case
-  that a Region is down during the incident.
+- `"notificationTargets"`: The SNS targets that are notified when updates are made to an
+  incident. Using multiple SNS topics creates redundancy in the case that a Region is down
+  during the incident.
 - `"status"`: The status of the incident. An incident can be Open or Resolved.
 - `"summary"`: The summary describes what has happened during the incident.
 - `"title"`: The title of the incident is a brief and easily recognizable.
@@ -495,6 +497,7 @@ Updates the specified response plan.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"actions"`: The actions that this response plan takes at the beginning of an incident.
 - `"chatChannel"`: The AWS Chatbot chat channel used for collaboration during an incident.
+  Use the empty structure to remove the chat channel from the response plan.
 - `"clientToken"`: A token ensuring that the action is called only once with the specified
   details.
 - `"displayName"`: The long format name of the response plan. Can't contain spaces.
@@ -504,8 +507,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"incidentTemplateImpact"`: Defines the impact to the customers. Providing an impact
   overwrites the impact provided by a response plan.  Possible impacts:     5 - Severe impact
      4 - High impact    3 - Medium impact    2 - Low impact    1 - No impact
-- `"incidentTemplateNotificationTargets"`: The SNS targets that AWS Chatbot uses to notify
-  the chat channels and perform actions on the incident record.
+- `"incidentTemplateNotificationTargets"`: The SNS targets that are notified when updates
+  are made to an incident.
 - `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
   what has happened, what's currently happening, and next steps.
 - `"incidentTemplateTitle"`: The short format name of the incident. Can't contain spaces.
@@ -514,14 +517,12 @@ update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config()) = s
 update_response_plan(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateResponsePlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
 
 """
-    update_timeline_event(client_token, event_id, incident_record_arn)
-    update_timeline_event(client_token, event_id, incident_record_arn, params::Dict{String,<:Any})
+    update_timeline_event(event_id, incident_record_arn)
+    update_timeline_event(event_id, incident_record_arn, params::Dict{String,<:Any})
 
 Updates a timeline event. You can update events of type Custom Event.
 
 # Arguments
-- `client_token`: A token ensuring that the action is called only once with the specified
-  details.
 - `event_id`: The ID of the event you are updating. You can find this by using
   ListTimelineEvents.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that the timeline
@@ -529,9 +530,11 @@ Updates a timeline event. You can update events of type Custom Event.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token ensuring that the action is called only once with the specified
+  details.
 - `"eventData"`: A short description of the event.
 - `"eventTime"`: The time that the event occurred.
 - `"eventType"`: The type of the event. You can update events of type Custom Event.
 """
-update_timeline_event(clientToken, eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateTimelineEvent", Dict{String, Any}("clientToken"=>clientToken, "eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn); aws_config=aws_config)
-update_timeline_event(clientToken, eventId, incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn), params)); aws_config=aws_config)
+update_timeline_event(eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateTimelineEvent", Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
+update_timeline_event(eventId, incidentRecordArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_incidents("POST", "/updateTimelineEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "incidentRecordArn"=>incidentRecordArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)

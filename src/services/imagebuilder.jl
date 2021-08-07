@@ -598,7 +598,8 @@ applicable.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"byName"`: Returns the list of component build versions for the specified name.
-- `"filters"`: The filters.
+- `"filters"`: Use the following filters to streamline results:    description     name
+  platform     supportedOsVersion     type     version
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
@@ -618,8 +619,8 @@ Returns a list of container recipes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Request filters that are used to narrow the list of container images that
-  are returned.
+- `"filters"`: Use the following filters to streamline results:    containerType     name
+    parentImage     platform
 - `"maxResults"`: The maximum number of results to return in the list.
 - `"nextToken"`: Provides a token for pagination, which determines where to begin the next
   set of results when the current set reaches the maximum for one request.
@@ -638,7 +639,7 @@ Returns a list of distribution configurations.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.    name - The name of this distribution configuration.
+- `"filters"`: You can filter on name to streamline results.
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
@@ -658,7 +659,8 @@ list_distribution_configurations(params::AbstractDict{String}; aws_config::Abstr
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.
+- `"filters"`: Use the following filters to streamline results:    name     osVersion
+  platform     type     version
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
@@ -699,7 +701,7 @@ list_image_packages(imageBuildVersionArn, params::AbstractDict{String}; aws_conf
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.
+- `"filters"`: Use the following filters to streamline results:    name     version
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
@@ -715,7 +717,9 @@ Returns a list of image pipelines.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.
+- `"filters"`: Use the following filters to streamline results:    description
+  distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name
+      status
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
@@ -731,7 +735,8 @@ list_image_pipelines(params::AbstractDict{String}; aws_config::AbstractAWSConfig
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.
+- `"filters"`: Use the following filters to streamline results:    name     parentImage
+  platform
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
@@ -752,7 +757,8 @@ list_image_recipes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"byName"`: Requests a list of images with a specific recipe name.
-- `"filters"`: The filters.
+- `"filters"`: Use the following filters to streamline results:    name     osVersion
+  platform     type     version
 - `"includeDeprecated"`: Includes deprecated images in the response list.
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
@@ -773,7 +779,7 @@ list_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_a
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: The filters.
+- `"filters"`: You can filter on name to streamline results.
 - `"maxResults"`: The maximum items to return in a request.
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.

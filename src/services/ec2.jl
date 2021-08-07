@@ -157,23 +157,24 @@ advertise_byoip_cidr(Cidr, params::AbstractDict{String}; aws_config::AbstractAWS
     allocate_address()
     allocate_address(params::Dict{String,<:Any})
 
-Allocates an Elastic IP address to your account. After you allocate the Elastic IP address
-you can associate it with an instance or network interface. After you release an Elastic IP
-address, it is released to the IP address pool and can be allocated to a different account.
-You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or
-from an address pool created from a public IPv4 address range that you have brought to
-Amazon Web Services for use with your Amazon Web Services resources using bring your own IP
-addresses (BYOIP). For more information, see Bring Your Own IP Addresses (BYOIP) in the
-Amazon Elastic Compute Cloud User Guide. [EC2-VPC] If you release an Elastic IP address,
-you might be able to recover it. You cannot recover an Elastic IP address that you released
-after it is allocated to another account. You cannot recover an Elastic IP address for
-EC2-Classic. To attempt to recover an Elastic IP address that you released, specify it in
-this operation. An Elastic IP address is for use either in the EC2-Classic platform or in a
-VPC. By default, you can allocate 5 Elastic IP addresses for EC2-Classic per Region and 5
-Elastic IP addresses for EC2-VPC per Region. For more information, see Elastic IP Addresses
-in the Amazon Elastic Compute Cloud User Guide. You can allocate a carrier IP address which
-is a public IP address from a telecommunication carrier, to a network interface which
-resides in a subnet in a Wavelength Zone (for example an EC2 instance).
+Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the
+Elastic IP address you can associate it with an instance or network interface. After you
+release an Elastic IP address, it is released to the IP address pool and can be allocated
+to a different Amazon Web Services account. You can allocate an Elastic IP address from an
+address pool owned by Amazon Web Services or from an address pool created from a public
+IPv4 address range that you have brought to Amazon Web Services for use with your Amazon
+Web Services resources using bring your own IP addresses (BYOIP). For more information, see
+Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide.
+[EC2-VPC] If you release an Elastic IP address, you might be able to recover it. You cannot
+recover an Elastic IP address that you released after it is allocated to another Amazon Web
+Services account. You cannot recover an Elastic IP address for EC2-Classic. To attempt to
+recover an Elastic IP address that you released, specify it in this operation. An Elastic
+IP address is for use either in the EC2-Classic platform or in a VPC. By default, you can
+allocate 5 Elastic IP addresses for EC2-Classic per Region and 5 Elastic IP addresses for
+EC2-VPC per Region. For more information, see Elastic IP Addresses in the Amazon Elastic
+Compute Cloud User Guide. You can allocate a carrier IP address which is a public IP
+address from a telecommunication carrier, to a network interface which resides in a subnet
+in a Wavelength Zone (for example an EC2 instance).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -742,12 +743,13 @@ the specified device name. Encrypted EBS volumes must be attached to instances t
 Amazon EBS encryption. For more information, see Amazon EBS encryption in the Amazon
 Elastic Compute Cloud User Guide. After you attach an EBS volume, you must make it
 available. For more information, see Make an EBS volume available for use. If a volume has
-an Marketplace product code:   The volume can be attached only to a stopped instance.
-Marketplace product codes are copied from the volume to the instance.   You must be
-subscribed to the product.   The instance type and operating system of the instance must
-support the product. For example, you can't detach a volume from a Windows instance and
-attach it to a Linux instance.   For more information, see Attach an Amazon EBS volume to
-an instance in the Amazon Elastic Compute Cloud User Guide.
+an Amazon Web Services Marketplace product code:   The volume can be attached only to a
+stopped instance.   Amazon Web Services Marketplace product codes are copied from the
+volume to the instance.   You must be subscribed to the product.   The instance type and
+operating system of the instance must support the product. For example, you can't detach a
+volume from a Windows instance and attach it to a Linux instance.   For more information,
+see Attach an Amazon EBS volume to an instance in the Amazon Elastic Compute Cloud User
+Guide.
 
 # Arguments
 - `device`: The device name (for example, /dev/sdh or xvdh).
@@ -1340,8 +1342,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagSpecifications"`: The tags to apply to the Capacity Reservation during launch.
 - `"Tenancy"`: Indicates the tenancy of the Capacity Reservation. A Capacity Reservation
   can have one of the following tenancy settings:    default - The Capacity Reservation is
-  created on hardware that is shared with other accounts.    dedicated - The Capacity
-  Reservation is created on single-tenant hardware that is dedicated to a single account.
+  created on hardware that is shared with other Amazon Web Services accounts.    dedicated -
+  The Capacity Reservation is created on single-tenant hardware that is dedicated to a single
+  Amazon Web Services account.
 """
 create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType); aws_config=aws_config)
 create_capacity_reservation(InstanceCount, InstancePlatform, InstanceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("CreateCapacityReservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceCount"=>InstanceCount, "InstancePlatform"=>InstancePlatform, "InstanceType"=>InstanceType), params)); aws_config=aws_config)
@@ -2234,8 +2237,8 @@ create_network_interface(subnetId, params::AbstractDict{String}; aws_config::Abs
     create_network_interface_permission(network_interface_id, permission, params::Dict{String,<:Any})
 
 Grants an Amazon Web Services-authorized account permission to attach the specified network
-interface to an instance in their account. You can grant permission to a single account
-only, and only one account at a time.
+interface to an instance in their account. You can grant permission to a single Amazon Web
+Services account only, and only one account at a time.
 
 # Arguments
 - `network_interface_id`: The ID of the network interface.
@@ -2243,7 +2246,7 @@ only, and only one account at a time.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AwsAccountId"`: The account ID.
+- `"AwsAccountId"`: The Amazon Web Services account ID.
 - `"AwsService"`: The Amazon Web Service. Currently not supported.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -2492,23 +2495,23 @@ You can create snapshots of volumes in a Region and volumes on an Outpost. If yo
 snapshot of a volume in a Region, the snapshot must be stored in the same Region as the
 volume. If you create a snapshot of a volume on an Outpost, the snapshot can be stored on
 the same Outpost as the volume, or in the Region for that Outpost. When a snapshot is
-created, any Marketplace product codes that are associated with the source volume are
-propagated to the snapshot. You can take a snapshot of an attached volume that is in use.
-However, snapshots only capture data that has been written to your Amazon EBS volume at the
-time the snapshot command is issued; this might exclude any data that has been cached by
-any applications or the operating system. If you can pause any file systems on the volume
-long enough to take a snapshot, your snapshot should be complete. However, if you cannot
-pause all file writes to the volume, you should unmount the volume from within the
-instance, issue the snapshot command, and then remount the volume to ensure a consistent
-and complete snapshot. You may remount and use your volume while the snapshot status is
-pending. To create a snapshot for Amazon EBS volumes that serve as root devices, you should
-stop the instance before taking the snapshot. Snapshots that are taken from encrypted
-volumes are automatically encrypted. Volumes that are created from encrypted snapshots are
-also automatically encrypted. Your encrypted volumes and any associated snapshots always
-remain protected. You can tag your snapshots during creation. For more information, see Tag
-your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more
-information, see Amazon Elastic Block Store and Amazon EBS encryption in the Amazon Elastic
-Compute Cloud User Guide.
+created, any Amazon Web Services Marketplace product codes that are associated with the
+source volume are propagated to the snapshot. You can take a snapshot of an attached volume
+that is in use. However, snapshots only capture data that has been written to your Amazon
+EBS volume at the time the snapshot command is issued; this might exclude any data that has
+been cached by any applications or the operating system. If you can pause any file systems
+on the volume long enough to take a snapshot, your snapshot should be complete. However, if
+you cannot pause all file writes to the volume, you should unmount the volume from within
+the instance, issue the snapshot command, and then remount the volume to ensure a
+consistent and complete snapshot. You may remount and use your volume while the snapshot
+status is pending. To create a snapshot for Amazon EBS volumes that serve as root devices,
+you should stop the instance before taking the snapshot. Snapshots that are taken from
+encrypted volumes are automatically encrypted. Volumes that are created from encrypted
+snapshots are also automatically encrypted. Your encrypted volumes and any associated
+snapshots always remain protected. You can tag your snapshots during creation. For more
+information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User
+Guide. For more information, see Amazon Elastic Block Store and Amazon EBS encryption in
+the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `volume_id`: The ID of the Amazon EBS volume.
@@ -2576,8 +2579,8 @@ create_snapshots(InstanceSpecification, params::AbstractDict{String}; aws_config
     create_spot_datafeed_subscription(bucket, params::Dict{String,<:Any})
 
 Creates a data feed for Spot Instances, enabling you to view Spot Instance usage logs. You
-can create one data feed per account. For more information, see Spot Instance data feed in
-the Amazon EC2 User Guide for Linux Instances.
+can create one data feed per Amazon Web Services account. For more information, see Spot
+Instance data feed in the Amazon EC2 User Guide for Linux Instances.
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket in which to store the Spot Instance data feed.
@@ -3086,14 +3089,15 @@ create_transit_gateway_vpc_attachment(TransitGatewayId, VpcId, item, params::Abs
     create_volume(availability_zone, params::Dict{String,<:Any})
 
 Creates an EBS volume that can be attached to an instance in the same Availability Zone.
-You can create a new empty volume or restore a volume from an EBS snapshot. Any Marketplace
-product codes from the snapshot are propagated to the volume. You can create encrypted
-volumes. Encrypted volumes must be attached to instances that support Amazon EBS
-encryption. Volumes that are created from encrypted snapshots are also automatically
-encrypted. For more information, see Amazon EBS encryption in the Amazon Elastic Compute
-Cloud User Guide. You can tag your volumes during creation. For more information, see Tag
-your Amazon EC2 resources in the Amazon Elastic Compute Cloud User Guide. For more
-information, see Create an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
+You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web
+Services Marketplace product codes from the snapshot are propagated to the volume. You can
+create encrypted volumes. Encrypted volumes must be attached to instances that support
+Amazon EBS encryption. Volumes that are created from encrypted snapshots are also
+automatically encrypted. For more information, see Amazon EBS encryption in the Amazon
+Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more
+information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User
+Guide. For more information, see Create an Amazon EBS volume in the Amazon Elastic Compute
+Cloud User Guide.
 
 # Arguments
 - `availability_zone`: The Availability Zone in which to create the volume.
@@ -3329,13 +3333,14 @@ create_vpc_endpoint_service_configuration(params::AbstractDict{String}; aws_conf
 
 Requests a VPC peering connection between two VPCs: a requester VPC that you own and an
 accepter VPC with which to create the connection. The accepter VPC can belong to another
-account and can be in a different Region to the requester VPC. The requester VPC and
-accepter VPC cannot have overlapping CIDR blocks.  Limitations and rules apply to a VPC
-peering connection. For more information, see the limitations section in the VPC Peering
-Guide.  The owner of the accepter VPC must accept the peering request to activate the
-peering connection. The VPC peering connection request expires after 7 days, after which it
-cannot be accepted or rejected. If you create a VPC peering connection request between VPCs
-with overlapping CIDR blocks, the VPC peering connection has a status of failed.
+Amazon Web Services account and can be in a different Region to the requester VPC. The
+requester VPC and accepter VPC cannot have overlapping CIDR blocks.  Limitations and rules
+apply to a VPC peering connection. For more information, see the limitations section in the
+VPC Peering Guide.  The owner of the accepter VPC must accept the peering request to
+activate the peering connection. The VPC peering connection request expires after 7 days,
+after which it cannot be accepted or rejected. If you create a VPC peering connection
+request between VPCs with overlapping CIDR blocks, the VPC peering connection has a status
+of failed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3346,7 +3351,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"peerOwnerId"`: The account ID of the owner of the accepter VPC. Default: Your account ID
+- `"peerOwnerId"`: The Amazon Web Services account ID of the owner of the accepter VPC.
+  Default: Your Amazon Web Services account ID
 - `"peerVpcId"`: The ID of the VPC with which you are creating the VPC peering connection.
   You must specify this parameter in the request.
 - `"vpcId"`: The ID of the requester VPC. You must specify this parameter in the request.
@@ -4699,15 +4705,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   address is associated with, if any.    network-border-group - A unique set of Availability
   Zones, Local Zones, or Wavelength Zones from where Amazon Web Services advertises IP
   addresses.     network-interface-id - [EC2-VPC] The ID of the network interface that the
-  address is associated with, if any.    network-interface-owner-id - The account ID of the
-  owner.    private-ip-address - [EC2-VPC] The private IP address associated with the Elastic
-  IP address.    public-ip - The Elastic IP address, or the carrier IP address.
-  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
-  key in the filter name and the tag value as the filter value. For example, to find all
-  resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
-  filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
-  resource. Use this filter to find all resources assigned a tag with a specific key,
-  regardless of the tag value.
+  address is associated with, if any.    network-interface-owner-id - The Amazon Web Services
+  account ID of the owner.    private-ip-address - [EC2-VPC] The private IP address
+  associated with the Elastic IP address.    public-ip - The Elastic IP address, or the
+  carrier IP address.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the
+  resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key Owner and the value TeamA,
+  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
+  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
+  with a specific key, regardless of the tag value.
 - `"PublicIp"`: One or more Elastic IP addresses. Default: Describes all your Elastic IP
   addresses.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
@@ -4858,7 +4864,7 @@ describe_byoip_cidrs(MaxResults, params::AbstractDict{String}; aws_config::Abstr
     describe_capacity_reservations(params::Dict{String,<:Any})
 
 Describes one or more of your Capacity Reservations. The results describe only the Capacity
-Reservations in the Region that you're currently using.
+Reservations in the Amazon Web Services Region that you're currently using.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4867,33 +4873,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: One or more filters.    instance-type - The type of instance for which the
-  Capacity Reservation reserves capacity.    owner-id - The ID of the account that owns the
-  Capacity Reservation.    availability-zone-id - The Availability Zone ID of the Capacity
-  Reservation.    instance-platform - The type of operating system for which the Capacity
-  Reservation reserves capacity.    availability-zone - The Availability Zone ID of the
-  Capacity Reservation.    tenancy - Indicates the tenancy of the Capacity Reservation. A
-  Capacity Reservation can have one of the following tenancy settings:    default - The
-  Capacity Reservation is created on hardware that is shared with other accounts.
-  dedicated - The Capacity Reservation is created on single-tenant hardware that is dedicated
-  to a single account.      outpost-arn - The Amazon Resource Name (ARN) of the Outpost on
-  which the Capacity Reservation was created.    state - The current state of the Capacity
-  Reservation. A Capacity Reservation can be in one of the following states:    active- The
-  Capacity Reservation is active and the capacity is available for your use.    expired - The
-  Capacity Reservation expired automatically at the date and time specified in your request.
-  The reserved capacity is no longer available for your use.    cancelled - The Capacity
-  Reservation was cancelled. The reserved capacity is no longer available for your use.
-  pending - The Capacity Reservation request was successful but the capacity provisioning is
-  still pending.    failed - The Capacity Reservation request has failed. A request might
-  fail due to invalid request parameters, capacity constraints, or instance limit
-  constraints. Failed requests are retained for 60 minutes.      start-date - The date and
-  time at which the Capacity Reservation was started.    end-date - The date and time at
-  which the Capacity Reservation expires. When a Capacity Reservation expires, the reserved
-  capacity is released and you can no longer launch instances into it. The Capacity
-  Reservation's state changes to expired when it reaches its end date and time.
-  end-date-type - Indicates the way in which the Capacity Reservation ends. A Capacity
-  Reservation can have one of the following end types:    unlimited - The Capacity
-  Reservation remains active until you explicitly cancel it.    limited - The Capacity
-  Reservation expires automatically at a specified date and time.
+  Capacity Reservation reserves capacity.    owner-id - The ID of the Amazon Web Services
+  account that owns the Capacity Reservation.    availability-zone-id - The Availability Zone
+  ID of the Capacity Reservation.    instance-platform - The type of operating system for
+  which the Capacity Reservation reserves capacity.    availability-zone - The Availability
+  Zone ID of the Capacity Reservation.    tenancy - Indicates the tenancy of the Capacity
+  Reservation. A Capacity Reservation can have one of the following tenancy settings:
+  default - The Capacity Reservation is created on hardware that is shared with other Amazon
+  Web Services accounts.    dedicated - The Capacity Reservation is created on single-tenant
+  hardware that is dedicated to a single Amazon Web Services account.      outpost-arn - The
+  Amazon Resource Name (ARN) of the Outpost on which the Capacity Reservation was created.
+  state - The current state of the Capacity Reservation. A Capacity Reservation can be in one
+  of the following states:    active- The Capacity Reservation is active and the capacity is
+  available for your use.    expired - The Capacity Reservation expired automatically at the
+  date and time specified in your request. The reserved capacity is no longer available for
+  your use.    cancelled - The Capacity Reservation was cancelled. The reserved capacity is
+  no longer available for your use.    pending - The Capacity Reservation request was
+  successful but the capacity provisioning is still pending.    failed - The Capacity
+  Reservation request has failed. A request might fail due to invalid request parameters,
+  capacity constraints, or instance limit constraints. Failed requests are retained for 60
+  minutes.      start-date - The date and time at which the Capacity Reservation was started.
+     end-date - The date and time at which the Capacity Reservation expires. When a Capacity
+  Reservation expires, the reserved capacity is released and you can no longer launch
+  instances into it. The Capacity Reservation's state changes to expired when it reaches its
+  end date and time.    end-date-type - Indicates the way in which the Capacity Reservation
+  ends. A Capacity Reservation can have one of the following end types:    unlimited - The
+  Capacity Reservation remains active until you explicitly cancel it.    limited - The
+  Capacity Reservation expires automatically at a specified date and time.
   instance-match-criteria - Indicates the type of instance launches that the Capacity
   Reservation accepts. The options include:    open - The Capacity Reservation accepts all
   instances that have matching attributes (instance type, platform, and Availability Zone).
@@ -4925,14 +4931,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: One or more filters.    carrier-gateway-id - The ID of the carrier gateway.
    state - The state of the carrier gateway (pending | failed | available | deleting |
-  deleted).    owner-id - The account ID of the owner of the carrier gateway.
-  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
-  key in the filter name and the tag value as the filter value. For example, to find all
-  resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
-  filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
-  resource. Use this filter to find all resources assigned a tag with a specific key,
-  regardless of the tag value.    vpc-id - The ID of the VPC associated with the carrier
-  gateway.
+  deleted).    owner-id - The Amazon Web Services account ID of the owner of the carrier
+  gateway.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource.
+  Use the tag key in the filter name and the tag value as the filter value. For example, to
+  find all resources that have a tag with the key Owner and the value TeamA, specify
+  tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag
+  assigned to the resource. Use this filter to find all resources assigned a tag with a
+  specific key, regardless of the tag value.    vpc-id - The ID of the VPC associated with
+  the carrier gateway.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -5177,13 +5183,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DHCP options sets.
 - `"Filter"`: One or more filters.    dhcp-options-id - The ID of a DHCP options set.
   key - The key for one of the options (for example, domain-name).    value - The value for
-  one of the options.    owner-id - The ID of the account that owns the DHCP options set.
-  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
-  key in the filter name and the tag value as the filter value. For example, to find all
-  resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
-  filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
-  resource. Use this filter to find all resources assigned a tag with a specific key,
-  regardless of the tag value.
+  one of the options.    owner-id - The ID of the Amazon Web Services account that owns the
+  DHCP options set.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the
+  resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key Owner and the value TeamA,
+  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
+  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
+  with a specific key, regardless of the tag value.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -5292,10 +5298,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: The filters. The possible values are:    availability-zone: The Availability
-  Zone of the snapshot.    owner-id: The ID of the account that enabled fast snapshot restore
-  on the snapshot.    snapshot-id: The ID of the snapshot.    state: The state of fast
-  snapshot restores for the snapshot (enabling | optimizing | enabled | disabling |
-  disabled).
+  Zone of the snapshot.    owner-id: The ID of the Amazon Web Services account that enabled
+  fast snapshot restore on the snapshot.    snapshot-id: The ID of the snapshot.    state:
+  The state of fast snapshot restores for the snapshot (enabling | optimizing | enabled |
+  disabling | disabled).
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -6150,39 +6156,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network interface to perform network address translation (NAT) in your VPC.
   network-interface.subnet-id - The ID of the subnet for the network interface.
   network-interface.vpc-id - The ID of the VPC for the network interface.    outpost-arn -
-  The Amazon Resource Name (ARN) of the Outpost.    owner-id - The account ID of the instance
-  owner.    placement-group-name - The name of the placement group for the instance.
-  placement-partition-number - The partition in which the instance is located.    platform -
-  The platform. To list only Windows instances, use windows.    private-dns-name - The
-  private IPv4 DNS name of the instance.    private-ip-address - The private IPv4 address of
-  the instance.    product-code - The product code associated with the AMI used to launch the
-  instance.    product-code.type - The type of product code (devpay | marketplace).
-  ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance
-  (for example, shows \"User Initiated [date]\" when you stop or terminate the instance).
-  Similar to the state-reason-code filter.    requester-id - The ID of the entity that
-  launched the instance on your behalf (for example, Management Console, Auto Scaling, and so
-  on).    reservation-id - The ID of the instance's reservation. A reservation ID is created
-  any time you launch an instance. A reservation ID has a one-to-one relationship with an
-  instance launch request, but can be associated with more than one instance if you launch
-  multiple instances using the same launch request. For example, if you launch one instance,
-  you get one reservation ID. If you launch ten instances using the same launch request, you
-  also get one reservation ID.    root-device-name - The device name of the root device
-  volume (for example, /dev/sda1).    root-device-type - The type of the root device volume
-  (ebs | instance-store).    source-dest-check - Indicates whether the instance performs
-  source/destination checking. A value of true means that checking is enabled, and false
-  means that checking is disabled. The value must be false for the instance to perform
-  network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the
-  Spot Instance request.    state-reason-code - The reason code for the state change.
-  state-reason-message - A message that describes the state change.    subnet-id - The ID of
-  the subnet for the instance.    tag:&lt;key&gt; - The key/value combination of a tag
-  assigned to the resource. Use the tag key in the filter name and the tag value as the
-  filter value. For example, to find all resources that have a tag with the key Owner and the
-  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
-  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
-  that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy
-  of an instance (dedicated | default | host).    virtualization-type - The virtualization
-  type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance
-  is running in.
+  The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services
+  account ID of the instance owner.    placement-group-name - The name of the placement group
+  for the instance.    placement-partition-number - The partition in which the instance is
+  located.    platform - The platform. To list only Windows instances, use windows.
+  private-dns-name - The private IPv4 DNS name of the instance.    private-ip-address - The
+  private IPv4 address of the instance.    product-code - The product code associated with
+  the AMI used to launch the instance.    product-code.type - The type of product code
+  (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the
+  current state of the instance (for example, shows \"User Initiated [date]\" when you stop
+  or terminate the instance). Similar to the state-reason-code filter.    requester-id - The
+  ID of the entity that launched the instance on your behalf (for example, Amazon Web
+  Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the
+  instance's reservation. A reservation ID is created any time you launch an instance. A
+  reservation ID has a one-to-one relationship with an instance launch request, but can be
+  associated with more than one instance if you launch multiple instances using the same
+  launch request. For example, if you launch one instance, you get one reservation ID. If you
+  launch ten instances using the same launch request, you also get one reservation ID.
+  root-device-name - The device name of the root device volume (for example, /dev/sda1).
+  root-device-type - The type of the root device volume (ebs | instance-store).
+  source-dest-check - Indicates whether the instance performs source/destination checking. A
+  value of true means that checking is enabled, and false means that checking is disabled.
+  The value must be false for the instance to perform network address translation (NAT) in
+  your VPC.     spot-instance-request-id - The ID of the Spot Instance request.
+  state-reason-code - The reason code for the state change.    state-reason-message - A
+  message that describes the state change.    subnet-id - The ID of the subnet for the
+  instance.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource.
+  Use the tag key in the filter name and the tag value as the filter value. For example, to
+  find all resources that have a tag with the key Owner and the value TeamA, specify
+  tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag
+  assigned to the resource. Use this filter to find all resources that have a tag with a
+  specific key, regardless of the tag value.    tenancy - The tenancy of an instance
+  (dedicated | default | host).    virtualization-type - The virtualization type of the
+  instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running
+  in.
 - `"InstanceId"`: The instance IDs. Default: Describes all your instances.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
@@ -6207,13 +6214,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: One or more filters.    attachment.state - The current state of the
   attachment between the gateway and the VPC (available). Present only if a VPC is attached.
     attachment.vpc-id - The ID of an attached VPC.    internet-gateway-id - The ID of the
-  Internet gateway.    owner-id - The ID of the account that owns the internet gateway.
-  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
-  key in the filter name and the tag value as the filter value. For example, to find all
-  resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
-  filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
-  resource. Use this filter to find all resources assigned a tag with a specific key,
-  regardless of the tag value.
+  Internet gateway.    owner-id - The ID of the Amazon Web Services account that owns the
+  internet gateway.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the
+  resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key Owner and the value TeamA,
+  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
+  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
+  with a specific key, regardless of the tag value.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -6588,13 +6595,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   entry (tcp | udp | icmp or a protocol number).    entry.rule-action - Allows or denies the
   matching traffic (allow | deny).    entry.rule-number - The number of an entry (in other
   words, rule) in the set of ACL entries.    network-acl-id - The ID of the network ACL.
-  owner-id - The ID of the account that owns the network ACL.    tag:&lt;key&gt; - The
-  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
-  and the tag value as the filter value. For example, to find all resources that have a tag
-  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
-  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
-  to find all resources assigned a tag with a specific key, regardless of the tag value.
-  vpc-id - The ID of the VPC for the network ACL.
+  owner-id - The ID of the Amazon Web Services account that owns the network ACL.
+  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
+  key in the filter name and the tag value as the filter value. For example, to find all
+  resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
+  filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
+  resource. Use this filter to find all resources assigned a tag with a specific key,
+  regardless of the tag value.    vpc-id - The ID of the VPC for the network ACL.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NetworkAclId"`: One or more network ACL IDs. Default: Describes all your network ACLs.
@@ -6685,7 +6692,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filter"`: One or more filters.
   network-interface-permission.network-interface-permission-id - The ID of the permission.
   network-interface-permission.network-interface-id - The ID of the network interface.
-  network-interface-permission.aws-account-id - The account ID.
+  network-interface-permission.aws-account-id - The Amazon Web Services account ID.
   network-interface-permission.aws-service - The Amazon Web Service.
   network-interface-permission.permission - The type of permission (INSTANCE-ATTACH |
   EIP-ASSOCIATE).
@@ -6741,25 +6748,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the network interface.    group-name - The name of a security group associated with
   the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the
   network interface.    mac-address - The MAC address of the network interface.
-  network-interface-id - The ID of the network interface.    owner-id - The account ID of the
-  network interface owner.    private-ip-address - The private IPv4 address or addresses of
-  the network interface.    private-dns-name - The private DNS name of the network interface
-  (IPv4).    requester-id - The alias or account ID of the principal or service that created
-  the network interface.    requester-managed - Indicates whether the network interface is
-  being managed by an Amazon Web Service (for example, Management Console, Auto Scaling, and
-  so on).    source-dest-check - Indicates whether the network interface performs
-  source/destination checking. A value of true means checking is enabled, and false means
-  checking is disabled. The value must be false for the network interface to perform network
-  address translation (NAT) in your VPC.     status - The status of the network interface. If
-  the network interface is not attached to an instance, the status is available; if a network
-  interface is attached to an instance the status is in-use.    subnet-id - The ID of the
-  subnet for the network interface.    tag:&lt;key&gt; - The key/value combination of a tag
-  assigned to the resource. Use the tag key in the filter name and the tag value as the
-  filter value. For example, to find all resources that have a tag with the key Owner and the
-  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
-  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
-  assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
-  VPC for the network interface.
+  network-interface-id - The ID of the network interface.    owner-id - The Amazon Web
+  Services account ID of the network interface owner.    private-ip-address - The private
+  IPv4 address or addresses of the network interface.    private-dns-name - The private DNS
+  name of the network interface (IPv4).    requester-id - The alias or Amazon Web Services
+  account ID of the principal or service that created the network interface.
+  requester-managed - Indicates whether the network interface is being managed by an Amazon
+  Web Service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).
+     source-dest-check - Indicates whether the network interface performs source/destination
+  checking. A value of true means checking is enabled, and false means checking is disabled.
+  The value must be false for the network interface to perform network address translation
+  (NAT) in your VPC.     status - The status of the network interface. If the network
+  interface is not attached to an instance, the status is available; if a network interface
+  is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for
+  the network interface.    tag:&lt;key&gt; - The key/value combination of a tag assigned to
+  the resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key Owner and the value TeamA,
+  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
+  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
+  with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the
+  network interface.
 """
 describe_network_interfaces(; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaces"; aws_config=aws_config)
 describe_network_interfaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2("DescribeNetworkInterfaces", params; aws_config=aws_config)
@@ -7112,30 +7120,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table involved in the association.    association.subnet-id - The ID of the subnet involved
   in the association.    association.main - Indicates whether the route table is the main
   route table for the VPC (true | false). Route tables that do not have an association ID are
-  not returned in the response.    owner-id - The ID of the account that owns the route
-  table.    route-table-id - The ID of the route table.    route.destination-cidr-block - The
-  IPv4 CIDR range specified in a route in the table.    route.destination-ipv6-cidr-block -
-  The IPv6 CIDR range specified in a route in the route table.
-  route.destination-prefix-list-id - The ID (prefix) of the Amazon Web Service specified in a
-  route in the table.    route.egress-only-internet-gateway-id - The ID of an egress-only
-  Internet gateway specified in a route in the route table.    route.gateway-id - The ID of a
-  gateway specified in a route in the table.    route.instance-id - The ID of an instance
-  specified in a route in the table.    route.nat-gateway-id - The ID of a NAT gateway.
-  route.transit-gateway-id - The ID of a transit gateway.    route.origin - Describes how the
-  route was created. CreateRouteTable indicates that the route was automatically created when
-  the route table was created; CreateRoute indicates that the route was manually added to the
-  route table; EnableVgwRoutePropagation indicates that the route was propagated by route
-  propagation.    route.state - The state of a route in the route table (active | blackhole).
-  The blackhole state indicates that the route's target isn't available (for example, the
-  specified gateway isn't attached to the VPC, the specified NAT instance has been
-  terminated, and so on).    route.vpc-peering-connection-id - The ID of a VPC peering
-  connection specified in a route in the table.    tag:&lt;key&gt; - The key/value
-  combination of a tag assigned to the resource. Use the tag key in the filter name and the
-  tag value as the filter value. For example, to find all resources that have a tag with the
-  key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the
-  filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to
-  find all resources assigned a tag with a specific key, regardless of the tag value.
-  vpc-id - The ID of the VPC for the route table.
+  not returned in the response.    owner-id - The ID of the Amazon Web Services account that
+  owns the route table.    route-table-id - The ID of the route table.
+  route.destination-cidr-block - The IPv4 CIDR range specified in a route in the table.
+  route.destination-ipv6-cidr-block - The IPv6 CIDR range specified in a route in the route
+  table.    route.destination-prefix-list-id - The ID (prefix) of the Amazon Web Service
+  specified in a route in the table.    route.egress-only-internet-gateway-id - The ID of an
+  egress-only Internet gateway specified in a route in the route table.    route.gateway-id -
+  The ID of a gateway specified in a route in the table.    route.instance-id - The ID of an
+  instance specified in a route in the table.    route.nat-gateway-id - The ID of a NAT
+  gateway.    route.transit-gateway-id - The ID of a transit gateway.    route.origin -
+  Describes how the route was created. CreateRouteTable indicates that the route was
+  automatically created when the route table was created; CreateRoute indicates that the
+  route was manually added to the route table; EnableVgwRoutePropagation indicates that the
+  route was propagated by route propagation.    route.state - The state of a route in the
+  route table (active | blackhole). The blackhole state indicates that the route's target
+  isn't available (for example, the specified gateway isn't attached to the VPC, the
+  specified NAT instance has been terminated, and so on).    route.vpc-peering-connection-id
+  - The ID of a VPC peering connection specified in a route in the table.    tag:&lt;key&gt;
+  - The key/value combination of a tag assigned to the resource. Use the tag key in the
+  filter name and the tag value as the filter value. For example, to find all resources that
+  have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name
+  and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use
+  this filter to find all resources assigned a tag with a specific key, regardless of the tag
+  value.    vpc-id - The ID of the VPC for the route table.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -7347,50 +7355,53 @@ describe_snapshot_attribute(Attribute, SnapshotId, params::AbstractDict{String};
 
 Describes the specified EBS snapshots available to you or all of the EBS snapshots
 available to you. The snapshots available to you include public snapshots, private
-snapshots that you own, and private snapshots owned by other accounts for which you have
-explicit create volume permissions. The create volume permissions fall into the following
-categories:    public: The owner of the snapshot granted create volume permissions for the
-snapshot to the all group. All accounts have create volume permissions for these snapshots.
-   explicit: The owner of the snapshot granted create volume permissions to a specific
-account.    implicit: An account has implicit create volume permissions for all snapshots
-it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs,
-snapshot owners, or accounts with create volume permissions. If no options are specified,
-Amazon EC2 returns all snapshots for which you have create volume permissions. If you
-specify one or more snapshot IDs, only snapshots that have the specified IDs are returned.
-If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID
-for which you do not have access, it is not included in the returned results. If you
-specify one or more snapshot owners using the OwnerIds option, only snapshots from the
-specified owners and for which you have access are returned. The results can include the
-account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for
-snapshots that you own. If you specify a list of restorable users, only snapshots with
-create snapshot permissions for those users are returned. You can specify account IDs (if
-you own the snapshots), self for snapshots for which you own or have explicit permissions,
-or all for public snapshots. If you are describing a long list of snapshots, we recommend
-that you paginate the output to make the list more manageable. The MaxResults parameter
-sets the maximum number of results returned in a single page. If the list of results
-exceeds your MaxResults value, then that number of results is returned along with a
-NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve
-the remaining results. To get the state of fast snapshot restores for a snapshot, use
-DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS
-snapshots in the Amazon Elastic Compute Cloud User Guide.
+snapshots that you own, and private snapshots owned by other Amazon Web Services accounts
+for which you have explicit create volume permissions. The create volume permissions fall
+into the following categories:    public: The owner of the snapshot granted create volume
+permissions for the snapshot to the all group. All Amazon Web Services accounts have create
+volume permissions for these snapshots.    explicit: The owner of the snapshot granted
+create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon
+Web Services account has implicit create volume permissions for all snapshots it owns.
+The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners,
+or Amazon Web Services accounts with create volume permissions. If no options are
+specified, Amazon EC2 returns all snapshots for which you have create volume permissions.
+If you specify one or more snapshot IDs, only snapshots that have the specified IDs are
+returned. If you specify an invalid snapshot ID, an error is returned. If you specify a
+snapshot ID for which you do not have access, it is not included in the returned results.
+If you specify one or more snapshot owners using the OwnerIds option, only snapshots from
+the specified owners and for which you have access are returned. The results can include
+the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by
+Amazon, or self for snapshots that you own. If you specify a list of restorable users, only
+snapshots with create snapshot permissions for those users are returned. You can specify
+Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which
+you own or have explicit permissions, or all for public snapshots. If you are describing a
+long list of snapshots, we recommend that you paginate the output to make the list more
+manageable. The MaxResults parameter sets the maximum number of results returned in a
+single page. If the list of results exceeds your MaxResults value, then that number of
+results is returned along with a NextToken value that can be passed to a subsequent
+DescribeSnapshots request to retrieve the remaining results. To get the state of fast
+snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information
+about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User
+Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filter"`: The filters.    description - A description of the snapshot.    encrypted -
   Indicates whether the snapshot is encrypted (true | false)    owner-alias - The owner
-  alias, from an Amazon-maintained list (amazon). This is not the user-configured account
-  alias set using the IAM console. We recommend that you use the related parameter instead of
-  this filter.    owner-id - The account ID of the owner. We recommend that you use the
-  related parameter instead of this filter.    progress - The progress of the snapshot, as a
-  percentage (for example, 80%).    snapshot-id - The snapshot ID.    start-time - The time
-  stamp when the snapshot was initiated.    status - The status of the snapshot (pending |
-  completed | error).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the
-  resource. Use the tag key in the filter name and the tag value as the filter value. For
-  example, to find all resources that have a tag with the key Owner and the value TeamA,
-  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
-  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
-  with a specific key, regardless of the tag value.    volume-id - The ID of the volume the
-  snapshot is for.    volume-size - The size of the volume, in GiB.
+  alias, from an Amazon-maintained list (amazon). This is not the user-configured Amazon Web
+  Services account alias set using the IAM console. We recommend that you use the related
+  parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the
+  owner. We recommend that you use the related parameter instead of this filter.    progress
+  - The progress of the snapshot, as a percentage (for example, 80%).    snapshot-id - The
+  snapshot ID.    start-time - The time stamp when the snapshot was initiated.    status -
+  The status of the snapshot (pending | completed | error).    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
+  to find all resources assigned a tag with a specific key, regardless of the tag value.
+  volume-id - The ID of the volume the snapshot is for.    volume-size - The size of the
+  volume, in GiB.
 - `"MaxResults"`: The maximum number of snapshot results returned by DescribeSnapshots in
   paginated output. When this parameter is used, DescribeSnapshots only returns MaxResults
   results in a single page along with a NextToken response element. The remaining results of
@@ -7404,8 +7415,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pagination continues from the end of the previous results that returned the NextToken
   value. This value is null when there are no more results to return.
 - `"Owner"`: Scopes the results to snapshots with the specified owners. You can specify a
-  combination of account IDs, self, and amazon.
-- `"RestorableBy"`: The IDs of the accounts that can create volumes from the snapshot.
+  combination of Amazon Web Services account IDs, self, and amazon.
+- `"RestorableBy"`: The IDs of the Amazon Web Services accounts that can create volumes
+  from the snapshot.
 - `"SnapshotId"`: The snapshot IDs. Default: Describes the snapshots for which you have
   create volume permissions.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
@@ -7695,15 +7707,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   association ID for an IPv6 CIDR block associated with the subnet.
   ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the
   subnet.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The
-  ID of the account that owns the subnet.    state - The state of the subnet (pending |
-  available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.    subnet-id -
-  The ID of the subnet.    tag:&lt;key&gt; - The key/value combination of a tag assigned to
-  the resource. Use the tag key in the filter name and the tag value as the filter value. For
-  example, to find all resources that have a tag with the key Owner and the value TeamA,
-  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
-  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
-  with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the
-  subnet.
+  ID of the Amazon Web Services account that owns the subnet.    state - The state of the
+  subnet (pending | available).    subnet-arn - The Amazon Resource Name (ARN) of the subnet.
+     subnet-id - The ID of the subnet.    tag:&lt;key&gt; - The key/value combination of a
+  tag assigned to the resource. Use the tag key in the filter name and the tag value as the
+  filter value. For example, to find all resources that have a tag with the key Owner and the
+  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
+  assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the
+  VPC for the subnet.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -8478,15 +8490,15 @@ Describes one or more of your VPC peering connections.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filter"`: One or more filters.    accepter-vpc-info.cidr-block - The IPv4 CIDR block of
-  the accepter VPC.    accepter-vpc-info.owner-id - The ID of the account that owns the
-  accepter VPC.    accepter-vpc-info.vpc-id - The ID of the accepter VPC.    expiration-time
-  - The expiration date and time for the VPC peering connection.
+  the accepter VPC.    accepter-vpc-info.owner-id - The ID of the Amazon Web Services account
+  that owns the accepter VPC.    accepter-vpc-info.vpc-id - The ID of the accepter VPC.
+  expiration-time - The expiration date and time for the VPC peering connection.
   requester-vpc-info.cidr-block - The IPv4 CIDR block of the requester's VPC.
-  requester-vpc-info.owner-id - The ID of the account that owns the requester VPC.
-  requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code - The status of the
-  VPC peering connection (pending-acceptance | failed | expired | provisioning | active |
-  deleting | deleted | rejected).    status-message - A message that provides more
-  information about the status of the VPC peering connection, if applicable.
+  requester-vpc-info.owner-id - The ID of the Amazon Web Services account that owns the
+  requester VPC.    requester-vpc-info.vpc-id - The ID of the requester VPC.    status-code -
+  The status of the VPC peering connection (pending-acceptance | failed | expired |
+  provisioning | active | deleting | deleted | rejected).    status-message - A message that
+  provides more information about the status of the VPC peering connection, if applicable.
   tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
   key in the filter name and the tag value as the filter value. For example, to find all
   resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
@@ -8527,13 +8539,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   association ID for an IPv6 CIDR block associated with the VPC.
   ipv6-cidr-block-association.state - The state of an IPv6 CIDR block associated with the
   VPC.    is-default - Indicates whether the VPC is the default VPC.    owner-id - The ID of
-  the account that owns the VPC.    state - The state of the VPC (pending | available).
-  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag
-  key in the filter name and the tag value as the filter value. For example, to find all
-  resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the
-  filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the
-  resource. Use this filter to find all resources assigned a tag with a specific key,
-  regardless of the tag value.    vpc-id - The ID of the VPC.
+  the Amazon Web Services account that owns the VPC.    state - The state of the VPC (pending
+  | available).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the
+  resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key Owner and the value TeamA,
+  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
+  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
+  with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -8689,9 +8701,10 @@ result in the volume becoming stuck in the busy state while detaching. If this h
 detachment can be delayed indefinitely until you unmount the volume, force detachment,
 reboot the instance, or all three. If an EBS volume is the root device of an instance, it
 can't be detached while the instance is running. To detach the root volume, stop the
-instance first. When a volume with an Marketplace product code is detached from an
-instance, the product code is no longer associated with the instance. For more information,
-see Detach an Amazon EBS volume in the Amazon Elastic Compute Cloud User Guide.
+instance first. When a volume with an Amazon Web Services Marketplace product code is
+detached from an instance, the product code is no longer associated with the instance. For
+more information, see Detach an Amazon EBS volume in the Amazon Elastic Compute Cloud User
+Guide.
 
 # Arguments
 - `volume_id`: The ID of the volume.
@@ -9139,7 +9152,7 @@ the Amazon Elastic Compute Cloud User Guide.
 - `availability_zone`: One or more Availability Zones. For example, us-east-2a.
 - `source_snapshot_id`: The IDs of one or more snapshots. For example,
   snap-1234567890abcdef0. You can specify a snapshot that was shared with you from another
-  account.
+  Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9442,9 +9455,9 @@ get_associated_ipv6_pool_cidrs(PoolId, params::AbstractDict{String}; aws_config:
     get_capacity_reservation_usage(capacity_reservation_id, params::Dict{String,<:Any})
 
 Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared,
-it shows usage information for the Capacity Reservation owner and each account that is
-currently using the shared capacity. If the Capacity Reservation is not shared, it shows
-only the Capacity Reservation owner's usage.
+it shows usage information for the Capacity Reservation owner and each Amazon Web Services
+account that is currently using the shared capacity. If the Capacity Reservation is not
+shared, it shows only the Capacity Reservation owner's usage.
 
 # Arguments
 - `capacity_reservation_id`: The ID of the Capacity Reservation.
@@ -10284,15 +10297,15 @@ modify_client_vpn_endpoint(ClientVpnEndpointId, params::AbstractDict{String}; aw
     modify_default_credit_specification(cpu_credits, instance_family, params::Dict{String,<:Any})
 
 Modifies the default credit option for CPU usage of burstable performance instances. The
-default credit option is set at the account level per Region, and is specified per instance
-family. All new burstable performance instances in the account launch using the default
-credit option.  ModifyDefaultCreditSpecification is an asynchronous operation, which works
-at an Region level and modifies the credit option for each Availability Zone. All zones in
-a Region are updated within five minutes. But if instances are launched during this
-operation, they might not get the new credit option until the zone is updated. To verify
-whether the update has occurred, you can call GetDefaultCreditSpecification and check
-DefaultCreditSpecification for updates. For more information, see Burstable performance
-instances in the Amazon EC2 User Guide.
+default credit option is set at the account level per Amazon Web Services Region, and is
+specified per instance family. All new burstable performance instances in the account
+launch using the default credit option.  ModifyDefaultCreditSpecification is an
+asynchronous operation, which works at an Amazon Web Services Region level and modifies the
+credit option for each Availability Zone. All zones in a Region are updated within five
+minutes. But if instances are launched during this operation, they might not get the new
+credit option until the zone is updated. To verify whether the update has occurred, you can
+call GetDefaultCreditSpecification and check DefaultCreditSpecification for updates. For
+more information, see Burstable performance instances in the Amazon EC2 User Guide.
 
 # Arguments
 - `cpu_credits`: The credit option for CPU usage of the instance family. Valid Values:
@@ -10935,13 +10948,14 @@ modify_security_group_rules(GroupId, SecurityGroupRule, params::AbstractDict{Str
     modify_snapshot_attribute(snapshot_id, params::Dict{String,<:Any})
 
 Adds or removes permission settings for the specified snapshot. You may add or remove
-specified account IDs from a snapshot's list of create volume permissions, but you cannot
-do both in a single operation. If you need to both add and remove account IDs for a
-snapshot, you must use multiple operations. You can make up to 500 modifications to a
-snapshot in a single operation. Encrypted snapshots and snapshots with Marketplace product
-codes cannot be made public. Snapshots encrypted with your default KMS key cannot be shared
-with other accounts. For more information about modifying snapshot permissions, see Share a
-snapshot in the Amazon Elastic Compute Cloud User Guide.
+specified Amazon Web Services account IDs from a snapshot's list of create volume
+permissions, but you cannot do both in a single operation. If you need to both add and
+remove account IDs for a snapshot, you must use multiple operations. You can make up to 500
+modifications to a snapshot in a single operation. Encrypted snapshots and snapshots with
+Amazon Web Services Marketplace product codes cannot be made public. Snapshots encrypted
+with your default KMS key cannot be shared with other accounts. For more information about
+modifying snapshot permissions, see Share a snapshot in the Amazon Elastic Compute Cloud
+User Guide.
 
 # Arguments
 - `snapshot_id`: The ID of the snapshot.
@@ -11433,15 +11447,16 @@ EC2-Classic instance that's linked to your VPC (using ClassicLink) and instances
 peer VPC.   Enable/disable communication over the peering connection between instances in
 your VPC and an EC2-Classic instance that's linked to the peer VPC.   Enable/disable the
 ability to resolve public DNS hostnames to private IP addresses when queried from instances
-in the peer VPC.   If the peered VPCs are in the same account, you can enable DNS
-resolution for queries from the local VPC. This ensures that queries from the local VPC
-resolve to private IP addresses in the peer VPC. This option is not available if the peered
-VPCs are in different different accounts or different Regions. For peered VPCs in different
-accounts, each account owner must initiate a separate request to modify the peering
-connection options. For inter-region peering connections, you must use the Region for the
-requester VPC to modify the requester VPC peering options and the Region for the accepter
-VPC to modify the accepter VPC peering options. To verify which VPCs are the accepter and
-the requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
+in the peer VPC.   If the peered VPCs are in the same Amazon Web Services account, you can
+enable DNS resolution for queries from the local VPC. This ensures that queries from the
+local VPC resolve to private IP addresses in the peer VPC. This option is not available if
+the peered VPCs are in different different Amazon Web Services accounts or different
+Regions. For peered VPCs in different Amazon Web Services accounts, each Amazon Web
+Services account owner must initiate a separate request to modify the peering connection
+options. For inter-region peering connections, you must use the Region for the requester
+VPC to modify the requester VPC peering options and the Region for the accepter VPC to
+modify the accepter VPC peering options. To verify which VPCs are the accepter and the
+requester for a VPC peering connection, use the DescribeVpcPeeringConnections command.
 
 # Arguments
 - `vpc_peering_connection_id`: The ID of the VPC peering connection.
@@ -12041,9 +12056,9 @@ before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddr
 After releasing an Elastic IP address, it is released to the IP address pool. Be sure to
 update your DNS records and any servers or devices that communicate with the address. If
 you attempt to release an Elastic IP address that you already released, you'll get an
-AuthFailure error if the address is already allocated to another account. [EC2-VPC] After
-you release an Elastic IP address for use in a VPC, you might be able to recover it. For
-more information, see AllocateAddress.
+AuthFailure error if the address is already allocated to another Amazon Web Services
+account. [EC2-VPC] After you release an Elastic IP address for use in a VPC, you might be
+able to recover it. For more information, see AllocateAddress.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

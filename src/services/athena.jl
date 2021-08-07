@@ -46,16 +46,14 @@ batch_get_query_execution(QueryExecutionIds, params::AbstractDict{String}; aws_c
     create_data_catalog(name, type, params::Dict{String,<:Any})
 
 Creates (registers) a data catalog with the specified name and properties. Catalogs created
-are visible to all users of the same AWS account.
+are visible to all users of the same Amazon Web Services account.
 
 # Arguments
 - `name`: The name of the data catalog to create. The catalog name must be unique for the
-  AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen
-  characters.
-- `type`: The type of data catalog to create: LAMBDA for a federated catalog or HIVE for an
-  external hive metastore.  Do not use the GLUE type. This refers to the AwsDataCatalog that
-  already exists in your account, of which you can have only one. Specifying the GLUE type
-  will result in an INVALID_INPUT error.
+  Amazon Web Services account and can use a maximum of 128 alphanumeric, underscore, at sign,
+  or hyphen characters.
+- `type`: The type of data catalog to create: LAMBDA for a federated catalog, HIVE for an
+  external hive metastore, or GLUE for an Glue Data Catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -70,7 +68,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following syntax. Both parameters are required.  metadata-function=lambda_arn,
   record-function=lambda_arn      If you have a composite Lambda function that processes both
   metadata and data, use the following syntax to specify your Lambda function.
-  function=lambda_arn
+  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The
+  catalog_id  is the account ID of the Amazon Web Services account to which the Glue Data
+  Catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the
+  default AwsDataCatalog that already exists in your account, of which you can have only one
+  and cannot modify.   Queries that specify a Glue Data Catalog other than the default
+  AwsDataCatalog must be run on Athena engine version 2.   In Regions where Athena engine
+  version 2 is not available, creating new Glue data catalogs results in an INVALID_INPUT
+  error.
 - `"Tags"`: A list of comma separated tags to add to the data catalog that is created.
 """
 create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config)
@@ -81,8 +86,8 @@ create_data_catalog(Name, Type, params::AbstractDict{String}; aws_config::Abstra
     create_named_query(database, name, query_string, params::Dict{String,<:Any})
 
 Creates a named query in the specified workgroup. Requires that you have access to the
-workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in
-the Amazon Athena User Guide.
+workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and
+Code Samples in the Amazon Athena User Guide.
 
 # Arguments
 - `database`: The database to which the query belongs.
@@ -95,9 +100,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create the query is idempotent (executes only once). If another CreateNamedQuery request is
   received, the same response is returned and another query is not created. If a parameter
   has changed, for example, the QueryString, an error is returned.  This token is listed as
-  not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token
-  for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or
-  the action will fail.
+  not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
+  Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK
+  or the Amazon Web Services CLI, you must provide this token or the action will fail.
 - `"Description"`: The query description.
 - `"WorkGroup"`: The name of the workgroup in which the named query is being created.
 """
@@ -164,8 +169,8 @@ delete_data_catalog(Name, params::AbstractDict{String}; aws_config::AbstractAWSC
     delete_named_query(named_query_id, params::Dict{String,<:Any})
 
 Deletes the named query if you have access to the workgroup in which the query was saved.
-For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon
-Athena User Guide.
+For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples
+in the Amazon Athena User Guide.
 
 # Arguments
 - `named_query_id`: The unique ID of the query to delete.
@@ -336,7 +341,7 @@ get_work_group(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSC
     list_data_catalogs()
     list_data_catalogs(params::Dict{String,<:Any})
 
-Lists the data catalogs in the current AWS account.
+Lists the data catalogs in the current Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -390,8 +395,8 @@ list_engine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig
 
 Provides a list of available query IDs only for queries saved in the specified workgroup.
 Requires that you have access to the specified workgroup. If a workgroup is not specified,
-lists the saved queries for the primary workgroup. For code samples using the AWS SDK for
-Java, see Examples and Code Samples in the Amazon Athena User Guide.
+lists the saved queries for the primary workgroup. For code samples using the Amazon Web
+Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -431,8 +436,8 @@ list_prepared_statements(WorkGroup, params::AbstractDict{String}; aws_config::Ab
 Provides a list of available query execution IDs for the queries in the specified
 workgroup. If a workgroup is not specified, returns a list of query execution IDs for the
 primary workgroup. Requires you to have access to the workgroup in which the queries ran.
-For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon
-Athena User Guide.
+For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples
+in the Amazon Athena User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -511,8 +516,8 @@ list_work_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=glo
 
 Runs the SQL query statements contained in the Query. Requires you to have access to the
 workgroup in which the query ran. Running queries against an external catalog requires
-GetDataCatalog permission to the catalog. For code samples using the AWS SDK for Java, see
-Examples and Code Samples in the Amazon Athena User Guide.
+GetDataCatalog permission to the catalog. For code samples using the Amazon Web Services
+SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
 
 # Arguments
 - `query_string`: The SQL query statements to be executed.
@@ -523,9 +528,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create the query is idempotent (executes only once). If another StartQueryExecution request
   is received, the same response is returned and another query is not created. If a parameter
   has changed, for example, the QueryString, an error is returned.  This token is listed as
-  not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token
-  for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or
-  the action will fail.
+  not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
+  Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK
+  or the Amazon Web Services CLI, you must provide this token or the action will fail.
 - `"QueryExecutionContext"`: The database within which the query executes.
 - `"ResultConfiguration"`: Specifies information about where and how to save the results of
   the query execution. If the query runs in a workgroup, then workgroup's settings may
@@ -542,8 +547,8 @@ start_query_execution(QueryString, params::AbstractDict{String}; aws_config::Abs
     stop_query_execution(query_execution_id, params::Dict{String,<:Any})
 
 Stops a query execution. Requires you to have access to the workgroup in which the query
-ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the
-Amazon Athena User Guide.
+ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code
+Samples in the Amazon Athena User Guide.
 
 # Arguments
 - `query_execution_id`: The unique ID of the query execution to stop.
@@ -600,12 +605,10 @@ Updates the data catalog that has the specified name.
 
 # Arguments
 - `name`: The name of the data catalog to update. The catalog name must be unique for the
-  AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen
-  characters.
+  Amazon Web Services account and can use a maximum of 128 alphanumeric, underscore, at sign,
+  or hyphen characters.
 - `type`: Specifies the type of data catalog to update. Specify LAMBDA for a federated
-  catalog or HIVE for an external hive metastore.  Do not use the GLUE type. This refers to
-  the AwsDataCatalog that already exists in your account, of which you can have only one.
-  Specifying the GLUE type will result in an INVALID_INPUT error.
+  catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

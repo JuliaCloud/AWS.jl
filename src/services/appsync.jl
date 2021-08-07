@@ -70,10 +70,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dynamodbConfig"`: Amazon DynamoDB settings.
 - `"elasticsearchConfig"`: Amazon Elasticsearch Service settings.
 - `"httpConfig"`: HTTP endpoint settings.
-- `"lambdaConfig"`: AWS Lambda settings.
+- `"lambdaConfig"`: Amazon Web Services Lambda settings.
 - `"relationalDatabaseConfig"`: Relational database settings.
-- `"serviceRoleArn"`: The AWS IAM service role ARN for the data source. The system assumes
-  this role when accessing the data source.
+- `"serviceRoleArn"`: The Identity and Access Management service role ARN for the data
+  source. The system assumes this role when accessing the data source.
 """
 create_data_source(apiId, name, type; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/datasources", Dict{String, Any}("name"=>name, "type"=>type); aws_config=aws_config)
 create_data_source(apiId, name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appsync("POST", "/v1/apis/$(apiId)/datasources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type), params)); aws_config=aws_config)
@@ -110,14 +110,15 @@ create_function(apiId, dataSourceName, functionVersion, name, params::AbstractDi
 Creates a GraphqlApi object.
 
 # Arguments
-- `authentication_type`: The authentication type: API key, AWS IAM, OIDC, or Amazon Cognito
-  user pools.
+- `authentication_type`: The authentication type: API key, Identity and Access Management,
+  OIDC, or Amazon Cognito user pools.
 - `name`: A user-supplied name for the GraphqlApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"additionalAuthenticationProviders"`: A list of additional authentication providers for
   the GraphqlApi API.
+- `"lambdaAuthorizerConfig"`: Configuration for AWS Lambda function authorization.
 - `"logConfig"`: The Amazon CloudWatch Logs configuration.
 - `"openIDConnectConfig"`: The OpenID Connect configuration.
 - `"tags"`: A TagMap object.
@@ -647,7 +648,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dynamodbConfig"`: The new Amazon DynamoDB configuration.
 - `"elasticsearchConfig"`: The new Elasticsearch Service configuration.
 - `"httpConfig"`: The new HTTP endpoint configuration.
-- `"lambdaConfig"`: The new AWS Lambda configuration.
+- `"lambdaConfig"`: The new Amazon Web Services Lambda configuration.
 - `"relationalDatabaseConfig"`: The new relational database configuration.
 - `"serviceRoleArn"`: The new service role ARN for the data source.
 """
@@ -694,6 +695,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"additionalAuthenticationProviders"`: A list of additional authentication providers for
   the GraphqlApi API.
 - `"authenticationType"`: The new authentication type for the GraphqlApi object.
+- `"lambdaAuthorizerConfig"`: Configuration for AWS Lambda function authorization.
 - `"logConfig"`: The Amazon CloudWatch Logs configuration for the GraphqlApi object.
 - `"openIDConnectConfig"`: The OpenID Connect configuration for the GraphqlApi object.
 - `"userPoolConfig"`: The new Amazon Cognito user pool configuration for the GraphqlApi
