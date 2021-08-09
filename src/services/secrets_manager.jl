@@ -65,34 +65,35 @@ parameter, but not both. If you include SecretString or SecretBinary then Secret
 also creates an initial secret version and automatically attaches the staging label
 AWSCURRENT to the new version.    If you call an operation to encrypt or decrypt the
 SecretString or SecretBinary for a secret in the same account as the calling user and that
-secret doesn't specify a AWS KMS encryption key, Secrets Manager uses the account's default
-AWS managed customer master key (CMK) with the alias aws/secretsmanager. If this key
-doesn't already exist in your account then Secrets Manager creates it for you
-automatically. All users and roles in the same AWS account automatically have access to use
-the default CMK. Note that if an Secrets Manager API call results in AWS creating the
-account's AWS-managed CMK, it can result in a one-time significant delay in returning the
-result.   If the secret resides in a different AWS account from the credentials calling an
-API that requires encryption or decryption of the secret value then you must create and use
-a custom AWS KMS CMK because you can't access the default CMK for the account using
-credentials from a different AWS account. Store the ARN of the CMK in the secret when you
-create the secret or when you update it by including it in the KMSKeyId. If you call an API
-that must encrypt or decrypt SecretString or SecretBinary using credentials from a
-different account then the AWS KMS key policy must grant cross-account access to that other
-account's user or role for both the kms:GenerateDataKey and kms:Decrypt operations.
-Minimum permissions  To run this command, you must have the following permissions:
-secretsmanager:CreateSecret   kms:GenerateDataKey - needed only if you use a
-customer-managed AWS KMS key to encrypt the secret. You do not need this permission to use
-the account default AWS managed CMK for Secrets Manager.   kms:Decrypt - needed only if you
-use a customer-managed AWS KMS key to encrypt the secret. You do not need this permission
-to use the account default AWS managed CMK for Secrets Manager.
-secretsmanager:TagResource - needed only if you include the Tags parameter.     Related
-operations    To delete a secret, use DeleteSecret.   To modify an existing secret, use
-UpdateSecret.   To create a new version of a secret, use PutSecretValue.   To retrieve the
-encrypted secure string and secure binary values, use GetSecretValue.   To retrieve all
-other details for a secret, use DescribeSecret. This does not include the encrypted secure
-string and secure binary values.   To retrieve the list of secret versions associated with
-the current secret, use DescribeSecret and examine the SecretVersionsToStages response
-value.
+secret doesn't specify a Amazon Web Services KMS encryption key, Secrets Manager uses the
+account's default Amazon Web Services managed customer master key (CMK) with the alias
+aws/secretsmanager. If this key doesn't already exist in your account then Secrets Manager
+creates it for you automatically. All users and roles in the same Amazon Web Services
+account automatically have access to use the default CMK. Note that if an Secrets Manager
+API call results in Amazon Web Services creating the account's Amazon Web Services-managed
+CMK, it can result in a one-time significant delay in returning the result.   If the secret
+resides in a different Amazon Web Services account from the credentials calling an API that
+requires encryption or decryption of the secret value then you must create and use a custom
+Amazon Web Services KMS CMK because you can't access the default CMK for the account using
+credentials from a different Amazon Web Services account. Store the ARN of the CMK in the
+secret when you create the secret or when you update it by including it in the KMSKeyId. If
+you call an API that must encrypt or decrypt SecretString or SecretBinary using credentials
+from a different account then the Amazon Web Services KMS key policy must grant
+cross-account access to that other account's user or role for both the kms:GenerateDataKey
+and kms:Decrypt operations.       Minimum permissions  To run this command, you must have
+the following permissions:   secretsmanager:CreateSecret   kms:GenerateDataKey - needed
+only if you use a customer-managed Amazon Web Services KMS key to encrypt the secret. You
+do not need this permission to use the account default Amazon Web Services managed CMK for
+Secrets Manager.   kms:Decrypt - needed only if you use a customer-managed Amazon Web
+Services KMS key to encrypt the secret. You do not need this permission to use the account
+default Amazon Web Services managed CMK for Secrets Manager.   secretsmanager:TagResource -
+needed only if you include the Tags parameter.     Related operations    To delete a
+secret, use DeleteSecret.   To modify an existing secret, use UpdateSecret.   To create a
+new version of a secret, use PutSecretValue.   To retrieve the encrypted secure string and
+secure binary values, use GetSecretValue.   To retrieve all other details for a secret, use
+DescribeSecret. This does not include the encrypted secure string and secure binary values.
+  To retrieve the list of secret versions associated with the current secret, use
+DescribeSecret and examine the SecretVersionsToStages response value.
 
 # Arguments
 - `name`: Specifies the friendly name of the new secret. The secret name must be ASCII
@@ -107,43 +108,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Manager replicates the KMSKeyID objects to the list of regions specified in the parameter.
 - `"ClientRequestToken"`: (Optional) If you include SecretString or SecretBinary, then an
   initial version is created as part of the secret, and this parameter specifies a unique
-  identifier for the new version.   If you use the AWS CLI or one of the AWS SDK to call this
-  operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID
-  for you and includes it as the value for this parameter in the request. If you don't use
-  the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint,
-  then you must generate a ClientRequestToken yourself for the new version and include the
-  value in the request.  This value helps ensure idempotency. Secrets Manager uses this value
-  to prevent the accidental creation of duplicate versions if there are failures and retries
-  during a rotation. We recommend that you generate a UUID-type value to ensure uniqueness of
-  your versions within the specified secret.    If the ClientRequestToken value isn't already
-  associated with a version of the secret then a new version of the secret is created.    If
-  a version with this value already exists and the version SecretString and SecretBinary
-  values are the same as those in the request, then the request is ignored.   If a version
-  with this value already exists and that version's SecretString and SecretBinary values are
-  different from those in the request, then the request fails because you cannot modify an
-  existing version. Instead, use PutSecretValue to create a new version.   This value becomes
-  the VersionId of the new version.
+  identifier for the new version.   If you use the Amazon Web Services CLI or one of the
+  Amazon Web Services SDK to call this operation, then you can leave this parameter empty.
+  The CLI or SDK generates a random UUID for you and includes it as the value for this
+  parameter in the request. If you don't use the SDK and instead generate a raw HTTP request
+  to the Secrets Manager service endpoint, then you must generate a ClientRequestToken
+  yourself for the new version and include the value in the request.  This value helps ensure
+  idempotency. Secrets Manager uses this value to prevent the accidental creation of
+  duplicate versions if there are failures and retries during a rotation. We recommend that
+  you generate a UUID-type value to ensure uniqueness of your versions within the specified
+  secret.    If the ClientRequestToken value isn't already associated with a version of the
+  secret then a new version of the secret is created.    If a version with this value already
+  exists and the version SecretString and SecretBinary values are the same as those in the
+  request, then the request is ignored.   If a version with this value already exists and
+  that version's SecretString and SecretBinary values are different from those in the
+  request, then the request fails because you cannot modify an existing version. Instead, use
+  PutSecretValue to create a new version.   This value becomes the VersionId of the new
+  version.
 - `"Description"`: (Optional) Specifies a user-provided description of the secret.
 - `"ForceOverwriteReplicaSecret"`: (Optional) If set, the replication overwrites a secret
   with the same name in the destination region.
-- `"KmsKeyId"`: (Optional) Specifies the ARN, Key ID, or alias of the AWS KMS customer
-  master key (CMK) to be used to encrypt the SecretString or SecretBinary values in the
-  versions stored in this secret. You can specify any of the supported ways to identify a AWS
-  KMS key ID. If you need to reference a CMK in a different account, you can use only the key
-  ARN or the alias ARN. If you don't specify this value, then Secrets Manager defaults to
-  using the AWS account's default CMK (the one named aws/secretsmanager). If a AWS KMS CMK
-  with that name doesn't yet exist, then Secrets Manager creates it for you automatically the
-  first time it needs to encrypt a version's SecretString or SecretBinary fields.  You can
-  use the account default CMK to encrypt and decrypt only if you call this operation using
-  credentials from the same account that owns the secret. If the secret resides in a
-  different account, then you must create a custom CMK and specify the ARN in this field.
+- `"KmsKeyId"`: (Optional) Specifies the ARN, Key ID, or alias of the Amazon Web Services
+  KMS customer master key (CMK) to be used to encrypt the SecretString or SecretBinary values
+  in the versions stored in this secret. You can specify any of the supported ways to
+  identify a Amazon Web Services KMS key ID. If you need to reference a CMK in a different
+  account, you can use only the key ARN or the alias ARN. If you don't specify this value,
+  then Secrets Manager defaults to using the Amazon Web Services account's default CMK (the
+  one named aws/secretsmanager). If a Amazon Web Services KMS CMK with that name doesn't yet
+  exist, then Secrets Manager creates it for you automatically the first time it needs to
+  encrypt a version's SecretString or SecretBinary fields.  You can use the account default
+  CMK to encrypt and decrypt only if you call this operation using credentials from the same
+  account that owns the secret. If the secret resides in a different account, then you must
+  create a custom CMK and specify the ARN in this field.
 - `"SecretBinary"`: (Optional) Specifies binary data that you want to encrypt and store in
   the new version of the secret. To use this parameter in the command-line tools, we
   recommend that you store your binary data in a file and then use the appropriate technique
   for your tool to pass the contents of the file as a parameter. Either SecretString or
   SecretBinary must have a value, but not both. They cannot both be empty. This parameter is
-  not available using the Secrets Manager console. It can be accessed only by using the AWS
-  CLI or one of the AWS SDKs.
+  not available using the Secrets Manager console. It can be accessed only by using the
+  Amazon Web Services CLI or one of the Amazon Web Services SDKs.
 - `"SecretString"`: (Optional) Specifies text data that you want to encrypt and store in
   this new version of the secret. Either SecretString or SecretBinary must have a value, but
   not both. They cannot both be empty. If you create a secret by using the Secrets Manager
@@ -152,7 +155,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key/value pairs that the Lambda rotation function knows how to parse. For storing multiple
   values, we recommend that you use a JSON text string argument and specify key/value pairs.
   For information on how to format a JSON parameter for the various command line tool
-  environments, see Using JSON for Parameters in the AWS CLI User Guide. For example:
+  environments, see Using JSON for Parameters in the CLI User Guide. For example:
   {\"username\":\"bob\",\"password\":\"abc123xyz456\"}  If your command-line tool or SDK
   requires quotation marks around the parameter, you should use single quotes to avoid
   confusion with the double quotes required in the JSON text.
@@ -166,19 +169,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this secret, then this operation is blocked and returns an Access Denied error.    This
   parameter requires a JSON text string argument. For information on how to format a JSON
   parameter for the various command line tool environments, see Using JSON for Parameters in
-  the AWS CLI User Guide. For example:
+  the CLI User Guide. For example:
   [{\"Key\":\"CostCenter\",\"Value\":\"12345\"},{\"Key\":\"environment\",\"Value\":\"productio
   n\"}]  If your command-line tool or SDK requires quotation marks around the parameter, you
   should use single quotes to avoid confusion with the double quotes required in the JSON
   text.  The following basic restrictions apply to tags:   Maximum number of tags per
   secret—50   Maximum key length—127 Unicode characters in UTF-8   Maximum value
   length—255 Unicode characters in UTF-8   Tag keys and values are case sensitive.   Do not
-  use the aws: prefix in your tag names or values because AWS reserves it for AWS use. You
-  can't edit or delete tag names or values with this prefix. Tags with this prefix do not
-  count against your tags per secret limit.   If you use your tagging schema across multiple
-  services and resources, remember other services might have restrictions on allowed
-  characters. Generally allowed characters: letters, spaces, and numbers representable in
-  UTF-8, plus the following special characters: + - = . _ : / @.
+  use the aws: prefix in your tag names or values because Amazon Web Services reserves it for
+  Amazon Web Services use. You can't edit or delete tag names or values with this prefix.
+  Tags with this prefix do not count against your tags per secret limit.   If you use your
+  tagging schema across multiple services and resources, remember other services might have
+  restrictions on allowed characters. Generally allowed characters: letters, spaces, and
+  numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.
 """
 create_secret(Name; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("CreateSecret", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 create_secret(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("CreateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -265,11 +268,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to delete and then immediately recreate a secret with the same name, ensure that your code
   includes appropriate back off and retry logic.  Use this parameter with caution. This
   parameter causes the operation to skip the normal waiting period before the permanent
-  deletion that AWS would normally impose with the RecoveryWindowInDays parameter. If you
-  delete a secret with the ForceDeleteWithouRecovery parameter, then you have no opportunity
-  to recover the secret. You lose the secret permanently.   If you use this parameter and
-  include a previously deleted or nonexistent secret, the operation does not return the error
-  ResourceNotFoundException in order to correctly handle retries.
+  deletion that Amazon Web Services would normally impose with the RecoveryWindowInDays
+  parameter. If you delete a secret with the ForceDeleteWithouRecovery parameter, then you
+  have no opportunity to recover the secret. You lose the secret permanently.   If you use
+  this parameter and include a previously deleted or nonexistent secret, the operation does
+  not return the error ResourceNotFoundException in order to correctly handle retries.
 - `"RecoveryWindowInDays"`: (Optional) Specifies the number of days that Secrets Manager
   waits before Secrets Manager can delete the secret. You can't use both this parameter and
   the ForceDeleteWithoutRecovery parameter in the same API call. This value can range from 7
@@ -288,7 +291,7 @@ To run this command, you must have the following permissions:
 secretsmanager:DescribeSecret    Related operations    To create a secret, use
 CreateSecret.   To modify a secret, use UpdateSecret.   To retrieve the encrypted secret
 information in a version of the secret, use GetSecretValue.   To list all of the secrets in
-the AWS account, use ListSecrets.
+the Amazon Web Services account, use ListSecrets.
 
 # Arguments
 - `secret_id`: The identifier of the secret whose details you want to retrieve. You can
@@ -393,11 +396,11 @@ get_resource_policy(SecretId, params::AbstractDict{String}; aws_config::Abstract
 Retrieves the contents of the encrypted fields SecretString or SecretBinary from the
 specified version of a secret, whichever contains content.  Minimum permissions  To run
 this command, you must have the following permissions:   secretsmanager:GetSecretValue
-kms:Decrypt - required only if you use a customer-managed AWS KMS key to encrypt the
-secret. You do not need this permission to use the account's default AWS managed CMK for
-Secrets Manager.    Related operations    To create a new version of the secret with
-different encrypted information, use PutSecretValue.   To retrieve the non-encrypted
-details for the secret, use DescribeSecret.
+kms:Decrypt - required only if you use a customer-managed Amazon Web Services KMS key to
+encrypt the secret. You do not need this permission to use the account's default Amazon Web
+Services managed CMK for Secrets Manager.    Related operations    To create a new version
+of the secret with different encrypted information, use PutSecretValue.   To retrieve the
+non-encrypted details for the secret, use DescribeSecret.
 
 # Arguments
 - `secret_id`: Specifies the secret containing the version that you want to retrieve. You
@@ -490,15 +493,15 @@ list_secret_version_ids(SecretId, params::AbstractDict{String}; aws_config::Abst
     list_secrets()
     list_secrets(params::Dict{String,<:Any})
 
-Lists all of the secrets that are stored by Secrets Manager in the AWS account. To list the
-versions currently stored for a specific secret, use ListSecretVersionIds. The encrypted
-fields SecretString and SecretBinary are not included in the output. To get that
-information, call the GetSecretValue operation.  Always check the NextToken response
-parameter when calling any of the List* operations. These operations can occasionally
-return an empty or shorter than expected list of results even when there more results
-become available. When this happens, the NextToken response parameter contains a value to
-pass to the next call to the same API to request the next part of the list.   Minimum
-permissions  To run this command, you must have the following permissions:
+Lists all of the secrets that are stored by Secrets Manager in the Amazon Web Services
+account. To list the versions currently stored for a specific secret, use
+ListSecretVersionIds. The encrypted fields SecretString and SecretBinary are not included
+in the output. To get that information, call the GetSecretValue operation.  Always check
+the NextToken response parameter when calling any of the List* operations. These operations
+can occasionally return an empty or shorter than expected list of results even when there
+more results become available. When this happens, the NextToken response parameter contains
+a value to pass to the next call to the same API to request the next part of the list.
+Minimum permissions  To run this command, you must have the following permissions:
 secretsmanager:ListSecrets    Related operations    To list the versions attached to a
 secret, use ListSecretVersionIds.
 
@@ -531,20 +534,21 @@ resource-based policy is optional. Alternatively, you can use IAM identity-based
 that specify the secret's Amazon Resource Name (ARN) in the policy statement's Resources
 element. You can also use a combination of both identity-based and resource-based policies.
 The affected users and roles receive the permissions that are permitted by all of the
-relevant policies. For more information, see Using Resource-Based Policies for AWS Secrets
-Manager. For the complete description of the AWS policy syntax and grammar, see IAM JSON
-Policy Reference in the IAM User Guide.  Minimum permissions  To run this command, you must
-have the following permissions:   secretsmanager:PutResourcePolicy    Related operations
-To retrieve the resource policy attached to a secret, use GetResourcePolicy.   To delete
-the resource-based policy attached to a secret, use DeleteResourcePolicy.   To list all of
-the currently available secrets, use ListSecrets.
+relevant policies. For more information, see Using Resource-Based Policies for Amazon Web
+Services Secrets Manager. For the complete description of the Amazon Web Services policy
+syntax and grammar, see IAM JSON Policy Reference in the IAM User Guide.  Minimum
+permissions  To run this command, you must have the following permissions:
+secretsmanager:PutResourcePolicy    Related operations    To retrieve the resource policy
+attached to a secret, use GetResourcePolicy.   To delete the resource-based policy attached
+to a secret, use DeleteResourcePolicy.   To list all of the currently available secrets,
+use ListSecrets.
 
 # Arguments
 - `resource_policy`: A JSON-formatted string constructed according to the grammar and
-  syntax for an AWS resource-based policy. The policy in the string identifies who can access
-  or manage this secret and its versions. For information on how to format a JSON parameter
-  for the various command line tool environments, see Using JSON for Parameters in the AWS
-  CLI User Guide.
+  syntax for an Amazon Web Services resource-based policy. The policy in the string
+  identifies who can access or manage this secret and its versions. For information on how to
+  format a JSON parameter for the various command line tool environments, see Using JSON for
+  Parameters in the CLI User Guide.
 - `secret_id`: Specifies the secret that you want to attach the resource-based policy. You
   can specify either the ARN or the friendly name of the secret.  If you specify an ARN, we
   generally recommend that you specify a complete ARN. You can specify a partial ARN
@@ -578,39 +582,41 @@ creates a new version and attaches it to the secret. The version can contain a n
 SecretString value or a new SecretBinary value. You can also specify the staging labels
 that are initially attached to the new version.  The Secrets Manager console uses only the
 SecretString field. To add binary data to a secret with the SecretBinary field you must use
-the AWS CLI or one of the AWS SDKs.    If this operation creates the first version for the
-secret then Secrets Manager automatically attaches the staging label AWSCURRENT to the new
-version.   If you do not specify a value for VersionStages then Secrets Manager
-automatically moves the staging label AWSCURRENT to this new version.   If this operation
-moves the staging label AWSCURRENT from another version to this version, then Secrets
-Manager also automatically moves the staging label AWSPREVIOUS to the version that
-AWSCURRENT was removed from.   This operation is idempotent. If a version with a VersionId
-with the same value as the ClientRequestToken parameter already exists and you specify the
-same secret data, the operation succeeds but does nothing. However, if the secret data is
-different, then the operation fails because you cannot modify an existing version; you can
-only create new ones.      If you call an operation to encrypt or decrypt the SecretString
-or SecretBinary for a secret in the same account as the calling user and that secret
-doesn't specify a AWS KMS encryption key, Secrets Manager uses the account's default AWS
-managed customer master key (CMK) with the alias aws/secretsmanager. If this key doesn't
-already exist in your account then Secrets Manager creates it for you automatically. All
-users and roles in the same AWS account automatically have access to use the default CMK.
-Note that if an Secrets Manager API call results in AWS creating the account's AWS-managed
-CMK, it can result in a one-time significant delay in returning the result.   If the secret
-resides in a different AWS account from the credentials calling an API that requires
-encryption or decryption of the secret value then you must create and use a custom AWS KMS
-CMK because you can't access the default CMK for the account using credentials from a
-different AWS account. Store the ARN of the CMK in the secret when you create the secret or
-when you update it by including it in the KMSKeyId. If you call an API that must encrypt or
-decrypt SecretString or SecretBinary using credentials from a different account then the
-AWS KMS key policy must grant cross-account access to that other account's user or role for
-both the kms:GenerateDataKey and kms:Decrypt operations.     Minimum permissions  To run
-this command, you must have the following permissions:   secretsmanager:PutSecretValue
-kms:GenerateDataKey - needed only if you use a customer-managed AWS KMS key to encrypt the
-secret. You do not need this permission to use the account's default AWS managed CMK for
-Secrets Manager.    Related operations    To retrieve the encrypted value you store in the
-version of a secret, use GetSecretValue.   To create a secret, use CreateSecret.   To get
-the details for a secret, use DescribeSecret.   To list the versions attached to a secret,
-use ListSecretVersionIds.
+the Amazon Web Services CLI or one of the Amazon Web Services SDKs.    If this operation
+creates the first version for the secret then Secrets Manager automatically attaches the
+staging label AWSCURRENT to the new version.   If you do not specify a value for
+VersionStages then Secrets Manager automatically moves the staging label AWSCURRENT to this
+new version.   If this operation moves the staging label AWSCURRENT from another version to
+this version, then Secrets Manager also automatically moves the staging label AWSPREVIOUS
+to the version that AWSCURRENT was removed from.   This operation is idempotent. If a
+version with a VersionId with the same value as the ClientRequestToken parameter already
+exists and you specify the same secret data, the operation succeeds but does nothing.
+However, if the secret data is different, then the operation fails because you cannot
+modify an existing version; you can only create new ones.      If you call an operation to
+encrypt or decrypt the SecretString or SecretBinary for a secret in the same account as the
+calling user and that secret doesn't specify a Amazon Web Services KMS encryption key,
+Secrets Manager uses the account's default Amazon Web Services managed customer master key
+(CMK) with the alias aws/secretsmanager. If this key doesn't already exist in your account
+then Secrets Manager creates it for you automatically. All users and roles in the same
+Amazon Web Services account automatically have access to use the default CMK. Note that if
+an Secrets Manager API call results in Amazon Web Services creating the account's Amazon
+Web Services-managed CMK, it can result in a one-time significant delay in returning the
+result.   If the secret resides in a different Amazon Web Services account from the
+credentials calling an API that requires encryption or decryption of the secret value then
+you must create and use a custom Amazon Web Services KMS CMK because you can't access the
+default CMK for the account using credentials from a different Amazon Web Services account.
+Store the ARN of the CMK in the secret when you create the secret or when you update it by
+including it in the KMSKeyId. If you call an API that must encrypt or decrypt SecretString
+or SecretBinary using credentials from a different account then the Amazon Web Services KMS
+key policy must grant cross-account access to that other account's user or role for both
+the kms:GenerateDataKey and kms:Decrypt operations.     Minimum permissions  To run this
+command, you must have the following permissions:   secretsmanager:PutSecretValue
+kms:GenerateDataKey - needed only if you use a customer-managed Amazon Web Services KMS key
+to encrypt the secret. You do not need this permission to use the account's default Amazon
+Web Services managed CMK for Secrets Manager.    Related operations    To retrieve the
+encrypted value you store in the version of a secret, use GetSecretValue.   To create a
+secret, use CreateSecret.   To get the details for a secret, use DescribeSecret.   To list
+the versions attached to a secret, use ListSecretVersionIds.
 
 # Arguments
 - `secret_id`: Specifies the secret to which you want to add a new version. You can specify
@@ -632,22 +638,22 @@ use ListSecretVersionIds.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: (Optional) Specifies a unique identifier for the new version of
-  the secret.   If you use the AWS CLI or one of the AWS SDK to call this operation, then you
-  can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes
-  that in the request. If you don't use the SDK and instead generate a raw HTTP request to
-  the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself
-  for new versions and include that value in the request.   This value helps ensure
-  idempotency. Secrets Manager uses this value to prevent the accidental creation of
-  duplicate versions if there are failures and retries during the Lambda rotation function's
-  processing. We recommend that you generate a UUID-type value to ensure uniqueness within
-  the specified secret.    If the ClientRequestToken value isn't already associated with a
-  version of the secret then a new version of the secret is created.    If a version with
-  this value already exists and that version's SecretString or SecretBinary values are the
-  same as those in the request then the request is ignored (the operation is idempotent).
-  If a version with this value already exists and the version of the SecretString and
-  SecretBinary values are different from those in the request then the request fails because
-  you cannot modify an existing secret version. You can only create new versions to store new
-  secret values.   This value becomes the VersionId of the new version.
+  the secret.   If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK
+  to call this operation, then you can leave this parameter empty. The CLI or SDK generates a
+  random UUID for you and includes that in the request. If you don't use the SDK and instead
+  generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate
+  a ClientRequestToken yourself for new versions and include that value in the request.
+  This value helps ensure idempotency. Secrets Manager uses this value to prevent the
+  accidental creation of duplicate versions if there are failures and retries during the
+  Lambda rotation function's processing. We recommend that you generate a UUID-type value to
+  ensure uniqueness within the specified secret.    If the ClientRequestToken value isn't
+  already associated with a version of the secret then a new version of the secret is
+  created.    If a version with this value already exists and that version's SecretString or
+  SecretBinary values are the same as those in the request then the request is ignored (the
+  operation is idempotent).    If a version with this value already exists and the version of
+  the SecretString and SecretBinary values are different from those in the request then the
+  request fails because you cannot modify an existing secret version. You can only create new
+  versions to store new secret values.   This value becomes the VersionId of the new version.
 - `"SecretBinary"`: (Optional) Specifies binary data that you want to encrypt and store in
   the new version of the secret. To use this parameter in the command-line tools, we
   recommend that you store your binary data in a file and then use the appropriate technique
@@ -662,10 +668,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key/value pairs that the default Lambda rotation function knows how to parse. For storing
   multiple values, we recommend that you use a JSON text string argument and specify
   key/value pairs. For information on how to format a JSON parameter for the various command
-  line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.  For
-  example:  [{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]  If your command-line
-  tool or SDK requires quotation marks around the parameter, you should use single quotes to
-  avoid confusion with the double quotes required in the JSON text.
+  line tool environments, see Using JSON for Parameters in the CLI User Guide.  For example:
+  [{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]  If your command-line tool or SDK
+  requires quotation marks around the parameter, you should use single quotes to avoid
+  confusion with the double quotes required in the JSON text.
 - `"VersionStages"`: (Optional) Specifies a list of staging labels that are attached to
   this version of the secret. These staging labels are used to track the versions through the
   rotation process by the Lambda rotation function. A staging label must be unique to a
@@ -750,30 +756,30 @@ configuration parameters, the operation sets those values for the secret and the
 immediately starts a rotation. If you do not include the configuration parameters, the
 operation starts a rotation with the values already stored in the secret. After the
 rotation completes, the protected service and its clients all use the new version of the
-secret.  This required configuration information includes the ARN of an AWS Lambda function
-and the time between scheduled rotations. The Lambda rotation function creates a new
-version of the secret and creates or updates the credentials on the protected service to
-match. After testing the new credentials, the function marks the new secret with the
-staging label AWSCURRENT so that your clients all immediately begin to use the new version.
-For more information about rotating secrets and how to configure a Lambda function to
-rotate the secrets for your protected service, see Rotating Secrets in AWS Secrets Manager
-in the AWS Secrets Manager User Guide. Secrets Manager schedules the next rotation when the
-previous one completes. Secrets Manager schedules the date by adding the rotation interval
-(number of days) to the actual date of the last rotation. The service chooses the hour
-within that 24-hour date window randomly. The minute is also chosen somewhat randomly, but
-weighted towards the top of the hour and influenced by a variety of factors that help
-distribute load. The rotation function must end with the versions of the secret in one of
-two states:   The AWSPENDING and AWSCURRENT staging labels are attached to the same version
-of the secret, or   The AWSPENDING staging label is not attached to any version of the
-secret.   If the AWSPENDING staging label is present but not attached to the same version
-as AWSCURRENT then any later invocation of RotateSecret assumes that a previous rotation
-request is still in progress and returns an error.  Minimum permissions  To run this
-command, you must have the following permissions:   secretsmanager:RotateSecret
-lambda:InvokeFunction (on the function specified in the secret's metadata)    Related
-operations    To list the secrets in your account, use ListSecrets.   To get the details
-for a version of a secret, use DescribeSecret.   To create a new version of a secret, use
-CreateSecret.   To attach staging labels to or remove staging labels from a version of a
-secret, use UpdateSecretVersionStage.
+secret.  This required configuration information includes the ARN of an Amazon Web Services
+Lambda function and optionally, the time between scheduled rotations. The Lambda rotation
+function creates a new version of the secret and creates or updates the credentials on the
+protected service to match. After testing the new credentials, the function marks the new
+secret with the staging label AWSCURRENT so that your clients all immediately begin to use
+the new version. For more information about rotating secrets and how to configure a Lambda
+function to rotate the secrets for your protected service, see Rotating Secrets in Amazon
+Web Services Secrets Manager in the Amazon Web Services Secrets Manager User Guide. Secrets
+Manager schedules the next rotation when the previous one completes. Secrets Manager
+schedules the date by adding the rotation interval (number of days) to the actual date of
+the last rotation. The service chooses the hour within that 24-hour date window randomly.
+The minute is also chosen somewhat randomly, but weighted towards the top of the hour and
+influenced by a variety of factors that help distribute load. The rotation function must
+end with the versions of the secret in one of two states:   The AWSPENDING and AWSCURRENT
+staging labels are attached to the same version of the secret, or   The AWSPENDING staging
+label is not attached to any version of the secret.   If the AWSPENDING staging label is
+present but not attached to the same version as AWSCURRENT then any later invocation of
+RotateSecret assumes that a previous rotation request is still in progress and returns an
+error.  Minimum permissions  To run this command, you must have the following permissions:
+ secretsmanager:RotateSecret   lambda:InvokeFunction (on the function specified in the
+secret's metadata)    Related operations    To list the secrets in your account, use
+ListSecrets.   To get the details for a version of a secret, use DescribeSecret.   To
+create a new version of a secret, use CreateSecret.   To attach staging labels to or remove
+staging labels from a version of a secret, use UpdateSecretVersionStage.
 
 # Arguments
 - `secret_id`: Specifies the secret that you want to rotate. You can specify either the
@@ -795,17 +801,17 @@ secret, use UpdateSecretVersionStage.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: (Optional) Specifies a unique identifier for the new version of
-  the secret that helps ensure idempotency.  If you use the AWS CLI or one of the AWS SDK to
-  call this operation, then you can leave this parameter empty. The CLI or SDK generates a
-  random UUID for you and includes that in the request for this parameter. If you don't use
-  the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint,
-  then you must generate a ClientRequestToken yourself for new versions and include that
-  value in the request. You only need to specify your own value if you implement your own
-  retry logic and want to ensure that a given secret is not created twice. We recommend that
-  you generate a UUID-type value to ensure uniqueness within the specified secret.  Secrets
-  Manager uses this value to prevent the accidental creation of duplicate versions if there
-  are failures and retries during the function's processing. This value becomes the VersionId
-  of the new version.
+  the secret that helps ensure idempotency.  If you use the Amazon Web Services CLI or one of
+  the Amazon Web Services SDK to call this operation, then you can leave this parameter
+  empty. The CLI or SDK generates a random UUID for you and includes that in the request for
+  this parameter. If you don't use the SDK and instead generate a raw HTTP request to the
+  Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for
+  new versions and include that value in the request. You only need to specify your own value
+  if you implement your own retry logic and want to ensure that a given secret is not created
+  twice. We recommend that you generate a UUID-type value to ensure uniqueness within the
+  specified secret.  Secrets Manager uses this value to prevent the accidental creation of
+  duplicate versions if there are failures and retries during the function's processing. This
+  value becomes the VersionId of the new version.
 - `"RotationLambdaARN"`: (Optional) Specifies the ARN of the Lambda function that can
   rotate the secret.
 - `"RotationRules"`: A structure that defines the rotation configuration for this secret.
@@ -838,18 +844,18 @@ tags. To remove tags, you must use UntagResource. The following basic restrictio
 tags:   Maximum number of tags per secret—50   Maximum key length—127 Unicode
 characters in UTF-8   Maximum value length—255 Unicode characters in UTF-8   Tag keys and
 values are case sensitive.   Do not use the aws: prefix in your tag names or values because
-AWS reserves it for AWS use. You can't edit or delete tag names or values with this prefix.
-Tags with this prefix do not count against your tags per secret limit.   If you use your
-tagging schema across multiple services and resources, remember other services might have
-restrictions on allowed characters. Generally allowed characters: letters, spaces, and
-numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.
-If you use tags as part of your security strategy, then adding or removing a tag can change
-permissions. If successfully completing this operation would result in you losing your
-permissions for this secret, then the operation is blocked and returns an Access Denied
-error.   Minimum permissions  To run this command, you must have the following permissions:
-  secretsmanager:TagResource    Related operations    To remove one or more tags from the
-collection attached to a secret, use UntagResource.   To view the list of tags attached to
-a secret, use DescribeSecret.
+Amazon Web Services reserves it for Amazon Web Services use. You can't edit or delete tag
+names or values with this prefix. Tags with this prefix do not count against your tags per
+secret limit.   If you use your tagging schema across multiple services and resources,
+remember other services might have restrictions on allowed characters. Generally allowed
+characters: letters, spaces, and numbers representable in UTF-8, plus the following special
+characters: + - = . _ : / @.    If you use tags as part of your security strategy, then
+adding or removing a tag can change permissions. If successfully completing this operation
+would result in you losing your permissions for this secret, then the operation is blocked
+and returns an Access Denied error.   Minimum permissions  To run this command, you must
+have the following permissions:   secretsmanager:TagResource    Related operations    To
+remove one or more tags from the collection attached to a secret, use UntagResource.   To
+view the list of tags attached to a secret, use DescribeSecret.
 
 # Arguments
 - `secret_id`: The identifier for the secret that you want to attach tags to. You can
@@ -870,8 +876,8 @@ a secret, use DescribeSecret.
 - `tags`: The tags to attach to the secret. Each element in the list consists of a Key and
   a Value. This parameter to the API requires a JSON text string argument. For information on
   how to format a JSON parameter for the various command line tool environments, see Using
-  JSON for Parameters in the AWS CLI User Guide. For the AWS CLI, you can also use the
-  syntax: --Tags Key=\"Key1\",Value=\"Value1\" Key=\"Key2\",Value=\"Value2\"[,…]
+  JSON for Parameters in the CLI User Guide. For the CLI, you can also use the syntax: --Tags
+  Key=\"Key1\",Value=\"Value1\" Key=\"Key2\",Value=\"Value2\"[,…]
 
 """
 tag_resource(SecretId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("TagResource", Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags); aws_config=aws_config)
@@ -910,8 +916,8 @@ attached to a secret, use DescribeSecret.
 - `tag_keys`: A list of tag key names to remove from the secret. You don't specify the
   value. Both the key and its associated value are removed. This parameter to the API
   requires a JSON text string argument. For information on how to format a JSON parameter for
-  the various command line tool environments, see Using JSON for Parameters in the AWS CLI
-  User Guide.
+  the various command line tool environments, see Using JSON for Parameters in the CLI User
+  Guide.
 
 """
 untag_resource(SecretId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UntagResource", Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys); aws_config=aws_config)
@@ -926,35 +932,38 @@ and either SecretString or SecretBinary then it also creates a new version attac
 secret. To modify the rotation configuration of a secret, use RotateSecret instead.  The
 Secrets Manager console uses only the SecretString parameter and therefore limits you to
 encrypting and storing only a text string. To encrypt and store binary data as part of the
-version of a secret, you must use either the AWS CLI or one of the AWS SDKs.    If a
-version with a VersionId with the same value as the ClientRequestToken parameter already
-exists, the operation results in an error. You cannot modify an existing version, you can
-only create a new version.   If you include SecretString or SecretBinary to create a new
-secret version, Secrets Manager automatically attaches the staging label AWSCURRENT to the
-new version.       If you call an operation to encrypt or decrypt the SecretString or
-SecretBinary for a secret in the same account as the calling user and that secret doesn't
-specify a AWS KMS encryption key, Secrets Manager uses the account's default AWS managed
-customer master key (CMK) with the alias aws/secretsmanager. If this key doesn't already
-exist in your account then Secrets Manager creates it for you automatically. All users and
-roles in the same AWS account automatically have access to use the default CMK. Note that
-if an Secrets Manager API call results in AWS creating the account's AWS-managed CMK, it
-can result in a one-time significant delay in returning the result.   If the secret resides
-in a different AWS account from the credentials calling an API that requires encryption or
-decryption of the secret value then you must create and use a custom AWS KMS CMK because
-you can't access the default CMK for the account using credentials from a different AWS
-account. Store the ARN of the CMK in the secret when you create the secret or when you
-update it by including it in the KMSKeyId. If you call an API that must encrypt or decrypt
-SecretString or SecretBinary using credentials from a different account then the AWS KMS
+version of a secret, you must use either the Amazon Web Services CLI or one of the Amazon
+Web Services SDKs.    If a version with a VersionId with the same value as the
+ClientRequestToken parameter already exists, the operation results in an error. You cannot
+modify an existing version, you can only create a new version.   If you include
+SecretString or SecretBinary to create a new secret version, Secrets Manager automatically
+attaches the staging label AWSCURRENT to the new version.       If you call an operation to
+encrypt or decrypt the SecretString or SecretBinary for a secret in the same account as the
+calling user and that secret doesn't specify a Amazon Web Services KMS encryption key,
+Secrets Manager uses the account's default Amazon Web Services managed customer master key
+(CMK) with the alias aws/secretsmanager. If this key doesn't already exist in your account
+then Secrets Manager creates it for you automatically. All users and roles in the same
+Amazon Web Services account automatically have access to use the default CMK. Note that if
+an Secrets Manager API call results in Amazon Web Services creating the account's Amazon
+Web Services-managed CMK, it can result in a one-time significant delay in returning the
+result.   If the secret resides in a different Amazon Web Services account from the
+credentials calling an API that requires encryption or decryption of the secret value then
+you must create and use a custom Amazon Web Services KMS CMK because you can't access the
+default CMK for the account using credentials from a different Amazon Web Services account.
+Store the ARN of the CMK in the secret when you create the secret or when you update it by
+including it in the KMSKeyId. If you call an API that must encrypt or decrypt SecretString
+or SecretBinary using credentials from a different account then the Amazon Web Services KMS
 key policy must grant cross-account access to that other account's user or role for both
 the kms:GenerateDataKey and kms:Decrypt operations.     Minimum permissions  To run this
 command, you must have the following permissions:   secretsmanager:UpdateSecret
-kms:GenerateDataKey - needed only if you use a custom AWS KMS key to encrypt the secret.
-You do not need this permission to use the account's AWS managed CMK for Secrets Manager.
-kms:Decrypt - needed only if you use a custom AWS KMS key to encrypt the secret. You do not
-need this permission to use the account's AWS managed CMK for Secrets Manager.    Related
-operations    To create a new secret, use CreateSecret.   To add only a new version to an
-existing secret, use PutSecretValue.   To get the details for a secret, use DescribeSecret.
-  To list the versions contained in a secret, use ListSecretVersionIds.
+kms:GenerateDataKey - needed only if you use a custom Amazon Web Services KMS key to
+encrypt the secret. You do not need this permission to use the account's Amazon Web
+Services managed CMK for Secrets Manager.   kms:Decrypt - needed only if you use a custom
+Amazon Web Services KMS key to encrypt the secret. You do not need this permission to use
+the account's Amazon Web Services managed CMK for Secrets Manager.    Related operations
+To create a new secret, use CreateSecret.   To add only a new version to an existing
+secret, use PutSecretValue.   To get the details for a secret, use DescribeSecret.   To
+list the versions contained in a secret, use ListSecretVersionIds.
 
 # Arguments
 - `secret_id`: Specifies the secret that you want to modify or to which you want to add a
@@ -977,31 +986,31 @@ existing secret, use PutSecretValue.   To get the details for a secret, use Desc
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: (Optional) If you want to add a new version to the secret, this
   parameter specifies a unique identifier for the new version that helps ensure idempotency.
-  If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave
-  this parameter empty. The CLI or SDK generates a random UUID for you and includes that in
-  the request. If you don't use the SDK and instead generate a raw HTTP request to the
-  Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for
-  new versions and include that value in the request. You typically only need to interact
-  with this value if you implement your own retry logic and want to ensure that a given
-  secret is not created twice. We recommend that you generate a UUID-type value to ensure
-  uniqueness within the specified secret.  Secrets Manager uses this value to prevent the
-  accidental creation of duplicate versions if there are failures and retries during the
-  Lambda rotation function's processing.   If the ClientRequestToken value isn't already
-  associated with a version of the secret then a new version of the secret is created.    If
-  a version with this value already exists and that version's SecretString and SecretBinary
-  values are the same as those in the request then the request is ignored (the operation is
-  idempotent).    If a version with this value already exists and that version's SecretString
-  and SecretBinary values are different from the request then an error occurs because you
-  cannot modify an existing secret value.   This value becomes the VersionId of the new
-  version.
+  If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK to call this
+  operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID
+  for you and includes that in the request. If you don't use the SDK and instead generate a
+  raw HTTP request to the Secrets Manager service endpoint, then you must generate a
+  ClientRequestToken yourself for new versions and include that value in the request. You
+  typically only need to interact with this value if you implement your own retry logic and
+  want to ensure that a given secret is not created twice. We recommend that you generate a
+  UUID-type value to ensure uniqueness within the specified secret.  Secrets Manager uses
+  this value to prevent the accidental creation of duplicate versions if there are failures
+  and retries during the Lambda rotation function's processing.   If the ClientRequestToken
+  value isn't already associated with a version of the secret then a new version of the
+  secret is created.    If a version with this value already exists and that version's
+  SecretString and SecretBinary values are the same as those in the request then the request
+  is ignored (the operation is idempotent).    If a version with this value already exists
+  and that version's SecretString and SecretBinary values are different from the request then
+  an error occurs because you cannot modify an existing secret value.   This value becomes
+  the VersionId of the new version.
 - `"Description"`: (Optional) Specifies an updated user-provided description of the secret.
-- `"KmsKeyId"`: (Optional) Specifies an updated ARN or alias of the AWS KMS customer master
-  key (CMK) to be used to encrypt the protected text in new versions of this secret.  You can
-  only use the account's default CMK to encrypt and decrypt if you call this operation using
-  credentials from the same account that owns the secret. If the secret is in a different
-  account, then you must create a custom CMK and provide the ARN of that CMK in this field.
-  The user making the call must have permissions to both the secret and the CMK in their
-  respective accounts.
+- `"KmsKeyId"`: (Optional) Specifies an updated ARN or alias of the Amazon Web Services KMS
+  customer master key (CMK) to be used to encrypt the protected text in new versions of this
+  secret.  You can only use the account's default CMK to encrypt and decrypt if you call this
+  operation using credentials from the same account that owns the secret. If the secret is in
+  a different account, then you must create a custom CMK and provide the ARN of that CMK in
+  this field. The user making the call must have permissions to both the secret and the CMK
+  in their respective accounts.
 - `"SecretBinary"`: (Optional) Specifies updated binary data that you want to encrypt and
   store in the new version of the secret. To use this parameter in the command-line tools, we
   recommend that you store your binary data in a file and then use the appropriate technique
@@ -1016,14 +1025,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   structure of key/value pairs that the default Lambda rotation function knows how to parse.
   For storing multiple values, we recommend that you use a JSON text string argument and
   specify key/value pairs. For information on how to format a JSON parameter for the various
-  command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
-  For example:  [{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]  If your
-  command-line tool or SDK requires quotation marks around the parameter, you should use
-  single quotes to avoid confusion with the double quotes required in the JSON text. You can
-  also 'escape' the double quote character in the embedded JSON text by prefacing each with a
-  backslash. For example, the following string is surrounded by double-quotes. All of the
-  embedded double quotes are escaped:
-  \"[{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]\"
+  command line tool environments, see Using JSON for Parameters in the CLI User Guide. For
+  example:  [{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]  If your command-line
+  tool or SDK requires quotation marks around the parameter, you should use single quotes to
+  avoid confusion with the double quotes required in the JSON text. You can also 'escape' the
+  double quote character in the embedded JSON text by prefacing each with a backslash. For
+  example, the following string is surrounded by double-quotes. All of the embedded double
+  quotes are escaped:  \"[{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]\"
 """
 update_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UpdateSecret", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
 update_secret(SecretId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = secrets_manager("UpdateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
@@ -1037,16 +1045,17 @@ track a version as it progresses through the secret rotation process. You can at
 staging label to only one version of a secret at a time. If a staging label to be added is
 already attached to another version, then it is moved--removed from the other version first
 and then attached to this one. For more information about staging labels, see Staging
-Labels in the AWS Secrets Manager User Guide.  The staging labels that you specify in the
-VersionStage parameter are added to the existing list of staging labels--they don't replace
-it. You can move the AWSCURRENT staging label to this version by including it in this call.
- Whenever you move AWSCURRENT, Secrets Manager automatically moves the label AWSPREVIOUS to
-the version that AWSCURRENT was removed from.  If this action results in the last label
-being removed from a version, then the version is considered to be 'deprecated' and can be
-deleted by Secrets Manager.  Minimum permissions  To run this command, you must have the
-following permissions:   secretsmanager:UpdateSecretVersionStage    Related operations
-To get the list of staging labels that are currently associated with a version of a secret,
-use  DescribeSecret  and examine the SecretVersionsToStages response value.
+Labels in the Amazon Web Services Secrets Manager User Guide.  The staging labels that you
+specify in the VersionStage parameter are added to the existing list of staging
+labels--they don't replace it. You can move the AWSCURRENT staging label to this version by
+including it in this call.  Whenever you move AWSCURRENT, Secrets Manager automatically
+moves the label AWSPREVIOUS to the version that AWSCURRENT was removed from.  If this
+action results in the last label being removed from a version, then the version is
+considered to be 'deprecated' and can be deleted by Secrets Manager.  Minimum permissions
+To run this command, you must have the following permissions:
+secretsmanager:UpdateSecretVersionStage    Related operations    To get the list of staging
+labels that are currently associated with a version of a secret, use  DescribeSecret  and
+examine the SecretVersionsToStages response value.
 
 # Arguments
 - `secret_id`: Specifies the secret with the version with the list of staging labels you
@@ -1098,10 +1107,10 @@ secretsmanager:PutResourcePolicy     secretsmanager:ValidateResourcePolicy
 
 # Arguments
 - `resource_policy`: A JSON-formatted string constructed according to the grammar and
-  syntax for an AWS resource-based policy. The policy in the string identifies who can access
-  or manage this secret and its versions. For information on how to format a JSON parameter
-  for the various command line tool environments, see Using JSON for Parameters in the AWS
-  CLI User Guide.publi
+  syntax for an Amazon Web Services resource-based policy. The policy in the string
+  identifies who can access or manage this secret and its versions. For information on how to
+  format a JSON parameter for the various command line tool environments, see Using JSON for
+  Parameters in the CLI User Guide.publi
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

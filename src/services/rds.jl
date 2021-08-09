@@ -800,7 +800,7 @@ Creates a new DB instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllocatedStorage"`: The amount of storage (in gibibytes) to allocate for the DB
+- `"AllocatedStorage"`: The amount of storage in gibibytes (GiB) to allocate for the DB
   instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes
   automatically grow as the amount of data in your database increases, though you are only
   charged for the space that you use in an Aurora cluster volume.  MySQL  Constraints to the
@@ -972,10 +972,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be a reserved word for the chosen database engine.    PostgreSQL  Constraints:   Required
   for PostgreSQL.   Must be 1 to 63 letters or numbers.   First character must be a letter.
   Can't be a reserved word for the chosen database engine.
-- `"MaxAllocatedStorage"`: The upper limit to which Amazon RDS can automatically scale the
-  storage of the DB instance. For more information about this setting, including limitations
-  that apply to it, see  Managing capacity automatically with Amazon RDS storage autoscaling
-  in the Amazon RDS User Guide.
+- `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
+  automatically scale the storage of the DB instance. For more information about this
+  setting, including limitations that apply to it, see  Managing capacity automatically with
+  Amazon RDS storage autoscaling in the Amazon RDS User Guide.
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the DB instance. To disable collecting Enhanced Monitoring
   metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also
@@ -1165,10 +1165,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specific to the Amazon Web Services Region that they are created in, and you can't use CMKs
   from one Amazon Web Services Region in another Amazon Web Services Region. You can't create
   an encrypted read replica from an unencrypted DB instance.
-- `"MaxAllocatedStorage"`: The upper limit to which Amazon RDS can automatically scale the
-  storage of the DB instance. For more information about this setting, including limitations
-  that apply to it, see  Managing capacity automatically with Amazon RDS storage autoscaling
-  in the Amazon RDS User Guide.
+- `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
+  automatically scale the storage of the DB instance. For more information about this
+  setting, including limitations that apply to it, see  Managing capacity automatically with
+  Amazon RDS storage autoscaling in the Amazon RDS User Guide.
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the read replica. To disable collecting Enhanced Monitoring
   metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also
@@ -3533,7 +3533,7 @@ before you call ModifyDBInstance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllocatedStorage"`: The new amount of storage (in gibibytes) to allocate for the DB
+- `"AllocatedStorage"`: The new amount of storage in gibibytes (GiB) to allocate for the DB
   instance.  For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least
   10% greater than the current value. Values that are not at least 10% greater than the
   existing value are rounded up so that they are 10% greater than the current value.  For the
@@ -3699,10 +3699,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the password, so this action provides a way to regain access to a primary instance user if
   the password is lost. This includes restoring privileges that might have been accidentally
   revoked.
-- `"MaxAllocatedStorage"`: The upper limit to which Amazon RDS can automatically scale the
-  storage of the DB instance. For more information about this setting, including limitations
-  that apply to it, see  Managing capacity automatically with Amazon RDS storage autoscaling
-  in the Amazon RDS User Guide.
+- `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
+  automatically scale the storage of the DB instance. For more information about this
+  setting, including limitations that apply to it, see  Managing capacity automatically with
+  Amazon RDS storage autoscaling in the Amazon RDS User Guide.
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the DB instance. To disable collecting Enhanced Monitoring
   metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also
@@ -4945,10 +4945,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MasterUsername"`: The name for the master user.  Constraints:    Must be 1 to 16
   letters or numbers.   First character must be a letter.   Can't be a reserved word for the
   chosen database engine.
-- `"MaxAllocatedStorage"`: The upper limit to which Amazon RDS can automatically scale the
-  storage of the DB instance. For more information about this setting, including limitations
-  that apply to it, see  Managing capacity automatically with Amazon RDS storage autoscaling
-  in the Amazon RDS User Guide.
+- `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
+  automatically scale the storage of the DB instance. For more information about this
+  setting, including limitations that apply to it, see  Managing capacity automatically with
+  Amazon RDS storage autoscaling in the Amazon RDS User Guide.
 - `"MonitoringInterval"`: The interval, in seconds, between points when Enhanced Monitoring
   metrics are collected for the DB instance. To disable collecting Enhanced Monitoring
   metrics, specify 0.  If MonitoringRoleArn is specified, then you must also set
@@ -5091,10 +5091,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseModel"`: License model information for the restored DB instance. Default: Same
   as source.  Valid values: license-included | bring-your-own-license |
   general-public-license
-- `"MaxAllocatedStorage"`: The upper limit to which Amazon RDS can automatically scale the
-  storage of the DB instance. For more information about this setting, including limitations
-  that apply to it, see  Managing capacity automatically with Amazon RDS storage autoscaling
-  in the Amazon RDS User Guide.
+- `"MaxAllocatedStorage"`: The upper limit in gibibytes (GiB) to which Amazon RDS can
+  automatically scale the storage of the DB instance. For more information about this
+  setting, including limitations that apply to it, see  Managing capacity automatically with
+  Amazon RDS storage autoscaling in the Amazon RDS User Guide.
 - `"MultiAZ"`: A value that indicates whether the DB instance is a Multi-AZ deployment.
   Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a
   Multi-AZ deployment.

@@ -89,7 +89,7 @@ associate_targets_with_job(jobId, targets, params::AbstractDict{String}; aws_con
     attach_policy(policy_name, target)
     attach_policy(policy_name, target, params::Dict{String,<:Any})
 
-Attaches a policy to the specified target.
+Attaches the specified policy to the specified principal (certificate or other credential).
 
 # Arguments
 - `policy_name`: The name of the policy to attach.

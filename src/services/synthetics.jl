@@ -300,7 +300,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and when these runs are to stop.
 - `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
   of this canary.
-- `"VisualReference"`:
+- `"VisualReference"`: Defines the screenshots to use as the baseline for comparisons
+  during visual monitoring comparisons during future runs of this canary. If you omit this
+  parameter, no changes are made to any baseline screenshots that the canary might be using
+  already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2
+  runtime or later. For more information, see  Visual monitoring and  Visual monitoring
+  blueprint
 - `"VpcConfig"`: If this canary is to test an endpoint in a VPC, this structure contains
   information about the subnet and security groups of the VPC endpoint. For more information,
   see  Running a Canary in a VPC.

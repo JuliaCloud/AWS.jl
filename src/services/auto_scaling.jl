@@ -1515,10 +1515,14 @@ set_instance_protection(AutoScalingGroupName, InstanceIds, ProtectedFromScaleIn,
     start_instance_refresh(auto_scaling_group_name)
     start_instance_refresh(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Starts a new instance refresh operation, which triggers a rolling replacement of previously
-launched instances in the Auto Scaling group with a new group of instances. This operation
-is part of the instance refresh feature in Amazon EC2 Auto Scaling, which helps you update
-instances in your Auto Scaling group after you make configuration changes. If the call
+Starts a new instance refresh operation. An instance refresh performs a rolling replacement
+of all or some instances in an Auto Scaling group. Each instance is terminated first and
+then replaced, which temporarily reduces the capacity available within your Auto Scaling
+group. This operation is part of the instance refresh feature in Amazon EC2 Auto Scaling,
+which helps you update instances in your Auto Scaling group. This feature is helpful, for
+example, when you have a new AMI or a new user data script. You just need to create a new
+launch template that specifies the new AMI or user data script. Then start an instance
+refresh to immediately begin the process of updating instances in the group.  If the call
 succeeds, it creates a new instance refresh request with a unique ID that you can use to
 track its progress. To query its status, call the DescribeInstanceRefreshes API. To
 describe the instance refreshes that have already run, call the DescribeInstanceRefreshes
@@ -1530,17 +1534,22 @@ API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DesiredConfiguration"`: The desired configuration. For example, the desired
+  configuration can specify a new launch template or a new version of the current launch
+  template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings
+  of the Auto Scaling group to reflect the new desired configuration.   When you specify a
+  new launch template or a new version of the current launch template for your desired
+  configuration, consider enabling the SkipMatching property in preferences. If it's enabled,
+  Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch
+  template and version. This can help you reduce the number of replacements that are required
+  to apply updates.
 - `"Preferences"`: Set of preferences associated with the instance refresh request. If not
-  provided, the default values are used. For MinHealthyPercentage, the default value is 90.
-  For InstanceWarmup, the default is to use the value specified for the health check grace
-  period for the Auto Scaling group. For more information, see RefreshPreferences in the
-  Amazon EC2 Auto Scaling API Reference.
+  provided, the default values are used.
 - `"Strategy"`: The strategy to use for the instance refresh. The only valid value is
-  Rolling. A rolling update is an update that is applied to all instances in an Auto Scaling
-  group until all instances have been updated. A rolling update can fail due to failed health
-  checks or if instances are on standby or are protected from scale in. If the rolling update
-  process fails, any instances that were already replaced are not rolled back to their
-  previous configuration.
+  Rolling. A rolling update helps you update your instances gradually. A rolling update can
+  fail due to failed health checks or if instances are on standby or are protected from scale
+  in. If the rolling update process fails, any instances that are replaced are not rolled
+  back to their previous configuration.
 """
 start_instance_refresh(AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("StartInstanceRefresh", Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName); aws_config=aws_config)
 start_instance_refresh(AutoScalingGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = auto_scaling("StartInstanceRefresh", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingGroupName"=>AutoScalingGroupName), params)); aws_config=aws_config)

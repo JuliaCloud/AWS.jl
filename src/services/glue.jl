@@ -2357,9 +2357,9 @@ Sets the Data Catalog resource policy for access control.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EnableHybrid"`: If 'TRUE', indicates that you are using both methods to grant
   cross-account access to Data Catalog resources:   By directly updating the resource policy
-  with PutResourePolicy    By using the Grant permissions command on the Management Console.
-   Must be set to 'TRUE' if you have already used the Management Console to grant
-  cross-account access, otherwise the call fails. Default is 'FALSE'.
+  with PutResourePolicy    By using the Grant permissions command on the Amazon Web Services
+  Management Console.   Must be set to 'TRUE' if you have already used the Management Console
+  to grant cross-account access, otherwise the call fails. Default is 'FALSE'.
 - `"PolicyExistsCondition"`: A value of MUST_EXIST is used to update a policy. A value of
   NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the
   call does not depend on the existence of a policy.

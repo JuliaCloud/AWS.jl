@@ -506,18 +506,17 @@ Creates an endpoint using the endpoint configuration specified in the request. A
 SageMaker uses the endpoint to provision resources and deploy models. You create the
 endpoint configuration with the CreateEndpointConfig API.   Use this API to deploy models
 using Amazon SageMaker hosting services.  For an example that calls this method when
-deploying a model to Amazon SageMaker hosting services, see Deploy the Model to Amazon
-SageMaker Hosting Services (Amazon Web Services SDK for Python (Boto 3)).    You must not
-delete an EndpointConfig that is in use by an endpoint that is live or while the
-UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update
-an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within
-an Amazon Web Services Region in your Amazon Web Services account.  When it receives the
-request, Amazon SageMaker creates the endpoint, launches the resources (ML compute
-instances), and deploys the model(s) on them.   When you call CreateEndpoint, a load call
-is made to DynamoDB to verify that your endpoint configuration exists. When you read data
-from a DynamoDB table supporting  Eventually Consistent Reads , the response might not
-reflect the results of a recently completed write operation. The response might include
-some stale data. If the dependent entities are not yet in DynamoDB, this causes a
+deploying a model to Amazon SageMaker hosting services, see the Create Endpoint example
+notebook.    You must not delete an EndpointConfig that is in use by an endpoint that is
+live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the
+endpoint. To update an endpoint, you must create a new EndpointConfig.  The endpoint name
+must be unique within an Amazon Web Services Region in your Amazon Web Services account.
+When it receives the request, Amazon SageMaker creates the endpoint, launches the resources
+(ML compute instances), and deploys the model(s) on them.   When you call CreateEndpoint, a
+load call is made to DynamoDB to verify that your endpoint configuration exists. When you
+read data from a DynamoDB table supporting  Eventually Consistent Reads , the response
+might not reflect the results of a recently completed write operation. The response might
+include some stale data. If the dependent entities are not yet in DynamoDB, this causes a
 validation error. If you repeat your read request after a short time, the response should
 return the latest data. So retry logic is recommended to handle these possible issues. We
 also recommend that customers call DescribeEndpointConfig before calling CreateEndpoint to
