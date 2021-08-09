@@ -61,7 +61,7 @@ end
 
 function _extract_common_kw_args(service, args)
     return (
-        service=service.name,
+        service=service.signing_name,
         api_version=service.api_version,
         return_stream=_pop!(args, "return_stream", false),
         return_raw=_pop!(args, "return_raw", false),

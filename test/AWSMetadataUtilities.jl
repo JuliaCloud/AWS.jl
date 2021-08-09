@@ -98,9 +98,16 @@ end
         @test response == expected
     end
 
-    @testset "signingName preference" begin
+    @testset "signingName matches endpointPrefix" begin
         expected = "const serviceid = AWS.RestXMLService(\"signingName\", \"2021-04-09\")"
-        response = _generate_low_level_definition(services["signingName"])
+        response = _generate_low_level_definition(services["signingNameMatch"])
+
+        @test response == expected
+    end
+
+    @testset "signingName does not match endpointPrefix" begin
+        expected = "const serviceid = AWS.RestXMLService(\"endpointPrefix\", \"2021-04-09\")"
+        response = _generate_low_level_definition(services["signingNameNonMatch"])
 
         @test response == expected
     end
