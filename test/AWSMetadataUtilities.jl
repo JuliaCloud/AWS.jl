@@ -71,42 +71,42 @@ end
     services = JSON.parsefile(joinpath(@__DIR__, "resources/services.json"))
 
     @testset "rest-xml" begin
-        expected = "const s3 = AWS.RestXMLService(\"s3\", \"2006-03-01\")"
+        expected = "const s3 = AWS.RestXMLService(\"s3\", \"s3\", \"2006-03-01\")"
         response = _generate_low_level_definition(services["s3"])
 
         @test response == expected
     end
 
     @testset "rest-json" begin
-        expected = "const glacier = AWS.RestJSONService(\"glacier\", \"2012-06-01\", LittleDict(\"x-amz-glacier-version\" => \"2012-06-01\"))"
+        expected = "const glacier = AWS.RestJSONService(\"glacier\", \"glacier\", \"2012-06-01\", LittleDict(\"x-amz-glacier-version\" => \"2012-06-01\"))"
         response = _generate_low_level_definition(services["glacier"])
 
         @test response == expected
     end
 
     @testset "ec2 / query" begin
-        expected = "const ec2 = AWS.QueryService(\"ec2\", \"2016-11-15\")"
+        expected = "const ec2 = AWS.QueryService(\"ec2\", \"ec2\", \"2016-11-15\")"
         response = _generate_low_level_definition(services["ec2"])
 
         @test response == expected
     end
 
     @testset "json" begin
-        expected = "const budgets = AWS.JSONService(\"budgets\", \"2016-10-20\", \"1.1\", \"AWSBudgetServiceGateway\")"
+        expected = "const budgets = AWS.JSONService(\"budgets\", \"budgets\", \"2016-10-20\", \"1.1\", \"AWSBudgetServiceGateway\")"
         response = _generate_low_level_definition(services["budgets"])
 
         @test response == expected
     end
 
     @testset "signingName matches endpointPrefix" begin
-        expected = "const serviceid = AWS.RestXMLService(\"signingName\", \"2021-04-09\")"
+        expected = "const serviceid = AWS.RestXMLService(\"signingName\", \"signingName\", \"2021-04-09\")"
         response = _generate_low_level_definition(services["signingNameMatch"])
 
         @test response == expected
     end
 
     @testset "signingName does not match endpointPrefix" begin
-        expected = "const serviceid = AWS.RestXMLService(\"endpointPrefix\", \"2021-04-09\")"
+        expected = "const serviceid = AWS.RestXMLService(\"signingName\", \"endpointPrefix\", \"2021-04-09\")"
         response = _generate_low_level_definition(services["signingNameNonMatch"])
 
         @test response == expected
@@ -133,7 +133,7 @@ end
 
     @testset "rest-xml" begin
         service["protocol"] = "rest-xml"
-        expected_result = "const sample_service = AWS.RestXMLService(\"endpoint\", \"api_version\")"
+        expected_result = "const sample_service = AWS.RestXMLService(\"endpoint\", \"endpoint\", \"api_version\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -141,7 +141,7 @@ end
 
     @testset "rest-json" begin
         service["protocol"] = "rest-json"
-        expected_result = "const sample_service = AWS.RestJSONService(\"endpoint\", \"api_version\")"
+        expected_result = "const sample_service = AWS.RestJSONService(\"endpoint\", \"endpoint\", \"api_version\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -149,7 +149,7 @@ end
 
     @testset "json" begin
         service["protocol"] = "json"
-        expected_result = "const sample_service = AWS.JSONService(\"endpoint\", \"api_version\", \"json_version\", \"target\")"
+        expected_result = "const sample_service = AWS.JSONService(\"endpoint\", \"endpoint\", \"api_version\", \"json_version\", \"target\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -157,7 +157,7 @@ end
 
     @testset "query" begin
         service["protocol"] = "query"
-        expected_result = "const sample_service = AWS.QueryService(\"endpoint\", \"api_version\")"
+        expected_result = "const sample_service = AWS.QueryService(\"endpoint\", \"endpoint\", \"api_version\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
@@ -165,7 +165,7 @@ end
 
     @testset "ec2" begin
         service["protocol"] = "ec2"
-        expected_result = "const sample_service = AWS.QueryService(\"endpoint\", \"api_version\")"
+        expected_result = "const sample_service = AWS.QueryService(\"endpoint\", \"endpoint\", \"api_version\")"
         result = _generate_low_level_definition(service)
 
         @test result == expected_result
