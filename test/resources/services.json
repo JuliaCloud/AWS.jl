@@ -25,7 +25,14 @@
         "serviceId": "Budgets",
         "targetPrefix": "AWSBudgetServiceGateway"
     },
-    "signingName": {
+    "signingNameMatch": {
+        "apiVersion": "2021-04-09",
+        "signingName": "signingName",
+        "endpointPrefix": "signingName",
+        "protocol": "rest-xml",
+        "serviceId": "serviceId"
+    },
+    "signingNameNonMatch": {
         "apiVersion": "2021-04-09",
         "signingName": "signingName",
         "endpointPrefix": "endpointPrefix",

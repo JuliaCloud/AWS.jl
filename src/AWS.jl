@@ -135,17 +135,20 @@ macro service(module_name::Symbol)
 end
 
 struct RestXMLService
-    name::String
+    signing_name::String
+    endpoint_prefix::String
     api_version::String
 end
 
 struct QueryService
-    name::String
+    signing_name::String
+    endpoint_prefix::String
     api_version::String
 end
 
 struct JSONService
-    name::String
+    signing_name::String
+    endpoint_prefix::String
     api_version::String
 
     json_version::String
@@ -153,13 +156,14 @@ struct JSONService
 end
 
 struct RestJSONService
-    name::String
+    signing_name::String
+    endpoint_prefix::String
     api_version::String
 
     service_specific_headers::LittleDict{String, String}
 end
 
-RestJSONService(name::String, api_version::String) = RestJSONService(name, api_version, LittleDict{String, String}())
+RestJSONService(signing_name::String, endpoint_prefix::String, api_version::String) = RestJSONService(signing_name, endpoint_prefix, api_version, LittleDict{String, String}())
 
 # Needs to be included after the definition of struct otherwise it cannot find them
 include("AWSServices.jl")
@@ -224,7 +228,7 @@ function (service::RestXMLService)(
         end
     end
 
-    request.url = generate_service_url(aws_config, request.service, request.resource)
+    request.url = generate_service_url(aws_config, service.endpoint_prefix, request.resource)
 
     return submit_request(aws_config, request; return_headers=return_headers)
 end
@@ -259,14 +263,14 @@ function (service::QueryService)(
         _extract_common_kw_args(service, args)...,
         resource=POST_RESOURCE,
         request_method="POST",
-        url=generate_service_url(aws_config, service.name, POST_RESOURCE),
+        url=generate_service_url(aws_config, service.endpoint_prefix, POST_RESOURCE),
     )
 
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
     args["Action"] = operation
     args["Version"] = service.api_version
-    request.content = HTTP.escapeuri(_flatten_query(service.name, args))
+    request.content = HTTP.escapeuri(_flatten_query(service.signing_name, args))
 
     return submit_request(aws_config, request; return_headers=return_headers)
 end
@@ -301,7 +305,7 @@ function (service::JSONService)(
         resource=POST_RESOURCE,
         request_method="POST",
         content=json(args),
-        url=generate_service_url(aws_config, service.name, POST_RESOURCE),
+        url=generate_service_url(aws_config, service.endpoint_prefix, POST_RESOURCE),
     )
 
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
@@ -341,7 +345,7 @@ function (service::RestJSONService)(
         resource=_generate_rest_resource(request_uri, args),
     )
 
-    request.url = generate_service_url(aws_config, request.service, request.resource)
+    request.url = generate_service_url(aws_config, service.endpoint_prefix, request.resource)
 
     if !isempty(service.service_specific_headers)
         merge!(request.headers, service.service_specific_headers)

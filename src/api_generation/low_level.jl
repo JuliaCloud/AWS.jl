@@ -53,7 +53,8 @@ Get the low-level definition for an AWS Service.
 """
 function _generate_low_level_definition(service::AbstractDict)
     protocol = service["protocol"]
-    service_name = haskey(service, "signingName") ? service["signingName"] : service["endpointPrefix"]
+    endpoint_prefix = service["endpointPrefix"]
+    signing_name = haskey(service, "signingName") ? service["signingName"] : service["endpointPrefix"]
     service_id = replace(lowercase(service["serviceId"]), ' ' => '_')
     api_version = service["apiVersion"]
 
@@ -64,17 +65,17 @@ function _generate_low_level_definition(service::AbstractDict)
     end
 
     if protocol == "rest-xml"
-        return "const $service_id = AWS.RestXMLService(\"$service_name\", \"$api_version\")"
+        return "const $service_id = AWS.RestXMLService(\"$signing_name\", \"$endpoint_prefix\", \"$api_version\")"
     elseif protocol in ("ec2", "query")
-        return "const $service_id = AWS.QueryService(\"$service_name\", \"$api_version\")"
+        return "const $service_id = AWS.QueryService(\"$signing_name\", \"$endpoint_prefix\", \"$api_version\")"
     elseif protocol == "rest-json" && haskey(service_specifics, service_id)
-        return "const $service_id = AWS.RestJSONService(\"$service_name\", \"$api_version\", $(service_specifics[service_id]))"
+        return "const $service_id = AWS.RestJSONService(\"$signing_name\", \"$endpoint_prefix\", \"$api_version\", $(service_specifics[service_id]))"
     elseif protocol == "rest-json"
-        return "const $service_id = AWS.RestJSONService(\"$service_name\", \"$api_version\")"
+        return "const $service_id = AWS.RestJSONService(\"$signing_name\", \"$endpoint_prefix\", \"$api_version\")"
     elseif protocol == "json"
         json_version = service["jsonVersion"]
         target = service["targetPrefix"]
-        return "const $service_id = AWS.JSONService(\"$service_name\", \"$api_version\", \"$json_version\", \"$target\")"
+        return "const $service_id = AWS.JSONService(\"$signing_name\", \"$endpoint_prefix\", \"$api_version\", \"$json_version\", \"$target\")"
     else
         throw(ProtocolNotDefined("$service_id is using a new protocol; $protocol which is not supported."))
     end
