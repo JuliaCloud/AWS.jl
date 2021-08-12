@@ -365,6 +365,7 @@ end
         api_version="api_version",
         request_method="GET",
         url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        backend=AWS.HTTPBackend(),
     )
     apply(Patches._http_options_patch) do
         # No default options
@@ -393,7 +394,7 @@ end
         api_version="api_version",
         request_method="GET",
         url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-        backend = TestBackend(4)
+        backend = TestBackend(4),
     )
     @test AWS._http_request(request.backend, request) == 4
 
