@@ -1180,7 +1180,7 @@ describe_app_instance_admin(appInstanceAdminArn, appInstanceArn, params::Abstrac
     describe_app_instance_user(app_instance_user_arn)
     describe_app_instance_user(app_instance_user_arn, params::Dict{String,<:Any})
 
- Returns the full details of an AppInstanceUser .
+Returns the full details of an AppInstanceUser.
 
 # Arguments
 - `app_instance_user_arn`: The ARN of the AppInstanceUser.
@@ -1865,7 +1865,7 @@ list_app_instance_admins(appInstanceArn, params::AbstractDict{String}; aws_confi
     list_app_instance_users(app-instance-arn)
     list_app_instance_users(app-instance-arn, params::Dict{String,<:Any})
 
- List all AppInstanceUsers created under a single AppInstance.
+List all AppInstanceUsers created under a single AppInstance.
 
 # Arguments
 - `app-instance-arn`: The ARN of the AppInstance.

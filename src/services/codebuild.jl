@@ -51,8 +51,8 @@ Gets information about one or more build projects.
 
 # Arguments
 - `names`: The names or ARNs of the build projects. To get information about a project
-  shared with your AWS account, its ARN must be specified. You cannot specify a shared
-  project using its name.
+  shared with your Amazon Web Services account, its ARN must be specified. You cannot specify
+  a shared project using its name.
 
 """
 batch_get_projects(names; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}("names"=>names); aws_config=aws_config)
@@ -95,8 +95,8 @@ Creates a build project.
 - `artifacts`: Information about the build output artifacts for the build project.
 - `environment`: Information about the build environment for the build project.
 - `name`: The name of the build project.
-- `service_role`: The ARN of the AWS Identity and Access Management (IAM) role that enables
-  AWS CodeBuild to interact with dependent AWS services on behalf of the AWS account.
+- `service_role`: The ARN of the IAM role that enables CodeBuild to interact with dependent
+  Amazon Web Services services on behalf of the Amazon Web Services account.
 - `source`: Information about the build input source code for the build project.
 
 # Optional Parameters
@@ -112,16 +112,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   equal to this limit. If the current build count meets this limit, new builds are throttled
   and are not run.
 - `"description"`: A description that makes the build project easy to identify.
-- `"encryptionKey"`: The AWS Key Management Service (AWS KMS) customer master key (CMK) to
-  be used for encrypting the build output artifacts.  You can use a cross-account KMS key to
-  encrypt the build output artifacts if your service role has permission to that key.   You
-  can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's
-  alias (using the format alias/&lt;alias-name&gt;).
+- `"encryptionKey"`: The Key Management Service customer master key (CMK) to be used for
+  encrypting the build output artifacts.  You can use a cross-account KMS key to encrypt the
+  build output artifacts if your service role has permission to that key.   You can specify
+  either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using
+  the format alias/&lt;alias-name&gt;).
 - `"fileSystemLocations"`:  An array of ProjectFileSystemLocation objects for a CodeBuild
   build project. A ProjectFileSystemLocation object specifies the identifier, location,
   mountOptions, mountPoint, and type of a file system created using Amazon Elastic File
   System.
-- `"logsConfig"`: Information about logs for the build project. These can be logs in Amazon
+- `"logsConfig"`: Information about logs for the build project. These can be logs in
   CloudWatch Logs, logs uploaded to a specified S3 bucket, or both.
 - `"queuedTimeoutInMinutes"`: The number of minutes a build is allowed to be queued before
   it times out.
@@ -131,25 +131,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   these secondarySourceVersions (at the project level).
 - `"secondarySources"`: An array of ProjectSource objects.
 - `"sourceVersion"`: A version of the build input to be built for this project. If not
-  specified, the latest version is used. If specified, it must be one of:    For AWS
-  CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull
-  request ID, branch name, or tag name that corresponds to the version of the source code you
-  want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID
-  (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If
-  not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID,
+  specified, the latest version is used. If specified, it must be one of:    For CodeCommit:
+  the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID,
+  branch name, or tag name that corresponds to the version of the source code you want to
+  build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for
+  example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not
+  specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID,
   branch name, or tag name that corresponds to the version of the source code you want to
   build. If a branch name is specified, the branch's HEAD commit ID is used. If not
   specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of
   the object that represents the build input ZIP file to use.   If sourceVersion is specified
   at the build level, then that version takes precedence over this sourceVersion (at the
-  project level).  For more information, see Source Version Sample with CodeBuild in the AWS
+  project level).  For more information, see Source Version Sample with CodeBuild in the
   CodeBuild User Guide.
 - `"tags"`: A list of tag key and value pairs associated with this build project. These
-  tags are available for use by AWS services that support AWS CodeBuild build project tags.
-- `"timeoutInMinutes"`: How long, in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to
+  tags are available for use by Amazon Web Services services that support CodeBuild build
+  project tags.
+- `"timeoutInMinutes"`: How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to
   wait before it times out any build that has not been marked as completed. The default is 60
   minutes.
-- `"vpcConfig"`: VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+- `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
 create_project(artifacts, environment, name, serviceRole, source; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateProject", Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source); aws_config=aws_config)
 create_project(artifacts, environment, name, serviceRole, source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source), params)); aws_config=aws_config)
@@ -169,7 +170,8 @@ create_project(artifacts, environment, name, serviceRole, source, params::Abstra
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`:  A list of tag key and value pairs associated with this report group.  These
-  tags are available for use by AWS services that support AWS CodeBuild report group tags.
+  tags are available for use by Amazon Web Services services that support CodeBuild report
+  group tags.
 """
 create_report_group(exportConfig, name, type; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type); aws_config=aws_config)
 create_report_group(exportConfig, name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type), params)); aws_config=aws_config)
@@ -178,18 +180,18 @@ create_report_group(exportConfig, name, type, params::AbstractDict{String}; aws_
     create_webhook(project_name)
     create_webhook(project_name, params::Dict{String,<:Any})
 
-For an existing AWS CodeBuild build project that has its source code stored in a GitHub or
-Bitbucket repository, enables AWS CodeBuild to start rebuilding the source code every time
-a code change is pushed to the repository.  If you enable webhooks for an AWS CodeBuild
-project, and the project is used as a build step in AWS CodePipeline, then two identical
-builds are created for each commit. One build is triggered through webhooks, and one
-through AWS CodePipeline. Because billing is on a per-build basis, you are billed for both
-builds. Therefore, if you are using AWS CodePipeline, we recommend that you disable
-webhooks in AWS CodeBuild. In the AWS CodeBuild console, clear the Webhook box. For more
-information, see step 5 in Change a Build Project's Settings.
+For an existing CodeBuild build project that has its source code stored in a GitHub or
+Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a
+code change is pushed to the repository.  If you enable webhooks for an CodeBuild project,
+and the project is used as a build step in CodePipeline, then two identical builds are
+created for each commit. One build is triggered through webhooks, and one through
+CodePipeline. Because billing is on a per-build basis, you are billed for both builds.
+Therefore, if you are using CodePipeline, we recommend that you disable webhooks in
+CodeBuild. In the CodeBuild console, clear the Webhook box. For more information, see step
+5 in Change a Build Project's Settings.
 
 # Arguments
-- `project_name`: The name of the AWS CodeBuild project.
+- `project_name`: The name of the CodeBuild project.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -295,12 +297,12 @@ delete_source_credentials(arn, params::AbstractDict{String}; aws_config::Abstrac
     delete_webhook(project_name)
     delete_webhook(project_name, params::Dict{String,<:Any})
 
-For an existing AWS CodeBuild build project that has its source code stored in a GitHub or
-Bitbucket repository, stops AWS CodeBuild from rebuilding the source code every time a code
+For an existing CodeBuild build project that has its source code stored in a GitHub or
+Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code
 change is pushed to the repository.
 
 # Arguments
-- `project_name`: The name of the AWS CodeBuild project.
+- `project_name`: The name of the CodeBuild project.
 
 """
 delete_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("DeleteWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
@@ -401,13 +403,13 @@ get_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::Abstr
     import_source_credentials(auth_type, server_type, token)
     import_source_credentials(auth_type, server_type, token, params::Dict{String,<:Any})
 
- Imports the source repository credentials for an AWS CodeBuild project that has its source
+ Imports the source repository credentials for an CodeBuild project that has its source
 code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
 
 # Arguments
 - `auth_type`:  The type of authentication used to connect to a GitHub, GitHub Enterprise,
   or Bitbucket repository. An OAUTH connection is not supported by the API and must be
-  created using the AWS CodeBuild console.
+  created using the CodeBuild console.
 - `server_type`:  The source provider used for this project.
 - `token`:  For GitHub or GitHub Enterprise, this is the personal access token. For
   Bitbucket, this is the app password.
@@ -430,7 +432,7 @@ import_source_credentials(authType, serverType, token, params::AbstractDict{Stri
 Resets the cache for a project.
 
 # Arguments
-- `project_name`: The name of the AWS CodeBuild build project that the cache is reset for.
+- `project_name`: The name of the CodeBuild build project that the cache is reset for.
 
 """
 invalidate_project_cache(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("InvalidateProjectCache", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
@@ -505,7 +507,7 @@ Gets a list of build identifiers for the specified build project, with each buil
 identifier representing a single build.
 
 # Arguments
-- `project_name`: The name of the AWS CodeBuild project.
+- `project_name`: The name of the CodeBuild project.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -526,7 +528,7 @@ list_builds_for_project(projectName, params::AbstractDict{String}; aws_config::A
     list_curated_environment_images()
     list_curated_environment_images(params::Dict{String,<:Any})
 
-Gets information about Docker images that are managed by AWS CodeBuild.
+Gets information about Docker images that are managed by CodeBuild.
 
 """
 list_curated_environment_images(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("ListCuratedEnvironmentImages"; aws_config=aws_config)
@@ -562,7 +564,7 @@ list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global
     list_report_groups()
     list_report_groups(params::Dict{String,<:Any})
 
- Gets a list ARNs for the report groups in the current AWS account.
+ Gets a list ARNs for the report groups in the current Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -589,7 +591,7 @@ list_report_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
     list_reports()
     list_reports(params::Dict{String,<:Any})
 
- Returns a list of ARNs for the reports in the current AWS account.
+ Returns a list of ARNs for the reports in the current Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -643,7 +645,7 @@ list_reports_for_report_group(reportGroupArn, params::AbstractDict{String}; aws_
     list_shared_projects()
     list_shared_projects(params::Dict{String,<:Any})
 
- Gets a list of projects that are shared with other AWS accounts or users.
+ Gets a list of projects that are shared with other Amazon Web Services accounts or users.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -656,9 +658,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation again, adding the next token to the call. To get all of the items in the list,
   keep calling this operation with each subsequent next token that is returned, until no more
   next tokens are returned.
-- `"sortBy"`:  The criterion to be used to list build projects shared with the current AWS
-  account or user. Valid values include:     ARN: List based on the ARN.     MODIFIED_TIME:
-  List based on when information about the shared project was last changed.
+- `"sortBy"`:  The criterion to be used to list build projects shared with the current
+  Amazon Web Services account or user. Valid values include:     ARN: List based on the ARN.
+     MODIFIED_TIME: List based on when information about the shared project was last changed.
+  
 - `"sortOrder"`: The order in which to list shared build projects. Valid values include:
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
@@ -669,7 +672,8 @@ list_shared_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig
     list_shared_report_groups()
     list_shared_report_groups(params::Dict{String,<:Any})
 
- Gets a list of report groups that are shared with other AWS accounts or users.
+ Gets a list of report groups that are shared with other Amazon Web Services accounts or
+users.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -682,9 +686,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation again, adding the next token to the call. To get all of the items in the list,
   keep calling this operation with each subsequent next token that is returned, until no more
   next tokens are returned.
-- `"sortBy"`:  The criterion to be used to list report groups shared with the current AWS
-  account or user. Valid values include:     ARN: List based on the ARN.     MODIFIED_TIME:
-  List based on when information about the shared report group was last changed.
+- `"sortBy"`:  The criterion to be used to list report groups shared with the current
+  Amazon Web Services account or user. Valid values include:     ARN: List based on the ARN.
+     MODIFIED_TIME: List based on when information about the shared report group was last
+  changed.
 - `"sortOrder"`: The order in which to list shared report groups. Valid values include:
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
@@ -709,7 +714,7 @@ list_source_credentials(params::AbstractDict{String}; aws_config::AbstractAWSCon
 
 # Arguments
 - `policy`:  A JSON-formatted resource policy. For more information, see Sharing a Project
-  and Sharing a Report Group in the AWS CodeBuild User Guide.
+  and Sharing a Report Group in the CodeBuild User Guide.
 - `resource_arn`:  The ARN of the Project or ReportGroup resource you want to associate
   with a resource policy.
 
@@ -729,7 +734,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"idempotencyToken"`: A unique, case sensitive identifier you provide to ensure the
   idempotency of the RetryBuild request. The token is included in the RetryBuild request and
   is valid for five minutes. If you repeat the RetryBuild request with the same token, but
-  change a parameter, AWS CodeBuild returns a parameter mismatch error.
+  change a parameter, CodeBuild returns a parameter mismatch error.
 """
 retry_build(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuild"; aws_config=aws_config)
 retry_build(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuild", params; aws_config=aws_config)
@@ -746,7 +751,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"idempotencyToken"`: A unique, case sensitive identifier you provide to ensure the
   idempotency of the RetryBuildBatch request. The token is included in the RetryBuildBatch
   request and is valid for five minutes. If you repeat the RetryBuildBatch request with the
-  same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
+  same token, but change a parameter, CodeBuild returns a parameter mismatch error.
 - `"retryType"`: Specifies the type of retry to perform.
 """
 retry_build_batch(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("RetryBuildBatch"; aws_config=aws_config)
@@ -759,7 +764,7 @@ retry_build_batch(params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
 Starts running a build.
 
 # Arguments
-- `project_name`: The name of the AWS CodeBuild build project to start running a build.
+- `project_name`: The name of the CodeBuild build project to start running a build.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -772,8 +777,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the latest one already defined in the build project.  If this value is set, it can be
   either an inline buildspec definition, the path to an alternate buildspec file relative to
   the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3
-  bucket. The bucket must be in the same AWS Region as the build project. Specify the
-  buildspec file using its ARN (for example,
+  bucket. The bucket must be in the same Amazon Web Services Region as the build project.
+  Specify the buildspec file using its ARN (for example,
   arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set
   to an empty string, the source code must contain a buildspec file in its root directory.
   For more information, see Buildspec File Name and Storage Location.
@@ -785,11 +790,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified in the build project.
 - `"debugSessionEnabled"`: Specifies if session debugging is enabled for this build. For
   more information, see Viewing a running build in Session Manager.
-- `"encryptionKeyOverride"`: The AWS Key Management Service (AWS KMS) customer master key
-  (CMK) that overrides the one specified in the build project. The CMK key encrypts the build
-  output artifacts.   You can use a cross-account KMS key to encrypt the build output
-  artifacts if your service role has permission to that key.   You can specify either the
-  Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format
+- `"encryptionKeyOverride"`: The Key Management Service customer master key (CMK) that
+  overrides the one specified in the build project. The CMK key encrypts the build output
+  artifacts.   You can use a cross-account KMS key to encrypt the build output artifacts if
+  your service role has permission to that key.   You can specify either the Amazon Resource
+  Name (ARN) of the CMK or, if available, the CMK's alias (using the format
   alias/&lt;alias-name&gt;).
 - `"environmentTypeOverride"`: A container type for this build that overrides the one
   specified in the build project.
@@ -799,20 +804,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that overrides, for this build only, any previous depth of history defined in the build
   project.
 - `"gitSubmodulesConfigOverride"`:  Information about the Git submodules configuration for
-  this build of an AWS CodeBuild build project.
+  this build of an CodeBuild build project.
 - `"idempotencyToken"`: A unique, case sensitive identifier you provide to ensure the
   idempotency of the StartBuild request. The token is included in the StartBuild request and
   is valid for 5 minutes. If you repeat the StartBuild request with the same token, but
-  change a parameter, AWS CodeBuild returns a parameter mismatch error.
+  change a parameter, CodeBuild returns a parameter mismatch error.
 - `"imageOverride"`: The name of an image for this build that overrides the one specified
   in the build project.
-- `"imagePullCredentialsTypeOverride"`: The type of credentials AWS CodeBuild uses to pull
-  images in your build. There are two valid values:   CODEBUILD  Specifies that AWS CodeBuild
+- `"imagePullCredentialsTypeOverride"`: The type of credentials CodeBuild uses to pull
+  images in your build. There are two valid values:   CODEBUILD  Specifies that CodeBuild
   uses its own credentials. This requires that you modify your ECR repository policy to trust
-  AWS CodeBuild's service principal.  SERVICE_ROLE  Specifies that AWS CodeBuild uses your
-  build project's service role.    When using a cross-account or private registry image, you
-  must use SERVICE_ROLE credentials. When using an AWS CodeBuild curated image, you must use
-  CODEBUILD credentials.
+  CodeBuild's service principal.  SERVICE_ROLE  Specifies that CodeBuild uses your build
+  project's service role.    When using a cross-account or private registry image, you must
+  use SERVICE_ROLE credentials. When using an CodeBuild curated image, you must use CODEBUILD
+  credentials.
 - `"insecureSslOverride"`: Enable this flag to override the insecure SSL setting that is
   specified in the build project. The insecure SSL setting determines whether to ignore SSL
   warnings while connecting to the project source code. This override applies only if the
@@ -829,7 +834,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown.  To be able to
   report the build status to the source provider, the user associated with the source
   provider must have write access to the repo. If the user does not have write access, the
-  build status cannot be updated. For more information, see Source provider access in the AWS
+  build status cannot be updated. For more information, see Source provider access in the
   CodeBuild User Guide.   The status of a build triggered by a webhook is always reported to
   your source provider.
 - `"secondaryArtifactsOverride"`:  An array of ProjectArtifacts objects.
@@ -848,8 +853,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   input defined in the build project.
 - `"sourceVersion"`: The version of the build input to be built, for this build only. If
   not specified, the latest version is used. If specified, the contents depends on the source
-  provider:  AWS CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit
-  ID, pull request ID, branch name, or tag name that corresponds to the version of the source
+  provider:  CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit ID,
+  pull request ID, branch name, or tag name that corresponds to the version of the source
   code you want to build. If a pull request ID is specified, it must use the format
   pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD
   commit ID is used. If not specified, the default branch's HEAD commit ID is used.
@@ -859,7 +864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version ID of the object that represents the build input ZIP file to use.   If
   sourceVersion is specified at the project level, then this sourceVersion (at the build
   level) takes precedence.  For more information, see Source Version Sample with CodeBuild in
-  the AWS CodeBuild User Guide.
+  the CodeBuild User Guide.
 - `"timeoutInMinutesOverride"`: The number of build timeout minutes, from 5 to 480 (8
   hours), that overrides, for this build only, the latest setting already defined in the
   build project.
@@ -888,10 +893,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the latest one already defined in the build project. If this value is set, it can be either
   an inline buildspec definition, the path to an alternate buildspec file relative to the
   value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket.
-  The bucket must be in the same AWS Region as the build project. Specify the buildspec file
-  using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value
-  is not provided or is set to an empty string, the source code must contain a buildspec file
-  in its root directory. For more information, see Buildspec File Name and Storage Location.
+  The bucket must be in the same Amazon Web Services Region as the build project. Specify the
+  buildspec file using its ARN (for example,
+  arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set
+  to an empty string, the source code must contain a buildspec file in its root directory.
+  For more information, see Buildspec File Name and Storage Location.
 - `"cacheOverride"`: A ProjectCache object that specifies cache overrides.
 - `"certificateOverride"`: The name of a certificate for this batch build that overrides
   the one specified in the batch build project.
@@ -900,9 +906,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"debugSessionEnabled"`: Specifies if session debugging is enabled for this batch build.
   For more information, see Viewing a running build in Session Manager. Batch session
   debugging is not supported for matrix batch builds.
-- `"encryptionKeyOverride"`: The AWS Key Management Service (AWS KMS) customer master key
-  (CMK) that overrides the one specified in the batch build project. The CMK key encrypts the
-  build output artifacts.  You can use a cross-account KMS key to encrypt the build output
+- `"encryptionKeyOverride"`: The Key Management Service customer master key (CMK) that
+  overrides the one specified in the batch build project. The CMK key encrypts the build
+  output artifacts.  You can use a cross-account KMS key to encrypt the build output
   artifacts if your service role has permission to that key.   You can specify either the
   Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format
   alias/&lt;alias-name&gt;).
@@ -918,16 +924,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"idempotencyToken"`: A unique, case sensitive identifier you provide to ensure the
   idempotency of the StartBuildBatch request. The token is included in the StartBuildBatch
   request and is valid for five minutes. If you repeat the StartBuildBatch request with the
-  same token, but change a parameter, AWS CodeBuild returns a parameter mismatch error.
+  same token, but change a parameter, CodeBuild returns a parameter mismatch error.
 - `"imageOverride"`: The name of an image for this batch build that overrides the one
   specified in the batch build project.
-- `"imagePullCredentialsTypeOverride"`: The type of credentials AWS CodeBuild uses to pull
-  images in your batch build. There are two valid values:   CODEBUILD  Specifies that AWS
+- `"imagePullCredentialsTypeOverride"`: The type of credentials CodeBuild uses to pull
+  images in your batch build. There are two valid values:   CODEBUILD  Specifies that
   CodeBuild uses its own credentials. This requires that you modify your ECR repository
-  policy to trust AWS CodeBuild's service principal.  SERVICE_ROLE  Specifies that AWS
-  CodeBuild uses your build project's service role.    When using a cross-account or private
-  registry image, you must use SERVICE_ROLE credentials. When using an AWS CodeBuild curated
-  image, you must use CODEBUILD credentials.
+  policy to trust CodeBuild's service principal.  SERVICE_ROLE  Specifies that CodeBuild uses
+  your build project's service role.    When using a cross-account or private registry image,
+  you must use SERVICE_ROLE credentials. When using an CodeBuild curated image, you must use
+  CODEBUILD credentials.
 - `"insecureSslOverride"`: Enable this flag to override the insecure SSL setting that is
   specified in the batch build project. The insecure SSL setting determines whether to ignore
   SSL warnings while connecting to the project source code. This override applies only if the
@@ -962,9 +968,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the batch build project.
 - `"sourceVersion"`: The version of the batch build input to be built, for this build only.
   If not specified, the latest version is used. If specified, the contents depends on the
-  source provider:  AWS CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The
-  commit ID, pull request ID, branch name, or tag name that corresponds to the version of the
-  source code you want to build. If a pull request ID is specified, it must use the format
+  source provider:  CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit
+  ID, pull request ID, branch name, or tag name that corresponds to the version of the source
+  code you want to build. If a pull request ID is specified, it must use the format
   pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD
   commit ID is used. If not specified, the default branch's HEAD commit ID is used.
   Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the
@@ -973,7 +979,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version ID of the object that represents the build input ZIP file to use.   If
   sourceVersion is specified at the project level, then this sourceVersion (at the build
   level) takes precedence.  For more information, see Source Version Sample with CodeBuild in
-  the AWS CodeBuild User Guide.
+  the CodeBuild User Guide.
 """
 start_build_batch(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config)
 start_build_batch(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config)
@@ -1027,11 +1033,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   equal to this limit. If the current build count meets this limit, new builds are throttled
   and are not run. To remove this limit, set this value to -1.
 - `"description"`: A new or replacement description of the build project.
-- `"encryptionKey"`: The AWS Key Management Service (AWS KMS) customer master key (CMK) to
-  be used for encrypting the build output artifacts.   You can use a cross-account KMS key to
-  encrypt the build output artifacts if your service role has permission to that key.   You
-  can specify either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's
-  alias (using the format alias/&lt;alias-name&gt;).
+- `"encryptionKey"`: The Key Management Service customer master key (CMK) to be used for
+  encrypting the build output artifacts.   You can use a cross-account KMS key to encrypt the
+  build output artifacts if your service role has permission to that key.   You can specify
+  either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using
+  the format alias/&lt;alias-name&gt;).
 - `"environment"`: Information to be changed about the build environment for the build
   project.
 - `"fileSystemLocations"`:  An array of ProjectFileSystemLocation objects for a CodeBuild
@@ -1039,7 +1045,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   mountOptions, mountPoint, and type of a file system created using Amazon Elastic File
   System.
 - `"logsConfig"`:  Information about logs for the build project. A project can create logs
-  in Amazon CloudWatch Logs, logs in an S3 bucket, or both.
+  in CloudWatch Logs, logs in an S3 bucket, or both.
 - `"queuedTimeoutInMinutes"`:  The number of minutes a build is allowed to be queued before
   it times out.
 - `"secondaryArtifacts"`:  An array of ProjectSource objects.
@@ -1047,34 +1053,68 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   secondarySourceVersions is specified at the build level, then they take over these
   secondarySourceVersions (at the project level).
 - `"secondarySources"`:  An array of ProjectSource objects.
-- `"serviceRole"`: The replacement ARN of the AWS Identity and Access Management (IAM) role
-  that enables AWS CodeBuild to interact with dependent AWS services on behalf of the AWS
-  account.
+- `"serviceRole"`: The replacement ARN of the IAM role that enables CodeBuild to interact
+  with dependent Amazon Web Services services on behalf of the Amazon Web Services account.
 - `"source"`: Information to be changed about the build input source code for the build
   project.
 - `"sourceVersion"`:  A version of the build input to be built for this project. If not
-  specified, the latest version is used. If specified, it must be one of:    For AWS
-  CodeCommit: the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull
-  request ID, branch name, or tag name that corresponds to the version of the source code you
-  want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID
-  (for example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If
-  not specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID,
+  specified, the latest version is used. If specified, it must be one of:    For CodeCommit:
+  the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID,
+  branch name, or tag name that corresponds to the version of the source code you want to
+  build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for
+  example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not
+  specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID,
   branch name, or tag name that corresponds to the version of the source code you want to
   build. If a branch name is specified, the branch's HEAD commit ID is used. If not
   specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of
   the object that represents the build input ZIP file to use.    If sourceVersion is
   specified at the build level, then that version takes precedence over this sourceVersion
   (at the project level).   For more information, see Source Version Sample with CodeBuild in
-  the AWS CodeBuild User Guide.
+  the CodeBuild User Guide.
 - `"tags"`: An updated list of tag key and value pairs associated with this build project.
-  These tags are available for use by AWS services that support AWS CodeBuild build project
-  tags.
-- `"timeoutInMinutes"`: The replacement value in minutes, from 5 to 480 (8 hours), for AWS
+  These tags are available for use by Amazon Web Services services that support CodeBuild
+  build project tags.
+- `"timeoutInMinutes"`: The replacement value in minutes, from 5 to 480 (8 hours), for
   CodeBuild to wait before timing out any related build that did not get marked as completed.
-- `"vpcConfig"`: VpcConfig enables AWS CodeBuild to access resources in an Amazon VPC.
+- `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
 update_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateProject", Dict{String, Any}("name"=>name); aws_config=aws_config)
 update_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+
+"""
+    update_project_visibility(project_arn, project_visibility)
+    update_project_visibility(project_arn, project_visibility, params::Dict{String,<:Any})
+
+Changes the public visibility for a project. The project's build results, logs, and
+artifacts are available to the general public. For more information, see Public build
+projects in the CodeBuild User Guide.  The following should be kept in mind when making
+your projects public:   All of a project's build results, logs, and artifacts, including
+builds that were run when the project was private, are available to the general public.
+All build logs and artifacts are available to the public. Environment variables, source
+code, and other sensitive information may have been output to the build logs and artifacts.
+You must be careful about what information is output to the build logs. Some best practice
+are:   Do not store sensitive values, especially Amazon Web Services access key IDs and
+secret access keys, in environment variables. We recommend that you use an Amazon EC2
+Systems Manager Parameter Store or Secrets Manager to store sensitive values.   Follow Best
+practices for using webhooks in the CodeBuild User Guide to limit which entities can
+trigger a build, and do not store the buildspec in the project itself, to ensure that your
+webhooks are as secure as possible.     A malicious user can use public builds to
+distribute malicious artifacts. We recommend that you review all pull requests to verify
+that the pull request is a legitimate change. We also recommend that you validate any
+artifacts with their checksums to make sure that the correct artifacts are being
+downloaded.
+
+# Arguments
+- `project_arn`: The Amazon Resource Name (ARN) of the build project.
+- `project_visibility`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"resourceAccessRole"`: The ARN of the IAM role that enables CodeBuild to access the
+  CloudWatch Logs and Amazon S3 artifacts for the project's builds.
+"""
+update_project_visibility(projectArn, projectVisibility; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateProjectVisibility", Dict{String, Any}("projectArn"=>projectArn, "projectVisibility"=>projectVisibility); aws_config=aws_config)
+update_project_visibility(projectArn, projectVisibility, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateProjectVisibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn, "projectVisibility"=>projectVisibility), params)); aws_config=aws_config)
 
 """
     update_report_group(arn)
@@ -1091,8 +1131,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   report results are exported to an S3 bucket.     NO_EXPORT: The report results are not
   exported.
 - `"tags"`:  An updated list of tag key and value pairs associated with this report group.
-  These tags are available for use by AWS services that support AWS CodeBuild report group
-  tags.
+  These tags are available for use by Amazon Web Services services that support CodeBuild
+  report group tags.
 """
 update_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config)
 update_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config)
@@ -1101,11 +1141,11 @@ update_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSCo
     update_webhook(project_name)
     update_webhook(project_name, params::Dict{String,<:Any})
 
- Updates the webhook associated with an AWS CodeBuild build project.    If you use
-Bitbucket for your repository, rotateSecret is ignored.
+ Updates the webhook associated with an CodeBuild build project.    If you use Bitbucket
+for your repository, rotateSecret is ignored.
 
 # Arguments
-- `project_name`: The name of the AWS CodeBuild project.
+- `project_name`: The name of the CodeBuild project.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

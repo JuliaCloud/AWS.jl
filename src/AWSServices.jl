@@ -251,6 +251,7 @@ const shield = AWS.JSONService("shield", "shield", "2016-06-02", "1.1", "AWSShie
 const signer = AWS.RestJSONService("signer", "signer", "2017-08-25")
 const simpledb = AWS.QueryService("sdb", "sdb", "2009-04-15")
 const sms = AWS.JSONService("sms", "sms", "2016-10-24", "1.1", "AWSServerMigrationService_V2016_10_24")
+const snow_device_management = AWS.RestJSONService("snow-device-management", "snow-device-management", "2021-08-04")
 const snowball = AWS.JSONService("snowball", "snowball", "2016-06-30", "1.1", "AWSIESnowballJobManagementService")
 const sns = AWS.QueryService("sns", "sns", "2010-03-31")
 const sqs = AWS.QueryService("sqs", "sqs", "2012-11-05")

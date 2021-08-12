@@ -121,11 +121,11 @@ Compute Cloud (Amazon EC2) instances that you manage with Systems Manager are al
 managed instances.
 
 # Arguments
-- `iam_role`: The Identity and Access Management (IAM) role that you want to assign to the
-  managed instance. This IAMrole must provide AssumeRole permissions for the Amazon Web
-  Services Systems Manager service principal ssm.amazonaws.com. For more information, see
-  Create an IAM service role for a hybrid environment in the Amazon Web Services Systems
-  Manager User Guide.
+- `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
+  assign to the managed instance. This IAM role must provide AssumeRole permissions for the
+  Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
+  information, see Create an IAM service role for a hybrid environment in the Amazon Web
+  Services Systems Manager User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -179,9 +179,9 @@ association might instruct State Manager to start the service.
   configuration information for the instance. You can specify Amazon Web Services-predefined
   documents, documents you created, or a document that is shared with you from another
   account. For Systems Manager documents (SSM documents) that are shared with you from other
-  accounts, you must specify the complete SSM document ARN, in the following format:
-  arn:partition:ssm:region:account-id:document/document-name   For example:
-  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
+  Amazon Web Services accounts, you must specify the complete SSM document ARN, in the
+  following format:  arn:partition:ssm:region:account-id:document/document-name   For
+  example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
 
@@ -239,14 +239,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter for the PutComplianceItems API operation. In this case, compliance data isn't
   managed by State Manager. It is managed by your direct call to the PutComplianceItems API
   operation. By default, all associations use AUTO mode.
-- `"TargetLocations"`: A location is a combination of Regions and accounts where you want
-  to run the association. Use this action to create an association in multiple Regions and
-  multiple accounts.
+- `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
+  Amazon Web Services accounts where you want to run the association. Use this action to
+  create an association in multiple Regions and multiple accounts.
 - `"Targets"`: The targets for the association. You can target instances by using tags,
-  Amazon Web Services resource groups, all instances in an account, or individual instance
-  IDs. For more information about choosing targets for an association, see Using targets and
-  rate controls with State Manager associations in the Amazon Web Services Systems Manager
-  User Guide.
+  Amazon Web Services resource groups, all instances in an Amazon Web Services account, or
+  individual instance IDs. For more information about choosing targets for an association,
+  see Using targets and rate controls with State Manager associations in the Amazon Web
+  Services Systems Manager User Guide.
 """
 create_association(Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateAssociation", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
 create_association(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
@@ -460,9 +460,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
   five tags for an OpsMetadata object. Tags enable you to categorize a resource in different
   ways, such as by purpose, owner, or environment. For example, you might want to tag an
-  OpsMetadata object to identify an environment or target Region. In this case, you could
-  specify the following key-value pairs:    Key=Environment,Value=Production
-  Key=Region,Value=us-east-2
+  OpsMetadata object to identify an environment or target Amazon Web Services Region. In this
+  case, you could specify the following key-value pairs:    Key=Environment,Value=Production
+     Key=Region,Value=us-east-2
 """
 create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
 create_ops_metadata(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateOpsMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
@@ -526,13 +526,14 @@ create_patch_baseline(Name, params::AbstractDict{String}; aws_config::AbstractAW
 A resource data sync helps you view data from multiple sources in a single location. Amazon
 Web Services Systems Manager offers two types of resource data sync: SyncToDestination and
 SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination
-type to synchronize Inventory data from multiple Regions to a single Amazon Simple Storage
-Service (Amazon S3) bucket. For more information, see Configuring resource data sync for
-Inventory in the Amazon Web Services Systems Manager User Guide. You can configure Systems
-Manager Explorer to use the SyncFromSource type to synchronize operational work items
-(OpsItems) and operational data (OpsData) from multiple Regions to a single Amazon S3
-bucket. This type can synchronize OpsItems and OpsData from multiple accounts and Regions
-or EntireOrganization by using Organizations. For more information, see Setting up Systems
+type to synchronize Inventory data from multiple Amazon Web Services Regions to a single
+Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Configuring
+resource data sync for Inventory in the Amazon Web Services Systems Manager User Guide. You
+can configure Systems Manager Explorer to use the SyncFromSource type to synchronize
+operational work items (OpsItems) and operational data (OpsData) from multiple Amazon Web
+Services Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and
+OpsData from multiple Amazon Web Services accounts and Amazon Web Services Regions or
+EntireOrganization by using Organizations. For more information, see Setting up Systems
 Manager Explorer to display data from multiple accounts and Regions in the Amazon Web
 Services Systems Manager User Guide. A resource data sync is an asynchronous operation that
 returns immediately. After a successful initial sync is completed, the system continuously
@@ -553,9 +554,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyncType"`: Specify SyncToDestination to create a resource data sync that synchronizes
   data to an S3 bucket for Inventory. If you specify SyncToDestination, you must provide a
   value for S3Destination. Specify SyncFromSource to synchronize data from a single account
-  and multiple Regions, or multiple accounts and Regions, as listed in Organizations for
-  Explorer. If you specify SyncFromSource, you must provide a value for SyncSource. The
-  default value is SyncToDestination.
+  and multiple Regions, or multiple Amazon Web Services accounts and Amazon Web Services
+  Regions, as listed in Organizations for Explorer. If you specify SyncFromSource, you must
+  provide a value for SyncSource. The default value is SyncToDestination.
 """
 create_resource_data_sync(SyncName; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateResourceDataSync", Dict{String, Any}("SyncName"=>SyncName); aws_config=aws_config)
 create_resource_data_sync(SyncName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("CreateResourceDataSync", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SyncName"=>SyncName), params)); aws_config=aws_config)
@@ -581,15 +582,21 @@ delete_activation(ActivationId, params::AbstractDict{String}; aws_config::Abstra
     delete_association(params::Dict{String,<:Any})
 
 Disassociates the specified Amazon Web Services Systems Manager document (SSM document)
-from the specified instance. When you disassociate a document from an instance, it doesn't
-change the configuration of the instance. To change the configuration state of an instance
-after you disassociate a document, you must create a new document with the desired
-configuration and associate it with the instance.
+from the specified instance. If you created the association by using the Targets parameter,
+then you must delete the association by using the association ID. When you disassociate a
+document from an instance, it doesn't change the configuration of the instance. To change
+the configuration state of an instance after you disassociate a document, you must create a
+new document with the desired configuration and associate it with the instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AssociationId"`: The association ID that you want to delete.
-- `"InstanceId"`: The ID of the instance.
+- `"InstanceId"`: The instance ID.   InstanceId has been deprecated. To specify an instance
+  ID for an association, use the Targets parameter. Requests that include the parameter
+  InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or
+  later will fail. In addition, if you use the parameter InstanceId, you can't use the
+  parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or
+  ScheduleExpression. To use these parameters, you must use the Targets parameter.
 - `"Name"`: The name of the SSM document.
 """
 delete_association(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteAssociation"; aws_config=aws_config)
@@ -680,7 +687,8 @@ delete_ops_metadata(OpsMetadataArn, params::AbstractDict{String}; aws_config::Ab
     delete_parameter(name)
     delete_parameter(name, params::Dict{String,<:Any})
 
-Delete a parameter from the system.
+Delete a parameter from the system. After deleting a parameter, wait for at least 30
+seconds to create a parameter with the same name.
 
 # Arguments
 - `name`: The name of the parameter to delete.
@@ -693,10 +701,12 @@ delete_parameter(Name, params::AbstractDict{String}; aws_config::AbstractAWSConf
     delete_parameters(names)
     delete_parameters(names, params::Dict{String,<:Any})
 
-Delete a list of parameters.
+Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to
+create a parameter with the same name.
 
 # Arguments
-- `names`: The names of the parameters to delete.
+- `names`: The names of the parameters to delete. After deleting a parameter, wait for at
+  least 30 seconds to create a parameter with the same name.
 
 """
 delete_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("DeleteParameters", Dict{String, Any}("Names"=>Names); aws_config=aws_config)
@@ -822,9 +832,7 @@ describe_activations(params::AbstractDict{String}; aws_config::AbstractAWSConfig
 
 Describes the association for the specified target or instance. If you created the
 association by using the Targets parameter, then you must retrieve the association by using
-the association ID. If you created the association by specifying an instance ID and an
-Amazon Web Services Systems Manager document (SSM document), then you retrieve the
-association by specifying the document name and the instance ID.
+the association ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -983,7 +991,8 @@ describe_document(Name, params::AbstractDict{String}; aws_config::AbstractAWSCon
 
 Describes the permissions for a Amazon Web Services Systems Manager document (SSM
 document). If you created the document, you are the owner. If a document is shared, it can
-either be shared privately (by specifying a user's account ID) or publicly (All).
+either be shared privately (by specifying a user's Amazon Web Services account ID) or
+publicly (All).
 
 # Arguments
 - `name`: The name of the document for which you are the owner.
@@ -1312,7 +1321,7 @@ describe_maintenance_window_tasks(WindowId, params::AbstractDict{String}; aws_co
     describe_maintenance_windows()
     describe_maintenance_windows(params::Dict{String,<:Any})
 
-Retrieves the maintenance windows in an account.
+Retrieves the maintenance windows in an Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1409,7 +1418,7 @@ describe_parameters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=
     describe_patch_baselines()
     describe_patch_baselines(params::Dict{String,<:Any})
 
-Lists the patch baselines in your account.
+Lists the patch baselines in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1611,7 +1620,7 @@ Retrieves the Session Manager connection status for an instance to determine whe
 running and ready to receive Session Manager connections.
 
 # Arguments
-- `target`: The ID of the instance.
+- `target`: The instance ID.
 
 """
 get_connection_status(Target; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetConnectionStatus", Dict{String, Any}("Target"=>Target); aws_config=aws_config)
@@ -1641,11 +1650,11 @@ get_default_patch_baseline(params::AbstractDict{String}; aws_config::AbstractAWS
 Retrieves the current snapshot for the patch baseline the instance uses. This API is
 primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document).  If you
 run the command locally, such as with the Command Line Interface (CLI), the system attempts
-to use your local AWS credentials and the operation fails. To avoid this, you can run the
-command in the Amazon Web Services Systems Manager console. Use Run Command, a capability
-of Amazon Web Services Systems Manager, with an SSM document that enables you to target an
-instance with a script or command. For example, run the command using the
-AWS-RunShellScript document or the AWS-RunPowerShellScript document.
+to use your local Amazon Web Services credentials and the operation fails. To avoid this,
+you can run the command in the Amazon Web Services Systems Manager console. Use Run
+Command, a capability of Amazon Web Services Systems Manager, with an SSM document that
+enables you to target an instance with a script or command. For example, run the command
+using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
 
 # Arguments
 - `instance_id`: The ID of the instance for which the appropriate patch snapshot should be
@@ -1685,7 +1694,7 @@ get_document(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
     get_inventory()
     get_inventory(params::Dict{String,<:Any})
 
-Query inventory information.
+Query inventory information. This includes instance status, such as Stopped or Terminated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1865,11 +1874,12 @@ get_ops_summary(params::AbstractDict{String}; aws_config::AbstractAWSConfig=glob
     get_parameter(name)
     get_parameter(name, params::Dict{String,<:Any})
 
-Get information about a parameter by using the parameter name. Don't confuse this API
-operation with the GetParameters API operation.
+Get information about a single parameter by specifying the parameter name.  To get
+information about more than one parameter at a time, use the GetParameters operation.
 
 # Arguments
-- `name`: The name of the parameter you want to query.
+- `name`: The name of the parameter you want to query. To query by parameter label, use
+  \"Name\": \"name:label\". To query by parameter version, use \"Name\": \"name:version\".
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1904,11 +1914,13 @@ get_parameter_history(Name, params::AbstractDict{String}; aws_config::AbstractAW
     get_parameters(names)
     get_parameters(names, params::Dict{String,<:Any})
 
-Get details of a parameter. Don't confuse this API operation with the GetParameter API
-operation.
+Get information about one or more parameters by specifying multiple parameter names.  To
+get information about a single parameter, you can use the GetParameter operation instead.
 
 # Arguments
-- `names`: Names of the parameters for which you want to query information.
+- `names`: Names of the parameters for which you want to query information. To query by
+  parameter label, use \"Name\": \"name:label\". To query by parameter version, use \"Name\":
+  \"name:version\".
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1962,7 +1974,11 @@ get_parameters_by_path(Path, params::AbstractDict{String}; aws_config::AbstractA
 Retrieves information about a patch baseline.
 
 # Arguments
-- `baseline_id`: The ID of the patch baseline to retrieve.
+- `baseline_id`: The ID of the patch baseline to retrieve.  To retrieve information about
+  an Amazon Web Services managed patch baseline, specify the full Amazon Resource Name (ARN)
+  of the baseline. For example, for the baseline AWS-AmazonLinuxDefaultPatchBaseline, specify
+  arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0e392de35e7c563b7 instead of
+  pb-0e392de35e7c563b7.
 
 """
 get_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("GetPatchBaseline", Dict{String, Any}("BaselineId"=>BaselineId); aws_config=aws_config)
@@ -2000,7 +2016,7 @@ can't create a new SettingId, but you can overwrite the default value if you hav
 ssm:UpdateServiceSetting permission for the setting. Use the UpdateServiceSetting API
 operation to change the default setting. Or use the ResetServiceSetting to change the value
 back to the original value defined by the Amazon Web Services service team. Query the
-current service setting for the account.
+current service setting for the Amazon Web Services account.
 
 # Arguments
 - `setting_id`: The ID of the service setting to get. The setting ID can be one of the
@@ -2069,9 +2085,10 @@ list_association_versions(AssociationId, params::AbstractDict{String}; aws_confi
     list_associations()
     list_associations(params::Dict{String,<:Any})
 
-Returns all State Manager associations in the current account and Region. You can limit the
-results to a specific State Manager association document or instance by specifying a
-filter. State Manager is a capability of Amazon Web Services Systems Manager.
+Returns all State Manager associations in the current Amazon Web Services account and
+Amazon Web Services Region. You can limit the results to a specific State Manager
+association document or instance by specifying a filter. State Manager is a capability of
+Amazon Web Services Systems Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2117,7 +2134,7 @@ list_command_invocations(params::AbstractDict{String}; aws_config::AbstractAWSCo
     list_commands()
     list_commands(params::Dict{String,<:Any})
 
-Lists the commands requested by users of the account.
+Lists the commands requested by users of the Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2183,16 +2200,16 @@ list_compliance_summaries(params::AbstractDict{String}; aws_config::AbstractAWSC
     list_document_metadata_history(metadata, name)
     list_document_metadata_history(metadata, name, params::Dict{String,<:Any})
 
-Information about approval reviews for a version of an SSM document.
+Information about approval reviews for a version of a change template in Change Manager.
 
 # Arguments
 - `metadata`: The type of data for which details are being requested. Currently, the only
   supported value is DocumentReviews.
-- `name`: The name of the document.
+- `name`: The name of the change template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentVersion"`: The version of the document.
+- `"DocumentVersion"`: The version of the change template.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
@@ -2224,8 +2241,8 @@ list_document_versions(Name, params::AbstractDict{String}; aws_config::AbstractA
     list_documents()
     list_documents(params::Dict{String,<:Any})
 
-Returns all Systems Manager (SSM) documents in the current account and Region. You can
-limit the results of this request by using a filter.
+Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and
+Amazon Web Services Region. You can limit the results of this request by using a filter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2271,8 +2288,9 @@ list_inventory_entries(InstanceId, TypeName, params::AbstractDict{String}; aws_c
     list_ops_item_events()
     list_ops_item_events(params::Dict{String,<:Any})
 
-Returns a list of all OpsItem events in the current Region and account. You can limit the
-results to events associated with specific OpsItems by specifying a filter.
+Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon
+Web Services account. You can limit the results to events associated with specific OpsItems
+by specifying a filter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2362,7 +2380,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SyncType"`: View a list of resource data syncs according to the sync type. Specify
   SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 bucket.
   Specify SyncFromSource to view resource data syncs from Organizations or from multiple
-  Regions.
+  Amazon Web Services Regions.
 """
 list_resource_data_sync(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListResourceDataSync"; aws_config=aws_config)
 list_resource_data_sync(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("ListResourceDataSync", params; aws_config=aws_config)
@@ -2488,17 +2506,17 @@ Add a parameter to the system.
   parameters in a hierarchy, you must include a leading forward slash character (/) when you
   create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming
   Constraints:   Parameter names are case sensitive.   A parameter name must be unique within
-  an Region   A parameter name can't be prefixed with \"aws\" or \"ssm\" (case-insensitive).
-   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In
-  addition, the slash character ( / ) is used to delineate hierarchies in parameter names.
-  For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include
-  spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For
-  additional information about valid values for parameter names, see Creating Systems Manager
-  parameters in the Amazon Web Services Systems Manager User Guide.  The maximum length
-  constraint listed below includes capacity for additional system attributes that aren't part
-  of the name. The maximum length for a parameter name, including the full length of the
-  parameter ARN, is 1011 characters. For example, the length of the following parameter name
-  is 65 characters, not 20 characters:
+  an Amazon Web Services Region   A parameter name can't be prefixed with \"aws\" or \"ssm\"
+  (case-insensitive).   Parameter names can include only the following symbols and letters:
+  a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in
+  parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter
+  name can't include spaces.   Parameter hierarchies are limited to a maximum depth of
+  fifteen levels.   For additional information about valid values for parameter names, see
+  Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
+  The maximum length constraint listed below includes capacity for additional system
+  attributes that aren't part of the name. The maximum length for a parameter name, including
+  the full length of the parameter ARN, is 1011 characters. For example, the length of the
+  following parameter name is 65 characters, not 20 characters:
   arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
 - `value`: The parameter value that you want to add to the system. Standard parameters have
   a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.  Parameters can't be
@@ -2515,17 +2533,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image,
   Amazon Web Services Systems Manager validates the parameter value is in the required
   format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your
-  account. For more information, see Native parameter support for Amazon Machine Image (AMI)
-  IDs in the Amazon Web Services Systems Manager User Guide.
+  Amazon Web Services account. For more information, see Native parameter support for Amazon
+  Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User Guide.
 - `"Description"`: Information about the parameter that you want to add to the system.
   Optional but recommended.  Don't enter personally identifiable information in this field.
 - `"KeyId"`: The Key Management Service (KMS) ID that you want to use to encrypt a
-  parameter. Either the default KMS key automatically assigned to your account or a custom
-  key. Required for parameters that use the SecureString data type. If you don't specify a
-  key ID, the system uses the default key associated with your account.   To use your default
-  KMS key, choose the SecureString data type, and do not specify the Key ID when you create
-  the parameter. The system automatically populates Key ID with your default KMS key.   To
-  use a custom KMS key, choose the SecureString data type with the Key ID parameter.
+  parameter. Either the default KMS key automatically assigned to your Amazon Web Services
+  account or a custom key. Required for parameters that use the SecureString data type. If
+  you don't specify a key ID, the system uses the default key associated with your Amazon Web
+  Services account.   To use your default KMS key, choose the SecureString data type, and do
+  not specify the Key ID when you create the parameter. The system automatically populates
+  Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data
+  type with the Key ID parameter.
 - `"Overwrite"`: Overwrite an existing parameter. The default value is false.
 - `"Policies"`: One or more policies to apply to a parameter. This operation takes a JSON
   array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the
@@ -2551,37 +2570,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tier"`: The parameter tier to assign to a parameter. Parameter Store offers a standard
   tier and an advanced tier for parameters. Standard parameters have a content size limit of
   4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000
-  standard parameters for each Region in an account. Standard parameters are offered at no
-  additional cost.  Advanced parameters have a content size limit of 8 KB and can be
-  configured to use parameter policies. You can create a maximum of 100,000 advanced
-  parameters for each Region in an account. Advanced parameters incur a charge. For more
-  information, see Standard and advanced parameter tiers in the Amazon Web Services Systems
-  Manager User Guide. You can change a standard parameter to an advanced parameter any time.
-  But you can't revert an advanced parameter to a standard parameter. Reverting an advanced
-  parameter to a standard parameter would result in data loss because the system would
-  truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any
-  policies attached to the parameter. Lastly, advanced parameters use a different form of
-  encryption than standard parameters.  If you no longer need an advanced parameter, or if
-  you no longer want to incur charges for an advanced parameter, you must delete it and
-  recreate it as a new standard parameter.   Using the Default Tier Configuration  In
-  PutParameter requests, you can specify the tier to create the parameter in. Whenever you
-  specify a tier in the request, Parameter Store creates or updates the parameter according
-  to that request. However, if you don't specify a tier in a request, Parameter Store assigns
-  the tier based on the current Parameter Store default tier configuration. The default tier
-  when you begin using Parameter Store is the standard-parameter tier. If you use the
-  advanced-parameter tier, you can specify one of the following as the default:    Advanced:
-  With this option, Parameter Store evaluates all requests as advanced parameters.
-  Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine
-  if the parameter is standard or advanced.  If the request doesn't include any options that
-  require an advanced parameter, the parameter is created in the standard-parameter tier. If
-  one or more options requiring an advanced parameter are included in the request, Parameter
-  Store create a parameter in the advanced-parameter tier. This approach helps control your
-  parameter-related costs by always creating standard parameters unless an advanced parameter
-  is necessary.    Options that require an advanced parameter include the following:   The
-  content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.
-  More than 10,000 parameters already exist in your account in the current Region.   For more
-  information about configuring the default tier option, see Specifying a default parameter
-  tier in the Amazon Web Services Systems Manager User Guide.
+  standard parameters for each Region in an Amazon Web Services account. Standard parameters
+  are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB
+  and can be configured to use parameter policies. You can create a maximum of 100,000
+  advanced parameters for each Region in an Amazon Web Services account. Advanced parameters
+  incur a charge. For more information, see Standard and advanced parameter tiers in the
+  Amazon Web Services Systems Manager User Guide. You can change a standard parameter to an
+  advanced parameter any time. But you can't revert an advanced parameter to a standard
+  parameter. Reverting an advanced parameter to a standard parameter would result in data
+  loss because the system would truncate the size of the parameter from 8 KB to 4 KB.
+  Reverting would also remove any policies attached to the parameter. Lastly, advanced
+  parameters use a different form of encryption than standard parameters.  If you no longer
+  need an advanced parameter, or if you no longer want to incur charges for an advanced
+  parameter, you must delete it and recreate it as a new standard parameter.   Using the
+  Default Tier Configuration  In PutParameter requests, you can specify the tier to create
+  the parameter in. Whenever you specify a tier in the request, Parameter Store creates or
+  updates the parameter according to that request. However, if you don't specify a tier in a
+  request, Parameter Store assigns the tier based on the current Parameter Store default tier
+  configuration. The default tier when you begin using Parameter Store is the
+  standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the
+  following as the default:    Advanced: With this option, Parameter Store evaluates all
+  requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store
+  evaluates each request to determine if the parameter is standard or advanced.  If the
+  request doesn't include any options that require an advanced parameter, the parameter is
+  created in the standard-parameter tier. If one or more options requiring an advanced
+  parameter are included in the request, Parameter Store create a parameter in the
+  advanced-parameter tier. This approach helps control your parameter-related costs by always
+  creating standard parameters unless an advanced parameter is necessary.    Options that
+  require an advanced parameter include the following:   The content size of the parameter is
+  more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters
+  already exist in your Amazon Web Services account in the current Amazon Web Services
+  Region.   For more information about configuring the default tier option, see Specifying a
+  default parameter tier in the Amazon Web Services Systems Manager User Guide.
 - `"Type"`: The type of parameter that you want to add to the system.   SecureString isn't
   currently supported for CloudFormation templates.  Items in a StringList must be separated
   by a comma (,). You can't use other punctuation or special character to escape items in the
@@ -2873,7 +2893,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OutputS3KeyPrefix"`: The directory structure within the S3 bucket where the responses
   should be stored.
 - `"OutputS3Region"`: (Deprecated) You can no longer specify this parameter. The system
-  ignores it. Instead, Systems Manager automatically determines the Region of the S3 bucket.
+  ignores it. Instead, Systems Manager automatically determines the Amazon Web Services
+  Region of the S3 bucket.
 - `"Parameters"`: The required and optional parameters specified in the document being run.
 - `"ServiceRoleArn"`: The ARN of the Identity and Access Management (IAM) service role to
   use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run
@@ -2945,10 +2966,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to identify an environment or operating system. In this case, you could specify the
   following key-value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To
   add tags to an existing patch baseline, use the AddTagsToResource operation.
-- `"TargetLocations"`: A location is a combination of Regions and/or accounts where you
-  want to run the automation. Use this operation to start an automation in multiple Regions
-  and multiple accounts. For more information, see Running Automation workflows in multiple
-  Regions and accounts in the Amazon Web Services Systems Manager User Guide.
+- `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and/or
+  Amazon Web Services accounts where you want to run the automation. Use this operation to
+  start an automation in multiple Amazon Web Services Regions and multiple Amazon Web
+  Services accounts. For more information, see Running Automation workflows in multiple
+  Amazon Web Services Regions and Amazon Web Services accounts in the Amazon Web Services
+  Systems Manager User Guide.
 - `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
   Targets and TargetMaps can't be specified together.
 - `"TargetParameterName"`: The name of the parameter used as the target resource for the
@@ -2996,8 +3019,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
   five tags for a change request. Tags enable you to categorize a resource in different ways,
   such as by purpose, owner, or environment. For example, you might want to tag a change
-  request to identify an environment or target Region. In this case, you could specify the
-  following key-value pairs:    Key=Environment,Value=Production
+  request to identify an environment or target Amazon Web Services Region. In this case, you
+  could specify the following key-value pairs:    Key=Environment,Value=Production
   Key=Region,Value=us-east-2
 """
 start_change_request_execution(DocumentName, Runbooks; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("StartChangeRequestExecution", Dict{String, Any}("DocumentName"=>DocumentName, "Runbooks"=>Runbooks); aws_config=aws_config)
@@ -3139,8 +3162,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration information for the instance. You can specify Amazon Web Services-predefined
   documents, documents you created, or a document that is shared with you from another
   account. For Systems Manager document (SSM document) that are shared with you from other
-  accounts, you must specify the complete SSM document ARN, in the following format:
-  arn:aws:ssm:region:account-id:document/document-name   For example:
+  Amazon Web Services accounts, you must specify the complete SSM document ARN, in the
+  following format:  arn:aws:ssm:region:account-id:document/document-name   For example:
   arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
@@ -3159,9 +3182,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   managed by State Manager, a capability of Amazon Web Services Systems Manager. It is
   managed by your direct call to the PutComplianceItems API operation. By default, all
   associations use AUTO mode.
-- `"TargetLocations"`: A location is a combination of Regions and accounts where you want
-  to run the association. Use this action to update an association in multiple Regions and
-  multiple accounts.
+- `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
+  Amazon Web Services accounts where you want to run the association. Use this action to
+  update an association in multiple Regions and multiple accounts.
 - `"Targets"`: The targets of the association.
 """
 update_association(AssociationId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateAssociation", Dict{String, Any}("AssociationId"=>AssociationId); aws_config=aws_config)
@@ -3172,11 +3195,13 @@ update_association(AssociationId, params::AbstractDict{String}; aws_config::Abst
     update_association_status(association_status, instance_id, name, params::Dict{String,<:Any})
 
 Updates the status of the Amazon Web Services Systems Manager document (SSM document)
-associated with the specified instance.
+associated with the specified instance.  UpdateAssociationStatus is primarily used by the
+Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your
+associations and is only used for associations created with the InstanceId legacy parameter.
 
 # Arguments
 - `association_status`: The association status.
-- `instance_id`: The ID of the instance.
+- `instance_id`: The instance ID.
 - `name`: The name of the SSM document.
 
 """
@@ -3232,15 +3257,17 @@ update_document_default_version(DocumentVersion, Name, params::AbstractDict{Stri
     update_document_metadata(document_reviews, name)
     update_document_metadata(document_reviews, name, params::Dict{String,<:Any})
 
-Updates information related to approval reviews for a specific version of a document.
+Updates information related to approval reviews for a specific version of a change template
+in Change Manager.
 
 # Arguments
-- `document_reviews`: The document review details to update.
-- `name`: The name of the document for which a version is to be updated.
+- `document_reviews`: The change template review details to update.
+- `name`: The name of the change template for which a version's metadata is to be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentVersion"`: The version of a document to update.
+- `"DocumentVersion"`: The version of a change template in which to update approval
+  metadata.
 """
 update_document_metadata(DocumentReviews, Name; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocumentMetadata", Dict{String, Any}("DocumentReviews"=>DocumentReviews, "Name"=>Name); aws_config=aws_config)
 update_document_metadata(DocumentReviews, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm("UpdateDocumentMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentReviews"=>DocumentReviews, "Name"=>Name), params)); aws_config=aws_config)
