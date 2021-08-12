@@ -37,10 +37,10 @@ function AWS._http_request(backend::DownloadsBackend, request)
     # When the method is `HEAD`, the response may have a Content-Length
     # but not send any content back (which appears to be correct,
     # <https://stackoverflow.com/a/18925736/12486544>).
-    # 
+    #
     # Thus, if we did not set `CURLOPT_NOBODY`, and it gets a Content-Length
     # back, it will hang waiting for that body.
-    # 
+    #
     # Therefore, we do not pass an `output` when the `request_method` is `HEAD`.
     if request.request_method != "HEAD"
         output = IOBuffer()
@@ -54,16 +54,18 @@ function AWS._http_request(backend::DownloadsBackend, request)
     end
 
     # We pass an `input` only when we have content we wish to send.
+    input = IOBuffer()
     if !isempty(request.content)
-        input = IOBuffer()
         write(input, request.content)
-        seekstart(input)
         input_arg = (; input=input)
     else
         input_arg = NamedTuple()
     end
 
     @repeat 4 try
+        # We seekstart on every attempt to make sure we're not writing
+        # empty data on every attempt but the first.
+        seekstart(input)
         downloader = @something(backend.downloader, get_downloader())
         # set the hook so that we don't follow redirects. Only
         # need to do this on per-request downloaders, because we
@@ -75,7 +77,7 @@ function AWS._http_request(backend::DownloadsBackend, request)
                                     method = request.request_method,
                                     headers = request.headers, verbose=false, throw=true,
                                     downloader=downloader)
-        http_response = HTTP.Response(response.status, response.headers; body_arg()..., request=nothing) 
+        http_response = HTTP.Response(response.status, response.headers; body_arg()..., request=nothing)
 
         if HTTP.iserror(http_response)
             target = HTTP.resource(HTTP.URI(request.url))
