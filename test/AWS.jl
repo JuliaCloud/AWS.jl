@@ -37,7 +37,7 @@ end
 end
 
 @testset "sign" begin
-    aws = AWS.AWSConfig()
+    aws = AWS.AWSConfig(; region="us-east-1")
 
     access_key = "access-key"
     secret_key = "ssh... it is a secret"
@@ -384,7 +384,7 @@ end
         custom_backend = AWS.HTTPBackend(Dict(:pipeline_limit => 5))
         @test AWS._http_request(custom_backend, request) == Dict(:pipeline_limit => 20)
     end
-    
+
     request.backend = TestBackend(2)
     @test AWS._http_request(request.backend, request) == 2
 
