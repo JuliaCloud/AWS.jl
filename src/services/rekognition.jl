@@ -125,7 +125,9 @@ evaluating the model, you start the model by calling StartProjectVersion. This o
 requires permissions to perform the rekognition:CreateProjectVersion action.
 
 # Arguments
-- `output_config`: The Amazon S3 location to store the results of training.
+- `output_config`: The Amazon S3 bucket location to store the results of training. The S3
+  bucket can be in any AWS account as long as the caller has s3:PutObject permissions on the
+  S3 bucket.
 - `project_arn`: The ARN of the Amazon Rekognition Custom Labels project that manages the
   model that you want to train.
 - `testing_data`: The dataset to use for testing.
@@ -136,11 +138,13 @@ requires permissions to perform the rekognition:CreateProjectVersion action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"KmsKeyId"`: The identifier for your AWS Key Management Service (AWS KMS) customer
   master key (CMK). You can supply the Amazon Resource Name (ARN) of your CMK, the ID of your
-  CMK, or an alias for your CMK. The key is used to encrypt training and test images copied
-  into the service for model training. Your source images are unaffected. The key is also
-  used to encrypt training results and manifest files written to the output Amazon S3 bucket
-  (OutputConfig). If you don't specify a value for KmsKeyId, images copied into the service
-  are encrypted using a key that AWS owns and manages.
+  CMK, an alias for your CMK, or an alias ARN. The key is used to encrypt training and test
+  images copied into the service for model training. Your source images are unaffected. The
+  key is also used to encrypt training results and manifest files written to the output
+  Amazon S3 bucket (OutputConfig). If you choose to use your own CMK, you need the following
+  permissions on the CMK.   kms:CreateGrant   kms:DescribeKey   kms:GenerateDataKey
+  kms:Decrypt   If you don't specify a value for KmsKeyId, images copied into the service are
+  encrypted using a key that AWS owns and manages.
 - `"Tags"`:  A set of tags (key-value pairs) that you want to attach to the model.
 """
 create_project_version(OutputConfig, ProjectArn, TestingData, TrainingData, VersionName; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("CreateProjectVersion", Dict{String, Any}("OutputConfig"=>OutputConfig, "ProjectArn"=>ProjectArn, "TestingData"=>TestingData, "TrainingData"=>TrainingData, "VersionName"=>VersionName); aws_config=aws_config)
@@ -560,7 +564,7 @@ supported. The image must be either a .png or .jpeg formatted file.  The DetectT
 operation returns text in an array of TextDetection elements, TextDetections. Each
 TextDetection element provides information about a single word or line of text that was
 detected in the image.  A word is one or more ISO basic latin script characters that are
-not separated by spaces. DetectText can detect up to 50 words in an image. A line is a
+not separated by spaces. DetectText can detect up to 100 words in an image. A line is a
 string of equally spaced words. A line isn't necessarily a complete sentence. For example,
 a driver's license number is detected as a line. A line ends when there is no aligned text
 after it. Also, a line ends when there is a large gap between words, relative to the length
@@ -660,31 +664,33 @@ get_celebrity_recognition(JobId, params::AbstractDict{String}; aws_config::Abstr
     get_content_moderation(job_id)
     get_content_moderation(job_id, params::Dict{String,<:Any})
 
-Gets the unsafe content analysis results for a Amazon Rekognition Video analysis started by
-StartContentModeration. Unsafe content analysis of a video is an asynchronous operation.
-You start analysis by calling StartContentModeration which returns a job identifier
-(JobId). When analysis finishes, Amazon Rekognition Video publishes a completion status to
-the Amazon Simple Notification Service topic registered in the initial call to
-StartContentModeration. To get the results of the unsafe content analysis, first check that
-the status value published to the Amazon SNS topic is SUCCEEDED. If so, call
+Gets the inappropriate, unwanted, or offensive content analysis results for a Amazon
+Rekognition Video analysis started by StartContentModeration. For a list of moderation
+labels in Amazon Rekognition, see Using the image and video moderation APIs. Amazon
+Rekognition Video inappropriate or offensive content detection in a stored video is an
+asynchronous operation. You start analysis by calling StartContentModeration which returns
+a job identifier (JobId). When analysis finishes, Amazon Rekognition Video publishes a
+completion status to the Amazon Simple Notification Service topic registered in the initial
+call to StartContentModeration. To get the results of the content analysis, first check
+that the status value published to the Amazon SNS topic is SUCCEEDED. If so, call
 GetContentModeration and pass the job identifier (JobId) from the initial call to
 StartContentModeration.  For more information, see Working with Stored Videos in the Amazon
-Rekognition Devlopers Guide.  GetContentModeration returns detected unsafe content labels,
-and the time they are detected, in an array, ModerationLabels, of
-ContentModerationDetection objects.  By default, the moderated labels are returned sorted
-by time, in milliseconds from the start of the video. You can also sort them by moderated
-label by specifying NAME for the SortBy input parameter.  Since video analysis can return a
-large number of results, use the MaxResults parameter to limit the number of labels
-returned in a single call to GetContentModeration. If there are more results than specified
-in MaxResults, the value of NextToken in the operation response contains a pagination token
-for getting the next set of results. To get the next page of results, call
-GetContentModeration and populate the NextToken request parameter with the value of
-NextToken returned from the previous call to GetContentModeration. For more information,
-see Detecting Unsafe Content in the Amazon Rekognition Developer Guide.
+Rekognition Devlopers Guide.  GetContentModeration returns detected inappropriate,
+unwanted, or offensive content moderation labels, and the time they are detected, in an
+array, ModerationLabels, of ContentModerationDetection objects.  By default, the moderated
+labels are returned sorted by time, in milliseconds from the start of the video. You can
+also sort them by moderated label by specifying NAME for the SortBy input parameter.  Since
+video analysis can return a large number of results, use the MaxResults parameter to limit
+the number of labels returned in a single call to GetContentModeration. If there are more
+results than specified in MaxResults, the value of NextToken in the operation response
+contains a pagination token for getting the next set of results. To get the next page of
+results, call GetContentModeration and populate the NextToken request parameter with the
+value of NextToken returned from the previous call to GetContentModeration. For more
+information, see Content moderation in the Amazon Rekognition Developer Guide.
 
 # Arguments
-- `job_id`: The identifier for the unsafe content job. Use JobId to identify the job in a
-  subsequent call to GetContentModeration.
+- `job_id`: The identifier for the inappropriate, unwanted, or offensive content moderation
+  job. Use JobId to identify the job in a subsequent call to GetContentModeration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -693,7 +699,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results is returned. The default value is 1000.
 - `"NextToken"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Rekognition returns a pagination token in the response. You can use this
-  pagination token to retrieve the next set of unsafe content labels.
+  pagination token to retrieve the next set of content moderation labels.
 - `"SortBy"`: Sort to use for elements in the ModerationLabelDetections array. Use
   TIMESTAMP to sort array elements by the time labels are detected. Use NAME to
   alphabetically group elements for a label together. Within each label group, the array
@@ -1269,7 +1275,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
 - `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Rekognition Video
-  to publish the completion status of the celebrity recognition analysis to.
+  to publish the completion status of the celebrity recognition analysis to. The Amazon SNS
+  topic must have a topic name that begins with AmazonRekognition if you are using the
+  AmazonRekognitionServiceRole permissions policy.
 """
 start_celebrity_recognition(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
 start_celebrity_recognition(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartCelebrityRecognition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
@@ -1278,20 +1286,22 @@ start_celebrity_recognition(Video, params::AbstractDict{String}; aws_config::Abs
     start_content_moderation(video)
     start_content_moderation(video, params::Dict{String,<:Any})
 
- Starts asynchronous detection of unsafe content in a stored video. Amazon Rekognition
-Video can moderate content in a video stored in an Amazon S3 bucket. Use Video to specify
-the bucket name and the filename of the video. StartContentModeration returns a job
-identifier (JobId) which you use to get the results of the analysis. When unsafe content
-analysis is finished, Amazon Rekognition Video publishes a completion status to the Amazon
-Simple Notification Service topic that you specify in NotificationChannel. To get the
-results of the unsafe content analysis, first check that the status value published to the
-Amazon SNS topic is SUCCEEDED. If so, call GetContentModeration and pass the job identifier
-(JobId) from the initial call to StartContentModeration.  For more information, see
-Detecting Unsafe Content in the Amazon Rekognition Developer Guide.
+ Starts asynchronous detection of inappropriate, unwanted, or offensive content in a stored
+video. For a list of moderation labels in Amazon Rekognition, see Using the image and video
+moderation APIs. Amazon Rekognition Video can moderate content in a video stored in an
+Amazon S3 bucket. Use Video to specify the bucket name and the filename of the video.
+StartContentModeration returns a job identifier (JobId) which you use to get the results of
+the analysis. When content analysis is finished, Amazon Rekognition Video publishes a
+completion status to the Amazon Simple Notification Service topic that you specify in
+NotificationChannel. To get the results of the content analysis, first check that the
+status value published to the Amazon SNS topic is SUCCEEDED. If so, call
+GetContentModeration and pass the job identifier (JobId) from the initial call to
+StartContentModeration.  For more information, see Content moderation in the Amazon
+Rekognition Developer Guide.
 
 # Arguments
-- `video`: The video in which you want to detect unsafe content. The video must be stored
-  in an Amazon S3 bucket.
+- `video`: The video in which you want to detect inappropriate, unwanted, or offensive
+  content. The video must be stored in an Amazon S3 bucket.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1310,7 +1320,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify MinConfidence, GetContentModeration returns labels with confidence values greater
   than or equal to 50 percent.
 - `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Rekognition Video
-  to publish the completion status of the unsafe content analysis to.
+  to publish the completion status of the content analysis to. The Amazon SNS topic must have
+  a topic name that begins with AmazonRekognition if you are using the
+  AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 start_content_moderation(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
 start_content_moderation(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartContentModeration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
@@ -1346,7 +1358,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
 - `"NotificationChannel"`: The ARN of the Amazon SNS topic to which you want Amazon
-  Rekognition Video to publish the completion status of the face detection operation.
+  Rekognition Video to publish the completion status of the face detection operation. The
+  Amazon SNS topic must have a topic name that begins with AmazonRekognition if you are using
+  the AmazonRekognitionServiceRole permissions policy.
 """
 start_face_detection(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
 start_face_detection(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
@@ -1381,7 +1395,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
 - `"NotificationChannel"`: The ARN of the Amazon SNS topic to which you want Amazon
-  Rekognition Video to publish the completion status of the search.
+  Rekognition Video to publish the completion status of the search. The Amazon SNS topic must
+  have a topic name that begins with AmazonRekognition if you are using the
+  AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 start_face_search(CollectionId, Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video); aws_config=aws_config)
 start_face_search(CollectionId, Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartFaceSearch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionId"=>CollectionId, "Video"=>Video), params)); aws_config=aws_config)
@@ -1422,7 +1438,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   level lower than this specified value. If you don't specify MinConfidence, the operation
   returns labels with confidence values greater than or equal to 50 percent.
 - `"NotificationChannel"`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
-  publish the completion status of the label detection operation to.
+  publish the completion status of the label detection operation to. The Amazon SNS topic
+  must have a topic name that begins with AmazonRekognition if you are using the
+  AmazonRekognitionServiceRole permissions policy.
 """
 start_label_detection(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
 start_label_detection(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartLabelDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
@@ -1454,7 +1472,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
 - `"NotificationChannel"`: The Amazon SNS topic ARN you want Amazon Rekognition Video to
-  publish the completion status of the people detection operation to.
+  publish the completion status of the people detection operation to. The Amazon SNS topic
+  must have a topic name that begins with AmazonRekognition if you are using the
+  AmazonRekognitionServiceRole permissions policy.
 """
 start_person_tracking(Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}("Video"=>Video); aws_config=aws_config)
 start_person_tracking(Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartPersonTracking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Video"=>Video), params)); aws_config=aws_config)
@@ -1517,7 +1537,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that's published to your Amazon Simple Notification Service topic. For example, you can use
   JobTag to group related jobs and identify them in the completion notification.
 - `"NotificationChannel"`: The ARN of the Amazon SNS topic to which you want Amazon
-  Rekognition Video to publish the completion status of the segment detection operation.
+  Rekognition Video to publish the completion status of the segment detection operation. Note
+  that the Amazon SNS topic must have a topic name that begins with AmazonRekognition if you
+  are using the AmazonRekognitionServiceRole permissions policy to access the topic.
 """
 start_segment_detection(SegmentTypes, Video; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video); aws_config=aws_config)
 start_segment_detection(SegmentTypes, Video, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = rekognition("StartSegmentDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SegmentTypes"=>SegmentTypes, "Video"=>Video), params)); aws_config=aws_config)

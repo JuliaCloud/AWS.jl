@@ -28,10 +28,10 @@ activate_key_signing_key(HostedZoneId, Name, params::AbstractDict{String}; aws_c
 Associates an Amazon VPC with a private hosted zone.   To perform the association, the VPC
 and the private hosted zone must already exist. You can't convert a public hosted zone into
 a private hosted zone.   If you want to associate a VPC that was created by using one
-account with a private hosted zone that was created by using a different account, the
-account that created the private hosted zone must first submit a
-CreateVPCAssociationAuthorization request. Then the account that created the VPC must
-submit an AssociateVPCWithHostedZone request.
+Amazon Web Services account with a private hosted zone that was created by using a
+different account, the Amazon Web Services account that created the private hosted zone
+must first submit a CreateVPCAssociationAuthorization request. Then the account that
+created the VPC must submit an AssociateVPCWithHostedZone request.
 
 # Arguments
 - `id`: The ID of the private hosted zone that you want to associate an Amazon VPC with.
@@ -270,34 +270,34 @@ Policy  Before you create a query logging configuration, perform the following o
 If you create a query logging configuration using the Route 53 console, Route 53 performs
 these operations automatically.    Create a CloudWatch Logs log group, and make note of the
 ARN, which you specify when you create a query logging configuration. Note the following:
-You must create the log group in the us-east-1 region.   You must use the same account to
-create the log group and the hosted zone that you want to configure query logging for.
-When you create log groups for query logging, we recommend that you use a consistent
-prefix, for example:  /aws/route53/hosted zone name   In the next step, you'll create a
-resource policy, which controls access to one or more log groups and the associated Amazon
-Web Services resources, such as Route 53 hosted zones. There's a limit on the number of
-resource policies that you can create, so we recommend that you use a consistent prefix so
-you can use the same resource policy for all the log groups that you create for query
-logging.     Create a CloudWatch Logs resource policy, and give it the permissions that
-Route 53 needs to create log streams and to send query logs to log streams. For the value
-of Resource, specify the ARN for the log group that you created in the previous step. To
-use the same resource policy for all the CloudWatch Logs log groups that you created for
-query logging configurations, replace the hosted zone name with *, for example:
-arn:aws:logs:us-east-1:123412341234:log-group:/aws/route53/*   You can't use the CloudWatch
-console to create or edit a resource policy. You must use the CloudWatch API, one of the
-Amazon Web Services SDKs, or the CLI.     Log Streams and Edge Locations  When Route 53
-finishes creating the configuration for DNS query logging, it does the following:   Creates
-a log stream for an edge location the first time that the edge location responds to DNS
-queries for the specified hosted zone. That log stream is used to log all queries that
-Route 53 responds to for that edge location.   Begins to send query logs to the applicable
-log stream.   The name of each log stream is in the following format:   hosted zone ID/edge
-location code   The edge location code is a three-letter code and an arbitrarily assigned
-number, for example, DFW3. The three-letter code typically corresponds with the
-International Air Transport Association airport code for an airport near the edge location.
-(These abbreviations might change in the future.) For a list of edge locations, see \"The
-Route 53 Global Network\" on the Route 53 Product Details page.  Queries That Are Logged
-Query logs contain only the queries that DNS resolvers forward to Route 53. If a DNS
-resolver has already cached the response to a query (such as the IP address for a load
+You must create the log group in the us-east-1 region.   You must use the same Amazon Web
+Services account to create the log group and the hosted zone that you want to configure
+query logging for.   When you create log groups for query logging, we recommend that you
+use a consistent prefix, for example:  /aws/route53/hosted zone name   In the next step,
+you'll create a resource policy, which controls access to one or more log groups and the
+associated Amazon Web Services resources, such as Route 53 hosted zones. There's a limit on
+the number of resource policies that you can create, so we recommend that you use a
+consistent prefix so you can use the same resource policy for all the log groups that you
+create for query logging.     Create a CloudWatch Logs resource policy, and give it the
+permissions that Route 53 needs to create log streams and to send query logs to log
+streams. For the value of Resource, specify the ARN for the log group that you created in
+the previous step. To use the same resource policy for all the CloudWatch Logs log groups
+that you created for query logging configurations, replace the hosted zone name with *, for
+example:  arn:aws:logs:us-east-1:123412341234:log-group:/aws/route53/*   You can't use the
+CloudWatch console to create or edit a resource policy. You must use the CloudWatch API,
+one of the Amazon Web Services SDKs, or the CLI.     Log Streams and Edge Locations  When
+Route 53 finishes creating the configuration for DNS query logging, it does the following:
+ Creates a log stream for an edge location the first time that the edge location responds
+to DNS queries for the specified hosted zone. That log stream is used to log all queries
+that Route 53 responds to for that edge location.   Begins to send query logs to the
+applicable log stream.   The name of each log stream is in the following format:   hosted
+zone ID/edge location code   The edge location code is a three-letter code and an
+arbitrarily assigned number, for example, DFW3. The three-letter code typically corresponds
+with the International Air Transport Association airport code for an airport near the edge
+location. (These abbreviations might change in the future.) For a list of edge locations,
+see \"The Route 53 Global Network\" on the Route 53 Product Details page.  Queries That Are
+Logged  Query logs contain only the queries that DNS resolvers forward to Route 53. If a
+DNS resolver has already cached the response to a query (such as the IP address for a load
 balancer for example.com), the resolver will continue to return the cached response. It
 doesn't forward another query to Route 53 until the TTL for the corresponding resource
 record set expires. Depending on how many DNS queries are submitted for a resource record
@@ -330,28 +330,28 @@ create_query_logging_config(CloudWatchLogsLogGroupArn, HostedZoneId, params::Abs
     create_reusable_delegation_set(caller_reference, params::Dict{String,<:Any})
 
 Creates a delegation set (a group of four name servers) that can be reused by multiple
-hosted zones that were created by the same account.  You can also create a reusable
-delegation set that uses the four name servers that are associated with an existing hosted
-zone. Specify the hosted zone ID in the CreateReusableDelegationSet request.  You can't
-associate a reusable delegation set with a private hosted zone.  For information about
-using a reusable delegation set to configure white label name servers, see Configuring
-White Label Name Servers. The process for migrating existing hosted zones to use a reusable
-delegation set is comparable to the process for configuring white label name servers. You
-need to perform the following steps:   Create a reusable delegation set.   Recreate hosted
-zones, and reduce the TTL to 60 seconds or less.   Recreate resource record sets in the new
-hosted zones.   Change the registrar's name servers to use the name servers for the new
-hosted zones.   Monitor traffic for the website or application.   Change TTLs back to their
-original values.   If you want to migrate existing hosted zones to use a reusable
-delegation set, the existing hosted zones can't use any of the name servers that are
-assigned to the reusable delegation set. If one or more hosted zones do use one or more
-name servers that are assigned to the reusable delegation set, you can do one of the
-following:   For small numbers of hosted zones—up to a few hundred—it's relatively easy
-to create reusable delegation sets until you get one that has four name servers that don't
-overlap with any of the name servers in your hosted zones.   For larger numbers of hosted
-zones, the easiest solution is to use more than one reusable delegation set.   For larger
-numbers of hosted zones, you can also migrate hosted zones that have overlapping name
-servers to hosted zones that don't have overlapping name servers, then migrate the hosted
-zones again to use the reusable delegation set.
+hosted zones that were created by the same Amazon Web Services account.  You can also
+create a reusable delegation set that uses the four name servers that are associated with
+an existing hosted zone. Specify the hosted zone ID in the CreateReusableDelegationSet
+request.  You can't associate a reusable delegation set with a private hosted zone.  For
+information about using a reusable delegation set to configure white label name servers,
+see Configuring White Label Name Servers. The process for migrating existing hosted zones
+to use a reusable delegation set is comparable to the process for configuring white label
+name servers. You need to perform the following steps:   Create a reusable delegation set.
+ Recreate hosted zones, and reduce the TTL to 60 seconds or less.   Recreate resource
+record sets in the new hosted zones.   Change the registrar's name servers to use the name
+servers for the new hosted zones.   Monitor traffic for the website or application.
+Change TTLs back to their original values.   If you want to migrate existing hosted zones
+to use a reusable delegation set, the existing hosted zones can't use any of the name
+servers that are assigned to the reusable delegation set. If one or more hosted zones do
+use one or more name servers that are assigned to the reusable delegation set, you can do
+one of the following:   For small numbers of hosted zones—up to a few hundred—it's
+relatively easy to create reusable delegation sets until you get one that has four name
+servers that don't overlap with any of the name servers in your hosted zones.   For larger
+numbers of hosted zones, the easiest solution is to use more than one reusable delegation
+set.   For larger numbers of hosted zones, you can also migrate hosted zones that have
+overlapping name servers to hosted zones that don't have overlapping name servers, then
+migrate the hosted zones again to use the reusable delegation set.
 
 # Arguments
 - `caller_reference`: A unique string that identifies the request, and that allows you to
@@ -444,13 +444,14 @@ create_traffic_policy_version(Document, Id, params::AbstractDict{String}; aws_co
     create_vpcassociation_authorization(id, vpc)
     create_vpcassociation_authorization(id, vpc, params::Dict{String,<:Any})
 
-Authorizes the account that created a specified VPC to submit an AssociateVPCWithHostedZone
-request to associate the VPC with a specified hosted zone that was created by a different
-account. To submit a CreateVPCAssociationAuthorization request, you must use the account
-that created the hosted zone. After you authorize the association, use the account that
-created the VPC to submit an AssociateVPCWithHostedZone request.  If you want to associate
-multiple VPCs that you created by using one account with a hosted zone that you created by
-using a different account, you must submit one authorization request for each VPC.
+Authorizes the Amazon Web Services account that created a specified VPC to submit an
+AssociateVPCWithHostedZone request to associate the VPC with a specified hosted zone that
+was created by a different account. To submit a CreateVPCAssociationAuthorization request,
+you must use the account that created the hosted zone. After you authorize the association,
+use the account that created the VPC to submit an AssociateVPCWithHostedZone request.  If
+you want to associate multiple VPCs that you created by using one account with a hosted
+zone that you created by using a different account, you must submit one authorization
+request for each VPC.
 
 # Arguments
 - `id`: The ID of the private hosted zone that you want to authorize associating a VPC with.
@@ -529,7 +530,7 @@ error. For information about deleting records from your hosted zone, see
 ChangeResourceRecordSets. To verify that the hosted zone has been deleted, do one of the
 following:   Use the GetHostedZone action to request information about the hosted zone.
 Use the ListHostedZones action to get a list of the hosted zones associated with the
-current account.
+current Amazon Web Services account.
 
 # Arguments
 - `id`: The ID of the hosted zone you want to delete.
@@ -629,18 +630,19 @@ delete_traffic_policy_instance(Id, params::AbstractDict{String}; aws_config::Abs
 Removes authorization to submit an AssociateVPCWithHostedZone request to associate a
 specified VPC with a hosted zone that was created by a different account. You must use the
 account that created the hosted zone to submit a DeleteVPCAssociationAuthorization request.
- Sending this request only prevents the account that created the VPC from associating the
-VPC with the Amazon Route 53 hosted zone in the future. If the VPC is already associated
-with the hosted zone, DeleteVPCAssociationAuthorization won't disassociate the VPC from the
-hosted zone. If you want to delete an existing association, use
-DisassociateVPCFromHostedZone.
+ Sending this request only prevents the Amazon Web Services account that created the VPC
+from associating the VPC with the Amazon Route 53 hosted zone in the future. If the VPC is
+already associated with the hosted zone, DeleteVPCAssociationAuthorization won't
+disassociate the VPC from the hosted zone. If you want to delete an existing association,
+use DisassociateVPCFromHostedZone.
 
 # Arguments
-- `id`: When removing authorization to associate a VPC that was created by one account with
-  a hosted zone that was created with a different account, the ID of the hosted zone.
-- `vpc`: When removing authorization to associate a VPC that was created by one account
-  with a hosted zone that was created with a different account, a complex type that includes
-  the ID and region of the VPC.
+- `id`: When removing authorization to associate a VPC that was created by one Amazon Web
+  Services account with a hosted zone that was created with a different Amazon Web Services
+  account, the ID of the hosted zone.
+- `vpc`: When removing authorization to associate a VPC that was created by one Amazon Web
+  Services account with a hosted zone that was created with a different Amazon Web Services
+  account, a complex type that includes the ID and region of the VPC.
 
 """
 delete_vpcassociation_authorization(Id, VPC; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", Dict{String, Any}("VPC"=>VPC); aws_config=aws_config)
@@ -709,9 +711,10 @@ enable_hosted_zone_dnssec(Id, params::AbstractDict{String}; aws_config::Abstract
 Gets the specified limit for the current account, for example, the maximum number of health
 checks that you can create using the account. For the default limit, see Limits in the
 Amazon Route 53 Developer Guide. To request a higher limit, open a case.  You can also view
-account limits in Amazon Web Services Trusted Advisor. Sign in to the Management Console
-and open the Trusted Advisor console at https://console.aws.amazon.com/trustedadvisor/.
-Then choose Service limits in the navigation pane.
+account limits in Amazon Web Services Trusted Advisor. Sign in to the Amazon Web Services
+Management Console and open the Trusted Advisor console at
+https://console.aws.amazon.com/trustedadvisor/. Then choose Service limits in the
+navigation pane.
 
 # Arguments
 - `type`: The limit that you want to get. Valid values include the following:
@@ -823,7 +826,8 @@ get_health_check(HealthCheckId, params::AbstractDict{String}; aws_config::Abstra
     get_health_check_count()
     get_health_check_count(params::Dict{String,<:Any})
 
-Retrieves the number of health checks that are associated with the current account.
+Retrieves the number of health checks that are associated with the current Amazon Web
+Services account.
 
 """
 get_health_check_count(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/healthcheckcount"; aws_config=aws_config)
@@ -883,7 +887,8 @@ get_hosted_zone(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=
     get_hosted_zone_count()
     get_hosted_zone_count(params::Dict{String,<:Any})
 
-Retrieves the number of hosted zones that are associated with the current account.
+Retrieves the number of hosted zones that are associated with the current Amazon Web
+Services account.
 
 """
 get_hosted_zone_count(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/hostedzonecount"; aws_config=aws_config)
@@ -993,7 +998,8 @@ get_traffic_policy_instance(Id, params::AbstractDict{String}; aws_config::Abstra
     get_traffic_policy_instance_count()
     get_traffic_policy_instance_count(params::Dict{String,<:Any})
 
-Gets the number of traffic policy instances that are associated with the current account.
+Gets the number of traffic policy instances that are associated with the current Amazon Web
+Services account.
 
 """
 get_traffic_policy_instance_count(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/trafficpolicyinstancecount"; aws_config=aws_config)
@@ -1040,7 +1046,8 @@ list_geo_locations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
     list_health_checks()
     list_health_checks(params::Dict{String,<:Any})
 
-Retrieve a list of the health checks that are associated with the current account.
+Retrieve a list of the health checks that are associated with the current Amazon Web
+Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1063,9 +1070,10 @@ list_health_checks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
     list_hosted_zones(params::Dict{String,<:Any})
 
 Retrieves a list of the public and private hosted zones that are associated with the
-current account. The response includes a HostedZones child element for each hosted zone.
-Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of
-hosted zones, you can use the maxitems parameter to list them in groups of up to 100.
+current Amazon Web Services account. The response includes a HostedZones child element for
+each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you
+have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up
+to 100.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1091,9 +1099,9 @@ list_hosted_zones(params::AbstractDict{String}; aws_config::AbstractAWSConfig=gl
     list_hosted_zones_by_name(params::Dict{String,<:Any})
 
 Retrieves a list of your hosted zones in lexicographic order. The response includes a
-HostedZones child element for each hosted zone created by the current account.
-ListHostedZonesByName sorts hosted zones by name with the labels reversed. For example:
-com.example.www.  Note the trailing dot, which can change the sort order in some
+HostedZones child element for each hosted zone created by the current Amazon Web Services
+account.   ListHostedZonesByName sorts hosted zones by name with the labels reversed. For
+example:  com.example.www.  Note the trailing dot, which can change the sort order in some
 circumstances. If the domain name includes escape characters or Punycode,
 ListHostedZonesByName alphabetizes the domain name using the escaped or Punycoded value,
 which is the format that Amazon Route 53 saves in its database. For example, to create a
@@ -1109,22 +1117,23 @@ for the dnsname and hostedzoneid parameters in the request that produced the cur
 response.   The MaxItems element in the response contains the value, if any, that you
 specified for the maxitems parameter in the request that produced the current response.
 If the value of IsTruncated in the response is true, there are more hosted zones associated
-with the current account.  If IsTruncated is false, this response includes the last hosted
-zone that is associated with the current account. The NextDNSName element and
-NextHostedZoneId elements are omitted from the response.   The NextDNSName and
+with the current Amazon Web Services account.  If IsTruncated is false, this response
+includes the last hosted zone that is associated with the current account. The NextDNSName
+element and NextHostedZoneId elements are omitted from the response.   The NextDNSName and
 NextHostedZoneId elements in the response contain the domain name and the hosted zone ID of
-the next hosted zone that is associated with the current account. If you want to list more
-hosted zones, make another call to ListHostedZonesByName, and specify the value of
-NextDNSName and NextHostedZoneId in the dnsname and hostedzoneid parameters, respectively.
+the next hosted zone that is associated with the current Amazon Web Services account. If
+you want to list more hosted zones, make another call to ListHostedZonesByName, and specify
+the value of NextDNSName and NextHostedZoneId in the dnsname and hostedzoneid parameters,
+respectively.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"dnsname"`: (Optional) For your first request to ListHostedZonesByName, include the
   dnsname parameter only if you want to specify the name of the first hosted zone in the
   response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the
-  hosted zones that were created by the current account, in ASCII order. For subsequent
-  requests, include both dnsname and hostedzoneid parameters. For dnsname, specify the value
-  of NextDNSName from the previous response.
+  hosted zones that were created by the current Amazon Web Services account, in ASCII order.
+  For subsequent requests, include both dnsname and hostedzoneid parameters. For dnsname,
+  specify the value of NextDNSName from the previous response.
 - `"hostedzoneid"`: (Optional) For your first request to ListHostedZonesByName, do not
   include the hostedzoneid parameter. If you have more hosted zones than the value of
   maxitems, ListHostedZonesByName returns only the first maxitems hosted zones. To get the
@@ -1144,13 +1153,14 @@ list_hosted_zones_by_name(params::AbstractDict{String}; aws_config::AbstractAWSC
     list_hosted_zones_by_vpc(vpcid, vpcregion, params::Dict{String,<:Any})
 
 Lists all the private hosted zones that a specified VPC is associated with, regardless of
-which account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner
-structure in the response contains one of the following values:   An OwningAccount element,
-which contains the account number of either the current account or another account. Some
-services, such as Cloud Map, create hosted zones using the current account.    An
-OwningService element, which identifies the Amazon Web Services service that created and
-owns the hosted zone. For example, if a hosted zone was created by Amazon Elastic File
-System (Amazon EFS), the value of Owner is efs.amazonaws.com.
+which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The
+HostedZoneOwner structure in the response contains one of the following values:   An
+OwningAccount element, which contains the account number of either the current Amazon Web
+Services account or another Amazon Web Services account. Some services, such as Cloud Map,
+create hosted zones using the current account.    An OwningService element, which
+identifies the Amazon Web Services service that created and owns the hosted zone. For
+example, if a hosted zone was created by Amazon Elastic File System (Amazon EFS), the value
+of Owner is efs.amazonaws.com.
 
 # Arguments
 - `vpcid`: The ID of the Amazon VPC that you want to list hosted zones for.
@@ -1176,28 +1186,28 @@ list_hosted_zones_by_vpc(vpcid, vpcregion, params::AbstractDict{String}; aws_con
     list_query_logging_configs()
     list_query_logging_configs(params::Dict{String,<:Any})
 
-Lists the configurations for DNS query logging that are associated with the current account
-or the configuration that is associated with a specified hosted zone. For more information
-about DNS query logs, see CreateQueryLoggingConfig. Additional information, including the
-format of DNS query logs, appears in Logging DNS Queries in the Amazon Route 53 Developer
-Guide.
+Lists the configurations for DNS query logging that are associated with the current Amazon
+Web Services account or the configuration that is associated with a specified hosted zone.
+For more information about DNS query logs, see CreateQueryLoggingConfig. Additional
+information, including the format of DNS query logs, appears in Logging DNS Queries in the
+Amazon Route 53 Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"hostedzoneid"`: (Optional) If you want to list the query logging configuration that is
   associated with a hosted zone, specify the ID in HostedZoneId.  If you don't specify a
   hosted zone ID, ListQueryLoggingConfigs returns all of the configurations that are
-  associated with the current account.
+  associated with the current Amazon Web Services account.
 - `"maxresults"`: (Optional) The maximum number of query logging configurations that you
-  want Amazon Route 53 to return in response to the current request. If the current account
-  has more than MaxResults configurations, use the value of NextToken in the response to get
-  the next page of results. If you don't specify a value for MaxResults, Route 53 returns up
-  to 100 configurations.
-- `"nexttoken"`: (Optional) If the current account has more than MaxResults query logging
-  configurations, use NextToken to get the second and subsequent pages of results. For the
-  first ListQueryLoggingConfigs request, omit this value. For the second and subsequent
-  requests, get the value of NextToken from the previous response and specify that value for
-  NextToken in the request.
+  want Amazon Route 53 to return in response to the current request. If the current Amazon
+  Web Services account has more than MaxResults configurations, use the value of NextToken in
+  the response to get the next page of results. If you don't specify a value for MaxResults,
+  Route 53 returns up to 100 configurations.
+- `"nexttoken"`: (Optional) If the current Amazon Web Services account has more than
+  MaxResults query logging configurations, use NextToken to get the second and subsequent
+  pages of results. For the first ListQueryLoggingConfigs request, omit this value. For the
+  second and subsequent requests, get the value of NextToken from the previous response and
+  specify that value for NextToken in the request.
 """
 list_query_logging_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig"; aws_config=aws_config)
 list_query_logging_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route_53("GET", "/2013-04-01/queryloggingconfig", params; aws_config=aws_config)
@@ -1271,7 +1281,7 @@ list_resource_record_sets(Id, params::AbstractDict{String}; aws_config::Abstract
     list_reusable_delegation_sets(params::Dict{String,<:Any})
 
 Retrieves a list of the reusable delegation sets that are associated with the current
-account.
+Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1331,9 +1341,9 @@ list_tags_for_resources(ResourceId, ResourceType, params::AbstractDict{String}; 
     list_traffic_policies(params::Dict{String,<:Any})
 
 Gets information about the latest version for every traffic policy that is associated with
-the current account. Policies are listed in the order that they were created in.  For
-information about how of deleting a traffic policy affects the response from
-ListTrafficPolicies, see DeleteTrafficPolicy.
+the current Amazon Web Services account. Policies are listed in the order that they were
+created in.  For information about how of deleting a traffic policy affects the response
+from ListTrafficPolicies, see DeleteTrafficPolicy.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1357,11 +1367,12 @@ list_traffic_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfi
     list_traffic_policy_instances(params::Dict{String,<:Any})
 
 Gets information about the traffic policy instances that you created by using the current
-account.  After you submit an UpdateTrafficPolicyInstance request, there's a brief delay
-while Amazon Route 53 creates the resource record sets that are specified in the traffic
-policy definition. For more information, see the State response element.  Route 53 returns
-a maximum of 100 items in each response. If you have a lot of traffic policy instances, you
-can use the MaxItems parameter to list them in groups of up to 100.
+Amazon Web Services account.  After you submit an UpdateTrafficPolicyInstance request,
+there's a brief delay while Amazon Route 53 creates the resource record sets that are
+specified in the traffic policy definition. For more information, see the State response
+element.  Route 53 returns a maximum of 100 items in each response. If you have a lot of
+traffic policy instances, you can use the MaxItems parameter to list them in groups of up
+to 100.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

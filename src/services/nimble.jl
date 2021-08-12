@@ -103,6 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters are different, the retry fails with a ValidationException error.
 - `"ec2InstanceType"`: The EC2 Instance type used for the streaming session.
 - `"launchProfileId"`: The launch profile ID.
+- `"ownedBy"`: The user ID of the user that owns the streaming session.
 - `"streamingImageId"`: The ID of the streaming image.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
@@ -146,13 +147,13 @@ attached for the portal to function properly. The Admin Role must have the
 AmazonNimbleStudio-StudioAdmin managed policy attached for the portal to function properly.
 You may optionally specify a KMS key in the StudioEncryptionConfiguration. In Nimble
 Studio, resource names, descriptions, initialization scripts, and other data you provide
-are always encrypted at rest using an AWS KMS key. By default, this key is owned by AWS and
-managed on your behalf. You may provide your own AWS KMS key when calling CreateStudio to
-encrypt this data using a key you own and manage. When providing an AWS KMS key during
-studio creation, Nimble Studio creates KMS grants in your account to provide your studio
-user and admin roles access to these KMS keys. If you delete this grant, the studio will no
-longer be accessible to your portal users. If you delete the studio KMS key, your studio
-will no longer be accessible.
+are always encrypted at rest using an KMS key. By default, this key is owned by Amazon Web
+Services and managed on your behalf. You may provide your own KMS key when calling
+CreateStudio to encrypt this data using a key you own and manage. When providing an KMS key
+during studio creation, Nimble Studio creates KMS grants in your account to provide your
+studio user and admin roles access to these KMS keys. If you delete this grant, the studio
+will no longer be accessible to your portal users. If you delete the studio KMS key, your
+studio will no longer be accessible.
 
 # Arguments
 - `admin_role_arn`: The IAM role that Studio Admins will assume when logging in to the
@@ -607,7 +608,8 @@ list_launch_profiles(studioId, params::AbstractDict{String}; aws_config::Abstrac
     list_streaming_images(studio_id, params::Dict{String,<:Any})
 
 List the streaming image resources available to this studio. This list will contain both
-images provided by AWS, as well as streaming images that you have created in your studio.
+images provided by Amazon Web Services, as well as streaming images that you have created
+in your studio.
 
 # Arguments
 - `studio_id`: The studio ID.
@@ -632,9 +634,10 @@ Lists the streaming image resources in a studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"createdBy"`: The user ID.
+- `"createdBy"`: The user ID of the user that created the streaming session.
 - `"nextToken"`: The token for the next set of results, or null if there are no more
   results.
+- `"ownedBy"`: The user ID of the user that owns the streaming session.
 - `"sessionIds"`: A collection of session IDs.
 """
 list_streaming_sessions(studioId; aws_config::AbstractAWSConfig=global_aws_config()) = nimble("GET", "/2020-08-01/studios/$(studioId)/streaming-sessions"; aws_config=aws_config)
@@ -682,7 +685,8 @@ list_studio_members(studioId, params::AbstractDict{String}; aws_config::Abstract
     list_studios()
     list_studios(params::Dict{String,<:Any})
 
-List studios in your AWS account in the requested AWS Region.
+List studios in your Amazon Web Services account in the requested Amazon Web Services
+Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -760,12 +764,13 @@ put_studio_members(identityStoreId, members, studioId, params::AbstractDict{Stri
     start_studio_ssoconfiguration_repair(studio_id)
     start_studio_ssoconfiguration_repair(studio_id, params::Dict{String,<:Any})
 
-Repairs the SSO configuration for a given studio. If the studio has a valid AWS SSO
-configuration currently associated with it, this operation will fail with a validation
-error. If the studio does not have a valid AWS SSO configuration currently associated with
-it, then a new AWS SSO application is created for the studio and the studio is changed to
-the READY state. After the AWS SSO application is repaired, you must use the Amazon Nimble
-Studio console to add administrators and users to your studio.
+Repairs the SSO configuration for a given studio. If the studio has a valid Amazon Web
+Services SSO configuration currently associated with it, this operation will fail with a
+validation error. If the studio does not have a valid Amazon Web Services SSO configuration
+currently associated with it, then a new Amazon Web Services SSO application is created for
+the studio and the studio is changed to the READY state. After the Amazon Web Services SSO
+application is repaired, you must use the Amazon Nimble Studio console to add
+administrators and users to your studio.
 
 # Arguments
 - `studio_id`: The studio ID.

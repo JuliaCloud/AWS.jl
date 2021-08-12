@@ -77,7 +77,7 @@ lists those IP addresses.
   1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
   1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see
   the Wikipedia entry Classless Inter-Domain Routing.
-- `ipaddress_version`: Specify IPV4 or IPV6.
+- `ipaddress_version`: The version of the IP addresses, either IPV4 or IPV6.
 - `name`: The name of the IP set. You cannot change the name of an IPSet after you create
   it.
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -399,6 +399,10 @@ rules.
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
   rule group name, to identify the rule group.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"VersionName"`: The version of the rule group. You can only use a version that is not
+  scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
 """
 describe_managed_rule_group(Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DescribeManagedRuleGroup", Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName); aws_config=aws_config)
 describe_managed_rule_group(Name, Scope, VendorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("DescribeManagedRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName), params)); aws_config=aws_config)
@@ -461,6 +465,33 @@ Returns the LoggingConfiguration for the specified web ACL.
 """
 get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
 get_logging_configuration(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+
+"""
+    get_managed_rule_set(id, name, scope)
+    get_managed_rule_set(id, name, scope, params::Dict{String,<:Any})
+
+Retrieves the specified managed rule set.   This is intended for use only by vendors of
+managed rule sets. Vendors are Amazon Web Services and Marketplace sellers.  Vendors, you
+can use the managed rule set APIs to provide controlled rollout of your versioned managed
+rule group offerings for your customers. The APIs are ListManagedRuleSets,
+GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
+
+# Arguments
+- `id`: A unique identifier for the managed rule set. The ID is returned in the responses
+  to commands like list. You provide it to operations like get and update.
+- `name`: The name of the managed rule set. You use this, along with the rule set ID, to
+  identify the rule set. This name is assigned to the corresponding managed rule group, which
+  your customers can access and use.
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
+  also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when
+  you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
+  all calls, use the Region endpoint us-east-1.
+
+"""
+get_managed_rule_set(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetManagedRuleSet", Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+get_managed_rule_set(Id, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetManagedRuleSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config)
 
 """
     get_permission_policy(resource_arn)
@@ -621,12 +652,43 @@ get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_co
 get_web_aclfor_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("GetWebACLForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
 
 """
+    list_available_managed_rule_group_versions(name, scope, vendor_name)
+    list_available_managed_rule_group_versions(name, scope, vendor_name, params::Dict{String,<:Any})
+
+Returns a list of the available versions for the specified managed rule group.
+
+# Arguments
+- `name`: The name of the managed rule group. You use this, along with the vendor name, to
+  identify the rule group.
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
+  also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when
+  you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
+  all calls, use the Region endpoint us-east-1.
+- `vendor_name`: The name of the managed rule group vendor. You use this, along with the
+  rule group name, to identify the rule group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of objects that you want WAF to return for this request. If
+  more objects are available, in the response, WAF provides a NextMarker value that you can
+  use in a subsequent call to get the next batch of objects.
+- `"NextMarker"`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
+"""
+list_available_managed_rule_group_versions(Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListAvailableManagedRuleGroupVersions", Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName); aws_config=aws_config)
+list_available_managed_rule_group_versions(Name, Scope, VendorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListAvailableManagedRuleGroupVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Scope"=>Scope, "VendorName"=>VendorName), params)); aws_config=aws_config)
+
+"""
     list_available_managed_rule_groups(scope)
     list_available_managed_rule_groups(scope, params::Dict{String,<:Any})
 
 Retrieves an array of managed rule groups that are available for you to use. This list
-includes all Amazon Web Services Managed Rules rule groups and the Marketplace managed rule
-groups that you're subscribed to.
+includes all Amazon Web Services Managed Rules rule groups and all of the Marketplace
+managed rule groups that you're subscribed to.
 
 # Arguments
 - `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
@@ -700,6 +762,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListLoggingConfigurations"; aws_config=aws_config)
 list_logging_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListLoggingConfigurations", params; aws_config=aws_config)
+
+"""
+    list_managed_rule_sets(scope)
+    list_managed_rule_sets(scope, params::Dict{String,<:Any})
+
+Retrieves the managed rule sets that you own.   This is intended for use only by vendors of
+managed rule sets. Vendors are Amazon Web Services and Marketplace sellers.  Vendors, you
+can use the managed rule set APIs to provide controlled rollout of your versioned managed
+rule group offerings for your customers. The APIs are ListManagedRuleSets,
+GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
+
+# Arguments
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
+  also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when
+  you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
+  all calls, use the Region endpoint us-east-1.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of objects that you want WAF to return for this request. If
+  more objects are available, in the response, WAF provides a NextMarker value that you can
+  use in a subsequent call to get the next batch of objects.
+- `"NextMarker"`: When you request a list of objects with a Limit setting, if the number of
+  objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
+  value in the response. To retrieve the next batch of objects, provide the marker from the
+  prior call in your next request.
+"""
+list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListManagedRuleSets", Dict{String, Any}("Scope"=>Scope); aws_config=aws_config)
+list_managed_rule_sets(Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("ListManagedRuleSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Scope"=>Scope), params)); aws_config=aws_config)
 
 """
     list_regex_pattern_sets(scope)
@@ -860,6 +953,55 @@ put_logging_configuration(LoggingConfiguration; aws_config::AbstractAWSConfig=gl
 put_logging_configuration(LoggingConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), params)); aws_config=aws_config)
 
 """
+    put_managed_rule_set_versions(id, lock_token, name, scope)
+    put_managed_rule_set_versions(id, lock_token, name, scope, params::Dict{String,<:Any})
+
+Defines the versions of your managed rule set that you are offering to the customers.
+Customers see your offerings as managed rule groups with versioning.  This is intended for
+use only by vendors of managed rule sets. Vendors are Amazon Web Services and Marketplace
+sellers.  Vendors, you can use the managed rule set APIs to provide controlled rollout of
+your versioned managed rule group offerings for your customers. The APIs are
+ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and
+UpdateManagedRuleSetVersionExpiryDate.  Customers retrieve their managed rule group list by
+calling ListAvailableManagedRuleGroups. The name that you provide here for your managed
+rule set is the name the customer sees for the corresponding managed rule group. Customers
+can retrieve the available versions for a managed rule group by calling
+ListAvailableManagedRuleGroupVersions. You provide a rule group specification for each
+version. For each managed rule set, you must specify a version that you recommend using.
+To initiate the expiration of a managed rule group version, use
+UpdateManagedRuleSetVersionExpiryDate.
+
+# Arguments
+- `id`: A unique identifier for the managed rule set. The ID is returned in the responses
+  to commands like list. You provide it to operations like get and update.
+- `lock_token`: A token used for optimistic locking. WAF returns a token to your get and
+  list requests, to mark the state of the entity at the time of the request. To make changes
+  to the entity associated with the token, you provide the token to operations like update
+  and delete. WAF uses the token to ensure that no changes have been made to the entity since
+  you last retrieved it. If a change has been made, the update fails with a
+  WAFOptimisticLockException. If this happens, perform another get, and use the new token
+  returned by that operation.
+- `name`: The name of the managed rule set. You use this, along with the rule set ID, to
+  identify the rule set. This name is assigned to the corresponding managed rule group, which
+  your customers can access and use.
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
+  also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when
+  you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
+  all calls, use the Region endpoint us-east-1.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RecommendedVersion"`: The version of the named managed rule group that you'd like your
+  customers to choose, from among your version offerings.
+- `"VersionsToPublish"`: The versions of the named managed rule group that you want to
+  offer to your customers.
+"""
+put_managed_rule_set_versions(Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("PutManagedRuleSetVersions", Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
+put_managed_rule_set_versions(Id, LockToken, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("PutManagedRuleSetVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config)
+
+"""
     put_permission_policy(policy, resource_arn)
     put_permission_policy(policy, resource_arn, params::Dict{String,<:Any})
 
@@ -968,6 +1110,48 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 update_ipset(Addresses, Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateIPSet", Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope); aws_config=aws_config)
 update_ipset(Addresses, Id, LockToken, Name, Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Addresses"=>Addresses, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope), params)); aws_config=aws_config)
+
+"""
+    update_managed_rule_set_version_expiry_date(expiry_timestamp, id, lock_token, name, scope, version_to_expire)
+    update_managed_rule_set_version_expiry_date(expiry_timestamp, id, lock_token, name, scope, version_to_expire, params::Dict{String,<:Any})
+
+Updates the expiration information for your managed rule set. Use this to initiate the
+expiration of a managed rule group version. After you initiate expiration for a version,
+WAF excludes it from the reponse to ListAvailableManagedRuleGroupVersions for the managed
+rule group.   This is intended for use only by vendors of managed rule sets. Vendors are
+Amazon Web Services and Marketplace sellers.  Vendors, you can use the managed rule set
+APIs to provide controlled rollout of your versioned managed rule group offerings for your
+customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions,
+and UpdateManagedRuleSetVersionExpiryDate.
+
+# Arguments
+- `expiry_timestamp`: The time that you want the version to expire. Times are in
+  Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For
+  example, \"2016-09-27T14:50Z\".
+- `id`: A unique identifier for the managed rule set. The ID is returned in the responses
+  to commands like list. You provide it to operations like get and update.
+- `lock_token`: A token used for optimistic locking. WAF returns a token to your get and
+  list requests, to mark the state of the entity at the time of the request. To make changes
+  to the entity associated with the token, you provide the token to operations like update
+  and delete. WAF uses the token to ensure that no changes have been made to the entity since
+  you last retrieved it. If a change has been made, the update fails with a
+  WAFOptimisticLockException. If this happens, perform another get, and use the new token
+  returned by that operation.
+- `name`: The name of the managed rule set. You use this, along with the rule set ID, to
+  identify the rule set. This name is assigned to the corresponding managed rule group, which
+  your customers can access and use.
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, or an AppSync GraphQL API.  To work with CloudFront, you must
+  also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when
+  you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For
+  all calls, use the Region endpoint us-east-1.
+- `version_to_expire`: The version that you want to remove from your list of offerings for
+  the named managed rule group.
+
+"""
+update_managed_rule_set_version_expiry_date(ExpiryTimestamp, Id, LockToken, Name, Scope, VersionToExpire; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateManagedRuleSetVersionExpiryDate", Dict{String, Any}("ExpiryTimestamp"=>ExpiryTimestamp, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VersionToExpire"=>VersionToExpire); aws_config=aws_config)
+update_managed_rule_set_version_expiry_date(ExpiryTimestamp, Id, LockToken, Name, Scope, VersionToExpire, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2("UpdateManagedRuleSetVersionExpiryDate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExpiryTimestamp"=>ExpiryTimestamp, "Id"=>Id, "LockToken"=>LockToken, "Name"=>Name, "Scope"=>Scope, "VersionToExpire"=>VersionToExpire), params)); aws_config=aws_config)
 
 """
     update_regex_pattern_set(id, lock_token, name, regular_expression_list, scope)

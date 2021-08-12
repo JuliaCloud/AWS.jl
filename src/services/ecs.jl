@@ -72,7 +72,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configuration"`: The execute command configuration for the cluster.
 - `"defaultCapacityProviderStrategy"`: The capacity provider strategy to set as the default
   for the cluster. When a default capacity provider strategy is set for a cluster, when
-  calling the RunTask or CreateService APIs wtih no capacity provider strategy or launch type
+  calling the RunTask or CreateService APIs with no capacity provider strategy or launch type
   specified, the default capacity provider strategy for the cluster is used. If a default
   capacity provider strategy is not defined for a cluster during creation, it can be defined
   later with the PutClusterCapacityProviders API operation.
@@ -181,7 +181,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"capacityProviderStrategy"`: The capacity provider strategy to use for the service. If a
   capacityProviderStrategy is specified, the launchType parameter must be omitted. If no
   capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy
-  for the cluster is used.
+  for the cluster is used. A capacity provider strategy may contain a maximum of 6 capacity
+  providers.
 - `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. Up to 32 ASCII characters are allowed.
 - `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster on which to
@@ -260,7 +261,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your service. You can specify a maximum of 10 constraints per task (this limit includes
   constraints in the task definition and those specified at runtime).
 - `"placementStrategy"`: The placement strategy objects to use for tasks in your service.
-  You can specify a maximum of five strategy rules per service.
+  You can specify a maximum of 5 strategy rules per service.
 - `"platformVersion"`: The platform version that your tasks in the service are running on.
   A platform version is specified only for tasks using the Fargate launch type. If one isn't
   specified, the LATEST platform version is used by default. For more information, see
@@ -552,8 +553,8 @@ deregistered when terminated).
 # Arguments
 - `container_instance`: The container instance ID or full ARN of the container instance to
   deregister. The ARN contains the arn:aws:ecs namespace, followed by the Region of the
-  container instance, the account ID of the container instance owner, the container-instance
-  namespace, and then the container instance ID. For example,
+  container instance, the Amazon Web Services account ID of the container instance owner, the
+  container-instance namespace, and then the container instance ID. For example,
   arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
 
 # Optional Parameters
@@ -641,8 +642,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. If this field is omitted, this information isn't included. If ATTACHMENTS is
   specified, the attachments for the container instances or tasks within the cluster are
   included. If SETTINGS is specified, the settings for the cluster are included. If
-  STATISTICS is specified, the task and service count is included, separated by launch type.
-  If TAGS is specified, the metadata tags associated with the cluster are included.
+  CONFIGURATIONS is specified, the configuration for the cluster is included. If STATISTICS
+  is specified, the task and service count is included, separated by launch type. If TAGS is
+  specified, the metadata tags associated with the cluster are included.
 """
 describe_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters"; aws_config=aws_config)
 describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DescribeClusters", params; aws_config=aws_config)
@@ -776,8 +778,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the container instance belongs.
 - `"containerInstance"`: The container instance ID or full ARN of the container instance.
   The ARN contains the arn:aws:ecs namespace, followed by the Region of the container
-  instance, the account ID of the container instance owner, the container-instance namespace,
-  and then the container instance ID. For example,
+  instance, the Amazon Web Services account ID of the container instance owner, the
+  container-instance namespace, and then the container instance ID. For example,
   arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
 """
 discover_poll_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint"; aws_config=aws_config)
@@ -1473,7 +1475,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   capacityProviderStrategy is specified, the launchType parameter must be omitted. If no
   capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy
   for the cluster is used. When you use cluster auto scaling, you must specify
-  capacityProviderStrategy and not launchType.
+  capacityProviderStrategy and not launchType.  A capacity provider strategy may contain a
+  maximum of 6 capacity providers.
 - `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster on which to
   run your task. If you do not specify a cluster, the default cluster is assumed.
 - `"count"`: The number of instantiations of the specified task to place on your cluster.
@@ -1500,30 +1503,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"networkConfiguration"`: The network configuration for the task. This parameter is
   required for task definitions that use the awsvpc network mode to receive their own elastic
   network interface, and it is not supported for other network modes. For more information,
-  see Task Networking in the Amazon Elastic Container Service Developer Guide.
+  see Task networking in the Amazon Elastic Container Service Developer Guide.
 - `"overrides"`: A list of container overrides in JSON format that specify the name of a
   container in the specified task definition and the overrides it should receive. You can
   override the default command for a container (that is specified in the task definition or
   Docker image) with a command override. You can also override existing environment variables
   (that are specified in the task definition or Docker image) on a container or add new
-  environment variables to it with an environment override.  A total of 8192 characters are
+  environment variables to it with an environment override. A total of 8192 characters are
   allowed for overrides. This limit includes the JSON formatting characters of the override
   structure.
 - `"placementConstraints"`: An array of placement constraint objects to use for the task.
   You can specify up to 10 constraints per task (including constraints in the task definition
   and those specified at runtime).
 - `"placementStrategy"`: The placement strategy objects to use for the task. You can
-  specify a maximum of five strategy rules per task.
-- `"platformVersion"`: The platform version the task should run. A platform version is only
-  specified for tasks using the Fargate launch type. If one is not specified, the LATEST
-  platform version is used by default. For more information, see Fargate Platform Versions in
-  the Amazon Elastic Container Service Developer Guide.
+  specify a maximum of 5 strategy rules per task.
+- `"platformVersion"`: The platform version the task should use. A platform version is only
+  specified for tasks hosted on Fargate. If one is not specified, the LATEST platform version
+  is used by default. For more information, see Fargate platform versions in the Amazon
+  Elastic Container Service Developer Guide.
 - `"propagateTags"`: Specifies whether to propagate the tags from the task definition to
   the task. If no value is specified, the tags are not propagated. Tags can only be
   propagated to the task during task creation. To add tags to a task after task creation, use
   the TagResource API action.  An error will be received if you specify the SERVICE option
   when running a task.
-- `"referenceId"`: The reference ID to use for the task.
+- `"referenceId"`: The reference ID to use for the task. The reference ID can have a
+  maximum length of 1024 characters.
 - `"startedBy"`: An optional tag specified when a task is started. For example, if you
   automatically trigger a task to run a batch process job, you could apply a unique
   identifier for that job to your task with the startedBy parameter. You can then identify
