@@ -27,6 +27,10 @@ function get_downloader(downloader=nothing)
     return downloader
 end
 
+# https://github.com/JuliaWeb/HTTP.jl/blob/2a03ca76376162ffc3423ba7f15bd6d966edff9b/src/MessageRequest.jl#L84-L85
+body_length(x::Vector{UInt8}) = length(x)
+body_length(x::String) = sizeof(x)
+
 
 function AWS._http_request(backend::DownloadsBackend, request)
     # If we pass `output`, Downloads.jl will expect a message
@@ -54,7 +58,7 @@ function AWS._http_request(backend::DownloadsBackend, request)
     end
 
     # HTTP.jl sets this header automatically.
-    request.headers["Content-Length"] = string(length(request.content))
+    request.headers["Content-Length"] = string(body_length(request.content))
 
     # We pass an `input` only when we have content we wish to send.
     input = IOBuffer()
