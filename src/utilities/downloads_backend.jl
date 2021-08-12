@@ -53,6 +53,9 @@ function AWS._http_request(backend::DownloadsBackend, request)
         body_arg = () -> NamedTuple()
     end
 
+    # HTTP.jl sets this header automatically.
+    request.headers["Content-Length"] = string(length(request.content))
+
     # We pass an `input` only when we have content we wish to send.
     input = IOBuffer()
     if !isempty(request.content)
@@ -63,9 +66,6 @@ function AWS._http_request(backend::DownloadsBackend, request)
     end
 
     @repeat 4 try
-        # We seekstart on every attempt, otherwise every attempt
-        # but the first will send an empty payload.
-        seekstart(input)
         downloader = @something(backend.downloader, get_downloader())
         # set the hook so that we don't follow redirects. Only
         # need to do this on per-request downloaders, because we
@@ -73,6 +73,11 @@ function AWS._http_request(backend::DownloadsBackend, request)
         if backend.downloader !== nothing
             downloader.easy_hook = (easy, info) -> Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
         end
+
+        # We seekstart on every attempt, otherwise every attempt
+        # but the first will send an empty payload.
+        seekstart(input)
+
         response = Downloads.request(request.url; input_arg..., output_arg...,
                                     method = request.request_method,
                                     headers = request.headers, verbose=false, throw=true,
