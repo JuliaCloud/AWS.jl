@@ -1,0 +1,29 @@
+name: Code Formatting
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+jobs:
+  format_pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install the JuliaFormatter package
+        run: julia --color=yes -e 'using Pkg; Pkg.add(name="JuliaFormatter", uuid="98e50ef6-434e-11e9-1051-2b60c6c9e899")'
+      - name: Precompile dependencies
+        run: julia --color=yes -e 'using Pkg; Pkg.precompile()'
+      - name: Use JuliaFormatter to format the code with the BlueStyle style
+        run: julia --color=yes -e 'using JuliaFormatter; format(".", BlueStyle(); verbose=true)'
+      - name: Create pull request
+        id: create_pr
+        uses: peter-evans/create-pull-request@9825ae65b1cb54b543b938503728b432a0176d29 # v3.10.0
+        with:
+          token: ${{  secrets.GITHUB_TOKEN }}
+          commit-message: '🤖 Automatically format the source code files'
+          title: '🤖 Automatically format the source code files'
+          body: 'This pull request formats the source code files using the JuliaFormatter package.'
+          branch: bot/format_pr/${{ github.ref }}
+          delete-branch: true
+      - run: echo "The pull request number is ${{ steps.create_pr.outputs.pull-request-number }}"
+      - run: echo "The pull request URL is ${{ steps.create_pr.outputs.pull-request-url }}"
