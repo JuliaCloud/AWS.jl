@@ -34,11 +34,12 @@ body_length(x::AbstractString) = sizeof(x)
 read_body(x::IOBuffer) = take!(x)
 read_body(x::IO) = readavailable(x)
 
-function AWS._http_request(backend::DownloadsBackend, request)
-    # If we pass `output`, Downloads.jl will expect a message
-    # body in the response. Specifically, it sets
+function _http_request(backend::DownloadsBackend, request)
+    # If we pass `output`, older versions of Downloads.jl will
+    # expect a message body in the response. Specifically, it sets
     # <https://curl.se/libcurl/c/CURLOPT_NOBODY.html>
     # only when we do not pass the `output` argument.
+    # See <https://github.com/JuliaLang/Downloads.jl/issues/131>.
     #
     # When the method is `HEAD`, the response may have a Content-Length
     # but not send any content back (which appears to be correct,
@@ -48,6 +49,8 @@ function AWS._http_request(backend::DownloadsBackend, request)
     # back, it will hang waiting for that body.
     #
     # Therefore, we do not pass an `output` when the `request_method` is `HEAD`.
+    # (Note: this is fixed on the latest Downloads.jl, but we include this workaround
+    #  for compatability).
     if request.response_stream === nothing
         request.response_stream = IOBuffer()
     end
@@ -83,7 +86,7 @@ function AWS._http_request(backend::DownloadsBackend, request)
         # set the hook so that we don't follow redirects. Only
         # need to do this on per-request downloaders, because we
         # set our global one with this hook already.
-        if backend.downloader !== nothing
+        if backend.downloader !== nothing && downloader.easy_hook === nothing
             downloader.easy_hook = (easy, info) -> Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
         end
 
