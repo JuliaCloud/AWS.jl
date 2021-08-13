@@ -216,8 +216,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in JSON using the form: {\"FIELD-A\":{},\"FIELD-B\":{}} There are currently no options
   supported for statistics.
 """
-search(q; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}("q"=>q); aws_config=aws_config)
-search(q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q), params)); aws_config=aws_config)
+function search(q; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudsearch_domain(
+        "GET",
+        "/2013-01-01/search?format=sdk&pretty=true",
+        Dict{String,Any}("q" => q);
+        aws_config=aws_config,
+    )
+end
+function search(
+    q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudsearch_domain(
+        "GET",
+        "/2013-01-01/search?format=sdk&pretty=true",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("q" => q), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     suggest(q, suggester)
@@ -243,8 +259,29 @@ also displayed on the domain dashboard in the Amazon CloudSearch console.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"size"`: Specifies the maximum number of suggestions to return.
 """
-suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}("q"=>q, "suggester"=>suggester); aws_config=aws_config)
-suggest(q, suggester, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("q"=>q, "suggester"=>suggester), params)); aws_config=aws_config)
+function suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudsearch_domain(
+        "GET",
+        "/2013-01-01/suggest?format=sdk&pretty=true",
+        Dict{String,Any}("q" => q, "suggester" => suggester);
+        aws_config=aws_config,
+    )
+end
+function suggest(
+    q,
+    suggester,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudsearch_domain(
+        "GET",
+        "/2013-01-01/suggest?format=sdk&pretty=true",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("q" => q, "suggester" => suggester), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     upload_documents(content-_type, documents)
@@ -273,5 +310,38 @@ Amazon CloudSearch Developer Guide.
 - `documents`: A batch of documents formatted in JSON or HTML.
 
 """
-upload_documents(Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
-upload_documents(Content_Type, documents, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("documents"=>documents, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)
+function upload_documents(
+    Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudsearch_domain(
+        "POST",
+        "/2013-01-01/documents/batch?format=sdk",
+        Dict{String,Any}(
+            "documents" => documents,
+            "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+        );
+        aws_config=aws_config,
+    )
+end
+function upload_documents(
+    Content_Type,
+    documents,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudsearch_domain(
+        "POST",
+        "/2013-01-01/documents/batch?format=sdk",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "documents" => documents,
+                    "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

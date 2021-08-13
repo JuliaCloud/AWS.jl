@@ -40,8 +40,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HumanLoopConfig"`: Sets the configuration for the human in the loop workflow for
   analyzing documents.
 """
-analyze_document(Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes); aws_config=aws_config)
-analyze_document(Document, FeatureTypes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config)
+function analyze_document(
+    Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "AnalyzeDocument",
+        Dict{String,Any}("Document" => Document, "FeatureTypes" => FeatureTypes);
+        aws_config=aws_config,
+    )
+end
+function analyze_document(
+    Document,
+    FeatureTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return textract(
+        "AnalyzeDocument",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Document" => Document, "FeatureTypes" => FeatureTypes),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     analyze_expense(document)
@@ -57,8 +82,24 @@ receipt, such as header information or the vendors name.
 - `document`:
 
 """
-analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeExpense", Dict{String, Any}("Document"=>Document); aws_config=aws_config)
-analyze_expense(Document, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("AnalyzeExpense", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config)
+function analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_config())
+    return textract(
+        "AnalyzeExpense", Dict{String,Any}("Document" => Document); aws_config=aws_config
+    )
+end
+function analyze_expense(
+    Document,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return textract(
+        "AnalyzeExpense",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Document" => Document), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     detect_document_text(document)
@@ -80,8 +121,26 @@ use StartDocumentTextDetection. For more information, see Document Text Detectio
   you might not need to base64-encode image bytes that are passed using the Bytes field.
 
 """
-detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}("Document"=>Document); aws_config=aws_config)
-detect_document_text(Document, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("DetectDocumentText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document), params)); aws_config=aws_config)
+function detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config())
+    return textract(
+        "DetectDocumentText",
+        Dict{String,Any}("Document" => Document);
+        aws_config=aws_config,
+    )
+end
+function detect_document_text(
+    Document,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return textract(
+        "DetectDocumentText",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Document" => Document), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_document_analysis(job_id)
@@ -126,8 +185,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_document_analysis(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return textract(
+        "GetDocumentAnalysis", Dict{String,Any}("JobId" => JobId); aws_config=aws_config
+    )
+end
+function get_document_analysis(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "GetDocumentAnalysis",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_document_text_detection(job_id)
@@ -166,8 +237,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-get_document_text_detection(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_document_text_detection(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("GetDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function get_document_text_detection(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "GetDocumentTextDetection",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+    )
+end
+function get_document_text_detection(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "GetDocumentTextDetection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     start_document_analysis(document_location, feature_types)
@@ -212,8 +299,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis
   operation.
 """
-start_document_analysis(DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes); aws_config=aws_config)
-start_document_analysis(DocumentLocation, FeatureTypes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentAnalysis", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation, "FeatureTypes"=>FeatureTypes), params)); aws_config=aws_config)
+function start_document_analysis(
+    DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "StartDocumentAnalysis",
+        Dict{String,Any}(
+            "DocumentLocation" => DocumentLocation, "FeatureTypes" => FeatureTypes
+        );
+        aws_config=aws_config,
+    )
+end
+function start_document_analysis(
+    DocumentLocation,
+    FeatureTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return textract(
+        "StartDocumentAnalysis",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DocumentLocation" => DocumentLocation, "FeatureTypes" => FeatureTypes
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_document_text_detection(document_location)
@@ -253,5 +369,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Textract will save the results internally to be accessed with the
   GetDocumentTextDetection operation.
 """
-start_document_text_detection(DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}("DocumentLocation"=>DocumentLocation); aws_config=aws_config)
-start_document_text_detection(DocumentLocation, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = textract("StartDocumentTextDetection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentLocation"=>DocumentLocation), params)); aws_config=aws_config)
+function start_document_text_detection(
+    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return textract(
+        "StartDocumentTextDetection",
+        Dict{String,Any}("DocumentLocation" => DocumentLocation);
+        aws_config=aws_config,
+    )
+end
+function start_document_text_detection(
+    DocumentLocation,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return textract(
+        "StartDocumentTextDetection",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DocumentLocation" => DocumentLocation), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

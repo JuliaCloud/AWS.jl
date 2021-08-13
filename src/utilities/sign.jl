@@ -10,8 +10,8 @@ function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # Create AWS Signature Version 2 Authentication query parameters.
     # http://docs.aws.amazon.com/general/latest/gr/signature-version-2.html
 
-    query = Dict{String, String}()
-    for elem in split(request.content, '&', keepempty=false)
+    query = Dict{String,String}()
+    for elem in split(request.content, '&'; keepempty=false)
         (n, v) = split(elem, "=")
         query[n] = HTTP.unescapeuri(v)
     end
@@ -20,7 +20,9 @@ function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
 
     creds = check_credentials(credentials(aws))
     query["AWSAccessKeyId"] = creds.access_key_id
-    query["Expires"] = Dates.format(time + Dates.Minute(2), dateformat"yyyy-mm-dd\THH:MM:SS\Z")
+    query["Expires"] = Dates.format(
+        time + Dates.Minute(2), dateformat"yyyy-mm-dd\THH:MM:SS\Z"
+    )
     query["SignatureVersion"] = "2"
     query["SignatureMethod"] = "HmacSHA256"
 
@@ -31,7 +33,10 @@ function sign_aws2!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     query = [k => query[k] for k in sort!(collect(keys(query)))]
     uri = HTTP.URI(request.url)
     to_sign = "POST\n$(uri.host)\n$(uri.path)\n$(HTTP.escapeuri(query))"
-    push!(query, "Signature" => digest(MD_SHA256, to_sign, creds.secret_key) |> base64encode |> strip)
+    push!(
+        query,
+        "Signature" => strip(base64encode(digest(MD_SHA256, to_sign, creds.secret_key))),
+    )
 
     request.content = HTTP.escapeuri(query)
 
@@ -64,18 +69,23 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # HTTP headers...
     delete!(request.headers, "Authorization")
 
-    merge!(request.headers, Dict(
-        "x-amz-content-sha256" => content_hash,
-        "x-amz-date" => datetime,
-        "Content-MD5" => base64encode(digest(MD_MD5, request.content))
-    ))
+    merge!(
+        request.headers,
+        Dict(
+            "x-amz-content-sha256" => content_hash,
+            "x-amz-date" => datetime,
+            "Content-MD5" => base64encode(digest(MD_MD5, request.content)),
+        ),
+    )
 
     if !isempty(creds.token)
         request.headers["x-amz-security-token"] = creds.token
     end
 
     # Sort and lowercase() Headers to produce canonical form...
-    canonical_headers = join(sort!(["$(lowercase(k)):$(strip(v))" for (k,v) in request.headers]), "\n")
+    canonical_headers = join(
+        sort!(["$(lowercase(k)):$(strip(v))" for (k, v) in request.headers]), "\n"
+    )
     signed_headers = join(sort!([lowercase(k) for k in keys(request.headers)]), ";")
 
     # Sort Query String...
@@ -85,12 +95,17 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
 
     # Create hash of canonical request...
     canonical_form = string(
-        request.request_method, "\n",
-        request.service == "s3" ? uri.path : HTTP.escapepath(uri.path), "\n",
-        HTTP.escapeuri(query), "\n",
-        canonical_headers, "\n\n",
-        signed_headers, "\n",
-        content_hash
+        request.request_method,
+        "\n",
+        request.service == "s3" ? uri.path : HTTP.escapepath(uri.path),
+        "\n",
+        HTTP.escapeuri(query),
+        "\n",
+        canonical_headers,
+        "\n\n",
+        signed_headers,
+        "\n",
+        content_hash,
     )
 
     canonical_hash = bytes2hex(digest(MD_SHA256, canonical_form))
@@ -100,7 +115,8 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     signature = bytes2hex(digest(MD_SHA256, string_to_sign, signing_key))
 
     # Append Authorization header...
-    request.headers["Authorization"] = join([
+    request.headers["Authorization"] = join(
+        [
             "AWS4-HMAC-SHA256 Credential=$(creds.access_key_id)/$authentication_scope",
             "SignedHeaders=$signed_headers",
             "Signature=$signature",

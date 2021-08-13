@@ -23,8 +23,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   managed KMS keys for more info.
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
-create_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("CreateDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
-create_database(DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config)
+function create_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_write(
+        "CreateDatabase",
+        Dict{String,Any}("DatabaseName" => DatabaseName);
+        aws_config=aws_config,
+    )
+end
+function create_database(
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "CreateDatabase",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_table(database_name, table_name)
@@ -47,8 +65,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the memory store and the magnetic store.
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
-create_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("CreateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-create_table(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+function create_table(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write(
+        "CreateTable",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config=aws_config,
+    )
+end
+function create_table(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "CreateTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_database(database_name)
@@ -64,8 +107,26 @@ ResourceNotFoundException. Clients should consider them equivalent.
 - `database_name`: The name of the Timestream database to be deleted.
 
 """
-delete_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DeleteDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
-delete_database(DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config)
+function delete_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_write(
+        "DeleteDatabase",
+        Dict{String,Any}("DatabaseName" => DatabaseName);
+        aws_config=aws_config,
+    )
+end
+function delete_database(
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "DeleteDatabase",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_table(database_name, table_name)
@@ -81,8 +142,33 @@ ResourceNotFoundException. Clients should consider them equivalent.
 - `table_name`: The name of the Timestream table to be deleted.
 
 """
-delete_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-delete_table(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+function delete_table(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write(
+        "DeleteTable",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config=aws_config,
+    )
+end
+function delete_table(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "DeleteTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_database(database_name)
@@ -96,8 +182,26 @@ apply. For more information, see Access Management in the Timestream Developer G
 - `database_name`: The name of the Timestream database.
 
 """
-describe_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
-describe_database(DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), params)); aws_config=aws_config)
+function describe_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_write(
+        "DescribeDatabase",
+        Dict{String,Any}("DatabaseName" => DatabaseName);
+        aws_config=aws_config,
+    )
+end
+function describe_database(
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "DescribeDatabase",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatabaseName" => DatabaseName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_endpoints()
@@ -113,8 +217,14 @@ information on how to use DescribeEndpoints, see The Endpoint Discovery Pattern 
 APIs.
 
 """
-describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeEndpoints"; aws_config=aws_config)
-describe_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeEndpoints", params; aws_config=aws_config)
+function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_write("DescribeEndpoints"; aws_config=aws_config)
+end
+function describe_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write("DescribeEndpoints", params; aws_config=aws_config)
+end
 
 """
     describe_table(database_name, table_name)
@@ -129,8 +239,33 @@ information, see Access Management in the Timestream Developer Guide.
 - `table_name`: The name of the Timestream table.
 
 """
-describe_table(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-describe_table(DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+function describe_table(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write(
+        "DescribeTable",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config=aws_config,
+    )
+end
+function describe_table(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "DescribeTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_databases()
@@ -147,8 +282,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-list_databases(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListDatabases"; aws_config=aws_config)
-list_databases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListDatabases", params; aws_config=aws_config)
+function list_databases(; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_write("ListDatabases"; aws_config=aws_config)
+end
+function list_databases(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write("ListDatabases", params; aws_config=aws_config)
+end
 
 """
     list_tables()
@@ -165,8 +306,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-list_tables(; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListTables"; aws_config=aws_config)
-list_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListTables", params; aws_config=aws_config)
+function list_tables(; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_write("ListTables"; aws_config=aws_config)
+end
+function list_tables(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write("ListTables", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -179,8 +326,28 @@ list_tables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_a
   Resource Name (ARN).
 
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -196,8 +363,31 @@ allocation tracking.
 - `tags`:  The tags to be assigned to the Timestream resource.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_write(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -212,8 +402,33 @@ tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::Abstra
   this list will be removed from the Timestream resource.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_database(database_name, kms_key_id)
@@ -234,8 +449,33 @@ there are any concurrent UpdateDatabase requests, first writer wins.
   arn:aws:kms:us-east-1:111122223333:alias/ExampleAlias
 
 """
-update_database(DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UpdateDatabase", Dict{String, Any}("DatabaseName"=>DatabaseName, "KmsKeyId"=>KmsKeyId); aws_config=aws_config)
-update_database(DatabaseName, KmsKeyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "KmsKeyId"=>KmsKeyId), params)); aws_config=aws_config)
+function update_database(
+    DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write(
+        "UpdateDatabase",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "KmsKeyId" => KmsKeyId);
+        aws_config=aws_config,
+    )
+end
+function update_database(
+    DatabaseName,
+    KmsKeyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "UpdateDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "KmsKeyId" => KmsKeyId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_table(database_name, retention_properties, table_name)
@@ -255,8 +495,45 @@ For more information, see Access Management in the Timestream Developer Guide.
 - `table_name`: The name of the Timesream table.
 
 """
-update_table(DatabaseName, RetentionProperties, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UpdateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "RetentionProperties"=>RetentionProperties, "TableName"=>TableName); aws_config=aws_config)
-update_table(DatabaseName, RetentionProperties, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "RetentionProperties"=>RetentionProperties, "TableName"=>TableName), params)); aws_config=aws_config)
+function update_table(
+    DatabaseName,
+    RetentionProperties,
+    TableName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "UpdateTable",
+        Dict{String,Any}(
+            "DatabaseName" => DatabaseName,
+            "RetentionProperties" => RetentionProperties,
+            "TableName" => TableName,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_table(
+    DatabaseName,
+    RetentionProperties,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "UpdateTable",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DatabaseName" => DatabaseName,
+                    "RetentionProperties" => RetentionProperties,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     write_records(database_name, records, table_name)
@@ -287,5 +564,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified in here will be merged with the measure and dimension attributes in the records
   object when the data is written into Timestream.
 """
-write_records(DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("WriteRecords", Dict{String, Any}("DatabaseName"=>DatabaseName, "Records"=>Records, "TableName"=>TableName); aws_config=aws_config)
-write_records(DatabaseName, Records, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = timestream_write("WriteRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Records"=>Records, "TableName"=>TableName), params)); aws_config=aws_config)
+function write_records(
+    DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_write(
+        "WriteRecords",
+        Dict{String,Any}(
+            "DatabaseName" => DatabaseName, "Records" => Records, "TableName" => TableName
+        );
+        aws_config=aws_config,
+    )
+end
+function write_records(
+    DatabaseName,
+    Records,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return timestream_write(
+        "WriteRecords",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DatabaseName" => DatabaseName,
+                    "Records" => Records,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

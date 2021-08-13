@@ -30,7 +30,7 @@ function parse_aws_metadata()
     files = _get_aws_sdk_js_files(repo_name, auth)
 
     _generate_low_level_wrappers(files, repo_name, auth)
-    _generate_high_level_wrapper(files, repo_name, auth)
+    return _generate_high_level_wrapper(files, repo_name, auth)
 end
 
 end

@@ -23,8 +23,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SerialPort"`: The serial port of the EC2 instance. Currently only port 0 is supported.
   Default: 0
 """
-send_serial_console_sshpublic_key(InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config()) = ec2_instance_connect("SendSerialConsoleSSHPublicKey", Dict{String, Any}("InstanceId"=>InstanceId, "SSHPublicKey"=>SSHPublicKey); aws_config=aws_config)
-send_serial_console_sshpublic_key(InstanceId, SSHPublicKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2_instance_connect("SendSerialConsoleSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config)
+function send_serial_console_sshpublic_key(
+    InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2_instance_connect(
+        "SendSerialConsoleSSHPublicKey",
+        Dict{String,Any}("InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey);
+        aws_config=aws_config,
+    )
+end
+function send_serial_console_sshpublic_key(
+    InstanceId,
+    SSHPublicKey,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2_instance_connect(
+        "SendSerialConsoleSSHPublicKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     send_sshpublic_key(availability_zone, instance_id, instance_osuser, sshpublic_key)
@@ -43,5 +70,46 @@ EC2 Instance Connect in the Amazon EC2 User Guide.
   matching private key.
 
 """
-send_sshpublic_key(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config()) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey); aws_config=aws_config)
-send_sshpublic_key(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config)
+function send_sshpublic_key(
+    AvailabilityZone,
+    InstanceId,
+    InstanceOSUser,
+    SSHPublicKey;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2_instance_connect(
+        "SendSSHPublicKey",
+        Dict{String,Any}(
+            "AvailabilityZone" => AvailabilityZone,
+            "InstanceId" => InstanceId,
+            "InstanceOSUser" => InstanceOSUser,
+            "SSHPublicKey" => SSHPublicKey,
+        );
+        aws_config=aws_config,
+    )
+end
+function send_sshpublic_key(
+    AvailabilityZone,
+    InstanceId,
+    InstanceOSUser,
+    SSHPublicKey,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2_instance_connect(
+        "SendSSHPublicKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AvailabilityZone" => AvailabilityZone,
+                    "InstanceId" => InstanceId,
+                    "InstanceOSUser" => InstanceOSUser,
+                    "SSHPublicKey" => SSHPublicKey,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

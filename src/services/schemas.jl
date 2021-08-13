@@ -18,8 +18,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the discoverer.
 - `"tags"`: Tags associated with the resource.
 """
-create_discoverer(SourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers", Dict{String, Any}("SourceArn"=>SourceArn); aws_config=aws_config)
-create_discoverer(SourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceArn"=>SourceArn), params)); aws_config=aws_config)
+function create_discoverer(SourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas(
+        "POST",
+        "/v1/discoverers",
+        Dict{String,Any}("SourceArn" => SourceArn);
+        aws_config=aws_config,
+    )
+end
+function create_discoverer(
+    SourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST",
+        "/v1/discoverers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SourceArn" => SourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_registry(registry_name)
@@ -35,8 +55,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the registry to be created.
 - `"tags"`: Tags to associate with the registry.
 """
-create_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
-create_registry(registryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)", params; aws_config=aws_config)
+function create_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("POST", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
+end
+function create_registry(
+    registryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST", "/v1/registries/name/$(registryName)", params; aws_config=aws_config
+    )
+end
 
 """
     create_schema(content, type, registry_name, schema_name)
@@ -55,8 +85,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the schema.
 - `"tags"`: Tags associated with the schema.
 """
-create_schema(Content, Type, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("Content"=>Content, "Type"=>Type); aws_config=aws_config)
-create_schema(Content, Type, registryName, schemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Type"=>Type), params)); aws_config=aws_config)
+function create_schema(
+    Content,
+    Type,
+    registryName,
+    schemaName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
+        Dict{String,Any}("Content" => Content, "Type" => Type);
+        aws_config=aws_config,
+    )
+end
+function create_schema(
+    Content,
+    Type,
+    registryName,
+    schemaName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Content" => Content, "Type" => Type), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_discoverer(discoverer_id)
@@ -68,8 +129,18 @@ Deletes a discoverer.
 - `discoverer_id`: The ID of the discoverer.
 
 """
-delete_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
-delete_discoverer(discovererId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)", params; aws_config=aws_config)
+function delete_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("DELETE", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
+end
+function delete_discoverer(
+    discovererId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "DELETE", "/v1/discoverers/id/$(discovererId)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_registry(registry_name)
@@ -81,8 +152,18 @@ Deletes a Registry.
 - `registry_name`: The name of the registry.
 
 """
-delete_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
-delete_registry(registryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)", params; aws_config=aws_config)
+function delete_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("DELETE", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
+end
+function delete_registry(
+    registryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "DELETE", "/v1/registries/name/$(registryName)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_resource_policy()
@@ -94,8 +175,14 @@ Delete the resource-based policy attached to the specified registry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"registryName"`: The name of the registry.
 """
-delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy"; aws_config=aws_config)
-delete_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/policy", params; aws_config=aws_config)
+function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("DELETE", "/v1/policy"; aws_config=aws_config)
+end
+function delete_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas("DELETE", "/v1/policy", params; aws_config=aws_config)
+end
 
 """
     delete_schema(registry_name, schema_name)
@@ -108,8 +195,28 @@ Delete a schema definition.
 - `schema_name`: The name of the schema.
 
 """
-delete_schema(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws_config=aws_config)
-delete_schema(registryName, schemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", params; aws_config=aws_config)
+function delete_schema(
+    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "DELETE",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)";
+        aws_config=aws_config,
+    )
+end
+function delete_schema(
+    registryName,
+    schemaName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "DELETE",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_schema_version(registry_name, schema_name, schema_version)
@@ -123,8 +230,32 @@ Delete the schema version definition
 - `schema_version`: The version number of the schema
 
 """
-delete_schema_version(registryName, schemaName, schemaVersion; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)"; aws_config=aws_config)
-delete_schema_version(registryName, schemaName, schemaVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)", params; aws_config=aws_config)
+function delete_schema_version(
+    registryName,
+    schemaName,
+    schemaVersion;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "DELETE",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)";
+        aws_config=aws_config,
+    )
+end
+function delete_schema_version(
+    registryName,
+    schemaName,
+    schemaVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "DELETE",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_code_binding(language, registry_name, schema_name)
@@ -141,8 +272,29 @@ Describe the code binding URI.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
-describe_code_binding(language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws_config=aws_config)
-describe_code_binding(language, registryName, schemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", params; aws_config=aws_config)
+function describe_code_binding(
+    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)";
+        aws_config=aws_config,
+    )
+end
+function describe_code_binding(
+    language,
+    registryName,
+    schemaName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_discoverer(discoverer_id)
@@ -154,8 +306,20 @@ Describes the discoverer.
 - `discoverer_id`: The ID of the discoverer.
 
 """
-describe_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
-describe_discoverer(discovererId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers/id/$(discovererId)", params; aws_config=aws_config)
+function describe_discoverer(
+    discovererId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas("GET", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
+end
+function describe_discoverer(
+    discovererId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET", "/v1/discoverers/id/$(discovererId)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_registry(registry_name)
@@ -167,8 +331,18 @@ Describes the registry.
 - `registry_name`: The name of the registry.
 
 """
-describe_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
-describe_registry(registryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)", params; aws_config=aws_config)
+function describe_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("GET", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
+end
+function describe_registry(
+    registryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET", "/v1/registries/name/$(registryName)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_schema(registry_name, schema_name)
@@ -184,8 +358,28 @@ Retrieve the schema definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
-describe_schema(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws_config=aws_config)
-describe_schema(registryName, schemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", params; aws_config=aws_config)
+function describe_schema(
+    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)";
+        aws_config=aws_config,
+    )
+end
+function describe_schema(
+    registryName,
+    schemaName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     export_schema(registry_name, schema_name, type)
@@ -202,8 +396,30 @@ describe_schema(registryName, schemaName, params::AbstractDict{String}; aws_conf
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
-export_schema(registryName, schemaName, type; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export", Dict{String, Any}("type"=>type); aws_config=aws_config)
-export_schema(registryName, schemaName, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config)
+function export_schema(
+    registryName, schemaName, type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export",
+        Dict{String,Any}("type" => type);
+        aws_config=aws_config,
+    )
+end
+function export_schema(
+    registryName,
+    schemaName,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_code_binding_source(language, registry_name, schema_name)
@@ -220,8 +436,29 @@ Get the code binding source URI.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
-get_code_binding_source(language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source"; aws_config=aws_config)
-get_code_binding_source(language, registryName, schemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source", params; aws_config=aws_config)
+function get_code_binding_source(
+    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source";
+        aws_config=aws_config,
+    )
+end
+function get_code_binding_source(
+    language,
+    registryName,
+    schemaName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_discovered_schema(events, type)
@@ -236,8 +473,31 @@ Get the discovered schema that was generated based on sampled events.
 - `type`: The type of event.
 
 """
-get_discovered_schema(Events, Type; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discover", Dict{String, Any}("Events"=>Events, "Type"=>Type); aws_config=aws_config)
-get_discovered_schema(Events, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Events"=>Events, "Type"=>Type), params)); aws_config=aws_config)
+function get_discovered_schema(
+    Events, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "POST",
+        "/v1/discover",
+        Dict{String,Any}("Events" => Events, "Type" => Type);
+        aws_config=aws_config,
+    )
+end
+function get_discovered_schema(
+    Events,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST",
+        "/v1/discover",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Events" => Events, "Type" => Type), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_resource_policy()
@@ -249,8 +509,14 @@ Retrieves the resource-based policy attached to a given registry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"registryName"`: The name of the registry.
 """
-get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/policy"; aws_config=aws_config)
-get_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/policy", params; aws_config=aws_config)
+function get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("GET", "/v1/policy"; aws_config=aws_config)
+end
+function get_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas("GET", "/v1/policy", params; aws_config=aws_config)
+end
 
 """
     list_discoverers()
@@ -269,8 +535,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceArnPrefix"`: Specifying this limits the results to only those ARNs that start
   with the specified prefix.
 """
-list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers"; aws_config=aws_config)
-list_discoverers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/discoverers", params; aws_config=aws_config)
+function list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("GET", "/v1/discoverers"; aws_config=aws_config)
+end
+function list_discoverers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas("GET", "/v1/discoverers", params; aws_config=aws_config)
+end
 
 """
     list_registries()
@@ -289,8 +561,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scope"`: Can be set to Local or AWS to limit responses to your custom registries, or
   the ones provided by AWS.
 """
-list_registries(; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries"; aws_config=aws_config)
-list_registries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries", params; aws_config=aws_config)
+function list_registries(; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("GET", "/v1/registries"; aws_config=aws_config)
+end
+function list_registries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas("GET", "/v1/registries", params; aws_config=aws_config)
+end
 
 """
     list_schema_versions(registry_name, schema_name)
@@ -309,8 +587,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
   shared with other accounts.
 """
-list_schema_versions(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions"; aws_config=aws_config)
-list_schema_versions(registryName, schemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions", params; aws_config=aws_config)
+function list_schema_versions(
+    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions";
+        aws_config=aws_config,
+    )
+end
+function list_schema_versions(
+    registryName,
+    schemaName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_schemas(registry_name)
@@ -330,8 +628,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaNamePrefix"`: Specifying this limits the results to only those schema names that
   start with the specified prefix.
 """
-list_schemas(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas"; aws_config=aws_config)
-list_schemas(registryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas", params; aws_config=aws_config)
+function list_schemas(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas(
+        "GET", "/v1/registries/name/$(registryName)/schemas"; aws_config=aws_config
+    )
+end
+function list_schemas(
+    registryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET", "/v1/registries/name/$(registryName)/schemas", params; aws_config=aws_config
+    )
+end
 
 """
     list_tags_for_resource(resource-arn)
@@ -343,8 +653,18 @@ Get tags for resource.
 - `resource-arn`: The ARN of the resource.
 
 """
-list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
-list_tags_for_resource(resource_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/tags/$(resource-arn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resource_arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas("GET", "/tags/$(resource-arn)", params; aws_config=aws_config)
+end
 
 """
     put_code_binding(language, registry_name, schema_name)
@@ -361,8 +681,29 @@ Put code binding URI
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
-put_code_binding(language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws_config=aws_config)
-put_code_binding(language, registryName, schemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", params; aws_config=aws_config)
+function put_code_binding(
+    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "POST",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)";
+        aws_config=aws_config,
+    )
+end
+function put_code_binding(
+    language,
+    registryName,
+    schemaName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     put_resource_policy(policy)
@@ -378,8 +719,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: The revision ID of the policy.
 - `"registryName"`: The name of the registry.
 """
-put_resource_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
-put_resource_policy(Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), params)); aws_config=aws_config)
+function put_resource_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas(
+        "PUT", "/v1/policy", Dict{String,Any}("Policy" => Policy); aws_config=aws_config
+    )
+end
+function put_resource_policy(
+    Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "PUT",
+        "/v1/policy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Policy" => Policy), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     search_schemas(keywords, registry_name)
@@ -399,8 +753,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
   shared with other accounts.
 """
-search_schemas(keywords, registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}("keywords"=>keywords); aws_config=aws_config)
-search_schemas(keywords, registryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keywords"=>keywords), params)); aws_config=aws_config)
+function search_schemas(
+    keywords, registryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/search",
+        Dict{String,Any}("keywords" => keywords);
+        aws_config=aws_config,
+    )
+end
+function search_schemas(
+    keywords,
+    registryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "GET",
+        "/v1/registries/name/$(registryName)/schemas/search",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("keywords" => keywords), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_discoverer(discoverer_id)
@@ -412,8 +789,20 @@ Starts the discoverer
 - `discoverer_id`: The ID of the discoverer.
 
 """
-start_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start"; aws_config=aws_config)
-start_discoverer(discovererId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start", params; aws_config=aws_config)
+function start_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas(
+        "POST", "/v1/discoverers/id/$(discovererId)/start"; aws_config=aws_config
+    )
+end
+function start_discoverer(
+    discovererId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST", "/v1/discoverers/id/$(discovererId)/start", params; aws_config=aws_config
+    )
+end
 
 """
     stop_discoverer(discoverer_id)
@@ -425,8 +814,18 @@ Stops the discoverer
 - `discoverer_id`: The ID of the discoverer.
 
 """
-stop_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop"; aws_config=aws_config)
-stop_discoverer(discovererId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop", params; aws_config=aws_config)
+function stop_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("POST", "/v1/discoverers/id/$(discovererId)/stop"; aws_config=aws_config)
+end
+function stop_discoverer(
+    discovererId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST", "/v1/discoverers/id/$(discovererId)/stop", params; aws_config=aws_config
+    )
+end
 
 """
     tag_resource(resource-arn, tags)
@@ -439,8 +838,27 @@ Add tags to a resource.
 - `tags`: Tags associated with the resource.
 
 """
-tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resource_arn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas(
+        "POST",
+        "/tags/$(resource-arn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resource_arn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "POST",
+        "/tags/$(resource-arn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource-arn, tag_keys)
@@ -453,8 +871,29 @@ Removes tags from a resource.
 - `tag_keys`: Keys of key-value pairs.
 
 """
-untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resource_arn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "DELETE",
+        "/tags/$(resource-arn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resource_arn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "DELETE",
+        "/tags/$(resource-arn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_discoverer(discoverer_id)
@@ -469,8 +908,18 @@ Updates the discoverer
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the discoverer to update.
 """
-update_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
-update_discoverer(discovererId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/discoverers/id/$(discovererId)", params; aws_config=aws_config)
+function update_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("PUT", "/v1/discoverers/id/$(discovererId)"; aws_config=aws_config)
+end
+function update_discoverer(
+    discovererId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "PUT", "/v1/discoverers/id/$(discovererId)", params; aws_config=aws_config
+    )
+end
 
 """
     update_registry(registry_name)
@@ -485,8 +934,18 @@ Updates a registry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the registry to update.
 """
-update_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
-update_registry(registryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)", params; aws_config=aws_config)
+function update_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+    return schemas("PUT", "/v1/registries/name/$(registryName)"; aws_config=aws_config)
+end
+function update_registry(
+    registryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "PUT", "/v1/registries/name/$(registryName)", params; aws_config=aws_config
+    )
+end
 
 """
     update_schema(registry_name, schema_name)
@@ -505,5 +964,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The description of the schema.
 - `"Type"`: The schema type for the events schema.
 """
-update_schema(registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("ClientTokenId"=>string(uuid4())); aws_config=aws_config)
-update_schema(registryName, schemaName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientTokenId"=>string(uuid4())), params)); aws_config=aws_config)
+function update_schema(
+    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return schemas(
+        "PUT",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
+        Dict{String,Any}("ClientTokenId" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function update_schema(
+    registryName,
+    schemaName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return schemas(
+        "PUT",
+        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientTokenId" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+    )
+end

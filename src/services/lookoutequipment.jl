@@ -26,8 +26,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to encrypt dataset data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the ingested data described in the dataset.
 """
-create_dataset(ClientToken, DatasetName, DatasetSchema; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("CreateDataset", Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "DatasetSchema"=>DatasetSchema); aws_config=aws_config)
-create_dataset(ClientToken, DatasetName, DatasetSchema, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "DatasetSchema"=>DatasetSchema), params)); aws_config=aws_config)
+function create_dataset(
+    ClientToken,
+    DatasetName,
+    DatasetSchema;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateDataset",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "DatasetName" => DatasetName,
+            "DatasetSchema" => DatasetSchema,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_dataset(
+    ClientToken,
+    DatasetName,
+    DatasetSchema,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateDataset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DatasetName" => DatasetName,
+                    "DatasetSchema" => DatasetSchema,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_inference_scheduler(client_token, data_input_configuration, data_output_configuration, data_upload_frequency, inference_scheduler_name, model_name, role_arn)
@@ -71,8 +108,61 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   used to encrypt inference scheduler data by Amazon Lookout for Equipment.
 - `"Tags"`: Any tags associated with the inference scheduler.
 """
-create_inference_scheduler(ClientToken, DataInputConfiguration, DataOutputConfiguration, DataUploadFrequency, InferenceSchedulerName, ModelName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("CreateInferenceScheduler", Dict{String, Any}("ClientToken"=>ClientToken, "DataInputConfiguration"=>DataInputConfiguration, "DataOutputConfiguration"=>DataOutputConfiguration, "DataUploadFrequency"=>DataUploadFrequency, "InferenceSchedulerName"=>InferenceSchedulerName, "ModelName"=>ModelName, "RoleArn"=>RoleArn); aws_config=aws_config)
-create_inference_scheduler(ClientToken, DataInputConfiguration, DataOutputConfiguration, DataUploadFrequency, InferenceSchedulerName, ModelName, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("CreateInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataInputConfiguration"=>DataInputConfiguration, "DataOutputConfiguration"=>DataOutputConfiguration, "DataUploadFrequency"=>DataUploadFrequency, "InferenceSchedulerName"=>InferenceSchedulerName, "ModelName"=>ModelName, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+function create_inference_scheduler(
+    ClientToken,
+    DataInputConfiguration,
+    DataOutputConfiguration,
+    DataUploadFrequency,
+    InferenceSchedulerName,
+    ModelName,
+    RoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateInferenceScheduler",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "DataInputConfiguration" => DataInputConfiguration,
+            "DataOutputConfiguration" => DataOutputConfiguration,
+            "DataUploadFrequency" => DataUploadFrequency,
+            "InferenceSchedulerName" => InferenceSchedulerName,
+            "ModelName" => ModelName,
+            "RoleArn" => RoleArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_inference_scheduler(
+    ClientToken,
+    DataInputConfiguration,
+    DataOutputConfiguration,
+    DataUploadFrequency,
+    InferenceSchedulerName,
+    ModelName,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DataInputConfiguration" => DataInputConfiguration,
+                    "DataOutputConfiguration" => DataOutputConfiguration,
+                    "DataUploadFrequency" => DataUploadFrequency,
+                    "InferenceSchedulerName" => InferenceSchedulerName,
+                    "ModelName" => ModelName,
+                    "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_model(client_token, dataset_name, model_name)
@@ -119,8 +209,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrainingDataStartTime"`: Indicates the time reference in the dataset that should be
   used to begin the subset of training data for the ML model.
 """
-create_model(ClientToken, DatasetName, ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("CreateModel", Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "ModelName"=>ModelName); aws_config=aws_config)
-create_model(ClientToken, DatasetName, ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("CreateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "ModelName"=>ModelName), params)); aws_config=aws_config)
+function create_model(
+    ClientToken, DatasetName, ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "CreateModel",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "DatasetName" => DatasetName,
+            "ModelName" => ModelName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_model(
+    ClientToken,
+    DatasetName,
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateModel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DatasetName" => DatasetName,
+                    "ModelName" => ModelName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_dataset(dataset_name)
@@ -136,8 +260,26 @@ does prevent it from being used in the future.
 - `dataset_name`: The name of the dataset to be deleted.
 
 """
-delete_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DeleteDataset", Dict{String, Any}("DatasetName"=>DatasetName); aws_config=aws_config)
-delete_dataset(DatasetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName), params)); aws_config=aws_config)
+function delete_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "DeleteDataset",
+        Dict{String,Any}("DatasetName" => DatasetName);
+        aws_config=aws_config,
+    )
+end
+function delete_dataset(
+    DatasetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteDataset",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_inference_scheduler(inference_scheduler_name)
@@ -150,8 +292,32 @@ not affected.
 - `inference_scheduler_name`: The name of the inference scheduler to be deleted.
 
 """
-delete_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DeleteInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config)
-delete_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DeleteInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config)
+function delete_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DeleteInferenceScheduler",
+        Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+        aws_config=aws_config,
+    )
+end
+function delete_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_model(model_name)
@@ -164,8 +330,24 @@ it from being used with an inference scheduler, even one that is already set up.
 - `model_name`: The name of the ML model to be deleted.
 
 """
-delete_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DeleteModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config)
-delete_model(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DeleteModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config)
+function delete_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "DeleteModel", Dict{String,Any}("ModelName" => ModelName); aws_config=aws_config
+    )
+end
+function delete_model(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_data_ingestion_job(job_id)
@@ -178,8 +360,24 @@ status, and so on.
 - `job_id`: The job ID of the data ingestion job.
 
 """
-describe_data_ingestion_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DescribeDataIngestionJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_data_ingestion_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DescribeDataIngestionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function describe_data_ingestion_job(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DescribeDataIngestionJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+    )
+end
+function describe_data_ingestion_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DescribeDataIngestionJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_dataset(dataset_name)
@@ -191,8 +389,26 @@ Provides information on a specified dataset such as the schema location, status,
 - `dataset_name`: The name of the dataset to be described.
 
 """
-describe_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DescribeDataset", Dict{String, Any}("DatasetName"=>DatasetName); aws_config=aws_config)
-describe_dataset(DatasetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName), params)); aws_config=aws_config)
+function describe_dataset(DatasetName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "DescribeDataset",
+        Dict{String,Any}("DatasetName" => DatasetName);
+        aws_config=aws_config,
+    )
+end
+function describe_dataset(
+    DatasetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeDataset",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatasetName" => DatasetName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_inference_scheduler(inference_scheduler_name)
@@ -205,8 +421,32 @@ status, and associated metadata
 - `inference_scheduler_name`: The name of the inference scheduler being described.
 
 """
-describe_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DescribeInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config)
-describe_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DescribeInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config)
+function describe_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DescribeInferenceScheduler",
+        Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+        aws_config=aws_config,
+    )
+end
+function describe_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_model(model_name)
@@ -219,8 +459,24 @@ dataset, training and evaluation information, status, and so on.
 - `model_name`: The name of the ML model to be described.
 
 """
-describe_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DescribeModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config)
-describe_model(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("DescribeModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config)
+function describe_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "DescribeModel", Dict{String,Any}("ModelName" => ModelName); aws_config=aws_config
+    )
+end
+function describe_model(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_data_ingestion_jobs()
@@ -237,8 +493,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data ingestion jobs.
 - `"Status"`: Indicates the status of the data ingestion job.
 """
-list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListDataIngestionJobs"; aws_config=aws_config)
-list_data_ingestion_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListDataIngestionJobs", params; aws_config=aws_config)
+function list_data_ingestion_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment("ListDataIngestionJobs"; aws_config=aws_config)
+end
+function list_data_ingestion_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment("ListDataIngestionJobs", params; aws_config=aws_config)
+end
 
 """
     list_datasets()
@@ -253,8 +515,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   datasets.
 """
-list_datasets(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListDatasets"; aws_config=aws_config)
-list_datasets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListDatasets", params; aws_config=aws_config)
+function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment("ListDatasets"; aws_config=aws_config)
+end
+function list_datasets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment("ListDatasets", params; aws_config=aws_config)
+end
 
 """
     list_inference_executions(inference_scheduler_name)
@@ -278,8 +546,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inference executions.
 - `"Status"`: The status of the inference execution.
 """
-list_inference_executions(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListInferenceExecutions", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config)
-list_inference_executions(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListInferenceExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config)
+function list_inference_executions(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "ListInferenceExecutions",
+        Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+        aws_config=aws_config,
+    )
+end
+function list_inference_executions(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ListInferenceExecutions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_inference_schedulers()
@@ -296,8 +588,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   inference schedulers.
 """
-list_inference_schedulers(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListInferenceSchedulers"; aws_config=aws_config)
-list_inference_schedulers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListInferenceSchedulers", params; aws_config=aws_config)
+function list_inference_schedulers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment("ListInferenceSchedulers"; aws_config=aws_config)
+end
+function list_inference_schedulers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment("ListInferenceSchedulers", params; aws_config=aws_config)
+end
 
 """
     list_models()
@@ -316,8 +614,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   models.
 - `"Status"`: The status of the ML model.
 """
-list_models(; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListModels"; aws_config=aws_config)
-list_models(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListModels", params; aws_config=aws_config)
+function list_models(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment("ListModels"; aws_config=aws_config)
+end
+function list_models(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment("ListModels", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -330,8 +634,28 @@ Lists all the tags for a specified resource, including key and value.
   model) that is the focus of the ListTagsForResource operation.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_data_ingestion_job(client_token, dataset_name, ingestion_input_configuration, role_arn)
@@ -349,8 +673,49 @@ Starts a data ingestion job. Amazon Lookout for Equipment returns the job status
   source for the data ingestion job.
 
 """
-start_data_ingestion_job(ClientToken, DatasetName, IngestionInputConfiguration, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("StartDataIngestionJob", Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "IngestionInputConfiguration"=>IngestionInputConfiguration, "RoleArn"=>RoleArn); aws_config=aws_config)
-start_data_ingestion_job(ClientToken, DatasetName, IngestionInputConfiguration, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("StartDataIngestionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DatasetName"=>DatasetName, "IngestionInputConfiguration"=>IngestionInputConfiguration, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+function start_data_ingestion_job(
+    ClientToken,
+    DatasetName,
+    IngestionInputConfiguration,
+    RoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "StartDataIngestionJob",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "DatasetName" => DatasetName,
+            "IngestionInputConfiguration" => IngestionInputConfiguration,
+            "RoleArn" => RoleArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_data_ingestion_job(
+    ClientToken,
+    DatasetName,
+    IngestionInputConfiguration,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "StartDataIngestionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DatasetName" => DatasetName,
+                    "IngestionInputConfiguration" => IngestionInputConfiguration,
+                    "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_inference_scheduler(inference_scheduler_name)
@@ -362,8 +727,32 @@ Starts an inference scheduler.
 - `inference_scheduler_name`: The name of the inference scheduler to be started.
 
 """
-start_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("StartInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config)
-start_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("StartInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config)
+function start_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "StartInferenceScheduler",
+        Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+        aws_config=aws_config,
+    )
+end
+function start_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "StartInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_inference_scheduler(inference_scheduler_name)
@@ -375,8 +764,32 @@ Stops an inference scheduler.
 - `inference_scheduler_name`: The name of the inference scheduler to be stopped.
 
 """
-stop_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("StopInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config)
-stop_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("StopInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config)
+function stop_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "StopInferenceScheduler",
+        Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+        aws_config=aws_config,
+    )
+end
+function stop_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "StopInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -395,8 +808,31 @@ associated with each resource.
   value are specified.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -410,8 +846,33 @@ Removes a specific tag from a given resource. The tag is specified by its key.
 - `tag_keys`: Specifies the key of the tag to be removed from a specified resource.
 
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_inference_scheduler(inference_scheduler_name)
@@ -444,5 +905,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
   source for the inference scheduler.
 """
-update_inference_scheduler(InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("UpdateInferenceScheduler", Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName); aws_config=aws_config)
-update_inference_scheduler(InferenceSchedulerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lookoutequipment("UpdateInferenceScheduler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InferenceSchedulerName"=>InferenceSchedulerName), params)); aws_config=aws_config)
+function update_inference_scheduler(
+    InferenceSchedulerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "UpdateInferenceScheduler",
+        Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName);
+        aws_config=aws_config,
+    )
+end
+function update_inference_scheduler(
+    InferenceSchedulerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateInferenceScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

@@ -18,8 +18,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-accept_resource_share_invitation(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws_config=aws_config)
-accept_resource_share_invitation(resourceShareInvitationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config)
+function accept_resource_share_invitation(
+    resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/acceptresourceshareinvitation",
+        Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
+        aws_config=aws_config,
+    )
+end
+function accept_resource_share_invitation(
+    resourceShareInvitationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/acceptresourceshareinvitation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceShareInvitationArn" => resourceShareInvitationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     associate_resource_share(resource_share_arn)
@@ -39,8 +67,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Organizations.
 - `"resourceArns"`: The Amazon Resource Names (ARN) of the resources.
 """
-associate_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/associateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
-associate_resource_share(resourceShareArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/associateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config)
+function associate_resource_share(
+    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/associateresourceshare",
+        Dict{String,Any}("resourceShareArn" => resourceShareArn);
+        aws_config=aws_config,
+    )
+end
+function associate_resource_share(
+    resourceShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/associateresourceshare",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     associate_resource_share_permission(permission_arn, resource_share_arn)
@@ -63,8 +115,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   currently associated with the resource share. Use true to replace the current permissions.
   Use false to add the permission to the current permission.
 """
-associate_resource_share_permission(permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/associateresourcesharepermission", Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn); aws_config=aws_config)
-associate_resource_share_permission(permissionArn, resourceShareArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/associateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config)
+function associate_resource_share_permission(
+    permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/associateresourcesharepermission",
+        Dict{String,Any}(
+            "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
+        );
+        aws_config=aws_config,
+    )
+end
+function associate_resource_share_permission(
+    permissionArn,
+    resourceShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/associateresourcesharepermission",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_resource_share(name)
@@ -90,8 +173,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource share.
 - `"tags"`: One or more tags.
 """
-create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/createresourceshare", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_resource_share(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/createresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram(
+        "POST",
+        "/createresourceshare",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+    )
+end
+function create_resource_share(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/createresourceshare",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_resource_share(resource_share_arn)
@@ -107,8 +206,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-delete_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("DELETE", "/deleteresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
-delete_resource_share(resourceShareArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("DELETE", "/deleteresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config)
+function delete_resource_share(
+    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "DELETE",
+        "/deleteresourceshare",
+        Dict{String,Any}("resourceShareArn" => resourceShareArn);
+        aws_config=aws_config,
+    )
+end
+function delete_resource_share(
+    resourceShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "DELETE",
+        "/deleteresourceshare",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_resource_share(resource_share_arn)
@@ -126,8 +249,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principals"`: The principals.
 - `"resourceArns"`: The Amazon Resource Names (ARNs) of the resources.
 """
-disassociate_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/disassociateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
-disassociate_resource_share(resourceShareArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/disassociateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config)
+function disassociate_resource_share(
+    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/disassociateresourceshare",
+        Dict{String,Any}("resourceShareArn" => resourceShareArn);
+        aws_config=aws_config,
+    )
+end
+function disassociate_resource_share(
+    resourceShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/disassociateresourceshare",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_resource_share_permission(permission_arn, resource_share_arn)
@@ -144,8 +291,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-disassociate_resource_share_permission(permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn); aws_config=aws_config)
-disassociate_resource_share_permission(permissionArn, resourceShareArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config)
+function disassociate_resource_share_permission(
+    permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/disassociateresourcesharepermission",
+        Dict{String,Any}(
+            "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
+        );
+        aws_config=aws_config,
+    )
+end
+function disassociate_resource_share_permission(
+    permissionArn,
+    resourceShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/disassociateresourcesharepermission",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     enable_sharing_with_aws_organization()
@@ -155,8 +333,16 @@ Enables resource sharing within your AWS Organization. The caller must be the ma
 account for the AWS Organization.
 
 """
-enable_sharing_with_aws_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/enablesharingwithawsorganization"; aws_config=aws_config)
-enable_sharing_with_aws_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/enablesharingwithawsorganization", params; aws_config=aws_config)
+function enable_sharing_with_aws_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram("POST", "/enablesharingwithawsorganization"; aws_config=aws_config)
+end
+function enable_sharing_with_aws_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram("POST", "/enablesharingwithawsorganization", params; aws_config=aws_config)
+end
 
 """
     get_permission(permission_arn)
@@ -171,8 +357,28 @@ Gets the contents of an AWS RAM permission in JSON format.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"permissionVersion"`: The identifier for the version of the permission.
 """
-get_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getpermission", Dict{String, Any}("permissionArn"=>permissionArn); aws_config=aws_config)
-get_permission(permissionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getpermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn), params)); aws_config=aws_config)
+function get_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram(
+        "POST",
+        "/getpermission",
+        Dict{String,Any}("permissionArn" => permissionArn);
+        aws_config=aws_config,
+    )
+end
+function get_permission(
+    permissionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/getpermission",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("permissionArn" => permissionArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_resource_policies(resource_arns)
@@ -190,8 +396,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"principal"`: The principal.
 """
-get_resource_policies(resourceArns; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourcepolicies", Dict{String, Any}("resourceArns"=>resourceArns); aws_config=aws_config)
-get_resource_policies(resourceArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourcepolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArns"=>resourceArns), params)); aws_config=aws_config)
+function get_resource_policies(
+    resourceArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/getresourcepolicies",
+        Dict{String,Any}("resourceArns" => resourceArns);
+        aws_config=aws_config,
+    )
+end
+function get_resource_policies(
+    resourceArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/getresourcepolicies",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArns" => resourceArns), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_resource_share_associations(association_type)
@@ -216,8 +444,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter if the association type is PRINCIPAL.
 - `"resourceShareArns"`: The Amazon Resource Names (ARN) of the resource shares.
 """
-get_resource_share_associations(associationType; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshareassociations", Dict{String, Any}("associationType"=>associationType); aws_config=aws_config)
-get_resource_share_associations(associationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshareassociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationType"=>associationType), params)); aws_config=aws_config)
+function get_resource_share_associations(
+    associationType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/getresourceshareassociations",
+        Dict{String,Any}("associationType" => associationType);
+        aws_config=aws_config,
+    )
+end
+function get_resource_share_associations(
+    associationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/getresourceshareassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("associationType" => associationType), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_resource_share_invitations()
@@ -233,8 +485,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceShareArns"`: The Amazon Resource Names (ARN) of the resource shares.
 - `"resourceShareInvitationArns"`: The Amazon Resource Names (ARN) of the invitations.
 """
-get_resource_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshareinvitations"; aws_config=aws_config)
-get_resource_share_invitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshareinvitations", params; aws_config=aws_config)
+function get_resource_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram("POST", "/getresourceshareinvitations"; aws_config=aws_config)
+end
+function get_resource_share_invitations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram("POST", "/getresourceshareinvitations", params; aws_config=aws_config)
+end
 
 """
     get_resource_shares(resource_owner)
@@ -257,8 +515,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceShareStatus"`: The status of the resource share.
 - `"tagFilters"`: One or more tag filters.
 """
-get_resource_shares(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshares", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
-get_resource_shares(resourceOwner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/getresourceshares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config)
+function get_resource_shares(
+    resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/getresourceshares",
+        Dict{String,Any}("resourceOwner" => resourceOwner);
+        aws_config=aws_config,
+    )
+end
+function get_resource_shares(
+    resourceOwner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/getresourceshares",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_pending_invitation_resources(resource_share_invitation_arn)
@@ -276,8 +556,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 """
-list_pending_invitation_resources(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpendinginvitationresources", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws_config=aws_config)
-list_pending_invitation_resources(resourceShareInvitationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpendinginvitationresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config)
+function list_pending_invitation_resources(
+    resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/listpendinginvitationresources",
+        Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
+        aws_config=aws_config,
+    )
+end
+function list_pending_invitation_resources(
+    resourceShareInvitationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/listpendinginvitationresources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceShareInvitationArn" => resourceShareInvitationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_permissions()
@@ -293,8 +601,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: Specifies the resource type for which to list permissions. For example,
   to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
 """
-list_permissions(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpermissions"; aws_config=aws_config)
-list_permissions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listpermissions", params; aws_config=aws_config)
+function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram("POST", "/listpermissions"; aws_config=aws_config)
+end
+function list_permissions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram("POST", "/listpermissions", params; aws_config=aws_config)
+end
 
 """
     list_principals(resource_owner)
@@ -324,8 +638,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig |
   route53resolver:ResolverRule
 """
-list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listprincipals", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
-list_principals(resourceOwner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listprincipals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config)
+function list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram(
+        "POST",
+        "/listprincipals",
+        Dict{String,Any}("resourceOwner" => resourceOwner);
+        aws_config=aws_config,
+    )
+end
+function list_principals(
+    resourceOwner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/listprincipals",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_resource_share_permissions(resource_share_arn)
@@ -342,8 +676,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 """
-list_resource_share_permissions(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcesharepermissions", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
-list_resource_share_permissions(resourceShareArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcesharepermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config)
+function list_resource_share_permissions(
+    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/listresourcesharepermissions",
+        Dict{String,Any}("resourceShareArn" => resourceShareArn);
+        aws_config=aws_config,
+    )
+end
+function list_resource_share_permissions(
+    resourceShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/listresourcesharepermissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_resource_types()
@@ -357,8 +715,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 """
-list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcetypes"; aws_config=aws_config)
-list_resource_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresourcetypes", params; aws_config=aws_config)
+function list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram("POST", "/listresourcetypes"; aws_config=aws_config)
+end
+function list_resource_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram("POST", "/listresourcetypes", params; aws_config=aws_config)
+end
 
 """
     list_resources(resource_owner)
@@ -388,8 +752,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   | resource-groups:Group | rds:Cluster | route53resolver:ResolverQueryLogConfig |
   route53resolver:ResolverRule
 """
-list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresources", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config)
-list_resources(resourceOwner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/listresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config)
+function list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram(
+        "POST",
+        "/listresources",
+        Dict{String,Any}("resourceOwner" => resourceOwner);
+        aws_config=aws_config,
+    )
+end
+function list_resources(
+    resourceOwner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/listresources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     promote_resource_share_created_from_policy(resource_share_arn)
@@ -404,8 +788,32 @@ API action to promote the resource share. When you promote the resource share, i
 - `resource_share_arn`: The ARN of the resource share to promote.
 
 """
-promote_resource_share_created_from_policy(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/promoteresourcesharecreatedfrompolicy", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
-promote_resource_share_created_from_policy(resourceShareArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/promoteresourcesharecreatedfrompolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config)
+function promote_resource_share_created_from_policy(
+    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/promoteresourcesharecreatedfrompolicy",
+        Dict{String,Any}("resourceShareArn" => resourceShareArn);
+        aws_config=aws_config,
+    )
+end
+function promote_resource_share_created_from_policy(
+    resourceShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/promoteresourcesharecreatedfrompolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reject_resource_share_invitation(resource_share_invitation_arn)
@@ -421,8 +829,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-reject_resource_share_invitation(resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws_config=aws_config)
-reject_resource_share_invitation(resourceShareInvitationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), params)); aws_config=aws_config)
+function reject_resource_share_invitation(
+    resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/rejectresourceshareinvitation",
+        Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
+        aws_config=aws_config,
+    )
+end
+function reject_resource_share_invitation(
+    resourceShareInvitationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/rejectresourceshareinvitation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceShareInvitationArn" => resourceShareInvitationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_share_arn, tags)
@@ -435,8 +871,35 @@ Adds the specified tags to the specified resource share that you own.
 - `tags`: One or more tags.
 
 """
-tag_resource(resourceShareArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/tagresource", Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceShareArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/tagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(
+    resourceShareArn, tags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/tagresource",
+        Dict{String,Any}("resourceShareArn" => resourceShareArn, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceShareArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/tagresource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceShareArn" => resourceShareArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_share_arn, tag_keys)
@@ -449,8 +912,37 @@ Removes the specified tags from the specified resource share that you own.
 - `tag_keys`: The tag keys of the tags to remove.
 
 """
-untag_resource(resourceShareArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/untagresource", Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceShareArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/untagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceShareArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/untagresource",
+        Dict{String,Any}("resourceShareArn" => resourceShareArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceShareArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/untagresource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "resourceShareArn" => resourceShareArn, "tagKeys" => tagKeys
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_resource_share(resource_share_arn)
@@ -469,5 +961,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 - `"name"`: The name of the resource share.
 """
-update_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/updateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws_config=aws_config)
-update_resource_share(resourceShareArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ram("POST", "/updateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), params)); aws_config=aws_config)
+function update_resource_share(
+    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/updateresourceshare",
+        Dict{String,Any}("resourceShareArn" => resourceShareArn);
+        aws_config=aws_config,
+    )
+end
+function update_resource_share(
+    resourceShareArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/updateresourceshare",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("resourceShareArn" => resourceShareArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

@@ -17,8 +17,16 @@ either the GetLexicon or ListLexicon APIs. For more information, see Managing Le
   region.
 
 """
-delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config()) = polly("DELETE", "/v1/lexicons/$(LexiconName)"; aws_config=aws_config)
-delete_lexicon(LexiconName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("DELETE", "/v1/lexicons/$(LexiconName)", params; aws_config=aws_config)
+function delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config())
+    return polly("DELETE", "/v1/lexicons/$(LexiconName)"; aws_config=aws_config)
+end
+function delete_lexicon(
+    LexiconName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return polly("DELETE", "/v1/lexicons/$(LexiconName)", params; aws_config=aws_config)
+end
 
 """
     describe_voices()
@@ -50,8 +58,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token returned from the previous DescribeVoices
   operation. If present, this indicates where to continue the listing.
 """
-describe_voices(; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/voices"; aws_config=aws_config)
-describe_voices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/voices", params; aws_config=aws_config)
+function describe_voices(; aws_config::AbstractAWSConfig=global_aws_config())
+    return polly("GET", "/v1/voices"; aws_config=aws_config)
+end
+function describe_voices(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return polly("GET", "/v1/voices", params; aws_config=aws_config)
+end
 
 """
     get_lexicon(lexicon_name)
@@ -64,8 +78,16 @@ more information, see Managing Lexicons.
 - `lexicon_name`: Name of the lexicon.
 
 """
-get_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/lexicons/$(LexiconName)"; aws_config=aws_config)
-get_lexicon(LexiconName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/lexicons/$(LexiconName)", params; aws_config=aws_config)
+function get_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config())
+    return polly("GET", "/v1/lexicons/$(LexiconName)"; aws_config=aws_config)
+end
+function get_lexicon(
+    LexiconName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return polly("GET", "/v1/lexicons/$(LexiconName)", params; aws_config=aws_config)
+end
 
 """
     get_speech_synthesis_task(task_id)
@@ -79,8 +101,16 @@ link to the S3 bucket containing the output of the task.
 - `task_id`: The Amazon Polly generated identifier for a speech synthesis task.
 
 """
-get_speech_synthesis_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/synthesisTasks/$(TaskId)"; aws_config=aws_config)
-get_speech_synthesis_task(TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/synthesisTasks/$(TaskId)", params; aws_config=aws_config)
+function get_speech_synthesis_task(
+    TaskId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return polly("GET", "/v1/synthesisTasks/$(TaskId)"; aws_config=aws_config)
+end
+function get_speech_synthesis_task(
+    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return polly("GET", "/v1/synthesisTasks/$(TaskId)", params; aws_config=aws_config)
+end
 
 """
     list_lexicons()
@@ -94,8 +124,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token returned from previous ListLexicons operation.
   If present, indicates where to continue the list of lexicons.
 """
-list_lexicons(; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/lexicons"; aws_config=aws_config)
-list_lexicons(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/lexicons", params; aws_config=aws_config)
+function list_lexicons(; aws_config::AbstractAWSConfig=global_aws_config())
+    return polly("GET", "/v1/lexicons"; aws_config=aws_config)
+end
+function list_lexicons(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return polly("GET", "/v1/lexicons", params; aws_config=aws_config)
+end
 
 """
     list_speech_synthesis_tasks()
@@ -112,8 +148,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   speech synthesis tasks.
 - `"Status"`: Status of the speech synthesis tasks returned in a List operation
 """
-list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/synthesisTasks"; aws_config=aws_config)
-list_speech_synthesis_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("GET", "/v1/synthesisTasks", params; aws_config=aws_config)
+function list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return polly("GET", "/v1/synthesisTasks"; aws_config=aws_config)
+end
+function list_speech_synthesis_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return polly("GET", "/v1/synthesisTasks", params; aws_config=aws_config)
+end
 
 """
     put_lexicon(content, lexicon_name)
@@ -131,8 +173,29 @@ the SynthesizeSpeech operation. For more information, see Managing Lexicons.
   characters long.
 
 """
-put_lexicon(Content, LexiconName; aws_config::AbstractAWSConfig=global_aws_config()) = polly("PUT", "/v1/lexicons/$(LexiconName)", Dict{String, Any}("Content"=>Content); aws_config=aws_config)
-put_lexicon(Content, LexiconName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("PUT", "/v1/lexicons/$(LexiconName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), params)); aws_config=aws_config)
+function put_lexicon(
+    Content, LexiconName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return polly(
+        "PUT",
+        "/v1/lexicons/$(LexiconName)",
+        Dict{String,Any}("Content" => Content);
+        aws_config=aws_config,
+    )
+end
+function put_lexicon(
+    Content,
+    LexiconName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return polly(
+        "PUT",
+        "/v1/lexicons/$(LexiconName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Content" => Content), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     start_speech_synthesis_task(output_format, output_s3_bucket_name, text, voice_id)
@@ -179,8 +242,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TextType"`: Specifies whether the input text is plain text or SSML. The default value
   is plain text.
 """
-start_speech_synthesis_task(OutputFormat, OutputS3BucketName, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config()) = polly("POST", "/v1/synthesisTasks", Dict{String, Any}("OutputFormat"=>OutputFormat, "OutputS3BucketName"=>OutputS3BucketName, "Text"=>Text, "VoiceId"=>VoiceId); aws_config=aws_config)
-start_speech_synthesis_task(OutputFormat, OutputS3BucketName, Text, VoiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("POST", "/v1/synthesisTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputFormat"=>OutputFormat, "OutputS3BucketName"=>OutputS3BucketName, "Text"=>Text, "VoiceId"=>VoiceId), params)); aws_config=aws_config)
+function start_speech_synthesis_task(
+    OutputFormat,
+    OutputS3BucketName,
+    Text,
+    VoiceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return polly(
+        "POST",
+        "/v1/synthesisTasks",
+        Dict{String,Any}(
+            "OutputFormat" => OutputFormat,
+            "OutputS3BucketName" => OutputS3BucketName,
+            "Text" => Text,
+            "VoiceId" => VoiceId,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_speech_synthesis_task(
+    OutputFormat,
+    OutputS3BucketName,
+    Text,
+    VoiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return polly(
+        "POST",
+        "/v1/synthesisTasks",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "OutputFormat" => OutputFormat,
+                    "OutputS3BucketName" => OutputS3BucketName,
+                    "Text" => Text,
+                    "VoiceId" => VoiceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     synthesize_speech(output_format, text, voice_id)
@@ -230,5 +336,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TextType"`:  Specifies whether the input text is plain text or SSML. The default value
   is plain text. For more information, see Using SSML.
 """
-synthesize_speech(OutputFormat, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config()) = polly("POST", "/v1/speech", Dict{String, Any}("OutputFormat"=>OutputFormat, "Text"=>Text, "VoiceId"=>VoiceId); aws_config=aws_config)
-synthesize_speech(OutputFormat, Text, VoiceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = polly("POST", "/v1/speech", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputFormat"=>OutputFormat, "Text"=>Text, "VoiceId"=>VoiceId), params)); aws_config=aws_config)
+function synthesize_speech(
+    OutputFormat, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return polly(
+        "POST",
+        "/v1/speech",
+        Dict{String,Any}(
+            "OutputFormat" => OutputFormat, "Text" => Text, "VoiceId" => VoiceId
+        );
+        aws_config=aws_config,
+    )
+end
+function synthesize_speech(
+    OutputFormat,
+    Text,
+    VoiceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return polly(
+        "POST",
+        "/v1/speech",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "OutputFormat" => OutputFormat, "Text" => Text, "VoiceId" => VoiceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

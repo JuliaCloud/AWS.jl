@@ -17,8 +17,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Optional, unique, case-sensitive, user-provided identifier to ensure the
   idempotency of the request.
 """
-create_workspace(; aws_config::AbstractAWSConfig=global_aws_config()) = amp("POST", "/workspaces", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-create_workspace(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("POST", "/workspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_workspace(; aws_config::AbstractAWSConfig=global_aws_config())
+    return amp(
+        "POST",
+        "/workspaces",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function create_workspace(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp(
+        "POST",
+        "/workspaces",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_workspace(workspace_id)
@@ -34,8 +52,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Optional, unique, case-sensitive, user-provided identifier to ensure the
   idempotency of the request.
 """
-delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-delete_workspace(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("DELETE", "/workspaces/$(workspaceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function delete_workspace(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp(
+        "DELETE",
+        "/workspaces/$(workspaceId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_workspace(workspace_id)
@@ -47,8 +85,16 @@ Describes an existing AMP workspace.
 - `workspace_id`: The ID of the workspace to describe.
 
 """
-describe_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces/$(workspaceId)"; aws_config=aws_config)
-describe_workspace(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces/$(workspaceId)", params; aws_config=aws_config)
+function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return amp("GET", "/workspaces/$(workspaceId)"; aws_config=aws_config)
+end
+function describe_workspace(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp("GET", "/workspaces/$(workspaceId)", params; aws_config=aws_config)
+end
 
 """
     list_workspaces()
@@ -64,8 +110,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Pagination token to request the next page in a paginated list. This token
   is obtained from the output of the previous ListWorkspaces request.
 """
-list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces"; aws_config=aws_config)
-list_workspaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("GET", "/workspaces", params; aws_config=aws_config)
+function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
+    return amp("GET", "/workspaces"; aws_config=aws_config)
+end
+function list_workspaces(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp("GET", "/workspaces", params; aws_config=aws_config)
+end
 
 """
     update_workspace_alias(workspace_id)
@@ -82,5 +134,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: Optional, unique, case-sensitive, user-provided identifier to ensure the
   idempotency of the request.
 """
-update_workspace_alias(workspaceId; aws_config::AbstractAWSConfig=global_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/alias", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-update_workspace_alias(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = amp("POST", "/workspaces/$(workspaceId)/alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function update_workspace_alias(
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/alias",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function update_workspace_alias(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amp(
+        "POST",
+        "/workspaces/$(workspaceId)/alias",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+    )
+end

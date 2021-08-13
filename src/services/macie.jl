@@ -15,8 +15,30 @@ Associates a specified AWS account with Amazon Macie Classic as a member account
   Macie Classic as a member account.
 
 """
-associate_member_account(memberAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie("AssociateMemberAccount", Dict{String, Any}("memberAccountId"=>memberAccountId); aws_config=aws_config)
-associate_member_account(memberAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie("AssociateMemberAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("memberAccountId"=>memberAccountId), params)); aws_config=aws_config)
+function associate_member_account(
+    memberAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie(
+        "AssociateMemberAccount",
+        Dict{String,Any}("memberAccountId" => memberAccountId);
+        aws_config=aws_config,
+    )
+end
+function associate_member_account(
+    memberAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie(
+        "AssociateMemberAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("memberAccountId" => memberAccountId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     associate_s3_resources(s3_resources)
@@ -37,8 +59,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"memberAccountId"`: The ID of the Amazon Macie Classic member account whose resources
   you want to associate with Macie Classic.
 """
-associate_s3_resources(s3Resources; aws_config::AbstractAWSConfig=global_aws_config()) = macie("AssociateS3Resources", Dict{String, Any}("s3Resources"=>s3Resources); aws_config=aws_config)
-associate_s3_resources(s3Resources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie("AssociateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3Resources"=>s3Resources), params)); aws_config=aws_config)
+function associate_s3_resources(
+    s3Resources; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie(
+        "AssociateS3Resources",
+        Dict{String,Any}("s3Resources" => s3Resources);
+        aws_config=aws_config,
+    )
+end
+function associate_s3_resources(
+    s3Resources,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie(
+        "AssociateS3Resources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("s3Resources" => s3Resources), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_member_account(member_account_id)
@@ -51,8 +93,30 @@ Removes the specified member account from Amazon Macie Classic.
   Macie Classic.
 
 """
-disassociate_member_account(memberAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = macie("DisassociateMemberAccount", Dict{String, Any}("memberAccountId"=>memberAccountId); aws_config=aws_config)
-disassociate_member_account(memberAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie("DisassociateMemberAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("memberAccountId"=>memberAccountId), params)); aws_config=aws_config)
+function disassociate_member_account(
+    memberAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie(
+        "DisassociateMemberAccount",
+        Dict{String,Any}("memberAccountId" => memberAccountId);
+        aws_config=aws_config,
+    )
+end
+function disassociate_member_account(
+    memberAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie(
+        "DisassociateMemberAccount",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("memberAccountId" => memberAccountId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_s3_resources(associated_s3_resources)
@@ -73,8 +137,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"memberAccountId"`: The ID of the Amazon Macie Classic member account whose resources
   you want to remove from being monitored by Macie Classic.
 """
-disassociate_s3_resources(associatedS3Resources; aws_config::AbstractAWSConfig=global_aws_config()) = macie("DisassociateS3Resources", Dict{String, Any}("associatedS3Resources"=>associatedS3Resources); aws_config=aws_config)
-disassociate_s3_resources(associatedS3Resources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie("DisassociateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associatedS3Resources"=>associatedS3Resources), params)); aws_config=aws_config)
+function disassociate_s3_resources(
+    associatedS3Resources; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie(
+        "DisassociateS3Resources",
+        Dict{String,Any}("associatedS3Resources" => associatedS3Resources);
+        aws_config=aws_config,
+    )
+end
+function disassociate_s3_resources(
+    associatedS3Resources,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie(
+        "DisassociateS3Resources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("associatedS3Resources" => associatedS3Resources),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_member_accounts()
@@ -92,8 +180,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the action fill nextToken in the request with the value of nextToken from the previous
   response to continue listing data.
 """
-list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = macie("ListMemberAccounts"; aws_config=aws_config)
-list_member_accounts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie("ListMemberAccounts", params; aws_config=aws_config)
+function list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
+    return macie("ListMemberAccounts"; aws_config=aws_config)
+end
+function list_member_accounts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie("ListMemberAccounts", params; aws_config=aws_config)
+end
 
 """
     list_s3_resources()
@@ -115,8 +209,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the request with the value of nextToken from the previous response to continue listing
   data.
 """
-list_s3_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = macie("ListS3Resources"; aws_config=aws_config)
-list_s3_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie("ListS3Resources", params; aws_config=aws_config)
+function list_s3_resources(; aws_config::AbstractAWSConfig=global_aws_config())
+    return macie("ListS3Resources"; aws_config=aws_config)
+end
+function list_s3_resources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie("ListS3Resources", params; aws_config=aws_config)
+end
 
 """
     update_s3_resources(s3_resources_update)
@@ -136,5 +236,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"memberAccountId"`: The AWS ID of the Amazon Macie Classic member account whose S3
   resources' classification types you want to update.
 """
-update_s3_resources(s3ResourcesUpdate; aws_config::AbstractAWSConfig=global_aws_config()) = macie("UpdateS3Resources", Dict{String, Any}("s3ResourcesUpdate"=>s3ResourcesUpdate); aws_config=aws_config)
-update_s3_resources(s3ResourcesUpdate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = macie("UpdateS3Resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3ResourcesUpdate"=>s3ResourcesUpdate), params)); aws_config=aws_config)
+function update_s3_resources(
+    s3ResourcesUpdate; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return macie(
+        "UpdateS3Resources",
+        Dict{String,Any}("s3ResourcesUpdate" => s3ResourcesUpdate);
+        aws_config=aws_config,
+    )
+end
+function update_s3_resources(
+    s3ResourcesUpdate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return macie(
+        "UpdateS3Resources",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("s3ResourcesUpdate" => s3ResourcesUpdate), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

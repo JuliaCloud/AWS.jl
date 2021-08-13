@@ -18,8 +18,35 @@ Retrieves the group metadata and attributes from GroupId in an identity store.
   that a new identity store is created.
 
 """
-describe_group(GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = identitystore("DescribeGroup", Dict{String, Any}("GroupId"=>GroupId, "IdentityStoreId"=>IdentityStoreId); aws_config=aws_config)
-describe_group(GroupId, IdentityStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = identitystore("DescribeGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "IdentityStoreId"=>IdentityStoreId), params)); aws_config=aws_config)
+function describe_group(
+    GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return identitystore(
+        "DescribeGroup",
+        Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
+        aws_config=aws_config,
+    )
+end
+function describe_group(
+    GroupId,
+    IdentityStoreId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return identitystore(
+        "DescribeGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_user(identity_store_id, user_id)
@@ -35,8 +62,33 @@ Retrieves the user metadata and attributes from UserId in an identity store.
 - `user_id`: The identifier for a user in the identity store.
 
 """
-describe_user(IdentityStoreId, UserId; aws_config::AbstractAWSConfig=global_aws_config()) = identitystore("DescribeUser", Dict{String, Any}("IdentityStoreId"=>IdentityStoreId, "UserId"=>UserId); aws_config=aws_config)
-describe_user(IdentityStoreId, UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = identitystore("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityStoreId"=>IdentityStoreId, "UserId"=>UserId), params)); aws_config=aws_config)
+function describe_user(
+    IdentityStoreId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return identitystore(
+        "DescribeUser",
+        Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "UserId" => UserId);
+        aws_config=aws_config,
+    )
+end
+function describe_user(
+    IdentityStoreId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return identitystore(
+        "DescribeUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "UserId" => UserId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_groups(identity_store_id)
@@ -65,8 +117,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the total results are more than the size of one page. This token is also returned when
   it is used in the API request to search for the next page.
 """
-list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = identitystore("ListGroups", Dict{String, Any}("IdentityStoreId"=>IdentityStoreId); aws_config=aws_config)
-list_groups(IdentityStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = identitystore("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityStoreId"=>IdentityStoreId), params)); aws_config=aws_config)
+function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config())
+    return identitystore(
+        "ListGroups",
+        Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
+        aws_config=aws_config,
+    )
+end
+function list_groups(
+    IdentityStoreId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return identitystore(
+        "ListGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("IdentityStoreId" => IdentityStoreId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_users(identity_store_id)
@@ -94,5 +166,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the total results are more than the size of one page. This token is also returned when
   it is used in the API request to search for the next page.
 """
-list_users(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config()) = identitystore("ListUsers", Dict{String, Any}("IdentityStoreId"=>IdentityStoreId); aws_config=aws_config)
-list_users(IdentityStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = identitystore("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityStoreId"=>IdentityStoreId), params)); aws_config=aws_config)
+function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config())
+    return identitystore(
+        "ListUsers",
+        Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
+        aws_config=aws_config,
+    )
+end
+function list_users(
+    IdentityStoreId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return identitystore(
+        "ListUsers",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("IdentityStoreId" => IdentityStoreId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

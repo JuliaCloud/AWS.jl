@@ -21,8 +21,34 @@ Amazon Route 53 Application Recovery Controller cluster data plane.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique client idempotency token.
 """
-create_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("POST", "/cluster", Dict{String, Any}("ClusterName"=>ClusterName, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_cluster(ClusterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("POST", "/cluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config(
+        "POST",
+        "/cluster",
+        Dict{String,Any}("ClusterName" => ClusterName, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function create_cluster(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "POST",
+        "/cluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterName" => ClusterName, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_control_panel(cluster_arn, control_panel_name)
@@ -42,8 +68,43 @@ Region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Unique client idempotency token.
 """
-create_control_panel(ClusterArn, ControlPanelName; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("POST", "/controlpanel", Dict{String, Any}("ClusterArn"=>ClusterArn, "ControlPanelName"=>ControlPanelName, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_control_panel(ClusterArn, ControlPanelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("POST", "/controlpanel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterArn"=>ClusterArn, "ControlPanelName"=>ControlPanelName, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_control_panel(
+    ClusterArn, ControlPanelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "POST",
+        "/controlpanel",
+        Dict{String,Any}(
+            "ClusterArn" => ClusterArn,
+            "ControlPanelName" => ControlPanelName,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_control_panel(
+    ClusterArn,
+    ControlPanelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "POST",
+        "/controlpanel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterArn" => ClusterArn,
+                    "ControlPanelName" => ControlPanelName,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_routing_control(cluster_arn, routing_control_name)
@@ -66,8 +127,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ControlPanelArn"`: The Amazon Resource Name (ARN) of the control panel that includes
   the routing control.
 """
-create_routing_control(ClusterArn, RoutingControlName; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("POST", "/routingcontrol", Dict{String, Any}("ClusterArn"=>ClusterArn, "RoutingControlName"=>RoutingControlName, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_routing_control(ClusterArn, RoutingControlName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("POST", "/routingcontrol", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterArn"=>ClusterArn, "RoutingControlName"=>RoutingControlName, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_routing_control(
+    ClusterArn, RoutingControlName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "POST",
+        "/routingcontrol",
+        Dict{String,Any}(
+            "ClusterArn" => ClusterArn,
+            "RoutingControlName" => RoutingControlName,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_routing_control(
+    ClusterArn,
+    RoutingControlName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "POST",
+        "/routingcontrol",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterArn" => ClusterArn,
+                    "RoutingControlName" => RoutingControlName,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_safety_rule()
@@ -89,8 +185,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Unique client idempotency token.
 - `"GatingRule"`:
 """
-create_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("POST", "/safetyrule", Dict{String, Any}("ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_safety_rule(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("POST", "/safetyrule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config(
+        "POST",
+        "/safetyrule",
+        Dict{String,Any}("ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function create_safety_rule(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "POST",
+        "/safetyrule",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cluster(cluster_arn)
@@ -102,8 +216,20 @@ Delete a cluster.
 - `cluster_arn`: The Amazon Resource Name (ARN) of the cluster that you're deleting.
 
 """
-delete_cluster(ClusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("DELETE", "/cluster/$(ClusterArn)"; aws_config=aws_config)
-delete_cluster(ClusterArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("DELETE", "/cluster/$(ClusterArn)", params; aws_config=aws_config)
+function delete_cluster(ClusterArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config(
+        "DELETE", "/cluster/$(ClusterArn)"; aws_config=aws_config
+    )
+end
+function delete_cluster(
+    ClusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "DELETE", "/cluster/$(ClusterArn)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_control_panel(control_panel_arn)
@@ -116,8 +242,22 @@ Deletes a control panel.
   deleting.
 
 """
-delete_control_panel(ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("DELETE", "/controlpanel/$(ControlPanelArn)"; aws_config=aws_config)
-delete_control_panel(ControlPanelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("DELETE", "/controlpanel/$(ControlPanelArn)", params; aws_config=aws_config)
+function delete_control_panel(
+    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "DELETE", "/controlpanel/$(ControlPanelArn)"; aws_config=aws_config
+    )
+end
+function delete_control_panel(
+    ControlPanelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "DELETE", "/controlpanel/$(ControlPanelArn)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_routing_control(routing_control_arn)
@@ -130,8 +270,22 @@ Deletes a routing control.
   deleting.
 
 """
-delete_routing_control(RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("DELETE", "/routingcontrol/$(RoutingControlArn)"; aws_config=aws_config)
-delete_routing_control(RoutingControlArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("DELETE", "/routingcontrol/$(RoutingControlArn)", params; aws_config=aws_config)
+function delete_routing_control(
+    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "DELETE", "/routingcontrol/$(RoutingControlArn)"; aws_config=aws_config
+    )
+end
+function delete_routing_control(
+    RoutingControlArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "DELETE", "/routingcontrol/$(RoutingControlArn)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_safety_rule(safety_rule_arn)
@@ -143,8 +297,22 @@ Deletes a safety rule./&gt;
 - `safety_rule_arn`: The request body that you include when you update a safety rule.
 
 """
-delete_safety_rule(SafetyRuleArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("DELETE", "/safetyrule/$(SafetyRuleArn)"; aws_config=aws_config)
-delete_safety_rule(SafetyRuleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("DELETE", "/safetyrule/$(SafetyRuleArn)", params; aws_config=aws_config)
+function delete_safety_rule(
+    SafetyRuleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "DELETE", "/safetyrule/$(SafetyRuleArn)"; aws_config=aws_config
+    )
+end
+function delete_safety_rule(
+    SafetyRuleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "DELETE", "/safetyrule/$(SafetyRuleArn)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_cluster(cluster_arn)
@@ -158,8 +326,20 @@ status, and Amazon Resource Name (ARN).
   for.
 
 """
-describe_cluster(ClusterArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/cluster/$(ClusterArn)"; aws_config=aws_config)
-describe_cluster(ClusterArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/cluster/$(ClusterArn)", params; aws_config=aws_config)
+function describe_cluster(ClusterArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config(
+        "GET", "/cluster/$(ClusterArn)"; aws_config=aws_config
+    )
+end
+function describe_cluster(
+    ClusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET", "/cluster/$(ClusterArn)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_control_panel(control_panel_arn)
@@ -172,8 +352,22 @@ Displays details about a control panel.
   getting details for.
 
 """
-describe_control_panel(ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/controlpanel/$(ControlPanelArn)"; aws_config=aws_config)
-describe_control_panel(ControlPanelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/controlpanel/$(ControlPanelArn)", params; aws_config=aws_config)
+function describe_control_panel(
+    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "GET", "/controlpanel/$(ControlPanelArn)"; aws_config=aws_config
+    )
+end
+function describe_control_panel(
+    ControlPanelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET", "/controlpanel/$(ControlPanelArn)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_routing_control(routing_control_arn)
@@ -190,8 +384,22 @@ Controller.
   getting details for.
 
 """
-describe_routing_control(RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/routingcontrol/$(RoutingControlArn)"; aws_config=aws_config)
-describe_routing_control(RoutingControlArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/routingcontrol/$(RoutingControlArn)", params; aws_config=aws_config)
+function describe_routing_control(
+    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "GET", "/routingcontrol/$(RoutingControlArn)"; aws_config=aws_config
+    )
+end
+function describe_routing_control(
+    RoutingControlArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET", "/routingcontrol/$(RoutingControlArn)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_safety_rule(safety_rule_arn)
@@ -204,8 +412,22 @@ controls in a control panel.
 - `safety_rule_arn`: The request body that you include when you update a safety rule.
 
 """
-describe_safety_rule(SafetyRuleArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/safetyrule/$(SafetyRuleArn)"; aws_config=aws_config)
-describe_safety_rule(SafetyRuleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/safetyrule/$(SafetyRuleArn)", params; aws_config=aws_config)
+function describe_safety_rule(
+    SafetyRuleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "GET", "/safetyrule/$(SafetyRuleArn)"; aws_config=aws_config
+    )
+end
+function describe_safety_rule(
+    SafetyRuleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET", "/safetyrule/$(SafetyRuleArn)", params; aws_config=aws_config
+    )
+end
 
 """
     list_associated_route53_health_checks(routing_control_arn)
@@ -223,8 +445,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_associated_route53_health_checks(RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/routingcontrol/$(RoutingControlArn)/associatedRoute53HealthChecks"; aws_config=aws_config)
-list_associated_route53_health_checks(RoutingControlArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/routingcontrol/$(RoutingControlArn)/associatedRoute53HealthChecks", params; aws_config=aws_config)
+function list_associated_route53_health_checks(
+    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "GET",
+        "/routingcontrol/$(RoutingControlArn)/associatedRoute53HealthChecks";
+        aws_config=aws_config,
+    )
+end
+function list_associated_route53_health_checks(
+    RoutingControlArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET",
+        "/routingcontrol/$(RoutingControlArn)/associatedRoute53HealthChecks",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_clusters()
@@ -237,8 +478,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/cluster"; aws_config=aws_config)
-list_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/cluster", params; aws_config=aws_config)
+function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config("GET", "/cluster"; aws_config=aws_config)
+end
+function list_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config("GET", "/cluster", params; aws_config=aws_config)
+end
 
 """
     list_control_panels()
@@ -252,8 +499,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_control_panels(; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/controlpanels"; aws_config=aws_config)
-list_control_panels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/controlpanels", params; aws_config=aws_config)
+function list_control_panels(; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config("GET", "/controlpanels"; aws_config=aws_config)
+end
+function list_control_panels(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "GET", "/controlpanels", params; aws_config=aws_config
+    )
+end
 
 """
     list_routing_controls(control_panel_arn)
@@ -273,8 +528,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_routing_controls(ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/controlpanel/$(ControlPanelArn)/routingcontrols"; aws_config=aws_config)
-list_routing_controls(ControlPanelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/controlpanel/$(ControlPanelArn)/routingcontrols", params; aws_config=aws_config)
+function list_routing_controls(
+    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "GET", "/controlpanel/$(ControlPanelArn)/routingcontrols"; aws_config=aws_config
+    )
+end
+function list_routing_controls(
+    ControlPanelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET",
+        "/controlpanel/$(ControlPanelArn)/routingcontrols",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_safety_rules(control_panel_arn)
@@ -292,8 +564,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_safety_rules(ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/controlpanel/$(ControlPanelArn)/safetyrules"; aws_config=aws_config)
-list_safety_rules(ControlPanelArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("GET", "/controlpanel/$(ControlPanelArn)/safetyrules", params; aws_config=aws_config)
+function list_safety_rules(
+    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "GET", "/controlpanel/$(ControlPanelArn)/safetyrules"; aws_config=aws_config
+    )
+end
+function list_safety_rules(
+    ControlPanelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET", "/controlpanel/$(ControlPanelArn)/safetyrules", params; aws_config=aws_config
+    )
+end
 
 """
     update_control_panel(control_panel_arn, control_panel_name)
@@ -307,8 +593,40 @@ name of the control panel.
 - `control_panel_name`: The name of the control panel.
 
 """
-update_control_panel(ControlPanelArn, ControlPanelName; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("PUT", "/controlpanel", Dict{String, Any}("ControlPanelArn"=>ControlPanelArn, "ControlPanelName"=>ControlPanelName); aws_config=aws_config)
-update_control_panel(ControlPanelArn, ControlPanelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("PUT", "/controlpanel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ControlPanelArn"=>ControlPanelArn, "ControlPanelName"=>ControlPanelName), params)); aws_config=aws_config)
+function update_control_panel(
+    ControlPanelArn, ControlPanelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "PUT",
+        "/controlpanel",
+        Dict{String,Any}(
+            "ControlPanelArn" => ControlPanelArn, "ControlPanelName" => ControlPanelName
+        );
+        aws_config=aws_config,
+    )
+end
+function update_control_panel(
+    ControlPanelArn,
+    ControlPanelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "PUT",
+        "/controlpanel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ControlPanelArn" => ControlPanelArn,
+                    "ControlPanelName" => ControlPanelName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_routing_control(routing_control_arn, routing_control_name)
@@ -323,8 +641,41 @@ Amazon Route 53 Application Recovery Controller.
 - `routing_control_name`: The name of the routing control.
 
 """
-update_routing_control(RoutingControlArn, RoutingControlName; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("PUT", "/routingcontrol", Dict{String, Any}("RoutingControlArn"=>RoutingControlArn, "RoutingControlName"=>RoutingControlName); aws_config=aws_config)
-update_routing_control(RoutingControlArn, RoutingControlName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("PUT", "/routingcontrol", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingControlArn"=>RoutingControlArn, "RoutingControlName"=>RoutingControlName), params)); aws_config=aws_config)
+function update_routing_control(
+    RoutingControlArn, RoutingControlName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "PUT",
+        "/routingcontrol",
+        Dict{String,Any}(
+            "RoutingControlArn" => RoutingControlArn,
+            "RoutingControlName" => RoutingControlName,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_routing_control(
+    RoutingControlArn,
+    RoutingControlName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "PUT",
+        "/routingcontrol",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RoutingControlArn" => RoutingControlArn,
+                    "RoutingControlName" => RoutingControlName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_safety_rule()
@@ -339,5 +690,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssertionRuleUpdate"`:
 - `"GatingRuleUpdate"`:
 """
-update_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("PUT", "/safetyrule"; aws_config=aws_config)
-update_safety_rule(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_control_config("PUT", "/safetyrule", params; aws_config=aws_config)
+function update_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config("PUT", "/safetyrule"; aws_config=aws_config)
+end
+function update_safety_rule(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_control_config(
+        "PUT", "/safetyrule", params; aws_config=aws_config
+    )
+end

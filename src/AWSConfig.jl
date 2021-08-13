@@ -8,14 +8,10 @@ end
 credentials(aws::AWSConfig) = aws.credentials
 region(aws::AWSConfig) = aws.region
 
-
 function AWSConfig(;
-    profile=nothing,
-    creds=AWSCredentials(profile=profile),
-    region=nothing,
-    output="json",
+    profile=nothing, creds=AWSCredentials(; profile=profile), region=nothing, output="json"
 )
-    region = @something region aws_get_region(profile=profile)
+    region = @something region aws_get_region(; profile=profile)
     return AWSConfig(creds, region, output)
 end
 

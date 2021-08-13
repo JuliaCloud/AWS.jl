@@ -27,8 +27,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContactChannelId"`: The ARN of the contact channel.
 - `"Note"`: Information provided by the user when the user acknowledges the page.
 """
-accept_page(AcceptCode, AcceptType, PageId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("AcceptPage", Dict{String, Any}("AcceptCode"=>AcceptCode, "AcceptType"=>AcceptType, "PageId"=>PageId); aws_config=aws_config)
-accept_page(AcceptCode, AcceptType, PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("AcceptPage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceptCode"=>AcceptCode, "AcceptType"=>AcceptType, "PageId"=>PageId), params)); aws_config=aws_config)
+function accept_page(
+    AcceptCode, AcceptType, PageId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "AcceptPage",
+        Dict{String,Any}(
+            "AcceptCode" => AcceptCode, "AcceptType" => AcceptType, "PageId" => PageId
+        );
+        aws_config=aws_config,
+    )
+end
+function accept_page(
+    AcceptCode,
+    AcceptType,
+    PageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "AcceptPage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AcceptCode" => AcceptCode,
+                    "AcceptType" => AcceptType,
+                    "PageId" => PageId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     activate_contact_channel(activation_code, contact_channel_id)
@@ -43,8 +75,38 @@ contact channel has been activated.
 - `contact_channel_id`: The Amazon Resource Name (ARN) of the contact channel.
 
 """
-activate_contact_channel(ActivationCode, ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ActivateContactChannel", Dict{String, Any}("ActivationCode"=>ActivationCode, "ContactChannelId"=>ContactChannelId); aws_config=aws_config)
-activate_contact_channel(ActivationCode, ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ActivateContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationCode"=>ActivationCode, "ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config)
+function activate_contact_channel(
+    ActivationCode, ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "ActivateContactChannel",
+        Dict{String,Any}(
+            "ActivationCode" => ActivationCode, "ContactChannelId" => ContactChannelId
+        );
+        aws_config=aws_config,
+    )
+end
+function activate_contact_channel(
+    ActivationCode,
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ActivateContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ActivationCode" => ActivationCode,
+                    "ContactChannelId" => ContactChannelId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_contact(alias, plan, type)
@@ -69,8 +131,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Adds a tag to the target. You can only tag resources created in the first
   Region of your replication set.
 """
-create_contact(Alias, Plan, Type; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("CreateContact", Dict{String, Any}("Alias"=>Alias, "Plan"=>Plan, "Type"=>Type, "IdempotencyToken"=>string(uuid4())); aws_config=aws_config)
-create_contact(Alias, Plan, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("CreateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "Plan"=>Plan, "Type"=>Type, "IdempotencyToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_contact(
+    Alias, Plan, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "CreateContact",
+        Dict{String,Any}(
+            "Alias" => Alias,
+            "Plan" => Plan,
+            "Type" => Type,
+            "IdempotencyToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_contact(
+    Alias,
+    Plan,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "CreateContact",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Alias" => Alias,
+                    "Plan" => Plan,
+                    "Type" => Type,
+                    "IdempotencyToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_contact_channel(contact_id, delivery_address, name, type)
@@ -97,8 +195,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IdempotencyToken"`: A token ensuring that the action is called only once with the
   specified details.
 """
-create_contact_channel(ContactId, DeliveryAddress, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("CreateContactChannel", Dict{String, Any}("ContactId"=>ContactId, "DeliveryAddress"=>DeliveryAddress, "Name"=>Name, "Type"=>Type, "IdempotencyToken"=>string(uuid4())); aws_config=aws_config)
-create_contact_channel(ContactId, DeliveryAddress, Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("CreateContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "DeliveryAddress"=>DeliveryAddress, "Name"=>Name, "Type"=>Type, "IdempotencyToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_contact_channel(
+    ContactId,
+    DeliveryAddress,
+    Name,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "CreateContactChannel",
+        Dict{String,Any}(
+            "ContactId" => ContactId,
+            "DeliveryAddress" => DeliveryAddress,
+            "Name" => Name,
+            "Type" => Type,
+            "IdempotencyToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_contact_channel(
+    ContactId,
+    DeliveryAddress,
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "CreateContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "DeliveryAddress" => DeliveryAddress,
+                    "Name" => Name,
+                    "Type" => Type,
+                    "IdempotencyToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     deactivate_contact_channel(contact_channel_id)
@@ -112,8 +253,30 @@ the channel.
   deactivating.
 
 """
-deactivate_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DeactivateContactChannel", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config)
-deactivate_contact_channel(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DeactivateContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config)
+function deactivate_contact_channel(
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "DeactivateContactChannel",
+        Dict{String,Any}("ContactChannelId" => ContactChannelId);
+        aws_config=aws_config,
+    )
+end
+function deactivate_contact_channel(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "DeactivateContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_contact(contact_id)
@@ -128,8 +291,24 @@ its contact channels before you can use it again.
 - `contact_id`: The Amazon Resource Name (ARN) of the contact that you're deleting.
 
 """
-delete_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DeleteContact", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config)
-delete_contact(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DeleteContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config)
+function delete_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "DeleteContact", Dict{String,Any}("ContactId" => ContactId); aws_config=aws_config
+    )
+end
+function delete_contact(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "DeleteContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_contact_channel(contact_channel_id)
@@ -144,8 +323,30 @@ during an incident.
 - `contact_channel_id`: The Amazon Resource Name (ARN) of the contact channel.
 
 """
-delete_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DeleteContactChannel", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config)
-delete_contact_channel(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DeleteContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config)
+function delete_contact_channel(
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "DeleteContactChannel",
+        Dict{String,Any}("ContactChannelId" => ContactChannelId);
+        aws_config=aws_config,
+    )
+end
+function delete_contact_channel(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "DeleteContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_engagement(engagement_id)
@@ -158,8 +359,28 @@ incident. Use this command to describe the engagement that occurred during an in
 - `engagement_id`: The Amazon Resource Name (ARN) of the engagement you want the details of.
 
 """
-describe_engagement(EngagementId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DescribeEngagement", Dict{String, Any}("EngagementId"=>EngagementId); aws_config=aws_config)
-describe_engagement(EngagementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DescribeEngagement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngagementId"=>EngagementId), params)); aws_config=aws_config)
+function describe_engagement(
+    EngagementId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "DescribeEngagement",
+        Dict{String,Any}("EngagementId" => EngagementId);
+        aws_config=aws_config,
+    )
+end
+function describe_engagement(
+    EngagementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "DescribeEngagement",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_page(page_id)
@@ -171,8 +392,20 @@ Lists details of the engagement to a contact channel.
 - `page_id`: The ID of the engagement to a contact channel.
 
 """
-describe_page(PageId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DescribePage", Dict{String, Any}("PageId"=>PageId); aws_config=aws_config)
-describe_page(PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("DescribePage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PageId"=>PageId), params)); aws_config=aws_config)
+function describe_page(PageId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "DescribePage", Dict{String,Any}("PageId" => PageId); aws_config=aws_config
+    )
+end
+function describe_page(
+    PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "DescribePage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_contact(contact_id)
@@ -184,8 +417,24 @@ Retrieves information about the specified contact or escalation plan.
 - `contact_id`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 
 """
-get_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("GetContact", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config)
-get_contact(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("GetContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config)
+function get_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "GetContact", Dict{String,Any}("ContactId" => ContactId); aws_config=aws_config
+    )
+end
+function get_contact(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "GetContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_contact_channel(contact_channel_id)
@@ -198,8 +447,30 @@ List details about a specific contact channel.
   information about.
 
 """
-get_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("GetContactChannel", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config)
-get_contact_channel(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("GetContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config)
+function get_contact_channel(
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "GetContactChannel",
+        Dict{String,Any}("ContactChannelId" => ContactChannelId);
+        aws_config=aws_config,
+    )
+end
+function get_contact_channel(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "GetContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_contact_policy(contact_arn)
@@ -211,8 +482,26 @@ Retrieves the resource policies attached to the specified contact or escalation 
 - `contact_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 
 """
-get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("GetContactPolicy", Dict{String, Any}("ContactArn"=>ContactArn); aws_config=aws_config)
-get_contact_policy(ContactArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("GetContactPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn), params)); aws_config=aws_config)
+function get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "GetContactPolicy",
+        Dict{String,Any}("ContactArn" => ContactArn);
+        aws_config=aws_config,
+    )
+end
+function get_contact_policy(
+    ContactArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "GetContactPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactArn" => ContactArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_contact_channels(contact_id)
@@ -228,8 +517,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of contact channels per page.
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
-list_contact_channels(ContactId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListContactChannels", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config)
-list_contact_channels(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListContactChannels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config)
+function list_contact_channels(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "ListContactChannels",
+        Dict{String,Any}("ContactId" => ContactId);
+        aws_config=aws_config,
+    )
+end
+function list_contact_channels(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ListContactChannels",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_contacts()
@@ -245,8 +552,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The type of contact. A contact is type PERSONAL and an escalation plan is type
   ESCALATION.
 """
-list_contacts(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListContacts"; aws_config=aws_config)
-list_contacts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListContacts", params; aws_config=aws_config)
+function list_contacts(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts("ListContacts"; aws_config=aws_config)
+end
+function list_contacts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts("ListContacts", params; aws_config=aws_config)
+end
 
 """
     list_engagements()
@@ -262,8 +575,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to continue to the next page of results.
 - `"TimeRangeValue"`: The time range to lists engagements for an incident.
 """
-list_engagements(; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListEngagements"; aws_config=aws_config)
-list_engagements(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListEngagements", params; aws_config=aws_config)
+function list_engagements(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts("ListEngagements"; aws_config=aws_config)
+end
+function list_engagements(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts("ListEngagements", params; aws_config=aws_config)
+end
 
 """
     list_page_receipts(page_id)
@@ -279,8 +598,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of acknowledgements per page of results.
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
-list_page_receipts(PageId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListPageReceipts", Dict{String, Any}("PageId"=>PageId); aws_config=aws_config)
-list_page_receipts(PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListPageReceipts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PageId"=>PageId), params)); aws_config=aws_config)
+function list_page_receipts(PageId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "ListPageReceipts", Dict{String,Any}("PageId" => PageId); aws_config=aws_config
+    )
+end
+function list_page_receipts(
+    PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "ListPageReceipts",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_pages_by_contact(contact_id)
@@ -298,8 +629,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
-list_pages_by_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListPagesByContact", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config)
-list_pages_by_contact(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListPagesByContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config)
+function list_pages_by_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "ListPagesByContact",
+        Dict{String,Any}("ContactId" => ContactId);
+        aws_config=aws_config,
+    )
+end
+function list_pages_by_contact(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ListPagesByContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_pages_by_engagement(engagement_id)
@@ -316,8 +665,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 - `"NextToken"`: The pagination token to continue to the next page of results.
 """
-list_pages_by_engagement(EngagementId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListPagesByEngagement", Dict{String, Any}("EngagementId"=>EngagementId); aws_config=aws_config)
-list_pages_by_engagement(EngagementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListPagesByEngagement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngagementId"=>EngagementId), params)); aws_config=aws_config)
+function list_pages_by_engagement(
+    EngagementId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "ListPagesByEngagement",
+        Dict{String,Any}("EngagementId" => EngagementId);
+        aws_config=aws_config,
+    )
+end
+function list_pages_by_engagement(
+    EngagementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ListPagesByEngagement",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -329,8 +698,28 @@ Lists the tags of an escalation plan or contact.
 - `resource_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_contact_policy(contact_arn, policy)
@@ -343,8 +732,33 @@ Adds a resource to the specified contact or escalation plan.
 - `policy`: Details of the resource policy.
 
 """
-put_contact_policy(ContactArn, Policy; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("PutContactPolicy", Dict{String, Any}("ContactArn"=>ContactArn, "Policy"=>Policy); aws_config=aws_config)
-put_contact_policy(ContactArn, Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("PutContactPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactArn"=>ContactArn, "Policy"=>Policy), params)); aws_config=aws_config)
+function put_contact_policy(
+    ContactArn, Policy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "PutContactPolicy",
+        Dict{String,Any}("ContactArn" => ContactArn, "Policy" => Policy);
+        aws_config=aws_config,
+    )
+end
+function put_contact_policy(
+    ContactArn,
+    Policy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "PutContactPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ContactArn" => ContactArn, "Policy" => Policy),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     send_activation_code(contact_channel_id)
@@ -358,8 +772,30 @@ can't engage a contact channel until it has been activated.
 - `contact_channel_id`: The Amazon Resource Name (ARN) of the contact channel.
 
 """
-send_activation_code(ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("SendActivationCode", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config)
-send_activation_code(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("SendActivationCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config)
+function send_activation_code(
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "SendActivationCode",
+        Dict{String,Any}("ContactChannelId" => ContactChannelId);
+        aws_config=aws_config,
+    )
+end
+function send_activation_code(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "SendActivationCode",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_engagement(contact_id, content, sender, subject)
@@ -386,8 +822,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PublicSubject"`: The insecure subject of the message that was sent to the contact. Use
   this field for engagements to SMS.
 """
-start_engagement(ContactId, Content, Sender, Subject; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("StartEngagement", Dict{String, Any}("ContactId"=>ContactId, "Content"=>Content, "Sender"=>Sender, "Subject"=>Subject, "IdempotencyToken"=>string(uuid4())); aws_config=aws_config)
-start_engagement(ContactId, Content, Sender, Subject, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("StartEngagement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId, "Content"=>Content, "Sender"=>Sender, "Subject"=>Subject, "IdempotencyToken"=>string(uuid4())), params)); aws_config=aws_config)
+function start_engagement(
+    ContactId, Content, Sender, Subject; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "StartEngagement",
+        Dict{String,Any}(
+            "ContactId" => ContactId,
+            "Content" => Content,
+            "Sender" => Sender,
+            "Subject" => Subject,
+            "IdempotencyToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function start_engagement(
+    ContactId,
+    Content,
+    Sender,
+    Subject,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "StartEngagement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "Content" => Content,
+                    "Sender" => Sender,
+                    "Subject" => Subject,
+                    "IdempotencyToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_engagement(engagement_id)
@@ -403,8 +878,26 @@ plan. Further contacts aren't engaged.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Reason"`: The reason that you're stopping the engagement.
 """
-stop_engagement(EngagementId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("StopEngagement", Dict{String, Any}("EngagementId"=>EngagementId); aws_config=aws_config)
-stop_engagement(EngagementId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("StopEngagement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EngagementId"=>EngagementId), params)); aws_config=aws_config)
+function stop_engagement(EngagementId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "StopEngagement",
+        Dict{String,Any}("EngagementId" => EngagementId);
+        aws_config=aws_config,
+    )
+end
+function stop_engagement(
+    EngagementId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "StopEngagement",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EngagementId" => EngagementId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -418,8 +911,31 @@ first region of your replication set.
 - `tags`: A list of tags that you are adding to the contact or escalation plan.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -432,8 +948,33 @@ Removes tags from the specified resource.
 - `tag_keys`: The key of the tag that you want to remove.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_contact(contact_id)
@@ -451,8 +992,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Plan"`: A list of stages. A contact has an engagement plan with stages for specified
   contact channels. An escalation plan uses these stages to contact specified contacts.
 """
-update_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("UpdateContact", Dict{String, Any}("ContactId"=>ContactId); aws_config=aws_config)
-update_contact(ContactId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("UpdateContact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactId"=>ContactId), params)); aws_config=aws_config)
+function update_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "UpdateContact", Dict{String,Any}("ContactId" => ContactId); aws_config=aws_config
+    )
+end
+function update_contact(
+    ContactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "UpdateContact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ContactId" => ContactId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_contact_channel(contact_channel_id)
@@ -470,5 +1027,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contact channel.
 - `"Name"`: The name of the contact channel
 """
-update_contact_channel(ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("UpdateContactChannel", Dict{String, Any}("ContactChannelId"=>ContactChannelId); aws_config=aws_config)
-update_contact_channel(ContactChannelId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ssm_contacts("UpdateContactChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContactChannelId"=>ContactChannelId), params)); aws_config=aws_config)
+function update_contact_channel(
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "UpdateContactChannel",
+        Dict{String,Any}("ContactChannelId" => ContactChannelId);
+        aws_config=aws_config,
+    )
+end
+function update_contact_channel(
+    ContactChannelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "UpdateContactChannel",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

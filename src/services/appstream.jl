@@ -15,8 +15,33 @@ Associates the specified fleet with the specified stack.
 - `stack_name`: The name of the stack.
 
 """
-associate_fleet(FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("AssociateFleet", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws_config=aws_config)
-associate_fleet(FleetName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("AssociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config)
+function associate_fleet(
+    FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "AssociateFleet",
+        Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
+        aws_config=aws_config,
+    )
+end
+function associate_fleet(
+    FleetName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "AssociateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_associate_user_stack(user_stack_associations)
@@ -29,8 +54,32 @@ assigned to stacks with fleets that are joined to an Active Directory domain.
 - `user_stack_associations`: The list of UserStackAssociation objects.
 
 """
-batch_associate_user_stack(UserStackAssociations; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("BatchAssociateUserStack", Dict{String, Any}("UserStackAssociations"=>UserStackAssociations); aws_config=aws_config)
-batch_associate_user_stack(UserStackAssociations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("BatchAssociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), params)); aws_config=aws_config)
+function batch_associate_user_stack(
+    UserStackAssociations; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "BatchAssociateUserStack",
+        Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
+        aws_config=aws_config,
+    )
+end
+function batch_associate_user_stack(
+    UserStackAssociations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "BatchAssociateUserStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("UserStackAssociations" => UserStackAssociations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_disassociate_user_stack(user_stack_associations)
@@ -42,8 +91,32 @@ Disassociates the specified users from the specified stacks.
 - `user_stack_associations`: The list of UserStackAssociation objects.
 
 """
-batch_disassociate_user_stack(UserStackAssociations; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("BatchDisassociateUserStack", Dict{String, Any}("UserStackAssociations"=>UserStackAssociations); aws_config=aws_config)
-batch_disassociate_user_stack(UserStackAssociations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("BatchDisassociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), params)); aws_config=aws_config)
+function batch_disassociate_user_stack(
+    UserStackAssociations; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "BatchDisassociateUserStack",
+        Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
+        aws_config=aws_config,
+    )
+end
+function batch_disassociate_user_stack(
+    UserStackAssociations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "BatchDisassociateUserStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("UserStackAssociations" => UserStackAssociations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     copy_image(destination_image_name, destination_region, source_image_name)
@@ -64,8 +137,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationImageDescription"`: The description that the image will have when it is
   copied to the destination.
 """
-copy_image(DestinationImageName, DestinationRegion, SourceImageName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CopyImage", Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName); aws_config=aws_config)
-copy_image(DestinationImageName, DestinationRegion, SourceImageName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName), params)); aws_config=aws_config)
+function copy_image(
+    DestinationImageName,
+    DestinationRegion,
+    SourceImageName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CopyImage",
+        Dict{String,Any}(
+            "DestinationImageName" => DestinationImageName,
+            "DestinationRegion" => DestinationRegion,
+            "SourceImageName" => SourceImageName,
+        );
+        aws_config=aws_config,
+    )
+end
+function copy_image(
+    DestinationImageName,
+    DestinationRegion,
+    SourceImageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CopyImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationImageName" => DestinationImageName,
+                    "DestinationRegion" => DestinationRegion,
+                    "SourceImageName" => SourceImageName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_directory_config(directory_name, organizational_unit_distinguished_names)
@@ -86,8 +196,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
-create_directory_config(DirectoryName, OrganizationalUnitDistinguishedNames; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames); aws_config=aws_config)
-create_directory_config(DirectoryName, OrganizationalUnitDistinguishedNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames), params)); aws_config=aws_config)
+function create_directory_config(
+    DirectoryName,
+    OrganizationalUnitDistinguishedNames;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateDirectoryConfig",
+        Dict{String,Any}(
+            "DirectoryName" => DirectoryName,
+            "OrganizationalUnitDistinguishedNames" => OrganizationalUnitDistinguishedNames,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_directory_config(
+    DirectoryName,
+    OrganizationalUnitDistinguishedNames,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateDirectoryConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DirectoryName" => DirectoryName,
+                    "OrganizationalUnitDistinguishedNames" =>
+                        OrganizationalUnitDistinguishedNames,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_fleet(compute_capacity, instance_type, name)
@@ -173,8 +317,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon AppStream 2.0 Administration Guide.
 - `"VpcConfig"`: The VPC configuration for the fleet.
 """
-create_fleet(ComputeCapacity, InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateFleet", Dict{String, Any}("ComputeCapacity"=>ComputeCapacity, "InstanceType"=>InstanceType, "Name"=>Name); aws_config=aws_config)
-create_fleet(ComputeCapacity, InstanceType, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComputeCapacity"=>ComputeCapacity, "InstanceType"=>InstanceType, "Name"=>Name), params)); aws_config=aws_config)
+function create_fleet(
+    ComputeCapacity, InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateFleet",
+        Dict{String,Any}(
+            "ComputeCapacity" => ComputeCapacity,
+            "InstanceType" => InstanceType,
+            "Name" => Name,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_fleet(
+    ComputeCapacity,
+    InstanceType,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ComputeCapacity" => ComputeCapacity,
+                    "InstanceType" => InstanceType,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_image_builder(instance_type, name)
@@ -229,8 +407,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConfig"`: The VPC configuration for the image builder. You can specify only one
   subnet.
 """
-create_image_builder(InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateImageBuilder", Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name); aws_config=aws_config)
-create_image_builder(InstanceType, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name), params)); aws_config=aws_config)
+function create_image_builder(
+    InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateImageBuilder",
+        Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function create_image_builder(
+    InstanceType,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateImageBuilder",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_image_builder_streaming_url(name)
@@ -246,8 +449,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 3600 seconds.
 """
-create_image_builder_streaming_url(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateImageBuilderStreamingURL", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_image_builder_streaming_url(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateImageBuilderStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function create_image_builder_streaming_url(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateImageBuilderStreamingURL",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function create_image_builder_streaming_url(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateImageBuilderStreamingURL",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_stack(name)
@@ -284,8 +503,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
 """
-create_stack(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateStack", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_stack(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function create_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("CreateStack", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function create_stack(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateStack",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_streaming_url(fleet_name, stack_name, user_id)
@@ -310,8 +539,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 60 seconds.
 """
-create_streaming_url(FleetName, StackName, UserId; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateStreamingURL", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId); aws_config=aws_config)
-create_streaming_url(FleetName, StackName, UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId), params)); aws_config=aws_config)
+function create_streaming_url(
+    FleetName, StackName, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateStreamingURL",
+        Dict{String,Any}(
+            "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
+        );
+        aws_config=aws_config,
+    )
+end
+function create_streaming_url(
+    FleetName,
+    StackName,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateStreamingURL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_updated_image(existing_image_name, new_image_name)
@@ -343,8 +602,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value, the value is set to an empty string. For more information about tags, see Tagging
   Your Resources in the Amazon AppStream 2.0 Administration Guide.
 """
-create_updated_image(existingImageName, newImageName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateUpdatedImage", Dict{String, Any}("existingImageName"=>existingImageName, "newImageName"=>newImageName); aws_config=aws_config)
-create_updated_image(existingImageName, newImageName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateUpdatedImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("existingImageName"=>existingImageName, "newImageName"=>newImageName), params)); aws_config=aws_config)
+function create_updated_image(
+    existingImageName, newImageName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateUpdatedImage",
+        Dict{String,Any}(
+            "existingImageName" => existingImageName, "newImageName" => newImageName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_updated_image(
+    existingImageName,
+    newImageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateUpdatedImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "existingImageName" => existingImageName, "newImageName" => newImageName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_usage_report_subscription()
@@ -353,8 +641,16 @@ create_updated_image(existingImageName, newImageName, params::AbstractDict{Strin
 Creates a usage report subscription. Usage reports are generated daily.
 
 """
-create_usage_report_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateUsageReportSubscription"; aws_config=aws_config)
-create_usage_report_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateUsageReportSubscription", params; aws_config=aws_config)
+function create_usage_report_subscription(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("CreateUsageReportSubscription"; aws_config=aws_config)
+end
+function create_usage_report_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("CreateUsageReportSubscription", params; aws_config=aws_config)
+end
 
 """
     create_user(authentication_type, user_name)
@@ -380,8 +676,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   days. If users don’t set their passwords within 7 days, you must send them a new welcome
   email.
 """
-create_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws_config=aws_config)
-create_user(AuthenticationType, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config)
+function create_user(
+    AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateUser",
+        Dict{String,Any}(
+            "AuthenticationType" => AuthenticationType, "UserName" => UserName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_user(
+    AuthenticationType,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_directory_config(directory_name)
@@ -394,8 +719,28 @@ information required to join streaming instances to an Active Directory domain.
 - `directory_name`: The name of the directory configuration.
 
 """
-delete_directory_config(DirectoryName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName); aws_config=aws_config)
-delete_directory_config(DirectoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), params)); aws_config=aws_config)
+function delete_directory_config(
+    DirectoryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteDirectoryConfig",
+        Dict{String,Any}("DirectoryName" => DirectoryName);
+        aws_config=aws_config,
+    )
+end
+function delete_directory_config(
+    DirectoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DeleteDirectoryConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryName" => DirectoryName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_fleet(name)
@@ -407,8 +752,18 @@ Deletes the specified fleet.
 - `name`: The name of the fleet.
 
 """
-delete_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteFleet", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_fleet(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function delete_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("DeleteFleet", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function delete_fleet(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_image(name)
@@ -421,8 +776,18 @@ an image, you cannot provision new capacity using the image.
 - `name`: The name of the image.
 
 """
-delete_image(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteImage", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_image(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function delete_image(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("DeleteImage", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function delete_image(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteImage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_image_builder(name)
@@ -434,8 +799,20 @@ Deletes the specified image builder and releases the capacity.
 - `name`: The name of the image builder.
 
 """
-delete_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteImageBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_image_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function delete_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DeleteImageBuilder", Dict{String,Any}("Name" => Name); aws_config=aws_config
+    )
+end
+function delete_image_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteImageBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_image_permissions(name, shared_account_id)
@@ -451,8 +828,33 @@ image.
   permissions.
 
 """
-delete_image_permissions(Name, SharedAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteImagePermissions", Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId); aws_config=aws_config)
-delete_image_permissions(Name, SharedAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId), params)); aws_config=aws_config)
+function delete_image_permissions(
+    Name, SharedAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteImagePermissions",
+        Dict{String,Any}("Name" => Name, "SharedAccountId" => SharedAccountId);
+        aws_config=aws_config,
+    )
+end
+function delete_image_permissions(
+    Name,
+    SharedAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DeleteImagePermissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "SharedAccountId" => SharedAccountId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_stack(name)
@@ -466,8 +868,18 @@ made for application streaming sessions for the stack are released.
 - `name`: The name of the stack.
 
 """
-delete_stack(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteStack", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_stack(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function delete_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("DeleteStack", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function delete_stack(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteStack",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_usage_report_subscription()
@@ -476,8 +888,16 @@ delete_stack(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=g
 Disables usage report generation.
 
 """
-delete_usage_report_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteUsageReportSubscription"; aws_config=aws_config)
-delete_usage_report_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteUsageReportSubscription", params; aws_config=aws_config)
+function delete_usage_report_subscription(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DeleteUsageReportSubscription"; aws_config=aws_config)
+end
+function delete_usage_report_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DeleteUsageReportSubscription", params; aws_config=aws_config)
+end
 
 """
     delete_user(authentication_type, user_name)
@@ -490,8 +910,37 @@ Deletes a user from the user pool.
 - `user_name`: The email address of the user.  Users' email addresses are case-sensitive.
 
 """
-delete_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws_config=aws_config)
-delete_user(AuthenticationType, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config)
+function delete_user(
+    AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteUser",
+        Dict{String,Any}(
+            "AuthenticationType" => AuthenticationType, "UserName" => UserName
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_user(
+    AuthenticationType,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DeleteUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_directory_configs()
@@ -511,8 +960,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_directory_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeDirectoryConfigs"; aws_config=aws_config)
-describe_directory_configs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeDirectoryConfigs", params; aws_config=aws_config)
+function describe_directory_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("DescribeDirectoryConfigs"; aws_config=aws_config)
+end
+function describe_directory_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeDirectoryConfigs", params; aws_config=aws_config)
+end
 
 """
     describe_fleets()
@@ -527,8 +982,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeFleets"; aws_config=aws_config)
-describe_fleets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeFleets", params; aws_config=aws_config)
+function describe_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("DescribeFleets"; aws_config=aws_config)
+end
+function describe_fleets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeFleets", params; aws_config=aws_config)
+end
 
 """
     describe_image_builders()
@@ -544,8 +1005,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_image_builders(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeImageBuilders"; aws_config=aws_config)
-describe_image_builders(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeImageBuilders", params; aws_config=aws_config)
+function describe_image_builders(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("DescribeImageBuilders"; aws_config=aws_config)
+end
+function describe_image_builders(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeImageBuilders", params; aws_config=aws_config)
+end
 
 """
     describe_image_permissions(name)
@@ -566,8 +1033,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SharedAwsAccountIds"`: The 12-digit identifier of one or more AWS accounts with which
   the image is shared.
 """
-describe_image_permissions(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeImagePermissions", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-describe_image_permissions(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function describe_image_permissions(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DescribeImagePermissions", Dict{String,Any}("Name" => Name); aws_config=aws_config
+    )
+end
+function describe_image_permissions(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeImagePermissions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_images()
@@ -585,8 +1064,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 - `"Type"`: The type of image (public, private, or shared) to describe.
 """
-describe_images(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeImages"; aws_config=aws_config)
-describe_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeImages", params; aws_config=aws_config)
+function describe_images(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("DescribeImages"; aws_config=aws_config)
+end
+function describe_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeImages", params; aws_config=aws_config)
+end
 
 """
     describe_sessions(fleet_name, stack_name)
@@ -613,8 +1098,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserId"`: The user identifier (ID). If you specify a user ID, you must also specify the
   authentication type.
 """
-describe_sessions(FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeSessions", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws_config=aws_config)
-describe_sessions(FleetName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config)
+function describe_sessions(
+    FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeSessions",
+        Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
+        aws_config=aws_config,
+    )
+end
+function describe_sessions(
+    FleetName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DescribeSessions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_stacks()
@@ -629,8 +1139,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeStacks"; aws_config=aws_config)
-describe_stacks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeStacks", params; aws_config=aws_config)
+function describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("DescribeStacks"; aws_config=aws_config)
+end
+function describe_stacks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeStacks", params; aws_config=aws_config)
+end
 
 """
     describe_usage_report_subscriptions()
@@ -644,8 +1160,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_usage_report_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeUsageReportSubscriptions"; aws_config=aws_config)
-describe_usage_report_subscriptions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeUsageReportSubscriptions", params; aws_config=aws_config)
+function describe_usage_report_subscriptions(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeUsageReportSubscriptions"; aws_config=aws_config)
+end
+function describe_usage_report_subscriptions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeUsageReportSubscriptions", params; aws_config=aws_config)
+end
 
 """
     describe_user_stack_associations()
@@ -666,8 +1190,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserName"`: The email address of the user who is associated with the stack.  Users'
   email addresses are case-sensitive.
 """
-describe_user_stack_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeUserStackAssociations"; aws_config=aws_config)
-describe_user_stack_associations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeUserStackAssociations", params; aws_config=aws_config)
+function describe_user_stack_associations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeUserStackAssociations"; aws_config=aws_config)
+end
+function describe_user_stack_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("DescribeUserStackAssociations", params; aws_config=aws_config)
+end
 
 """
     describe_users(authentication_type)
@@ -685,8 +1217,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-describe_users(AuthenticationType; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeUsers", Dict{String, Any}("AuthenticationType"=>AuthenticationType); aws_config=aws_config)
-describe_users(AuthenticationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DescribeUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType), params)); aws_config=aws_config)
+function describe_users(
+    AuthenticationType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeUsers",
+        Dict{String,Any}("AuthenticationType" => AuthenticationType);
+        aws_config=aws_config,
+    )
+end
+function describe_users(
+    AuthenticationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DescribeUsers",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("AuthenticationType" => AuthenticationType), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disable_user(authentication_type, user_name)
@@ -700,8 +1254,37 @@ they are re-enabled. This action does not delete the user.
 - `user_name`: The email address of the user.  Users' email addresses are case-sensitive.
 
 """
-disable_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DisableUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws_config=aws_config)
-disable_user(AuthenticationType, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DisableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config)
+function disable_user(
+    AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DisableUser",
+        Dict{String,Any}(
+            "AuthenticationType" => AuthenticationType, "UserName" => UserName
+        );
+        aws_config=aws_config,
+    )
+end
+function disable_user(
+    AuthenticationType,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DisableUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_fleet(fleet_name, stack_name)
@@ -714,8 +1297,33 @@ Disassociates the specified fleet from the specified stack.
 - `stack_name`: The name of the stack.
 
 """
-disassociate_fleet(FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DisassociateFleet", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws_config=aws_config)
-disassociate_fleet(FleetName, StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("DisassociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), params)); aws_config=aws_config)
+function disassociate_fleet(
+    FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DisassociateFleet",
+        Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
+        aws_config=aws_config,
+    )
+end
+function disassociate_fleet(
+    FleetName,
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DisassociateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     enable_user(authentication_type, user_name)
@@ -732,8 +1340,37 @@ and open applications from the stacks to which they are assigned.
   exist\" error message displays.
 
 """
-enable_user(AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("EnableUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws_config=aws_config)
-enable_user(AuthenticationType, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("EnableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), params)); aws_config=aws_config)
+function enable_user(
+    AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "EnableUser",
+        Dict{String,Any}(
+            "AuthenticationType" => AuthenticationType, "UserName" => UserName
+        );
+        aws_config=aws_config,
+    )
+end
+function enable_user(
+    AuthenticationType,
+    UserName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "EnableUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     expire_session(session_id)
@@ -745,8 +1382,24 @@ Immediately stops the specified streaming session.
 - `session_id`: The identifier of the streaming session.
 
 """
-expire_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("ExpireSession", Dict{String, Any}("SessionId"=>SessionId); aws_config=aws_config)
-expire_session(SessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("ExpireSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), params)); aws_config=aws_config)
+function expire_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "ExpireSession", Dict{String,Any}("SessionId" => SessionId); aws_config=aws_config
+    )
+end
+function expire_session(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "ExpireSession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_associated_fleets(stack_name)
@@ -762,8 +1415,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-list_associated_fleets(StackName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("ListAssociatedFleets", Dict{String, Any}("StackName"=>StackName); aws_config=aws_config)
-list_associated_fleets(StackName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("ListAssociatedFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), params)); aws_config=aws_config)
+function list_associated_fleets(
+    StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "ListAssociatedFleets",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+    )
+end
+function list_associated_fleets(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "ListAssociatedFleets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_associated_stacks(fleet_name)
@@ -779,8 +1452,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-list_associated_stacks(FleetName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("ListAssociatedStacks", Dict{String, Any}("FleetName"=>FleetName); aws_config=aws_config)
-list_associated_stacks(FleetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("ListAssociatedStacks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName), params)); aws_config=aws_config)
+function list_associated_stacks(
+    FleetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "ListAssociatedStacks",
+        Dict{String,Any}("FleetName" => FleetName);
+        aws_config=aws_config,
+    )
+end
+function list_associated_stacks(
+    FleetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "ListAssociatedStacks",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("FleetName" => FleetName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -794,8 +1487,28 @@ see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_fleet(name)
@@ -807,8 +1520,18 @@ Starts the specified fleet.
 - `name`: The name of the fleet.
 
 """
-start_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("StartFleet", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_fleet(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("StartFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function start_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("StartFleet", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function start_fleet(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "StartFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     start_image_builder(name)
@@ -824,8 +1547,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AppstreamAgentVersion"`: The version of the AppStream 2.0 agent to use for this image
   builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
 """
-start_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("StartImageBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-start_image_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("StartImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function start_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "StartImageBuilder", Dict{String,Any}("Name" => Name); aws_config=aws_config
+    )
+end
+function start_image_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "StartImageBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_fleet(name)
@@ -837,8 +1572,18 @@ Stops the specified fleet.
 - `name`: The name of the fleet.
 
 """
-stop_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("StopFleet", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-stop_fleet(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("StopFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function stop_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("StopFleet", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function stop_fleet(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "StopFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_image_builder(name)
@@ -850,8 +1595,20 @@ Stops the specified image builder.
 - `name`: The name of the image builder.
 
 """
-stop_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("StopImageBuilder", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-stop_image_builder(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("StopImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function stop_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "StopImageBuilder", Dict{String,Any}("Name" => Name); aws_config=aws_config
+    )
+end
+function stop_image_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "StopImageBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -873,8 +1630,31 @@ see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
   _ . : / = +  - @
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -889,8 +1669,33 @@ tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guid
 - `tag_keys`: The tag keys for the tags to disassociate.
 
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_directory_config(directory_name)
@@ -910,8 +1715,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
-update_directory_config(DirectoryName; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UpdateDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName); aws_config=aws_config)
-update_directory_config(DirectoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UpdateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), params)); aws_config=aws_config)
+function update_directory_config(
+    DirectoryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "UpdateDirectoryConfig",
+        Dict{String,Any}("DirectoryName" => DirectoryName);
+        aws_config=aws_config,
+    )
+end
+function update_directory_config(
+    DirectoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "UpdateDirectoryConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryName" => DirectoryName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_fleet()
@@ -990,8 +1815,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system displays. The default value is APP.
 - `"VpcConfig"`: The VPC configuration for the fleet.
 """
-update_fleet(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UpdateFleet"; aws_config=aws_config)
-update_fleet(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UpdateFleet", params; aws_config=aws_config)
+function update_fleet(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("UpdateFleet"; aws_config=aws_config)
+end
+function update_fleet(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream("UpdateFleet", params; aws_config=aws_config)
+end
 
 """
     update_image_permissions(image_permissions, name, shared_account_id)
@@ -1006,8 +1837,45 @@ Adds or updates permissions for the specified private image.
   update image permissions.
 
 """
-update_image_permissions(ImagePermissions, Name, SharedAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UpdateImagePermissions", Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId); aws_config=aws_config)
-update_image_permissions(ImagePermissions, Name, SharedAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UpdateImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId), params)); aws_config=aws_config)
+function update_image_permissions(
+    ImagePermissions,
+    Name,
+    SharedAccountId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "UpdateImagePermissions",
+        Dict{String,Any}(
+            "ImagePermissions" => ImagePermissions,
+            "Name" => Name,
+            "SharedAccountId" => SharedAccountId,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_image_permissions(
+    ImagePermissions,
+    Name,
+    SharedAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "UpdateImagePermissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ImagePermissions" => ImagePermissions,
+                    "Name" => Name,
+                    "SharedAccountId" => SharedAccountId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_stack(name)
@@ -1040,5 +1908,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
 """
-update_stack(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UpdateStack", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-update_stack(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appstream("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function update_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream("UpdateStack", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function update_stack(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "UpdateStack",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end

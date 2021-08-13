@@ -21,8 +21,33 @@ Transcribe applies the category to the analytics job that you've specified.
   specify a sentiment filter to detect if the customer's sentiment was negative or neutral.
 
 """
-create_call_analytics_category(CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateCallAnalyticsCategory", Dict{String, Any}("CategoryName"=>CategoryName, "Rules"=>Rules); aws_config=aws_config)
-create_call_analytics_category(CategoryName, Rules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateCallAnalyticsCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryName"=>CategoryName, "Rules"=>Rules), params)); aws_config=aws_config)
+function create_call_analytics_category(
+    CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "CreateCallAnalyticsCategory",
+        Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules);
+        aws_config=aws_config,
+    )
+end
+function create_call_analytics_category(
+    CategoryName,
+    Rules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "CreateCallAnalyticsCategory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_language_model(base_model_name, input_data_config, language_code, model_name)
@@ -45,8 +70,49 @@ data.
 - `model_name`: The name you choose for your custom language model when you create it.
 
 """
-create_language_model(BaseModelName, InputDataConfig, LanguageCode, ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateLanguageModel", Dict{String, Any}("BaseModelName"=>BaseModelName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ModelName"=>ModelName); aws_config=aws_config)
-create_language_model(BaseModelName, InputDataConfig, LanguageCode, ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseModelName"=>BaseModelName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ModelName"=>ModelName), params)); aws_config=aws_config)
+function create_language_model(
+    BaseModelName,
+    InputDataConfig,
+    LanguageCode,
+    ModelName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "CreateLanguageModel",
+        Dict{String,Any}(
+            "BaseModelName" => BaseModelName,
+            "InputDataConfig" => InputDataConfig,
+            "LanguageCode" => LanguageCode,
+            "ModelName" => ModelName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_language_model(
+    BaseModelName,
+    InputDataConfig,
+    LanguageCode,
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "CreateLanguageModel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BaseModelName" => BaseModelName,
+                    "InputDataConfig" => InputDataConfig,
+                    "LanguageCode" => LanguageCode,
+                    "ModelName" => ModelName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name)
@@ -74,8 +140,45 @@ transcribes your audio file.
   same name as a previous vocabulary, you get a ConflictException error.
 
 """
-create_medical_vocabulary(LanguageCode, VocabularyFileUri, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateMedicalVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFileUri"=>VocabularyFileUri, "VocabularyName"=>VocabularyName); aws_config=aws_config)
-create_medical_vocabulary(LanguageCode, VocabularyFileUri, VocabularyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFileUri"=>VocabularyFileUri, "VocabularyName"=>VocabularyName), params)); aws_config=aws_config)
+function create_medical_vocabulary(
+    LanguageCode,
+    VocabularyFileUri,
+    VocabularyName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "CreateMedicalVocabulary",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode,
+            "VocabularyFileUri" => VocabularyFileUri,
+            "VocabularyName" => VocabularyName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_medical_vocabulary(
+    LanguageCode,
+    VocabularyFileUri,
+    VocabularyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "CreateMedicalVocabulary",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LanguageCode" => LanguageCode,
+                    "VocabularyFileUri" => VocabularyFileUri,
+                    "VocabularyName" => VocabularyName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_vocabulary(language_code, vocabulary_name)
@@ -100,8 +203,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 Developer Guide. For more information about custom vocabularies, see
   Custom Vocabularies.
 """
-create_vocabulary(LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws_config=aws_config)
-create_vocabulary(LanguageCode, VocabularyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), params)); aws_config=aws_config)
+function create_vocabulary(
+    LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "CreateVocabulary",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_vocabulary(
+    LanguageCode,
+    VocabularyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "CreateVocabulary",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_vocabulary_filter(language_code, vocabulary_filter_name)
@@ -130,8 +262,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Sets for Custom Vocabularies. If you provide a list of words in the Words parameter, you
   can't use the VocabularyFilterFileUri parameter.
 """
-create_vocabulary_filter(LanguageCode, VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateVocabularyFilter", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFilterName"=>VocabularyFilterName); aws_config=aws_config)
-create_vocabulary_filter(LanguageCode, VocabularyFilterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("CreateVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFilterName"=>VocabularyFilterName), params)); aws_config=aws_config)
+function create_vocabulary_filter(
+    LanguageCode, VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "CreateVocabularyFilter",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode, "VocabularyFilterName" => VocabularyFilterName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_vocabulary_filter(
+    LanguageCode,
+    VocabularyFilterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "CreateVocabularyFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LanguageCode" => LanguageCode,
+                    "VocabularyFilterName" => VocabularyFilterName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_call_analytics_category(category_name)
@@ -144,8 +306,28 @@ Deletes a call analytics category using its name.
   The value is case sensitive.
 
 """
-delete_call_analytics_category(CategoryName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteCallAnalyticsCategory", Dict{String, Any}("CategoryName"=>CategoryName); aws_config=aws_config)
-delete_call_analytics_category(CategoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteCallAnalyticsCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryName"=>CategoryName), params)); aws_config=aws_config)
+function delete_call_analytics_category(
+    CategoryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "DeleteCallAnalyticsCategory",
+        Dict{String,Any}("CategoryName" => CategoryName);
+        aws_config=aws_config,
+    )
+end
+function delete_call_analytics_category(
+    CategoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DeleteCallAnalyticsCategory",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CategoryName" => CategoryName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_call_analytics_job(call_analytics_job_name)
@@ -157,8 +339,32 @@ Deletes a call analytics job using its name.
 - `call_analytics_job_name`: The name of the call analytics job you want to delete.
 
 """
-delete_call_analytics_job(CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteCallAnalyticsJob", Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName); aws_config=aws_config)
-delete_call_analytics_job(CallAnalyticsJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteCallAnalyticsJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName), params)); aws_config=aws_config)
+function delete_call_analytics_job(
+    CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "DeleteCallAnalyticsJob",
+        Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName);
+        aws_config=aws_config,
+    )
+end
+function delete_call_analytics_job(
+    CallAnalyticsJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DeleteCallAnalyticsJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_language_model(model_name)
@@ -170,8 +376,26 @@ Deletes a custom language model using its name.
 - `model_name`: The name of the model you're choosing to delete.
 
 """
-delete_language_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteLanguageModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config)
-delete_language_model(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config)
+function delete_language_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe(
+        "DeleteLanguageModel",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+    )
+end
+function delete_language_model(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DeleteLanguageModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_medical_transcription_job(medical_transcription_job_name)
@@ -185,8 +409,34 @@ information.
   DeleteMedicalTranscriptionJob object to delete a transcription job.
 
 """
-delete_medical_transcription_job(MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteMedicalTranscriptionJob", Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName); aws_config=aws_config)
-delete_medical_transcription_job(MedicalTranscriptionJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName), params)); aws_config=aws_config)
+function delete_medical_transcription_job(
+    MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "DeleteMedicalTranscriptionJob",
+        Dict{String,Any}("MedicalTranscriptionJobName" => MedicalTranscriptionJobName);
+        aws_config=aws_config,
+    )
+end
+function delete_medical_transcription_job(
+    MedicalTranscriptionJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DeleteMedicalTranscriptionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MedicalTranscriptionJobName" => MedicalTranscriptionJobName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_medical_vocabulary(vocabulary_name)
@@ -198,8 +448,28 @@ Deletes a vocabulary from Amazon Transcribe Medical.
 - `vocabulary_name`: The name of the vocabulary that you want to delete.
 
 """
-delete_medical_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteMedicalVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws_config=aws_config)
-delete_medical_vocabulary(VocabularyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), params)); aws_config=aws_config)
+function delete_medical_vocabulary(
+    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "DeleteMedicalVocabulary",
+        Dict{String,Any}("VocabularyName" => VocabularyName);
+        aws_config=aws_config,
+    )
+end
+function delete_medical_vocabulary(
+    VocabularyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DeleteMedicalVocabulary",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VocabularyName" => VocabularyName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_transcription_job(transcription_job_name)
@@ -212,8 +482,32 @@ such as the transcription, models, and so on.
 - `transcription_job_name`: The name of the transcription job to be deleted.
 
 """
-delete_transcription_job(TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteTranscriptionJob", Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName); aws_config=aws_config)
-delete_transcription_job(TranscriptionJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName), params)); aws_config=aws_config)
+function delete_transcription_job(
+    TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "DeleteTranscriptionJob",
+        Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName);
+        aws_config=aws_config,
+    )
+end
+function delete_transcription_job(
+    TranscriptionJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DeleteTranscriptionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_vocabulary(vocabulary_name)
@@ -225,8 +519,28 @@ Deletes a vocabulary from Amazon Transcribe.
 - `vocabulary_name`: The name of the vocabulary to delete.
 
 """
-delete_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws_config=aws_config)
-delete_vocabulary(VocabularyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), params)); aws_config=aws_config)
+function delete_vocabulary(
+    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "DeleteVocabulary",
+        Dict{String,Any}("VocabularyName" => VocabularyName);
+        aws_config=aws_config,
+    )
+end
+function delete_vocabulary(
+    VocabularyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DeleteVocabulary",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VocabularyName" => VocabularyName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_vocabulary_filter(vocabulary_filter_name)
@@ -238,8 +552,32 @@ Removes a vocabulary filter.
 - `vocabulary_filter_name`: The name of the vocabulary filter to remove.
 
 """
-delete_vocabulary_filter(VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws_config=aws_config)
-delete_vocabulary_filter(VocabularyFilterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DeleteVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), params)); aws_config=aws_config)
+function delete_vocabulary_filter(
+    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "DeleteVocabularyFilter",
+        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
+        aws_config=aws_config,
+    )
+end
+function delete_vocabulary_filter(
+    VocabularyFilterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DeleteVocabularyFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_language_model(model_name)
@@ -256,8 +594,28 @@ understand why Amazon Transcribe couldn't create it.
 - `model_name`: The name of the custom language model you submit to get more information.
 
 """
-describe_language_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DescribeLanguageModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config)
-describe_language_model(ModelName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("DescribeLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), params)); aws_config=aws_config)
+function describe_language_model(
+    ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "DescribeLanguageModel",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+    )
+end
+function describe_language_model(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "DescribeLanguageModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_call_analytics_category(category_name)
@@ -270,8 +628,28 @@ Retrieves information about a call analytics category.
   sensitive.
 
 """
-get_call_analytics_category(CategoryName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetCallAnalyticsCategory", Dict{String, Any}("CategoryName"=>CategoryName); aws_config=aws_config)
-get_call_analytics_category(CategoryName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetCallAnalyticsCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryName"=>CategoryName), params)); aws_config=aws_config)
+function get_call_analytics_category(
+    CategoryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "GetCallAnalyticsCategory",
+        Dict{String,Any}("CategoryName" => CategoryName);
+        aws_config=aws_config,
+    )
+end
+function get_call_analytics_category(
+    CategoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "GetCallAnalyticsCategory",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CategoryName" => CategoryName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_call_analytics_job(call_analytics_job_name)
@@ -288,8 +666,32 @@ RedactedTranscriptFileUri field.
   value is case sensitive.
 
 """
-get_call_analytics_job(CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetCallAnalyticsJob", Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName); aws_config=aws_config)
-get_call_analytics_job(CallAnalyticsJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetCallAnalyticsJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName), params)); aws_config=aws_config)
+function get_call_analytics_job(
+    CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "GetCallAnalyticsJob",
+        Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName);
+        aws_config=aws_config,
+    )
+end
+function get_call_analytics_job(
+    CallAnalyticsJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "GetCallAnalyticsJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_medical_transcription_job(medical_transcription_job_name)
@@ -303,8 +705,34 @@ job is finished. You find the results of the completed job in the TranscriptFile
 - `medical_transcription_job_name`: The name of the medical transcription job.
 
 """
-get_medical_transcription_job(MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetMedicalTranscriptionJob", Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName); aws_config=aws_config)
-get_medical_transcription_job(MedicalTranscriptionJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName), params)); aws_config=aws_config)
+function get_medical_transcription_job(
+    MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "GetMedicalTranscriptionJob",
+        Dict{String,Any}("MedicalTranscriptionJobName" => MedicalTranscriptionJobName);
+        aws_config=aws_config,
+    )
+end
+function get_medical_transcription_job(
+    MedicalTranscriptionJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "GetMedicalTranscriptionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MedicalTranscriptionJobName" => MedicalTranscriptionJobName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_medical_vocabulary(vocabulary_name)
@@ -317,8 +745,28 @@ Retrieves information about a medical vocabulary.
   is case sensitive.
 
 """
-get_medical_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetMedicalVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws_config=aws_config)
-get_medical_vocabulary(VocabularyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), params)); aws_config=aws_config)
+function get_medical_vocabulary(
+    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "GetMedicalVocabulary",
+        Dict{String,Any}("VocabularyName" => VocabularyName);
+        aws_config=aws_config,
+    )
+end
+function get_medical_vocabulary(
+    VocabularyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "GetMedicalVocabulary",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VocabularyName" => VocabularyName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_transcription_job(transcription_job_name)
@@ -333,8 +781,32 @@ content redaction, the redacted transcript appears in RedactedTranscriptFileUri.
 - `transcription_job_name`: The name of the job.
 
 """
-get_transcription_job(TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetTranscriptionJob", Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName); aws_config=aws_config)
-get_transcription_job(TranscriptionJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName), params)); aws_config=aws_config)
+function get_transcription_job(
+    TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "GetTranscriptionJob",
+        Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName);
+        aws_config=aws_config,
+    )
+end
+function get_transcription_job(
+    TranscriptionJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "GetTranscriptionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_vocabulary(vocabulary_name)
@@ -347,8 +819,26 @@ Gets information about a vocabulary.
   case sensitive.
 
 """
-get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws_config=aws_config)
-get_vocabulary(VocabularyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), params)); aws_config=aws_config)
+function get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe(
+        "GetVocabulary",
+        Dict{String,Any}("VocabularyName" => VocabularyName);
+        aws_config=aws_config,
+    )
+end
+function get_vocabulary(
+    VocabularyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "GetVocabulary",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("VocabularyName" => VocabularyName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_vocabulary_filter(vocabulary_filter_name)
@@ -361,8 +851,32 @@ Returns information about a vocabulary filter.
   information.
 
 """
-get_vocabulary_filter(VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws_config=aws_config)
-get_vocabulary_filter(VocabularyFilterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("GetVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), params)); aws_config=aws_config)
+function get_vocabulary_filter(
+    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "GetVocabularyFilter",
+        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
+        aws_config=aws_config,
+    )
+end
+function get_vocabulary_filter(
+    VocabularyFilterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "GetVocabularyFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_call_analytics_categories()
@@ -379,8 +893,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: When included, NextTokenfetches the next set of categories if the result
   of the previous request was truncated.
 """
-list_call_analytics_categories(; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListCallAnalyticsCategories"; aws_config=aws_config)
-list_call_analytics_categories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListCallAnalyticsCategories", params; aws_config=aws_config)
+function list_call_analytics_categories(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe("ListCallAnalyticsCategories"; aws_config=aws_config)
+end
+function list_call_analytics_categories(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListCallAnalyticsCategories", params; aws_config=aws_config)
+end
 
 """
     list_call_analytics_jobs()
@@ -400,8 +920,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Jobs are ordered by creation date, with the most recent jobs returned first. If you don't
   specify a status, Amazon Transcribe returns all analytics jobs ordered by creation date.
 """
-list_call_analytics_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListCallAnalyticsJobs"; aws_config=aws_config)
-list_call_analytics_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListCallAnalyticsJobs", params; aws_config=aws_config)
+function list_call_analytics_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe("ListCallAnalyticsJobs"; aws_config=aws_config)
+end
+function list_call_analytics_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListCallAnalyticsJobs", params; aws_config=aws_config)
+end
 
 """
     list_language_models()
@@ -424,8 +950,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't specify a status, Amazon Transcribe returns all custom language models ordered by
   date.
 """
-list_language_models(; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListLanguageModels"; aws_config=aws_config)
-list_language_models(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListLanguageModels", params; aws_config=aws_config)
+function list_language_models(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe("ListLanguageModels"; aws_config=aws_config)
+end
+function list_language_models(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListLanguageModels", params; aws_config=aws_config)
+end
 
 """
     list_medical_transcription_jobs()
@@ -448,8 +980,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't specify a status, Amazon Transcribe Medical returns all transcription jobs ordered by
   creation date.
 """
-list_medical_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListMedicalTranscriptionJobs"; aws_config=aws_config)
-list_medical_transcription_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListMedicalTranscriptionJobs", params; aws_config=aws_config)
+function list_medical_transcription_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListMedicalTranscriptionJobs"; aws_config=aws_config)
+end
+function list_medical_transcription_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListMedicalTranscriptionJobs", params; aws_config=aws_config)
+end
 
 """
     list_medical_vocabularies()
@@ -470,8 +1010,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the specified vocabulary state. Use this field to see which vocabularies are ready for
   your medical transcription jobs.
 """
-list_medical_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListMedicalVocabularies"; aws_config=aws_config)
-list_medical_vocabularies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListMedicalVocabularies", params; aws_config=aws_config)
+function list_medical_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe("ListMedicalVocabularies"; aws_config=aws_config)
+end
+function list_medical_vocabularies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListMedicalVocabularies", params; aws_config=aws_config)
+end
 
 """
     list_transcription_jobs()
@@ -492,8 +1038,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a status, Amazon Transcribe returns all transcription jobs ordered by creation
   date.
 """
-list_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListTranscriptionJobs"; aws_config=aws_config)
-list_transcription_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListTranscriptionJobs", params; aws_config=aws_config)
+function list_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe("ListTranscriptionJobs"; aws_config=aws_config)
+end
+function list_transcription_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListTranscriptionJobs", params; aws_config=aws_config)
+end
 
 """
     list_vocabularies()
@@ -515,8 +1067,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StateEquals"`: When specified, only returns vocabularies with the VocabularyState field
   equal to the specified state.
 """
-list_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListVocabularies"; aws_config=aws_config)
-list_vocabularies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListVocabularies", params; aws_config=aws_config)
+function list_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe("ListVocabularies"; aws_config=aws_config)
+end
+function list_vocabularies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListVocabularies", params; aws_config=aws_config)
+end
 
 """
     list_vocabulary_filters()
@@ -533,8 +1091,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the result of the previous request to ListVocabularyFilters was
   truncated, include the NextToken to fetch the next set of collections.
 """
-list_vocabulary_filters(; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListVocabularyFilters"; aws_config=aws_config)
-list_vocabulary_filters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("ListVocabularyFilters", params; aws_config=aws_config)
+function list_vocabulary_filters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return transcribe("ListVocabularyFilters"; aws_config=aws_config)
+end
+function list_vocabulary_filters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe("ListVocabularyFilters", params; aws_config=aws_config)
+end
 
 """
     start_call_analytics_job(call_analytics_job_name, data_access_role_arn, media)
@@ -591,8 +1155,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for server-side encryption of the analytics job output that is placed in your S3 bucket.
 - `"Settings"`: A Settings object that provides optional settings for a call analytics job.
 """
-start_call_analytics_job(CallAnalyticsJobName, DataAccessRoleArn, Media; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("StartCallAnalyticsJob", Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName, "DataAccessRoleArn"=>DataAccessRoleArn, "Media"=>Media); aws_config=aws_config)
-start_call_analytics_job(CallAnalyticsJobName, DataAccessRoleArn, Media, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("StartCallAnalyticsJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallAnalyticsJobName"=>CallAnalyticsJobName, "DataAccessRoleArn"=>DataAccessRoleArn, "Media"=>Media), params)); aws_config=aws_config)
+function start_call_analytics_job(
+    CallAnalyticsJobName,
+    DataAccessRoleArn,
+    Media;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "StartCallAnalyticsJob",
+        Dict{String,Any}(
+            "CallAnalyticsJobName" => CallAnalyticsJobName,
+            "DataAccessRoleArn" => DataAccessRoleArn,
+            "Media" => Media,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_call_analytics_job(
+    CallAnalyticsJobName,
+    DataAccessRoleArn,
+    Media,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "StartCallAnalyticsJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CallAnalyticsJobName" => CallAnalyticsJobName,
+                    "DataAccessRoleArn" => DataAccessRoleArn,
+                    "Media" => Media,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_medical_transcription_job(language_code, media, medical_transcription_job_name, output_bucket_name, specialty, type)
@@ -662,8 +1263,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must also specify an S3 bucket in the OutputBucketName parameter.
 - `"Settings"`: Optional settings for the medical transcription job.
 """
-start_medical_transcription_job(LanguageCode, Media, MedicalTranscriptionJobName, OutputBucketName, Specialty, Type; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("StartMedicalTranscriptionJob", Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "MedicalTranscriptionJobName"=>MedicalTranscriptionJobName, "OutputBucketName"=>OutputBucketName, "Specialty"=>Specialty, "Type"=>Type); aws_config=aws_config)
-start_medical_transcription_job(LanguageCode, Media, MedicalTranscriptionJobName, OutputBucketName, Specialty, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("StartMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "MedicalTranscriptionJobName"=>MedicalTranscriptionJobName, "OutputBucketName"=>OutputBucketName, "Specialty"=>Specialty, "Type"=>Type), params)); aws_config=aws_config)
+function start_medical_transcription_job(
+    LanguageCode,
+    Media,
+    MedicalTranscriptionJobName,
+    OutputBucketName,
+    Specialty,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "StartMedicalTranscriptionJob",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode,
+            "Media" => Media,
+            "MedicalTranscriptionJobName" => MedicalTranscriptionJobName,
+            "OutputBucketName" => OutputBucketName,
+            "Specialty" => Specialty,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_medical_transcription_job(
+    LanguageCode,
+    Media,
+    MedicalTranscriptionJobName,
+    OutputBucketName,
+    Specialty,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "StartMedicalTranscriptionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LanguageCode" => LanguageCode,
+                    "Media" => Media,
+                    "MedicalTranscriptionJobName" => MedicalTranscriptionJobName,
+                    "OutputBucketName" => OutputBucketName,
+                    "Specialty" => Specialty,
+                    "Type" => Type,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_transcription_job(media, transcription_job_name)
@@ -744,8 +1394,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must also specify an S3 bucket in the OutputBucketName parameter.
 - `"Settings"`: A Settings object that provides optional settings for a transcription job.
 """
-start_transcription_job(Media, TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("StartTranscriptionJob", Dict{String, Any}("Media"=>Media, "TranscriptionJobName"=>TranscriptionJobName); aws_config=aws_config)
-start_transcription_job(Media, TranscriptionJobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("StartTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Media"=>Media, "TranscriptionJobName"=>TranscriptionJobName), params)); aws_config=aws_config)
+function start_transcription_job(
+    Media, TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "StartTranscriptionJob",
+        Dict{String,Any}("Media" => Media, "TranscriptionJobName" => TranscriptionJobName);
+        aws_config=aws_config,
+    )
+end
+function start_transcription_job(
+    Media,
+    TranscriptionJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "StartTranscriptionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Media" => Media, "TranscriptionJobName" => TranscriptionJobName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_call_analytics_category(category_name, rules)
@@ -763,8 +1440,33 @@ the request.
   this field replace the ones that are currently being used.
 
 """
-update_call_analytics_category(CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("UpdateCallAnalyticsCategory", Dict{String, Any}("CategoryName"=>CategoryName, "Rules"=>Rules); aws_config=aws_config)
-update_call_analytics_category(CategoryName, Rules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("UpdateCallAnalyticsCategory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CategoryName"=>CategoryName, "Rules"=>Rules), params)); aws_config=aws_config)
+function update_call_analytics_category(
+    CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "UpdateCallAnalyticsCategory",
+        Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules);
+        aws_config=aws_config,
+    )
+end
+function update_call_analytics_category(
+    CategoryName,
+    Rules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "UpdateCallAnalyticsCategory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_medical_vocabulary(language_code, vocabulary_name)
@@ -792,8 +1494,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Developer Guide. For more information about custom vocabularies in Amazon Transcribe
   Medical, see Medical Custom Vocabularies.
 """
-update_medical_vocabulary(LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("UpdateMedicalVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws_config=aws_config)
-update_medical_vocabulary(LanguageCode, VocabularyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("UpdateMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), params)); aws_config=aws_config)
+function update_medical_vocabulary(
+    LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "UpdateMedicalVocabulary",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
+        );
+        aws_config=aws_config,
+    )
+end
+function update_medical_vocabulary(
+    LanguageCode,
+    VocabularyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "UpdateMedicalVocabulary",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_vocabulary(language_code, vocabulary_name)
@@ -818,8 +1549,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Object Keys in the Amazon S3 Developer Guide. For more information about custom
   vocabularies, see Custom Vocabularies.
 """
-update_vocabulary(LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("UpdateVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws_config=aws_config)
-update_vocabulary(LanguageCode, VocabularyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("UpdateVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), params)); aws_config=aws_config)
+function update_vocabulary(
+    LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "UpdateVocabulary",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
+        );
+        aws_config=aws_config,
+    )
+end
+function update_vocabulary(
+    LanguageCode,
+    VocabularyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "UpdateVocabulary",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_vocabulary_filter(vocabulary_filter_name)
@@ -844,5 +1604,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Sets for Custom Vocabularies. If you provide a list of words in the Words parameter, you
   can't use the VocabularyFilterFileUri parameter.
 """
-update_vocabulary_filter(VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("UpdateVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws_config=aws_config)
-update_vocabulary_filter(VocabularyFilterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = transcribe("UpdateVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), params)); aws_config=aws_config)
+function update_vocabulary_filter(
+    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return transcribe(
+        "UpdateVocabularyFilter",
+        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
+        aws_config=aws_config,
+    )
+end
+function update_vocabulary_filter(
+    VocabularyFilterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transcribe(
+        "UpdateVocabularyFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

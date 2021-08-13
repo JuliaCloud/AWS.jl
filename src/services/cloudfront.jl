@@ -24,8 +24,29 @@ different distribution in the Amazon CloudFront Developer Guide.
   with.
 
 """
-associate_alias2020_05_31(Alias, TargetDistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias", Dict{String, Any}("Alias"=>Alias); aws_config=aws_config)
-associate_alias2020_05_31(Alias, TargetDistributionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias), params)); aws_config=aws_config)
+function associate_alias2020_05_31(
+    Alias, TargetDistributionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias",
+        Dict{String,Any}("Alias" => Alias);
+        aws_config=aws_config,
+    )
+end
+function associate_alias2020_05_31(
+    Alias,
+    TargetDistributionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(TargetDistributionId)/associate-alias",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Alias" => Alias), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cache_policy2020_05_31(cache_policy_config)
@@ -48,8 +69,32 @@ key in the Amazon CloudFront Developer Guide.
 - `cache_policy_config`: A cache policy configuration.
 
 """
-create_cache_policy2020_05_31(CachePolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws_config=aws_config)
-create_cache_policy2020_05_31(CachePolicyConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), params)); aws_config=aws_config)
+function create_cache_policy2020_05_31(
+    CachePolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/cache-policy",
+        Dict{String,Any}("CachePolicyConfig" => CachePolicyConfig);
+        aws_config=aws_config,
+    )
+end
+function create_cache_policy2020_05_31(
+    CachePolicyConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/cache-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CachePolicyConfig" => CachePolicyConfig), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cloud_front_origin_access_identity2020_05_31(cloud_front_origin_access_identity_config)
@@ -66,8 +111,39 @@ Developer Guide.
   the identity.
 
 """
-create_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws_config=aws_config)
-create_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), params)); aws_config=aws_config)
+function create_cloud_front_origin_access_identity2020_05_31(
+    CloudFrontOriginAccessIdentityConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/origin-access-identity/cloudfront",
+        Dict{String,Any}(
+            "CloudFrontOriginAccessIdentityConfig" => CloudFrontOriginAccessIdentityConfig
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cloud_front_origin_access_identity2020_05_31(
+    CloudFrontOriginAccessIdentityConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/origin-access-identity/cloudfront",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CloudFrontOriginAccessIdentityConfig" =>
+                        CloudFrontOriginAccessIdentityConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_distribution2020_05_31(distribution_config)
@@ -87,8 +163,32 @@ and Update Distribution in the Amazon CloudFront Developer Guide.
 - `distribution_config`: The distribution's configuration information.
 
 """
-create_distribution2020_05_31(DistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws_config=aws_config)
-create_distribution2020_05_31(DistributionConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), params)); aws_config=aws_config)
+function create_distribution2020_05_31(
+    DistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution",
+        Dict{String,Any}("DistributionConfig" => DistributionConfig);
+        aws_config=aws_config,
+    )
+end
+function create_distribution2020_05_31(
+    DistributionConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DistributionConfig" => DistributionConfig), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_distribution_with_tags2020_05_31(distribution_config_with_tags)
@@ -100,8 +200,36 @@ Create a new distribution with tags.
 - `distribution_config_with_tags`: The distribution's configuration information.
 
 """
-create_distribution_with_tags2020_05_31(DistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags); aws_config=aws_config)
-create_distribution_with_tags2020_05_31(DistributionConfigWithTags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags), params)); aws_config=aws_config)
+function create_distribution_with_tags2020_05_31(
+    DistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution?WithTags",
+        Dict{String,Any}("DistributionConfigWithTags" => DistributionConfigWithTags);
+        aws_config=aws_config,
+    )
+end
+function create_distribution_with_tags2020_05_31(
+    DistributionConfigWithTags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution?WithTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DistributionConfigWithTags" => DistributionConfigWithTags
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_field_level_encryption_config2020_05_31(field_level_encryption_config)
@@ -114,8 +242,36 @@ Create a new field-level encryption configuration.
   configuration.
 
 """
-create_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws_config=aws_config)
-create_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), params)); aws_config=aws_config)
+function create_field_level_encryption_config2020_05_31(
+    FieldLevelEncryptionConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/field-level-encryption",
+        Dict{String,Any}("FieldLevelEncryptionConfig" => FieldLevelEncryptionConfig);
+        aws_config=aws_config,
+    )
+end
+function create_field_level_encryption_config2020_05_31(
+    FieldLevelEncryptionConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/field-level-encryption",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FieldLevelEncryptionConfig" => FieldLevelEncryptionConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_field_level_encryption_profile2020_05_31(field_level_encryption_profile_config)
@@ -128,8 +284,38 @@ Create a field-level encryption profile.
   profile.
 
 """
-create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
-create_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), params)); aws_config=aws_config)
+function create_field_level_encryption_profile2020_05_31(
+    FieldLevelEncryptionProfileConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/field-level-encryption-profile",
+        Dict{String,Any}(
+            "FieldLevelEncryptionProfileConfig" => FieldLevelEncryptionProfileConfig
+        );
+        aws_config=aws_config,
+    )
+end
+function create_field_level_encryption_profile2020_05_31(
+    FieldLevelEncryptionProfileConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/field-level-encryption-profile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FieldLevelEncryptionProfileConfig" => FieldLevelEncryptionProfileConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_function2020_05_31(function_code, function_config, name)
@@ -153,8 +339,44 @@ the function’s ARN.
 - `name`: A name to identify the function.
 
 """
-create_function2020_05_31(FunctionCode, FunctionConfig, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function", Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "Name"=>Name); aws_config=aws_config)
-create_function2020_05_31(FunctionCode, FunctionConfig, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "Name"=>Name), params)); aws_config=aws_config)
+function create_function2020_05_31(
+    FunctionCode, FunctionConfig, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/function",
+        Dict{String,Any}(
+            "FunctionCode" => FunctionCode,
+            "FunctionConfig" => FunctionConfig,
+            "Name" => Name,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_function2020_05_31(
+    FunctionCode,
+    FunctionConfig,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/function",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FunctionCode" => FunctionCode,
+                    "FunctionConfig" => FunctionConfig,
+                    "Name" => Name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_invalidation2020_05_31(distribution_id, invalidation_batch)
@@ -167,8 +389,33 @@ Create a new invalidation.
 - `invalidation_batch`: The batch information for the invalidation.
 
 """
-create_invalidation2020_05_31(DistributionId, InvalidationBatch; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}("InvalidationBatch"=>InvalidationBatch); aws_config=aws_config)
-create_invalidation2020_05_31(DistributionId, InvalidationBatch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvalidationBatch"=>InvalidationBatch), params)); aws_config=aws_config)
+function create_invalidation2020_05_31(
+    DistributionId, InvalidationBatch; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution/$(DistributionId)/invalidation",
+        Dict{String,Any}("InvalidationBatch" => InvalidationBatch);
+        aws_config=aws_config,
+    )
+end
+function create_invalidation2020_05_31(
+    DistributionId,
+    InvalidationBatch,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distribution/$(DistributionId)/invalidation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("InvalidationBatch" => InvalidationBatch), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_key_group2020_05_31(key_group_config)
@@ -188,8 +435,30 @@ Developer Guide.
 - `key_group_config`: A key group configuration.
 
 """
-create_key_group2020_05_31(KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig); aws_config=aws_config)
-create_key_group2020_05_31(KeyGroupConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/key-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), params)); aws_config=aws_config)
+function create_key_group2020_05_31(
+    KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/key-group",
+        Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig);
+        aws_config=aws_config,
+    )
+end
+function create_key_group2020_05_31(
+    KeyGroupConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/key-group",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_monitoring_subscription2020_05_31(distribution_id, monitoring_subscription)
@@ -205,8 +474,37 @@ CloudFront distribution metrics in the Amazon CloudFront Developer Guide.
   about whether additional CloudWatch metrics are enabled for a given CloudFront distribution.
 
 """
-create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription); aws_config=aws_config)
-create_monitoring_subscription2020_05_31(DistributionId, MonitoringSubscription, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringSubscription"=>MonitoringSubscription), params)); aws_config=aws_config)
+function create_monitoring_subscription2020_05_31(
+    DistributionId,
+    MonitoringSubscription;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
+        Dict{String,Any}("MonitoringSubscription" => MonitoringSubscription);
+        aws_config=aws_config,
+    )
+end
+function create_monitoring_subscription2020_05_31(
+    DistributionId,
+    MonitoringSubscription,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("MonitoringSubscription" => MonitoringSubscription),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_origin_request_policy2020_05_31(origin_request_policy_config)
@@ -230,8 +528,34 @@ Controlling origin requests in the Amazon CloudFront Developer Guide.
 - `origin_request_policy_config`: An origin request policy configuration.
 
 """
-create_origin_request_policy2020_05_31(OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws_config=aws_config)
-create_origin_request_policy2020_05_31(OriginRequestPolicyConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), params)); aws_config=aws_config)
+function create_origin_request_policy2020_05_31(
+    OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/origin-request-policy",
+        Dict{String,Any}("OriginRequestPolicyConfig" => OriginRequestPolicyConfig);
+        aws_config=aws_config,
+    )
+end
+function create_origin_request_policy2020_05_31(
+    OriginRequestPolicyConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/origin-request-policy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OriginRequestPolicyConfig" => OriginRequestPolicyConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_public_key2020_05_31(public_key_config)
@@ -244,8 +568,32 @@ with field-level encryption.
 - `public_key_config`: A CloudFront public key configuration.
 
 """
-create_public_key2020_05_31(PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
-create_public_key2020_05_31(PublicKeyConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), params)); aws_config=aws_config)
+function create_public_key2020_05_31(
+    PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/public-key",
+        Dict{String,Any}("PublicKeyConfig" => PublicKeyConfig);
+        aws_config=aws_config,
+    )
+end
+function create_public_key2020_05_31(
+    PublicKeyConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/public-key",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("PublicKeyConfig" => PublicKeyConfig), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_realtime_log_config2020_05_31(end_points, field, name, sampling_rate)
@@ -273,8 +621,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about fields, see Real-time log configuration fields in the Amazon CloudFront
   Developer Guide.
 """
-create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate); aws_config=aws_config)
-create_realtime_log_config2020_05_31(EndPoints, Field, Name, SamplingRate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/realtime-log-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndPoints"=>EndPoints, "Field"=>Field, "Name"=>Name, "SamplingRate"=>SamplingRate), params)); aws_config=aws_config)
+function create_realtime_log_config2020_05_31(
+    EndPoints, Field, Name, SamplingRate; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/realtime-log-config",
+        Dict{String,Any}(
+            "EndPoints" => EndPoints,
+            "Field" => Field,
+            "Name" => Name,
+            "SamplingRate" => SamplingRate,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_realtime_log_config2020_05_31(
+    EndPoints,
+    Field,
+    Name,
+    SamplingRate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/realtime-log-config",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndPoints" => EndPoints,
+                    "Field" => Field,
+                    "Name" => Name,
+                    "SamplingRate" => SamplingRate,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_streaming_distribution2020_05_31(streaming_distribution_config)
@@ -288,8 +675,36 @@ the Amazon CloudFront discussion forum.
 - `streaming_distribution_config`: The streaming distribution's configuration information.
 
 """
-create_streaming_distribution2020_05_31(StreamingDistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws_config=aws_config)
-create_streaming_distribution2020_05_31(StreamingDistributionConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), params)); aws_config=aws_config)
+function create_streaming_distribution2020_05_31(
+    StreamingDistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/streaming-distribution",
+        Dict{String,Any}("StreamingDistributionConfig" => StreamingDistributionConfig);
+        aws_config=aws_config,
+    )
+end
+function create_streaming_distribution2020_05_31(
+    StreamingDistributionConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/streaming-distribution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StreamingDistributionConfig" => StreamingDistributionConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_streaming_distribution_with_tags2020_05_31(streaming_distribution_config_with_tags)
@@ -304,8 +719,39 @@ the Amazon CloudFront discussion forum.
   information.
 
 """
-create_streaming_distribution_with_tags2020_05_31(StreamingDistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags); aws_config=aws_config)
-create_streaming_distribution_with_tags2020_05_31(StreamingDistributionConfigWithTags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags), params)); aws_config=aws_config)
+function create_streaming_distribution_with_tags2020_05_31(
+    StreamingDistributionConfigWithTags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/streaming-distribution?WithTags",
+        Dict{String,Any}(
+            "StreamingDistributionConfigWithTags" => StreamingDistributionConfigWithTags
+        );
+        aws_config=aws_config,
+    )
+end
+function create_streaming_distribution_with_tags2020_05_31(
+    StreamingDistributionConfigWithTags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/streaming-distribution?WithTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StreamingDistributionConfigWithTags" =>
+                        StreamingDistributionConfigWithTags,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_cache_policy2020_05_31(id)
@@ -327,8 +773,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cache policy’s ETag value, which you can get using ListCachePolicies, GetCachePolicy, or
   GetCachePolicyConfig.
 """
-delete_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
-delete_cache_policy2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)", params; aws_config=aws_config)
+function delete_cache_policy2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
+end
+function delete_cache_policy2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/cache-policy/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_cloud_front_origin_access_identity2020_05_31(id)
@@ -344,8 +800,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header you received from a previous GET or PUT
   request. For example: E2QWRUHAPOMQZL.
 """
-delete_cloud_front_origin_access_identity2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config)
-delete_cloud_front_origin_access_identity2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", params; aws_config=aws_config)
+function delete_cloud_front_origin_access_identity2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/origin-access-identity/cloudfront/$(Id)";
+        aws_config=aws_config,
+    )
+end
+function delete_cloud_front_origin_access_identity2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/origin-access-identity/cloudfront/$(Id)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_distribution2020_05_31(id)
@@ -361,8 +834,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when you disabled the
   distribution. For example: E2QWRUHAPOMQZL.
 """
-delete_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
-delete_distribution2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)", params; aws_config=aws_config)
+function delete_distribution2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("DELETE", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
+end
+function delete_distribution2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/distribution/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_field_level_encryption_config2020_05_31(id)
@@ -378,8 +861,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the
   configuration identity to delete. For example: E2QWRUHAPOMQZL.
 """
-delete_field_level_encryption_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config)
-delete_field_level_encryption_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)", params; aws_config=aws_config)
+function delete_field_level_encryption_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config
+    )
+end
+function delete_field_level_encryption_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/field-level-encryption/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_field_level_encryption_profile2020_05_31(id)
@@ -395,8 +890,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the profile
   to delete. For example: E2QWRUHAPOMQZL.
 """
-delete_field_level_encryption_profile2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
-delete_field_level_encryption_profile2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", params; aws_config=aws_config)
+function delete_field_level_encryption_profile2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config
+    )
+end
+function delete_field_level_encryption_profile2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/field-level-encryption-profile/$(Id)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_function2020_05_31(if-_match, name)
@@ -414,8 +924,35 @@ and DescribeFunction.
 - `name`: The name of the function that you are deleting.
 
 """
-delete_function2020_05_31(If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/function/$(Name)", Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)); aws_config=aws_config)
-delete_function2020_05_31(If_Match, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/function/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config)
+function delete_function2020_05_31(
+    If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/function/$(Name)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config=aws_config,
+    )
+end
+function delete_function2020_05_31(
+    If_Match,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/function/$(Name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_key_group2020_05_31(id)
@@ -436,8 +973,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The version of the key group that you are deleting. The version is the key
   group’s ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
 """
-delete_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
-delete_key_group2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/key-group/$(Id)", params; aws_config=aws_config)
+function delete_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("DELETE", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
+end
+function delete_key_group2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/key-group/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_monitoring_subscription2020_05_31(distribution_id)
@@ -449,8 +994,27 @@ Disables additional CloudWatch metrics for the specified CloudFront distribution
 - `distribution_id`: The ID of the distribution that you are disabling metrics for.
 
 """
-delete_monitoring_subscription2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription"; aws_config=aws_config)
-delete_monitoring_subscription2020_05_31(DistributionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", params; aws_config=aws_config)
+function delete_monitoring_subscription2020_05_31(
+    DistributionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription";
+        aws_config=aws_config,
+    )
+end
+function delete_monitoring_subscription2020_05_31(
+    DistributionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_origin_request_policy2020_05_31(id)
@@ -472,8 +1036,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is the origin request policy’s ETag value, which you can get using
   ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
 """
-delete_origin_request_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config)
-delete_origin_request_policy2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)", params; aws_config=aws_config)
+function delete_origin_request_policy2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config
+    )
+end
+function delete_origin_request_policy2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/origin-request-policy/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_public_key2020_05_31(id)
@@ -489,8 +1065,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the public
   key identity to delete. For example: E2QWRUHAPOMQZL.
 """
-delete_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
-delete_public_key2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)", params; aws_config=aws_config)
+function delete_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("DELETE", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
+end
+function delete_public_key2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/public-key/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_realtime_log_config2020_05_31()
@@ -509,8 +1093,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ARN"`: The Amazon Resource Name (ARN) of the real-time log configuration to delete.
 - `"Name"`: The name of the real-time log configuration to delete.
 """
-delete_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/"; aws_config=aws_config)
-delete_realtime_log_config2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/delete-realtime-log-config/", params; aws_config=aws_config)
+function delete_realtime_log_config2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST", "/2020-05-31/delete-realtime-log-config/"; aws_config=aws_config
+    )
+end
+function delete_realtime_log_config2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST", "/2020-05-31/delete-realtime-log-config/", params; aws_config=aws_config
+    )
+end
 
 """
     delete_streaming_distribution2020_05_31(id)
@@ -544,8 +1140,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when you disabled the
   streaming distribution. For example: E2QWRUHAPOMQZL.
 """
-delete_streaming_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
-delete_streaming_distribution2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)", params; aws_config=aws_config)
+function delete_streaming_distribution2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config
+    )
+end
+function delete_streaming_distribution2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE", "/2020-05-31/streaming-distribution/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_function2020_05_31(name)
@@ -563,8 +1171,18 @@ stage. To get these values, you can use ListFunctions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Stage"`: The function’s stage, either DEVELOPMENT or LIVE.
 """
-describe_function2020_05_31(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function/$(Name)/describe"; aws_config=aws_config)
-describe_function2020_05_31(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function/$(Name)/describe", params; aws_config=aws_config)
+function describe_function2020_05_31(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/function/$(Name)/describe"; aws_config=aws_config)
+end
+function describe_function2020_05_31(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/function/$(Name)/describe", params; aws_config=aws_config
+    )
+end
 
 """
     get_cache_policy2020_05_31(id)
@@ -584,8 +1202,16 @@ ListCachePolicies.
   behavior, you can get the identifier using ListCachePolicies.
 
 """
-get_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
-get_cache_policy2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)", params; aws_config=aws_config)
+function get_cache_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
+end
+function get_cache_policy2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/cache-policy/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     get_cache_policy_config2020_05_31(id)
@@ -604,8 +1230,18 @@ ListCachePolicies.
   behavior, you can get the identifier using ListCachePolicies.
 
 """
-get_cache_policy_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config"; aws_config=aws_config)
-get_cache_policy_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config", params; aws_config=aws_config)
+function get_cache_policy_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config"; aws_config=aws_config)
+end
+function get_cache_policy_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/cache-policy/$(Id)/config", params; aws_config=aws_config
+    )
+end
 
 """
     get_cloud_front_origin_access_identity2020_05_31(id)
@@ -617,8 +1253,23 @@ Get the information about an origin access identity.
 - `id`: The identity's ID.
 
 """
-get_cloud_front_origin_access_identity2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config)
-get_cloud_front_origin_access_identity2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", params; aws_config=aws_config)
+function get_cloud_front_origin_access_identity2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config
+    )
+end
+function get_cloud_front_origin_access_identity2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-identity/cloudfront/$(Id)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_cloud_front_origin_access_identity_config2020_05_31(id)
@@ -630,8 +1281,25 @@ Get the configuration information about an origin access identity.
 - `id`: The identity's ID.
 
 """
-get_cloud_front_origin_access_identity_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config"; aws_config=aws_config)
-get_cloud_front_origin_access_identity_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", params; aws_config=aws_config)
+function get_cloud_front_origin_access_identity_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config";
+        aws_config=aws_config,
+    )
+end
+function get_cloud_front_origin_access_identity_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_distribution2020_05_31(id)
@@ -644,8 +1312,16 @@ Get the information about a distribution.
   returned.
 
 """
-get_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
-get_distribution2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)", params; aws_config=aws_config)
+function get_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
+end
+function get_distribution2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/distribution/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     get_distribution_config2020_05_31(id)
@@ -658,8 +1334,18 @@ Get the configuration information about a distribution.
   returned.
 
 """
-get_distribution_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config"; aws_config=aws_config)
-get_distribution_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config", params; aws_config=aws_config)
+function get_distribution_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/distribution/$(Id)/config"; aws_config=aws_config)
+end
+function get_distribution_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/distribution/$(Id)/config", params; aws_config=aws_config
+    )
+end
 
 """
     get_field_level_encryption2020_05_31(id)
@@ -671,8 +1357,20 @@ Get the field-level encryption configuration information.
 - `id`: Request the ID for the field-level encryption configuration information.
 
 """
-get_field_level_encryption2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config)
-get_field_level_encryption2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)", params; aws_config=aws_config)
+function get_field_level_encryption2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config
+    )
+end
+function get_field_level_encryption2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/field-level-encryption/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     get_field_level_encryption_config2020_05_31(id)
@@ -684,8 +1382,23 @@ Get the field-level encryption configuration information.
 - `id`: Request the ID for the field-level encryption configuration information.
 
 """
-get_field_level_encryption_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config"; aws_config=aws_config)
-get_field_level_encryption_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config", params; aws_config=aws_config)
+function get_field_level_encryption_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/field-level-encryption/$(Id)/config"; aws_config=aws_config
+    )
+end
+function get_field_level_encryption_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/field-level-encryption/$(Id)/config",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_field_level_encryption_profile2020_05_31(id)
@@ -697,8 +1410,23 @@ Get the field-level encryption profile information.
 - `id`: Get the ID for the field-level encryption profile information.
 
 """
-get_field_level_encryption_profile2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
-get_field_level_encryption_profile2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)", params; aws_config=aws_config)
+function get_field_level_encryption_profile2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config
+    )
+end
+function get_field_level_encryption_profile2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/field-level-encryption-profile/$(Id)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_field_level_encryption_profile_config2020_05_31(id)
@@ -710,8 +1438,25 @@ Get the field-level encryption profile configuration information.
 - `id`: Get the ID for the field-level encryption profile configuration information.
 
 """
-get_field_level_encryption_profile_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config"; aws_config=aws_config)
-get_field_level_encryption_profile_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config", params; aws_config=aws_config)
+function get_field_level_encryption_profile_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/field-level-encryption-profile/$(Id)/config";
+        aws_config=aws_config,
+    )
+end
+function get_field_level_encryption_profile_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/field-level-encryption-profile/$(Id)/config",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_function2020_05_31(name)
@@ -728,8 +1473,14 @@ function’s name and stage. To get these values, you can use ListFunctions.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Stage"`: The function’s stage, either DEVELOPMENT or LIVE.
 """
-get_function2020_05_31(Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function/$(Name)"; aws_config=aws_config)
-get_function2020_05_31(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function/$(Name)", params; aws_config=aws_config)
+function get_function2020_05_31(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/function/$(Name)"; aws_config=aws_config)
+end
+function get_function2020_05_31(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/function/$(Name)", params; aws_config=aws_config)
+end
 
 """
     get_invalidation2020_05_31(distribution_id, id)
@@ -742,8 +1493,28 @@ Get the information about an invalidation.
 - `id`: The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
 
 """
-get_invalidation2020_05_31(DistributionId, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)"; aws_config=aws_config)
-get_invalidation2020_05_31(DistributionId, Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)", params; aws_config=aws_config)
+function get_invalidation2020_05_31(
+    DistributionId, Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)";
+        aws_config=aws_config,
+    )
+end
+function get_invalidation2020_05_31(
+    DistributionId,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_key_group2020_05_31(id)
@@ -760,8 +1531,14 @@ behavior, you can get the identifier using ListKeyGroups.
   ListKeyGroups.
 
 """
-get_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
-get_key_group2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)", params; aws_config=aws_config)
+function get_key_group2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/key-group/$(Id)"; aws_config=aws_config)
+end
+function get_key_group2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/key-group/$(Id)", params; aws_config=aws_config)
+end
 
 """
     get_key_group_config2020_05_31(id)
@@ -778,8 +1555,18 @@ ListKeyGroups.
   identifier, use ListKeyGroups.
 
 """
-get_key_group_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)/config"; aws_config=aws_config)
-get_key_group_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group/$(Id)/config", params; aws_config=aws_config)
+function get_key_group_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/key-group/$(Id)/config"; aws_config=aws_config)
+end
+function get_key_group_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/key-group/$(Id)/config", params; aws_config=aws_config
+    )
+end
 
 """
     get_monitoring_subscription2020_05_31(distribution_id)
@@ -793,8 +1580,27 @@ CloudFront distribution.
   for.
 
 """
-get_monitoring_subscription2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription"; aws_config=aws_config)
-get_monitoring_subscription2020_05_31(DistributionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription", params; aws_config=aws_config)
+function get_monitoring_subscription2020_05_31(
+    DistributionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription";
+        aws_config=aws_config,
+    )
+end
+function get_monitoring_subscription2020_05_31(
+    DistributionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributions/$(DistributionId)/monitoring-subscription",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_origin_request_policy2020_05_31(id)
@@ -814,8 +1620,20 @@ cache behavior, you can get the identifier using ListOriginRequestPolicies.
   a cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
-get_origin_request_policy2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config)
-get_origin_request_policy2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)", params; aws_config=aws_config)
+function get_origin_request_policy2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config
+    )
+end
+function get_origin_request_policy2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/origin-request-policy/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     get_origin_request_policy_config2020_05_31(id)
@@ -834,8 +1652,23 @@ cache behavior, you can get the identifier using ListOriginRequestPolicies.
   a cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
-get_origin_request_policy_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config"; aws_config=aws_config)
-get_origin_request_policy_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config", params; aws_config=aws_config)
+function get_origin_request_policy_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/origin-request-policy/$(Id)/config"; aws_config=aws_config
+    )
+end
+function get_origin_request_policy_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-request-policy/$(Id)/config",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_public_key2020_05_31(id)
@@ -847,8 +1680,14 @@ Gets a public key.
 - `id`: The identifier of the public key you are getting.
 
 """
-get_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
-get_public_key2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)", params; aws_config=aws_config)
+function get_public_key2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
+end
+function get_public_key2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/public-key/$(Id)", params; aws_config=aws_config)
+end
 
 """
     get_public_key_config2020_05_31(id)
@@ -860,8 +1699,18 @@ Gets a public key configuration.
 - `id`: The identifier of the public key whose configuration you are getting.
 
 """
-get_public_key_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config"; aws_config=aws_config)
-get_public_key_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config", params; aws_config=aws_config)
+function get_public_key_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/public-key/$(Id)/config"; aws_config=aws_config)
+end
+function get_public_key_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/public-key/$(Id)/config", params; aws_config=aws_config
+    )
+end
 
 """
     get_realtime_log_config2020_05_31()
@@ -877,8 +1726,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ARN"`: The Amazon Resource Name (ARN) of the real-time log configuration to get.
 - `"Name"`: The name of the real-time log configuration to get.
 """
-get_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/"; aws_config=aws_config)
-get_realtime_log_config2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/get-realtime-log-config/", params; aws_config=aws_config)
+function get_realtime_log_config2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("POST", "/2020-05-31/get-realtime-log-config/"; aws_config=aws_config)
+end
+function get_realtime_log_config2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST", "/2020-05-31/get-realtime-log-config/", params; aws_config=aws_config
+    )
+end
 
 """
     get_streaming_distribution2020_05_31(id)
@@ -891,8 +1750,20 @@ configuration.
 - `id`: The streaming distribution's ID.
 
 """
-get_streaming_distribution2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
-get_streaming_distribution2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)", params; aws_config=aws_config)
+function get_streaming_distribution2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config
+    )
+end
+function get_streaming_distribution2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/streaming-distribution/$(Id)", params; aws_config=aws_config
+    )
+end
 
 """
     get_streaming_distribution_config2020_05_31(id)
@@ -904,8 +1775,23 @@ Get the configuration information about a streaming distribution.
 - `id`: The streaming distribution's ID.
 
 """
-get_streaming_distribution_config2020_05_31(Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config"; aws_config=aws_config)
-get_streaming_distribution_config2020_05_31(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config", params; aws_config=aws_config)
+function get_streaming_distribution_config2020_05_31(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/streaming-distribution/$(Id)/config"; aws_config=aws_config
+    )
+end
+function get_streaming_distribution_config2020_05_31(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/streaming-distribution/$(Id)/config",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_cache_policies2020_05_31()
@@ -930,8 +1816,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are:    managed – Returns only the managed policies created by Amazon Web Services.
   custom – Returns only the custom policies created in your account.
 """
-list_cache_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy"; aws_config=aws_config)
-list_cache_policies2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/cache-policy", params; aws_config=aws_config)
+function list_cache_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/cache-policy"; aws_config=aws_config)
+end
+function list_cache_policies2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/cache-policy", params; aws_config=aws_config)
+end
 
 """
     list_cloud_front_origin_access_identities2020_05_31()
@@ -948,8 +1840,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of origin access identities you want in the response
   body.
 """
-list_cloud_front_origin_access_identities2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront"; aws_config=aws_config)
-list_cloud_front_origin_access_identities2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", params; aws_config=aws_config)
+function list_cloud_front_origin_access_identities2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/origin-access-identity/cloudfront"; aws_config=aws_config
+    )
+end
+function list_cloud_front_origin_access_identities2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/origin-access-identity/cloudfront",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_conflicting_aliases2020_05_31(alias, distribution_id)
@@ -989,8 +1896,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of NextMarker from the current page’s response.
 - `"MaxItems"`: The maximum number of conflicting aliases that you want in the response.
 """
-list_conflicting_aliases2020_05_31(Alias, DistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/conflicting-alias", Dict{String, Any}("Alias"=>Alias, "DistributionId"=>DistributionId); aws_config=aws_config)
-list_conflicting_aliases2020_05_31(Alias, DistributionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/conflicting-alias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "DistributionId"=>DistributionId), params)); aws_config=aws_config)
+function list_conflicting_aliases2020_05_31(
+    Alias, DistributionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/conflicting-alias",
+        Dict{String,Any}("Alias" => Alias, "DistributionId" => DistributionId);
+        aws_config=aws_config,
+    )
+end
+function list_conflicting_aliases2020_05_31(
+    Alias,
+    DistributionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/conflicting-alias",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Alias" => Alias, "DistributionId" => DistributionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_distributions2020_05_31()
@@ -1006,8 +1940,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current page's response (which is also the ID of the last distribution on that page).
 - `"MaxItems"`: The maximum number of distributions you want in the response body.
 """
-list_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution"; aws_config=aws_config)
-list_distributions2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution", params; aws_config=aws_config)
+function list_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/distribution"; aws_config=aws_config)
+end
+function list_distributions2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/distribution", params; aws_config=aws_config)
+end
 
 """
     list_distributions_by_cache_policy_id2020_05_31(cache_policy_id)
@@ -1032,8 +1972,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of NextMarker from the current page’s response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
-list_distributions_by_cache_policy_id2020_05_31(CachePolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)"; aws_config=aws_config)
-list_distributions_by_cache_policy_id2020_05_31(CachePolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)", params; aws_config=aws_config)
+function list_distributions_by_cache_policy_id2020_05_31(
+    CachePolicyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)";
+        aws_config=aws_config,
+    )
+end
+function list_distributions_by_cache_policy_id2020_05_31(
+    CachePolicyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_distributions_by_key_group2020_05_31(key_group_id)
@@ -1057,8 +2016,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of NextMarker from the current page’s response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
-list_distributions_by_key_group2020_05_31(KeyGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)"; aws_config=aws_config)
-list_distributions_by_key_group2020_05_31(KeyGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)", params; aws_config=aws_config)
+function list_distributions_by_key_group2020_05_31(
+    KeyGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)"; aws_config=aws_config
+    )
+end
+function list_distributions_by_key_group2020_05_31(
+    KeyGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByKeyGroupId/$(KeyGroupId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_distributions_by_origin_request_policy_id2020_05_31(origin_request_policy_id)
@@ -1083,8 +2059,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of NextMarker from the current page’s response.
 - `"MaxItems"`: The maximum number of distribution IDs that you want in the response.
 """
-list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)"; aws_config=aws_config)
-list_distributions_by_origin_request_policy_id2020_05_31(OriginRequestPolicyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)", params; aws_config=aws_config)
+function list_distributions_by_origin_request_policy_id2020_05_31(
+    OriginRequestPolicyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)";
+        aws_config=aws_config,
+    )
+end
+function list_distributions_by_origin_request_policy_id2020_05_31(
+    OriginRequestPolicyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_distributions_by_realtime_log_config2020_05_31()
@@ -1112,8 +2107,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RealtimeLogConfigName"`: The name of the real-time log configuration whose associated
   distributions you want to list.
 """
-list_distributions_by_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/"; aws_config=aws_config)
-list_distributions_by_realtime_log_config2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/distributionsByRealtimeLogConfig/", params; aws_config=aws_config)
+function list_distributions_by_realtime_log_config2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST", "/2020-05-31/distributionsByRealtimeLogConfig/"; aws_config=aws_config
+    )
+end
+function list_distributions_by_realtime_log_config2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/distributionsByRealtimeLogConfig/",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_distributions_by_web_aclid2020_05_31(web_aclid)
@@ -1136,8 +2146,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of distributions that you want CloudFront to return in
   the response body. The maximum and default values are both 100.
 """
-list_distributions_by_web_aclid2020_05_31(WebACLId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)"; aws_config=aws_config)
-list_distributions_by_web_aclid2020_05_31(WebACLId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)", params; aws_config=aws_config)
+function list_distributions_by_web_aclid2020_05_31(
+    WebACLId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)"; aws_config=aws_config
+    )
+end
+function list_distributions_by_web_aclid2020_05_31(
+    WebACLId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distributionsByWebACLId/$(WebACLId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_field_level_encryption_configs2020_05_31()
@@ -1155,8 +2182,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of field-level encryption configurations you want in the
   response body.
 """
-list_field_level_encryption_configs2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption"; aws_config=aws_config)
-list_field_level_encryption_configs2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption", params; aws_config=aws_config)
+function list_field_level_encryption_configs2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/field-level-encryption"; aws_config=aws_config)
+end
+function list_field_level_encryption_configs2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/field-level-encryption", params; aws_config=aws_config
+    )
+end
 
 """
     list_field_level_encryption_profiles2020_05_31()
@@ -1174,8 +2211,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of field-level encryption profiles you want in the
   response body.
 """
-list_field_level_encryption_profiles2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile"; aws_config=aws_config)
-list_field_level_encryption_profiles2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile", params; aws_config=aws_config)
+function list_field_level_encryption_profiles2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/field-level-encryption-profile"; aws_config=aws_config
+    )
+end
+function list_field_level_encryption_profiles2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/field-level-encryption-profile", params; aws_config=aws_config
+    )
+end
 
 """
     list_functions2020_05_31()
@@ -1199,8 +2248,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Stage"`: An optional filter to return only the functions that are in the specified
   stage, either DEVELOPMENT or LIVE.
 """
-list_functions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function"; aws_config=aws_config)
-list_functions2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/function", params; aws_config=aws_config)
+function list_functions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/function"; aws_config=aws_config)
+end
+function list_functions2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/function", params; aws_config=aws_config)
+end
 
 """
     list_invalidations2020_05_31(distribution_id)
@@ -1222,8 +2277,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of invalidation batches that you want in the response
   body.
 """
-list_invalidations2020_05_31(DistributionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation"; aws_config=aws_config)
-list_invalidations2020_05_31(DistributionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation", params; aws_config=aws_config)
+function list_invalidations2020_05_31(
+    DistributionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution/$(DistributionId)/invalidation";
+        aws_config=aws_config,
+    )
+end
+function list_invalidations2020_05_31(
+    DistributionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/distribution/$(DistributionId)/invalidation",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_key_groups2020_05_31()
@@ -1243,8 +2317,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextMarker from the current page’s response.
 - `"MaxItems"`: The maximum number of key groups that you want in the response.
 """
-list_key_groups2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group"; aws_config=aws_config)
-list_key_groups2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/key-group", params; aws_config=aws_config)
+function list_key_groups2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/key-group"; aws_config=aws_config)
+end
+function list_key_groups2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/key-group", params; aws_config=aws_config)
+end
 
 """
     list_origin_request_policies2020_05_31()
@@ -1269,8 +2349,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values are:    managed – Returns only the managed policies created by Amazon Web
   Services.    custom – Returns only the custom policies created in your account.
 """
-list_origin_request_policies2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy"; aws_config=aws_config)
-list_origin_request_policies2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/origin-request-policy", params; aws_config=aws_config)
+function list_origin_request_policies2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/origin-request-policy"; aws_config=aws_config)
+end
+function list_origin_request_policies2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/origin-request-policy", params; aws_config=aws_config
+    )
+end
 
 """
     list_public_keys2020_05_31()
@@ -1286,8 +2376,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current page's response (which is also the ID of the last public key on that page).
 - `"MaxItems"`: The maximum number of public keys you want in the response body.
 """
-list_public_keys2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key"; aws_config=aws_config)
-list_public_keys2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/public-key", params; aws_config=aws_config)
+function list_public_keys2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudfront("GET", "/2020-05-31/public-key"; aws_config=aws_config)
+end
+function list_public_keys2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/public-key", params; aws_config=aws_config)
+end
 
 """
     list_realtime_log_configs2020_05_31()
@@ -1308,8 +2404,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxItems"`: The maximum number of real-time log configurations that you want in the
   response.
 """
-list_realtime_log_configs2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config"; aws_config=aws_config)
-list_realtime_log_configs2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/realtime-log-config", params; aws_config=aws_config)
+function list_realtime_log_configs2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/realtime-log-config"; aws_config=aws_config)
+end
+function list_realtime_log_configs2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/realtime-log-config", params; aws_config=aws_config
+    )
+end
 
 """
     list_streaming_distributions2020_05_31()
@@ -1322,8 +2428,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The value that you provided for the Marker request parameter.
 - `"MaxItems"`: The value that you provided for the MaxItems request parameter.
 """
-list_streaming_distributions2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution"; aws_config=aws_config)
-list_streaming_distributions2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/streaming-distribution", params; aws_config=aws_config)
+function list_streaming_distributions2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("GET", "/2020-05-31/streaming-distribution"; aws_config=aws_config)
+end
+function list_streaming_distributions2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET", "/2020-05-31/streaming-distribution", params; aws_config=aws_config
+    )
+end
 
 """
     list_tags_for_resource2020_05_31(resource)
@@ -1335,8 +2451,30 @@ List tags for a CloudFront resource.
 - `resource`:  An ARN of a CloudFront resource.
 
 """
-list_tags_for_resource2020_05_31(Resource; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
-list_tags_for_resource2020_05_31(Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config)
+function list_tags_for_resource2020_05_31(
+    Resource; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/tagging",
+        Dict{String,Any}("Resource" => Resource);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource2020_05_31(
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/tagging",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     publish_function2020_05_31(if-_match, name)
@@ -1356,8 +2494,35 @@ DescribeFunction.
 - `name`: The name of the function that you are publishing.
 
 """
-publish_function2020_05_31(If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function/$(Name)/publish", Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)); aws_config=aws_config)
-publish_function2020_05_31(If_Match, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function/$(Name)/publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config)
+function publish_function2020_05_31(
+    If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/function/$(Name)/publish",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config=aws_config,
+    )
+end
+function publish_function2020_05_31(
+    If_Match,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/function/$(Name)/publish",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource2020_05_31(resource, tags)
@@ -1370,8 +2535,33 @@ Add tags to a CloudFront resource.
 - `tags`:  A complex type that contains zero or more Tag elements.
 
 """
-tag_resource2020_05_31(Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags); aws_config=aws_config)
-tag_resource2020_05_31(Resource, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource2020_05_31(
+    Resource, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/tagging?Operation=Tag",
+        Dict{String,Any}("Resource" => Resource, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource2020_05_31(
+    Resource,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/tagging?Operation=Tag",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Resource" => Resource, "Tags" => Tags), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     test_function2020_05_31(event_object, if-_match, name)
@@ -1399,8 +2589,42 @@ DescribeFunction.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Stage"`: The stage of the function that you are testing, either DEVELOPMENT or LIVE.
 """
-test_function2020_05_31(EventObject, If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function/$(Name)/test", Dict{String, Any}("EventObject"=>EventObject, "headers"=>Dict{String, Any}("If-Match"=>If_Match)); aws_config=aws_config)
-test_function2020_05_31(EventObject, If_Match, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/function/$(Name)/test", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventObject"=>EventObject, "headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config)
+function test_function2020_05_31(
+    EventObject, If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/function/$(Name)/test",
+        Dict{String,Any}(
+            "EventObject" => EventObject,
+            "headers" => Dict{String,Any}("If-Match" => If_Match),
+        );
+        aws_config=aws_config,
+    )
+end
+function test_function2020_05_31(
+    EventObject,
+    If_Match,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/function/$(Name)/test",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EventObject" => EventObject,
+                    "headers" => Dict{String,Any}("If-Match" => If_Match),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource2020_05_31(resource, tag_keys)
@@ -1413,8 +2637,35 @@ Remove tags from a CloudFront resource.
 - `tag_keys`:  A complex type that contains zero or more Tag key elements.
 
 """
-untag_resource2020_05_31(Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource2020_05_31(Resource, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource2020_05_31(
+    Resource, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/tagging?Operation=Untag",
+        Dict{String,Any}("Resource" => Resource, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource2020_05_31(
+    Resource,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/tagging?Operation=Untag",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Resource" => Resource, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_cache_policy2020_05_31(cache_policy_config, id)
@@ -1439,8 +2690,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The version of the cache policy that you are updating. The version is
   returned in the cache policy’s ETag field in the response to GetCachePolicyConfig.
 """
-update_cache_policy2020_05_31(CachePolicyConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws_config=aws_config)
-update_cache_policy2020_05_31(CachePolicyConfig, Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), params)); aws_config=aws_config)
+function update_cache_policy2020_05_31(
+    CachePolicyConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/cache-policy/$(Id)",
+        Dict{String,Any}("CachePolicyConfig" => CachePolicyConfig);
+        aws_config=aws_config,
+    )
+end
+function update_cache_policy2020_05_31(
+    CachePolicyConfig,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/cache-policy/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CachePolicyConfig" => CachePolicyConfig), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_cloud_front_origin_access_identity2020_05_31(cloud_front_origin_access_identity_config, id)
@@ -1457,8 +2733,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the
   identity's configuration. For example: E2QWRUHAPOMQZL.
 """
-update_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws_config=aws_config)
-update_cloud_front_origin_access_identity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), params)); aws_config=aws_config)
+function update_cloud_front_origin_access_identity2020_05_31(
+    CloudFrontOriginAccessIdentityConfig,
+    Id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config",
+        Dict{String,Any}(
+            "CloudFrontOriginAccessIdentityConfig" => CloudFrontOriginAccessIdentityConfig
+        );
+        aws_config=aws_config,
+    )
+end
+function update_cloud_front_origin_access_identity2020_05_31(
+    CloudFrontOriginAccessIdentityConfig,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CloudFrontOriginAccessIdentityConfig" =>
+                        CloudFrontOriginAccessIdentityConfig,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_distribution2020_05_31(distribution_config, id)
@@ -1507,8 +2817,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the
   distribution's configuration. For example: E2QWRUHAPOMQZL.
 """
-update_distribution2020_05_31(DistributionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws_config=aws_config)
-update_distribution2020_05_31(DistributionConfig, Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), params)); aws_config=aws_config)
+function update_distribution2020_05_31(
+    DistributionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(Id)/config",
+        Dict{String,Any}("DistributionConfig" => DistributionConfig);
+        aws_config=aws_config,
+    )
+end
+function update_distribution2020_05_31(
+    DistributionConfig,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/distribution/$(Id)/config",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DistributionConfig" => DistributionConfig), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_field_level_encryption_config2020_05_31(field_level_encryption_config, id)
@@ -1526,8 +2861,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the
   configuration identity to update. For example: E2QWRUHAPOMQZL.
 """
-update_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws_config=aws_config)
-update_field_level_encryption_config2020_05_31(FieldLevelEncryptionConfig, Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), params)); aws_config=aws_config)
+function update_field_level_encryption_config2020_05_31(
+    FieldLevelEncryptionConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/field-level-encryption/$(Id)/config",
+        Dict{String,Any}("FieldLevelEncryptionConfig" => FieldLevelEncryptionConfig);
+        aws_config=aws_config,
+    )
+end
+function update_field_level_encryption_config2020_05_31(
+    FieldLevelEncryptionConfig,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/field-level-encryption/$(Id)/config",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FieldLevelEncryptionConfig" => FieldLevelEncryptionConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_field_level_encryption_profile2020_05_31(field_level_encryption_profile_config, id)
@@ -1545,8 +2909,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the profile
   identity to update. For example: E2QWRUHAPOMQZL.
 """
-update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
-update_field_level_encryption_profile2020_05_31(FieldLevelEncryptionProfileConfig, Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), params)); aws_config=aws_config)
+function update_field_level_encryption_profile2020_05_31(
+    FieldLevelEncryptionProfileConfig, Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/field-level-encryption-profile/$(Id)/config",
+        Dict{String,Any}(
+            "FieldLevelEncryptionProfileConfig" => FieldLevelEncryptionProfileConfig
+        );
+        aws_config=aws_config,
+    )
+end
+function update_field_level_encryption_profile2020_05_31(
+    FieldLevelEncryptionProfileConfig,
+    Id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/field-level-encryption-profile/$(Id)/config",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FieldLevelEncryptionProfileConfig" => FieldLevelEncryptionProfileConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_function2020_05_31(function_code, function_config, if-_match, name)
@@ -1567,8 +2962,49 @@ code. To get the name and version, you can use ListFunctions and DescribeFunctio
 - `name`: The name of the function that you are updating.
 
 """
-update_function2020_05_31(FunctionCode, FunctionConfig, If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/function/$(Name)", Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "headers"=>Dict{String, Any}("If-Match"=>If_Match)); aws_config=aws_config)
-update_function2020_05_31(FunctionCode, FunctionConfig, If_Match, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/function/$(Name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionCode"=>FunctionCode, "FunctionConfig"=>FunctionConfig, "headers"=>Dict{String, Any}("If-Match"=>If_Match)), params)); aws_config=aws_config)
+function update_function2020_05_31(
+    FunctionCode,
+    FunctionConfig,
+    If_Match,
+    Name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/function/$(Name)",
+        Dict{String,Any}(
+            "FunctionCode" => FunctionCode,
+            "FunctionConfig" => FunctionConfig,
+            "headers" => Dict{String,Any}("If-Match" => If_Match),
+        );
+        aws_config=aws_config,
+    )
+end
+function update_function2020_05_31(
+    FunctionCode,
+    FunctionConfig,
+    If_Match,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/function/$(Name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FunctionCode" => FunctionCode,
+                    "FunctionConfig" => FunctionConfig,
+                    "headers" => Dict{String,Any}("If-Match" => If_Match),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_key_group2020_05_31(id, key_group_config)
@@ -1590,8 +3026,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The version of the key group that you are updating. The version is the key
   group’s ETag value.
 """
-update_key_group2020_05_31(Id, KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig); aws_config=aws_config)
-update_key_group2020_05_31(Id, KeyGroupConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/key-group/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("KeyGroupConfig"=>KeyGroupConfig), params)); aws_config=aws_config)
+function update_key_group2020_05_31(
+    Id, KeyGroupConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/key-group/$(Id)",
+        Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig);
+        aws_config=aws_config,
+    )
+end
+function update_key_group2020_05_31(
+    Id,
+    KeyGroupConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/key-group/$(Id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_origin_request_policy2020_05_31(id, origin_request_policy_config)
@@ -1617,8 +3076,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is returned in the origin request policy’s ETag field in the response to
   GetOriginRequestPolicyConfig.
 """
-update_origin_request_policy2020_05_31(Id, OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws_config=aws_config)
-update_origin_request_policy2020_05_31(Id, OriginRequestPolicyConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), params)); aws_config=aws_config)
+function update_origin_request_policy2020_05_31(
+    Id, OriginRequestPolicyConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/origin-request-policy/$(Id)",
+        Dict{String,Any}("OriginRequestPolicyConfig" => OriginRequestPolicyConfig);
+        aws_config=aws_config,
+    )
+end
+function update_origin_request_policy2020_05_31(
+    Id,
+    OriginRequestPolicyConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/origin-request-policy/$(Id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OriginRequestPolicyConfig" => OriginRequestPolicyConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_public_key2020_05_31(id, public_key_config)
@@ -1635,8 +3121,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the public
   key to update. For example: E2QWRUHAPOMQZL.
 """
-update_public_key2020_05_31(Id, PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
-update_public_key2020_05_31(Id, PublicKeyConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), params)); aws_config=aws_config)
+function update_public_key2020_05_31(
+    Id, PublicKeyConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/public-key/$(Id)/config",
+        Dict{String,Any}("PublicKeyConfig" => PublicKeyConfig);
+        aws_config=aws_config,
+    )
+end
+function update_public_key2020_05_31(
+    Id,
+    PublicKeyConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/public-key/$(Id)/config",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("PublicKeyConfig" => PublicKeyConfig), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_realtime_log_config2020_05_31()
@@ -1664,8 +3175,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rate determines the percentage of viewer requests that are represented in the real-time log
   data. You must provide an integer between 1 and 100, inclusive.
 """
-update_realtime_log_config2020_05_31(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/"; aws_config=aws_config)
-update_realtime_log_config2020_05_31(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/realtime-log-config/", params; aws_config=aws_config)
+function update_realtime_log_config2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront("PUT", "/2020-05-31/realtime-log-config/"; aws_config=aws_config)
+end
+function update_realtime_log_config2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT", "/2020-05-31/realtime-log-config/", params; aws_config=aws_config
+    )
+end
 
 """
     update_streaming_distribution2020_05_31(id, streaming_distribution_config)
@@ -1682,5 +3203,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"If-Match"`: The value of the ETag header that you received when retrieving the
   streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
 """
-update_streaming_distribution2020_05_31(Id, StreamingDistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws_config=aws_config)
-update_streaming_distribution2020_05_31(Id, StreamingDistributionConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), params)); aws_config=aws_config)
+function update_streaming_distribution2020_05_31(
+    Id, StreamingDistributionConfig; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/streaming-distribution/$(Id)/config",
+        Dict{String,Any}("StreamingDistributionConfig" => StreamingDistributionConfig);
+        aws_config=aws_config,
+    )
+end
+function update_streaming_distribution2020_05_31(
+    Id,
+    StreamingDistributionConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/streaming-distribution/$(Id)/config",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StreamingDistributionConfig" => StreamingDistributionConfig
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

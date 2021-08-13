@@ -22,8 +22,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
 """
-associate_entity_to_thing(entityId, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("AssociateEntityToThing", Dict{String, Any}("entityId"=>entityId, "thingName"=>thingName); aws_config=aws_config)
-associate_entity_to_thing(entityId, thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("AssociateEntityToThing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityId"=>entityId, "thingName"=>thingName), params)); aws_config=aws_config)
+function associate_entity_to_thing(
+    entityId, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "AssociateEntityToThing",
+        Dict{String,Any}("entityId" => entityId, "thingName" => thingName);
+        aws_config=aws_config,
+    )
+end
+function associate_entity_to_thing(
+    entityId,
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "AssociateEntityToThing",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("entityId" => entityId, "thingName" => thingName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_flow_template(definition)
@@ -42,8 +67,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compatibleNamespaceVersion"`: The namespace version in which the workflow is to be
   created. If no value is specified, the latest version is used by default.
 """
-create_flow_template(definition; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("CreateFlowTemplate", Dict{String, Any}("definition"=>definition); aws_config=aws_config)
-create_flow_template(definition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("CreateFlowTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition), params)); aws_config=aws_config)
+function create_flow_template(definition; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "CreateFlowTemplate",
+        Dict{String,Any}("definition" => definition);
+        aws_config=aws_config,
+    )
+end
+function create_flow_template(
+    definition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "CreateFlowTemplate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("definition" => definition), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_system_instance(definition, target)
@@ -81,8 +124,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata, consisting of key-value pairs, that can be used to categorize your
   system instances.
 """
-create_system_instance(definition, target; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("CreateSystemInstance", Dict{String, Any}("definition"=>definition, "target"=>target); aws_config=aws_config)
-create_system_instance(definition, target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("CreateSystemInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "target"=>target), params)); aws_config=aws_config)
+function create_system_instance(
+    definition, target; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "CreateSystemInstance",
+        Dict{String,Any}("definition" => definition, "target" => target);
+        aws_config=aws_config,
+    )
+end
+function create_system_instance(
+    definition,
+    target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "CreateSystemInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("definition" => definition, "target" => target),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_system_template(definition)
@@ -99,8 +167,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compatibleNamespaceVersion"`: The namespace version in which the system is to be
   created. If no value is specified, the latest version is used by default.
 """
-create_system_template(definition; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("CreateSystemTemplate", Dict{String, Any}("definition"=>definition); aws_config=aws_config)
-create_system_template(definition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("CreateSystemTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition), params)); aws_config=aws_config)
+function create_system_template(
+    definition; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "CreateSystemTemplate",
+        Dict{String,Any}("definition" => definition);
+        aws_config=aws_config,
+    )
+end
+function create_system_template(
+    definition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "CreateSystemTemplate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("definition" => definition), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_flow_template(id)
@@ -115,8 +203,20 @@ update or deploy. Existing deployments that contain the workflow will continue t
   urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
 
 """
-delete_flow_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeleteFlowTemplate", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_flow_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeleteFlowTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function delete_flow_template(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "DeleteFlowTemplate", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function delete_flow_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "DeleteFlowTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_namespace()
@@ -127,8 +227,14 @@ Delete the systems and flows that use entities in the namespace before performin
 action.
 
 """
-delete_namespace(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeleteNamespace"; aws_config=aws_config)
-delete_namespace(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeleteNamespace", params; aws_config=aws_config)
+function delete_namespace(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("DeleteNamespace"; aws_config=aws_config)
+end
+function delete_namespace(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("DeleteNamespace", params; aws_config=aws_config)
+end
 
 """
     delete_system_instance()
@@ -142,8 +248,14 @@ same ID as a deleted system instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"id"`: The ID of the system instance to be deleted.
 """
-delete_system_instance(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeleteSystemInstance"; aws_config=aws_config)
-delete_system_instance(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeleteSystemInstance", params; aws_config=aws_config)
+function delete_system_instance(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("DeleteSystemInstance"; aws_config=aws_config)
+end
+function delete_system_instance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("DeleteSystemInstance", params; aws_config=aws_config)
+end
 
 """
     delete_system_template(id)
@@ -158,8 +270,20 @@ the system that is taken when it is deployed.
   urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
 
 """
-delete_system_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeleteSystemTemplate", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_system_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeleteSystemTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function delete_system_template(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "DeleteSystemTemplate", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function delete_system_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "DeleteSystemTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     deploy_system_instance()
@@ -180,8 +304,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action. The ID should be in the following format.  urn:tdm:REGION/ACCOUNT
   ID/default:deployment:DEPLOYMENTNAME
 """
-deploy_system_instance(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeploySystemInstance"; aws_config=aws_config)
-deploy_system_instance(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeploySystemInstance", params; aws_config=aws_config)
+function deploy_system_instance(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("DeploySystemInstance"; aws_config=aws_config)
+end
+function deploy_system_instance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("DeploySystemInstance", params; aws_config=aws_config)
+end
 
 """
     deprecate_flow_template(id)
@@ -195,8 +325,20 @@ flows can't be deployed, but existing deployments will continue to run.
   urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME
 
 """
-deprecate_flow_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeprecateFlowTemplate", Dict{String, Any}("id"=>id); aws_config=aws_config)
-deprecate_flow_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeprecateFlowTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function deprecate_flow_template(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "DeprecateFlowTemplate", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function deprecate_flow_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "DeprecateFlowTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     deprecate_system_template(id)
@@ -209,8 +351,20 @@ Deprecates the specified system.
   urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME
 
 """
-deprecate_system_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeprecateSystemTemplate", Dict{String, Any}("id"=>id); aws_config=aws_config)
-deprecate_system_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DeprecateSystemTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function deprecate_system_template(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "DeprecateSystemTemplate", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function deprecate_system_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "DeprecateSystemTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_namespace()
@@ -223,8 +377,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespaceName"`: The name of the user's namespace. Set this to aws to get the public
   namespace.
 """
-describe_namespace(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DescribeNamespace"; aws_config=aws_config)
-describe_namespace(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DescribeNamespace", params; aws_config=aws_config)
+function describe_namespace(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("DescribeNamespace"; aws_config=aws_config)
+end
+function describe_namespace(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("DescribeNamespace", params; aws_config=aws_config)
+end
 
 """
     dissociate_entity_from_thing(entity_type, thing_name)
@@ -239,8 +399,33 @@ associated with a thing.
 - `thing_name`: The name of the thing to disassociate.
 
 """
-dissociate_entity_from_thing(entityType, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DissociateEntityFromThing", Dict{String, Any}("entityType"=>entityType, "thingName"=>thingName); aws_config=aws_config)
-dissociate_entity_from_thing(entityType, thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("DissociateEntityFromThing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityType"=>entityType, "thingName"=>thingName), params)); aws_config=aws_config)
+function dissociate_entity_from_thing(
+    entityType, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "DissociateEntityFromThing",
+        Dict{String,Any}("entityType" => entityType, "thingName" => thingName);
+        aws_config=aws_config,
+    )
+end
+function dissociate_entity_from_thing(
+    entityType,
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "DissociateEntityFromThing",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("entityType" => entityType, "thingName" => thingName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_entities(ids)
@@ -260,8 +445,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
 """
-get_entities(ids; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetEntities", Dict{String, Any}("ids"=>ids); aws_config=aws_config)
-get_entities(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config)
+function get_entities(ids; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "GetEntities", Dict{String,Any}("ids" => ids); aws_config=aws_config
+    )
+end
+function get_entities(
+    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "GetEntities",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_flow_template(id)
@@ -278,8 +475,20 @@ workflow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"revisionNumber"`: The number of the workflow revision to retrieve.
 """
-get_flow_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetFlowTemplate", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_flow_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetFlowTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function get_flow_template(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "GetFlowTemplate", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function get_flow_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "GetFlowTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_flow_template_revisions(id)
@@ -299,8 +508,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-get_flow_template_revisions(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetFlowTemplateRevisions", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_flow_template_revisions(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetFlowTemplateRevisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function get_flow_template_revisions(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "GetFlowTemplateRevisions", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function get_flow_template_revisions(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "GetFlowTemplateRevisions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_namespace_deletion_status()
@@ -309,8 +530,14 @@ get_flow_template_revisions(id, params::AbstractDict{String}; aws_config::Abstra
 Gets the status of a namespace deletion task.
 
 """
-get_namespace_deletion_status(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetNamespaceDeletionStatus"; aws_config=aws_config)
-get_namespace_deletion_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetNamespaceDeletionStatus", params; aws_config=aws_config)
+function get_namespace_deletion_status(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("GetNamespaceDeletionStatus"; aws_config=aws_config)
+end
+function get_namespace_deletion_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("GetNamespaceDeletionStatus", params; aws_config=aws_config)
+end
 
 """
     get_system_instance(id)
@@ -324,8 +551,20 @@ Gets a system instance.
   ID/default:deployment:DEPLOYMENTNAME
 
 """
-get_system_instance(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetSystemInstance", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_system_instance(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetSystemInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function get_system_instance(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "GetSystemInstance", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function get_system_instance(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "GetSystemInstance",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_system_template(id)
@@ -341,8 +580,20 @@ Gets a system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"revisionNumber"`: The number that specifies the revision of the system to get.
 """
-get_system_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetSystemTemplate", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_system_template(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetSystemTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function get_system_template(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "GetSystemTemplate", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function get_system_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "GetSystemTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_system_template_revisions(id)
@@ -362,8 +613,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-get_system_template_revisions(id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetSystemTemplateRevisions", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_system_template_revisions(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetSystemTemplateRevisions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function get_system_template_revisions(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "GetSystemTemplateRevisions", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function get_system_template_revisions(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "GetSystemTemplateRevisions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_upload_status(upload_id)
@@ -376,8 +641,24 @@ Gets the status of the specified upload.
   action.
 
 """
-get_upload_status(uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetUploadStatus", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
-get_upload_status(uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("GetUploadStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), params)); aws_config=aws_config)
+function get_upload_status(uploadId; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "GetUploadStatus", Dict{String,Any}("uploadId" => uploadId); aws_config=aws_config
+    )
+end
+function get_upload_status(
+    uploadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "GetUploadStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("uploadId" => uploadId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_flow_execution_messages(flow_execution_id)
@@ -394,8 +675,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-list_flow_execution_messages(flowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("ListFlowExecutionMessages", Dict{String, Any}("flowExecutionId"=>flowExecutionId); aws_config=aws_config)
-list_flow_execution_messages(flowExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("ListFlowExecutionMessages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("flowExecutionId"=>flowExecutionId), params)); aws_config=aws_config)
+function list_flow_execution_messages(
+    flowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "ListFlowExecutionMessages",
+        Dict{String,Any}("flowExecutionId" => flowExecutionId);
+        aws_config=aws_config,
+    )
+end
+function list_flow_execution_messages(
+    flowExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "ListFlowExecutionMessages",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("flowExecutionId" => flowExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -412,8 +715,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of tags to return.
 - `"nextToken"`: The token that specifies the next page of results to return.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     search_entities(entity_types)
@@ -438,8 +761,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_entities(entityTypes; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchEntities", Dict{String, Any}("entityTypes"=>entityTypes); aws_config=aws_config)
-search_entities(entityTypes, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityTypes"=>entityTypes), params)); aws_config=aws_config)
+function search_entities(entityTypes; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "SearchEntities",
+        Dict{String,Any}("entityTypes" => entityTypes);
+        aws_config=aws_config,
+    )
+end
+function search_entities(
+    entityTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "SearchEntities",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("entityTypes" => entityTypes), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     search_flow_executions(system_instance_id)
@@ -459,8 +800,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginating results.
 - `"startTime"`: The date and time of the earliest flow execution to return.
 """
-search_flow_executions(systemInstanceId; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchFlowExecutions", Dict{String, Any}("systemInstanceId"=>systemInstanceId); aws_config=aws_config)
-search_flow_executions(systemInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchFlowExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("systemInstanceId"=>systemInstanceId), params)); aws_config=aws_config)
+function search_flow_executions(
+    systemInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "SearchFlowExecutions",
+        Dict{String,Any}("systemInstanceId" => systemInstanceId);
+        aws_config=aws_config,
+    )
+end
+function search_flow_executions(
+    systemInstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "SearchFlowExecutions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("systemInstanceId" => systemInstanceId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     search_flow_templates()
@@ -476,8 +839,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_flow_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchFlowTemplates"; aws_config=aws_config)
-search_flow_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchFlowTemplates", params; aws_config=aws_config)
+function search_flow_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("SearchFlowTemplates"; aws_config=aws_config)
+end
+function search_flow_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("SearchFlowTemplates", params; aws_config=aws_config)
+end
 
 """
     search_system_instances()
@@ -494,8 +863,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_system_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchSystemInstances"; aws_config=aws_config)
-search_system_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchSystemInstances", params; aws_config=aws_config)
+function search_system_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("SearchSystemInstances"; aws_config=aws_config)
+end
+function search_system_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("SearchSystemInstances", params; aws_config=aws_config)
+end
 
 """
     search_system_templates()
@@ -512,8 +887,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_system_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchSystemTemplates"; aws_config=aws_config)
-search_system_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchSystemTemplates", params; aws_config=aws_config)
+function search_system_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("SearchSystemTemplates"; aws_config=aws_config)
+end
+function search_system_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("SearchSystemTemplates", params; aws_config=aws_config)
+end
 
 """
     search_things(entity_id)
@@ -538,8 +919,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_things(entityId; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchThings", Dict{String, Any}("entityId"=>entityId); aws_config=aws_config)
-search_things(entityId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("SearchThings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityId"=>entityId), params)); aws_config=aws_config)
+function search_things(entityId; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "SearchThings", Dict{String,Any}("entityId" => entityId); aws_config=aws_config
+    )
+end
+function search_things(
+    entityId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "SearchThings",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("entityId" => entityId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -552,8 +949,31 @@ Creates a tag for the specified resource.
 - `tags`: A list of tags to add to the resource.&gt;
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     undeploy_system_instance()
@@ -565,8 +985,14 @@ Removes a system instance from its target (Cloud or Greengrass).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"id"`: The ID of the system instance to remove from its target.
 """
-undeploy_system_instance(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UndeploySystemInstance"; aws_config=aws_config)
-undeploy_system_instance(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UndeploySystemInstance", params; aws_config=aws_config)
+function undeploy_system_instance(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("UndeploySystemInstance"; aws_config=aws_config)
+end
+function undeploy_system_instance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("UndeploySystemInstance", params; aws_config=aws_config)
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -584,8 +1010,33 @@ Removes a tag from the specified resource.
   User Guide.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_flow_template(definition, id)
@@ -607,8 +1058,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, the latest version is used by default. Use the GetFlowTemplateRevisions if you
   want to find earlier revisions of the flow to update.
 """
-update_flow_template(definition, id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UpdateFlowTemplate", Dict{String, Any}("definition"=>definition, "id"=>id); aws_config=aws_config)
-update_flow_template(definition, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UpdateFlowTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "id"=>id), params)); aws_config=aws_config)
+function update_flow_template(
+    definition, id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "UpdateFlowTemplate",
+        Dict{String,Any}("definition" => definition, "id" => id);
+        aws_config=aws_config,
+    )
+end
+function update_flow_template(
+    definition,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "UpdateFlowTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("definition" => definition, "id" => id), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_system_template(definition, id)
@@ -629,8 +1103,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   latest version of the user's namespace. If no value is specified, the latest version is
   used by default.
 """
-update_system_template(definition, id; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UpdateSystemTemplate", Dict{String, Any}("definition"=>definition, "id"=>id); aws_config=aws_config)
-update_system_template(definition, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UpdateSystemTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "id"=>id), params)); aws_config=aws_config)
+function update_system_template(
+    definition, id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph(
+        "UpdateSystemTemplate",
+        Dict{String,Any}("definition" => definition, "id" => id);
+        aws_config=aws_config,
+    )
+end
+function update_system_template(
+    definition,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotthingsgraph(
+        "UpdateSystemTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("definition" => definition, "id" => id), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     upload_entity_definitions()
@@ -661,5 +1158,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   latest version of the public namespace. If set to true, the upload will create a new
   namespace version.
 """
-upload_entity_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UploadEntityDefinitions"; aws_config=aws_config)
-upload_entity_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iotthingsgraph("UploadEntityDefinitions", params; aws_config=aws_config)
+function upload_entity_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotthingsgraph("UploadEntityDefinitions"; aws_config=aws_config)
+end
+function upload_entity_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotthingsgraph("UploadEntityDefinitions", params; aws_config=aws_config)
+end

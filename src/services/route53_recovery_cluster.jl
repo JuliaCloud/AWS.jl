@@ -21,8 +21,30 @@ For more information about working with routing controls, see Routing control in
   want to get the state for.
 
 """
-get_routing_control_state(RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_cluster("GetRoutingControlState", Dict{String, Any}("RoutingControlArn"=>RoutingControlArn); aws_config=aws_config)
-get_routing_control_state(RoutingControlArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_cluster("GetRoutingControlState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingControlArn"=>RoutingControlArn), params)); aws_config=aws_config)
+function get_routing_control_state(
+    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_cluster(
+        "GetRoutingControlState",
+        Dict{String,Any}("RoutingControlArn" => RoutingControlArn);
+        aws_config=aws_config,
+    )
+end
+function get_routing_control_state(
+    RoutingControlArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_cluster(
+        "GetRoutingControlState",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RoutingControlArn" => RoutingControlArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_routing_control_state(routing_control_arn, routing_control_state)
@@ -40,8 +62,41 @@ For more information about working with routing controls, see Routing control in
   or Off.
 
 """
-update_routing_control_state(RoutingControlArn, RoutingControlState; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_cluster("UpdateRoutingControlState", Dict{String, Any}("RoutingControlArn"=>RoutingControlArn, "RoutingControlState"=>RoutingControlState); aws_config=aws_config)
-update_routing_control_state(RoutingControlArn, RoutingControlState, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_cluster("UpdateRoutingControlState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoutingControlArn"=>RoutingControlArn, "RoutingControlState"=>RoutingControlState), params)); aws_config=aws_config)
+function update_routing_control_state(
+    RoutingControlArn,
+    RoutingControlState;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_cluster(
+        "UpdateRoutingControlState",
+        Dict{String,Any}(
+            "RoutingControlArn" => RoutingControlArn,
+            "RoutingControlState" => RoutingControlState,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_routing_control_state(
+    RoutingControlArn,
+    RoutingControlState,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_cluster(
+        "UpdateRoutingControlState",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RoutingControlArn" => RoutingControlArn,
+                    "RoutingControlState" => RoutingControlState,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_routing_control_states(update_routing_control_state_entries)
@@ -57,5 +112,33 @@ Application Recovery Controller Developer Guide.
   update.
 
 """
-update_routing_control_states(UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_cluster("UpdateRoutingControlStates", Dict{String, Any}("UpdateRoutingControlStateEntries"=>UpdateRoutingControlStateEntries); aws_config=aws_config)
-update_routing_control_states(UpdateRoutingControlStateEntries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = route53_recovery_cluster("UpdateRoutingControlStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateRoutingControlStateEntries"=>UpdateRoutingControlStateEntries), params)); aws_config=aws_config)
+function update_routing_control_states(
+    UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53_recovery_cluster(
+        "UpdateRoutingControlStates",
+        Dict{String,Any}(
+            "UpdateRoutingControlStateEntries" => UpdateRoutingControlStateEntries
+        );
+        aws_config=aws_config,
+    )
+end
+function update_routing_control_states(
+    UpdateRoutingControlStateEntries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_cluster(
+        "UpdateRoutingControlStates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "UpdateRoutingControlStateEntries" => UpdateRoutingControlStateEntries
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

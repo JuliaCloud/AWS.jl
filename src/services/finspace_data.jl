@@ -27,8 +27,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"formatType"`: Format type of the input files being loaded into the changeset.
 - `"tags"`: Metadata tags to apply to this changeset.
 """
-create_changeset(changeType, datasetId, sourceParams, sourceType; aws_config::AbstractAWSConfig=global_aws_config()) = finspace_data("POST", "/datasets/$(datasetId)/changesets", Dict{String, Any}("changeType"=>changeType, "sourceParams"=>sourceParams, "sourceType"=>sourceType); aws_config=aws_config)
-create_changeset(changeType, datasetId, sourceParams, sourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace_data("POST", "/datasets/$(datasetId)/changesets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("changeType"=>changeType, "sourceParams"=>sourceParams, "sourceType"=>sourceType), params)); aws_config=aws_config)
+function create_changeset(
+    changeType,
+    datasetId,
+    sourceParams,
+    sourceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "POST",
+        "/datasets/$(datasetId)/changesets",
+        Dict{String,Any}(
+            "changeType" => changeType,
+            "sourceParams" => sourceParams,
+            "sourceType" => sourceType,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_changeset(
+    changeType,
+    datasetId,
+    sourceParams,
+    sourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "POST",
+        "/datasets/$(datasetId)/changesets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "changeType" => changeType,
+                    "sourceParams" => sourceParams,
+                    "sourceType" => sourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_programmatic_access_credentials(environment_id)
@@ -43,8 +84,30 @@ Request programmatic credentials to use with Habanero SDK.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"durationInMinutes"`: The time duration in which the credentials remain valid.
 """
-get_programmatic_access_credentials(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) = finspace_data("GET", "/credentials/programmatic", Dict{String, Any}("environmentId"=>environmentId); aws_config=aws_config)
-get_programmatic_access_credentials(environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace_data("GET", "/credentials/programmatic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentId"=>environmentId), params)); aws_config=aws_config)
+function get_programmatic_access_credentials(
+    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace_data(
+        "GET",
+        "/credentials/programmatic",
+        Dict{String,Any}("environmentId" => environmentId);
+        aws_config=aws_config,
+    )
+end
+function get_programmatic_access_credentials(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace_data(
+        "GET",
+        "/credentials/programmatic",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("environmentId" => environmentId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_working_location()
@@ -61,5 +124,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   staging location to copy your data content and then use the location with the changeset
   creation operation.
 """
-get_working_location(; aws_config::AbstractAWSConfig=global_aws_config()) = finspace_data("POST", "/workingLocationV1"; aws_config=aws_config)
-get_working_location(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace_data("POST", "/workingLocationV1", params; aws_config=aws_config)
+function get_working_location(; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace_data("POST", "/workingLocationV1"; aws_config=aws_config)
+end
+function get_working_location(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace_data("POST", "/workingLocationV1", params; aws_config=aws_config)
+end

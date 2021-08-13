@@ -29,8 +29,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CustomerOwnedIpv4Pool"`: The ID of the customer-owned IPv4 pool for the endpoint. IP
   addresses will be allocated from this pool for the endpoint.
 """
-create_endpoint(OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("POST", "/S3Outposts/CreateEndpoint", Dict{String, Any}("OutpostId"=>OutpostId, "SecurityGroupId"=>SecurityGroupId, "SubnetId"=>SubnetId); aws_config=aws_config)
-create_endpoint(OutpostId, SecurityGroupId, SubnetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("POST", "/S3Outposts/CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutpostId"=>OutpostId, "SecurityGroupId"=>SecurityGroupId, "SubnetId"=>SubnetId), params)); aws_config=aws_config)
+function create_endpoint(
+    OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3outposts(
+        "POST",
+        "/S3Outposts/CreateEndpoint",
+        Dict{String,Any}(
+            "OutpostId" => OutpostId,
+            "SecurityGroupId" => SecurityGroupId,
+            "SubnetId" => SubnetId,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_endpoint(
+    OutpostId,
+    SecurityGroupId,
+    SubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3outposts(
+        "POST",
+        "/S3Outposts/CreateEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "OutpostId" => OutpostId,
+                    "SecurityGroupId" => SecurityGroupId,
+                    "SubnetId" => SubnetId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_endpoint(endpoint_id, outpost_id)
@@ -48,8 +84,35 @@ include:    CreateEndpoint     ListEndpoints
 - `outpost_id`: The ID of the AWS Outposts.
 
 """
-delete_endpoint(endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId); aws_config=aws_config)
-delete_endpoint(endpointId, outpostId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("DELETE", "/S3Outposts/DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointId"=>endpointId, "outpostId"=>outpostId), params)); aws_config=aws_config)
+function delete_endpoint(
+    endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3outposts(
+        "DELETE",
+        "/S3Outposts/DeleteEndpoint",
+        Dict{String,Any}("endpointId" => endpointId, "outpostId" => outpostId);
+        aws_config=aws_config,
+    )
+end
+function delete_endpoint(
+    endpointId,
+    outpostId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3outposts(
+        "DELETE",
+        "/S3Outposts/DeleteEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("endpointId" => endpointId, "outpostId" => outpostId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_endpoints()
@@ -67,5 +130,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The max number of endpoints that can be returned on the request.
 - `"nextToken"`: The next endpoint requested in the list.
 """
-list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints"; aws_config=aws_config)
-list_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts("GET", "/S3Outposts/ListEndpoints", params; aws_config=aws_config)
+function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+    return s3outposts("GET", "/S3Outposts/ListEndpoints"; aws_config=aws_config)
+end
+function list_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3outposts("GET", "/S3Outposts/ListEndpoints", params; aws_config=aws_config)
+end

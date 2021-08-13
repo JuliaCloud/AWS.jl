@@ -17,7 +17,7 @@ headers = Pair[
     "x-amz-bucket-region" => "us-east-1",
     "Content-Type" => "application/xml",
     "Transfer-Encoding" => "chunked",
-    "Server" => "AmazonS3"
+    "Server" => "AmazonS3",
 ]
 
 body = """
@@ -42,7 +42,12 @@ body = """
     </ListBucketResult>
     """
 
-function _response(; version::VersionNumber=version, status::Int64=status, headers::Array=headers, body::String=body)
+function _response(;
+    version::VersionNumber=version,
+    status::Int64=status,
+    headers::Array=headers,
+    body::String=body,
+)
     response = HTTP.Messages.Response()
 
     response.version = version
@@ -52,8 +57,6 @@ function _response(; version::VersionNumber=version, status::Int64=status, heade
 
     return response
 end
-
-
 
 function _aws_http_request_patch(response::HTTP.Messages.Response=_response())
     return @patch AWS._http_request(::AWS.AbstractBackend, request::Request) = response
@@ -83,9 +86,8 @@ _assume_role_patch = function (
                     "SessionToken" => session_token,
                     "Expiration" => string(now(UTC)),
                 ),
-                "AssumedRoleUser" => Dict(
-                    "Arn" => "$(role_arn)/$(params["RoleSessionName"])",
-                ),
+                "AssumedRoleUser" =>
+                    Dict("Arn" => "$(role_arn)/$(params["RoleSessionName"])"),
             ),
         )
     end
@@ -93,14 +95,20 @@ end
 
 _github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
     if tree_obj == "master"
-        return Tree("test-sha", HTTP.URI(), [Dict("path"=>"apis", "sha"=>"apis-sha")], false)
+        return Tree(
+            "test-sha", HTTP.URI(), [Dict("path" => "apis", "sha" => "apis-sha")], false
+        )
     else
-        return Tree("test-sha", HTTP.URI(), [Dict("path"=>"test-2020-01-01.normal.json")], false)
+        return Tree(
+            "test-sha", HTTP.URI(), [Dict("path" => "test-2020-01-01.normal.json")], false
+        )
     end
 end
 
-_instance_metadata_timeout_patch = @patch function HTTP.request(method::String, url; kwargs...)
-    throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
+_instance_metadata_timeout_patch = @patch function HTTP.request(
+    method::String, url; kwargs...
+)
+    return throw(HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"))
 end
 
 # This patch causes `HTTP.request` to return all of its keyword arguments

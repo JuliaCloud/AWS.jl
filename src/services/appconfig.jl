@@ -23,8 +23,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
-create_application(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_application(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function create_application(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig(
+        "POST", "/applications", Dict{String,Any}("Name" => Name); aws_config=aws_config
+    )
+end
+function create_application(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "POST",
+        "/applications",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_configuration_profile(application_id, location_uri, name)
@@ -61,8 +74,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of which you define.
 - `"Validators"`: A list of methods for validating the configuration.
 """
-create_configuration_profile(ApplicationId, LocationUri, Name; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name); aws_config=aws_config)
-create_configuration_profile(ApplicationId, LocationUri, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name), params)); aws_config=aws_config)
+function create_configuration_profile(
+    ApplicationId, LocationUri, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles",
+        Dict{String,Any}("LocationUri" => LocationUri, "Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function create_configuration_profile(
+    ApplicationId,
+    LocationUri,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LocationUri" => LocationUri, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_deployment_strategy(deployment_duration_in_minutes, growth_factor, name, replicate_to)
@@ -103,8 +144,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   categorize your AppConfig resources. Each tag consists of a key and an optional value, both
   of which you define.
 """
-create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo); aws_config=aws_config)
-create_deployment_strategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo), params)); aws_config=aws_config)
+function create_deployment_strategy(
+    DeploymentDurationInMinutes,
+    GrowthFactor,
+    Name,
+    ReplicateTo;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/deploymentstrategies",
+        Dict{String,Any}(
+            "DeploymentDurationInMinutes" => DeploymentDurationInMinutes,
+            "GrowthFactor" => GrowthFactor,
+            "Name" => Name,
+            "ReplicateTo" => ReplicateTo,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_deployment_strategy(
+    DeploymentDurationInMinutes,
+    GrowthFactor,
+    Name,
+    ReplicateTo,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/deploymentstrategies",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeploymentDurationInMinutes" => DeploymentDurationInMinutes,
+                    "GrowthFactor" => GrowthFactor,
+                    "Name" => Name,
+                    "ReplicateTo" => ReplicateTo,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_environment(application_id, name)
@@ -129,8 +213,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
-create_environment(ApplicationId, Name; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_environment(ApplicationId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function create_environment(
+    ApplicationId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/environments",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+    )
+end
+function create_environment(
+    ApplicationId,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/environments",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_hosted_configuration_version(application_id, configuration_profile_id, content, content-_type)
@@ -153,8 +258,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overwritten when creating multiple hosted configuration versions in rapid succession,
   specify the version of the latest hosted configuration version.
 """
-create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws_config=aws_config)
-create_hosted_configuration_version(ApplicationId, ConfigurationProfileId, Content, Content_Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), params)); aws_config=aws_config)
+function create_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    Content,
+    Content_Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions",
+        Dict{String,Any}(
+            "Content" => Content,
+            "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    Content,
+    Content_Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Content" => Content,
+                    "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_application(application_id)
@@ -166,8 +310,20 @@ Delete an application. Deleting an application does not delete a configuration f
 - `application_id`: The ID of the application to delete.
 
 """
-delete_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)"; aws_config=aws_config)
-delete_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)", params; aws_config=aws_config)
+function delete_application(
+    ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig("DELETE", "/applications/$(ApplicationId)"; aws_config=aws_config)
+end
+function delete_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE", "/applications/$(ApplicationId)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_configuration_profile(application_id, configuration_profile_id)
@@ -182,8 +338,28 @@ configuration from a host.
 - `configuration_profile_id`: The ID of the configuration profile you want to delete.
 
 """
-delete_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
-delete_configuration_profile(ApplicationId, ConfigurationProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config)
+function delete_configuration_profile(
+    ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
+        aws_config=aws_config,
+    )
+end
+function delete_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_deployment_strategy(deployment_strategy_id)
@@ -196,8 +372,25 @@ configuration from a host.
 - `deployment_strategy_id`: The ID of the deployment strategy you want to delete.
 
 """
-delete_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
-delete_deployment_strategy(DeploymentStrategyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config)
+function delete_deployment_strategy(
+    DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "DELETE", "/deployementstrategies/$(DeploymentStrategyId)"; aws_config=aws_config
+    )
+end
+function delete_deployment_strategy(
+    DeploymentStrategyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/deployementstrategies/$(DeploymentStrategyId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_environment(application_id, environment_id)
@@ -210,8 +403,28 @@ Delete an environment. Deleting an environment does not delete a configuration f
 - `environment_id`: The ID of the environment you want to delete.
 
 """
-delete_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
-delete_environment(ApplicationId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config)
+function delete_environment(
+    ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
+        aws_config=aws_config,
+    )
+end
+function delete_environment(
+    ApplicationId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_hosted_configuration_version(application_id, configuration_profile_id, version_number)
@@ -225,8 +438,32 @@ Delete a version of a configuration from the AppConfig configuration store.
 - `version_number`: The versions number to delete.
 
 """
-delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws_config=aws_config)
-delete_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", params; aws_config=aws_config)
+function delete_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    VersionNumber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)";
+        aws_config=aws_config,
+    )
+end
+function delete_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_application(application_id)
@@ -238,8 +475,16 @@ Retrieve information about an application.
 - `application_id`: The ID of the application you want to get.
 
 """
-get_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)"; aws_config=aws_config)
-get_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)", params; aws_config=aws_config)
+function get_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig("GET", "/applications/$(ApplicationId)"; aws_config=aws_config)
+end
+function get_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig("GET", "/applications/$(ApplicationId)", params; aws_config=aws_config)
+end
 
 """
     get_configuration(application, configuration, environment, client_id)
@@ -277,8 +522,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter.   For more information about working with configurations, see Retrieving the
   Configuration in the AWS AppConfig User Guide.
 """
-get_configuration(Application, Configuration, Environment, client_id; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}("client_id"=>client_id); aws_config=aws_config)
-get_configuration(Application, Configuration, Environment, client_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_id"=>client_id), params)); aws_config=aws_config)
+function get_configuration(
+    Application,
+    Configuration,
+    Environment,
+    client_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)",
+        Dict{String,Any}("client_id" => client_id);
+        aws_config=aws_config,
+    )
+end
+function get_configuration(
+    Application,
+    Configuration,
+    Environment,
+    client_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("client_id" => client_id), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_configuration_profile(application_id, configuration_profile_id)
@@ -292,8 +566,28 @@ Retrieve information about a configuration profile.
 - `configuration_profile_id`: The ID of the configuration profile you want to get.
 
 """
-get_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
-get_configuration_profile(ApplicationId, ConfigurationProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config)
+function get_configuration_profile(
+    ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
+        aws_config=aws_config,
+    )
+end
+function get_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_deployment(application_id, deployment_number, environment_id)
@@ -307,8 +601,32 @@ Retrieve information about a configuration deployment.
 - `environment_id`: The ID of the environment that includes the deployment you want to get.
 
 """
-get_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws_config=aws_config)
-get_deployment(ApplicationId, DeploymentNumber, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", params; aws_config=aws_config)
+function get_deployment(
+    ApplicationId,
+    DeploymentNumber,
+    EnvironmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)";
+        aws_config=aws_config,
+    )
+end
+function get_deployment(
+    ApplicationId,
+    DeploymentNumber,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_deployment_strategy(deployment_strategy_id)
@@ -324,8 +642,25 @@ time.
 - `deployment_strategy_id`: The ID of the deployment strategy to get.
 
 """
-get_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
-get_deployment_strategy(DeploymentStrategyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config)
+function get_deployment_strategy(
+    DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config
+    )
+end
+function get_deployment_strategy(
+    DeploymentStrategyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/deploymentstrategies/$(DeploymentStrategyId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_environment(application_id, environment_id)
@@ -342,8 +677,28 @@ deployment, AppConfig roles back the configuration.
 - `environment_id`: The ID of the environment you wnat to get.
 
 """
-get_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
-get_environment(ApplicationId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config)
+function get_environment(
+    ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
+        aws_config=aws_config,
+    )
+end
+function get_environment(
+    ApplicationId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_hosted_configuration_version(application_id, configuration_profile_id, version_number)
@@ -357,8 +712,32 @@ Get information about a specific configuration version.
 - `version_number`: The version.
 
 """
-get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws_config=aws_config)
-get_hosted_configuration_version(ApplicationId, ConfigurationProfileId, VersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", params; aws_config=aws_config)
+function get_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    VersionNumber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)";
+        aws_config=aws_config,
+    )
+end
+function get_hosted_configuration_version(
+    ApplicationId,
+    ConfigurationProfileId,
+    VersionNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_applications()
@@ -372,8 +751,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications"; aws_config=aws_config)
-list_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications", params; aws_config=aws_config)
+function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig("GET", "/applications"; aws_config=aws_config)
+end
+function list_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig("GET", "/applications", params; aws_config=aws_config)
+end
 
 """
     list_configuration_profiles(application_id)
@@ -390,8 +775,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_configuration_profiles(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles"; aws_config=aws_config)
-list_configuration_profiles(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles", params; aws_config=aws_config)
+function list_configuration_profiles(
+    ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET", "/applications/$(ApplicationId)/configurationprofiles"; aws_config=aws_config
+    )
+end
+function list_configuration_profiles(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_deployment_strategies()
@@ -405,8 +807,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_deployment_strategies(; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies"; aws_config=aws_config)
-list_deployment_strategies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/deploymentstrategies", params; aws_config=aws_config)
+function list_deployment_strategies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig("GET", "/deploymentstrategies"; aws_config=aws_config)
+end
+function list_deployment_strategies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig("GET", "/deploymentstrategies", params; aws_config=aws_config)
+end
 
 """
     list_deployments(application_id, environment_id)
@@ -424,8 +832,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_deployments(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments"; aws_config=aws_config)
-list_deployments(ApplicationId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", params; aws_config=aws_config)
+function list_deployments(
+    ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments";
+        aws_config=aws_config,
+    )
+end
+function list_deployments(
+    ApplicationId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_environments(application_id)
@@ -442,8 +870,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_environments(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments"; aws_config=aws_config)
-list_environments(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/environments", params; aws_config=aws_config)
+function list_environments(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig(
+        "GET", "/applications/$(ApplicationId)/environments"; aws_config=aws_config
+    )
+end
+function list_environments(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET", "/applications/$(ApplicationId)/environments", params; aws_config=aws_config
+    )
+end
 
 """
     list_hosted_configuration_versions(application_id, configuration_profile_id)
@@ -461,8 +901,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions"; aws_config=aws_config)
-list_hosted_configuration_versions(ApplicationId, ConfigurationProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", params; aws_config=aws_config)
+function list_hosted_configuration_versions(
+    ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions";
+        aws_config=aws_config,
+    )
+end
+function list_hosted_configuration_versions(
+    ApplicationId,
+    ConfigurationProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "GET",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -474,8 +934,18 @@ Retrieves the list of key-value tags assigned to the resource.
 - `resource_arn`: The resource ARN.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+end
 
 """
     start_deployment(application_id, configuration_profile_id, configuration_version, deployment_strategy_id, environment_id)
@@ -497,8 +967,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.
 """
-start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId); aws_config=aws_config)
-start_deployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId), params)); aws_config=aws_config)
+function start_deployment(
+    ApplicationId,
+    ConfigurationProfileId,
+    ConfigurationVersion,
+    DeploymentStrategyId,
+    EnvironmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments",
+        Dict{String,Any}(
+            "ConfigurationProfileId" => ConfigurationProfileId,
+            "ConfigurationVersion" => ConfigurationVersion,
+            "DeploymentStrategyId" => DeploymentStrategyId,
+        );
+        aws_config=aws_config,
+    )
+end
+function start_deployment(
+    ApplicationId,
+    ConfigurationProfileId,
+    ConfigurationVersion,
+    DeploymentStrategyId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConfigurationProfileId" => ConfigurationProfileId,
+                    "ConfigurationVersion" => ConfigurationVersion,
+                    "DeploymentStrategyId" => DeploymentStrategyId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_deployment(application_id, deployment_number, environment_id)
@@ -513,8 +1026,32 @@ DEPLOYING. This action moves the deployment to a status of ROLLED_BACK.
 - `environment_id`: The environment ID.
 
 """
-stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws_config=aws_config)
-stop_deployment(ApplicationId, DeploymentNumber, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", params; aws_config=aws_config)
+function stop_deployment(
+    ApplicationId,
+    DeploymentNumber,
+    EnvironmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)";
+        aws_config=aws_config,
+    )
+end
+function stop_deployment(
+    ApplicationId,
+    DeploymentNumber,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -531,8 +1068,27 @@ define. You can specify a maximum of 50 tags for a resource.
   characters.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -545,8 +1101,29 @@ Deletes a tag key and value from an AppConfig resource.
 - `tag_keys`: The tag keys to delete.
 
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_application(application_id)
@@ -562,8 +1139,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the application.
 - `"Name"`: The name of the application.
 """
-update_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)"; aws_config=aws_config)
-update_application(ApplicationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)", params; aws_config=aws_config)
+function update_application(
+    ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig("PATCH", "/applications/$(ApplicationId)"; aws_config=aws_config)
+end
+function update_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "PATCH", "/applications/$(ApplicationId)", params; aws_config=aws_config
+    )
+end
 
 """
     update_configuration_profile(application_id, configuration_profile_id)
@@ -583,8 +1172,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   at the specified LocationUri.
 - `"Validators"`: A list of methods for validating the configuration.
 """
-update_configuration_profile(ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws_config=aws_config)
-update_configuration_profile(ApplicationId, ConfigurationProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", params; aws_config=aws_config)
+function update_configuration_profile(
+    ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "PATCH",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)";
+        aws_config=aws_config,
+    )
+end
+function update_configuration_profile(
+    ApplicationId,
+    ConfigurationProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_deployment_strategy(deployment_strategy_id)
@@ -618,8 +1227,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the targets, 8% of the targets, and continues until the configuration has been deployed
   to all targets.
 """
-update_deployment_strategy(DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config)
-update_deployment_strategy(DeploymentStrategyId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)", params; aws_config=aws_config)
+function update_deployment_strategy(
+    DeploymentStrategyId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "PATCH", "/deploymentstrategies/$(DeploymentStrategyId)"; aws_config=aws_config
+    )
+end
+function update_deployment_strategy(
+    DeploymentStrategyId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/deploymentstrategies/$(DeploymentStrategyId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_environment(application_id, environment_id)
@@ -637,8 +1263,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Monitors"`: Amazon CloudWatch alarms to monitor during the deployment process.
 - `"Name"`: The name of the environment.
 """
-update_environment(ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws_config=aws_config)
-update_environment(ApplicationId, EnvironmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", params; aws_config=aws_config)
+function update_environment(
+    ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "PATCH",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)";
+        aws_config=aws_config,
+    )
+end
+function update_environment(
+    ApplicationId,
+    EnvironmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "PATCH",
+        "/applications/$(ApplicationId)/environments/$(EnvironmentId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     validate_configuration(application_id, configuration_profile_id, configuration_version)
@@ -652,5 +1298,36 @@ Uses the validators in a configuration profile to validate a configuration.
 - `configuration_version`: The version of the configuration to validate.
 
 """
-validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}("configuration_version"=>configuration_version); aws_config=aws_config)
-validate_configuration(ApplicationId, ConfigurationProfileId, configuration_version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_version"=>configuration_version), params)); aws_config=aws_config)
+function validate_configuration(
+    ApplicationId,
+    ConfigurationProfileId,
+    configuration_version;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators",
+        Dict{String,Any}("configuration_version" => configuration_version);
+        aws_config=aws_config,
+    )
+end
+function validate_configuration(
+    ApplicationId,
+    ConfigurationProfileId,
+    configuration_version,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appconfig(
+        "POST",
+        "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("configuration_version" => configuration_version),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
