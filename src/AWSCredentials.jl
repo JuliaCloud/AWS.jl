@@ -538,7 +538,7 @@ function credentials_from_webtoken()
         role_creds["SessionToken"],
         assumed_role_user["Arn"];
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
-        renew=credentials_from_webtoken
+        renew=credentials_from_webtoken,
     )
 end
 
