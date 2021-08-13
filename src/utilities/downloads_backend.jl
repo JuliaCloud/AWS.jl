@@ -48,11 +48,14 @@ function AWS._http_request(backend::DownloadsBackend, request)
     # back, it will hang waiting for that body.
     #
     # Therefore, we do not pass an `output` when the `request_method` is `HEAD`.
-    if request.return_stream && request.response_stream === nothing
-        request.response_stream === IOBuffer()
+    if request.response_stream === nothing
+        request.response_stream = IOBuffer()
     end
-    output = @something(request.response_stream, IOBuffer())
-    output_arg = request.request_method == "HEAD" ? NamedTuple() : (; output=output)
+    output_arg = if request.request_method == "HEAD"
+        NamedTuple()
+    else
+        (; output=request.response_stream)
+    end
 
     # If we're going to return the stream, we don't want to read the body into an
     # HTTP.Response we're never going to use. If we do that, the returned stream
@@ -60,7 +63,7 @@ function AWS._http_request(backend::DownloadsBackend, request)
     body_arg = if request.request_method == "HEAD" || request.return_stream
         () -> NamedTuple()
     else
-        () -> (; body = read_body(output))
+        () -> (; body = read_body(request.response_stream))
     end
 
     # HTTP.jl sets this header automatically.
