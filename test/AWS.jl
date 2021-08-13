@@ -29,12 +29,16 @@ end
 end
 
 @testset "set user agent" begin
+    old_user_agent = AWS.user_agent[]
     new_user_agent = "new user agent"
 
-    @test AWS.user_agent[] == "AWS.jl/1.0.0"
-    set_user_agent(new_user_agent)
-    @test AWS.user_agent[] == new_user_agent
-    set_user_agent("AWS.jl/1.0.0")
+    try
+        @test AWS.user_agent[] == "AWS.jl/1.0.0"
+        set_user_agent(new_user_agent)
+        @test AWS.user_agent[] == new_user_agent
+    finally
+        set_user_agent(old_user_agent)
+    end
 end
 
 @testset "sign" begin
