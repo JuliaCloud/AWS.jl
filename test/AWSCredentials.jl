@@ -551,7 +551,7 @@ end
                     @test result.user_arn == "$(role_arn)/$(session_name)"
                     @test result.renew == credentials_from_webtoken
                     expiry = result.expiry
-
+                    sleep(0.1)
                     result = check_credentials(result)
 
                     @test result.access_key_id == access_key

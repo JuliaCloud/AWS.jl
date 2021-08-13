@@ -29,11 +29,16 @@ end
 end
 
 @testset "set user agent" begin
+    old_user_agent = AWS.user_agent[]
     new_user_agent = "new user agent"
 
-    @test AWS.user_agent[] == "AWS.jl/1.0.0"
-    set_user_agent(new_user_agent)
-    @test AWS.user_agent[] == new_user_agent
+    try
+        @test AWS.user_agent[] == "AWS.jl/1.0.0"
+        set_user_agent(new_user_agent)
+        @test AWS.user_agent[] == new_user_agent
+    finally
+        set_user_agent(old_user_agent)
+    end
 end
 
 @testset "sign" begin
@@ -373,6 +378,7 @@ end
         api_version="api_version",
         request_method="GET",
         url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+        backend=AWS.HTTPBackend(),
     )
     apply(Patches._http_options_patch) do
         # No default options
@@ -402,7 +408,7 @@ end
         api_version="api_version",
         request_method="GET",
         url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-        backend=TestBackend(4),
+        backend=TestBackend(4)
     )
     @test AWS._http_request(request.backend, request) == 4
 
