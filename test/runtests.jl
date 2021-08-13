@@ -34,18 +34,21 @@ function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
 
-AWS.DEFAULT_BACKEND[] = AWS.DownloadsBackend()
-
 @testset "AWS.jl" begin
-    include("AWS.jl")
-    include("AWSCredentials.jl")
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")
-    include("issues.jl")
     include("test_pkg.jl")
     include("utilities.jl")
 
-    if haskey(ENV, "TEST_MINIO")
-        include("minio.jl")
+    backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
+    @testset "Backend: $(nameof(backend))" for backend in backends
+        AWS.DEFAULT_BACKEND[] = backend()
+        include("AWS.jl")
+        include("AWSCredentials.jl")
+        include("issues.jl")
+
+        if haskey(ENV, "TEST_MINIO")
+            include("minio.jl")
+        end
     end
 end
