@@ -51,7 +51,7 @@ function AWS._http_request(backend::DownloadsBackend, request)
     end
     output = @something(request.response_stream, IOBuffer())
     output_arg, body_arg = if request.request_method != "HEAD"
-        (; output=output), () -> (; body = take!(output))
+        (; output=output), () -> (; body = readavailable(output))
     else
         NamedTuple(), () -> NamedTuple()
     end
