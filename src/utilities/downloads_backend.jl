@@ -32,7 +32,10 @@ body_length(x::AbstractVector{UInt8}) = length(x)
 body_length(x::AbstractString) = sizeof(x)
 
 read_body(x::IOBuffer) = take!(x)
-read_body(x::IO) = readavailable(x)
+function read_body(x::IO)
+    close(x)
+    return read(x)
+end
 
 function _http_request(backend::DownloadsBackend, request)
     # If we pass `output`, older versions of Downloads.jl will
