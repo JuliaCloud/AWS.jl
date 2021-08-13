@@ -28,9 +28,11 @@ function get_downloader(downloader=nothing)
 end
 
 # https://github.com/JuliaWeb/HTTP.jl/blob/2a03ca76376162ffc3423ba7f15bd6d966edff9b/src/MessageRequest.jl#L84-L85
-body_length(x::Vector{UInt8}) = length(x)
-body_length(x::String) = sizeof(x)
+body_length(x::AbstractVector{UInt8}) = length(x)
+body_length(x::AbstractString) = sizeof(x)
 
+read_body(x::IOBuffer) = take!(x)
+read_body(x::IO) = readavailable(x)
 
 function AWS._http_request(backend::DownloadsBackend, request)
     # If we pass `output`, Downloads.jl will expect a message
@@ -50,10 +52,14 @@ function AWS._http_request(backend::DownloadsBackend, request)
         request.response_stream === IOBuffer()
     end
     output = @something(request.response_stream, IOBuffer())
-    output_arg, body_arg = if request.request_method != "HEAD"
-        (; output=output), () -> (; body = readavailable(output))
+    output_arg = request.request_method == "HEAD" ? NamedTuple() : (; output=output)
+    # If we're going to return the stream, we don't want to read the body into an
+    # HTTP.Response we're never going to use. If we do that, the returned stream
+    # will have no data available (and reading from it could hang forever).
+    body_arg = if request.request_method == "HEAD" || request.return_stream
+        NamedTuple()
     else
-        NamedTuple(), () -> NamedTuple()
+        (; body = read_body(output))
     end
 
     # HTTP.jl sets this header automatically.
