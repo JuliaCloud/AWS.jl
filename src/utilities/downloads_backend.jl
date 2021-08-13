@@ -46,15 +46,14 @@ function AWS._http_request(backend::DownloadsBackend, request)
     # back, it will hang waiting for that body.
     #
     # Therefore, we do not pass an `output` when the `request_method` is `HEAD`.
-    if request.request_method != "HEAD"
-        output = IOBuffer()
-        output_arg = (; output=output)
-
-        # We set a callback so later on we know how to get the `body` back.
-        body_arg = () -> (; body = take!(output))
+    if request.return_stream && request.response_stream === nothing
+        request.response_stream === IOBuffer()
+    end
+    output = @something(request.response_stream, IOBuffer())
+    output_arg, body_arg = if request.request_method != "HEAD"
+        (; output=output), () -> (; body = take!(output))
     else
-        output_arg = NamedTuple()
-        body_arg = () -> NamedTuple()
+        NamedTuple(), () -> NamedTuple()
     end
 
     # HTTP.jl sets this header automatically.
@@ -62,11 +61,11 @@ function AWS._http_request(backend::DownloadsBackend, request)
 
     # We pass an `input` only when we have content we wish to send.
     input = IOBuffer()
-    if !isempty(request.content)
+    input_arg = if !isempty(request.content)
         write(input, request.content)
-        input_arg = (; input=input)
+        (; input=input)
     else
-        input_arg = NamedTuple()
+        NamedTuple()
     end
 
     @repeat 4 try
@@ -86,6 +85,7 @@ function AWS._http_request(backend::DownloadsBackend, request)
                                     method = request.request_method,
                                     headers = request.headers, verbose=false, throw=true,
                                     downloader=downloader)
+
         http_response = HTTP.Response(response.status, response.headers; body_arg()..., request=nothing)
 
         if HTTP.iserror(http_response)
