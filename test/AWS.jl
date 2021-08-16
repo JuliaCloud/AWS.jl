@@ -139,18 +139,6 @@ end
         end
     end
 
-    @testset "301 redirect" begin
-        request = Request(;
-            service="s3",
-            api_version="api_version",
-            request_method="HEAD",
-            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
-        )
-        apply(Patches._aws_http_request_patch(Patches._response(; status=301))) do
-            @test_throws AWSException AWS.submit_request(aws, request)
-        end
-    end
-
     @testset "return stream" begin
         request = Request(;
             service="s3",

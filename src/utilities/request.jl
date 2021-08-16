@@ -62,7 +62,6 @@ function submit_request(
     response = nothing
     TOO_MANY_REQUESTS = 429
     EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
-    REDIRECT_ERROR_CODES = [301, 302, 303, 304, 305, 307, 308]
     THROTTLING_ERROR_CODES = [
         "Throttling",
         "ThrottlingException",
@@ -80,17 +79,7 @@ function submit_request(
 
     @repeat 3 try
         credentials(aws) === nothing || sign!(aws, request)
-
         response = @mock _http_request(request.backend, request)
-
-        if response.status in REDIRECT_ERROR_CODES
-            if HTTP.header(response, "Location") != ""
-                request.url = HTTP.header(response, "Location")
-            else
-                e = HTTP.StatusError(response.status, response)
-                throw(AWSException(e))
-            end
-        end
     catch e
         if e isa HTTP.StatusError
             e = AWSException(e)
@@ -187,7 +176,7 @@ function _http_request(http_backend::HTTPBackend, request::Request)
     http_options = merge(http_backend.http_options, request.http_options)
 
     @repeat 4 try
-        http_stack = HTTP.stack(; redirect=false, retry=false, aws_authorization=false)
+        http_stack = HTTP.stack(; retry=false, aws_authorization=false)
 
         if request.return_stream && request.response_stream === nothing
             request.response_stream = Base.BufferStream()
