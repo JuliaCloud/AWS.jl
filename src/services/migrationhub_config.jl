@@ -20,8 +20,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional Boolean flag to indicate whether any effect should take place. It
   tests whether the caller has permission to make the call.
 """
-create_home_region_control(HomeRegion, Target; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target); aws_config=aws_config)
-create_home_region_control(HomeRegion, Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("CreateHomeRegionControl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HomeRegion"=>HomeRegion, "Target"=>Target), params)); aws_config=aws_config)
+function create_home_region_control(
+    HomeRegion, Target; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return migrationhub_config(
+        "CreateHomeRegionControl",
+        Dict{String,Any}("HomeRegion" => HomeRegion, "Target" => Target);
+        aws_config=aws_config,
+    )
+end
+function create_home_region_control(
+    HomeRegion,
+    Target,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return migrationhub_config(
+        "CreateHomeRegionControl",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("HomeRegion" => HomeRegion, "Target" => Target),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_home_region_controls()
@@ -41,8 +66,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Target"`: The target parameter specifies the identifier to which the home region is
   applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
 """
-describe_home_region_controls(; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls"; aws_config=aws_config)
-describe_home_region_controls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("DescribeHomeRegionControls", params; aws_config=aws_config)
+function describe_home_region_controls(; aws_config::AbstractAWSConfig=global_aws_config())
+    return migrationhub_config("DescribeHomeRegionControls"; aws_config=aws_config)
+end
+function describe_home_region_controls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return migrationhub_config("DescribeHomeRegionControls", params; aws_config=aws_config)
+end
 
 """
     get_home_region()
@@ -55,5 +86,11 @@ Application Discovery Service and AWS Migration Hub APIs, to obtain the account'
 Hub home region.
 
 """
-get_home_region(; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion"; aws_config=aws_config)
-get_home_region(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = migrationhub_config("GetHomeRegion", params; aws_config=aws_config)
+function get_home_region(; aws_config::AbstractAWSConfig=global_aws_config())
+    return migrationhub_config("GetHomeRegion"; aws_config=aws_config)
+end
+function get_home_region(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return migrationhub_config("GetHomeRegion", params; aws_config=aws_config)
+end

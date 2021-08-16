@@ -23,8 +23,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"kmsKeyId"`: The KMS key id to encrypt your data in the FinSpace environment.
 - `"tags"`: Add tags to your FinSpace environment.
 """
-create_environment(name; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("POST", "/environment", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_environment(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("POST", "/environment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function create_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace(
+        "POST", "/environment", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function create_environment(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "POST",
+        "/environment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_environment(environment_id)
@@ -36,8 +49,20 @@ Delete an FinSpace environment.
 - `environment_id`: The identifier for the FinSpace environment.
 
 """
-delete_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("DELETE", "/environment/$(environmentId)"; aws_config=aws_config)
-delete_environment(environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("DELETE", "/environment/$(environmentId)", params; aws_config=aws_config)
+function delete_environment(
+    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace("DELETE", "/environment/$(environmentId)"; aws_config=aws_config)
+end
+function delete_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "DELETE", "/environment/$(environmentId)", params; aws_config=aws_config
+    )
+end
 
 """
     get_environment(environment_id)
@@ -49,8 +74,16 @@ Returns the FinSpace environment object.
 - `environment_id`: The identifier of the FinSpace environment.
 
 """
-get_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("GET", "/environment/$(environmentId)"; aws_config=aws_config)
-get_environment(environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("GET", "/environment/$(environmentId)", params; aws_config=aws_config)
+function get_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace("GET", "/environment/$(environmentId)"; aws_config=aws_config)
+end
+function get_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace("GET", "/environment/$(environmentId)", params; aws_config=aws_config)
+end
 
 """
     list_environments()
@@ -65,8 +98,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if a previous request was truncated. To get the next set of pages, pass in the nextToken
   value from the response object of the previous page call.
 """
-list_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("GET", "/environment"; aws_config=aws_config)
-list_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("GET", "/environment", params; aws_config=aws_config)
+function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace("GET", "/environment"; aws_config=aws_config)
+end
+function list_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace("GET", "/environment", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -78,8 +117,18 @@ A list of all tags for a resource.
 - `resource_arn`: The Amazon Resource Name of the resource.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -92,8 +141,27 @@ Adds metadata tags to a FinSpace resource.
 - `tags`: One or more tags to be assigned to the resource.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -107,8 +175,29 @@ Removes metadata tags from a FinSpace resource.
 - `tag_keys`: The tag keys (names) of one or more tags to be removed.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_environment(environment_id)
@@ -128,5 +217,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"federationParameters"`:
 - `"name"`: The name of the environment.
 """
-update_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("PUT", "/environment/$(environmentId)"; aws_config=aws_config)
-update_environment(environmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = finspace("PUT", "/environment/$(environmentId)", params; aws_config=aws_config)
+function update_environment(
+    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace("PUT", "/environment/$(environmentId)"; aws_config=aws_config)
+end
+function update_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace("PUT", "/environment/$(environmentId)", params; aws_config=aws_config)
+end

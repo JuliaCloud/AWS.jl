@@ -21,8 +21,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeJobDocument"`: Optional. When set to true, the response contains the job
   document. The default is false.
 """
-describe_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)"; aws_config=aws_config)
-describe_job_execution(jobId, thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)", params; aws_config=aws_config)
+function describe_job_execution(
+    jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_jobs_data_plane(
+        "GET", "/things/$(thingName)/jobs/$(jobId)"; aws_config=aws_config
+    )
+end
+function describe_job_execution(
+    jobId,
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_jobs_data_plane(
+        "GET", "/things/$(thingName)/jobs/$(jobId)", params; aws_config=aws_config
+    )
+end
 
 """
     get_pending_job_executions(thing_name)
@@ -34,8 +49,20 @@ Gets the list of all jobs for a thing that are not in a terminal status.
 - `thing_name`: The name of the thing that is executing the job.
 
 """
-get_pending_job_executions(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs"; aws_config=aws_config)
-get_pending_job_executions(thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs", params; aws_config=aws_config)
+function get_pending_job_executions(
+    thingName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_jobs_data_plane("GET", "/things/$(thingName)/jobs"; aws_config=aws_config)
+end
+function get_pending_job_executions(
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_jobs_data_plane(
+        "GET", "/things/$(thingName)/jobs", params; aws_config=aws_config
+    )
+end
 
 """
     start_next_pending_job_execution(thing_name)
@@ -58,8 +85,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeout has no effect on that job execution timeout which may have been specified when the
   job was created (CreateJob using field timeoutConfig).
 """
-start_next_pending_job_execution(thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next"; aws_config=aws_config)
-start_next_pending_job_execution(thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next", params; aws_config=aws_config)
+function start_next_pending_job_execution(
+    thingName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_jobs_data_plane(
+        "PUT", "/things/$(thingName)/jobs/$next"; aws_config=aws_config
+    )
+end
+function start_next_pending_job_execution(
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_jobs_data_plane(
+        "PUT", "/things/$(thingName)/jobs/$next", params; aws_config=aws_config
+    )
+end
 
 """
     update_job_execution(job_id, status, thing_name)
@@ -97,5 +138,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this timeout has no effect on that job execution timeout which may have been specified when
   the job was created (CreateJob using field timeoutConfig).
 """
-update_job_execution(jobId, status, thingName; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}("status"=>status); aws_config=aws_config)
-update_job_execution(jobId, status, thingName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config)
+function update_job_execution(
+    jobId, status, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_jobs_data_plane(
+        "POST",
+        "/things/$(thingName)/jobs/$(jobId)",
+        Dict{String,Any}("status" => status);
+        aws_config=aws_config,
+    )
+end
+function update_job_execution(
+    jobId,
+    status,
+    thingName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_jobs_data_plane(
+        "POST",
+        "/things/$(thingName)/jobs/$(jobId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
+        aws_config=aws_config,
+    )
+end

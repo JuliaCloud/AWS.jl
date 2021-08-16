@@ -18,8 +18,28 @@ must be subscribed to the Business Support plan or the Enterprise Support plan.
 - `log_bucket`: The Amazon S3 bucket that contains the logs that you want to share.
 
 """
-associate_drtlog_bucket(LogBucket; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateDRTLogBucket", Dict{String, Any}("LogBucket"=>LogBucket); aws_config=aws_config)
-associate_drtlog_bucket(LogBucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateDRTLogBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogBucket"=>LogBucket), params)); aws_config=aws_config)
+function associate_drtlog_bucket(
+    LogBucket; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "AssociateDRTLogBucket",
+        Dict{String,Any}("LogBucket" => LogBucket);
+        aws_config=aws_config,
+    )
+end
+function associate_drtlog_bucket(
+    LogBucket,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "AssociateDRTLogBucket",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LogBucket" => LogBucket), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     associate_drtrole(role_arn)
@@ -50,8 +70,20 @@ plan or the Enterprise Support plan.
   Attaching and Detaching IAM Policies.
 
 """
-associate_drtrole(RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateDRTRole", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
-associate_drtrole(RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateDRTRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), params)); aws_config=aws_config)
+function associate_drtrole(RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield(
+        "AssociateDRTRole", Dict{String,Any}("RoleArn" => RoleArn); aws_config=aws_config
+    )
+end
+function associate_drtrole(
+    RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "AssociateDRTRole",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("RoleArn" => RoleArn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     associate_health_check(health_check_arn, protection_id)
@@ -70,8 +102,37 @@ more information, see Shield Advanced Health-Based Detection in the WAF Develope
   check association to.
 
 """
-associate_health_check(HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateHealthCheck", Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId); aws_config=aws_config)
-associate_health_check(HealthCheckArn, ProtectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId), params)); aws_config=aws_config)
+function associate_health_check(
+    HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "AssociateHealthCheck",
+        Dict{String,Any}(
+            "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
+        );
+        aws_config=aws_config,
+    )
+end
+function associate_health_check(
+    HealthCheckArn,
+    ProtectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "AssociateHealthCheck",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     associate_proactive_engagement_details(emergency_contact_list)
@@ -97,8 +158,32 @@ call.
   the list using DescribeEmergencyContactSettings and then provide it here.
 
 """
-associate_proactive_engagement_details(EmergencyContactList; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateProactiveEngagementDetails", Dict{String, Any}("EmergencyContactList"=>EmergencyContactList); aws_config=aws_config)
-associate_proactive_engagement_details(EmergencyContactList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("AssociateProactiveEngagementDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmergencyContactList"=>EmergencyContactList), params)); aws_config=aws_config)
+function associate_proactive_engagement_details(
+    EmergencyContactList; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "AssociateProactiveEngagementDetails",
+        Dict{String,Any}("EmergencyContactList" => EmergencyContactList);
+        aws_config=aws_config,
+    )
+end
+function associate_proactive_engagement_details(
+    EmergencyContactList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "AssociateProactiveEngagementDetails",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EmergencyContactList" => EmergencyContactList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_protection(name, resource_arn)
@@ -129,8 +214,33 @@ Resources.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: One or more tag key-value pairs for the Protection object that is created.
 """
-create_protection(Name, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtection", Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-create_protection(Name, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function create_protection(
+    Name, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "CreateProtection",
+        Dict{String,Any}("Name" => Name, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function create_protection(
+    Name,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "CreateProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_protection_group(aggregation, pattern, protection_group_id)
@@ -167,8 +277,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
 - `"Tags"`: One or more tag key-value pairs for the protection group.
 """
-create_protection_group(Aggregation, Pattern, ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtectionGroup", Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
-create_protection_group(Aggregation, Pattern, ProtectionGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config)
+function create_protection_group(
+    Aggregation,
+    Pattern,
+    ProtectionGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "CreateProtectionGroup",
+        Dict{String,Any}(
+            "Aggregation" => Aggregation,
+            "Pattern" => Pattern,
+            "ProtectionGroupId" => ProtectionGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_protection_group(
+    Aggregation,
+    Pattern,
+    ProtectionGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "CreateProtectionGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Aggregation" => Aggregation,
+                    "Pattern" => Pattern,
+                    "ProtectionGroupId" => ProtectionGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_subscription()
@@ -179,8 +326,14 @@ subscription is set to be automatically renewed at the end of the existing subsc
 period. You can change this by submitting an UpdateSubscription request.
 
 """
-create_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateSubscription"; aws_config=aws_config)
-create_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("CreateSubscription", params; aws_config=aws_config)
+function create_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("CreateSubscription"; aws_config=aws_config)
+end
+function create_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("CreateSubscription", params; aws_config=aws_config)
+end
 
 """
     delete_protection(protection_id)
@@ -192,8 +345,26 @@ Deletes an Shield Advanced Protection.
 - `protection_id`: The unique identifier (ID) for the Protection object to be deleted.
 
 """
-delete_protection(ProtectionId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteProtection", Dict{String, Any}("ProtectionId"=>ProtectionId); aws_config=aws_config)
-delete_protection(ProtectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionId"=>ProtectionId), params)); aws_config=aws_config)
+function delete_protection(ProtectionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield(
+        "DeleteProtection",
+        Dict{String,Any}("ProtectionId" => ProtectionId);
+        aws_config=aws_config,
+    )
+end
+function delete_protection(
+    ProtectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "DeleteProtection",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProtectionId" => ProtectionId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_protection_group(protection_group_id)
@@ -207,8 +378,30 @@ Removes the specified protection group.
   delete, or describe it.
 
 """
-delete_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteProtectionGroup", Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
-delete_protection_group(ProtectionGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config)
+function delete_protection_group(
+    ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "DeleteProtectionGroup",
+        Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
+        aws_config=aws_config,
+    )
+end
+function delete_protection_group(
+    ProtectionGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "DeleteProtectionGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_subscription()
@@ -218,8 +411,14 @@ Removes Shield Advanced from an account. Shield Advanced requires a 1-year subsc
 commitment. You cannot delete a subscription prior to the completion of that commitment.
 
 """
-delete_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteSubscription"; aws_config=aws_config)
-delete_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DeleteSubscription", params; aws_config=aws_config)
+function delete_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("DeleteSubscription"; aws_config=aws_config)
+end
+function delete_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DeleteSubscription", params; aws_config=aws_config)
+end
 
 """
     describe_attack(attack_id)
@@ -231,8 +430,24 @@ Describes the details of a DDoS attack.
 - `attack_id`: The unique identifier (ID) for the attack that to be described.
 
 """
-describe_attack(AttackId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeAttack", Dict{String, Any}("AttackId"=>AttackId); aws_config=aws_config)
-describe_attack(AttackId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeAttack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttackId"=>AttackId), params)); aws_config=aws_config)
+function describe_attack(AttackId; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield(
+        "DescribeAttack", Dict{String,Any}("AttackId" => AttackId); aws_config=aws_config
+    )
+end
+function describe_attack(
+    AttackId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "DescribeAttack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AttackId" => AttackId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_attack_statistics()
@@ -248,8 +463,14 @@ returned is from 2019-10-26 00:00:00 UTC to 2020-10-26 00:00:00 UTC.  The time r
 indicates the period covered by the attack statistics data items.
 
 """
-describe_attack_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeAttackStatistics"; aws_config=aws_config)
-describe_attack_statistics(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeAttackStatistics", params; aws_config=aws_config)
+function describe_attack_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("DescribeAttackStatistics"; aws_config=aws_config)
+end
+function describe_attack_statistics(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DescribeAttackStatistics", params; aws_config=aws_config)
+end
 
 """
     describe_drtaccess()
@@ -259,8 +480,14 @@ Returns the current role and list of Amazon S3 log buckets used by the Shield Re
 (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
 
 """
-describe_drtaccess(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeDRTAccess"; aws_config=aws_config)
-describe_drtaccess(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeDRTAccess", params; aws_config=aws_config)
+function describe_drtaccess(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("DescribeDRTAccess"; aws_config=aws_config)
+end
+function describe_drtaccess(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DescribeDRTAccess", params; aws_config=aws_config)
+end
 
 """
     describe_emergency_contact_settings()
@@ -271,8 +498,16 @@ contact you if you have proactive engagement enabled, for escalations to the SRT
 initiate proactive customer support.
 
 """
-describe_emergency_contact_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeEmergencyContactSettings"; aws_config=aws_config)
-describe_emergency_contact_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeEmergencyContactSettings", params; aws_config=aws_config)
+function describe_emergency_contact_settings(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DescribeEmergencyContactSettings"; aws_config=aws_config)
+end
+function describe_emergency_contact_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DescribeEmergencyContactSettings", params; aws_config=aws_config)
+end
 
 """
     describe_protection()
@@ -289,8 +524,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Protection object that is described. When submitting the DescribeProtection request you
   must provide either the ResourceArn or the ProtectionID, but not both.
 """
-describe_protection(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeProtection"; aws_config=aws_config)
-describe_protection(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeProtection", params; aws_config=aws_config)
+function describe_protection(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("DescribeProtection"; aws_config=aws_config)
+end
+function describe_protection(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DescribeProtection", params; aws_config=aws_config)
+end
 
 """
     describe_protection_group(protection_group_id)
@@ -304,8 +545,30 @@ Returns the specification for the specified protection group.
   delete, or describe it.
 
 """
-describe_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeProtectionGroup", Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
-describe_protection_group(ProtectionGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config)
+function describe_protection_group(
+    ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "DescribeProtectionGroup",
+        Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
+        aws_config=aws_config,
+    )
+end
+function describe_protection_group(
+    ProtectionGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "DescribeProtectionGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_subscription()
@@ -314,8 +577,14 @@ describe_protection_group(ProtectionGroupId, params::AbstractDict{String}; aws_c
 Provides details about the Shield Advanced subscription for an account.
 
 """
-describe_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeSubscription"; aws_config=aws_config)
-describe_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DescribeSubscription", params; aws_config=aws_config)
+function describe_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("DescribeSubscription"; aws_config=aws_config)
+end
+function describe_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DescribeSubscription", params; aws_config=aws_config)
+end
 
 """
     disable_proactive_engagement()
@@ -325,8 +594,14 @@ Removes authorization from the Shield Response Team (SRT) to notify contacts abo
 escalations to the SRT and to initiate proactive customer support.
 
 """
-disable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisableProactiveEngagement"; aws_config=aws_config)
-disable_proactive_engagement(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisableProactiveEngagement", params; aws_config=aws_config)
+function disable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("DisableProactiveEngagement"; aws_config=aws_config)
+end
+function disable_proactive_engagement(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DisableProactiveEngagement", params; aws_config=aws_config)
+end
 
 """
     disassociate_drtlog_bucket(log_bucket)
@@ -343,8 +618,28 @@ request to remove this access.
 - `log_bucket`: The Amazon S3 bucket that contains the logs that you want to share.
 
 """
-disassociate_drtlog_bucket(LogBucket; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateDRTLogBucket", Dict{String, Any}("LogBucket"=>LogBucket); aws_config=aws_config)
-disassociate_drtlog_bucket(LogBucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateDRTLogBucket", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogBucket"=>LogBucket), params)); aws_config=aws_config)
+function disassociate_drtlog_bucket(
+    LogBucket; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "DisassociateDRTLogBucket",
+        Dict{String,Any}("LogBucket" => LogBucket);
+        aws_config=aws_config,
+    )
+end
+function disassociate_drtlog_bucket(
+    LogBucket,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "DisassociateDRTLogBucket",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("LogBucket" => LogBucket), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_drtrole()
@@ -357,8 +652,14 @@ plans, but had been previously and had granted the SRT access to your account, y
 submit a DisassociateDRTRole request to remove this access.
 
 """
-disassociate_drtrole(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateDRTRole"; aws_config=aws_config)
-disassociate_drtrole(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateDRTRole", params; aws_config=aws_config)
+function disassociate_drtrole(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("DisassociateDRTRole"; aws_config=aws_config)
+end
+function disassociate_drtrole(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("DisassociateDRTRole", params; aws_config=aws_config)
+end
 
 """
     disassociate_health_check(health_check_arn, protection_id)
@@ -378,8 +679,37 @@ Developer Guide.
   health check association from.
 
 """
-disassociate_health_check(HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateHealthCheck", Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId); aws_config=aws_config)
-disassociate_health_check(HealthCheckArn, ProtectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("DisassociateHealthCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HealthCheckArn"=>HealthCheckArn, "ProtectionId"=>ProtectionId), params)); aws_config=aws_config)
+function disassociate_health_check(
+    HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "DisassociateHealthCheck",
+        Dict{String,Any}(
+            "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
+        );
+        aws_config=aws_config,
+    )
+end
+function disassociate_health_check(
+    HealthCheckArn,
+    ProtectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "DisassociateHealthCheck",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     enable_proactive_engagement()
@@ -389,8 +719,14 @@ Authorizes the Shield Response Team (SRT) to use email and phone to notify conta
 escalations to the SRT and to initiate proactive customer support.
 
 """
-enable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("EnableProactiveEngagement"; aws_config=aws_config)
-enable_proactive_engagement(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("EnableProactiveEngagement", params; aws_config=aws_config)
+function enable_proactive_engagement(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("EnableProactiveEngagement"; aws_config=aws_config)
+end
+function enable_proactive_engagement(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("EnableProactiveEngagement", params; aws_config=aws_config)
+end
 
 """
     get_subscription_state()
@@ -399,8 +735,14 @@ enable_proactive_engagement(params::AbstractDict{String}; aws_config::AbstractAW
 Returns the SubscriptionState, either Active or Inactive.
 
 """
-get_subscription_state(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("GetSubscriptionState"; aws_config=aws_config)
-get_subscription_state(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("GetSubscriptionState", params; aws_config=aws_config)
+function get_subscription_state(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("GetSubscriptionState"; aws_config=aws_config)
+end
+function get_subscription_state(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("GetSubscriptionState", params; aws_config=aws_config)
+end
 
 """
     list_attacks()
@@ -427,8 +769,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The sample request above indicates a number type because the default used by WAF is Unix
   time in seconds. However any valid timestamp format is allowed.
 """
-list_attacks(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListAttacks"; aws_config=aws_config)
-list_attacks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListAttacks", params; aws_config=aws_config)
+function list_attacks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("ListAttacks"; aws_config=aws_config)
+end
+function list_attacks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("ListAttacks", params; aws_config=aws_config)
+end
 
 """
     list_protection_groups()
@@ -447,8 +795,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The next token value from a previous call to ListProtectionGroups. Pass
   null if this is the first call.
 """
-list_protection_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListProtectionGroups"; aws_config=aws_config)
-list_protection_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListProtectionGroups", params; aws_config=aws_config)
+function list_protection_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("ListProtectionGroups"; aws_config=aws_config)
+end
+function list_protection_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("ListProtectionGroups", params; aws_config=aws_config)
+end
 
 """
     list_protections()
@@ -467,8 +821,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The ListProtectionsRequest.NextToken value from a previous call to
   ListProtections. Pass null if this is the first call.
 """
-list_protections(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListProtections"; aws_config=aws_config)
-list_protections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListProtections", params; aws_config=aws_config)
+function list_protections(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("ListProtections"; aws_config=aws_config)
+end
+function list_protections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("ListProtections", params; aws_config=aws_config)
+end
 
 """
     list_resources_in_protection_group(protection_group_id)
@@ -492,8 +852,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The next token value from a previous call to
   ListResourcesInProtectionGroup. Pass null if this is the first call.
 """
-list_resources_in_protection_group(ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListResourcesInProtectionGroup", Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
-list_resources_in_protection_group(ProtectionGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListResourcesInProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config)
+function list_resources_in_protection_group(
+    ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "ListResourcesInProtectionGroup",
+        Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
+        aws_config=aws_config,
+    )
+end
+function list_resources_in_protection_group(
+    ProtectionGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "ListResourcesInProtectionGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -506,8 +888,28 @@ in Shield.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to get tags for.
 
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -521,8 +923,31 @@ Adds or updates tags for a resource in Shield.
 - `tags`: The tags that you want to modify or add to the resource.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = shield("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -536,8 +961,33 @@ Removes tags from a resource in Shield.
 - `tag_keys`: The tag key for each tag that you want to remove from the resource.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_emergency_contact_settings()
@@ -554,8 +1004,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   escalations to the SRT and to initiate proactive customer support. If you have proactive
   engagement enabled, the contact list must include at least one phone number.
 """
-update_emergency_contact_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateEmergencyContactSettings"; aws_config=aws_config)
-update_emergency_contact_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateEmergencyContactSettings", params; aws_config=aws_config)
+function update_emergency_contact_settings(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("UpdateEmergencyContactSettings"; aws_config=aws_config)
+end
+function update_emergency_contact_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("UpdateEmergencyContactSettings", params; aws_config=aws_config)
+end
 
 """
     update_protection_group(aggregation, pattern, protection_group_id)
@@ -591,8 +1049,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources of this type are included in the protection group. You must set this when you set
   Pattern to BY_RESOURCE_TYPE and you must not set it for any other Pattern setting.
 """
-update_protection_group(Aggregation, Pattern, ProtectionGroupId; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateProtectionGroup", Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId); aws_config=aws_config)
-update_protection_group(Aggregation, Pattern, ProtectionGroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateProtectionGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Aggregation"=>Aggregation, "Pattern"=>Pattern, "ProtectionGroupId"=>ProtectionGroupId), params)); aws_config=aws_config)
+function update_protection_group(
+    Aggregation,
+    Pattern,
+    ProtectionGroupId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "UpdateProtectionGroup",
+        Dict{String,Any}(
+            "Aggregation" => Aggregation,
+            "Pattern" => Pattern,
+            "ProtectionGroupId" => ProtectionGroupId,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_protection_group(
+    Aggregation,
+    Pattern,
+    ProtectionGroupId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return shield(
+        "UpdateProtectionGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Aggregation" => Aggregation,
+                    "Pattern" => Pattern,
+                    "ProtectionGroupId" => ProtectionGroupId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_subscription()
@@ -609,5 +1104,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the UpdateSubscription request does not included a value for AutoRenew, the existing value
   for AutoRenew remains unchanged.
 """
-update_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateSubscription"; aws_config=aws_config)
-update_subscription(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = shield("UpdateSubscription", params; aws_config=aws_config)
+function update_subscription(; aws_config::AbstractAWSConfig=global_aws_config())
+    return shield("UpdateSubscription"; aws_config=aws_config)
+end
+function update_subscription(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return shield("UpdateSubscription", params; aws_config=aws_config)
+end

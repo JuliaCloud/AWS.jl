@@ -23,8 +23,31 @@ resource in one account and a geofence collection in another account.
   collection.
 
 """
-associate_tracker_consumer(ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/consumers", Dict{String, Any}("ConsumerArn"=>ConsumerArn); aws_config=aws_config)
-associate_tracker_consumer(ConsumerArn, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/consumers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConsumerArn"=>ConsumerArn), params)); aws_config=aws_config)
+function associate_tracker_consumer(
+    ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/consumers",
+        Dict{String,Any}("ConsumerArn" => ConsumerArn);
+        aws_config=aws_config,
+    )
+end
+function associate_tracker_consumer(
+    ConsumerArn,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/consumers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConsumerArn" => ConsumerArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_delete_device_position_history(device_ids, tracker_name)
@@ -39,8 +62,31 @@ Deletes the position history of one or more devices from a tracker resource.
   from.
 
 """
-batch_delete_device_position_history(DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/delete-positions", Dict{String, Any}("DeviceIds"=>DeviceIds); aws_config=aws_config)
-batch_delete_device_position_history(DeviceIds, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/delete-positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceIds"=>DeviceIds), params)); aws_config=aws_config)
+function batch_delete_device_position_history(
+    DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/delete-positions",
+        Dict{String,Any}("DeviceIds" => DeviceIds);
+        aws_config=aws_config,
+    )
+end
+function batch_delete_device_position_history(
+    DeviceIds,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/delete-positions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DeviceIds" => DeviceIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_delete_geofence(collection_name, geofence_ids)
@@ -54,8 +100,31 @@ resource permanently.
 - `geofence_ids`: The batch of geofences to be deleted.
 
 """
-batch_delete_geofence(CollectionName, GeofenceIds; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/delete-geofences", Dict{String, Any}("GeofenceIds"=>GeofenceIds); aws_config=aws_config)
-batch_delete_geofence(CollectionName, GeofenceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/delete-geofences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeofenceIds"=>GeofenceIds), params)); aws_config=aws_config)
+function batch_delete_geofence(
+    CollectionName, GeofenceIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/delete-geofences",
+        Dict{String,Any}("GeofenceIds" => GeofenceIds);
+        aws_config=aws_config,
+    )
+end
+function batch_delete_geofence(
+    CollectionName,
+    GeofenceIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/delete-geofences",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GeofenceIds" => GeofenceIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_evaluate_geofences(collection_name, device_position_updates)
@@ -77,8 +146,35 @@ recent device position update.
   against the given geofence collection.
 
 """
-batch_evaluate_geofences(CollectionName, DevicePositionUpdates; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/positions", Dict{String, Any}("DevicePositionUpdates"=>DevicePositionUpdates); aws_config=aws_config)
-batch_evaluate_geofences(CollectionName, DevicePositionUpdates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevicePositionUpdates"=>DevicePositionUpdates), params)); aws_config=aws_config)
+function batch_evaluate_geofences(
+    CollectionName, DevicePositionUpdates; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/positions",
+        Dict{String,Any}("DevicePositionUpdates" => DevicePositionUpdates);
+        aws_config=aws_config,
+    )
+end
+function batch_evaluate_geofences(
+    CollectionName,
+    DevicePositionUpdates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/positions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DevicePositionUpdates" => DevicePositionUpdates),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_get_device_position(device_ids, tracker_name)
@@ -92,8 +188,31 @@ Lists the latest device positions for requested devices.
 - `tracker_name`: The tracker resource retrieving the device position.
 
 """
-batch_get_device_position(DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/get-positions", Dict{String, Any}("DeviceIds"=>DeviceIds); aws_config=aws_config)
-batch_get_device_position(DeviceIds, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/get-positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceIds"=>DeviceIds), params)); aws_config=aws_config)
+function batch_get_device_position(
+    DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/get-positions",
+        Dict{String,Any}("DeviceIds" => DeviceIds);
+        aws_config=aws_config,
+    )
+end
+function batch_get_device_position(
+    DeviceIds,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/get-positions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DeviceIds" => DeviceIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_put_geofence(collection_name, entries)
@@ -107,8 +226,29 @@ updates the geometry of an existing geofence if a geofence ID is included in the
 - `entries`: The batch of geofences to be stored in a geofence collection.
 
 """
-batch_put_geofence(CollectionName, Entries; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/put-geofences", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-batch_put_geofence(CollectionName, Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/put-geofences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
+function batch_put_geofence(
+    CollectionName, Entries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/put-geofences",
+        Dict{String,Any}("Entries" => Entries);
+        aws_config=aws_config,
+    )
+end
+function batch_put_geofence(
+    CollectionName,
+    Entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/put-geofences",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_update_device_position(tracker_name, updates)
@@ -124,8 +264,29 @@ position per 30-second interval and retained for 30 days before it's deleted.
 - `updates`: Contains the position update details for each device.
 
 """
-batch_update_device_position(TrackerName, Updates; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/positions", Dict{String, Any}("Updates"=>Updates); aws_config=aws_config)
-batch_update_device_position(TrackerName, Updates, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/positions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Updates"=>Updates), params)); aws_config=aws_config)
+function batch_update_device_position(
+    TrackerName, Updates; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/positions",
+        Dict{String,Any}("Updates" => Updates);
+        aws_config=aws_config,
+    )
+end
+function batch_update_device_position(
+    TrackerName,
+    Updates,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/positions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Updates" => Updates), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     calculate_route(calculator_name, departure_position, destination_position)
@@ -184,8 +345,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   position to the nearest road.  Specifying more than 23 waypoints returns a 400
   ValidationException error.  Valid Values: [-180 to 180,-90 to 90]
 """
-calculate_route(CalculatorName, DeparturePosition, DestinationPosition; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/routes/v0/calculators/$(CalculatorName)/calculate/route", Dict{String, Any}("DeparturePosition"=>DeparturePosition, "DestinationPosition"=>DestinationPosition); aws_config=aws_config)
-calculate_route(CalculatorName, DeparturePosition, DestinationPosition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/routes/v0/calculators/$(CalculatorName)/calculate/route", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeparturePosition"=>DeparturePosition, "DestinationPosition"=>DestinationPosition), params)); aws_config=aws_config)
+function calculate_route(
+    CalculatorName,
+    DeparturePosition,
+    DestinationPosition;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/routes/v0/calculators/$(CalculatorName)/calculate/route",
+        Dict{String,Any}(
+            "DeparturePosition" => DeparturePosition,
+            "DestinationPosition" => DestinationPosition,
+        );
+        aws_config=aws_config,
+    )
+end
+function calculate_route(
+    CalculatorName,
+    DeparturePosition,
+    DestinationPosition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/routes/v0/calculators/$(CalculatorName)/calculate/route",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeparturePosition" => DeparturePosition,
+                    "DestinationPosition" => DestinationPosition,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_geofence_collection(collection_name, pricing_plan)
@@ -220,8 +418,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
   characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
 """
-create_geofence_collection(CollectionName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections", Dict{String, Any}("CollectionName"=>CollectionName, "PricingPlan"=>PricingPlan); aws_config=aws_config)
-create_geofence_collection(CollectionName, PricingPlan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CollectionName"=>CollectionName, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config)
+function create_geofence_collection(
+    CollectionName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections",
+        Dict{String,Any}("CollectionName" => CollectionName, "PricingPlan" => PricingPlan);
+        aws_config=aws_config,
+    )
+end
+function create_geofence_collection(
+    CollectionName,
+    PricingPlan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CollectionName" => CollectionName, "PricingPlan" => PricingPlan
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_map(configuration, map_name, pricing_plan)
@@ -248,8 +475,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters
   (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
 """
-create_map(Configuration, MapName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/maps/v0/maps", Dict{String, Any}("Configuration"=>Configuration, "MapName"=>MapName, "PricingPlan"=>PricingPlan); aws_config=aws_config)
-create_map(Configuration, MapName, PricingPlan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/maps/v0/maps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Configuration"=>Configuration, "MapName"=>MapName, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config)
+function create_map(
+    Configuration, MapName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/maps/v0/maps",
+        Dict{String,Any}(
+            "Configuration" => Configuration,
+            "MapName" => MapName,
+            "PricingPlan" => PricingPlan,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_map(
+    Configuration,
+    MapName,
+    PricingPlan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/maps/v0/maps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Configuration" => Configuration,
+                    "MapName" => MapName,
+                    "PricingPlan" => PricingPlan,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_place_index(data_source, index_name, pricing_plan)
@@ -287,8 +550,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
   characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
 """
-create_place_index(DataSource, IndexName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/indexes", Dict{String, Any}("DataSource"=>DataSource, "IndexName"=>IndexName, "PricingPlan"=>PricingPlan); aws_config=aws_config)
-create_place_index(DataSource, IndexName, PricingPlan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/indexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "IndexName"=>IndexName, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config)
+function create_place_index(
+    DataSource, IndexName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/places/v0/indexes",
+        Dict{String,Any}(
+            "DataSource" => DataSource,
+            "IndexName" => IndexName,
+            "PricingPlan" => PricingPlan,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_place_index(
+    DataSource,
+    IndexName,
+    PricingPlan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/places/v0/indexes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DataSource" => DataSource,
+                    "IndexName" => IndexName,
+                    "PricingPlan" => PricingPlan,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_route_calculator(calculator_name, data_source, pricing_plan)
@@ -325,8 +624,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z,
   0–9), and the following characters: + - = . _ : / @.
 """
-create_route_calculator(CalculatorName, DataSource, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/routes/v0/calculators", Dict{String, Any}("CalculatorName"=>CalculatorName, "DataSource"=>DataSource, "PricingPlan"=>PricingPlan); aws_config=aws_config)
-create_route_calculator(CalculatorName, DataSource, PricingPlan, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/routes/v0/calculators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CalculatorName"=>CalculatorName, "DataSource"=>DataSource, "PricingPlan"=>PricingPlan), params)); aws_config=aws_config)
+function create_route_calculator(
+    CalculatorName,
+    DataSource,
+    PricingPlan;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/routes/v0/calculators",
+        Dict{String,Any}(
+            "CalculatorName" => CalculatorName,
+            "DataSource" => DataSource,
+            "PricingPlan" => PricingPlan,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_route_calculator(
+    CalculatorName,
+    DataSource,
+    PricingPlan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/routes/v0/calculators",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CalculatorName" => CalculatorName,
+                    "DataSource" => DataSource,
+                    "PricingPlan" => PricingPlan,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_tracker(pricing_plan, tracker_name)
@@ -361,8 +699,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
   characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
 """
-create_tracker(PricingPlan, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers", Dict{String, Any}("PricingPlan"=>PricingPlan, "TrackerName"=>TrackerName); aws_config=aws_config)
-create_tracker(PricingPlan, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PricingPlan"=>PricingPlan, "TrackerName"=>TrackerName), params)); aws_config=aws_config)
+function create_tracker(
+    PricingPlan, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers",
+        Dict{String,Any}("PricingPlan" => PricingPlan, "TrackerName" => TrackerName);
+        aws_config=aws_config,
+    )
+end
+function create_tracker(
+    PricingPlan,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PricingPlan" => PricingPlan, "TrackerName" => TrackerName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_geofence_collection(collection_name)
@@ -376,8 +743,25 @@ will no longer be monitored.
 - `collection_name`: The name of the geofence collection to be deleted.
 
 """
-delete_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config)
-delete_geofence_collection(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config)
+function delete_geofence_collection(
+    CollectionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "DELETE", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config
+    )
+end
+function delete_geofence_collection(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/geofencing/v0/collections/$(CollectionName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_map(map_name)
@@ -390,8 +774,14 @@ permanently. If the map is being used in an application, the map may not render.
 - `map_name`: The name of the map resource to be deleted.
 
 """
-delete_map(MapName; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/maps/v0/maps/$(MapName)"; aws_config=aws_config)
-delete_map(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config)
+function delete_map(MapName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("DELETE", "/maps/v0/maps/$(MapName)"; aws_config=aws_config)
+end
+function delete_map(
+    MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location("DELETE", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config)
+end
 
 """
     delete_place_index(index_name)
@@ -404,8 +794,18 @@ permanently.
 - `index_name`: The name of the place index resource to be deleted.
 
 """
-delete_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config)
-delete_place_index(IndexName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config)
+function delete_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("DELETE", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config)
+end
+function delete_place_index(
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "DELETE", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_route_calculator(calculator_name)
@@ -418,8 +818,22 @@ resource permanently.
 - `calculator_name`: The name of the route calculator resource to be deleted.
 
 """
-delete_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config)
-delete_route_calculator(CalculatorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config)
+function delete_route_calculator(
+    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "DELETE", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config
+    )
+end
+function delete_route_calculator(
+    CalculatorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "DELETE", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config
+    )
+end
 
 """
     delete_tracker(tracker_name)
@@ -433,8 +847,18 @@ the target resource isn't a dependency for your applications.
 - `tracker_name`: The name of the tracker resource to be deleted.
 
 """
-delete_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config)
-delete_tracker(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config)
+function delete_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("DELETE", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config)
+end
+function delete_tracker(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "DELETE", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_geofence_collection(collection_name)
@@ -446,8 +870,22 @@ Retrieves the geofence collection details.
 - `collection_name`: The name of the geofence collection.
 
 """
-describe_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config)
-describe_geofence_collection(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config)
+function describe_geofence_collection(
+    CollectionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config
+    )
+end
+function describe_geofence_collection(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_map(map_name)
@@ -459,8 +897,14 @@ Retrieves the map resource details.
 - `map_name`: The name of the map resource.
 
 """
-describe_map(MapName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)"; aws_config=aws_config)
-describe_map(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config)
+function describe_map(MapName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("GET", "/maps/v0/maps/$(MapName)"; aws_config=aws_config)
+end
+function describe_map(
+    MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location("GET", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config)
+end
 
 """
     describe_place_index(index_name)
@@ -472,8 +916,16 @@ Retrieves the place index resource details.
 - `index_name`: The name of the place index resource.
 
 """
-describe_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config)
-describe_place_index(IndexName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config)
+function describe_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("GET", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config)
+end
+function describe_place_index(
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location("GET", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config)
+end
 
 """
     describe_route_calculator(calculator_name)
@@ -485,8 +937,22 @@ Retrieves the route calculator resource details.
 - `calculator_name`: The name of the route calculator resource.
 
 """
-describe_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config)
-describe_route_calculator(CalculatorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config)
+function describe_route_calculator(
+    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config
+    )
+end
+function describe_route_calculator(
+    CalculatorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config
+    )
+end
 
 """
     describe_tracker(tracker_name)
@@ -498,8 +964,18 @@ Retrieves the tracker resource details.
 - `tracker_name`: The name of the tracker resource.
 
 """
-describe_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config)
-describe_tracker(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config)
+function describe_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("GET", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config)
+end
+function describe_tracker(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config
+    )
+end
 
 """
     disassociate_tracker_consumer(consumer_arn, tracker_name)
@@ -517,8 +993,28 @@ be automatically evaluated against geofences.
 - `tracker_name`: The name of the tracker resource to be dissociated from the consumer.
 
 """
-disassociate_tracker_consumer(ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)"; aws_config=aws_config)
-disassociate_tracker_consumer(ConsumerArn, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)", params; aws_config=aws_config)
+function disassociate_tracker_consumer(
+    ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "DELETE",
+        "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)";
+        aws_config=aws_config,
+    )
+end
+function disassociate_tracker_consumer(
+    ConsumerArn,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_device_position(device_id, tracker_name)
@@ -532,8 +1028,28 @@ are deleted after 30 days.
 - `tracker_name`: The tracker resource receiving the position update.
 
 """
-get_device_position(DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest"; aws_config=aws_config)
-get_device_position(DeviceId, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest", params; aws_config=aws_config)
+function get_device_position(
+    DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET",
+        "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest";
+        aws_config=aws_config,
+    )
+end
+function get_device_position(
+    DeviceId,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET",
+        "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_device_position_history(device_id, tracker_name)
@@ -560,8 +1076,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that the request is made. Requirement:   The time specified for StartTimeInclusive must be
   before EndTimeExclusive.
 """
-get_device_position_history(DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions"; aws_config=aws_config)
-get_device_position_history(DeviceId, TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions", params; aws_config=aws_config)
+function get_device_position_history(
+    DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions";
+        aws_config=aws_config,
+    )
+end
+function get_device_position_history(
+    DeviceId,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_geofence(collection_name, geofence_id)
@@ -574,8 +1110,28 @@ Retrieves the geofence details from a geofence collection.
 - `geofence_id`: The geofence you're retrieving details for.
 
 """
-get_geofence(CollectionName, GeofenceId; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)"; aws_config=aws_config)
-get_geofence(CollectionName, GeofenceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", params; aws_config=aws_config)
+function get_geofence(
+    CollectionName, GeofenceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET",
+        "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)";
+        aws_config=aws_config,
+    )
+end
+function get_geofence(
+    CollectionName,
+    GeofenceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET",
+        "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_map_glyphs(font_stack, font_unicode_range, map_name)
@@ -599,8 +1155,29 @@ Retrieves glyphs used to display labels on a map.
 - `map_name`: The map resource associated with the glyph ﬁle.
 
 """
-get_map_glyphs(FontStack, FontUnicodeRange, MapName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)"; aws_config=aws_config)
-get_map_glyphs(FontStack, FontUnicodeRange, MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)", params; aws_config=aws_config)
+function get_map_glyphs(
+    FontStack, FontUnicodeRange, MapName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)";
+        aws_config=aws_config,
+    )
+end
+function get_map_glyphs(
+    FontStack,
+    FontUnicodeRange,
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     get_map_sprites(file_name, map_name)
@@ -618,8 +1195,23 @@ displayed on a rendered map.
 - `map_name`: The map resource associated with the sprite ﬁle.
 
 """
-get_map_sprites(FileName, MapName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/sprites/$(FileName)"; aws_config=aws_config)
-get_map_sprites(FileName, MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/sprites/$(FileName)", params; aws_config=aws_config)
+function get_map_sprites(
+    FileName, MapName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET", "/maps/v0/maps/$(MapName)/sprites/$(FileName)"; aws_config=aws_config
+    )
+end
+function get_map_sprites(
+    FileName,
+    MapName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET", "/maps/v0/maps/$(MapName)/sprites/$(FileName)", params; aws_config=aws_config
+    )
+end
 
 """
     get_map_style_descriptor(map_name)
@@ -634,8 +1226,20 @@ Mapbox Style Specification.
 - `map_name`: The map resource to retrieve the style descriptor from.
 
 """
-get_map_style_descriptor(MapName; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/style-descriptor"; aws_config=aws_config)
-get_map_style_descriptor(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/style-descriptor", params; aws_config=aws_config)
+function get_map_style_descriptor(
+    MapName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET", "/maps/v0/maps/$(MapName)/style-descriptor"; aws_config=aws_config
+    )
+end
+function get_map_style_descriptor(
+    MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "GET", "/maps/v0/maps/$(MapName)/style-descriptor", params; aws_config=aws_config
+    )
+end
 
 """
     get_map_tile(map_name, x, y, z)
@@ -654,8 +1258,26 @@ doubles both the X and Y dimensions, so a tile containing data for the entire wo
 - `z`: The zoom value for the map tile.
 
 """
-get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)"; aws_config=aws_config)
-get_map_tile(MapName, X, Y, Z, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)", params; aws_config=aws_config)
+function get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=global_aws_config())
+    return location(
+        "GET", "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)"; aws_config=aws_config
+    )
+end
+function get_map_tile(
+    MapName,
+    X,
+    Y,
+    Z,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "GET",
+        "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_device_positions(tracker_name)
@@ -673,8 +1295,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
-list_device_positions(TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/list-positions"; aws_config=aws_config)
-list_device_positions(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/list-positions", params; aws_config=aws_config)
+function list_device_positions(
+    TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST", "/tracking/v0/trackers/$(TrackerName)/list-positions"; aws_config=aws_config
+    )
+end
+function list_device_positions(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/list-positions",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_geofence_collections()
@@ -689,8 +1328,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
-list_geofence_collections(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/list-collections"; aws_config=aws_config)
-list_geofence_collections(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/list-collections", params; aws_config=aws_config)
+function list_geofence_collections(; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("POST", "/geofencing/v0/list-collections"; aws_config=aws_config)
+end
+function list_geofence_collections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST", "/geofencing/v0/list-collections", params; aws_config=aws_config
+    )
+end
 
 """
     list_geofences(collection_name)
@@ -706,8 +1353,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
-list_geofences(CollectionName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/list-geofences"; aws_config=aws_config)
-list_geofences(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/geofencing/v0/collections/$(CollectionName)/list-geofences", params; aws_config=aws_config)
+function list_geofences(CollectionName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/list-geofences";
+        aws_config=aws_config,
+    )
+end
+function list_geofences(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/list-geofences",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_maps()
@@ -722,8 +1386,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
-list_maps(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/maps/v0/list-maps"; aws_config=aws_config)
-list_maps(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/maps/v0/list-maps", params; aws_config=aws_config)
+function list_maps(; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("POST", "/maps/v0/list-maps"; aws_config=aws_config)
+end
+function list_maps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location("POST", "/maps/v0/list-maps", params; aws_config=aws_config)
+end
 
 """
     list_place_indexes()
@@ -738,8 +1408,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
-list_place_indexes(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/list-indexes"; aws_config=aws_config)
-list_place_indexes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/list-indexes", params; aws_config=aws_config)
+function list_place_indexes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("POST", "/places/v0/list-indexes"; aws_config=aws_config)
+end
+function list_place_indexes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location("POST", "/places/v0/list-indexes", params; aws_config=aws_config)
+end
 
 """
     list_route_calculators()
@@ -754,8 +1430,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default Value: null
 """
-list_route_calculators(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/routes/v0/list-calculators"; aws_config=aws_config)
-list_route_calculators(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/routes/v0/list-calculators", params; aws_config=aws_config)
+function list_route_calculators(; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("POST", "/routes/v0/list-calculators"; aws_config=aws_config)
+end
+function list_route_calculators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location("POST", "/routes/v0/list-calculators", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -768,8 +1450,18 @@ Returns a list of tags that are applied to the specified Amazon Location resourc
   retrieve.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+end
 
 """
     list_tracker_consumers(tracker_name)
@@ -788,8 +1480,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
-list_tracker_consumers(TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/list-consumers"; aws_config=aws_config)
-list_tracker_consumers(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/trackers/$(TrackerName)/list-consumers", params; aws_config=aws_config)
+function list_tracker_consumers(
+    TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST", "/tracking/v0/trackers/$(TrackerName)/list-consumers"; aws_config=aws_config
+    )
+end
+function list_tracker_consumers(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/list-consumers",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     list_trackers()
@@ -804,8 +1513,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
-list_trackers(; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/list-trackers"; aws_config=aws_config)
-list_trackers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tracking/v0/list-trackers", params; aws_config=aws_config)
+function list_trackers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("POST", "/tracking/v0/list-trackers"; aws_config=aws_config)
+end
+function list_trackers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location("POST", "/tracking/v0/list-trackers", params; aws_config=aws_config)
+end
 
 """
     put_geofence(collection_name, geofence_id, geometry)
@@ -821,8 +1536,32 @@ existing geofence if a geofence ID is included in the request.
   geofence polygon can have a maximum of 1,000 vertices.
 
 """
-put_geofence(CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=global_aws_config()) = location("PUT", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", Dict{String, Any}("Geometry"=>Geometry); aws_config=aws_config)
-put_geofence(CollectionName, GeofenceId, Geometry, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PUT", "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Geometry"=>Geometry), params)); aws_config=aws_config)
+function put_geofence(
+    CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "PUT",
+        "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
+        Dict{String,Any}("Geometry" => Geometry);
+        aws_config=aws_config,
+    )
+end
+function put_geofence(
+    CollectionName,
+    GeofenceId,
+    Geometry,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "PUT",
+        "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Geometry" => Geometry), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     search_place_index_for_position(index_name, position)
@@ -842,8 +1581,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: An optional paramer. The maximum number of results returned per request.
   Default value: 50
 """
-search_place_index_for_position(IndexName, Position; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/position", Dict{String, Any}("Position"=>Position); aws_config=aws_config)
-search_place_index_for_position(IndexName, Position, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/position", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Position"=>Position), params)); aws_config=aws_config)
+function search_place_index_for_position(
+    IndexName, Position; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/position",
+        Dict{String,Any}("Position" => Position);
+        aws_config=aws_config,
+    )
+end
+function search_place_index_for_position(
+    IndexName,
+    Position,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/position",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Position" => Position), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     search_place_index_for_text(index_name, text)
@@ -881,8 +1643,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: An optional parameter. The maximum number of results returned per
   request.  The default: 50
 """
-search_place_index_for_text(IndexName, Text; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/text", Dict{String, Any}("Text"=>Text); aws_config=aws_config)
-search_place_index_for_text(IndexName, Text, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/places/v0/indexes/$(IndexName)/search/text", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Text"=>Text), params)); aws_config=aws_config)
+function search_place_index_for_text(
+    IndexName, Text; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/text",
+        Dict{String,Any}("Text" => Text);
+        aws_config=aws_config,
+    )
+end
+function search_place_index_for_text(
+    IndexName,
+    Text,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/places/v0/indexes/$(IndexName)/search/text",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Text" => Text), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -907,8 +1690,27 @@ resource.&lt;/p&gt;
   \"value1\", \"tag2\" : \"value2\"}
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return location(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -922,8 +1724,29 @@ Removes one or more tags from the specified Amazon Location resource.
 - `tag_keys`: The list of tag keys to remove from the specified resource.
 
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_geofence_collection(collection_name)
@@ -948,8 +1771,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   geofence collection. Your data won't be shared with the data provider, and will remain in
   your AWS account and Region unless you move it.
 """
-update_geofence_collection(CollectionName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config)
-update_geofence_collection(CollectionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/geofencing/v0/collections/$(CollectionName)", params; aws_config=aws_config)
+function update_geofence_collection(
+    CollectionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "PATCH", "/geofencing/v0/collections/$(CollectionName)"; aws_config=aws_config
+    )
+end
+function update_geofence_collection(
+    CollectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "PATCH",
+        "/geofencing/v0/collections/$(CollectionName)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     update_map(map_name)
@@ -966,8 +1806,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PricingPlan"`: Updates the pricing plan for the map resource. For more information
   about each pricing plan option restrictions, see Amazon Location Service pricing.
 """
-update_map(MapName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/maps/v0/maps/$(MapName)"; aws_config=aws_config)
-update_map(MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config)
+function update_map(MapName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("PATCH", "/maps/v0/maps/$(MapName)"; aws_config=aws_config)
+end
+function update_map(
+    MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location("PATCH", "/maps/v0/maps/$(MapName)", params; aws_config=aws_config)
+end
 
 """
     update_place_index(index_name)
@@ -986,8 +1832,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about each pricing plan option restrictions, see Amazon Location Service
   pricing.
 """
-update_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config)
-update_place_index(IndexName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config)
+function update_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("PATCH", "/places/v0/indexes/$(IndexName)"; aws_config=aws_config)
+end
+function update_place_index(
+    IndexName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "PATCH", "/places/v0/indexes/$(IndexName)", params; aws_config=aws_config
+    )
+end
 
 """
     update_route_calculator(calculator_name)
@@ -1005,8 +1861,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about each pricing plan option restrictions, see Amazon Location Service
   pricing.
 """
-update_route_calculator(CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config)
-update_route_calculator(CalculatorName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config)
+function update_route_calculator(
+    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "PATCH", "/routes/v0/calculators/$(CalculatorName)"; aws_config=aws_config
+    )
+end
+function update_route_calculator(
+    CalculatorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "PATCH", "/routes/v0/calculators/$(CalculatorName)", params; aws_config=aws_config
+    )
+end
 
 """
     update_tracker(tracker_name)
@@ -1030,5 +1900,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tracker resource. Your data won't be shared with the data provider, and will remain in your
   AWS account and Region unless you move it.
 """
-update_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config)
-update_tracker(TrackerName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = location("PATCH", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config)
+function update_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config())
+    return location("PATCH", "/tracking/v0/trackers/$(TrackerName)"; aws_config=aws_config)
+end
+function update_tracker(
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "PATCH", "/tracking/v0/trackers/$(TrackerName)", params; aws_config=aws_config
+    )
+end

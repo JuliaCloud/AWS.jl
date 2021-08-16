@@ -35,8 +35,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters,
   digits, white space, or these symbols: _ . : / = + - @.
 """
-create_activity(name; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("CreateActivity", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_activity(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("CreateActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function create_activity(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn("CreateActivity", Dict{String,Any}("name" => name); aws_config=aws_config)
+end
+function create_activity(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "CreateActivity",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_state_machine(definition, name, role_arn)
@@ -77,8 +87,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: Determines whether a Standard or Express state machine is created. The default
   is STANDARD. You cannot update the type of a state machine once it has been created.
 """
-create_state_machine(definition, name, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("CreateStateMachine", Dict{String, Any}("definition"=>definition, "name"=>name, "roleArn"=>roleArn); aws_config=aws_config)
-create_state_machine(definition, name, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("CreateStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "name"=>name, "roleArn"=>roleArn), params)); aws_config=aws_config)
+function create_state_machine(
+    definition, name, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "CreateStateMachine",
+        Dict{String,Any}("definition" => definition, "name" => name, "roleArn" => roleArn);
+        aws_config=aws_config,
+    )
+end
+function create_state_machine(
+    definition,
+    name,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "CreateStateMachine",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "definition" => definition, "name" => name, "roleArn" => roleArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_activity(activity_arn)
@@ -90,8 +128,26 @@ Deletes an activity.
 - `activity_arn`: The Amazon Resource Name (ARN) of the activity to delete.
 
 """
-delete_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DeleteActivity", Dict{String, Any}("activityArn"=>activityArn); aws_config=aws_config)
-delete_activity(activityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DeleteActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), params)); aws_config=aws_config)
+function delete_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "DeleteActivity",
+        Dict{String,Any}("activityArn" => activityArn);
+        aws_config=aws_config,
+    )
+end
+function delete_activity(
+    activityArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "DeleteActivity",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_state_machine(state_machine_arn)
@@ -106,8 +162,30 @@ logs after DeleteStateMachine API is called.
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine to delete.
 
 """
-delete_state_machine(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DeleteStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
-delete_state_machine(stateMachineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DeleteStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config)
+function delete_state_machine(
+    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "DeleteStateMachine",
+        Dict{String,Any}("stateMachineArn" => stateMachineArn);
+        aws_config=aws_config,
+    )
+end
+function delete_state_machine(
+    stateMachineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "DeleteStateMachine",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_activity(activity_arn)
@@ -120,8 +198,26 @@ effort and may not reflect very recent updates and changes.
 - `activity_arn`: The Amazon Resource Name (ARN) of the activity to describe.
 
 """
-describe_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DescribeActivity", Dict{String, Any}("activityArn"=>activityArn); aws_config=aws_config)
-describe_activity(activityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DescribeActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), params)); aws_config=aws_config)
+function describe_activity(activityArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "DescribeActivity",
+        Dict{String,Any}("activityArn" => activityArn);
+        aws_config=aws_config,
+    )
+end
+function describe_activity(
+    activityArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "DescribeActivity",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_execution(execution_arn)
@@ -135,8 +231,26 @@ supported by EXPRESS state machines.
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution to describe.
 
 """
-describe_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DescribeExecution", Dict{String, Any}("executionArn"=>executionArn); aws_config=aws_config)
-describe_execution(executionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DescribeExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), params)); aws_config=aws_config)
+function describe_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "DescribeExecution",
+        Dict{String,Any}("executionArn" => executionArn);
+        aws_config=aws_config,
+    )
+end
+function describe_execution(
+    executionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "DescribeExecution",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_state_machine(state_machine_arn)
@@ -149,8 +263,30 @@ effort and may not reflect very recent updates and changes.
 - `state_machine_arn`: The Amazon Resource Name (ARN) of the state machine to describe.
 
 """
-describe_state_machine(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DescribeStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
-describe_state_machine(stateMachineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DescribeStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config)
+function describe_state_machine(
+    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "DescribeStateMachine",
+        Dict{String,Any}("stateMachineArn" => stateMachineArn);
+        aws_config=aws_config,
+    )
+end
+function describe_state_machine(
+    stateMachineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "DescribeStateMachine",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_state_machine_for_execution(execution_arn)
@@ -165,8 +301,28 @@ and changes.  This API action is not supported by EXPRESS state machines.
   information for.
 
 """
-describe_state_machine_for_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DescribeStateMachineForExecution", Dict{String, Any}("executionArn"=>executionArn); aws_config=aws_config)
-describe_state_machine_for_execution(executionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("DescribeStateMachineForExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), params)); aws_config=aws_config)
+function describe_state_machine_for_execution(
+    executionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "DescribeStateMachineForExecution",
+        Dict{String,Any}("executionArn" => executionArn);
+        aws_config=aws_config,
+    )
+end
+function describe_state_machine_for_execution(
+    executionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "DescribeStateMachineForExecution",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_activity_task(activity_arn)
@@ -192,8 +348,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workerName"`: You can provide an arbitrary name in order to identify the worker that
   the task is assigned to. This name is used when it is logged in the execution history.
 """
-get_activity_task(activityArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("GetActivityTask", Dict{String, Any}("activityArn"=>activityArn); aws_config=aws_config)
-get_activity_task(activityArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("GetActivityTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), params)); aws_config=aws_config)
+function get_activity_task(activityArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "GetActivityTask",
+        Dict{String,Any}("activityArn" => activityArn);
+        aws_config=aws_config,
+    )
+end
+function get_activity_task(
+    activityArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "GetActivityTask",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("activityArn" => activityArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_execution_history(execution_arn)
@@ -226,8 +400,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP 400 InvalidToken error.
 - `"reverseOrder"`: Lists events in descending order of their timeStamp.
 """
-get_execution_history(executionArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("GetExecutionHistory", Dict{String, Any}("executionArn"=>executionArn); aws_config=aws_config)
-get_execution_history(executionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("GetExecutionHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), params)); aws_config=aws_config)
+function get_execution_history(
+    executionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "GetExecutionHistory",
+        Dict{String,Any}("executionArn" => executionArn);
+        aws_config=aws_config,
+    )
+end
+function get_execution_history(
+    executionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "GetExecutionHistory",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_activities()
@@ -252,8 +446,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
-list_activities(; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("ListActivities"; aws_config=aws_config)
-list_activities(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("ListActivities", params; aws_config=aws_config)
+function list_activities(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn("ListActivities"; aws_config=aws_config)
+end
+function list_activities(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn("ListActivities", params; aws_config=aws_config)
+end
 
 """
     list_executions(state_machine_arn)
@@ -286,8 +486,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusFilter"`: If specified, only list the executions whose current execution status
   matches the given filter.
 """
-list_executions(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("ListExecutions", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
-list_executions(stateMachineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("ListExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config)
+function list_executions(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "ListExecutions",
+        Dict{String,Any}("stateMachineArn" => stateMachineArn);
+        aws_config=aws_config,
+    )
+end
+function list_executions(
+    stateMachineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "ListExecutions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_state_machines()
@@ -312,8 +532,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
-list_state_machines(; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("ListStateMachines"; aws_config=aws_config)
-list_state_machines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("ListStateMachines", params; aws_config=aws_config)
+function list_state_machines(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn("ListStateMachines"; aws_config=aws_config)
+end
+function list_state_machines(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn("ListStateMachines", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -327,8 +553,28 @@ or these symbols: _ . : / = + - @.
   activity.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     send_task_failure(task_token)
@@ -347,8 +593,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cause"`: A more detailed explanation of the cause of the failure.
 - `"error"`: The error code of the failure.
 """
-send_task_failure(taskToken; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("SendTaskFailure", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
-send_task_failure(taskToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("SendTaskFailure", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config)
+function send_task_failure(taskToken; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "SendTaskFailure", Dict{String,Any}("taskToken" => taskToken); aws_config=aws_config
+    )
+end
+function send_task_failure(
+    taskToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "SendTaskFailure",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     send_task_heartbeat(task_token)
@@ -371,8 +633,26 @@ configure the timeout interval for heartbeats.
   enters a task state. See GetActivityTaskOutputtaskToken.
 
 """
-send_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("SendTaskHeartbeat", Dict{String, Any}("taskToken"=>taskToken); aws_config=aws_config)
-send_task_heartbeat(taskToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("SendTaskHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), params)); aws_config=aws_config)
+function send_task_heartbeat(taskToken; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "SendTaskHeartbeat",
+        Dict{String,Any}("taskToken" => taskToken);
+        aws_config=aws_config,
+    )
+end
+function send_task_heartbeat(
+    taskToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "SendTaskHeartbeat",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("taskToken" => taskToken), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     send_task_success(output, task_token)
@@ -389,8 +669,33 @@ identified by the taskToken completed successfully.
   enters a task state. See GetActivityTaskOutputtaskToken.
 
 """
-send_task_success(output, taskToken; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("SendTaskSuccess", Dict{String, Any}("output"=>output, "taskToken"=>taskToken); aws_config=aws_config)
-send_task_success(output, taskToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("SendTaskSuccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("output"=>output, "taskToken"=>taskToken), params)); aws_config=aws_config)
+function send_task_success(
+    output, taskToken; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "SendTaskSuccess",
+        Dict{String,Any}("output" => output, "taskToken" => taskToken);
+        aws_config=aws_config,
+    )
+end
+function send_task_success(
+    output,
+    taskToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "SendTaskSuccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("output" => output, "taskToken" => taskToken),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_execution(state_machine_arn)
@@ -420,8 +725,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"traceHeader"`: Passes the AWS X-Ray trace header. The trace header can also be passed
   in the request payload.
 """
-start_execution(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("StartExecution", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
-start_execution(stateMachineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("StartExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config)
+function start_execution(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "StartExecution",
+        Dict{String,Any}("stateMachineArn" => stateMachineArn);
+        aws_config=aws_config,
+    )
+end
+function start_execution(
+    stateMachineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "StartExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_sync_execution(state_machine_arn)
@@ -442,8 +767,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"traceHeader"`: Passes the AWS X-Ray trace header. The trace header can also be passed
   in the request payload.
 """
-start_sync_execution(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("StartSyncExecution", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
-start_sync_execution(stateMachineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("StartSyncExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config)
+function start_sync_execution(
+    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "StartSyncExecution",
+        Dict{String,Any}("stateMachineArn" => stateMachineArn);
+        aws_config=aws_config,
+    )
+end
+function start_sync_execution(
+    stateMachineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "StartSyncExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_execution(execution_arn)
@@ -459,8 +806,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cause"`: A more detailed explanation of the cause of the failure.
 - `"error"`: The error code of the failure.
 """
-stop_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("StopExecution", Dict{String, Any}("executionArn"=>executionArn); aws_config=aws_config)
-stop_execution(executionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("StopExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), params)); aws_config=aws_config)
+function stop_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "StopExecution",
+        Dict{String,Any}("executionArn" => executionArn);
+        aws_config=aws_config,
+    )
+end
+function stop_execution(
+    executionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "StopExecution",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("executionArn" => executionArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -478,8 +843,31 @@ space, or these symbols: _ . : / = + - @.
   digits, white space, or these symbols: _ . : / = + - @.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return sfn(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -493,8 +881,33 @@ Remove a tag from a Step Functions resource
 - `tag_keys`: The list of tags to remove from the resource.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_state_machine(state_machine_arn)
@@ -519,5 +932,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role of the state machine.
 - `"tracingConfiguration"`: Selects whether AWS X-Ray tracing is enabled.
 """
-update_state_machine(stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("UpdateStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws_config=aws_config)
-update_state_machine(stateMachineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sfn("UpdateStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), params)); aws_config=aws_config)
+function update_state_machine(
+    stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sfn(
+        "UpdateStateMachine",
+        Dict{String,Any}("stateMachineArn" => stateMachineArn);
+        aws_config=aws_config,
+    )
+end
+function update_state_machine(
+    stateMachineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sfn(
+        "UpdateStateMachine",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("stateMachineArn" => stateMachineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

@@ -21,8 +21,28 @@ IDs.
 - `named_query_ids`: An array of query IDs.
 
 """
-batch_get_named_query(NamedQueryIds; aws_config::AbstractAWSConfig=global_aws_config()) = athena("BatchGetNamedQuery", Dict{String, Any}("NamedQueryIds"=>NamedQueryIds); aws_config=aws_config)
-batch_get_named_query(NamedQueryIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("BatchGetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryIds"=>NamedQueryIds), params)); aws_config=aws_config)
+function batch_get_named_query(
+    NamedQueryIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "BatchGetNamedQuery",
+        Dict{String,Any}("NamedQueryIds" => NamedQueryIds);
+        aws_config=aws_config,
+    )
+end
+function batch_get_named_query(
+    NamedQueryIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "BatchGetNamedQuery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NamedQueryIds" => NamedQueryIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_get_query_execution(query_execution_ids)
@@ -38,8 +58,30 @@ BatchGetNamedQueryInput to get details about named queries.
 - `query_execution_ids`: An array of query execution IDs.
 
 """
-batch_get_query_execution(QueryExecutionIds; aws_config::AbstractAWSConfig=global_aws_config()) = athena("BatchGetQueryExecution", Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds); aws_config=aws_config)
-batch_get_query_execution(QueryExecutionIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("BatchGetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds), params)); aws_config=aws_config)
+function batch_get_query_execution(
+    QueryExecutionIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "BatchGetQueryExecution",
+        Dict{String,Any}("QueryExecutionIds" => QueryExecutionIds);
+        aws_config=aws_config,
+    )
+end
+function batch_get_query_execution(
+    QueryExecutionIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "BatchGetQueryExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionIds" => QueryExecutionIds), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_data_catalog(name, type)
@@ -78,8 +120,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   error.
 - `"Tags"`: A list of comma separated tags to add to the data catalog that is created.
 """
-create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config)
-create_data_catalog(Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
+function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "CreateDataCatalog",
+        Dict{String,Any}("Name" => Name, "Type" => Type);
+        aws_config=aws_config,
+    )
+end
+function create_data_catalog(
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "CreateDataCatalog",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_named_query(database, name, query_string)
@@ -106,8 +167,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The query description.
 - `"WorkGroup"`: The name of the workgroup in which the named query is being created.
 """
-create_named_query(Database, Name, QueryString; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateNamedQuery", Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-create_named_query(Database, Name, QueryString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_named_query(
+    Database, Name, QueryString; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "CreateNamedQuery",
+        Dict{String,Any}(
+            "Database" => Database,
+            "Name" => Name,
+            "QueryString" => QueryString,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_named_query(
+    Database,
+    Name,
+    QueryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "CreateNamedQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Database" => Database,
+                    "Name" => Name,
+                    "QueryString" => QueryString,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_prepared_statement(query_statement, statement_name, work_group)
@@ -124,8 +221,45 @@ Creates a prepared statement for use with SQL queries in Athena.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the prepared statement.
 """
-create_prepared_statement(QueryStatement, StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreatePreparedStatement", Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config)
-create_prepared_statement(QueryStatement, StatementName, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreatePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+function create_prepared_statement(
+    QueryStatement,
+    StatementName,
+    WorkGroup;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "CreatePreparedStatement",
+        Dict{String,Any}(
+            "QueryStatement" => QueryStatement,
+            "StatementName" => StatementName,
+            "WorkGroup" => WorkGroup,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_prepared_statement(
+    QueryStatement,
+    StatementName,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "CreatePreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "QueryStatement" => QueryStatement,
+                    "StatementName" => StatementName,
+                    "WorkGroup" => WorkGroup,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_work_group(name)
@@ -148,8 +282,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The workgroup description.
 - `"Tags"`: A list of comma separated tags to add to the workgroup that is created.
 """
-create_work_group(Name; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateWorkGroup", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-create_work_group(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("CreateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function create_work_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "CreateWorkGroup", Dict{String,Any}("Name" => Name); aws_config=aws_config
+    )
+end
+function create_work_group(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "CreateWorkGroup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_data_catalog(name)
@@ -161,8 +307,20 @@ Deletes a data catalog.
 - `name`: The name of the data catalog to delete.
 
 """
-delete_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteDataCatalog", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-delete_data_catalog(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function delete_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "DeleteDataCatalog", Dict{String,Any}("Name" => Name); aws_config=aws_config
+    )
+end
+function delete_data_catalog(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "DeleteDataCatalog",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_named_query(named_query_id)
@@ -176,8 +334,26 @@ in the Amazon Athena User Guide.
 - `named_query_id`: The unique ID of the query to delete.
 
 """
-delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws_config=aws_config)
-delete_named_query(NamedQueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), params)); aws_config=aws_config)
+function delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "DeleteNamedQuery",
+        Dict{String,Any}("NamedQueryId" => NamedQueryId);
+        aws_config=aws_config,
+    )
+end
+function delete_named_query(
+    NamedQueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "DeleteNamedQuery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NamedQueryId" => NamedQueryId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_prepared_statement(statement_name, work_group)
@@ -190,8 +366,35 @@ Deletes the prepared statement with the specified name from the specified workgr
 - `work_group`: The workgroup to which the statement to be deleted belongs.
 
 """
-delete_prepared_statement(StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeletePreparedStatement", Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config)
-delete_prepared_statement(StatementName, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeletePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+function delete_prepared_statement(
+    StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "DeletePreparedStatement",
+        Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+    )
+end
+function delete_prepared_statement(
+    StatementName,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "DeletePreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StatementName" => StatementName, "WorkGroup" => WorkGroup
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_work_group(work_group)
@@ -207,8 +410,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RecursiveDeleteOption"`: The option to delete the workgroup and its contents even if
   the workgroup contains any named queries or query executions.
 """
-delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
-delete_work_group(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("DeleteWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "DeleteWorkGroup", Dict{String,Any}("WorkGroup" => WorkGroup); aws_config=aws_config
+    )
+end
+function delete_work_group(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "DeleteWorkGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_data_catalog(name)
@@ -220,8 +439,18 @@ Returns the specified data catalog.
 - `name`: The name of the data catalog to return.
 
 """
-get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetDataCatalog", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-get_data_catalog(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config)
+function get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena("GetDataCatalog", Dict{String,Any}("Name" => Name); aws_config=aws_config)
+end
+function get_data_catalog(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetDataCatalog",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_database(catalog_name, database_name)
@@ -234,8 +463,35 @@ Returns a database object for the specified database and data catalog.
 - `database_name`: The name of the database to return.
 
 """
-get_database(CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetDatabase", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws_config=aws_config)
-get_database(CatalogName, DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), params)); aws_config=aws_config)
+function get_database(
+    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetDatabase",
+        Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
+        aws_config=aws_config,
+    )
+end
+function get_database(
+    CatalogName,
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetDatabase",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogName" => CatalogName, "DatabaseName" => DatabaseName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_named_query(named_query_id)
@@ -248,8 +504,26 @@ which the query was saved.
 - `named_query_id`: The unique ID of the query. Use ListNamedQueries to get query IDs.
 
 """
-get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws_config=aws_config)
-get_named_query(NamedQueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), params)); aws_config=aws_config)
+function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "GetNamedQuery",
+        Dict{String,Any}("NamedQueryId" => NamedQueryId);
+        aws_config=aws_config,
+    )
+end
+function get_named_query(
+    NamedQueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetNamedQuery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("NamedQueryId" => NamedQueryId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_prepared_statement(statement_name, work_group)
@@ -262,8 +536,35 @@ Retrieves the prepared statement with the specified name from the specified work
 - `work_group`: The workgroup to which the statement to be retrieved belongs.
 
 """
-get_prepared_statement(StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetPreparedStatement", Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config)
-get_prepared_statement(StatementName, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetPreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+function get_prepared_statement(
+    StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetPreparedStatement",
+        Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+    )
+end
+function get_prepared_statement(
+    StatementName,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetPreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StatementName" => StatementName, "WorkGroup" => WorkGroup
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_query_execution(query_execution_id)
@@ -277,8 +578,30 @@ is saved with a unique ID.
 - `query_execution_id`: The unique ID of the query execution.
 
 """
-get_query_execution(QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetQueryExecution", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config)
-get_query_execution(QueryExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config)
+function get_query_execution(
+    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetQueryExecution",
+        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
+        aws_config=aws_config,
+    )
+end
+function get_query_execution(
+    QueryExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetQueryExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionId" => QueryExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_query_results(query_execution_id)
@@ -305,8 +628,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-get_query_results(QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetQueryResults", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config)
-get_query_results(QueryExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config)
+function get_query_results(
+    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetQueryResults",
+        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
+        aws_config=aws_config,
+    )
+end
+function get_query_results(
+    QueryExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetQueryResults",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionId" => QueryExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_table_metadata(catalog_name, database_name, table_name)
@@ -321,8 +666,42 @@ Returns table metadata for the specified catalog, database, and table.
 - `table_name`: The name of the table for which metadata is returned.
 
 """
-get_table_metadata(CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
-get_table_metadata(CatalogName, DatabaseName, TableName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), params)); aws_config=aws_config)
+function get_table_metadata(
+    CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetTableMetadata",
+        Dict{String,Any}(
+            "CatalogName" => CatalogName,
+            "DatabaseName" => DatabaseName,
+            "TableName" => TableName,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_table_metadata(
+    CatalogName,
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetTableMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogName" => CatalogName,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_work_group(work_group)
@@ -334,8 +713,24 @@ Returns information about the workgroup with the specified name.
 - `work_group`: The name of the workgroup.
 
 """
-get_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
-get_work_group(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("GetWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "GetWorkGroup", Dict{String,Any}("WorkGroup" => WorkGroup); aws_config=aws_config
+    )
+end
+function get_work_group(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetWorkGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_data_catalogs()
@@ -350,8 +745,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListDataCatalogs"; aws_config=aws_config)
-list_data_catalogs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListDataCatalogs", params; aws_config=aws_config)
+function list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena("ListDataCatalogs"; aws_config=aws_config)
+end
+function list_data_catalogs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena("ListDataCatalogs", params; aws_config=aws_config)
+end
 
 """
     list_databases(catalog_name)
@@ -369,8 +770,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListDatabases", Dict{String, Any}("CatalogName"=>CatalogName); aws_config=aws_config)
-list_databases(CatalogName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName), params)); aws_config=aws_config)
+function list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "ListDatabases",
+        Dict{String,Any}("CatalogName" => CatalogName);
+        aws_config=aws_config,
+    )
+end
+function list_databases(
+    CatalogName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "ListDatabases",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CatalogName" => CatalogName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_engine_versions()
@@ -386,8 +805,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListEngineVersions"; aws_config=aws_config)
-list_engine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListEngineVersions", params; aws_config=aws_config)
+function list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena("ListEngineVersions"; aws_config=aws_config)
+end
+function list_engine_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena("ListEngineVersions", params; aws_config=aws_config)
+end
 
 """
     list_named_queries()
@@ -407,8 +832,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup from which the named queries are being returned.
   If a workgroup is not specified, the saved queries for the primary workgroup are returned.
 """
-list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListNamedQueries"; aws_config=aws_config)
-list_named_queries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListNamedQueries", params; aws_config=aws_config)
+function list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena("ListNamedQueries"; aws_config=aws_config)
+end
+function list_named_queries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena("ListNamedQueries", params; aws_config=aws_config)
+end
 
 """
     list_prepared_statements(work_group)
@@ -426,8 +857,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-list_prepared_statements(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListPreparedStatements", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
-list_prepared_statements(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListPreparedStatements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+function list_prepared_statements(
+    WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "ListPreparedStatements",
+        Dict{String,Any}("WorkGroup" => WorkGroup);
+        aws_config=aws_config,
+    )
+end
+function list_prepared_statements(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "ListPreparedStatements",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_query_executions()
@@ -449,8 +900,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workgroup is not specified, a list of available query execution IDs for the queries in the
   primary workgroup is returned.
 """
-list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListQueryExecutions"; aws_config=aws_config)
-list_query_executions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListQueryExecutions", params; aws_config=aws_config)
+function list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena("ListQueryExecutions"; aws_config=aws_config)
+end
+function list_query_executions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena("ListQueryExecutions", params; aws_config=aws_config)
+end
 
 """
     list_table_metadata(catalog_name, database_name)
@@ -471,8 +928,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-list_table_metadata(CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws_config=aws_config)
-list_table_metadata(CatalogName, DatabaseName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), params)); aws_config=aws_config)
+function list_table_metadata(
+    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "ListTableMetadata",
+        Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
+        aws_config=aws_config,
+    )
+end
+function list_table_metadata(
+    CatalogName,
+    DatabaseName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "ListTableMetadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogName" => CatalogName, "DatabaseName" => DatabaseName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -491,8 +975,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results for this request, where the request lists the tags for the resource with the
   specified ARN.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_work_groups()
@@ -507,8 +1011,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListWorkGroups"; aws_config=aws_config)
-list_work_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("ListWorkGroups", params; aws_config=aws_config)
+function list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena("ListWorkGroups"; aws_config=aws_config)
+end
+function list_work_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena("ListWorkGroups", params; aws_config=aws_config)
+end
 
 """
     start_query_execution(query_string)
@@ -539,8 +1049,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WorkGroupConfiguration. See WorkGroupConfigurationEnforceWorkGroupConfiguration.
 - `"WorkGroup"`: The name of the workgroup in which the query is being started.
 """
-start_query_execution(QueryString; aws_config::AbstractAWSConfig=global_aws_config()) = athena("StartQueryExecution", Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-start_query_execution(QueryString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("StartQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config)
+function start_query_execution(
+    QueryString; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "StartQueryExecution",
+        Dict{String,Any}(
+            "QueryString" => QueryString, "ClientRequestToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+    )
+end
+function start_query_execution(
+    QueryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "StartQueryExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "QueryString" => QueryString, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_query_execution(query_execution_id)
@@ -554,8 +1092,30 @@ Samples in the Amazon Athena User Guide.
 - `query_execution_id`: The unique ID of the query execution to stop.
 
 """
-stop_query_execution(QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()) = athena("StopQueryExecution", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config)
-stop_query_execution(QueryExecutionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("StopQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), params)); aws_config=aws_config)
+function stop_query_execution(
+    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "StopQueryExecution",
+        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
+        aws_config=aws_config,
+    )
+end
+function stop_query_execution(
+    QueryExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "StopQueryExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("QueryExecutionId" => QueryExecutionId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -579,8 +1139,31 @@ unique per resource. If you specify more than one tag, separate them by commas.
   workgroup or data catalog resource.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = athena("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -594,8 +1177,33 @@ Removes one or more tags from a data catalog or workgroup resource.
   from the specified resource.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_data_catalog(name, type)
@@ -625,8 +1233,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata and data, use the following syntax to specify your Lambda function.
   function=lambda_arn
 """
-update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config)
-update_data_catalog(Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), params)); aws_config=aws_config)
+function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "UpdateDataCatalog",
+        Dict{String,Any}("Name" => Name, "Type" => Type);
+        aws_config=aws_config,
+    )
+end
+function update_data_catalog(
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "UpdateDataCatalog",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Name" => Name, "Type" => Type), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_prepared_statement(query_statement, statement_name, work_group)
@@ -643,8 +1270,45 @@ Updates a prepared statement.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the prepared statement.
 """
-update_prepared_statement(QueryStatement, StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdatePreparedStatement", Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup); aws_config=aws_config)
-update_prepared_statement(QueryStatement, StatementName, WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdatePreparedStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryStatement"=>QueryStatement, "StatementName"=>StatementName, "WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+function update_prepared_statement(
+    QueryStatement,
+    StatementName,
+    WorkGroup;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "UpdatePreparedStatement",
+        Dict{String,Any}(
+            "QueryStatement" => QueryStatement,
+            "StatementName" => StatementName,
+            "WorkGroup" => WorkGroup,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_prepared_statement(
+    QueryStatement,
+    StatementName,
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "UpdatePreparedStatement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "QueryStatement" => QueryStatement,
+                    "StatementName" => StatementName,
+                    "WorkGroup" => WorkGroup,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_work_group(work_group)
@@ -662,5 +1326,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The workgroup description.
 - `"State"`: The workgroup state that will be updated for the given workgroup.
 """
-update_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdateWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
-update_work_group(WorkGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = athena("UpdateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), params)); aws_config=aws_config)
+function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "UpdateWorkGroup", Dict{String,Any}("WorkGroup" => WorkGroup); aws_config=aws_config
+    )
+end
+function update_work_group(
+    WorkGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "UpdateWorkGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkGroup" => WorkGroup), params)
+        );
+        aws_config=aws_config,
+    )
+end

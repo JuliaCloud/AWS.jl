@@ -28,8 +28,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-Checksum-Algorithm"`: The algorithm used to generate the checksum. Currently, the
   only supported algorithm is SHA256.
 """
-complete_snapshot(snapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("POST", "/snapshots/completion/$(snapshotId)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-ChangedBlocksCount"=>x_amz_ChangedBlocksCount)); aws_config=aws_config)
-complete_snapshot(snapshotId, x_amz_ChangedBlocksCount, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("POST", "/snapshots/completion/$(snapshotId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-ChangedBlocksCount"=>x_amz_ChangedBlocksCount)), params)); aws_config=aws_config)
+function complete_snapshot(
+    snapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ebs(
+        "POST",
+        "/snapshots/completion/$(snapshotId)",
+        Dict{String,Any}(
+            "headers" =>
+                Dict{String,Any}("x-amz-ChangedBlocksCount" => x_amz_ChangedBlocksCount),
+        );
+        aws_config=aws_config,
+    )
+end
+function complete_snapshot(
+    snapshotId,
+    x_amz_ChangedBlocksCount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ebs(
+        "POST",
+        "/snapshots/completion/$(snapshotId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}(
+                        "x-amz-ChangedBlocksCount" => x_amz_ChangedBlocksCount
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_snapshot_block(block_index, block_token, snapshot_id)
@@ -45,8 +79,32 @@ Returns the data in a block in an Amazon Elastic Block Store snapshot.
 - `snapshot_id`: The ID of the snapshot containing the block from which to get data.
 
 """
-get_snapshot_block(blockIndex, blockToken, snapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}("blockToken"=>blockToken); aws_config=aws_config)
-get_snapshot_block(blockIndex, blockToken, snapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("blockToken"=>blockToken), params)); aws_config=aws_config)
+function get_snapshot_block(
+    blockIndex, blockToken, snapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ebs(
+        "GET",
+        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+        Dict{String,Any}("blockToken" => blockToken);
+        aws_config=aws_config,
+    )
+end
+function get_snapshot_block(
+    blockIndex,
+    blockToken,
+    snapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ebs(
+        "GET",
+        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("blockToken" => blockToken), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_changed_blocks(second_snapshot_id)
@@ -71,8 +129,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response will start from this block index or the next valid block index in the
   snapshots.
 """
-list_changed_blocks(secondSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks"; aws_config=aws_config)
-list_changed_blocks(secondSnapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks", params; aws_config=aws_config)
+function list_changed_blocks(
+    secondSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks"; aws_config=aws_config)
+end
+function list_changed_blocks(
+    secondSnapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ebs(
+        "GET", "/snapshots/$(secondSnapshotId)/changedblocks", params; aws_config=aws_config
+    )
+end
 
 """
     list_snapshot_blocks(snapshot_id)
@@ -90,8 +160,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startingBlockIndex"`: The block index from which the list should start. The list in the
   response will start from this block index or the next valid block index in the snapshot.
 """
-list_snapshot_blocks(snapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks"; aws_config=aws_config)
-list_snapshot_blocks(snapshotId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("GET", "/snapshots/$(snapshotId)/blocks", params; aws_config=aws_config)
+function list_snapshot_blocks(snapshotId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ebs("GET", "/snapshots/$(snapshotId)/blocks"; aws_config=aws_config)
+end
+function list_snapshot_blocks(
+    snapshotId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ebs("GET", "/snapshots/$(snapshotId)/blocks", params; aws_config=aws_config)
+end
 
 """
     put_snapshot_block(block_data, block_index, snapshot_id, x-amz-_checksum, x-amz-_checksum-_algorithm, x-amz-_data-_length)
@@ -127,8 +205,59 @@ snapshot must be aligned with 512-KiB sectors.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-Progress"`: The progress of the write process, as a percentage.
 """
-put_snapshot_block(BlockData, blockIndex, snapshotId, x_amz_Checksum, x_amz_Checksum_Algorithm, x_amz_Data_Length; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("PUT", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}("BlockData"=>BlockData, "headers"=>Dict{String, Any}("x-amz-Checksum"=>x_amz_Checksum, "x-amz-Checksum-Algorithm"=>x_amz_Checksum_Algorithm, "x-amz-Data-Length"=>x_amz_Data_Length)); aws_config=aws_config)
-put_snapshot_block(BlockData, blockIndex, snapshotId, x_amz_Checksum, x_amz_Checksum_Algorithm, x_amz_Data_Length, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("PUT", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockData"=>BlockData, "headers"=>Dict{String, Any}("x-amz-Checksum"=>x_amz_Checksum, "x-amz-Checksum-Algorithm"=>x_amz_Checksum_Algorithm, "x-amz-Data-Length"=>x_amz_Data_Length)), params)); aws_config=aws_config)
+function put_snapshot_block(
+    BlockData,
+    blockIndex,
+    snapshotId,
+    x_amz_Checksum,
+    x_amz_Checksum_Algorithm,
+    x_amz_Data_Length;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ebs(
+        "PUT",
+        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+        Dict{String,Any}(
+            "BlockData" => BlockData,
+            "headers" => Dict{String,Any}(
+                "x-amz-Checksum" => x_amz_Checksum,
+                "x-amz-Checksum-Algorithm" => x_amz_Checksum_Algorithm,
+                "x-amz-Data-Length" => x_amz_Data_Length,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
+function put_snapshot_block(
+    BlockData,
+    blockIndex,
+    snapshotId,
+    x_amz_Checksum,
+    x_amz_Checksum_Algorithm,
+    x_amz_Data_Length,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ebs(
+        "PUT",
+        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BlockData" => BlockData,
+                    "headers" => Dict{String,Any}(
+                        "x-amz-Checksum" => x_amz_Checksum,
+                        "x-amz-Checksum-Algorithm" => x_amz_Checksum_Algorithm,
+                        "x-amz-Data-Length" => x_amz_Data_Length,
+                    ),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_snapshot(volume_size)
@@ -177,5 +306,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after writing the last block of data.   If no value is specified, the timeout defaults to
   60 minutes.
 """
-start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("POST", "/snapshots", Dict{String, Any}("VolumeSize"=>VolumeSize, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-start_snapshot(VolumeSize, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = ebs("POST", "/snapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeSize"=>VolumeSize, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=global_aws_config())
+    return ebs(
+        "POST",
+        "/snapshots",
+        Dict{String,Any}("VolumeSize" => VolumeSize, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+    )
+end
+function start_snapshot(
+    VolumeSize,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ebs(
+        "POST",
+        "/snapshots",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VolumeSize" => VolumeSize, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

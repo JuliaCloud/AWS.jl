@@ -17,8 +17,40 @@ images in a non-terminal state.
   want to cancel.
 
 """
-cancel_image_creation(clientToken, imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CancelImageCreation", Dict{String, Any}("clientToken"=>clientToken, "imageBuildVersionArn"=>imageBuildVersionArn); aws_config=aws_config)
-cancel_image_creation(clientToken, imageBuildVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CancelImageCreation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "imageBuildVersionArn"=>imageBuildVersionArn), params)); aws_config=aws_config)
+function cancel_image_creation(
+    clientToken, imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/CancelImageCreation",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "imageBuildVersionArn" => imageBuildVersionArn
+        );
+        aws_config=aws_config,
+    )
+end
+function cancel_image_creation(
+    clientToken,
+    imageBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CancelImageCreation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "imageBuildVersionArn" => imageBuildVersionArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_component(client_token, name, platform, semantic_version)
@@ -59,8 +91,51 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   content up to your service quota. Either data or uri can be used to specify the data within
   the component.
 """
-create_component(clientToken, name, platform, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateComponent", Dict{String, Any}("clientToken"=>clientToken, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion); aws_config=aws_config)
-create_component(clientToken, name, platform, semanticVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion), params)); aws_config=aws_config)
+function create_component(
+    clientToken,
+    name,
+    platform,
+    semanticVersion;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateComponent",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "name" => name,
+            "platform" => platform,
+            "semanticVersion" => semanticVersion,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_component(
+    clientToken,
+    name,
+    platform,
+    semanticVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "name" => name,
+                    "platform" => platform,
+                    "semanticVersion" => semanticVersion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_container_recipe(client_token, components, container_type, name, parent_image, semantic_version, target_repository)
@@ -102,8 +177,63 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags that are attached to the container recipe.
 - `"workingDirectory"`: The working directory for use during build and test workflows.
 """
-create_container_recipe(clientToken, components, containerType, name, parentImage, semanticVersion, targetRepository; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateContainerRecipe", Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "containerType"=>containerType, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion, "targetRepository"=>targetRepository); aws_config=aws_config)
-create_container_recipe(clientToken, components, containerType, name, parentImage, semanticVersion, targetRepository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateContainerRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "containerType"=>containerType, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion, "targetRepository"=>targetRepository), params)); aws_config=aws_config)
+function create_container_recipe(
+    clientToken,
+    components,
+    containerType,
+    name,
+    parentImage,
+    semanticVersion,
+    targetRepository;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateContainerRecipe",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "components" => components,
+            "containerType" => containerType,
+            "name" => name,
+            "parentImage" => parentImage,
+            "semanticVersion" => semanticVersion,
+            "targetRepository" => targetRepository,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_container_recipe(
+    clientToken,
+    components,
+    containerType,
+    name,
+    parentImage,
+    semanticVersion,
+    targetRepository,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateContainerRecipe",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "components" => components,
+                    "containerType" => containerType,
+                    "name" => name,
+                    "parentImage" => parentImage,
+                    "semanticVersion" => semanticVersion,
+                    "targetRepository" => targetRepository,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_distribution_configuration(client_token, distributions, name)
@@ -122,8 +252,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`:  The description of the distribution configuration.
 - `"tags"`:  The tags of the distribution configuration.
 """
-create_distribution_configuration(clientToken, distributions, name; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateDistributionConfiguration", Dict{String, Any}("clientToken"=>clientToken, "distributions"=>distributions, "name"=>name); aws_config=aws_config)
-create_distribution_configuration(clientToken, distributions, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateDistributionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "distributions"=>distributions, "name"=>name), params)); aws_config=aws_config)
+function create_distribution_configuration(
+    clientToken, distributions, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateDistributionConfiguration",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "distributions" => distributions, "name" => name
+        );
+        aws_config=aws_config,
+    )
+end
+function create_distribution_configuration(
+    clientToken,
+    distributions,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateDistributionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "distributions" => distributions,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_image(client_token, infrastructure_configuration_arn)
@@ -152,8 +316,43 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"imageTestsConfiguration"`:  The image tests configuration of the image.
 - `"tags"`:  The tags of the image.
 """
-create_image(clientToken, infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImage", Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn); aws_config=aws_config)
-create_image(clientToken, infrastructureConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn), params)); aws_config=aws_config)
+function create_image(
+    clientToken,
+    infrastructureConfigurationArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateImage",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_image(
+    clientToken,
+    infrastructureConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_image_pipeline(client_token, infrastructure_configuration_arn, name)
@@ -186,8 +385,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`:  The status of the image pipeline.
 - `"tags"`:  The tags of the image pipeline.
 """
-create_image_pipeline(clientToken, infrastructureConfigurationArn, name; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImagePipeline", Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn, "name"=>name); aws_config=aws_config)
-create_image_pipeline(clientToken, infrastructureConfigurationArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImagePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn, "name"=>name), params)); aws_config=aws_config)
+function create_image_pipeline(
+    clientToken,
+    infrastructureConfigurationArn,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateImagePipeline",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+            "name" => name,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_image_pipeline(
+    clientToken,
+    infrastructureConfigurationArn,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateImagePipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_image_recipe(client_token, components, name, parent_image, semantic_version)
@@ -225,8 +463,55 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  The tags of the image recipe.
 - `"workingDirectory"`: The working directory used during build and test workflows.
 """
-create_image_recipe(clientToken, components, name, parentImage, semanticVersion; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImageRecipe", Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion); aws_config=aws_config)
-create_image_recipe(clientToken, components, name, parentImage, semanticVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateImageRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "components"=>components, "name"=>name, "parentImage"=>parentImage, "semanticVersion"=>semanticVersion), params)); aws_config=aws_config)
+function create_image_recipe(
+    clientToken,
+    components,
+    name,
+    parentImage,
+    semanticVersion;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateImageRecipe",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "components" => components,
+            "name" => name,
+            "parentImage" => parentImage,
+            "semanticVersion" => semanticVersion,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_image_recipe(
+    clientToken,
+    components,
+    name,
+    parentImage,
+    semanticVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateImageRecipe",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "components" => components,
+                    "name" => name,
+                    "parentImage" => parentImage,
+                    "semanticVersion" => semanticVersion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_infrastructure_configuration(client_token, instance_profile_name, name)
@@ -261,8 +546,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   infrastructure configuration. Set to false if you want Image Builder to retain the instance
   used to configure your AMI if the build or test phase of your workflow fails.
 """
-create_infrastructure_configuration(clientToken, instanceProfileName, name; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateInfrastructureConfiguration", Dict{String, Any}("clientToken"=>clientToken, "instanceProfileName"=>instanceProfileName, "name"=>name); aws_config=aws_config)
-create_infrastructure_configuration(clientToken, instanceProfileName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/CreateInfrastructureConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "instanceProfileName"=>instanceProfileName, "name"=>name), params)); aws_config=aws_config)
+function create_infrastructure_configuration(
+    clientToken,
+    instanceProfileName,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateInfrastructureConfiguration",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "instanceProfileName" => instanceProfileName,
+            "name" => name,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_infrastructure_configuration(
+    clientToken,
+    instanceProfileName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateInfrastructureConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "instanceProfileName" => instanceProfileName,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_component(component_build_version_arn)
@@ -275,8 +599,34 @@ create_infrastructure_configuration(clientToken, instanceProfileName, name, para
   version to delete.
 
 """
-delete_component(componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteComponent", Dict{String, Any}("componentBuildVersionArn"=>componentBuildVersionArn); aws_config=aws_config)
-delete_component(componentBuildVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentBuildVersionArn"=>componentBuildVersionArn), params)); aws_config=aws_config)
+function delete_component(
+    componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteComponent",
+        Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn);
+        aws_config=aws_config,
+    )
+end
+function delete_component(
+    componentBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_container_recipe(container_recipe_arn)
@@ -288,8 +638,32 @@ Deletes a container recipe.
 - `container_recipe_arn`: The Amazon Resource Name (ARN) of the container recipe to delete.
 
 """
-delete_container_recipe(containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteContainerRecipe", Dict{String, Any}("containerRecipeArn"=>containerRecipeArn); aws_config=aws_config)
-delete_container_recipe(containerRecipeArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteContainerRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerRecipeArn"=>containerRecipeArn), params)); aws_config=aws_config)
+function delete_container_recipe(
+    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteContainerRecipe",
+        Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
+        aws_config=aws_config,
+    )
+end
+function delete_container_recipe(
+    containerRecipeArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteContainerRecipe",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("containerRecipeArn" => containerRecipeArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_distribution_configuration(distribution_configuration_arn)
@@ -302,8 +676,36 @@ delete_container_recipe(containerRecipeArn, params::AbstractDict{String}; aws_co
   configuration to delete.
 
 """
-delete_distribution_configuration(distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteDistributionConfiguration", Dict{String, Any}("distributionConfigurationArn"=>distributionConfigurationArn); aws_config=aws_config)
-delete_distribution_configuration(distributionConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteDistributionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionConfigurationArn"=>distributionConfigurationArn), params)); aws_config=aws_config)
+function delete_distribution_configuration(
+    distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteDistributionConfiguration",
+        Dict{String,Any}("distributionConfigurationArn" => distributionConfigurationArn);
+        aws_config=aws_config,
+    )
+end
+function delete_distribution_configuration(
+    distributionConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteDistributionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "distributionConfigurationArn" => distributionConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_image(image_build_version_arn)
@@ -315,8 +717,34 @@ delete_distribution_configuration(distributionConfigurationArn, params::Abstract
 - `image_build_version_arn`: The Amazon Resource Name (ARN) of the image to delete.
 
 """
-delete_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImage", Dict{String, Any}("imageBuildVersionArn"=>imageBuildVersionArn); aws_config=aws_config)
-delete_image(imageBuildVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageBuildVersionArn"=>imageBuildVersionArn), params)); aws_config=aws_config)
+function delete_image(
+    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteImage",
+        Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
+        aws_config=aws_config,
+    )
+end
+function delete_image(
+    imageBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_image_pipeline(image_pipeline_arn)
@@ -328,8 +756,32 @@ delete_image(imageBuildVersionArn, params::AbstractDict{String}; aws_config::Abs
 - `image_pipeline_arn`: The Amazon Resource Name (ARN) of the image pipeline to delete.
 
 """
-delete_image_pipeline(imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImagePipeline", Dict{String, Any}("imagePipelineArn"=>imagePipelineArn); aws_config=aws_config)
-delete_image_pipeline(imagePipelineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImagePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imagePipelineArn"=>imagePipelineArn), params)); aws_config=aws_config)
+function delete_image_pipeline(
+    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteImagePipeline",
+        Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
+        aws_config=aws_config,
+    )
+end
+function delete_image_pipeline(
+    imagePipelineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteImagePipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("imagePipelineArn" => imagePipelineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_image_recipe(image_recipe_arn)
@@ -341,8 +793,30 @@ delete_image_pipeline(imagePipelineArn, params::AbstractDict{String}; aws_config
 - `image_recipe_arn`: The Amazon Resource Name (ARN) of the image recipe to delete.
 
 """
-delete_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImageRecipe", Dict{String, Any}("imageRecipeArn"=>imageRecipeArn); aws_config=aws_config)
-delete_image_recipe(imageRecipeArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteImageRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageRecipeArn"=>imageRecipeArn), params)); aws_config=aws_config)
+function delete_image_recipe(
+    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteImageRecipe",
+        Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
+        aws_config=aws_config,
+    )
+end
+function delete_image_recipe(
+    imageRecipeArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteImageRecipe",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_infrastructure_configuration(infrastructure_configuration_arn)
@@ -355,8 +829,38 @@ delete_image_recipe(imageRecipeArn, params::AbstractDict{String}; aws_config::Ab
   configuration to delete.
 
 """
-delete_infrastructure_configuration(infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteInfrastructureConfiguration", Dict{String, Any}("infrastructureConfigurationArn"=>infrastructureConfigurationArn); aws_config=aws_config)
-delete_infrastructure_configuration(infrastructureConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/DeleteInfrastructureConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("infrastructureConfigurationArn"=>infrastructureConfigurationArn), params)); aws_config=aws_config)
+function delete_infrastructure_configuration(
+    infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteInfrastructureConfiguration",
+        Dict{String,Any}(
+            "infrastructureConfigurationArn" => infrastructureConfigurationArn
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_infrastructure_configuration(
+    infrastructureConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteInfrastructureConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "infrastructureConfigurationArn" => infrastructureConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_component(component_build_version_arn)
@@ -369,8 +873,34 @@ delete_infrastructure_configuration(infrastructureConfigurationArn, params::Abst
   want to retrieve. Regex requires \"/d+\" suffix.
 
 """
-get_component(componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetComponent", Dict{String, Any}("componentBuildVersionArn"=>componentBuildVersionArn); aws_config=aws_config)
-get_component(componentBuildVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentBuildVersionArn"=>componentBuildVersionArn), params)); aws_config=aws_config)
+function get_component(
+    componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetComponent",
+        Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn);
+        aws_config=aws_config,
+    )
+end
+function get_component(
+    componentBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_component_policy(component_arn)
@@ -383,8 +913,30 @@ get_component(componentBuildVersionArn, params::AbstractDict{String}; aws_config
   retrieve.
 
 """
-get_component_policy(componentArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetComponentPolicy", Dict{String, Any}("componentArn"=>componentArn); aws_config=aws_config)
-get_component_policy(componentArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetComponentPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentArn"=>componentArn), params)); aws_config=aws_config)
+function get_component_policy(
+    componentArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetComponentPolicy",
+        Dict{String,Any}("componentArn" => componentArn);
+        aws_config=aws_config,
+    )
+end
+function get_component_policy(
+    componentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetComponentPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("componentArn" => componentArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_container_recipe(container_recipe_arn)
@@ -397,8 +949,32 @@ Retrieves a container recipe.
   retrieve.
 
 """
-get_container_recipe(containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetContainerRecipe", Dict{String, Any}("containerRecipeArn"=>containerRecipeArn); aws_config=aws_config)
-get_container_recipe(containerRecipeArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetContainerRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerRecipeArn"=>containerRecipeArn), params)); aws_config=aws_config)
+function get_container_recipe(
+    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetContainerRecipe",
+        Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
+        aws_config=aws_config,
+    )
+end
+function get_container_recipe(
+    containerRecipeArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetContainerRecipe",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("containerRecipeArn" => containerRecipeArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_container_recipe_policy(container_recipe_arn)
@@ -411,8 +987,32 @@ Retrieves the policy for a container recipe.
   policy being requested.
 
 """
-get_container_recipe_policy(containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetContainerRecipePolicy", Dict{String, Any}("containerRecipeArn"=>containerRecipeArn); aws_config=aws_config)
-get_container_recipe_policy(containerRecipeArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetContainerRecipePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerRecipeArn"=>containerRecipeArn), params)); aws_config=aws_config)
+function get_container_recipe_policy(
+    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetContainerRecipePolicy",
+        Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
+        aws_config=aws_config,
+    )
+end
+function get_container_recipe_policy(
+    containerRecipeArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetContainerRecipePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("containerRecipeArn" => containerRecipeArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_distribution_configuration(distribution_configuration_arn)
@@ -425,8 +1025,36 @@ get_container_recipe_policy(containerRecipeArn, params::AbstractDict{String}; aw
   configuration that you want to retrieve.
 
 """
-get_distribution_configuration(distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetDistributionConfiguration", Dict{String, Any}("distributionConfigurationArn"=>distributionConfigurationArn); aws_config=aws_config)
-get_distribution_configuration(distributionConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetDistributionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("distributionConfigurationArn"=>distributionConfigurationArn), params)); aws_config=aws_config)
+function get_distribution_configuration(
+    distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetDistributionConfiguration",
+        Dict{String,Any}("distributionConfigurationArn" => distributionConfigurationArn);
+        aws_config=aws_config,
+    )
+end
+function get_distribution_configuration(
+    distributionConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetDistributionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "distributionConfigurationArn" => distributionConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_image(image_build_version_arn)
@@ -439,8 +1067,32 @@ get_distribution_configuration(distributionConfigurationArn, params::AbstractDic
   retrieve.
 
 """
-get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImage", Dict{String, Any}("imageBuildVersionArn"=>imageBuildVersionArn); aws_config=aws_config)
-get_image(imageBuildVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageBuildVersionArn"=>imageBuildVersionArn), params)); aws_config=aws_config)
+function get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder(
+        "GET",
+        "/GetImage",
+        Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
+        aws_config=aws_config,
+    )
+end
+function get_image(
+    imageBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_image_pipeline(image_pipeline_arn)
@@ -453,8 +1105,32 @@ get_image(imageBuildVersionArn, params::AbstractDict{String}; aws_config::Abstra
   to retrieve.
 
 """
-get_image_pipeline(imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImagePipeline", Dict{String, Any}("imagePipelineArn"=>imagePipelineArn); aws_config=aws_config)
-get_image_pipeline(imagePipelineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImagePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imagePipelineArn"=>imagePipelineArn), params)); aws_config=aws_config)
+function get_image_pipeline(
+    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetImagePipeline",
+        Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
+        aws_config=aws_config,
+    )
+end
+function get_image_pipeline(
+    imagePipelineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetImagePipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("imagePipelineArn" => imagePipelineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_image_policy(image_arn)
@@ -467,8 +1143,28 @@ get_image_pipeline(imagePipelineArn, params::AbstractDict{String}; aws_config::A
   retrieve.
 
 """
-get_image_policy(imageArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImagePolicy", Dict{String, Any}("imageArn"=>imageArn); aws_config=aws_config)
-get_image_policy(imageArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImagePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageArn"=>imageArn), params)); aws_config=aws_config)
+function get_image_policy(imageArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder(
+        "GET",
+        "/GetImagePolicy",
+        Dict{String,Any}("imageArn" => imageArn);
+        aws_config=aws_config,
+    )
+end
+function get_image_policy(
+    imageArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetImagePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("imageArn" => imageArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_image_recipe(image_recipe_arn)
@@ -481,8 +1177,28 @@ get_image_policy(imageArn, params::AbstractDict{String}; aws_config::AbstractAWS
   retrieve.
 
 """
-get_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImageRecipe", Dict{String, Any}("imageRecipeArn"=>imageRecipeArn); aws_config=aws_config)
-get_image_recipe(imageRecipeArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImageRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageRecipeArn"=>imageRecipeArn), params)); aws_config=aws_config)
+function get_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder(
+        "GET",
+        "/GetImageRecipe",
+        Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
+        aws_config=aws_config,
+    )
+end
+function get_image_recipe(
+    imageRecipeArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetImageRecipe",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_image_recipe_policy(image_recipe_arn)
@@ -495,8 +1211,30 @@ get_image_recipe(imageRecipeArn, params::AbstractDict{String}; aws_config::Abstr
   want to retrieve.
 
 """
-get_image_recipe_policy(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImageRecipePolicy", Dict{String, Any}("imageRecipeArn"=>imageRecipeArn); aws_config=aws_config)
-get_image_recipe_policy(imageRecipeArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetImageRecipePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageRecipeArn"=>imageRecipeArn), params)); aws_config=aws_config)
+function get_image_recipe_policy(
+    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetImageRecipePolicy",
+        Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
+        aws_config=aws_config,
+    )
+end
+function get_image_recipe_policy(
+    imageRecipeArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetImageRecipePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("imageRecipeArn" => imageRecipeArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_infrastructure_configuration(infrastructure_configuration_arn)
@@ -509,8 +1247,38 @@ get_image_recipe_policy(imageRecipeArn, params::AbstractDict{String}; aws_config
   configuration that you want to retrieve.
 
 """
-get_infrastructure_configuration(infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetInfrastructureConfiguration", Dict{String, Any}("infrastructureConfigurationArn"=>infrastructureConfigurationArn); aws_config=aws_config)
-get_infrastructure_configuration(infrastructureConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/GetInfrastructureConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("infrastructureConfigurationArn"=>infrastructureConfigurationArn), params)); aws_config=aws_config)
+function get_infrastructure_configuration(
+    infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetInfrastructureConfiguration",
+        Dict{String,Any}(
+            "infrastructureConfigurationArn" => infrastructureConfigurationArn
+        );
+        aws_config=aws_config,
+    )
+end
+function get_infrastructure_configuration(
+    infrastructureConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetInfrastructureConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "infrastructureConfigurationArn" => infrastructureConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     import_component(client_token, format, name, platform, semantic_version, type)
@@ -551,8 +1319,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   content up to your service quota. Either data or uri can be used to specify the data within
   the component.
 """
-import_component(clientToken, format, name, platform, semanticVersion, type; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/ImportComponent", Dict{String, Any}("clientToken"=>clientToken, "format"=>format, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion, "type"=>type); aws_config=aws_config)
-import_component(clientToken, format, name, platform, semanticVersion, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/ImportComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "format"=>format, "name"=>name, "platform"=>platform, "semanticVersion"=>semanticVersion, "type"=>type), params)); aws_config=aws_config)
+function import_component(
+    clientToken,
+    format,
+    name,
+    platform,
+    semanticVersion,
+    type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/ImportComponent",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "format" => format,
+            "name" => name,
+            "platform" => platform,
+            "semanticVersion" => semanticVersion,
+            "type" => type,
+        );
+        aws_config=aws_config,
+    )
+end
+function import_component(
+    clientToken,
+    format,
+    name,
+    platform,
+    semanticVersion,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/ImportComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "format" => format,
+                    "name" => name,
+                    "platform" => platform,
+                    "semanticVersion" => semanticVersion,
+                    "type" => type,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_component_build_versions(component_version_arn)
@@ -578,8 +1397,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 """
-list_component_build_versions(componentVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponentBuildVersions", Dict{String, Any}("componentVersionArn"=>componentVersionArn); aws_config=aws_config)
-list_component_build_versions(componentVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponentBuildVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentVersionArn"=>componentVersionArn), params)); aws_config=aws_config)
+function list_component_build_versions(
+    componentVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListComponentBuildVersions",
+        Dict{String,Any}("componentVersionArn" => componentVersionArn);
+        aws_config=aws_config,
+    )
+end
+function list_component_build_versions(
+    componentVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/ListComponentBuildVersions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("componentVersionArn" => componentVersionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_components()
@@ -608,8 +1453,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   want to view components owned by yourself, by Amazon, or those components that have been
   shared with you by other customers.
 """
-list_components(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponents"; aws_config=aws_config)
-list_components(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListComponents", params; aws_config=aws_config)
+function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder("POST", "/ListComponents"; aws_config=aws_config)
+end
+function list_components(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder("POST", "/ListComponents", params; aws_config=aws_config)
+end
 
 """
     list_container_recipes()
@@ -628,8 +1479,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   shared with you. You can omit this field to return container recipes belonging to your
   account.
 """
-list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListContainerRecipes"; aws_config=aws_config)
-list_container_recipes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListContainerRecipes", params; aws_config=aws_config)
+function list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder("POST", "/ListContainerRecipes"; aws_config=aws_config)
+end
+function list_container_recipes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder("POST", "/ListContainerRecipes", params; aws_config=aws_config)
+end
 
 """
     list_distribution_configurations()
@@ -644,8 +1501,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 """
-list_distribution_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListDistributionConfigurations"; aws_config=aws_config)
-list_distribution_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListDistributionConfigurations", params; aws_config=aws_config)
+function list_distribution_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder("POST", "/ListDistributionConfigurations"; aws_config=aws_config)
+end
+function list_distribution_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST", "/ListDistributionConfigurations", params; aws_config=aws_config
+    )
+end
 
 """
     list_image_build_versions(image_version_arn)
@@ -665,8 +1532,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 """
-list_image_build_versions(imageVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageBuildVersions", Dict{String, Any}("imageVersionArn"=>imageVersionArn); aws_config=aws_config)
-list_image_build_versions(imageVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageBuildVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageVersionArn"=>imageVersionArn), params)); aws_config=aws_config)
+function list_image_build_versions(
+    imageVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListImageBuildVersions",
+        Dict{String,Any}("imageVersionArn" => imageVersionArn);
+        aws_config=aws_config,
+    )
+end
+function list_image_build_versions(
+    imageVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/ListImageBuildVersions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("imageVersionArn" => imageVersionArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_image_packages(image_build_version_arn)
@@ -686,8 +1577,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 """
-list_image_packages(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePackages", Dict{String, Any}("imageBuildVersionArn"=>imageBuildVersionArn); aws_config=aws_config)
-list_image_packages(imageBuildVersionArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePackages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageBuildVersionArn"=>imageBuildVersionArn), params)); aws_config=aws_config)
+function list_image_packages(
+    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListImagePackages",
+        Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
+        aws_config=aws_config,
+    )
+end
+function list_image_packages(
+    imageBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/ListImagePackages",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_image_pipeline_images(image_pipeline_arn)
@@ -706,8 +1623,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 """
-list_image_pipeline_images(imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelineImages", Dict{String, Any}("imagePipelineArn"=>imagePipelineArn); aws_config=aws_config)
-list_image_pipeline_images(imagePipelineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelineImages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imagePipelineArn"=>imagePipelineArn), params)); aws_config=aws_config)
+function list_image_pipeline_images(
+    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListImagePipelineImages",
+        Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
+        aws_config=aws_config,
+    )
+end
+function list_image_pipeline_images(
+    imagePipelineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/ListImagePipelineImages",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("imagePipelineArn" => imagePipelineArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_image_pipelines()
@@ -724,8 +1665,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 """
-list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelines"; aws_config=aws_config)
-list_image_pipelines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImagePipelines", params; aws_config=aws_config)
+function list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder("POST", "/ListImagePipelines"; aws_config=aws_config)
+end
+function list_image_pipelines(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder("POST", "/ListImagePipelines", params; aws_config=aws_config)
+end
 
 """
     list_image_recipes()
@@ -745,8 +1692,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify if you want to view image recipes owned by yourself, by Amazon, or those image
   recipes that have been shared with you by other customers.
 """
-list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageRecipes"; aws_config=aws_config)
-list_image_recipes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImageRecipes", params; aws_config=aws_config)
+function list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder("POST", "/ListImageRecipes"; aws_config=aws_config)
+end
+function list_image_recipes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder("POST", "/ListImageRecipes", params; aws_config=aws_config)
+end
 
 """
     list_images()
@@ -768,8 +1721,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   view images owned by yourself, by Amazon, or those images that have been shared with you by
   other customers.
 """
-list_images(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImages"; aws_config=aws_config)
-list_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListImages", params; aws_config=aws_config)
+function list_images(; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder("POST", "/ListImages"; aws_config=aws_config)
+end
+function list_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder("POST", "/ListImages", params; aws_config=aws_config)
+end
 
 """
     list_infrastructure_configurations()
@@ -784,8 +1743,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
   previously truncated response.
 """
-list_infrastructure_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListInfrastructureConfigurations"; aws_config=aws_config)
-list_infrastructure_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/ListInfrastructureConfigurations", params; aws_config=aws_config)
+function list_infrastructure_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder("POST", "/ListInfrastructureConfigurations"; aws_config=aws_config)
+end
+function list_infrastructure_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST", "/ListInfrastructureConfigurations", params; aws_config=aws_config
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -798,8 +1767,18 @@ list_infrastructure_configurations(params::AbstractDict{String}; aws_config::Abs
   retrieve.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     put_component_policy(component_arn, policy)
@@ -816,8 +1795,35 @@ order for the resource to be visible to all principals with whom the resource is
 - `policy`: The policy to apply.
 
 """
-put_component_policy(componentArn, policy; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutComponentPolicy", Dict{String, Any}("componentArn"=>componentArn, "policy"=>policy); aws_config=aws_config)
-put_component_policy(componentArn, policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutComponentPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("componentArn"=>componentArn, "policy"=>policy), params)); aws_config=aws_config)
+function put_component_policy(
+    componentArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/PutComponentPolicy",
+        Dict{String,Any}("componentArn" => componentArn, "policy" => policy);
+        aws_config=aws_config,
+    )
+end
+function put_component_policy(
+    componentArn,
+    policy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/PutComponentPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("componentArn" => componentArn, "policy" => policy),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_container_recipe_policy(container_recipe_arn, policy)
@@ -838,8 +1844,37 @@ is shared.
 - `policy`: The policy to apply to the container recipe.
 
 """
-put_container_recipe_policy(containerRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutContainerRecipePolicy", Dict{String, Any}("containerRecipeArn"=>containerRecipeArn, "policy"=>policy); aws_config=aws_config)
-put_container_recipe_policy(containerRecipeArn, policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutContainerRecipePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerRecipeArn"=>containerRecipeArn, "policy"=>policy), params)); aws_config=aws_config)
+function put_container_recipe_policy(
+    containerRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/PutContainerRecipePolicy",
+        Dict{String,Any}("containerRecipeArn" => containerRecipeArn, "policy" => policy);
+        aws_config=aws_config,
+    )
+end
+function put_container_recipe_policy(
+    containerRecipeArn,
+    policy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/PutContainerRecipePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "containerRecipeArn" => containerRecipeArn, "policy" => policy
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_image_policy(image_arn, policy)
@@ -856,8 +1891,33 @@ all principals with whom the resource is shared.
 - `policy`: The policy to apply.
 
 """
-put_image_policy(imageArn, policy; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutImagePolicy", Dict{String, Any}("imageArn"=>imageArn, "policy"=>policy); aws_config=aws_config)
-put_image_policy(imageArn, policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutImagePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageArn"=>imageArn, "policy"=>policy), params)); aws_config=aws_config)
+function put_image_policy(
+    imageArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/PutImagePolicy",
+        Dict{String,Any}("imageArn" => imageArn, "policy" => policy);
+        aws_config=aws_config,
+    )
+end
+function put_image_policy(
+    imageArn,
+    policy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/PutImagePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("imageArn" => imageArn, "policy" => policy), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_image_recipe_policy(image_recipe_arn, policy)
@@ -874,8 +1934,35 @@ in order for the resource to be visible to all principals with whom the resource
 - `policy`: The policy to apply.
 
 """
-put_image_recipe_policy(imageRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutImageRecipePolicy", Dict{String, Any}("imageRecipeArn"=>imageRecipeArn, "policy"=>policy); aws_config=aws_config)
-put_image_recipe_policy(imageRecipeArn, policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/PutImageRecipePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("imageRecipeArn"=>imageRecipeArn, "policy"=>policy), params)); aws_config=aws_config)
+function put_image_recipe_policy(
+    imageRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/PutImageRecipePolicy",
+        Dict{String,Any}("imageRecipeArn" => imageRecipeArn, "policy" => policy);
+        aws_config=aws_config,
+    )
+end
+function put_image_recipe_policy(
+    imageRecipeArn,
+    policy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/PutImageRecipePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("imageRecipeArn" => imageRecipeArn, "policy" => policy),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_image_pipeline_execution(client_token, image_pipeline_arn)
@@ -889,8 +1976,39 @@ put_image_recipe_policy(imageRecipeArn, policy, params::AbstractDict{String}; aw
   to manually invoke.
 
 """
-start_image_pipeline_execution(clientToken, imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/StartImagePipelineExecution", Dict{String, Any}("clientToken"=>clientToken, "imagePipelineArn"=>imagePipelineArn); aws_config=aws_config)
-start_image_pipeline_execution(clientToken, imagePipelineArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/StartImagePipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "imagePipelineArn"=>imagePipelineArn), params)); aws_config=aws_config)
+function start_image_pipeline_execution(
+    clientToken, imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/StartImagePipelineExecution",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "imagePipelineArn" => imagePipelineArn
+        );
+        aws_config=aws_config,
+    )
+end
+function start_image_pipeline_execution(
+    clientToken,
+    imagePipelineArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/StartImagePipelineExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken, "imagePipelineArn" => imagePipelineArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -903,8 +2021,27 @@ start_image_pipeline_execution(clientToken, imagePipelineArn, params::AbstractDi
 - `tags`: The tags to apply to the resource.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -917,8 +2054,29 @@ tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::Abstra
 - `tag_keys`: The tag keys to remove from the resource.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_distribution_configuration(client_token, distribution_configuration_arn, distributions)
@@ -937,8 +2095,47 @@ the outputs of your pipeline.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the distribution configuration.
 """
-update_distribution_configuration(clientToken, distributionConfigurationArn, distributions; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateDistributionConfiguration", Dict{String, Any}("clientToken"=>clientToken, "distributionConfigurationArn"=>distributionConfigurationArn, "distributions"=>distributions); aws_config=aws_config)
-update_distribution_configuration(clientToken, distributionConfigurationArn, distributions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateDistributionConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "distributionConfigurationArn"=>distributionConfigurationArn, "distributions"=>distributions), params)); aws_config=aws_config)
+function update_distribution_configuration(
+    clientToken,
+    distributionConfigurationArn,
+    distributions;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/UpdateDistributionConfiguration",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "distributionConfigurationArn" => distributionConfigurationArn,
+            "distributions" => distributions,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_distribution_configuration(
+    clientToken,
+    distributionConfigurationArn,
+    distributions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/UpdateDistributionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "distributionConfigurationArn" => distributionConfigurationArn,
+                    "distributions" => distributions,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_image_pipeline(client_token, image_pipeline_arn, infrastructure_configuration_arn)
@@ -973,8 +2170,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedule"`: The schedule of the image pipeline.
 - `"status"`: The status of the image pipeline.
 """
-update_image_pipeline(clientToken, imagePipelineArn, infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateImagePipeline", Dict{String, Any}("clientToken"=>clientToken, "imagePipelineArn"=>imagePipelineArn, "infrastructureConfigurationArn"=>infrastructureConfigurationArn); aws_config=aws_config)
-update_image_pipeline(clientToken, imagePipelineArn, infrastructureConfigurationArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateImagePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "imagePipelineArn"=>imagePipelineArn, "infrastructureConfigurationArn"=>infrastructureConfigurationArn), params)); aws_config=aws_config)
+function update_image_pipeline(
+    clientToken,
+    imagePipelineArn,
+    infrastructureConfigurationArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/UpdateImagePipeline",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "imagePipelineArn" => imagePipelineArn,
+            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_image_pipeline(
+    clientToken,
+    imagePipelineArn,
+    infrastructureConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/UpdateImagePipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "imagePipelineArn" => imagePipelineArn,
+                    "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_infrastructure_configuration(client_token, infrastructure_configuration_arn, instance_profile_name)
@@ -1009,5 +2245,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   infrastructure configuration. Set to false if you want Image Builder to retain the instance
   used to configure your AMI if the build or test phase of your workflow fails.
 """
-update_infrastructure_configuration(clientToken, infrastructureConfigurationArn, instanceProfileName; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateInfrastructureConfiguration", Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn, "instanceProfileName"=>instanceProfileName); aws_config=aws_config)
-update_infrastructure_configuration(clientToken, infrastructureConfigurationArn, instanceProfileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = imagebuilder("PUT", "/UpdateInfrastructureConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "infrastructureConfigurationArn"=>infrastructureConfigurationArn, "instanceProfileName"=>instanceProfileName), params)); aws_config=aws_config)
+function update_infrastructure_configuration(
+    clientToken,
+    infrastructureConfigurationArn,
+    instanceProfileName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/UpdateInfrastructureConfiguration",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+            "instanceProfileName" => instanceProfileName,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_infrastructure_configuration(
+    clientToken,
+    infrastructureConfigurationArn,
+    instanceProfileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/UpdateInfrastructureConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "infrastructureConfigurationArn" => infrastructureConfigurationArn,
+                    "instanceProfileName" => instanceProfileName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

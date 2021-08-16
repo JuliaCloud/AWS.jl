@@ -16,8 +16,24 @@ status. You'll have at least an hour after creating a cluster job to cancel it.
   CID123e4567-e89b-12d3-a456-426655440000.
 
 """
-cancel_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-cancel_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
+function cancel_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "CancelCluster", Dict{String,Any}("ClusterId" => ClusterId); aws_config=aws_config
+    )
+end
+function cancel_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "CancelCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     cancel_job(job_id)
@@ -32,8 +48,18 @@ as part of the response element data returned.
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-cancel_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("CancelJob", Dict{String,Any}("JobId" => JobId); aws_config=aws_config)
+end
+function cancel_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "CancelJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_address(address)
@@ -48,8 +74,20 @@ exception is thrown.
 - `address`: The address that you want the Snow device shipped to.
 
 """
-create_address(Address; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateAddress", Dict{String, Any}("Address"=>Address); aws_config=aws_config)
-create_address(Address, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address), params)); aws_config=aws_config)
+function create_address(Address; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "CreateAddress", Dict{String,Any}("Address" => Address); aws_config=aws_config
+    )
+end
+function create_address(
+    Address, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "CreateAddress",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Address" => Address), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_cluster(address_id, job_type, resources, role_arn, shipping_option, snowball_type)
@@ -114,8 +152,57 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Otherwise, you need to use the Snowball Client to manage the device.
 - `"TaxDocuments"`: The tax documents required in your AWS Region.
 """
-create_cluster(AddressId, JobType, Resources, RoleARN, ShippingOption, SnowballType; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateCluster", Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption, "SnowballType"=>SnowballType); aws_config=aws_config)
-create_cluster(AddressId, JobType, Resources, RoleARN, ShippingOption, SnowballType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption, "SnowballType"=>SnowballType), params)); aws_config=aws_config)
+function create_cluster(
+    AddressId,
+    JobType,
+    Resources,
+    RoleARN,
+    ShippingOption,
+    SnowballType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "CreateCluster",
+        Dict{String,Any}(
+            "AddressId" => AddressId,
+            "JobType" => JobType,
+            "Resources" => Resources,
+            "RoleARN" => RoleARN,
+            "ShippingOption" => ShippingOption,
+            "SnowballType" => SnowballType,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_cluster(
+    AddressId,
+    JobType,
+    Resources,
+    RoleARN,
+    ShippingOption,
+    SnowballType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "CreateCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AddressId" => AddressId,
+                    "JobType" => JobType,
+                    "Resources" => Resources,
+                    "RoleARN" => RoleARN,
+                    "ShippingOption" => ShippingOption,
+                    "SnowballType" => SnowballType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_job()
@@ -204,8 +291,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
 - `"TaxDocuments"`: The tax documents required in your AWS Region.
 """
-create_job(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateJob"; aws_config=aws_config)
-create_job(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateJob", params; aws_config=aws_config)
+function create_job(; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("CreateJob"; aws_config=aws_config)
+end
+function create_job(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball("CreateJob", params; aws_config=aws_config)
+end
 
 """
     create_long_term_pricing(long_term_pricing_type)
@@ -225,8 +318,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the device should be renewed.
 - `"SnowballType"`: The type of AWS Snow Family device to use for the long-term pricing job.
 """
-create_long_term_pricing(LongTermPricingType; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateLongTermPricing", Dict{String, Any}("LongTermPricingType"=>LongTermPricingType); aws_config=aws_config)
-create_long_term_pricing(LongTermPricingType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateLongTermPricing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LongTermPricingType"=>LongTermPricingType), params)); aws_config=aws_config)
+function create_long_term_pricing(
+    LongTermPricingType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "CreateLongTermPricing",
+        Dict{String,Any}("LongTermPricingType" => LongTermPricingType);
+        aws_config=aws_config,
+    )
+end
+function create_long_term_pricing(
+    LongTermPricingType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "CreateLongTermPricing",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("LongTermPricingType" => LongTermPricingType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_return_shipping_label(job_id)
@@ -244,8 +361,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   how soon the device is returned to AWS. This speed represents how quickly it moves to its
   destination while in transit. Regional shipping speeds are as follows:
 """
-create_return_shipping_label(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateReturnShippingLabel", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-create_return_shipping_label(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("CreateReturnShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function create_return_shipping_label(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "CreateReturnShippingLabel",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+    )
+end
+function create_return_shipping_label(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "CreateReturnShippingLabel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_address(address_id)
@@ -258,8 +391,24 @@ Address object.
 - `address_id`: The automatically generated ID for a specific address.
 
 """
-describe_address(AddressId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddress", Dict{String, Any}("AddressId"=>AddressId); aws_config=aws_config)
-describe_address(AddressId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId), params)); aws_config=aws_config)
+function describe_address(AddressId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "DescribeAddress", Dict{String,Any}("AddressId" => AddressId); aws_config=aws_config
+    )
+end
+function describe_address(
+    AddressId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "DescribeAddress",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AddressId" => AddressId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_addresses()
@@ -276,8 +425,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of ADDRESS objects, you have the option of specifying a value for NextToken as the
   starting point for your list of returned addresses.
 """
-describe_addresses(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddresses"; aws_config=aws_config)
-describe_addresses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeAddresses", params; aws_config=aws_config)
+function describe_addresses(; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("DescribeAddresses"; aws_config=aws_config)
+end
+function describe_addresses(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball("DescribeAddresses", params; aws_config=aws_config)
+end
 
 """
     describe_cluster(cluster_id)
@@ -290,8 +445,24 @@ status, and other important metadata.
 - `cluster_id`: The automatically generated ID for a cluster.
 
 """
-describe_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-describe_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
+function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "DescribeCluster", Dict{String,Any}("ClusterId" => ClusterId); aws_config=aws_config
+    )
+end
+function describe_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "DescribeCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_job(job_id)
@@ -305,8 +476,20 @@ other important metadata.
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-describe_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function describe_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "DescribeJob", Dict{String,Any}("JobId" => JobId); aws_config=aws_config
+    )
+end
+function describe_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "DescribeJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_return_shipping_label(job_id)
@@ -319,8 +502,24 @@ Information on the shipping label of a Snow device that is being returned to AWS
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-describe_return_shipping_label(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeReturnShippingLabel", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-describe_return_shipping_label(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("DescribeReturnShippingLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function describe_return_shipping_label(
+    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "DescribeReturnShippingLabel",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+    )
+end
+function describe_return_shipping_label(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "DescribeReturnShippingLabel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_job_manifest(job_id)
@@ -344,8 +543,20 @@ after the job is created.
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-get_job_manifest(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobManifest", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_job_manifest(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobManifest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function get_job_manifest(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "GetJobManifest", Dict{String,Any}("JobId" => JobId); aws_config=aws_config
+    )
+end
+function get_job_manifest(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "GetJobManifest",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_job_unlock_code(job_id)
@@ -365,8 +576,20 @@ from gaining access to the Snow device associated with that job.
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-get_job_unlock_code(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobUnlockCode", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_job_unlock_code(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetJobUnlockCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function get_job_unlock_code(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "GetJobUnlockCode", Dict{String,Any}("JobId" => JobId); aws_config=aws_config
+    )
+end
+function get_job_unlock_code(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "GetJobUnlockCode",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_snowball_usage()
@@ -378,8 +601,14 @@ Snow devices that you can have at one time is 1. If you want to increase your se
 limit, contact AWS Support.
 
 """
-get_snowball_usage(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSnowballUsage"; aws_config=aws_config)
-get_snowball_usage(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSnowballUsage", params; aws_config=aws_config)
+function get_snowball_usage(; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("GetSnowballUsage"; aws_config=aws_config)
+end
+function get_snowball_usage(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball("GetSnowballUsage", params; aws_config=aws_config)
+end
 
 """
     get_software_updates(job_id)
@@ -392,8 +621,20 @@ Returns an Amazon S3 presigned URL for an update file associated with a specifie
   JID123e4567-e89b-12d3-a456-426655440000.
 
 """
-get_software_updates(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSoftwareUpdates", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-get_software_updates(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("GetSoftwareUpdates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function get_software_updates(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "GetSoftwareUpdates", Dict{String,Any}("JobId" => JobId); aws_config=aws_config
+    )
+end
+function get_software_updates(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "GetSoftwareUpdates",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_cluster_jobs(cluster_id)
@@ -414,8 +655,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of JobListEntry objects, you have the option of specifying NextToken as the starting
   point for your returned list.
 """
-list_cluster_jobs(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusterJobs", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-list_cluster_jobs(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusterJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
+function list_cluster_jobs(ClusterId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "ListClusterJobs", Dict{String,Any}("ClusterId" => ClusterId); aws_config=aws_config
+    )
+end
+function list_cluster_jobs(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "ListClusterJobs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_clusters()
@@ -431,8 +688,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of ClusterListEntry objects, you have the option of specifying NextToken as the
   starting point for your returned list.
 """
-list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusters"; aws_config=aws_config)
-list_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListClusters", params; aws_config=aws_config)
+function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("ListClusters"; aws_config=aws_config)
+end
+function list_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball("ListClusters", params; aws_config=aws_config)
+end
 
 """
     list_compatible_images()
@@ -451,8 +714,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of compatible images, you can specify a value for NextToken as the starting point for
   your list of returned images.
 """
-list_compatible_images(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListCompatibleImages"; aws_config=aws_config)
-list_compatible_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListCompatibleImages", params; aws_config=aws_config)
+function list_compatible_images(; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("ListCompatibleImages"; aws_config=aws_config)
+end
+function list_compatible_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball("ListCompatibleImages", params; aws_config=aws_config)
+end
 
 """
     list_jobs()
@@ -470,8 +739,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of JobListEntry objects, you have the option of specifying NextToken as the starting
   point for your returned list.
 """
-list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListJobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListJobs", params; aws_config=aws_config)
+function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("ListJobs"; aws_config=aws_config)
+end
+function list_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball("ListJobs", params; aws_config=aws_config)
+end
 
 """
     list_long_term_pricing()
@@ -485,8 +760,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Because HTTP requests are stateless, this is the starting point for your
   next list of ListLongTermPricing to return.
 """
-list_long_term_pricing(; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListLongTermPricing"; aws_config=aws_config)
-list_long_term_pricing(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("ListLongTermPricing", params; aws_config=aws_config)
+function list_long_term_pricing(; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("ListLongTermPricing"; aws_config=aws_config)
+end
+function list_long_term_pricing(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball("ListLongTermPricing", params; aws_config=aws_config)
+end
 
 """
     update_cluster(cluster_id)
@@ -519,8 +800,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShippingOption"`: The updated shipping option value of this cluster's ShippingDetails
   object.
 """
-update_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-update_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config)
+function update_cluster(ClusterId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "UpdateCluster", Dict{String,Any}("ClusterId" => ClusterId); aws_config=aws_config
+    )
+end
+function update_cluster(
+    ClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "UpdateCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_job(job_id)
@@ -558,8 +855,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
 """
-update_job(JobId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-update_job(JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), params)); aws_config=aws_config)
+function update_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball("UpdateJob", Dict{String,Any}("JobId" => JobId); aws_config=aws_config)
+end
+function update_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "UpdateJob",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_job_shipment_state(job_id, shipment_state)
@@ -575,8 +882,33 @@ Updates the state when a shipment state changes to a different state.
   AWS.
 
 """
-update_job_shipment_state(JobId, ShipmentState; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJobShipmentState", Dict{String, Any}("JobId"=>JobId, "ShipmentState"=>ShipmentState); aws_config=aws_config)
-update_job_shipment_state(JobId, ShipmentState, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateJobShipmentState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ShipmentState"=>ShipmentState), params)); aws_config=aws_config)
+function update_job_shipment_state(
+    JobId, ShipmentState; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "UpdateJobShipmentState",
+        Dict{String,Any}("JobId" => JobId, "ShipmentState" => ShipmentState);
+        aws_config=aws_config,
+    )
+end
+function update_job_shipment_state(
+    JobId,
+    ShipmentState,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "UpdateJobShipmentState",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("JobId" => JobId, "ShipmentState" => ShipmentState),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_long_term_pricing(long_term_pricing_id)
@@ -595,5 +927,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplacementJob"`: Specifies that a device that is ordered with long-term pricing should
   be replaced with a new device.
 """
-update_long_term_pricing(LongTermPricingId; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateLongTermPricing", Dict{String, Any}("LongTermPricingId"=>LongTermPricingId); aws_config=aws_config)
-update_long_term_pricing(LongTermPricingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = snowball("UpdateLongTermPricing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LongTermPricingId"=>LongTermPricingId), params)); aws_config=aws_config)
+function update_long_term_pricing(
+    LongTermPricingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "UpdateLongTermPricing",
+        Dict{String,Any}("LongTermPricingId" => LongTermPricingId);
+        aws_config=aws_config,
+    )
+end
+function update_long_term_pricing(
+    LongTermPricingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return snowball(
+        "UpdateLongTermPricing",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LongTermPricingId" => LongTermPricingId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

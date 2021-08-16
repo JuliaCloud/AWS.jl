@@ -2,11 +2,10 @@
     @testset "Simple" begin
         expected = Dict("a" => 1, "b" => 2)
 
-        a = Dict("a"=>1)
-        b = Dict("b"=>2)
+        a = Dict("a" => 1)
+        b = Dict("b" => 2)
 
         @test AWS._merge(a, b) == expected
-
     end
 
     @testset "Complex Different Nested Dict Keys" begin
@@ -32,8 +31,8 @@ end
     @testset "Simple" begin
         expected = Dict("a" => 1, "b" => 2)
 
-        a = Dict("a"=>1)
-        b = Dict("b"=>2)
+        a = Dict("a" => 1)
+        b = Dict("b" => 2)
 
         @test mergewith(AWS._merge, a, b) == expected
     end

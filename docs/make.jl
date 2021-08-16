@@ -1,7 +1,6 @@
 using AWS
 using Documenter
 
-
 "Transform snake-case names, like `this_name`, to pascal-snake-case, like `This_Name`."
 pascal_snake_case(s) = join(titlecase.(split(s, "_")), "_")
 
@@ -31,27 +30,29 @@ function _generate_high_level_services_docs()
         @info "Generating documentation page for `@service $service_module`"
         md_file = string(service, ".md")
         open(joinpath(services_dir, md_file), "w") do md
-            write(md, """
-                ```@meta
-                CurrentModule = Main.$service_module
-                ```
-
-                # $service_name
-
-                This page documents function available when using the `$service_module`
-                module, created with [`@service $service_module`](@ref AWS.@service).
-
-                ### Index
-                ```@index
-                Pages   = ["$md_file"]
-                Modules = [$service_module]
-                ```
-
-                ### Documentation
-                ```@autodocs
-                Modules = [$service_module]
-                ```
+            write(
+                md,
                 """
+          ```@meta
+          CurrentModule = Main.$service_module
+          ```
+
+          # $service_name
+
+          This page documents function available when using the `$service_module`
+          module, created with [`@service $service_module`](@ref AWS.@service).
+
+          ### Index
+          ```@index
+          Pages   = ["$md_file"]
+          Modules = [$service_module]
+          ```
+
+          ### Documentation
+          ```@autodocs
+          Modules = [$service_module]
+          ```
+          """,
             )
         end
         push!(services_pages, service_name => joinpath("services", md_file))
@@ -64,8 +65,7 @@ makedocs(;
     repo="https://github.com/JuliaCloud/AWS.jl/blob/{commit}{path}#{line}",
     sitename="AWS.jl",
     format=Documenter.HTML(;
-        prettyurls=false,
-        canonical="https://juliacloud.github.io/AWS.jl",
+        prettyurls=false, canonical="https://juliacloud.github.io/AWS.jl"
     ),
     pages=[
         "Home" => "index.md",
@@ -76,7 +76,4 @@ makedocs(;
     checkdocs=:exports,
 )
 
-deploydocs(;
-    repo="github.com/JuliaCloud/AWS.jl",
-    push_preview=true,
-)
+deploydocs(; repo="github.com/JuliaCloud/AWS.jl", push_preview=true)

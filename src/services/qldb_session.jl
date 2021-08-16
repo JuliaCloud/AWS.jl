@@ -33,5 +33,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response.
 - `"StartTransaction"`: Command to start a new transaction.
 """
-send_command(; aws_config::AbstractAWSConfig=global_aws_config()) = qldb_session("SendCommand"; aws_config=aws_config)
-send_command(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb_session("SendCommand", params; aws_config=aws_config)
+function send_command(; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb_session("SendCommand"; aws_config=aws_config)
+end
+function send_command(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb_session("SendCommand", params; aws_config=aws_config)
+end

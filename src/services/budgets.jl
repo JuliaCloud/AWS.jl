@@ -24,8 +24,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscriber and up to 10 email subscribers. If you include notifications and subscribers in
   your CreateBudget call, AWS creates the notifications and subscribers for you.
 """
-create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateBudget", Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget); aws_config=aws_config)
-create_budget(AccountId, Budget, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget), params)); aws_config=aws_config)
+function create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=global_aws_config())
+    return budgets(
+        "CreateBudget",
+        Dict{String,Any}("AccountId" => AccountId, "Budget" => Budget);
+        aws_config=aws_config,
+    )
+end
+function create_budget(
+    AccountId,
+    Budget,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "CreateBudget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "Budget" => Budget),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_budget_action(account_id, action_threshold, action_type, approval_model, budget_name, definition, execution_role_arn, notification_type, subscribers)
@@ -47,8 +70,69 @@ create_budget(AccountId, Budget, params::AbstractDict{String}; aws_config::Abstr
 - `subscribers`:
 
 """
-create_budget_action(AccountId, ActionThreshold, ActionType, ApprovalModel, BudgetName, Definition, ExecutionRoleArn, NotificationType, Subscribers; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionThreshold"=>ActionThreshold, "ActionType"=>ActionType, "ApprovalModel"=>ApprovalModel, "BudgetName"=>BudgetName, "Definition"=>Definition, "ExecutionRoleArn"=>ExecutionRoleArn, "NotificationType"=>NotificationType, "Subscribers"=>Subscribers); aws_config=aws_config)
-create_budget_action(AccountId, ActionThreshold, ActionType, ApprovalModel, BudgetName, Definition, ExecutionRoleArn, NotificationType, Subscribers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionThreshold"=>ActionThreshold, "ActionType"=>ActionType, "ApprovalModel"=>ApprovalModel, "BudgetName"=>BudgetName, "Definition"=>Definition, "ExecutionRoleArn"=>ExecutionRoleArn, "NotificationType"=>NotificationType, "Subscribers"=>Subscribers), params)); aws_config=aws_config)
+function create_budget_action(
+    AccountId,
+    ActionThreshold,
+    ActionType,
+    ApprovalModel,
+    BudgetName,
+    Definition,
+    ExecutionRoleArn,
+    NotificationType,
+    Subscribers;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "CreateBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ActionThreshold" => ActionThreshold,
+            "ActionType" => ActionType,
+            "ApprovalModel" => ApprovalModel,
+            "BudgetName" => BudgetName,
+            "Definition" => Definition,
+            "ExecutionRoleArn" => ExecutionRoleArn,
+            "NotificationType" => NotificationType,
+            "Subscribers" => Subscribers,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_budget_action(
+    AccountId,
+    ActionThreshold,
+    ActionType,
+    ApprovalModel,
+    BudgetName,
+    Definition,
+    ExecutionRoleArn,
+    NotificationType,
+    Subscribers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "CreateBudgetAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ActionThreshold" => ActionThreshold,
+                    "ActionType" => ActionType,
+                    "ApprovalModel" => ApprovalModel,
+                    "BudgetName" => BudgetName,
+                    "Definition" => Definition,
+                    "ExecutionRoleArn" => ExecutionRoleArn,
+                    "NotificationType" => NotificationType,
+                    "Subscribers" => Subscribers,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_notification(account_id, budget_name, notification, subscribers)
@@ -67,8 +151,49 @@ notification.
   Each notification can have one SNS subscriber and up to 10 email subscribers.
 
 """
-create_notification(AccountId, BudgetName, Notification, Subscribers; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers); aws_config=aws_config)
-create_notification(AccountId, BudgetName, Notification, Subscribers, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers), params)); aws_config=aws_config)
+function create_notification(
+    AccountId,
+    BudgetName,
+    Notification,
+    Subscribers;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "CreateNotification",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+            "Subscribers" => Subscribers,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_notification(
+    AccountId,
+    BudgetName,
+    Notification,
+    Subscribers,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "CreateNotification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "BudgetName" => BudgetName,
+                    "Notification" => Notification,
+                    "Subscribers" => Subscribers,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_subscriber(account_id, budget_name, notification, subscriber)
@@ -86,8 +211,49 @@ create the subscriber.
 - `subscriber`: The subscriber that you want to associate with a budget notification.
 
 """
-create_subscriber(AccountId, BudgetName, Notification, Subscriber; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws_config=aws_config)
-create_subscriber(AccountId, BudgetName, Notification, Subscriber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("CreateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), params)); aws_config=aws_config)
+function create_subscriber(
+    AccountId,
+    BudgetName,
+    Notification,
+    Subscriber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "CreateSubscriber",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+            "Subscriber" => Subscriber,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_subscriber(
+    AccountId,
+    BudgetName,
+    Notification,
+    Subscriber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "CreateSubscriber",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "BudgetName" => BudgetName,
+                    "Notification" => Notification,
+                    "Subscriber" => Subscriber,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_budget(account_id, budget_name)
@@ -101,8 +267,33 @@ the notifications and subscribers that are associated with that budget.
 - `budget_name`: The name of the budget that you want to delete.
 
 """
-delete_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
-delete_budget(AccountId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function delete_budget(
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DeleteBudget",
+        Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
+        aws_config=aws_config,
+    )
+end
+function delete_budget(
+    AccountId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DeleteBudget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_budget_action(account_id, action_id, budget_name)
@@ -116,8 +307,40 @@ delete_budget(AccountId, BudgetName, params::AbstractDict{String}; aws_config::A
 - `budget_name`:
 
 """
-delete_budget_action(AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName); aws_config=aws_config)
-delete_budget_action(AccountId, ActionId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function delete_budget_action(
+    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DeleteBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_budget_action(
+    AccountId,
+    ActionId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DeleteBudgetAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ActionId" => ActionId,
+                    "BudgetName" => BudgetName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_notification(account_id, budget_name, notification)
@@ -133,8 +356,42 @@ associated with the notification.
 - `notification`: The notification that you want to delete.
 
 """
-delete_notification(AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws_config=aws_config)
-delete_notification(AccountId, BudgetName, Notification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), params)); aws_config=aws_config)
+function delete_notification(
+    AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DeleteNotification",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_notification(
+    AccountId,
+    BudgetName,
+    Notification,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DeleteNotification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "BudgetName" => BudgetName,
+                    "Notification" => Notification,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_subscriber(account_id, budget_name, notification, subscriber)
@@ -151,8 +408,49 @@ notification.
 - `subscriber`: The subscriber that you want to delete.
 
 """
-delete_subscriber(AccountId, BudgetName, Notification, Subscriber; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws_config=aws_config)
-delete_subscriber(AccountId, BudgetName, Notification, Subscriber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DeleteSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), params)); aws_config=aws_config)
+function delete_subscriber(
+    AccountId,
+    BudgetName,
+    Notification,
+    Subscriber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DeleteSubscriber",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+            "Subscriber" => Subscriber,
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_subscriber(
+    AccountId,
+    BudgetName,
+    Notification,
+    Subscriber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DeleteSubscriber",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "BudgetName" => BudgetName,
+                    "Notification" => Notification,
+                    "Subscriber" => Subscriber,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_budget(account_id, budget_name)
@@ -167,8 +465,33 @@ PlannedBudgetLimits, see the Examples section.
 - `budget_name`: The name of the budget that you want a description of.
 
 """
-describe_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
-describe_budget(AccountId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function describe_budget(
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeBudget",
+        Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
+        aws_config=aws_config,
+    )
+end
+function describe_budget(
+    AccountId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeBudget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_budget_action(account_id, action_id, budget_name)
@@ -182,8 +505,40 @@ describe_budget(AccountId, BudgetName, params::AbstractDict{String}; aws_config:
 - `budget_name`:
 
 """
-describe_budget_action(AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName); aws_config=aws_config)
-describe_budget_action(AccountId, ActionId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function describe_budget_action(
+    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_budget_action(
+    AccountId,
+    ActionId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeBudgetAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ActionId" => ActionId,
+                    "BudgetName" => BudgetName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_budget_action_histories(account_id, action_id, budget_name)
@@ -202,8 +557,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"TimePeriod"`:
 """
-describe_budget_action_histories(AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetActionHistories", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName); aws_config=aws_config)
-describe_budget_action_histories(AccountId, ActionId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetActionHistories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function describe_budget_action_histories(
+    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeBudgetActionHistories",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_budget_action_histories(
+    AccountId,
+    ActionId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeBudgetActionHistories",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ActionId" => ActionId,
+                    "BudgetName" => BudgetName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_budget_actions_for_account(account_id)
@@ -219,8 +606,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-describe_budget_actions_for_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetActionsForAccount", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
-describe_budget_actions_for_account(AccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetActionsForAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config)
+function describe_budget_actions_for_account(
+    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeBudgetActionsForAccount",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+    )
+end
+function describe_budget_actions_for_account(
+    AccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeBudgetActionsForAccount",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_budget_actions_for_budget(account_id, budget_name)
@@ -237,8 +644,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-describe_budget_actions_for_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetActionsForBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
-describe_budget_actions_for_budget(AccountId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetActionsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function describe_budget_actions_for_budget(
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeBudgetActionsForBudget",
+        Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
+        aws_config=aws_config,
+    )
+end
+function describe_budget_actions_for_budget(
+    AccountId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeBudgetActionsForBudget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_budget_performance_history(account_id, budget_name)
@@ -258,8 +690,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimePeriod"`: Retrieves how often the budget went into an ALARM state for the specified
   time period.
 """
-describe_budget_performance_history(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
-describe_budget_performance_history(AccountId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function describe_budget_performance_history(
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeBudgetPerformanceHistory",
+        Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
+        aws_config=aws_config,
+    )
+end
+function describe_budget_performance_history(
+    AccountId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeBudgetPerformanceHistory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_budgets(account_id)
@@ -279,8 +736,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
-describe_budgets(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgets", Dict{String, Any}("AccountId"=>AccountId); aws_config=aws_config)
-describe_budgets(AccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeBudgets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), params)); aws_config=aws_config)
+function describe_budgets(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return budgets(
+        "DescribeBudgets", Dict{String,Any}("AccountId" => AccountId); aws_config=aws_config
+    )
+end
+function describe_budgets(
+    AccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeBudgets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_notifications_for_budget(account_id, budget_name)
@@ -300,8 +773,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
-describe_notifications_for_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeNotificationsForBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws_config=aws_config)
-describe_notifications_for_budget(AccountId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeNotificationsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function describe_notifications_for_budget(
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeNotificationsForBudget",
+        Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
+        aws_config=aws_config,
+    )
+end
+function describe_notifications_for_budget(
+    AccountId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeNotificationsForBudget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_subscribers_for_notification(account_id, budget_name, notification)
@@ -322,8 +820,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
-describe_subscribers_for_notification(AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws_config=aws_config)
-describe_subscribers_for_notification(AccountId, BudgetName, Notification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), params)); aws_config=aws_config)
+function describe_subscribers_for_notification(
+    AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "DescribeSubscribersForNotification",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_subscribers_for_notification(
+    AccountId,
+    BudgetName,
+    Notification,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "DescribeSubscribersForNotification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "BudgetName" => BudgetName,
+                    "Notification" => Notification,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     execute_budget_action(account_id, action_id, budget_name, execution_type)
@@ -338,8 +870,49 @@ describe_subscribers_for_notification(AccountId, BudgetName, Notification, param
 - `execution_type`:  The type of execution.
 
 """
-execute_budget_action(AccountId, ActionId, BudgetName, ExecutionType; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("ExecuteBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName, "ExecutionType"=>ExecutionType); aws_config=aws_config)
-execute_budget_action(AccountId, ActionId, BudgetName, ExecutionType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("ExecuteBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName, "ExecutionType"=>ExecutionType), params)); aws_config=aws_config)
+function execute_budget_action(
+    AccountId,
+    ActionId,
+    BudgetName,
+    ExecutionType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "ExecuteBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ActionId" => ActionId,
+            "BudgetName" => BudgetName,
+            "ExecutionType" => ExecutionType,
+        );
+        aws_config=aws_config,
+    )
+end
+function execute_budget_action(
+    AccountId,
+    ActionId,
+    BudgetName,
+    ExecutionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "ExecuteBudgetAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ActionId" => ActionId,
+                    "BudgetName" => BudgetName,
+                    "ExecutionType" => ExecutionType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_budget(account_id, new_budget)
@@ -357,8 +930,33 @@ section.
 - `new_budget`: The budget that you want to update your budget to.
 
 """
-update_budget(AccountId, NewBudget; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateBudget", Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget); aws_config=aws_config)
-update_budget(AccountId, NewBudget, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget), params)); aws_config=aws_config)
+function update_budget(
+    AccountId, NewBudget; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "UpdateBudget",
+        Dict{String,Any}("AccountId" => AccountId, "NewBudget" => NewBudget);
+        aws_config=aws_config,
+    )
+end
+function update_budget(
+    AccountId,
+    NewBudget,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "UpdateBudget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "NewBudget" => NewBudget),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_budget_action(account_id, action_id, budget_name)
@@ -381,8 +979,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationType"`:
 - `"Subscribers"`:
 """
-update_budget_action(AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateBudgetAction", Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName); aws_config=aws_config)
-update_budget_action(AccountId, ActionId, BudgetName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateBudgetAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "ActionId"=>ActionId, "BudgetName"=>BudgetName), params)); aws_config=aws_config)
+function update_budget_action(
+    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "UpdateBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
+        );
+        aws_config=aws_config,
+    )
+end
+function update_budget_action(
+    AccountId,
+    ActionId,
+    BudgetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "UpdateBudgetAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "ActionId" => ActionId,
+                    "BudgetName" => BudgetName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_notification(account_id, budget_name, new_notification, old_notification)
@@ -398,8 +1028,49 @@ Updates a notification.
 - `old_notification`: The previous notification that is associated with a budget.
 
 """
-update_notification(AccountId, BudgetName, NewNotification, OldNotification; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification); aws_config=aws_config)
-update_notification(AccountId, BudgetName, NewNotification, OldNotification, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification), params)); aws_config=aws_config)
+function update_notification(
+    AccountId,
+    BudgetName,
+    NewNotification,
+    OldNotification;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "UpdateNotification",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "NewNotification" => NewNotification,
+            "OldNotification" => OldNotification,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_notification(
+    AccountId,
+    BudgetName,
+    NewNotification,
+    OldNotification,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "UpdateNotification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "BudgetName" => BudgetName,
+                    "NewNotification" => NewNotification,
+                    "OldNotification" => OldNotification,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_subscriber(account_id, budget_name, new_subscriber, notification, old_subscriber)
@@ -416,5 +1087,50 @@ Updates a subscriber.
 - `old_subscriber`: The previous subscriber that is associated with a budget notification.
 
 """
-update_subscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber); aws_config=aws_config)
-update_subscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = budgets("UpdateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber), params)); aws_config=aws_config)
+function update_subscriber(
+    AccountId,
+    BudgetName,
+    NewSubscriber,
+    Notification,
+    OldSubscriber;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "UpdateSubscriber",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "NewSubscriber" => NewSubscriber,
+            "Notification" => Notification,
+            "OldSubscriber" => OldSubscriber,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_subscriber(
+    AccountId,
+    BudgetName,
+    NewSubscriber,
+    Notification,
+    OldSubscriber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "UpdateSubscriber",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId,
+                    "BudgetName" => BudgetName,
+                    "NewSubscriber" => NewSubscriber,
+                    "Notification" => Notification,
+                    "OldSubscriber" => OldSubscriber,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

@@ -18,8 +18,24 @@ Administrator guide.
 - `id`: The ID of the environment account connection.
 
 """
-accept_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config()) = proton("AcceptEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config)
-accept_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("AcceptEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function accept_environment_account_connection(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "AcceptEnvironmentAccountConnection",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+    )
+end
+function accept_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "AcceptEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     cancel_environment_deployment(environment_name)
@@ -37,8 +53,30 @@ deployment state is SUCCEEDED and the cancellation attempt has no effect.
 - `environment_name`: The name of the environment with the deployment to cancel.
 
 """
-cancel_environment_deployment(environmentName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CancelEnvironmentDeployment", Dict{String, Any}("environmentName"=>environmentName); aws_config=aws_config)
-cancel_environment_deployment(environmentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CancelEnvironmentDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), params)); aws_config=aws_config)
+function cancel_environment_deployment(
+    environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CancelEnvironmentDeployment",
+        Dict{String,Any}("environmentName" => environmentName);
+        aws_config=aws_config,
+    )
+end
+function cancel_environment_deployment(
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CancelEnvironmentDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("environmentName" => environmentName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     cancel_service_instance_deployment(service_instance_name, service_name)
@@ -58,8 +96,38 @@ cancellation attempt has no effect.
 - `service_name`: The name of the service with the service instance deployment to cancel.
 
 """
-cancel_service_instance_deployment(serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CancelServiceInstanceDeployment", Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName); aws_config=aws_config)
-cancel_service_instance_deployment(serviceInstanceName, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CancelServiceInstanceDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceInstanceName"=>serviceInstanceName, "serviceName"=>serviceName), params)); aws_config=aws_config)
+function cancel_service_instance_deployment(
+    serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CancelServiceInstanceDeployment",
+        Dict{String,Any}(
+            "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+        );
+        aws_config=aws_config,
+    )
+end
+function cancel_service_instance_deployment(
+    serviceInstanceName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CancelServiceInstanceDeployment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "serviceInstanceName" => serviceInstanceName,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     cancel_service_pipeline_deployment(service_name)
@@ -78,8 +146,28 @@ cancellation attempt has no effect.
 - `service_name`: The name of the service with the service pipeline deployment to cancel.
 
 """
-cancel_service_pipeline_deployment(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CancelServicePipelineDeployment", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-cancel_service_pipeline_deployment(serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CancelServicePipelineDeployment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), params)); aws_config=aws_config)
+function cancel_service_pipeline_deployment(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CancelServicePipelineDeployment",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function cancel_service_pipeline_deployment(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CancelServicePipelineDeployment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_environment(name, spec, template_major_version, template_name)
@@ -113,8 +201,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 - `"templateMinorVersion"`: The ID of the minor version of the environment template.
 """
-create_environment(name, spec, templateMajorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironment", Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName); aws_config=aws_config)
-create_environment(name, spec, templateMajorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName), params)); aws_config=aws_config)
+function create_environment(
+    name,
+    spec,
+    templateMajorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateEnvironment",
+        Dict{String,Any}(
+            "name" => name,
+            "spec" => spec,
+            "templateMajorVersion" => templateMajorVersion,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_environment(
+    name,
+    spec,
+    templateMajorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateEnvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "spec" => spec,
+                    "templateMajorVersion" => templateMajorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_environment_account_connection(environment_name, management_account_id, role_arn)
@@ -144,8 +273,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: When included, if two identicial requests are made with the same client
   token, AWS Proton returns the environment account connection that the first request created.
 """
-create_environment_account_connection(environmentName, managementAccountId, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironmentAccountConnection", Dict{String, Any}("environmentName"=>environmentName, "managementAccountId"=>managementAccountId, "roleArn"=>roleArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_environment_account_connection(environmentName, managementAccountId, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName, "managementAccountId"=>managementAccountId, "roleArn"=>roleArn, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_environment_account_connection(
+    environmentName,
+    managementAccountId,
+    roleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateEnvironmentAccountConnection",
+        Dict{String,Any}(
+            "environmentName" => environmentName,
+            "managementAccountId" => managementAccountId,
+            "roleArn" => roleArn,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_environment_account_connection(
+    environmentName,
+    managementAccountId,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateEnvironmentAccountConnection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "environmentName" => environmentName,
+                    "managementAccountId" => managementAccountId,
+                    "roleArn" => roleArn,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_environment_template(name)
@@ -176,8 +344,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Create tags for your environment template. For more information, see AWS Proton
   resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 """
-create_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function create_environment_template(
+    name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CreateEnvironmentTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function create_environment_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CreateEnvironmentTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_environment_template_version(source, template_name)
@@ -202,8 +384,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   majorVersion.
 - `"tags"`: Create tags for a new version of an environment template.
 """
-create_environment_template_version(source, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironmentTemplateVersion", Dict{String, Any}("source"=>source, "templateName"=>templateName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_environment_template_version(source, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("source"=>source, "templateName"=>templateName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_environment_template_version(
+    source, templateName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CreateEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            "source" => source,
+            "templateName" => templateName,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_environment_template_version(
+    source,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "source" => source,
+                    "templateName" => templateName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_service(name, spec, template_major_version, template_name)
@@ -242,8 +457,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: The ID of the minor version of the service template that was
   used to create the service.
 """
-create_service(name, spec, templateMajorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateService", Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName); aws_config=aws_config)
-create_service(name, spec, templateMajorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "spec"=>spec, "templateMajorVersion"=>templateMajorVersion, "templateName"=>templateName), params)); aws_config=aws_config)
+function create_service(
+    name,
+    spec,
+    templateMajorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateService",
+        Dict{String,Any}(
+            "name" => name,
+            "spec" => spec,
+            "templateMajorVersion" => templateMajorVersion,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_service(
+    name,
+    spec,
+    templateMajorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateService",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "spec" => spec,
+                    "templateMajorVersion" => templateMajorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_service_template(name)
@@ -271,8 +527,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Create tags for your service template. For more information, see AWS Proton
   resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
 """
-create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
-create_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "CreateServiceTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function create_service_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CreateServiceTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_service_template_version(compatible_environment_templates, source, template_name)
@@ -299,8 +567,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   majorVersion.
 - `"tags"`: Create tags for a new version of a service template.
 """
-create_service_template_version(compatibleEnvironmentTemplates, source, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateServiceTemplateVersion", Dict{String, Any}("compatibleEnvironmentTemplates"=>compatibleEnvironmentTemplates, "source"=>source, "templateName"=>templateName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-create_service_template_version(compatibleEnvironmentTemplates, source, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("CreateServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("compatibleEnvironmentTemplates"=>compatibleEnvironmentTemplates, "source"=>source, "templateName"=>templateName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_service_template_version(
+    compatibleEnvironmentTemplates,
+    source,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateServiceTemplateVersion",
+        Dict{String,Any}(
+            "compatibleEnvironmentTemplates" => compatibleEnvironmentTemplates,
+            "source" => source,
+            "templateName" => templateName,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_service_template_version(
+    compatibleEnvironmentTemplates,
+    source,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateServiceTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "compatibleEnvironmentTemplates" => compatibleEnvironmentTemplates,
+                    "source" => source,
+                    "templateName" => templateName,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_environment(name)
@@ -312,8 +619,20 @@ Delete an environment.
 - `name`: The name of the environment to delete.
 
 """
-delete_environment(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteEnvironment", Dict{String, Any}("name"=>name); aws_config=aws_config)
-delete_environment(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function delete_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "DeleteEnvironment", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function delete_environment(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteEnvironment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_environment_account_connection(id)
@@ -331,8 +650,24 @@ Administrator guide.
 - `id`: The ID of the environment account connection to delete.
 
 """
-delete_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function delete_environment_account_connection(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteEnvironmentAccountConnection",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+    )
+end
+function delete_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_environment_template(name)
@@ -345,8 +680,22 @@ environment template.
 - `name`: The name of the environment template to delete.
 
 """
-delete_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
-delete_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function delete_environment_template(
+    name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteEnvironmentTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function delete_environment_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteEnvironmentTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_environment_template_version(major_version, minor_version, template_name)
@@ -367,8 +716,45 @@ template is a version that's backwards compatible.
 - `template_name`: The name of the environment template.
 
 """
-delete_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteEnvironmentTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config)
-delete_environment_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config)
+function delete_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "DeleteEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            "majorVersion" => majorVersion,
+            "minorVersion" => minorVersion,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "DeleteEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_service(name)
@@ -380,8 +766,18 @@ Delete a service.
 - `name`: The name of the service to delete.
 
 """
-delete_service(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteService", Dict{String, Any}("name"=>name); aws_config=aws_config)
-delete_service(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function delete_service(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("DeleteService", Dict{String,Any}("name" => name); aws_config=aws_config)
+end
+function delete_service(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteService",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_service_template(name)
@@ -394,8 +790,20 @@ template.
 - `name`: The name of the service template to delete.
 
 """
-delete_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
-delete_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function delete_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "DeleteServiceTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function delete_service_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteServiceTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_service_template_version(major_version, minor_version, template_name)
@@ -416,8 +824,45 @@ compatible.
 - `template_name`: The name of the service template.
 
 """
-delete_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteServiceTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config)
-delete_service_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("DeleteServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config)
+function delete_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "DeleteServiceTemplateVersion",
+        Dict{String,Any}(
+            "majorVersion" => majorVersion,
+            "minorVersion" => minorVersion,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+    )
+end
+function delete_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "DeleteServiceTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_account_settings()
@@ -426,8 +871,14 @@ delete_service_template_version(majorVersion, minorVersion, templateName, params
 Get detail data for the AWS Proton pipeline service role.
 
 """
-get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetAccountSettings"; aws_config=aws_config)
-get_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetAccountSettings", params; aws_config=aws_config)
+function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("GetAccountSettings"; aws_config=aws_config)
+end
+function get_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton("GetAccountSettings", params; aws_config=aws_config)
+end
 
 """
     get_environment(name)
@@ -439,8 +890,18 @@ Get detail data for an environment.
 - `name`: The name of the environment that you want to get the detail data for.
 
 """
-get_environment(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetEnvironment", Dict{String, Any}("name"=>name); aws_config=aws_config)
-get_environment(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function get_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("GetEnvironment", Dict{String,Any}("name" => name); aws_config=aws_config)
+end
+function get_environment(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetEnvironment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_environment_account_connection(id)
@@ -453,8 +914,24 @@ more information, see Environment account connections in the AWS Proton Administ
 - `id`: The ID of the environment account connection.
 
 """
-get_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config)
-get_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function get_environment_account_connection(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetEnvironmentAccountConnection",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+    )
+end
+function get_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_environment_template(name)
@@ -466,8 +943,20 @@ Get detail data for an environment template.
 - `name`: The name of the environment template that you want to get the detail data for.
 
 """
-get_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
-get_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function get_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "GetEnvironmentTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function get_environment_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetEnvironmentTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_environment_template_version(major_version, minor_version, template_name)
@@ -483,8 +972,45 @@ View detail data for a major or minor version of an environment template.
 - `template_name`: The name of the environment template.
 
 """
-get_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetEnvironmentTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config)
-get_environment_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config)
+function get_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "GetEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            "majorVersion" => majorVersion,
+            "minorVersion" => minorVersion,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "GetEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_service(name)
@@ -496,8 +1022,18 @@ Get detail data for a service.
 - `name`: The name of the service that you want to get the detail data for.
 
 """
-get_service(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetService", Dict{String, Any}("name"=>name); aws_config=aws_config)
-get_service(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function get_service(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("GetService", Dict{String,Any}("name" => name); aws_config=aws_config)
+end
+function get_service(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetService",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_service_instance(name, service_name)
@@ -511,8 +1047,33 @@ template, which is running in a specific environment.
 - `service_name`: The name of the service that the service instance belongs to.
 
 """
-get_service_instance(name, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetServiceInstance", Dict{String, Any}("name"=>name, "serviceName"=>serviceName); aws_config=aws_config)
-get_service_instance(name, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetServiceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serviceName"=>serviceName), params)); aws_config=aws_config)
+function get_service_instance(
+    name, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetServiceInstance",
+        Dict{String,Any}("name" => name, "serviceName" => serviceName);
+        aws_config=aws_config,
+    )
+end
+function get_service_instance(
+    name,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "GetServiceInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "serviceName" => serviceName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_service_template(name)
@@ -524,8 +1085,20 @@ Get detail data for a service template.
 - `name`: The name of the service template that you want to get detail data for.
 
 """
-get_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
-get_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function get_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "GetServiceTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function get_service_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetServiceTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_service_template_version(major_version, minor_version, template_name)
@@ -539,8 +1112,45 @@ View detail data for a major or minor version of a service template.
 - `template_name`: The name of the service template.
 
 """
-get_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetServiceTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config)
-get_service_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("GetServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config)
+function get_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "GetServiceTemplateVersion",
+        Dict{String,Any}(
+            "majorVersion" => majorVersion,
+            "minorVersion" => minorVersion,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+    )
+end
+function get_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "GetServiceTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_environment_account_connections(requested_by)
@@ -562,8 +1172,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account connections that was previously requested.
 - `"statuses"`: The status details for each listed environment account connection.
 """
-list_environment_account_connections(requestedBy; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListEnvironmentAccountConnections", Dict{String, Any}("requestedBy"=>requestedBy); aws_config=aws_config)
-list_environment_account_connections(requestedBy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListEnvironmentAccountConnections", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestedBy"=>requestedBy), params)); aws_config=aws_config)
+function list_environment_account_connections(
+    requestedBy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "ListEnvironmentAccountConnections",
+        Dict{String,Any}("requestedBy" => requestedBy);
+        aws_config=aws_config,
+    )
+end
+function list_environment_account_connections(
+    requestedBy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "ListEnvironmentAccountConnections",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("requestedBy" => requestedBy), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_environment_template_versions(template_name)
@@ -585,8 +1215,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array of major or minor versions of an environment template, after the list of major or
   minor versions that was previously requested.
 """
-list_environment_template_versions(templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListEnvironmentTemplateVersions", Dict{String, Any}("templateName"=>templateName); aws_config=aws_config)
-list_environment_template_versions(templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListEnvironmentTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName), params)); aws_config=aws_config)
+function list_environment_template_versions(
+    templateName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "ListEnvironmentTemplateVersions",
+        Dict{String,Any}("templateName" => templateName);
+        aws_config=aws_config,
+    )
+end
+function list_environment_template_versions(
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "ListEnvironmentTemplateVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("templateName" => templateName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_environment_templates()
@@ -601,8 +1251,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array of environment templates, after the list of environment templates that was previously
   requested.
 """
-list_environment_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListEnvironmentTemplates"; aws_config=aws_config)
-list_environment_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListEnvironmentTemplates", params; aws_config=aws_config)
+function list_environment_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("ListEnvironmentTemplates"; aws_config=aws_config)
+end
+function list_environment_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton("ListEnvironmentTemplates", params; aws_config=aws_config)
+end
 
 """
     list_environments()
@@ -617,8 +1273,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to indicate the location of the next environment in the array of
   environments, after the list of environments that was previously requested.
 """
-list_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListEnvironments"; aws_config=aws_config)
-list_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListEnvironments", params; aws_config=aws_config)
+function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("ListEnvironments"; aws_config=aws_config)
+end
+function list_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton("ListEnvironments", params; aws_config=aws_config)
+end
 
 """
     list_service_instances()
@@ -633,8 +1295,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service instances, after the list of service instances that was previously requested.
 - `"serviceName"`: The name of the service that the service instance belongs to.
 """
-list_service_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListServiceInstances"; aws_config=aws_config)
-list_service_instances(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListServiceInstances", params; aws_config=aws_config)
+function list_service_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("ListServiceInstances"; aws_config=aws_config)
+end
+function list_service_instances(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton("ListServiceInstances", params; aws_config=aws_config)
+end
 
 """
     list_service_template_versions(template_name)
@@ -656,8 +1324,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array of major or minor versions of a service template, after the list of major or minor
   versions that was previously requested.
 """
-list_service_template_versions(templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListServiceTemplateVersions", Dict{String, Any}("templateName"=>templateName); aws_config=aws_config)
-list_service_template_versions(templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListServiceTemplateVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateName"=>templateName), params)); aws_config=aws_config)
+function list_service_template_versions(
+    templateName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "ListServiceTemplateVersions",
+        Dict{String,Any}("templateName" => templateName);
+        aws_config=aws_config,
+    )
+end
+function list_service_template_versions(
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "ListServiceTemplateVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("templateName" => templateName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_service_templates()
@@ -671,8 +1359,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to indicate the location of the next service template in the array
   of service templates, after the list of service templates previously requested.
 """
-list_service_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListServiceTemplates"; aws_config=aws_config)
-list_service_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListServiceTemplates", params; aws_config=aws_config)
+function list_service_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("ListServiceTemplates"; aws_config=aws_config)
+end
+function list_service_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton("ListServiceTemplates", params; aws_config=aws_config)
+end
 
 """
     list_services()
@@ -686,8 +1380,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to indicate the location of the next service in the array of
   services, after the list of services that was previously requested.
 """
-list_services(; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListServices"; aws_config=aws_config)
-list_services(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListServices", params; aws_config=aws_config)
+function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("ListServices"; aws_config=aws_config)
+end
+function list_services(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton("ListServices", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -705,8 +1405,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token to indicate the location of the next resource tag in the array of
   resource tags, after the list of resource tags that was previously requested.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "ListTagsForResource",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reject_environment_account_connection(id)
@@ -722,8 +1442,24 @@ see Environment account connections in the AWS Proton Administrator guide.
 - `id`: The ID of the environment account connection to reject.
 
 """
-reject_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config()) = proton("RejectEnvironmentAccountConnection", Dict{String, Any}("id"=>id); aws_config=aws_config)
-reject_environment_account_connection(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("RejectEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function reject_environment_account_connection(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "RejectEnvironmentAccountConnection",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+    )
+end
+function reject_environment_account_connection(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "RejectEnvironmentAccountConnection",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -738,8 +1474,31 @@ Proton Administrator Guide or AWS Proton User Guide.
 - `tags`: An array of resource tags to apply to a resource.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = proton("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "TagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -755,8 +1514,33 @@ the AWS Proton Administrator Guide or AWS Proton User Guide.
   resource.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UntagResource",
+        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_account_settings()
@@ -769,8 +1553,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pipelineServiceRoleArn"`: The Amazon Resource Name (ARN) of the AWS Proton pipeline
   service role.
 """
-update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateAccountSettings"; aws_config=aws_config)
-update_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateAccountSettings", params; aws_config=aws_config)
+function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("UpdateAccountSettings"; aws_config=aws_config)
+end
+function update_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton("UpdateAccountSettings", params; aws_config=aws_config)
+end
 
 """
     update_environment(deployment_type, name)
@@ -826,8 +1616,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMajorVersion"`: The ID of the major version of the environment to update.
 - `"templateMinorVersion"`: The ID of the minor version of the environment to update.
 """
-update_environment(deploymentType, name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateEnvironment", Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name); aws_config=aws_config)
-update_environment(deploymentType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateEnvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name), params)); aws_config=aws_config)
+function update_environment(
+    deploymentType, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateEnvironment",
+        Dict{String,Any}("deploymentType" => deploymentType, "name" => name);
+        aws_config=aws_config,
+    )
+end
+function update_environment(
+    deploymentType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateEnvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("deploymentType" => deploymentType, "name" => name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_environment_account_connection(id, role_arn)
@@ -843,8 +1658,29 @@ guide.
   with the environment account connection to update.
 
 """
-update_environment_account_connection(id, roleArn; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateEnvironmentAccountConnection", Dict{String, Any}("id"=>id, "roleArn"=>roleArn); aws_config=aws_config)
-update_environment_account_connection(id, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateEnvironmentAccountConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "roleArn"=>roleArn), params)); aws_config=aws_config)
+function update_environment_account_connection(
+    id, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateEnvironmentAccountConnection",
+        Dict{String,Any}("id" => id, "roleArn" => roleArn);
+        aws_config=aws_config,
+    )
+end
+function update_environment_account_connection(
+    id,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateEnvironmentAccountConnection",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("id" => id, "roleArn" => roleArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_environment_template(name)
@@ -861,8 +1697,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the environment template to update as displayed in the
   developer interface.
 """
-update_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateEnvironmentTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
-update_environment_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateEnvironmentTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function update_environment_template(
+    name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateEnvironmentTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function update_environment_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateEnvironmentTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_environment_template_version(major_version, minor_version, template_name)
@@ -882,8 +1732,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of environment template version to update.
 - `"status"`: The status of the environment template minor version to update.
 """
-update_environment_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateEnvironmentTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config)
-update_environment_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateEnvironmentTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config)
+function update_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            "majorVersion" => majorVersion,
+            "minorVersion" => minorVersion,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_environment_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateEnvironmentTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_service(name)
@@ -905,8 +1792,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the existing service instances or pipeline. For more information, see Edit a service in the
   AWS Proton Administrator Guide or the AWS Proton User Guide.
 """
-update_service(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateService", Dict{String, Any}("name"=>name); aws_config=aws_config)
-update_service(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function update_service(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("UpdateService", Dict{String,Any}("name" => name); aws_config=aws_config)
+end
+function update_service(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateService",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_service_instance(deployment_type, name, service_name)
@@ -949,8 +1846,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMajorVersion"`: The major version of the service template to update.
 - `"templateMinorVersion"`: The minor version of the service template to update.
 """
-update_service_instance(deploymentType, name, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateServiceInstance", Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name, "serviceName"=>serviceName); aws_config=aws_config)
-update_service_instance(deploymentType, name, serviceName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateServiceInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "name"=>name, "serviceName"=>serviceName), params)); aws_config=aws_config)
+function update_service_instance(
+    deploymentType, name, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateServiceInstance",
+        Dict{String,Any}(
+            "deploymentType" => deploymentType, "name" => name, "serviceName" => serviceName
+        );
+        aws_config=aws_config,
+    )
+end
+function update_service_instance(
+    deploymentType,
+    name,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateServiceInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentType" => deploymentType,
+                    "name" => name,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_service_pipeline(deployment_type, service_name, spec)
@@ -994,8 +1923,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service that the pipeline is associated with.
 """
-update_service_pipeline(deploymentType, serviceName, spec; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateServicePipeline", Dict{String, Any}("deploymentType"=>deploymentType, "serviceName"=>serviceName, "spec"=>spec); aws_config=aws_config)
-update_service_pipeline(deploymentType, serviceName, spec, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateServicePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deploymentType"=>deploymentType, "serviceName"=>serviceName, "spec"=>spec), params)); aws_config=aws_config)
+function update_service_pipeline(
+    deploymentType, serviceName, spec; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateServicePipeline",
+        Dict{String,Any}(
+            "deploymentType" => deploymentType, "serviceName" => serviceName, "spec" => spec
+        );
+        aws_config=aws_config,
+    )
+end
+function update_service_pipeline(
+    deploymentType,
+    serviceName,
+    spec,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateServicePipeline",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "deploymentType" => deploymentType,
+                    "serviceName" => serviceName,
+                    "spec" => spec,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_service_template(name)
@@ -1012,8 +1973,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the service template to update as displayed in the developer
   interface.
 """
-update_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateServiceTemplate", Dict{String, Any}("name"=>name); aws_config=aws_config)
-update_service_template(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateServiceTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config)
+function update_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "UpdateServiceTemplate", Dict{String,Any}("name" => name); aws_config=aws_config
+    )
+end
+function update_service_template(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateServiceTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_service_template_version(major_version, minor_version, template_name)
@@ -1033,5 +2006,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of a service template version to update.
 - `"status"`: The status of the service template minor version to update.
 """
-update_service_template_version(majorVersion, minorVersion, templateName; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateServiceTemplateVersion", Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName); aws_config=aws_config)
-update_service_template_version(majorVersion, minorVersion, templateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = proton("UpdateServiceTemplateVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersion"=>majorVersion, "minorVersion"=>minorVersion, "templateName"=>templateName), params)); aws_config=aws_config)
+function update_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateServiceTemplateVersion",
+        Dict{String,Any}(
+            "majorVersion" => majorVersion,
+            "minorVersion" => minorVersion,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_service_template_version(
+    majorVersion,
+    minorVersion,
+    templateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateServiceTemplateVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "majorVersion" => majorVersion,
+                    "minorVersion" => minorVersion,
+                    "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

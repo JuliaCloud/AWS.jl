@@ -25,8 +25,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"remoteAccessAllowed"`: Whether the team member is allowed to use an SSH public/private
   key pair to remotely access project resources, for example Amazon EC2 instances.
 """
-associate_team_member(projectId, projectRole, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("AssociateTeamMember", Dict{String, Any}("projectId"=>projectId, "projectRole"=>projectRole, "userArn"=>userArn); aws_config=aws_config)
-associate_team_member(projectId, projectRole, userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("AssociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "projectRole"=>projectRole, "userArn"=>userArn), params)); aws_config=aws_config)
+function associate_team_member(
+    projectId, projectRole, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "AssociateTeamMember",
+        Dict{String,Any}(
+            "projectId" => projectId, "projectRole" => projectRole, "userArn" => userArn
+        );
+        aws_config=aws_config,
+    )
+end
+function associate_team_member(
+    projectId,
+    projectRole,
+    userArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "AssociateTeamMember",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "projectId" => projectId,
+                    "projectRole" => projectRole,
+                    "userArn" => userArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_project(id, name)
@@ -52,8 +84,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. If this parameter is specified, the request must also include the sourceCode
   parameter.
 """
-create_project(id, name; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("CreateProject", Dict{String, Any}("id"=>id, "name"=>name); aws_config=aws_config)
-create_project(id, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "name"=>name), params)); aws_config=aws_config)
+function create_project(id, name; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "CreateProject", Dict{String,Any}("id" => id, "name" => name); aws_config=aws_config
+    )
+end
+function create_project(
+    id,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "CreateProject",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("id" => id, "name" => name), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_user_profile(display_name, email_address, user_arn)
@@ -77,8 +126,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   project owner allows the user remote access to project resources, this public key will be
   used along with the user's private key for SSH access.
 """
-create_user_profile(displayName, emailAddress, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("CreateUserProfile", Dict{String, Any}("displayName"=>displayName, "emailAddress"=>emailAddress, "userArn"=>userArn); aws_config=aws_config)
-create_user_profile(displayName, emailAddress, userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "emailAddress"=>emailAddress, "userArn"=>userArn), params)); aws_config=aws_config)
+function create_user_profile(
+    displayName, emailAddress, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "CreateUserProfile",
+        Dict{String,Any}(
+            "displayName" => displayName,
+            "emailAddress" => emailAddress,
+            "userArn" => userArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_user_profile(
+    displayName,
+    emailAddress,
+    userArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "CreateUserProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "displayName" => displayName,
+                    "emailAddress" => emailAddress,
+                    "userArn" => userArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_project(id)
@@ -99,8 +182,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   delete all AWS resources for the project (except for any buckets in Amazon S3) as well as
   deleting the project itself. Recommended for most use cases.
 """
-delete_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DeleteProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
-delete_project(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function delete_project(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar("DeleteProject", Dict{String,Any}("id" => id); aws_config=aws_config)
+end
+function delete_project(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "DeleteProject",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_user_profile(user_arn)
@@ -114,8 +207,20 @@ of that user, for example the history of commits made by that user.
 - `user_arn`: The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
 
 """
-delete_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DeleteUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
-delete_user_profile(userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config)
+function delete_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "DeleteUserProfile", Dict{String,Any}("userArn" => userArn); aws_config=aws_config
+    )
+end
+function delete_user_profile(
+    userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "DeleteUserProfile",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("userArn" => userArn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_project(id)
@@ -127,8 +232,18 @@ Describes a project and its resources.
 - `id`: The ID of the project.
 
 """
-describe_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DescribeProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
-describe_project(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DescribeProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function describe_project(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar("DescribeProject", Dict{String,Any}("id" => id); aws_config=aws_config)
+end
+function describe_project(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "DescribeProject",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_user_profile(user_arn)
@@ -140,8 +255,20 @@ Describes a user in AWS CodeStar and the user attributes across all projects.
 - `user_arn`: The Amazon Resource Name (ARN) of the user.
 
 """
-describe_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DescribeUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
-describe_user_profile(userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DescribeUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config)
+function describe_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "DescribeUserProfile", Dict{String,Any}("userArn" => userArn); aws_config=aws_config
+    )
+end
+function describe_user_profile(
+    userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "DescribeUserProfile",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("userArn" => userArn), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_team_member(project_id, user_arn)
@@ -159,8 +286,33 @@ from IAM.
   remove from the project.
 
 """
-disassociate_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DisassociateTeamMember", Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn); aws_config=aws_config)
-disassociate_team_member(projectId, userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("DisassociateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), params)); aws_config=aws_config)
+function disassociate_team_member(
+    projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "DisassociateTeamMember",
+        Dict{String,Any}("projectId" => projectId, "userArn" => userArn);
+        aws_config=aws_config,
+    )
+end
+function disassociate_team_member(
+    projectId,
+    userArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "DisassociateTeamMember",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("projectId" => projectId, "userArn" => userArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_projects()
@@ -175,8 +327,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The continuation token to be used to return the next set of results, if
   the results cannot be returned in one response.
 """
-list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListProjects"; aws_config=aws_config)
-list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListProjects", params; aws_config=aws_config)
+function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar("ListProjects"; aws_config=aws_config)
+end
+function list_projects(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar("ListProjects", params; aws_config=aws_config)
+end
 
 """
     list_resources(project_id)
@@ -194,8 +352,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
-list_resources(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListResources", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
-list_resources(projectId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config)
+function list_resources(projectId; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "ListResources", Dict{String,Any}("projectId" => projectId); aws_config=aws_config
+    )
+end
+function list_resources(
+    projectId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "ListResources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectId" => projectId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_project(id)
@@ -211,8 +385,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Reserved for future use.
 - `"nextToken"`: Reserved for future use.
 """
-list_tags_for_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListTagsForProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
-list_tags_for_project(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListTagsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function list_tags_for_project(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "ListTagsForProject", Dict{String,Any}("id" => id); aws_config=aws_config
+    )
+end
+function list_tags_for_project(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "ListTagsForProject",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_team_members(project_id)
@@ -229,8 +415,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
-list_team_members(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListTeamMembers", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
-list_team_members(projectId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListTeamMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), params)); aws_config=aws_config)
+function list_team_members(projectId; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "ListTeamMembers", Dict{String,Any}("projectId" => projectId); aws_config=aws_config
+    )
+end
+function list_team_members(
+    projectId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "ListTeamMembers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("projectId" => projectId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_user_profiles()
@@ -244,8 +446,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
-list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListUserProfiles"; aws_config=aws_config)
-list_user_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("ListUserProfiles", params; aws_config=aws_config)
+function list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar("ListUserProfiles"; aws_config=aws_config)
+end
+function list_user_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar("ListUserProfiles", params; aws_config=aws_config)
+end
 
 """
     tag_project(id, tags)
@@ -258,8 +466,25 @@ Adds tags to a project.
 - `tags`: The tags you want to add to the project.
 
 """
-tag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("TagProject", Dict{String, Any}("id"=>id, "tags"=>tags); aws_config=aws_config)
-tag_project(id, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("TagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), params)); aws_config=aws_config)
+function tag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "TagProject", Dict{String,Any}("id" => id, "tags" => tags); aws_config=aws_config
+    )
+end
+function tag_project(
+    id,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "TagProject",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("id" => id, "tags" => tags), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_project(id, tags)
@@ -272,8 +497,25 @@ Removes tags from a project.
 - `tags`: The tags to remove from the project.
 
 """
-untag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UntagProject", Dict{String, Any}("id"=>id, "tags"=>tags); aws_config=aws_config)
-untag_project(id, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UntagProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "tags"=>tags), params)); aws_config=aws_config)
+function untag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "UntagProject", Dict{String,Any}("id" => id, "tags" => tags); aws_config=aws_config
+    )
+end
+function untag_project(
+    id,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "UntagProject",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("id" => id, "tags" => tags), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_project(id)
@@ -289,8 +531,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the project, if any.
 - `"name"`: The name of the project you want to update.
 """
-update_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateProject", Dict{String, Any}("id"=>id); aws_config=aws_config)
-update_project(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config)
+function update_project(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar("UpdateProject", Dict{String,Any}("id" => id); aws_config=aws_config)
+end
+function update_project(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "UpdateProject",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_team_member(project_id, user_arn)
@@ -315,8 +567,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to True, the user must associate a public key with their profile before the user can access
   resources.
 """
-update_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateTeamMember", Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn); aws_config=aws_config)
-update_team_member(projectId, userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateTeamMember", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId, "userArn"=>userArn), params)); aws_config=aws_config)
+function update_team_member(
+    projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "UpdateTeamMember",
+        Dict{String,Any}("projectId" => projectId, "userArn" => userArn);
+        aws_config=aws_config,
+    )
+end
+function update_team_member(
+    projectId,
+    userArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codestar(
+        "UpdateTeamMember",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("projectId" => projectId, "userArn" => userArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_user_profile(user_arn)
@@ -340,5 +617,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   project owner allows the user remote access to project resources, this public key will be
   used along with the user's private key for SSH access.
 """
-update_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateUserProfile", Dict{String, Any}("userArn"=>userArn); aws_config=aws_config)
-update_user_profile(userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = codestar("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("userArn"=>userArn), params)); aws_config=aws_config)
+function update_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codestar(
+        "UpdateUserProfile", Dict{String,Any}("userArn" => userArn); aws_config=aws_config
+    )
+end
+function update_user_profile(
+    userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codestar(
+        "UpdateUserProfile",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("userArn" => userArn), params));
+        aws_config=aws_config,
+    )
+end

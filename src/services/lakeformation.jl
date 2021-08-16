@@ -20,8 +20,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-add_lftags_to_resource(LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("AddLFTagsToResource", Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource); aws_config=aws_config)
-add_lftags_to_resource(LFTags, Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("AddLFTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource), params)); aws_config=aws_config)
+function add_lftags_to_resource(
+    LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "AddLFTagsToResource",
+        Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource);
+        aws_config=aws_config,
+    )
+end
+function add_lftags_to_resource(
+    LFTags,
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "AddLFTagsToResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_grant_permissions(entries)
@@ -39,8 +62,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-batch_grant_permissions(Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchGrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
+function batch_grant_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "BatchGrantPermissions",
+        Dict{String,Any}("Entries" => Entries);
+        aws_config=aws_config,
+    )
+end
+function batch_grant_permissions(
+    Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "BatchGrantPermissions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_revoke_permissions(entries)
@@ -58,8 +95,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-batch_revoke_permissions(Entries; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}("Entries"=>Entries); aws_config=aws_config)
-batch_revoke_permissions(Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("BatchRevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Entries"=>Entries), params)); aws_config=aws_config)
+function batch_revoke_permissions(
+    Entries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "BatchRevokePermissions",
+        Dict{String,Any}("Entries" => Entries);
+        aws_config=aws_config,
+    )
+end
+function batch_revoke_permissions(
+    Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "BatchRevokePermissions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_lftag(tag_key, tag_values)
@@ -77,8 +130,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("CreateLFTag", Dict{String, Any}("TagKey"=>TagKey, "TagValues"=>TagValues); aws_config=aws_config)
-create_lftag(TagKey, TagValues, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("CreateLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey, "TagValues"=>TagValues), params)); aws_config=aws_config)
+function create_lftag(TagKey, TagValues; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "CreateLFTag",
+        Dict{String,Any}("TagKey" => TagKey, "TagValues" => TagValues);
+        aws_config=aws_config,
+    )
+end
+function create_lftag(
+    TagKey,
+    TagValues,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "CreateLFTag",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TagKey" => TagKey, "TagValues" => TagValues),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_lftag(tag_key)
@@ -99,8 +175,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-delete_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DeleteLFTag", Dict{String, Any}("TagKey"=>TagKey); aws_config=aws_config)
-delete_lftag(TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DeleteLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config)
+function delete_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "DeleteLFTag", Dict{String,Any}("TagKey" => TagKey); aws_config=aws_config
+    )
+end
+function delete_lftag(
+    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "DeleteLFTag",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     deregister_resource(resource_arn)
@@ -114,8 +202,26 @@ Formation removes the path from the inline policy attached to your service-linke
   deregister.
 
 """
-deregister_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-deregister_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DeregisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function deregister_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "DeregisterResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function deregister_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "DeregisterResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_resource(resource_arn)
@@ -128,8 +234,26 @@ Formation.
 - `resource_arn`: The resource ARN.
 
 """
-describe_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-describe_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function describe_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "DescribeResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function describe_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "DescribeResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_data_lake_settings()
@@ -143,8 +267,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings"; aws_config=aws_config)
-get_data_lake_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetDataLakeSettings", params; aws_config=aws_config)
+function get_data_lake_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation("GetDataLakeSettings"; aws_config=aws_config)
+end
+function get_data_lake_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation("GetDataLakeSettings", params; aws_config=aws_config)
+end
 
 """
     get_effective_permissions_for_path(resource_arn)
@@ -166,8 +296,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
-get_effective_permissions_for_path(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-get_effective_permissions_for_path(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetEffectivePermissionsForPath", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function get_effective_permissions_for_path(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "GetEffectivePermissionsForPath",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function get_effective_permissions_for_path(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "GetEffectivePermissionsForPath",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_lftag(tag_key)
@@ -184,8 +334,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-get_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetLFTag", Dict{String, Any}("TagKey"=>TagKey); aws_config=aws_config)
-get_lftag(TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config)
+function get_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "GetLFTag", Dict{String,Any}("TagKey" => TagKey); aws_config=aws_config
+    )
+end
+function get_lftag(
+    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "GetLFTag",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     get_resource_lftags(resource)
@@ -203,8 +365,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definitions, and other control information to manage your AWS Lake Formation environment.
 - `"ShowAssignedLFTags"`: Indicates whether to show the assigned tags.
 """
-get_resource_lftags(Resource; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetResourceLFTags", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
-get_resource_lftags(Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GetResourceLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), params)); aws_config=aws_config)
+function get_resource_lftags(Resource; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "GetResourceLFTags", Dict{String,Any}("Resource" => Resource); aws_config=aws_config
+    )
+end
+function get_resource_lftags(
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "GetResourceLFTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Resource" => Resource), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     grant_permissions(permissions, principal, resource)
@@ -237,8 +415,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   principal may pass to other users. These permissions may only be a subset of the
   permissions granted in the Privileges.
 """
-grant_permissions(Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource); aws_config=aws_config)
-grant_permissions(Permissions, Principal, Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("GrantPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config)
+function grant_permissions(
+    Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "GrantPermissions",
+        Dict{String,Any}(
+            "Permissions" => Permissions, "Principal" => Principal, "Resource" => Resource
+        );
+        aws_config=aws_config,
+    )
+end
+function grant_permissions(
+    Permissions,
+    Principal,
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "GrantPermissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Permissions" => Permissions,
+                    "Principal" => Principal,
+                    "Resource" => Resource,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_lftags()
@@ -258,8 +468,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns all share tags that the requester can view. If no resource share type is passed,
   lists tags in the given catalog ID that the requester has permission to view.
 """
-list_lftags(; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListLFTags"; aws_config=aws_config)
-list_lftags(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListLFTags", params; aws_config=aws_config)
+function list_lftags(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation("ListLFTags"; aws_config=aws_config)
+end
+function list_lftags(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation("ListLFTags", params; aws_config=aws_config)
+end
 
 """
     list_permissions()
@@ -284,8 +500,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation on the table, and the operation returns the table and the table w columns.
 - `"ResourceType"`: Specifies a resource type to filter the permissions returned.
 """
-list_permissions(; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListPermissions"; aws_config=aws_config)
-list_permissions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListPermissions", params; aws_config=aws_config)
+function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation("ListPermissions"; aws_config=aws_config)
+end
+function list_permissions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation("ListPermissions", params; aws_config=aws_config)
+end
 
 """
     list_resources()
@@ -301,8 +523,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve these
   resources.
 """
-list_resources(; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListResources"; aws_config=aws_config)
-list_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("ListResources", params; aws_config=aws_config)
+function list_resources(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation("ListResources"; aws_config=aws_config)
+end
+function list_resources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation("ListResources", params; aws_config=aws_config)
+end
 
 """
     put_data_lake_settings(data_lake_settings)
@@ -324,8 +552,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-put_data_lake_settings(DataLakeSettings; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}("DataLakeSettings"=>DataLakeSettings); aws_config=aws_config)
-put_data_lake_settings(DataLakeSettings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("PutDataLakeSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataLakeSettings"=>DataLakeSettings), params)); aws_config=aws_config)
+function put_data_lake_settings(
+    DataLakeSettings; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "PutDataLakeSettings",
+        Dict{String,Any}("DataLakeSettings" => DataLakeSettings);
+        aws_config=aws_config,
+    )
+end
+function put_data_lake_settings(
+    DataLakeSettings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "PutDataLakeSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DataLakeSettings" => DataLakeSettings), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     register_resource(resource_arn)
@@ -354,8 +604,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is a unique type of IAM role that is linked directly to Lake Formation. For more
   information, see Using Service-Linked Roles for Lake Formation.
 """
-register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-register_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RegisterResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "RegisterResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function register_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "RegisterResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     remove_lftags_from_resource(lftags, resource)
@@ -375,8 +643,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Catalog is the persistent metadata store. It contains database definitions, table
   definitions, and other control information to manage your AWS Lake Formation environment.
 """
-remove_lftags_from_resource(LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RemoveLFTagsFromResource", Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource); aws_config=aws_config)
-remove_lftags_from_resource(LFTags, Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RemoveLFTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LFTags"=>LFTags, "Resource"=>Resource), params)); aws_config=aws_config)
+function remove_lftags_from_resource(
+    LFTags, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "RemoveLFTagsFromResource",
+        Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource);
+        aws_config=aws_config,
+    )
+end
+function remove_lftags_from_resource(
+    LFTags,
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "RemoveLFTagsFromResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("LFTags" => LFTags, "Resource" => Resource), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     revoke_permissions(permissions, principal, resource)
@@ -399,8 +690,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PermissionsWithGrantOption"`: Indicates a list of permissions for which to revoke the
   grant option allowing the principal to pass permissions to other principals.
 """
-revoke_permissions(Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource); aws_config=aws_config)
-revoke_permissions(Permissions, Principal, Resource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("RevokePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Permissions"=>Permissions, "Principal"=>Principal, "Resource"=>Resource), params)); aws_config=aws_config)
+function revoke_permissions(
+    Permissions, Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "RevokePermissions",
+        Dict{String,Any}(
+            "Permissions" => Permissions, "Principal" => Principal, "Resource" => Resource
+        );
+        aws_config=aws_config,
+    )
+end
+function revoke_permissions(
+    Permissions,
+    Principal,
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "RevokePermissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Permissions" => Permissions,
+                    "Principal" => Principal,
+                    "Resource" => Resource,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     search_databases_by_lftags(expression)
@@ -422,8 +745,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
-search_databases_by_lftags(Expression; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("SearchDatabasesByLFTags", Dict{String, Any}("Expression"=>Expression); aws_config=aws_config)
-search_databases_by_lftags(Expression, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("SearchDatabasesByLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config)
+function search_databases_by_lftags(
+    Expression; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "SearchDatabasesByLFTags",
+        Dict{String,Any}("Expression" => Expression);
+        aws_config=aws_config,
+    )
+end
+function search_databases_by_lftags(
+    Expression,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "SearchDatabasesByLFTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     search_tables_by_lftags(expression)
@@ -445,8 +788,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
 """
-search_tables_by_lftags(Expression; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("SearchTablesByLFTags", Dict{String, Any}("Expression"=>Expression); aws_config=aws_config)
-search_tables_by_lftags(Expression, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("SearchTablesByLFTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression), params)); aws_config=aws_config)
+function search_tables_by_lftags(
+    Expression; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "SearchTablesByLFTags",
+        Dict{String,Any}("Expression" => Expression);
+        aws_config=aws_config,
+    )
+end
+function search_tables_by_lftags(
+    Expression,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "SearchTablesByLFTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Expression" => Expression), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_lftag(tag_key)
@@ -469,8 +832,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagValuesToAdd"`: A list of tag values to add from the tag.
 - `"TagValuesToDelete"`: A list of tag values to delete from the tag.
 """
-update_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("UpdateLFTag", Dict{String, Any}("TagKey"=>TagKey); aws_config=aws_config)
-update_lftag(TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("UpdateLFTag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKey"=>TagKey), params)); aws_config=aws_config)
+function update_lftag(TagKey; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "UpdateLFTag", Dict{String,Any}("TagKey" => TagKey); aws_config=aws_config
+    )
+end
+function update_lftag(
+    TagKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "UpdateLFTag",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TagKey" => TagKey), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_resource(resource_arn, role_arn)
@@ -484,5 +859,30 @@ AWS Lake Formation.
 - `role_arn`: The new role to use for the given resource registered in AWS Lake Formation.
 
 """
-update_resource(ResourceArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn); aws_config=aws_config)
-update_resource(ResourceArn, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = lakeformation("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "RoleArn"=>RoleArn), params)); aws_config=aws_config)
+function update_resource(
+    ResourceArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "UpdateResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "RoleArn" => RoleArn);
+        aws_config=aws_config,
+    )
+end
+function update_resource(
+    ResourceArn,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "UpdateResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "RoleArn" => RoleArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

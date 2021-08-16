@@ -22,7 +22,7 @@ end
 @testset "issue 227" begin
     @testset "s3 public bucket" begin
         # https://github.com/JuliaCloud/AWS.jl/issues/227
-        config = AWSConfig(creds=nothing)
+        config = AWSConfig(; creds=nothing)
         resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config)
 
         @test !isempty(resp)
@@ -36,7 +36,9 @@ end
             S3.create_bucket(bucket_name)
             S3.put_object(bucket_name, file_name)
 
-            @test_throws AWSException S3.get_object(bucket_name, file_name; aws_config=AWSConfig(creds=nothing))
+            @test_throws AWSException S3.get_object(
+                bucket_name, file_name; aws_config=AWSConfig(; creds=nothing)
+            )
         finally
             S3.delete_object(bucket_name, file_name)
             S3.delete_bucket(bucket_name)
@@ -46,7 +48,9 @@ end
     @testset "lambda" begin
         @service Lambda
 
-        @test_throws NoCredentials Lambda.list_functions(;aws_config=AWSConfig(creds=nothing))
+        @test_throws NoCredentials Lambda.list_functions(;
+            aws_config=AWSConfig(; creds=nothing)
+        )
     end
 end
 
@@ -63,7 +67,9 @@ end
         # ERROR: MethodError: no method matching iterate(::Base.BufferStream)
         #   => BUG: header `response_stream` is pushed into the query...
         io = Base.BufferStream()
-        S3.get_object(bucket_name, file_name, Dict("response_stream"=>io, "return_stream"=>true))
+        S3.get_object(
+            bucket_name, file_name, Dict("response_stream" => io, "return_stream" => true)
+        )
         if bytesavailable(io) > 0
             @test String(readavailable(io)) == body
         else

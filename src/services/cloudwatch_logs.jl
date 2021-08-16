@@ -27,8 +27,33 @@ disabled, you receive an InvalidParameterException error.
 - `log_group_name`: The name of the log group.
 
 """
-associate_kms_key(kmsKeyId, logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("AssociateKmsKey", Dict{String, Any}("kmsKeyId"=>kmsKeyId, "logGroupName"=>logGroupName); aws_config=aws_config)
-associate_kms_key(kmsKeyId, logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("AssociateKmsKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("kmsKeyId"=>kmsKeyId, "logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function associate_kms_key(
+    kmsKeyId, logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "AssociateKmsKey",
+        Dict{String,Any}("kmsKeyId" => kmsKeyId, "logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function associate_kms_key(
+    kmsKeyId,
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "AssociateKmsKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("kmsKeyId" => kmsKeyId, "logGroupName" => logGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     cancel_export_task(task_id)
@@ -40,8 +65,20 @@ Cancels the specified export task. The task must be in the PENDING or RUNNING st
 - `task_id`: The ID of the export task.
 
 """
-cancel_export_task(taskId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("CancelExportTask", Dict{String, Any}("taskId"=>taskId); aws_config=aws_config)
-cancel_export_task(taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("CancelExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), params)); aws_config=aws_config)
+function cancel_export_task(taskId; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs(
+        "CancelExportTask", Dict{String,Any}("taskId" => taskId); aws_config=aws_config
+    )
+end
+function cancel_export_task(
+    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "CancelExportTask",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_export_task(destination, from, log_group_name, to)
@@ -79,8 +116,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   don't specify a value, no prefix filter is applied.
 - `"taskName"`: The name of the export task.
 """
-create_export_task(destination, from, logGroupName, to; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("CreateExportTask", Dict{String, Any}("destination"=>destination, "from"=>from, "logGroupName"=>logGroupName, "to"=>to); aws_config=aws_config)
-create_export_task(destination, from, logGroupName, to, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("CreateExportTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination"=>destination, "from"=>from, "logGroupName"=>logGroupName, "to"=>to), params)); aws_config=aws_config)
+function create_export_task(
+    destination, from, logGroupName, to; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "CreateExportTask",
+        Dict{String,Any}(
+            "destination" => destination,
+            "from" => from,
+            "logGroupName" => logGroupName,
+            "to" => to,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_export_task(
+    destination,
+    from,
+    logGroupName,
+    to,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "CreateExportTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destination" => destination,
+                    "from" => from,
+                    "logGroupName" => logGroupName,
+                    "to" => to,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_log_group(log_group_name)
@@ -111,8 +185,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS).
 - `"tags"`: The key-value pairs to use for the tags.
 """
-create_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("CreateLogGroup", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-create_log_group(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("CreateLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function create_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs(
+        "CreateLogGroup",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function create_log_group(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "CreateLogGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_log_stream(log_group_name, log_stream_name)
@@ -131,8 +223,35 @@ and 512 characters long.   The ':' (colon) and '*' (asterisk) characters are not
 - `log_stream_name`: The name of the log stream.
 
 """
-create_log_stream(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("CreateLogStream", Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName); aws_config=aws_config)
-create_log_stream(logGroupName, logStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("CreateLogStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config)
+function create_log_stream(
+    logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "CreateLogStream",
+        Dict{String,Any}("logGroupName" => logGroupName, "logStreamName" => logStreamName);
+        aws_config=aws_config,
+    )
+end
+function create_log_stream(
+    logGroupName,
+    logStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "CreateLogStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupName" => logGroupName, "logStreamName" => logStreamName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_destination(destination_name)
@@ -146,8 +265,30 @@ the destination.
 - `destination_name`: The name of the destination.
 
 """
-delete_destination(destinationName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteDestination", Dict{String, Any}("destinationName"=>destinationName); aws_config=aws_config)
-delete_destination(destinationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationName"=>destinationName), params)); aws_config=aws_config)
+function delete_destination(
+    destinationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DeleteDestination",
+        Dict{String,Any}("destinationName" => destinationName);
+        aws_config=aws_config,
+    )
+end
+function delete_destination(
+    destinationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteDestination",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("destinationName" => destinationName), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_log_group(log_group_name)
@@ -160,8 +301,26 @@ associated with the log group.
 - `log_group_name`: The name of the log group.
 
 """
-delete_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteLogGroup", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-delete_log_group(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function delete_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs(
+        "DeleteLogGroup",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_log_group(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteLogGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_log_stream(log_group_name, log_stream_name)
@@ -175,8 +334,35 @@ associated with the log stream.
 - `log_stream_name`: The name of the log stream.
 
 """
-delete_log_stream(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteLogStream", Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName); aws_config=aws_config)
-delete_log_stream(logGroupName, logStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteLogStream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config)
+function delete_log_stream(
+    logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DeleteLogStream",
+        Dict{String,Any}("logGroupName" => logGroupName, "logStreamName" => logStreamName);
+        aws_config=aws_config,
+    )
+end
+function delete_log_stream(
+    logGroupName,
+    logStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteLogStream",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupName" => logGroupName, "logStreamName" => logStreamName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_metric_filter(filter_name, log_group_name)
@@ -189,8 +375,35 @@ Deletes the specified metric filter.
 - `log_group_name`: The name of the log group.
 
 """
-delete_metric_filter(filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteMetricFilter", Dict{String, Any}("filterName"=>filterName, "logGroupName"=>logGroupName); aws_config=aws_config)
-delete_metric_filter(filterName, logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function delete_metric_filter(
+    filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DeleteMetricFilter",
+        Dict{String,Any}("filterName" => filterName, "logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_metric_filter(
+    filterName,
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteMetricFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "filterName" => filterName, "logGroupName" => logGroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_query_definition(query_definition_id)
@@ -206,8 +419,30 @@ be able to perform this operation.
   use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions.
 
 """
-delete_query_definition(queryDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteQueryDefinition", Dict{String, Any}("queryDefinitionId"=>queryDefinitionId); aws_config=aws_config)
-delete_query_definition(queryDefinitionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteQueryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryDefinitionId"=>queryDefinitionId), params)); aws_config=aws_config)
+function delete_query_definition(
+    queryDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DeleteQueryDefinition",
+        Dict{String,Any}("queryDefinitionId" => queryDefinitionId);
+        aws_config=aws_config,
+    )
+end
+function delete_query_definition(
+    queryDefinitionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteQueryDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("queryDefinitionId" => queryDefinitionId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_resource_policy()
@@ -220,8 +455,14 @@ that policy to put log events to this account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"policyName"`: The name of the policy to be revoked. This parameter is required.
 """
-delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteResourcePolicy"; aws_config=aws_config)
-delete_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteResourcePolicy", params; aws_config=aws_config)
+function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("DeleteResourcePolicy"; aws_config=aws_config)
+end
+function delete_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("DeleteResourcePolicy", params; aws_config=aws_config)
+end
 
 """
     delete_retention_policy(log_group_name)
@@ -234,8 +475,28 @@ groups without a retention policy.
 - `log_group_name`: The name of the log group.
 
 """
-delete_retention_policy(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteRetentionPolicy", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-delete_retention_policy(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function delete_retention_policy(
+    logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DeleteRetentionPolicy",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_retention_policy(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteRetentionPolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_subscription_filter(filter_name, log_group_name)
@@ -248,8 +509,35 @@ Deletes the specified subscription filter.
 - `log_group_name`: The name of the log group.
 
 """
-delete_subscription_filter(filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteSubscriptionFilter", Dict{String, Any}("filterName"=>filterName, "logGroupName"=>logGroupName); aws_config=aws_config)
-delete_subscription_filter(filterName, logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DeleteSubscriptionFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function delete_subscription_filter(
+    filterName, logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DeleteSubscriptionFilter",
+        Dict{String,Any}("filterName" => filterName, "logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function delete_subscription_filter(
+    filterName,
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteSubscriptionFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "filterName" => filterName, "logGroupName" => logGroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_destinations()
@@ -266,8 +554,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-describe_destinations(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeDestinations"; aws_config=aws_config)
-describe_destinations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeDestinations", params; aws_config=aws_config)
+function describe_destinations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("DescribeDestinations"; aws_config=aws_config)
+end
+function describe_destinations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("DescribeDestinations", params; aws_config=aws_config)
+end
 
 """
     describe_export_tasks()
@@ -287,8 +581,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskId"`: The ID of the export task. Specifying a task ID filters the results to zero
   or one export tasks.
 """
-describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeExportTasks"; aws_config=aws_config)
-describe_export_tasks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeExportTasks", params; aws_config=aws_config)
+function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("DescribeExportTasks"; aws_config=aws_config)
+end
+function describe_export_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("DescribeExportTasks", params; aws_config=aws_config)
+end
 
 """
     describe_log_groups()
@@ -305,8 +605,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-describe_log_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeLogGroups"; aws_config=aws_config)
-describe_log_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeLogGroups", params; aws_config=aws_config)
+function describe_log_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("DescribeLogGroups"; aws_config=aws_config)
+end
+function describe_log_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("DescribeLogGroups", params; aws_config=aws_config)
+end
 
 """
     describe_log_streams(log_group_name)
@@ -339,8 +645,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consistency basis. It typically updates in less than an hour from ingestion, but in rare
   situations might take longer.
 """
-describe_log_streams(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeLogStreams", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-describe_log_streams(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeLogStreams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function describe_log_streams(
+    logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DescribeLogStreams",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function describe_log_streams(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DescribeLogStreams",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_metric_filters()
@@ -365,8 +691,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-describe_metric_filters(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeMetricFilters"; aws_config=aws_config)
-describe_metric_filters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeMetricFilters", params; aws_config=aws_config)
+function describe_metric_filters(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("DescribeMetricFilters"; aws_config=aws_config)
+end
+function describe_metric_filters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("DescribeMetricFilters", params; aws_config=aws_config)
+end
 
 """
     describe_queries()
@@ -384,8 +716,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Limits the returned queries to only those that have the specified status.
   Valid values are Cancelled, Complete, Failed, Running, and Scheduled.
 """
-describe_queries(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeQueries"; aws_config=aws_config)
-describe_queries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeQueries", params; aws_config=aws_config)
+function describe_queries(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("DescribeQueries"; aws_config=aws_config)
+end
+function describe_queries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("DescribeQueries", params; aws_config=aws_config)
+end
 
 """
     describe_query_definitions()
@@ -402,8 +740,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"queryDefinitionNamePrefix"`: Use this parameter to filter your results to only the
   query definitions that have names that start with the prefix you specify.
 """
-describe_query_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeQueryDefinitions"; aws_config=aws_config)
-describe_query_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeQueryDefinitions", params; aws_config=aws_config)
+function describe_query_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("DescribeQueryDefinitions"; aws_config=aws_config)
+end
+function describe_query_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("DescribeQueryDefinitions", params; aws_config=aws_config)
+end
 
 """
     describe_resource_policies()
@@ -417,8 +761,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API.
 - `"nextToken"`:
 """
-describe_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeResourcePolicies"; aws_config=aws_config)
-describe_resource_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeResourcePolicies", params; aws_config=aws_config)
+function describe_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("DescribeResourcePolicies"; aws_config=aws_config)
+end
+function describe_resource_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("DescribeResourcePolicies", params; aws_config=aws_config)
+end
 
 """
     describe_subscription_filters(log_group_name)
@@ -440,8 +790,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-describe_subscription_filters(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeSubscriptionFilters", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-describe_subscription_filters(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DescribeSubscriptionFilters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function describe_subscription_filters(
+    logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DescribeSubscriptionFilters",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function describe_subscription_filters(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DescribeSubscriptionFilters",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_kms_key(log_group_name)
@@ -458,8 +828,28 @@ operation to take effect.
 - `log_group_name`: The name of the log group.
 
 """
-disassociate_kms_key(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DisassociateKmsKey", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-disassociate_kms_key(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("DisassociateKmsKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function disassociate_kms_key(
+    logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DisassociateKmsKey",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function disassociate_kms_key(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DisassociateKmsKey",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     filter_log_events(log_group_name)
@@ -504,8 +894,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The start of the time range, expressed as the number of milliseconds after
   Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
 """
-filter_log_events(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("FilterLogEvents", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-filter_log_events(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("FilterLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function filter_log_events(logGroupName; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs(
+        "FilterLogEvents",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function filter_log_events(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "FilterLogEvents",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_log_events(log_group_name, log_stream_name)
@@ -538,8 +946,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this
   time are included. Events with a timestamp earlier than this time are not included.
 """
-get_log_events(logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("GetLogEvents", Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName); aws_config=aws_config)
-get_log_events(logGroupName, logStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("GetLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config)
+function get_log_events(
+    logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "GetLogEvents",
+        Dict{String,Any}("logGroupName" => logGroupName, "logStreamName" => logStreamName);
+        aws_config=aws_config,
+    )
+end
+function get_log_events(
+    logGroupName,
+    logStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "GetLogEvents",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupName" => logGroupName, "logStreamName" => logStreamName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_log_group_fields(log_group_name)
@@ -563,8 +998,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this time are searched. The time value is specified as epoch time, the number of seconds
   since January 1, 1970, 00:00:00 UTC.
 """
-get_log_group_fields(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("GetLogGroupFields", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-get_log_group_fields(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("GetLogGroupFields", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function get_log_group_fields(
+    logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "GetLogGroupFields",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function get_log_group_fields(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "GetLogGroupFields",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_log_record(log_record_pointer)
@@ -582,8 +1037,28 @@ returned within @message.
   retrieve that complete log event record.
 
 """
-get_log_record(logRecordPointer; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("GetLogRecord", Dict{String, Any}("logRecordPointer"=>logRecordPointer); aws_config=aws_config)
-get_log_record(logRecordPointer, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("GetLogRecord", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logRecordPointer"=>logRecordPointer), params)); aws_config=aws_config)
+function get_log_record(logRecordPointer; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs(
+        "GetLogRecord",
+        Dict{String,Any}("logRecordPointer" => logRecordPointer);
+        aws_config=aws_config,
+    )
+end
+function get_log_record(
+    logRecordPointer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "GetLogRecord",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("logRecordPointer" => logRecordPointer), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_query_results(query_id)
@@ -601,8 +1076,20 @@ see the final results.
 - `query_id`: The ID number of the query.
 
 """
-get_query_results(queryId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("GetQueryResults", Dict{String, Any}("queryId"=>queryId); aws_config=aws_config)
-get_query_results(queryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryId"=>queryId), params)); aws_config=aws_config)
+function get_query_results(queryId; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs(
+        "GetQueryResults", Dict{String,Any}("queryId" => queryId); aws_config=aws_config
+    )
+end
+function get_query_results(
+    queryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "GetQueryResults",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("queryId" => queryId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_log_group(log_group_name)
@@ -614,8 +1101,28 @@ Lists the tags for the specified log group.
 - `log_group_name`: The name of the log group.
 
 """
-list_tags_log_group(logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("ListTagsLogGroup", Dict{String, Any}("logGroupName"=>logGroupName); aws_config=aws_config)
-list_tags_log_group(logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("ListTagsLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function list_tags_log_group(
+    logGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "ListTagsLogGroup",
+        Dict{String,Any}("logGroupName" => logGroupName);
+        aws_config=aws_config,
+    )
+end
+function list_tags_log_group(
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "ListTagsLogGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("logGroupName" => logGroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_destination(destination_name, role_arn, target_arn)
@@ -638,8 +1145,42 @@ also have the iam:PassRole permission.
 - `target_arn`: The ARN of an Amazon Kinesis stream to which to deliver matching log events.
 
 """
-put_destination(destinationName, roleArn, targetArn; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutDestination", Dict{String, Any}("destinationName"=>destinationName, "roleArn"=>roleArn, "targetArn"=>targetArn); aws_config=aws_config)
-put_destination(destinationName, roleArn, targetArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutDestination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationName"=>destinationName, "roleArn"=>roleArn, "targetArn"=>targetArn), params)); aws_config=aws_config)
+function put_destination(
+    destinationName, roleArn, targetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "PutDestination",
+        Dict{String,Any}(
+            "destinationName" => destinationName,
+            "roleArn" => roleArn,
+            "targetArn" => targetArn,
+        );
+        aws_config=aws_config,
+    )
+end
+function put_destination(
+    destinationName,
+    roleArn,
+    targetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutDestination",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationName" => destinationName,
+                    "roleArn" => roleArn,
+                    "targetArn" => targetArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_destination_policy(access_policy, destination_name)
@@ -658,8 +1199,37 @@ global key.
 - `destination_name`: A name for an existing destination.
 
 """
-put_destination_policy(accessPolicy, destinationName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutDestinationPolicy", Dict{String, Any}("accessPolicy"=>accessPolicy, "destinationName"=>destinationName); aws_config=aws_config)
-put_destination_policy(accessPolicy, destinationName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutDestinationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicy"=>accessPolicy, "destinationName"=>destinationName), params)); aws_config=aws_config)
+function put_destination_policy(
+    accessPolicy, destinationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "PutDestinationPolicy",
+        Dict{String,Any}(
+            "accessPolicy" => accessPolicy, "destinationName" => destinationName
+        );
+        aws_config=aws_config,
+    )
+end
+function put_destination_policy(
+    accessPolicy,
+    destinationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutDestinationPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "accessPolicy" => accessPolicy, "destinationName" => destinationName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_log_events(log_events, log_group_name, log_stream_name)
@@ -698,8 +1268,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PutLogEvents twice within a narrow time period using the same value for sequenceToken, both
   calls might be successful or one might be rejected.
 """
-put_log_events(logEvents, logGroupName, logStreamName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutLogEvents", Dict{String, Any}("logEvents"=>logEvents, "logGroupName"=>logGroupName, "logStreamName"=>logStreamName); aws_config=aws_config)
-put_log_events(logEvents, logGroupName, logStreamName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutLogEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logEvents"=>logEvents, "logGroupName"=>logGroupName, "logStreamName"=>logStreamName), params)); aws_config=aws_config)
+function put_log_events(
+    logEvents,
+    logGroupName,
+    logStreamName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutLogEvents",
+        Dict{String,Any}(
+            "logEvents" => logEvents,
+            "logGroupName" => logGroupName,
+            "logStreamName" => logStreamName,
+        );
+        aws_config=aws_config,
+    )
+end
+function put_log_events(
+    logEvents,
+    logGroupName,
+    logStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutLogEvents",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logEvents" => logEvents,
+                    "logGroupName" => logGroupName,
+                    "logStreamName" => logStreamName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_metric_filter(filter_name, filter_pattern, log_group_name, metric_transformations)
@@ -727,8 +1334,49 @@ Monitor Your Estimated AWS Charges.
   emitted.
 
 """
-put_metric_filter(filterName, filterPattern, logGroupName, metricTransformations; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutMetricFilter", Dict{String, Any}("filterName"=>filterName, "filterPattern"=>filterPattern, "logGroupName"=>logGroupName, "metricTransformations"=>metricTransformations); aws_config=aws_config)
-put_metric_filter(filterName, filterPattern, logGroupName, metricTransformations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterName"=>filterName, "filterPattern"=>filterPattern, "logGroupName"=>logGroupName, "metricTransformations"=>metricTransformations), params)); aws_config=aws_config)
+function put_metric_filter(
+    filterName,
+    filterPattern,
+    logGroupName,
+    metricTransformations;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutMetricFilter",
+        Dict{String,Any}(
+            "filterName" => filterName,
+            "filterPattern" => filterPattern,
+            "logGroupName" => logGroupName,
+            "metricTransformations" => metricTransformations,
+        );
+        aws_config=aws_config,
+    )
+end
+function put_metric_filter(
+    filterName,
+    filterPattern,
+    logGroupName,
+    metricTransformations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutMetricFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "filterName" => filterName,
+                    "filterPattern" => filterPattern,
+                    "logGroupName" => logGroupName,
+                    "metricTransformations" => metricTransformations,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_query_definition(name, query_string)
@@ -762,8 +1410,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating a query definition, do not specify this parameter. CloudWatch generates a unique
   ID for the new query definition and include it in the response to this operation.
 """
-put_query_definition(name, queryString; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutQueryDefinition", Dict{String, Any}("name"=>name, "queryString"=>queryString); aws_config=aws_config)
-put_query_definition(name, queryString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutQueryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "queryString"=>queryString), params)); aws_config=aws_config)
+function put_query_definition(
+    name, queryString; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "PutQueryDefinition",
+        Dict{String,Any}("name" => name, "queryString" => queryString);
+        aws_config=aws_config,
+    )
+end
+function put_query_definition(
+    name,
+    queryString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutQueryDefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "queryString" => queryString),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_resource_policy()
@@ -785,8 +1458,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"Action\":\"logs:PutLogEvents\", \"Resource\": \"logArn\" } ] }
 - `"policyName"`: Name of the new policy. This parameter is required.
 """
-put_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutResourcePolicy"; aws_config=aws_config)
-put_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutResourcePolicy", params; aws_config=aws_config)
+function put_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs("PutResourcePolicy"; aws_config=aws_config)
+end
+function put_resource_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs("PutResourcePolicy", params; aws_config=aws_config)
+end
 
 """
     put_retention_policy(log_group_name, retention_in_days)
@@ -800,8 +1479,37 @@ the number of days for which to retain log events in the specified log group.
 - `retention_in_days`:
 
 """
-put_retention_policy(logGroupName, retentionInDays; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutRetentionPolicy", Dict{String, Any}("logGroupName"=>logGroupName, "retentionInDays"=>retentionInDays); aws_config=aws_config)
-put_retention_policy(logGroupName, retentionInDays, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "retentionInDays"=>retentionInDays), params)); aws_config=aws_config)
+function put_retention_policy(
+    logGroupName, retentionInDays; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "PutRetentionPolicy",
+        Dict{String,Any}(
+            "logGroupName" => logGroupName, "retentionInDays" => retentionInDays
+        );
+        aws_config=aws_config,
+    )
+end
+function put_retention_policy(
+    logGroupName,
+    retentionInDays,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutRetentionPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "logGroupName" => logGroupName, "retentionInDays" => retentionInDays
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_subscription_filter(destination_arn, filter_name, filter_pattern, log_group_name)
@@ -848,8 +1556,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ingested log events to the destination stream. You don't need to provide the ARN when you
   are working with a logical destination for cross-account delivery.
 """
-put_subscription_filter(destinationArn, filterName, filterPattern, logGroupName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutSubscriptionFilter", Dict{String, Any}("destinationArn"=>destinationArn, "filterName"=>filterName, "filterPattern"=>filterPattern, "logGroupName"=>logGroupName); aws_config=aws_config)
-put_subscription_filter(destinationArn, filterName, filterPattern, logGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("PutSubscriptionFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationArn"=>destinationArn, "filterName"=>filterName, "filterPattern"=>filterPattern, "logGroupName"=>logGroupName), params)); aws_config=aws_config)
+function put_subscription_filter(
+    destinationArn,
+    filterName,
+    filterPattern,
+    logGroupName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutSubscriptionFilter",
+        Dict{String,Any}(
+            "destinationArn" => destinationArn,
+            "filterName" => filterName,
+            "filterPattern" => filterPattern,
+            "logGroupName" => logGroupName,
+        );
+        aws_config=aws_config,
+    )
+end
+function put_subscription_filter(
+    destinationArn,
+    filterName,
+    filterPattern,
+    logGroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutSubscriptionFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationArn" => destinationArn,
+                    "filterName" => filterName,
+                    "filterPattern" => filterPattern,
+                    "logGroupName" => logGroupName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_query(end_time, query_string, start_time)
@@ -882,8 +1631,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   groups. A StartQuery operation must include a logGroupNames or a logGroupName parameter,
   but not both.
 """
-start_query(endTime, queryString, startTime; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("StartQuery", Dict{String, Any}("endTime"=>endTime, "queryString"=>queryString, "startTime"=>startTime); aws_config=aws_config)
-start_query(endTime, queryString, startTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("StartQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "queryString"=>queryString, "startTime"=>startTime), params)); aws_config=aws_config)
+function start_query(
+    endTime, queryString, startTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "StartQuery",
+        Dict{String,Any}(
+            "endTime" => endTime, "queryString" => queryString, "startTime" => startTime
+        );
+        aws_config=aws_config,
+    )
+end
+function start_query(
+    endTime,
+    queryString,
+    startTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "StartQuery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "queryString" => queryString,
+                    "startTime" => startTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_query(query_id)
@@ -897,8 +1678,20 @@ the operation returns an error indicating that the specified query is not runnin
   DescribeQueries.
 
 """
-stop_query(queryId; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("StopQuery", Dict{String, Any}("queryId"=>queryId); aws_config=aws_config)
-stop_query(queryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("StopQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryId"=>queryId), params)); aws_config=aws_config)
+function stop_query(queryId; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudwatch_logs(
+        "StopQuery", Dict{String,Any}("queryId" => queryId); aws_config=aws_config
+    )
+end
+function stop_query(
+    queryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "StopQuery",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("queryId" => queryId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_log_group(log_group_name, tags)
@@ -913,8 +1706,33 @@ tags, see Tag Log Groups in Amazon CloudWatch Logs in the Amazon CloudWatch Logs
 - `tags`: The key-value pairs to use for the tags.
 
 """
-tag_log_group(logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("TagLogGroup", Dict{String, Any}("logGroupName"=>logGroupName, "tags"=>tags); aws_config=aws_config)
-tag_log_group(logGroupName, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("TagLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "tags"=>tags), params)); aws_config=aws_config)
+function tag_log_group(
+    logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "TagLogGroup",
+        Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_log_group(
+    logGroupName,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "TagLogGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     test_metric_filter(filter_pattern, log_event_messages)
@@ -928,8 +1746,37 @@ use this operation to validate the correctness of a metric filter pattern.
 - `log_event_messages`: The log event messages to test.
 
 """
-test_metric_filter(filterPattern, logEventMessages; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("TestMetricFilter", Dict{String, Any}("filterPattern"=>filterPattern, "logEventMessages"=>logEventMessages); aws_config=aws_config)
-test_metric_filter(filterPattern, logEventMessages, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("TestMetricFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterPattern"=>filterPattern, "logEventMessages"=>logEventMessages), params)); aws_config=aws_config)
+function test_metric_filter(
+    filterPattern, logEventMessages; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "TestMetricFilter",
+        Dict{String,Any}(
+            "filterPattern" => filterPattern, "logEventMessages" => logEventMessages
+        );
+        aws_config=aws_config,
+    )
+end
+function test_metric_filter(
+    filterPattern,
+    logEventMessages,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "TestMetricFilter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "filterPattern" => filterPattern, "logEventMessages" => logEventMessages
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_log_group(log_group_name, tags)
@@ -943,5 +1790,30 @@ use ListTagsLogGroup. To add tags, use TagLogGroup.
 - `tags`: The tag keys. The corresponding tags are removed from the log group.
 
 """
-untag_log_group(logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("UntagLogGroup", Dict{String, Any}("logGroupName"=>logGroupName, "tags"=>tags); aws_config=aws_config)
-untag_log_group(logGroupName, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = cloudwatch_logs("UntagLogGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("logGroupName"=>logGroupName, "tags"=>tags), params)); aws_config=aws_config)
+function untag_log_group(
+    logGroupName, tags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "UntagLogGroup",
+        Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function untag_log_group(
+    logGroupName,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "UntagLogGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("logGroupName" => logGroupName, "tags" => tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

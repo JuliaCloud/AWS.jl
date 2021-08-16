@@ -35,8 +35,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-associate_firewall_policy(FirewallPolicyArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateFirewallPolicy", Dict{String, Any}("FirewallPolicyArn"=>FirewallPolicyArn); aws_config=aws_config)
-associate_firewall_policy(FirewallPolicyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyArn"=>FirewallPolicyArn), params)); aws_config=aws_config)
+function associate_firewall_policy(
+    FirewallPolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "AssociateFirewallPolicy",
+        Dict{String,Any}("FirewallPolicyArn" => FirewallPolicyArn);
+        aws_config=aws_config,
+    )
+end
+function associate_firewall_policy(
+    FirewallPolicyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "AssociateFirewallPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("FirewallPolicyArn" => FirewallPolicyArn), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     associate_subnets(subnet_mappings)
@@ -71,8 +93,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-associate_subnets(SubnetMappings; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateSubnets", Dict{String, Any}("SubnetMappings"=>SubnetMappings); aws_config=aws_config)
-associate_subnets(SubnetMappings, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("AssociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetMappings"=>SubnetMappings), params)); aws_config=aws_config)
+function associate_subnets(
+    SubnetMappings; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "AssociateSubnets",
+        Dict{String,Any}("SubnetMappings" => SubnetMappings);
+        aws_config=aws_config,
+    )
+end
+function associate_subnets(
+    SubnetMappings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "AssociateSubnets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SubnetMappings" => SubnetMappings), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_firewall(firewall_name, firewall_policy_arn, subnet_mappings, vpc_id)
@@ -117,8 +159,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create a firewall, the operation initializes this setting to TRUE.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-create_firewall(FirewallName, FirewallPolicyArn, SubnetMappings, VpcId; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewall", Dict{String, Any}("FirewallName"=>FirewallName, "FirewallPolicyArn"=>FirewallPolicyArn, "SubnetMappings"=>SubnetMappings, "VpcId"=>VpcId); aws_config=aws_config)
-create_firewall(FirewallName, FirewallPolicyArn, SubnetMappings, VpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewall", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallName"=>FirewallName, "FirewallPolicyArn"=>FirewallPolicyArn, "SubnetMappings"=>SubnetMappings, "VpcId"=>VpcId), params)); aws_config=aws_config)
+function create_firewall(
+    FirewallName,
+    FirewallPolicyArn,
+    SubnetMappings,
+    VpcId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "CreateFirewall",
+        Dict{String,Any}(
+            "FirewallName" => FirewallName,
+            "FirewallPolicyArn" => FirewallPolicyArn,
+            "SubnetMappings" => SubnetMappings,
+            "VpcId" => VpcId,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_firewall(
+    FirewallName,
+    FirewallPolicyArn,
+    SubnetMappings,
+    VpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "CreateFirewall",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallName" => FirewallName,
+                    "FirewallPolicyArn" => FirewallPolicyArn,
+                    "SubnetMappings" => SubnetMappings,
+                    "VpcId" => VpcId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_firewall_policy(firewall_policy, firewall_policy_name)
@@ -147,8 +230,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your resources.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-create_firewall_policy(FirewallPolicy, FirewallPolicyName; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewallPolicy", Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "FirewallPolicyName"=>FirewallPolicyName); aws_config=aws_config)
-create_firewall_policy(FirewallPolicy, FirewallPolicyName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "FirewallPolicyName"=>FirewallPolicyName), params)); aws_config=aws_config)
+function create_firewall_policy(
+    FirewallPolicy, FirewallPolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "CreateFirewallPolicy",
+        Dict{String,Any}(
+            "FirewallPolicy" => FirewallPolicy, "FirewallPolicyName" => FirewallPolicyName
+        );
+        aws_config=aws_config,
+    )
+end
+function create_firewall_policy(
+    FirewallPolicy,
+    FirewallPolicyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "CreateFirewallPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallPolicy" => FirewallPolicy,
+                    "FirewallPolicyName" => FirewallPolicyName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_rule_group(capacity, rule_group_name, type)
@@ -207,8 +320,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RuleGroup object that Network Firewall has populated from your string.
 - `"Tags"`: The key:value pairs to associate with the resource.
 """
-create_rule_group(Capacity, RuleGroupName, Type; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateRuleGroup", Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type); aws_config=aws_config)
-create_rule_group(Capacity, RuleGroupName, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capacity"=>Capacity, "RuleGroupName"=>RuleGroupName, "Type"=>Type), params)); aws_config=aws_config)
+function create_rule_group(
+    Capacity, RuleGroupName, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "CreateRuleGroup",
+        Dict{String,Any}(
+            "Capacity" => Capacity, "RuleGroupName" => RuleGroupName, "Type" => Type
+        );
+        aws_config=aws_config,
+    )
+end
+function create_rule_group(
+    Capacity,
+    RuleGroupName,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "CreateRuleGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Capacity" => Capacity, "RuleGroupName" => RuleGroupName, "Type" => Type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_firewall()
@@ -232,8 +375,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
-delete_firewall(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewall"; aws_config=aws_config)
-delete_firewall(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewall", params; aws_config=aws_config)
+function delete_firewall(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("DeleteFirewall"; aws_config=aws_config)
+end
+function delete_firewall(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("DeleteFirewall", params; aws_config=aws_config)
+end
 
 """
     delete_firewall_policy()
@@ -249,8 +398,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
-delete_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewallPolicy"; aws_config=aws_config)
-delete_firewall_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteFirewallPolicy", params; aws_config=aws_config)
+function delete_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("DeleteFirewallPolicy"; aws_config=aws_config)
+end
+function delete_firewall_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("DeleteFirewallPolicy", params; aws_config=aws_config)
+end
 
 """
     delete_resource_policy(resource_arn)
@@ -263,8 +418,28 @@ Deletes a resource policy that you created in a PutResourcePolicy request.
   resource policy you want to delete.
 
 """
-delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-delete_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_rule_group()
@@ -283,8 +458,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
-delete_rule_group(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteRuleGroup"; aws_config=aws_config)
-delete_rule_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DeleteRuleGroup", params; aws_config=aws_config)
+function delete_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("DeleteRuleGroup"; aws_config=aws_config)
+end
+function delete_rule_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("DeleteRuleGroup", params; aws_config=aws_config)
+end
 
 """
     describe_firewall()
@@ -300,8 +481,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
-describe_firewall(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewall"; aws_config=aws_config)
-describe_firewall(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewall", params; aws_config=aws_config)
+function describe_firewall(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("DescribeFirewall"; aws_config=aws_config)
+end
+function describe_firewall(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("DescribeFirewall", params; aws_config=aws_config)
+end
 
 """
     describe_firewall_policy()
@@ -317,8 +504,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
-describe_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewallPolicy"; aws_config=aws_config)
-describe_firewall_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeFirewallPolicy", params; aws_config=aws_config)
+function describe_firewall_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("DescribeFirewallPolicy"; aws_config=aws_config)
+end
+function describe_firewall_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("DescribeFirewallPolicy", params; aws_config=aws_config)
+end
 
 """
     describe_logging_configuration()
@@ -334,8 +527,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   firewall after you create it. You must specify the ARN or the name, and you can specify
   both.
 """
-describe_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeLoggingConfiguration"; aws_config=aws_config)
-describe_logging_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeLoggingConfiguration", params; aws_config=aws_config)
+function describe_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("DescribeLoggingConfiguration"; aws_config=aws_config)
+end
+function describe_logging_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("DescribeLoggingConfiguration", params; aws_config=aws_config)
+end
 
 """
     describe_resource_policy(resource_arn)
@@ -348,8 +547,28 @@ Retrieves a resource policy that you created in a PutResourcePolicy request.
   resource policy you want to retrieve.
 
 """
-describe_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeResourcePolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-describe_resource_policy(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function describe_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "DescribeResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function describe_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "DescribeResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_rule_group()
@@ -368,8 +587,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
-describe_rule_group(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeRuleGroup"; aws_config=aws_config)
-describe_rule_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DescribeRuleGroup", params; aws_config=aws_config)
+function describe_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("DescribeRuleGroup"; aws_config=aws_config)
+end
+function describe_rule_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("DescribeRuleGroup", params; aws_config=aws_config)
+end
 
 """
     disassociate_subnets(subnet_ids)
@@ -401,8 +626,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DisassociateSubnets", Dict{String, Any}("SubnetIds"=>SubnetIds); aws_config=aws_config)
-disassociate_subnets(SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("DisassociateSubnets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetIds"=>SubnetIds), params)); aws_config=aws_config)
+function disassociate_subnets(SubnetIds; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall(
+        "DisassociateSubnets",
+        Dict{String,Any}("SubnetIds" => SubnetIds);
+        aws_config=aws_config,
+    )
+end
+function disassociate_subnets(
+    SubnetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "DisassociateSubnets",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SubnetIds" => SubnetIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_firewall_policies()
@@ -422,8 +665,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-list_firewall_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewallPolicies"; aws_config=aws_config)
-list_firewall_policies(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewallPolicies", params; aws_config=aws_config)
+function list_firewall_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("ListFirewallPolicies"; aws_config=aws_config)
+end
+function list_firewall_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("ListFirewallPolicies", params; aws_config=aws_config)
+end
 
 """
     list_firewalls()
@@ -446,8 +695,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcIds"`: The unique identifiers of the VPCs that you want Network Firewall to retrieve
   the firewalls for. Leave this blank to retrieve all firewalls that you have defined.
 """
-list_firewalls(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewalls"; aws_config=aws_config)
-list_firewalls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListFirewalls", params; aws_config=aws_config)
+function list_firewalls(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("ListFirewalls"; aws_config=aws_config)
+end
+function list_firewalls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("ListFirewalls", params; aws_config=aws_config)
+end
 
 """
     list_rule_groups()
@@ -467,8 +722,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListRuleGroups"; aws_config=aws_config)
-list_rule_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListRuleGroups", params; aws_config=aws_config)
+function list_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("ListRuleGroups"; aws_config=aws_config)
+end
+function list_rule_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("ListRuleGroups", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -494,8 +755,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Network Firewall returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_resource_policy(policy, resource_arn)
@@ -530,8 +811,33 @@ resource sharing using RAM, see AWS Resource Access Manager User Guide.
   groups and firewall policies with.
 
 """
-put_resource_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("PutResourcePolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
-put_resource_policy(Policy, ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), params)); aws_config=aws_config)
+function put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "PutResourcePolicy",
+        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+    )
+end
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -549,8 +855,31 @@ policies, and rule groups.
 - `tags`:
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall(
+        "TagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -568,8 +897,33 @@ Firewall: firewalls, firewall policies, and rule groups.
 - `tag_keys`:
 
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "UntagResource",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_firewall_delete_protection(delete_protection)
@@ -604,8 +958,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-update_firewall_delete_protection(DeleteProtection; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDeleteProtection", Dict{String, Any}("DeleteProtection"=>DeleteProtection); aws_config=aws_config)
-update_firewall_delete_protection(DeleteProtection, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDeleteProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeleteProtection"=>DeleteProtection), params)); aws_config=aws_config)
+function update_firewall_delete_protection(
+    DeleteProtection; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallDeleteProtection",
+        Dict{String,Any}("DeleteProtection" => DeleteProtection);
+        aws_config=aws_config,
+    )
+end
+function update_firewall_delete_protection(
+    DeleteProtection,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "UpdateFirewallDeleteProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DeleteProtection" => DeleteProtection), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_firewall_description()
@@ -635,8 +1011,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-update_firewall_description(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDescription"; aws_config=aws_config)
-update_firewall_description(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallDescription", params; aws_config=aws_config)
+function update_firewall_description(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("UpdateFirewallDescription"; aws_config=aws_config)
+end
+function update_firewall_description(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("UpdateFirewallDescription", params; aws_config=aws_config)
+end
 
 """
     update_firewall_policy(firewall_policy, update_token)
@@ -672,8 +1054,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name of a firewall policy after you create it. You must specify the ARN or the name, and
   you can specify both.
 """
-update_firewall_policy(FirewallPolicy, UpdateToken; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicy", Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "UpdateToken"=>UpdateToken); aws_config=aws_config)
-update_firewall_policy(FirewallPolicy, UpdateToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicy"=>FirewallPolicy, "UpdateToken"=>UpdateToken), params)); aws_config=aws_config)
+function update_firewall_policy(
+    FirewallPolicy, UpdateToken; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallPolicy",
+        Dict{String,Any}("FirewallPolicy" => FirewallPolicy, "UpdateToken" => UpdateToken);
+        aws_config=aws_config,
+    )
+end
+function update_firewall_policy(
+    FirewallPolicy,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "UpdateFirewallPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallPolicy" => FirewallPolicy, "UpdateToken" => UpdateToken
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_firewall_policy_change_protection(firewall_policy_change_protection)
@@ -706,8 +1115,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-update_firewall_policy_change_protection(FirewallPolicyChangeProtection; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicyChangeProtection", Dict{String, Any}("FirewallPolicyChangeProtection"=>FirewallPolicyChangeProtection); aws_config=aws_config)
-update_firewall_policy_change_protection(FirewallPolicyChangeProtection, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateFirewallPolicyChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FirewallPolicyChangeProtection"=>FirewallPolicyChangeProtection), params)); aws_config=aws_config)
+function update_firewall_policy_change_protection(
+    FirewallPolicyChangeProtection; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "UpdateFirewallPolicyChangeProtection",
+        Dict{String,Any}(
+            "FirewallPolicyChangeProtection" => FirewallPolicyChangeProtection
+        );
+        aws_config=aws_config,
+    )
+end
+function update_firewall_policy_change_protection(
+    FirewallPolicyChangeProtection,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "UpdateFirewallPolicyChangeProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FirewallPolicyChangeProtection" => FirewallPolicyChangeProtection
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_logging_configuration()
@@ -736,8 +1173,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LoggingConfiguration"`: Defines how Network Firewall performs logging for a firewall.
   If you omit this setting, Network Firewall disables logging for the firewall.
 """
-update_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateLoggingConfiguration"; aws_config=aws_config)
-update_logging_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateLoggingConfiguration", params; aws_config=aws_config)
+function update_logging_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall("UpdateLoggingConfiguration"; aws_config=aws_config)
+end
+function update_logging_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall("UpdateLoggingConfiguration", params; aws_config=aws_config)
+end
 
 """
     update_rule_group(update_token)
@@ -787,8 +1230,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
   This setting is required for requests that do not include the RuleGroupARN.
 """
-update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateRuleGroup", Dict{String, Any}("UpdateToken"=>UpdateToken); aws_config=aws_config)
-update_rule_group(UpdateToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateToken"=>UpdateToken), params)); aws_config=aws_config)
+function update_rule_group(UpdateToken; aws_config::AbstractAWSConfig=global_aws_config())
+    return network_firewall(
+        "UpdateRuleGroup",
+        Dict{String,Any}("UpdateToken" => UpdateToken);
+        aws_config=aws_config,
+    )
+end
+function update_rule_group(
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "UpdateRuleGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("UpdateToken" => UpdateToken), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_subnet_change_protection(subnet_change_protection)
@@ -821,5 +1282,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of it with a new token. Reapply your changes as needed, then try the operation again using
   the new token.
 """
-update_subnet_change_protection(SubnetChangeProtection; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateSubnetChangeProtection", Dict{String, Any}("SubnetChangeProtection"=>SubnetChangeProtection); aws_config=aws_config)
-update_subnet_change_protection(SubnetChangeProtection, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = network_firewall("UpdateSubnetChangeProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetChangeProtection"=>SubnetChangeProtection), params)); aws_config=aws_config)
+function update_subnet_change_protection(
+    SubnetChangeProtection; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "UpdateSubnetChangeProtection",
+        Dict{String,Any}("SubnetChangeProtection" => SubnetChangeProtection);
+        aws_config=aws_config,
+    )
+end
+function update_subnet_change_protection(
+    SubnetChangeProtection,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "UpdateSubnetChangeProtection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SubnetChangeProtection" => SubnetChangeProtection),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

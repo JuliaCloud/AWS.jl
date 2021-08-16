@@ -22,7 +22,6 @@ export generate_service_url, global_aws_config, set_user_agent
 export sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService
 
-
 const DEFAULT_REGION = "us-east-1"
 
 include(joinpath("utilities", "utilities.jl"))
@@ -35,7 +34,6 @@ include("AWSMetadata.jl")
 include(joinpath("utilities", "request.jl"))
 include(joinpath("utilities", "sign.jl"))
 include(joinpath("utilities", "downloads_backend.jl"))
-
 
 using ..AWSExceptions
 using ..AWSExceptions: AWSException
@@ -63,7 +61,6 @@ function global_aws_config(; kwargs...)
     return aws_config[]
 end
 
-
 """
     global_aws_config(config::AbstractAWSConfig)
 
@@ -79,7 +76,6 @@ function global_aws_config(config::AbstractAWSConfig)
     return aws_config[] = config
 end
 
-
 """
     set_user_agent(new_user_agent::String)
 
@@ -92,7 +88,6 @@ Set the global user agent when making HTTP requests.
 - `String`: The global user agent
 """
 set_user_agent(new_user_agent::String) = return user_agent[] = new_user_agent
-
 
 """
     macro service(module_name::Symbol)
@@ -130,10 +125,9 @@ using AWS: @service
 macro service(module_name::Symbol)
     service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
 
-    return Expr(:toplevel,
-    :(module($(esc(module_name)))
-        Base.include($(esc(module_name)), $(esc(service_name)))
-     end))
+    return Expr(:toplevel, :(module ($(esc(module_name)))
+    Base.include($(esc(module_name)), $(esc(service_name)))
+    end))
 end
 
 struct RestXMLService
@@ -162,14 +156,17 @@ struct RestJSONService
     endpoint_prefix::String
     api_version::String
 
-    service_specific_headers::LittleDict{String, String}
+    service_specific_headers::LittleDict{String,String}
 end
 
-RestJSONService(signing_name::String, endpoint_prefix::String, api_version::String) = RestJSONService(signing_name, endpoint_prefix, api_version, LittleDict{String, String}())
+function RestJSONService(signing_name::String, endpoint_prefix::String, api_version::String)
+    return RestJSONService(
+        signing_name, endpoint_prefix, api_version, LittleDict{String,String}()
+    )
+end
 
 # Needs to be included after the definition of struct otherwise it cannot find them
 include("AWSServices.jl")
-
 
 function generate_service_url(aws::AbstractAWSConfig, service::String, resource::String)
     SERVICE_HOST = "amazonaws.com"
@@ -181,9 +178,10 @@ function generate_service_url(aws::AbstractAWSConfig, service::String, resource:
         reg = ""
     end
 
-    return string("https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource)
+    return string(
+        "https://", service, ".", isempty(reg) ? "" : "$reg.", SERVICE_HOST, resource
+    )
 end
-
 
 """
     (service::RestXMLService)(
@@ -205,7 +203,9 @@ Perform a RestXML request to AWS.
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::RestXMLService)(
-    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+    request_method::String,
+    request_uri::String,
+    args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return_headers = _pop!(args, "return_headers", false)
@@ -230,11 +230,12 @@ function (service::RestXMLService)(
         end
     end
 
-    request.url = generate_service_url(aws_config, service.endpoint_prefix, request.resource)
+    request.url = generate_service_url(
+        aws_config, service.endpoint_prefix, request.resource
+    )
 
     return submit_request(aws_config, request; return_headers=return_headers)
 end
-
 
 """
     (service::QueryService)(
@@ -255,7 +256,8 @@ Perform a Query request to AWS.
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::QueryService)(
-    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+    operation::String,
+    args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
@@ -296,14 +298,15 @@ Perform a JSON request to AWS.
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::JSONService)(
-    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+    operation::String,
+    args::AbstractDict{String,<:Any}=Dict{String,Any}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     POST_RESOURCE = "/"
     return_headers = _pop!(args, "return_headers", false)
 
     request = Request(;
-        _extract_common_kw_args(service,args)...,
+        _extract_common_kw_args(service, args)...,
         resource=POST_RESOURCE,
         request_method="POST",
         content=json(args),
@@ -336,7 +339,9 @@ Perform a RestJSON request to AWS.
 - `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::RestJSONService)(
-    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
+    request_method::String,
+    request_uri::String,
+    args::AbstractDict{String,<:Any}=Dict{String,String}();
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return_headers = _pop!(args, "return_headers", false)
@@ -347,7 +352,9 @@ function (service::RestJSONService)(
         resource=_generate_rest_resource(request_uri, args),
     )
 
-    request.url = generate_service_url(aws_config, service.endpoint_prefix, request.resource)
+    request.url = generate_service_url(
+        aws_config, service.endpoint_prefix, request.resource
+    )
 
     if !isempty(service.service_specific_headers)
         merge!(request.headers, service.service_specific_headers)

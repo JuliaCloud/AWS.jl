@@ -14,8 +14,20 @@ Delete the connection with the provided id.
 - `connection_id`:
 
 """
-delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)"; aws_config=aws_config)
-delete_connection(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)", params; aws_config=aws_config)
+function delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return apigatewaymanagementapi(
+        "DELETE", "/@connections/$(connectionId)"; aws_config=aws_config
+    )
+end
+function delete_connection(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apigatewaymanagementapi(
+        "DELETE", "/@connections/$(connectionId)", params; aws_config=aws_config
+    )
+end
 
 """
     get_connection(connection_id)
@@ -27,8 +39,20 @@ Get information about the connection with the provided id.
 - `connection_id`:
 
 """
-get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)"; aws_config=aws_config)
-get_connection(connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)", params; aws_config=aws_config)
+function get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return apigatewaymanagementapi(
+        "GET", "/@connections/$(connectionId)"; aws_config=aws_config
+    )
+end
+function get_connection(
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apigatewaymanagementapi(
+        "GET", "/@connections/$(connectionId)", params; aws_config=aws_config
+    )
+end
 
 """
     post_to_connection(data, connection_id)
@@ -41,5 +65,26 @@ Sends the provided data to the specified connection.
 - `connection_id`: The identifier of the connection that a specific client is using.
 
 """
-post_to_connection(Data, connectionId; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewaymanagementapi("POST", "/@connections/$(connectionId)", Dict{String, Any}("Data"=>Data); aws_config=aws_config)
-post_to_connection(Data, connectionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = apigatewaymanagementapi("POST", "/@connections/$(connectionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Data"=>Data), params)); aws_config=aws_config)
+function post_to_connection(
+    Data, connectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return apigatewaymanagementapi(
+        "POST",
+        "/@connections/$(connectionId)",
+        Dict{String,Any}("Data" => Data);
+        aws_config=aws_config,
+    )
+end
+function post_to_connection(
+    Data,
+    connectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apigatewaymanagementapi(
+        "POST",
+        "/@connections/$(connectionId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Data" => Data), params));
+        aws_config=aws_config,
+    )
+end

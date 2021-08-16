@@ -21,8 +21,33 @@ related to the processing of the batch are sent to you CloudWatch log.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DataSourceSyncJobMetricTarget"`:
 """
-batch_delete_document(DocumentIdList, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchDeleteDocument", Dict{String, Any}("DocumentIdList"=>DocumentIdList, "IndexId"=>IndexId); aws_config=aws_config)
-batch_delete_document(DocumentIdList, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchDeleteDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentIdList"=>DocumentIdList, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function batch_delete_document(
+    DocumentIdList, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "BatchDeleteDocument",
+        Dict{String,Any}("DocumentIdList" => DocumentIdList, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function batch_delete_document(
+    DocumentIdList,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "BatchDeleteDocument",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DocumentIdList" => DocumentIdList, "IndexId" => IndexId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_get_document_status(document_info_list, index_id)
@@ -44,8 +69,35 @@ returns NOT_FOUND as the status.
   the  CreateIndex  operation.
 
 """
-batch_get_document_status(DocumentInfoList, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchGetDocumentStatus", Dict{String, Any}("DocumentInfoList"=>DocumentInfoList, "IndexId"=>IndexId); aws_config=aws_config)
-batch_get_document_status(DocumentInfoList, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchGetDocumentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DocumentInfoList"=>DocumentInfoList, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function batch_get_document_status(
+    DocumentInfoList, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "BatchGetDocumentStatus",
+        Dict{String,Any}("DocumentInfoList" => DocumentInfoList, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function batch_get_document_status(
+    DocumentInfoList,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "BatchGetDocumentStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DocumentInfoList" => DocumentInfoList, "IndexId" => IndexId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     batch_put_document(documents, index_id)
@@ -76,8 +128,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The Amazon Resource Name (ARN) of a role that is allowed to run the
   BatchPutDocument operation. For more information, see IAM Roles for Amazon Kendra.
 """
-batch_put_document(Documents, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchPutDocument", Dict{String, Any}("Documents"=>Documents, "IndexId"=>IndexId); aws_config=aws_config)
-batch_put_document(Documents, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("BatchPutDocument", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Documents"=>Documents, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function batch_put_document(
+    Documents, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "BatchPutDocument",
+        Dict{String,Any}("Documents" => Documents, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function batch_put_document(
+    Documents,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "BatchPutDocument",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Documents" => Documents, "IndexId" => IndexId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     clear_query_suggestions(index_id)
@@ -93,8 +170,22 @@ collect enough queries to learn new suggestions.
 - `index_id`: The identifier of the index you want to clear query suggestions from.
 
 """
-clear_query_suggestions(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ClearQuerySuggestions", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
-clear_query_suggestions(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ClearQuerySuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+function clear_query_suggestions(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "ClearQuerySuggestions",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function clear_query_suggestions(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ClearQuerySuggestions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     create_data_source(index_id, name, type)
@@ -134,8 +225,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs that identify the data source. You can use the tags
   to identify and organize your resources and to control access to resources.
 """
-create_data_source(IndexId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateDataSource", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "Type"=>Type, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_data_source(IndexId, Name, Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "Type"=>Type, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_data_source(
+    IndexId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "CreateDataSource",
+        Dict{String,Any}(
+            "IndexId" => IndexId,
+            "Name" => Name,
+            "Type" => Type,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_data_source(
+    IndexId,
+    Name,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "CreateDataSource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IndexId" => IndexId,
+                    "Name" => Name,
+                    "Type" => Type,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_faq(index_id, name, role_arn, s3_path)
@@ -163,8 +290,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs that identify the FAQ. You can use the tags to
   identify and organize your resources and to control access to resources.
 """
-create_faq(IndexId, Name, RoleArn, S3Path; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateFaq", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "S3Path"=>S3Path, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_faq(IndexId, Name, RoleArn, S3Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateFaq", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "S3Path"=>S3Path, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_faq(
+    IndexId, Name, RoleArn, S3Path; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "CreateFaq",
+        Dict{String,Any}(
+            "IndexId" => IndexId,
+            "Name" => Name,
+            "RoleArn" => RoleArn,
+            "S3Path" => S3Path,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_faq(
+    IndexId,
+    Name,
+    RoleArn,
+    S3Path,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "CreateFaq",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IndexId" => IndexId,
+                    "Name" => Name,
+                    "RoleArn" => RoleArn,
+                    "S3Path" => S3Path,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_index(name, role_arn)
@@ -206,8 +372,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accessible to the user will be searchable and displayable.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
-create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateIndex", Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_index(Name, RoleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RoleArn"=>RoleArn, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "CreateIndex",
+        Dict{String,Any}(
+            "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+    )
+end
+function create_index(
+    Name,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "CreateIndex",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_query_suggestions_block_list(index_id, name, role_arn, source_s3_path)
@@ -242,8 +435,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   blocked from suggestions.\"
 - `"Tags"`: A tag that you can assign to a block list that categorizes the block list.
 """
-create_query_suggestions_block_list(IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateQuerySuggestionsBlockList", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "SourceS3Path"=>SourceS3Path, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_query_suggestions_block_list(IndexId, Name, RoleArn, SourceS3Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateQuerySuggestionsBlockList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "SourceS3Path"=>SourceS3Path, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_query_suggestions_block_list(
+    IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "CreateQuerySuggestionsBlockList",
+        Dict{String,Any}(
+            "IndexId" => IndexId,
+            "Name" => Name,
+            "RoleArn" => RoleArn,
+            "SourceS3Path" => SourceS3Path,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_query_suggestions_block_list(
+    IndexId,
+    Name,
+    RoleArn,
+    SourceS3Path,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "CreateQuerySuggestionsBlockList",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IndexId" => IndexId,
+                    "Name" => Name,
+                    "RoleArn" => RoleArn,
+                    "SourceS3Path" => SourceS3Path,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_thesaurus(index_id, name, role_arn, source_s3_path)
@@ -267,8 +499,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs that identify the thesaurus. You can use the tags to
   identify and organize your resources and to control access to resources.
 """
-create_thesaurus(IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateThesaurus", Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "SourceS3Path"=>SourceS3Path, "ClientToken"=>string(uuid4())); aws_config=aws_config)
-create_thesaurus(IndexId, Name, RoleArn, SourceS3Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("CreateThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "Name"=>Name, "RoleArn"=>RoleArn, "SourceS3Path"=>SourceS3Path, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config)
+function create_thesaurus(
+    IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "CreateThesaurus",
+        Dict{String,Any}(
+            "IndexId" => IndexId,
+            "Name" => Name,
+            "RoleArn" => RoleArn,
+            "SourceS3Path" => SourceS3Path,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+    )
+end
+function create_thesaurus(
+    IndexId,
+    Name,
+    RoleArn,
+    SourceS3Path,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "CreateThesaurus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IndexId" => IndexId,
+                    "Name" => Name,
+                    "RoleArn" => RoleArn,
+                    "SourceS3Path" => SourceS3Path,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_data_source(id, index_id)
@@ -284,8 +555,27 @@ Deleting Data Sources.
 - `index_id`: The unique identifier of the index associated with the data source.
 
 """
-delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteDataSource", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-delete_data_source(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "DeleteDataSource",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function delete_data_source(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DeleteDataSource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_faq(id, index_id)
@@ -298,8 +588,27 @@ Removes an FAQ from an index.
 - `index_id`: The index to remove the FAQ from.
 
 """
-delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteFaq", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-delete_faq(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteFaq", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "DeleteFaq",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function delete_faq(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DeleteFaq",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_index(id)
@@ -313,8 +622,18 @@ DescribeIndex operation is set to DELETING.
 - `id`: The identifier of the index to delete.
 
 """
-delete_index(Id; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-delete_index(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+function delete_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra("DeleteIndex", Dict{String,Any}("Id" => Id); aws_config=aws_config)
+end
+function delete_index(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DeleteIndex",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_principal_mapping(group_id, index_id)
@@ -355,8 +674,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   yet to be processed. The default ordering ID is the current UNIX time in milliseconds that
   the action was received by Amazon Kendra.
 """
-delete_principal_mapping(GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeletePrincipalMapping", Dict{String, Any}("GroupId"=>GroupId, "IndexId"=>IndexId); aws_config=aws_config)
-delete_principal_mapping(GroupId, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeletePrincipalMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function delete_principal_mapping(
+    GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DeletePrincipalMapping",
+        Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function delete_principal_mapping(
+    GroupId,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DeletePrincipalMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_query_suggestions_block_list(id, index_id)
@@ -371,8 +713,29 @@ add back the queries that were previously blocked.
 - `index_id`: The identifier of the you want to delete a block list from.
 
 """
-delete_query_suggestions_block_list(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteQuerySuggestionsBlockList", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-delete_query_suggestions_block_list(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteQuerySuggestionsBlockList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function delete_query_suggestions_block_list(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DeleteQuerySuggestionsBlockList",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function delete_query_suggestions_block_list(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DeleteQuerySuggestionsBlockList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_thesaurus(id, index_id)
@@ -385,8 +748,27 @@ Deletes an existing Amazon Kendra thesaurus.
 - `index_id`: The identifier of the index associated with the thesaurus to delete.
 
 """
-delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteThesaurus", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-delete_thesaurus(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DeleteThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "DeleteThesaurus",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function delete_thesaurus(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DeleteThesaurus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_data_source(id, index_id)
@@ -399,8 +781,29 @@ Gets information about a Amazon Kendra data source.
 - `index_id`: The identifier of the index that contains the data source.
 
 """
-describe_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeDataSource", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-describe_data_source(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function describe_data_source(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DescribeDataSource",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function describe_data_source(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DescribeDataSource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_faq(id, index_id)
@@ -413,8 +816,27 @@ Gets information about an FAQ list.
 - `index_id`: The identifier of the index that contains the FAQ.
 
 """
-describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeFaq", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-describe_faq(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeFaq", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "DescribeFaq",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function describe_faq(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DescribeFaq",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_index(id)
@@ -426,8 +848,18 @@ Describes an existing Amazon Kendra index
 - `id`: The name of the index to describe.
 
 """
-describe_index(Id; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-describe_index(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+function describe_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra("DescribeIndex", Dict{String,Any}("Id" => Id); aws_config=aws_config)
+end
+function describe_index(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DescribeIndex",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_principal_mapping(group_id, index_id)
@@ -450,8 +882,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DataSourceId"`: The identifier of the data source to check the processing of PUT and
   DELETE actions for mapping users to their groups.
 """
-describe_principal_mapping(GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribePrincipalMapping", Dict{String, Any}("GroupId"=>GroupId, "IndexId"=>IndexId); aws_config=aws_config)
-describe_principal_mapping(GroupId, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribePrincipalMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function describe_principal_mapping(
+    GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DescribePrincipalMapping",
+        Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function describe_principal_mapping(
+    GroupId,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DescribePrincipalMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_query_suggestions_block_list(id, index_id)
@@ -465,8 +920,29 @@ current settings that are applied to a block list.
 - `index_id`: The identifier of the index for the block list.
 
 """
-describe_query_suggestions_block_list(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeQuerySuggestionsBlockList", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-describe_query_suggestions_block_list(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeQuerySuggestionsBlockList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function describe_query_suggestions_block_list(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DescribeQuerySuggestionsBlockList",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function describe_query_suggestions_block_list(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DescribeQuerySuggestionsBlockList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_query_suggestions_config(index_id)
@@ -480,8 +956,24 @@ settings applied to query suggestions.
   for.
 
 """
-describe_query_suggestions_config(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeQuerySuggestionsConfig", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
-describe_query_suggestions_config(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeQuerySuggestionsConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+function describe_query_suggestions_config(
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DescribeQuerySuggestionsConfig",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function describe_query_suggestions_config(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DescribeQuerySuggestionsConfig",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_thesaurus(id, index_id)
@@ -494,8 +986,27 @@ Describes an existing Amazon Kendra thesaurus.
 - `index_id`: The identifier of the index associated with the thesaurus to describe.
 
 """
-describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeThesaurus", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-describe_thesaurus(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("DescribeThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "DescribeThesaurus",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function describe_thesaurus(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DescribeThesaurus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_query_suggestions(index_id, query_text)
@@ -516,8 +1027,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxSuggestionsCount"`: The maximum number of query suggestions you want to show to your
   users.
 """
-get_query_suggestions(IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("GetQuerySuggestions", Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText); aws_config=aws_config)
-get_query_suggestions(IndexId, QueryText, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("GetQuerySuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText), params)); aws_config=aws_config)
+function get_query_suggestions(
+    IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "GetQuerySuggestions",
+        Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
+        aws_config=aws_config,
+    )
+end
+function get_query_suggestions(
+    IndexId,
+    QueryText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "GetQuerySuggestions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_data_source_sync_jobs(id, index_id)
@@ -540,8 +1076,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatusFilter"`: When specified, only returns synchronization jobs with the Status field
   equal to the specified status.
 """
-list_data_source_sync_jobs(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListDataSourceSyncJobs", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-list_data_source_sync_jobs(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListDataSourceSyncJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function list_data_source_sync_jobs(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListDataSourceSyncJobs",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function list_data_source_sync_jobs(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "ListDataSourceSyncJobs",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_data_sources(index_id)
@@ -559,8 +1116,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of data sources (DataSourceSummaryItems).
 """
-list_data_sources(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListDataSources", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
-list_data_sources(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListDataSources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+function list_data_sources(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "ListDataSources", Dict{String,Any}("IndexId" => IndexId); aws_config=aws_config
+    )
+end
+function list_data_sources(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListDataSources",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_faqs(index_id)
@@ -578,8 +1147,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the result of the previous request to ListFaqs was truncated, include
   the NextToken to fetch the next set of FAQs.
 """
-list_faqs(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListFaqs", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
-list_faqs(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListFaqs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+function list_faqs(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra("ListFaqs", Dict{String,Any}("IndexId" => IndexId); aws_config=aws_config)
+end
+function list_faqs(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListFaqs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_groups_older_than_ordering_id(index_id, ordering_id)
@@ -602,8 +1181,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   before a given ordering or timestamp identifier.
 - `"NextToken"`:  The next items in the list of groups that go beyond the maximum.
 """
-list_groups_older_than_ordering_id(IndexId, OrderingId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListGroupsOlderThanOrderingId", Dict{String, Any}("IndexId"=>IndexId, "OrderingId"=>OrderingId); aws_config=aws_config)
-list_groups_older_than_ordering_id(IndexId, OrderingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListGroupsOlderThanOrderingId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "OrderingId"=>OrderingId), params)); aws_config=aws_config)
+function list_groups_older_than_ordering_id(
+    IndexId, OrderingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListGroupsOlderThanOrderingId",
+        Dict{String,Any}("IndexId" => IndexId, "OrderingId" => OrderingId);
+        aws_config=aws_config,
+    )
+end
+function list_groups_older_than_ordering_id(
+    IndexId,
+    OrderingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "ListGroupsOlderThanOrderingId",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IndexId" => IndexId, "OrderingId" => OrderingId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_indices()
@@ -618,8 +1222,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of indexes (DataSourceSummaryItems).
 """
-list_indices(; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListIndices"; aws_config=aws_config)
-list_indices(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListIndices", params; aws_config=aws_config)
+function list_indices(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra("ListIndices"; aws_config=aws_config)
+end
+function list_indices(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra("ListIndices", params; aws_config=aws_config)
+end
 
 """
     list_query_suggestions_block_lists(index_id)
@@ -640,8 +1250,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of block lists (BlockListSummaryItems).
 """
-list_query_suggestions_block_lists(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListQuerySuggestionsBlockLists", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
-list_query_suggestions_block_lists(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListQuerySuggestionsBlockLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+function list_query_suggestions_block_lists(
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListQuerySuggestionsBlockLists",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function list_query_suggestions_block_lists(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListQuerySuggestionsBlockLists",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -655,8 +1281,28 @@ can have tags associated with them.
   list of tags for.
 
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_thesauri(index_id)
@@ -674,8 +1320,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of thesauri (ThesaurusSummaryItems).
 """
-list_thesauri(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListThesauri", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
-list_thesauri(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("ListThesauri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+function list_thesauri(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "ListThesauri", Dict{String,Any}("IndexId" => IndexId); aws_config=aws_config
+    )
+end
+function list_thesauri(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListThesauri",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     put_principal_mapping(group_id, group_members, index_id)
@@ -724,8 +1382,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains your list of users or sub groups that belong to a group. For more information, see
   IAM roles for Amazon Kendra.
 """
-put_principal_mapping(GroupId, GroupMembers, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("PutPrincipalMapping", Dict{String, Any}("GroupId"=>GroupId, "GroupMembers"=>GroupMembers, "IndexId"=>IndexId); aws_config=aws_config)
-put_principal_mapping(GroupId, GroupMembers, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("PutPrincipalMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "GroupMembers"=>GroupMembers, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function put_principal_mapping(
+    GroupId, GroupMembers, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "PutPrincipalMapping",
+        Dict{String,Any}(
+            "GroupId" => GroupId, "GroupMembers" => GroupMembers, "IndexId" => IndexId
+        );
+        aws_config=aws_config,
+    )
+end
+function put_principal_mapping(
+    GroupId,
+    GroupMembers,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "PutPrincipalMapping",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GroupId" => GroupId,
+                    "GroupMembers" => GroupMembers,
+                    "IndexId" => IndexId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     query(index_id, query_text)
@@ -786,8 +1476,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique identifier, such as a GUID. Don't use personally identifiable information, such as
   the user's email address, as the VisitorId.
 """
-query(IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText); aws_config=aws_config)
-query(IndexId, QueryText, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("Query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryText"=>QueryText), params)); aws_config=aws_config)
+function query(IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "Query",
+        Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
+        aws_config=aws_config,
+    )
+end
+function query(
+    IndexId,
+    QueryText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "Query",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_data_source_sync_job(id, index_id)
@@ -801,8 +1514,29 @@ progress, Amazon Kendra returns a ResourceInUseException exception.
 - `index_id`: The identifier of the index that contains the data source.
 
 """
-start_data_source_sync_job(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("StartDataSourceSyncJob", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-start_data_source_sync_job(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("StartDataSourceSyncJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function start_data_source_sync_job(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "StartDataSourceSyncJob",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function start_data_source_sync_job(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "StartDataSourceSyncJob",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_data_source_sync_job(id, index_id)
@@ -815,8 +1549,29 @@ Stops a running synchronization job. You can't stop a scheduled synchronization 
 - `index_id`: The identifier of the index that contains the data source.
 
 """
-stop_data_source_sync_job(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("StopDataSourceSyncJob", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-stop_data_source_sync_job(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("StopDataSourceSyncJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function stop_data_source_sync_job(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "StopDataSourceSyncJob",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function stop_data_source_sync_job(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "StopDataSourceSyncJob",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     submit_feedback(index_id, query_id)
@@ -836,8 +1591,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RelevanceFeedbackItems"`: Provides Amazon Kendra with relevant or not relevant feedback
   for whether a particular item was relevant to the search.
 """
-submit_feedback(IndexId, QueryId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("SubmitFeedback", Dict{String, Any}("IndexId"=>IndexId, "QueryId"=>QueryId); aws_config=aws_config)
-submit_feedback(IndexId, QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("SubmitFeedback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId, "QueryId"=>QueryId), params)); aws_config=aws_config)
+function submit_feedback(
+    IndexId, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "SubmitFeedback",
+        Dict{String,Any}("IndexId" => IndexId, "QueryId" => QueryId);
+        aws_config=aws_config,
+    )
+end
+function submit_feedback(
+    IndexId,
+    QueryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "SubmitFeedback",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("IndexId" => IndexId, "QueryId" => QueryId), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -852,8 +1630,31 @@ already exists, the existing value is replaced with the new value.
   exists, the existing value is replaced with the new value.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -868,8 +1669,33 @@ Removes a tag from an index, FAQ, or a data source.
   key does not exist on the resource, it is ignored.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_data_source(id, index_id)
@@ -891,8 +1717,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is accessing resources on your behalf.
 - `"Schedule"`: The new update schedule for the data source.
 """
-update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateDataSource", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-update_data_source(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "UpdateDataSource",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function update_data_source(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "UpdateDataSource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_index(id)
@@ -917,8 +1762,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserContextPolicy"`: The user user token context policy.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
-update_index(Id; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}("Id"=>Id); aws_config=aws_config)
-update_index(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateIndex", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config)
+function update_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra("UpdateIndex", Dict{String,Any}("Id" => Id); aws_config=aws_config)
+end
+function update_index(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "UpdateIndex",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_query_suggestions_block_list(id, index_id)
@@ -949,8 +1804,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   refreshes all query suggestions with the latest content in the S3 file. This means changes
   might not take effect immediately.
 """
-update_query_suggestions_block_list(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateQuerySuggestionsBlockList", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-update_query_suggestions_block_list(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateQuerySuggestionsBlockList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function update_query_suggestions_block_list(
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "UpdateQuerySuggestionsBlockList",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function update_query_suggestions_block_list(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "UpdateQuerySuggestionsBlockList",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_query_suggestions_config(index_id)
@@ -995,8 +1871,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   window. The time window is the number of days from current day to past days. By default,
   Amazon Kendra sets this to 180.
 """
-update_query_suggestions_config(IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateQuerySuggestionsConfig", Dict{String, Any}("IndexId"=>IndexId); aws_config=aws_config)
-update_query_suggestions_config(IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateQuerySuggestionsConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexId"=>IndexId), params)); aws_config=aws_config)
+function update_query_suggestions_config(
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "UpdateQuerySuggestionsConfig",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function update_query_suggestions_config(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "UpdateQuerySuggestionsConfig",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_thesaurus(id, index_id)
@@ -1015,5 +1907,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The updated role ARN of the thesaurus.
 - `"SourceS3Path"`:
 """
-update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateThesaurus", Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId); aws_config=aws_config)
-update_thesaurus(Id, IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kendra("UpdateThesaurus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "IndexId"=>IndexId), params)); aws_config=aws_config)
+function update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "UpdateThesaurus",
+        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
+        aws_config=aws_config,
+    )
+end
+function update_thesaurus(
+    Id,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "UpdateThesaurus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+    )
+end

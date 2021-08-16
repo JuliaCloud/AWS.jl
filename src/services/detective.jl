@@ -17,8 +17,28 @@ behavior graph. The member account status in the graph must be INVITED.
   invitation for. The member account status in the behavior graph must be INVITED.
 
 """
-accept_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("PUT", "/invitation", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-accept_invitation(GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("PUT", "/invitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return detective(
+        "PUT",
+        "/invitation",
+        Dict{String,Any}("GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function accept_invitation(
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "PUT",
+        "/invitation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_graph()
@@ -44,8 +64,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each tag, you provide the tag key and the tag value. Each tag key can contain up to 128
   characters. Each tag value can contain up to 256 characters.
 """
-create_graph(; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph"; aws_config=aws_config)
-create_graph(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph", params; aws_config=aws_config)
+function create_graph(; aws_config::AbstractAWSConfig=global_aws_config())
+    return detective("POST", "/graph"; aws_config=aws_config)
+end
+function create_graph(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective("POST", "/graph", params; aws_config=aws_config)
+end
 
 """
     create_members(accounts, graph_arn)
@@ -78,8 +104,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Message"`: Customized message text to include in the invitation email message to the
   invited member accounts.
 """
-create_members(Accounts, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members", Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn); aws_config=aws_config)
-create_members(Accounts, GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function create_members(
+    Accounts, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/graph/members",
+        Dict{String,Any}("Accounts" => Accounts, "GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function create_members(
+    Accounts,
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/members",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Accounts" => Accounts, "GraphArn" => GraphArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_graph(graph_arn)
@@ -93,8 +146,28 @@ called by the administrator account for a behavior graph.
 - `graph_arn`: The ARN of the behavior graph to disable.
 
 """
-delete_graph(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-delete_graph(GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function delete_graph(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return detective(
+        "POST",
+        "/graph/removal",
+        Dict{String,Any}("GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function delete_graph(
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/removal",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_members(account_ids, graph_arn)
@@ -111,8 +184,35 @@ graph, the administrator account uses the DeleteGraph API method.
 - `graph_arn`: The ARN of the behavior graph to delete members from.
 
 """
-delete_members(AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members/removal", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws_config=aws_config)
-delete_members(AccountIds, GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function delete_members(
+    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/graph/members/removal",
+        Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function delete_members(
+    AccountIds,
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/members/removal",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_membership(graph_arn)
@@ -126,8 +226,30 @@ called by a member account that has the ENABLED status.
   account's member status in the behavior graph must be ENABLED.
 
 """
-disassociate_membership(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/membership/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-disassociate_membership(GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/membership/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function disassociate_membership(
+    GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/membership/removal",
+        Dict{String,Any}("GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function disassociate_membership(
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/membership/removal",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_members(account_ids, graph_arn)
@@ -143,8 +265,35 @@ Returns the membership details for specified member accounts for a behavior grap
 - `graph_arn`: The ARN of the behavior graph for which to request the member details.
 
 """
-get_members(AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members/get", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws_config=aws_config)
-get_members(AccountIds, GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function get_members(
+    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/graph/members/get",
+        Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function get_members(
+    AccountIds,
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/members/get",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_graphs()
@@ -163,8 +312,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was returned with the previous set of results. The initial request does not include a
   pagination token.
 """
-list_graphs(; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graphs/list"; aws_config=aws_config)
-list_graphs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graphs/list", params; aws_config=aws_config)
+function list_graphs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return detective("POST", "/graphs/list"; aws_config=aws_config)
+end
+function list_graphs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective("POST", "/graphs/list", params; aws_config=aws_config)
+end
 
 """
     list_invitations()
@@ -185,8 +340,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was returned with the previous page of results. The initial request does not include a
   pagination token.
 """
-list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/invitations/list"; aws_config=aws_config)
-list_invitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/invitations/list", params; aws_config=aws_config)
+function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return detective("POST", "/invitations/list"; aws_config=aws_config)
+end
+function list_invitations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective("POST", "/invitations/list", params; aws_config=aws_config)
+end
 
 """
     list_members(graph_arn)
@@ -208,8 +369,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token that was returned with the previous page of results. The initial request
   does not include a pagination token.
 """
-list_members(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-list_members(GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function list_members(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return detective(
+        "POST",
+        "/graph/members/list",
+        Dict{String,Any}("GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function list_members(
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/members/list",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -221,8 +402,18 @@ Returns the tag values that are assigned to a behavior graph.
 - `resource_arn`: The ARN of the behavior graph for which to retrieve the tag values.
 
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective("GET", "/tags/$(ResourceArn)", params; aws_config=aws_config)
+end
 
 """
     reject_invitation(graph_arn)
@@ -236,8 +427,28 @@ must be called by a member account that has the INVITED status.
   account's current member status in the behavior graph must be INVITED.
 
 """
-reject_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/invitation/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
-reject_invitation(GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/invitation/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return detective(
+        "POST",
+        "/invitation/removal",
+        Dict{String,Any}("GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function reject_invitation(
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/invitation/removal",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_monitoring_member(account_id, graph_arn)
@@ -254,8 +465,35 @@ enable the member account, the status remains ACCEPTED_BUT_DISABLED.
 - `graph_arn`: The ARN of the behavior graph.
 
 """
-start_monitoring_member(AccountId, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn); aws_config=aws_config)
-start_monitoring_member(AccountId, GraphArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn), params)); aws_config=aws_config)
+function start_monitoring_member(
+    AccountId, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "POST",
+        "/graph/member/monitoringstate",
+        Dict{String,Any}("AccountId" => AccountId, "GraphArn" => GraphArn);
+        aws_config=aws_config,
+    )
+end
+function start_monitoring_member(
+    AccountId,
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/graph/member/monitoringstate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "GraphArn" => GraphArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -270,8 +508,27 @@ Applies tag values to a behavior graph.
   characters. Each tag value can contain up to 256 characters.
 
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return detective(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceArn,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -285,5 +542,26 @@ Removes tags from a behavior graph.
   to 50 tags at a time.
 
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = detective("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(ResourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = detective("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return detective(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "DELETE",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end

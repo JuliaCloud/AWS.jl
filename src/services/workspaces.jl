@@ -18,8 +18,33 @@ that the current state of the connection alias is CREATED.
 - `resource_id`: The identifier of the directory to associate the connection alias with.
 
 """
-associate_connection_alias(AliasId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("AssociateConnectionAlias", Dict{String, Any}("AliasId"=>AliasId, "ResourceId"=>ResourceId); aws_config=aws_config)
-associate_connection_alias(AliasId, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("AssociateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
+function associate_connection_alias(
+    AliasId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "AssociateConnectionAlias",
+        Dict{String,Any}("AliasId" => AliasId, "ResourceId" => ResourceId);
+        aws_config=aws_config,
+    )
+end
+function associate_connection_alias(
+    AliasId,
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "AssociateConnectionAlias",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AliasId" => AliasId, "ResourceId" => ResourceId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     associate_ip_groups(directory_id, group_ids)
@@ -32,8 +57,33 @@ Associates the specified IP access control group with the specified directory.
 - `group_ids`: The identifiers of one or more IP access control groups.
 
 """
-associate_ip_groups(DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("AssociateIpGroups", Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds); aws_config=aws_config)
-associate_ip_groups(DirectoryId, GroupIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("AssociateIpGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds), params)); aws_config=aws_config)
+function associate_ip_groups(
+    DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "AssociateIpGroups",
+        Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds);
+        aws_config=aws_config,
+    )
+end
+function associate_ip_groups(
+    DirectoryId,
+    GroupIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "AssociateIpGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     authorize_ip_rules(group_id, user_rules)
@@ -47,8 +97,33 @@ permission to access their WorkSpaces from the CIDR address ranges specified in 
 - `user_rules`: The rules to add to the group.
 
 """
-authorize_ip_rules(GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("AuthorizeIpRules", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws_config=aws_config)
-authorize_ip_rules(GroupId, UserRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("AuthorizeIpRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), params)); aws_config=aws_config)
+function authorize_ip_rules(
+    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "AuthorizeIpRules",
+        Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules);
+        aws_config=aws_config,
+    )
+end
+function authorize_ip_rules(
+    GroupId,
+    UserRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "AuthorizeIpRules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     copy_workspace_image(name, source_image_id, source_region)
@@ -73,8 +148,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the image.
 - `"Tags"`: The tags for the image.
 """
-copy_workspace_image(Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CopyWorkspaceImage", Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion); aws_config=aws_config)
-copy_workspace_image(Name, SourceImageId, SourceRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CopyWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), params)); aws_config=aws_config)
+function copy_workspace_image(
+    Name, SourceImageId, SourceRegion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "CopyWorkspaceImage",
+        Dict{String,Any}(
+            "Name" => Name, "SourceImageId" => SourceImageId, "SourceRegion" => SourceRegion
+        );
+        aws_config=aws_config,
+    )
+end
+function copy_workspace_image(
+    Name,
+    SourceImageId,
+    SourceRegion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CopyWorkspaceImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "SourceImageId" => SourceImageId,
+                    "SourceRegion" => SourceRegion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_connection_alias(connection_string)
@@ -94,8 +201,30 @@ information, see  Cross-Region Redirection for Amazon WorkSpaces.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tags to associate with the connection alias.
 """
-create_connection_alias(ConnectionString; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateConnectionAlias", Dict{String, Any}("ConnectionString"=>ConnectionString); aws_config=aws_config)
-create_connection_alias(ConnectionString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionString"=>ConnectionString), params)); aws_config=aws_config)
+function create_connection_alias(
+    ConnectionString; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "CreateConnectionAlias",
+        Dict{String,Any}("ConnectionString" => ConnectionString);
+        aws_config=aws_config,
+    )
+end
+function create_connection_alias(
+    ConnectionString,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateConnectionAlias",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ConnectionString" => ConnectionString), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_ip_group(group_name)
@@ -120,8 +249,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 - `"UserRules"`: The rules to add to the group.
 """
-create_ip_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateIpGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-create_ip_group(GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+function create_ip_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "CreateIpGroup", Dict{String,Any}("GroupName" => GroupName); aws_config=aws_config
+    )
+end
+function create_ip_group(
+    GroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateIpGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_tags(resource_id, tags)
@@ -136,8 +281,29 @@ Creates the specified tags for the specified WorkSpaces resource.
 - `tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 
 """
-create_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws_config=aws_config)
-create_tags(ResourceId, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), params)); aws_config=aws_config)
+function create_tags(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "CreateTags",
+        Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function create_tags(
+    ResourceId,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_workspace_bundle(bundle_description, bundle_name, compute_type, image_id, user_storage)
@@ -160,8 +326,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating the bundle, you must create an IAM policy that grants your IAM user permissions to
   use workspaces:CreateTags.
 """
-create_workspace_bundle(BundleDescription, BundleName, ComputeType, ImageId, UserStorage; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateWorkspaceBundle", Dict{String, Any}("BundleDescription"=>BundleDescription, "BundleName"=>BundleName, "ComputeType"=>ComputeType, "ImageId"=>ImageId, "UserStorage"=>UserStorage); aws_config=aws_config)
-create_workspace_bundle(BundleDescription, BundleName, ComputeType, ImageId, UserStorage, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateWorkspaceBundle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleDescription"=>BundleDescription, "BundleName"=>BundleName, "ComputeType"=>ComputeType, "ImageId"=>ImageId, "UserStorage"=>UserStorage), params)); aws_config=aws_config)
+function create_workspace_bundle(
+    BundleDescription,
+    BundleName,
+    ComputeType,
+    ImageId,
+    UserStorage;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateWorkspaceBundle",
+        Dict{String,Any}(
+            "BundleDescription" => BundleDescription,
+            "BundleName" => BundleName,
+            "ComputeType" => ComputeType,
+            "ImageId" => ImageId,
+            "UserStorage" => UserStorage,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_workspace_bundle(
+    BundleDescription,
+    BundleName,
+    ComputeType,
+    ImageId,
+    UserStorage,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateWorkspaceBundle",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BundleDescription" => BundleDescription,
+                    "BundleName" => BundleName,
+                    "ComputeType" => ComputeType,
+                    "ImageId" => ImageId,
+                    "UserStorage" => UserStorage,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_workspaces(workspaces)
@@ -174,8 +385,26 @@ WorkSpaces are created.
 - `workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
 
 """
-create_workspaces(Workspaces; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateWorkspaces", Dict{String, Any}("Workspaces"=>Workspaces); aws_config=aws_config)
-create_workspaces(Workspaces, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("CreateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Workspaces"=>Workspaces), params)); aws_config=aws_config)
+function create_workspaces(Workspaces; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "CreateWorkspaces",
+        Dict{String,Any}("Workspaces" => Workspaces);
+        aws_config=aws_config,
+    )
+end
+function create_workspaces(
+    Workspaces,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateWorkspaces",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Workspaces" => Workspaces), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_connection_alias(alias_id)
@@ -195,8 +424,22 @@ is no longer shared with any accounts or associated with any directories.
 - `alias_id`: The identifier of the connection alias to delete.
 
 """
-delete_connection_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteConnectionAlias", Dict{String, Any}("AliasId"=>AliasId); aws_config=aws_config)
-delete_connection_alias(AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config)
+function delete_connection_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "DeleteConnectionAlias",
+        Dict{String,Any}("AliasId" => AliasId);
+        aws_config=aws_config,
+    )
+end
+function delete_connection_alias(
+    AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeleteConnectionAlias",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_ip_group(group_id)
@@ -209,8 +452,20 @@ that is associated with a directory.
 - `group_id`: The identifier of the IP access control group.
 
 """
-delete_ip_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteIpGroup", Dict{String, Any}("GroupId"=>GroupId); aws_config=aws_config)
-delete_ip_group(GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId), params)); aws_config=aws_config)
+function delete_ip_group(GroupId; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "DeleteIpGroup", Dict{String,Any}("GroupId" => GroupId); aws_config=aws_config
+    )
+end
+function delete_ip_group(
+    GroupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeleteIpGroup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("GroupId" => GroupId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_tags(resource_id, tag_keys)
@@ -225,8 +480,31 @@ Deletes the specified tags from the specified WorkSpaces resource.
 - `tag_keys`: The tag keys.
 
 """
-delete_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws_config=aws_config)
-delete_tags(ResourceId, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function delete_tags(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "DeleteTags",
+        Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function delete_tags(
+    ResourceId,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DeleteTags",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_workspace_bundle()
@@ -239,8 +517,14 @@ bundles, see  Delete a Custom WorkSpaces Bundle or Image.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BundleId"`: The identifier of the bundle.
 """
-delete_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteWorkspaceBundle"; aws_config=aws_config)
-delete_workspace_bundle(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteWorkspaceBundle", params; aws_config=aws_config)
+function delete_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DeleteWorkspaceBundle"; aws_config=aws_config)
+end
+function delete_workspace_bundle(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DeleteWorkspaceBundle", params; aws_config=aws_config)
+end
 
 """
     delete_workspace_image(image_id)
@@ -254,8 +538,22 @@ other accounts.
 - `image_id`: The identifier of the image.
 
 """
-delete_workspace_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteWorkspaceImage", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config)
-delete_workspace_image(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeleteWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config)
+function delete_workspace_image(ImageId; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "DeleteWorkspaceImage",
+        Dict{String,Any}("ImageId" => ImageId);
+        aws_config=aws_config,
+    )
+end
+function delete_workspace_image(
+    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeleteWorkspaceImage",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     deregister_workspace_directory(directory_id)
@@ -278,8 +576,28 @@ WorkSpaces again.
   OperationNotSupportedException error.
 
 """
-deregister_workspace_directory(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeregisterWorkspaceDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId); aws_config=aws_config)
-deregister_workspace_directory(DirectoryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DeregisterWorkspaceDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), params)); aws_config=aws_config)
+function deregister_workspace_directory(
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeregisterWorkspaceDirectory",
+        Dict{String,Any}("DirectoryId" => DirectoryId);
+        aws_config=aws_config,
+    )
+end
+function deregister_workspace_directory(
+    DirectoryId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DeregisterWorkspaceDirectory",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DirectoryId" => DirectoryId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_account()
@@ -289,8 +607,14 @@ Retrieves a list that describes the configuration of Bring Your Own License (BYO
 specified account.
 
 """
-describe_account(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeAccount"; aws_config=aws_config)
-describe_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeAccount", params; aws_config=aws_config)
+function describe_account(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DescribeAccount"; aws_config=aws_config)
+end
+function describe_account(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeAccount", params; aws_config=aws_config)
+end
 
 """
     describe_account_modifications()
@@ -304,8 +628,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-describe_account_modifications(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeAccountModifications"; aws_config=aws_config)
-describe_account_modifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeAccountModifications", params; aws_config=aws_config)
+function describe_account_modifications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DescribeAccountModifications"; aws_config=aws_config)
+end
+function describe_account_modifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeAccountModifications", params; aws_config=aws_config)
+end
 
 """
     describe_client_properties(resource_ids)
@@ -317,8 +647,28 @@ Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
 - `resource_ids`: The resource identifier, in the form of directory IDs.
 
 """
-describe_client_properties(ResourceIds; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeClientProperties", Dict{String, Any}("ResourceIds"=>ResourceIds); aws_config=aws_config)
-describe_client_properties(ResourceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIds"=>ResourceIds), params)); aws_config=aws_config)
+function describe_client_properties(
+    ResourceIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeClientProperties",
+        Dict{String,Any}("ResourceIds" => ResourceIds);
+        aws_config=aws_config,
+    )
+end
+function describe_client_properties(
+    ResourceIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeClientProperties",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceIds" => ResourceIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_connection_alias_permissions(alias_id)
@@ -337,8 +687,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-describe_connection_alias_permissions(AliasId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeConnectionAliasPermissions", Dict{String, Any}("AliasId"=>AliasId); aws_config=aws_config)
-describe_connection_alias_permissions(AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeConnectionAliasPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config)
+function describe_connection_alias_permissions(
+    AliasId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeConnectionAliasPermissions",
+        Dict{String,Any}("AliasId" => AliasId);
+        aws_config=aws_config,
+    )
+end
+function describe_connection_alias_permissions(
+    AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeConnectionAliasPermissions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_connection_aliases()
@@ -355,8 +721,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide this token to receive the next set of results.
 - `"ResourceId"`: The identifier of the directory associated with the connection alias.
 """
-describe_connection_aliases(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeConnectionAliases"; aws_config=aws_config)
-describe_connection_aliases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeConnectionAliases", params; aws_config=aws_config)
+function describe_connection_aliases(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DescribeConnectionAliases"; aws_config=aws_config)
+end
+function describe_connection_aliases(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeConnectionAliases", params; aws_config=aws_config)
+end
 
 """
     describe_ip_groups()
@@ -371,8 +743,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-describe_ip_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeIpGroups"; aws_config=aws_config)
-describe_ip_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeIpGroups", params; aws_config=aws_config)
+function describe_ip_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DescribeIpGroups"; aws_config=aws_config)
+end
+function describe_ip_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeIpGroups", params; aws_config=aws_config)
+end
 
 """
     describe_tags(resource_id)
@@ -386,8 +764,24 @@ Describes the specified tags for the specified WorkSpaces resource.
   and connection aliases.
 
 """
-describe_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config)
-describe_tags(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config)
+function describe_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "DescribeTags", Dict{String,Any}("ResourceId" => ResourceId); aws_config=aws_config
+    )
+end
+function describe_tags(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeTags",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_workspace_bundles()
@@ -406,8 +800,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter. To describe the bundles provided by AWS, specify AMAZON. To describe the bundles
   that belong to your account, don't specify a value.
 """
-describe_workspace_bundles(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceBundles"; aws_config=aws_config)
-describe_workspace_bundles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceBundles", params; aws_config=aws_config)
+function describe_workspace_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DescribeWorkspaceBundles"; aws_config=aws_config)
+end
+function describe_workspace_bundles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeWorkspaceBundles", params; aws_config=aws_config)
+end
 
 """
     describe_workspace_directories()
@@ -423,8 +823,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-describe_workspace_directories(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceDirectories"; aws_config=aws_config)
-describe_workspace_directories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceDirectories", params; aws_config=aws_config)
+function describe_workspace_directories(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DescribeWorkspaceDirectories"; aws_config=aws_config)
+end
+function describe_workspace_directories(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeWorkspaceDirectories", params; aws_config=aws_config)
+end
 
 """
     describe_workspace_image_permissions(image_id)
@@ -442,8 +848,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-describe_workspace_image_permissions(ImageId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceImagePermissions", Dict{String, Any}("ImageId"=>ImageId); aws_config=aws_config)
-describe_workspace_image_permissions(ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), params)); aws_config=aws_config)
+function describe_workspace_image_permissions(
+    ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeWorkspaceImagePermissions",
+        Dict{String,Any}("ImageId" => ImageId);
+        aws_config=aws_config,
+    )
+end
+function describe_workspace_image_permissions(
+    ImageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeWorkspaceImagePermissions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ImageId" => ImageId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_workspace_images()
@@ -460,8 +882,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-describe_workspace_images(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceImages"; aws_config=aws_config)
-describe_workspace_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceImages", params; aws_config=aws_config)
+function describe_workspace_images(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DescribeWorkspaceImages"; aws_config=aws_config)
+end
+function describe_workspace_images(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeWorkspaceImages", params; aws_config=aws_config)
+end
 
 """
     describe_workspace_snapshots(workspace_id)
@@ -473,8 +901,28 @@ Describes the snapshots for the specified WorkSpace.
 - `workspace_id`: The identifier of the WorkSpace.
 
 """
-describe_workspace_snapshots(WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceSnapshots", Dict{String, Any}("WorkspaceId"=>WorkspaceId); aws_config=aws_config)
-describe_workspace_snapshots(WorkspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaceSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId), params)); aws_config=aws_config)
+function describe_workspace_snapshots(
+    WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeWorkspaceSnapshots",
+        Dict{String,Any}("WorkspaceId" => WorkspaceId);
+        aws_config=aws_config,
+    )
+end
+function describe_workspace_snapshots(
+    WorkspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeWorkspaceSnapshots",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_workspaces()
@@ -500,8 +948,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier it returns is not immediately available. If you immediately call
   DescribeWorkspaces with this identifier, no information is returned.
 """
-describe_workspaces(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaces"; aws_config=aws_config)
-describe_workspaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspaces", params; aws_config=aws_config)
+function describe_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("DescribeWorkspaces"; aws_config=aws_config)
+end
+function describe_workspaces(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeWorkspaces", params; aws_config=aws_config)
+end
 
 """
     describe_workspaces_connection_status()
@@ -515,8 +969,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide this token to receive the next set of results.
 - `"WorkspaceIds"`: The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
 """
-describe_workspaces_connection_status(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspacesConnectionStatus"; aws_config=aws_config)
-describe_workspaces_connection_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DescribeWorkspacesConnectionStatus", params; aws_config=aws_config)
+function describe_workspaces_connection_status(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeWorkspacesConnectionStatus"; aws_config=aws_config)
+end
+function describe_workspaces_connection_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("DescribeWorkspacesConnectionStatus", params; aws_config=aws_config)
+end
 
 """
     disassociate_connection_alias(alias_id)
@@ -532,8 +994,24 @@ connection alias is CREATED.
 - `alias_id`: The identifier of the connection alias to disassociate.
 
 """
-disassociate_connection_alias(AliasId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DisassociateConnectionAlias", Dict{String, Any}("AliasId"=>AliasId); aws_config=aws_config)
-disassociate_connection_alias(AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DisassociateConnectionAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId), params)); aws_config=aws_config)
+function disassociate_connection_alias(
+    AliasId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DisassociateConnectionAlias",
+        Dict{String,Any}("AliasId" => AliasId);
+        aws_config=aws_config,
+    )
+end
+function disassociate_connection_alias(
+    AliasId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DisassociateConnectionAlias",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("AliasId" => AliasId), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     disassociate_ip_groups(directory_id, group_ids)
@@ -546,8 +1024,33 @@ Disassociates the specified IP access control group from the specified directory
 - `group_ids`: The identifiers of one or more IP access control groups.
 
 """
-disassociate_ip_groups(DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DisassociateIpGroups", Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds); aws_config=aws_config)
-disassociate_ip_groups(DirectoryId, GroupIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("DisassociateIpGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds), params)); aws_config=aws_config)
+function disassociate_ip_groups(
+    DirectoryId, GroupIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DisassociateIpGroups",
+        Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds);
+        aws_config=aws_config,
+    )
+end
+function disassociate_ip_groups(
+    DirectoryId,
+    GroupIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DisassociateIpGroups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     import_workspace_image(ec2_image_id, image_description, image_name, ingestion_process)
@@ -577,8 +1080,49 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only one item is allowed at this time.
 - `"Tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 """
-import_workspace_image(Ec2ImageId, ImageDescription, ImageName, IngestionProcess; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ImportWorkspaceImage", Dict{String, Any}("Ec2ImageId"=>Ec2ImageId, "ImageDescription"=>ImageDescription, "ImageName"=>ImageName, "IngestionProcess"=>IngestionProcess); aws_config=aws_config)
-import_workspace_image(Ec2ImageId, ImageDescription, ImageName, IngestionProcess, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ImportWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ec2ImageId"=>Ec2ImageId, "ImageDescription"=>ImageDescription, "ImageName"=>ImageName, "IngestionProcess"=>IngestionProcess), params)); aws_config=aws_config)
+function import_workspace_image(
+    Ec2ImageId,
+    ImageDescription,
+    ImageName,
+    IngestionProcess;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ImportWorkspaceImage",
+        Dict{String,Any}(
+            "Ec2ImageId" => Ec2ImageId,
+            "ImageDescription" => ImageDescription,
+            "ImageName" => ImageName,
+            "IngestionProcess" => IngestionProcess,
+        );
+        aws_config=aws_config,
+    )
+end
+function import_workspace_image(
+    Ec2ImageId,
+    ImageDescription,
+    ImageName,
+    IngestionProcess,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ImportWorkspaceImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Ec2ImageId" => Ec2ImageId,
+                    "ImageDescription" => ImageDescription,
+                    "ImageName" => ImageName,
+                    "IngestionProcess" => IngestionProcess,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_available_management_cidr_ranges(management_cidr_range_constraint)
@@ -603,8 +1147,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
-list_available_management_cidr_ranges(ManagementCidrRangeConstraint; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ListAvailableManagementCidrRanges", Dict{String, Any}("ManagementCidrRangeConstraint"=>ManagementCidrRangeConstraint); aws_config=aws_config)
-list_available_management_cidr_ranges(ManagementCidrRangeConstraint, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ListAvailableManagementCidrRanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ManagementCidrRangeConstraint"=>ManagementCidrRangeConstraint), params)); aws_config=aws_config)
+function list_available_management_cidr_ranges(
+    ManagementCidrRangeConstraint; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ListAvailableManagementCidrRanges",
+        Dict{String,Any}("ManagementCidrRangeConstraint" => ManagementCidrRangeConstraint);
+        aws_config=aws_config,
+    )
+end
+function list_available_management_cidr_ranges(
+    ManagementCidrRangeConstraint,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ListAvailableManagementCidrRanges",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ManagementCidrRangeConstraint" => ManagementCidrRangeConstraint
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     migrate_workspace(bundle_id, source_workspace_id)
@@ -624,8 +1194,35 @@ happens during migration, and best practices, see Migrate a WorkSpace.
 - `source_workspace_id`: The identifier of the WorkSpace to migrate from.
 
 """
-migrate_workspace(BundleId, SourceWorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("MigrateWorkspace", Dict{String, Any}("BundleId"=>BundleId, "SourceWorkspaceId"=>SourceWorkspaceId); aws_config=aws_config)
-migrate_workspace(BundleId, SourceWorkspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("MigrateWorkspace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleId"=>BundleId, "SourceWorkspaceId"=>SourceWorkspaceId), params)); aws_config=aws_config)
+function migrate_workspace(
+    BundleId, SourceWorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "MigrateWorkspace",
+        Dict{String,Any}("BundleId" => BundleId, "SourceWorkspaceId" => SourceWorkspaceId);
+        aws_config=aws_config,
+    )
+end
+function migrate_workspace(
+    BundleId,
+    SourceWorkspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "MigrateWorkspace",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BundleId" => BundleId, "SourceWorkspaceId" => SourceWorkspaceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_account()
@@ -642,8 +1239,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as available by the ListAvailableManagementCidrRanges operation.
 - `"DedicatedTenancySupport"`: The status of BYOL.
 """
-modify_account(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyAccount"; aws_config=aws_config)
-modify_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyAccount", params; aws_config=aws_config)
+function modify_account(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("ModifyAccount"; aws_config=aws_config)
+end
+function modify_account(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("ModifyAccount", params; aws_config=aws_config)
+end
 
 """
     modify_client_properties(client_properties, resource_id)
@@ -656,8 +1259,37 @@ Modifies the properties of the specified Amazon WorkSpaces clients.
 - `resource_id`: The resource identifiers, in the form of directory IDs.
 
 """
-modify_client_properties(ClientProperties, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyClientProperties", Dict{String, Any}("ClientProperties"=>ClientProperties, "ResourceId"=>ResourceId); aws_config=aws_config)
-modify_client_properties(ClientProperties, ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientProperties"=>ClientProperties, "ResourceId"=>ResourceId), params)); aws_config=aws_config)
+function modify_client_properties(
+    ClientProperties, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ModifyClientProperties",
+        Dict{String,Any}(
+            "ClientProperties" => ClientProperties, "ResourceId" => ResourceId
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_client_properties(
+    ClientProperties,
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifyClientProperties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientProperties" => ClientProperties, "ResourceId" => ResourceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_selfservice_permissions(resource_id, selfservice_permissions)
@@ -671,8 +1303,38 @@ information, see Enable Self-Service WorkSpace Management Capabilities for Your 
 - `selfservice_permissions`: The permissions to enable or disable self-service capabilities.
 
 """
-modify_selfservice_permissions(ResourceId, SelfservicePermissions; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifySelfservicePermissions", Dict{String, Any}("ResourceId"=>ResourceId, "SelfservicePermissions"=>SelfservicePermissions); aws_config=aws_config)
-modify_selfservice_permissions(ResourceId, SelfservicePermissions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifySelfservicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "SelfservicePermissions"=>SelfservicePermissions), params)); aws_config=aws_config)
+function modify_selfservice_permissions(
+    ResourceId, SelfservicePermissions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ModifySelfservicePermissions",
+        Dict{String,Any}(
+            "ResourceId" => ResourceId, "SelfservicePermissions" => SelfservicePermissions
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_selfservice_permissions(
+    ResourceId,
+    SelfservicePermissions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifySelfservicePermissions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceId" => ResourceId,
+                    "SelfservicePermissions" => SelfservicePermissions,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_workspace_access_properties(resource_id, workspace_access_properties)
@@ -687,8 +1349,39 @@ more information, see  Control Device Access.
   disable for access.
 
 """
-modify_workspace_access_properties(ResourceId, WorkspaceAccessProperties; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyWorkspaceAccessProperties", Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceAccessProperties"=>WorkspaceAccessProperties); aws_config=aws_config)
-modify_workspace_access_properties(ResourceId, WorkspaceAccessProperties, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyWorkspaceAccessProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceAccessProperties"=>WorkspaceAccessProperties), params)); aws_config=aws_config)
+function modify_workspace_access_properties(
+    ResourceId, WorkspaceAccessProperties; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ModifyWorkspaceAccessProperties",
+        Dict{String,Any}(
+            "ResourceId" => ResourceId,
+            "WorkspaceAccessProperties" => WorkspaceAccessProperties,
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_workspace_access_properties(
+    ResourceId,
+    WorkspaceAccessProperties,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifyWorkspaceAccessProperties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceId" => ResourceId,
+                    "WorkspaceAccessProperties" => WorkspaceAccessProperties,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_workspace_creation_properties(resource_id, workspace_creation_properties)
@@ -701,8 +1394,41 @@ Modify the default properties used to create WorkSpaces.
 - `workspace_creation_properties`: The default properties for creating WorkSpaces.
 
 """
-modify_workspace_creation_properties(ResourceId, WorkspaceCreationProperties; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyWorkspaceCreationProperties", Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceCreationProperties"=>WorkspaceCreationProperties); aws_config=aws_config)
-modify_workspace_creation_properties(ResourceId, WorkspaceCreationProperties, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyWorkspaceCreationProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceCreationProperties"=>WorkspaceCreationProperties), params)); aws_config=aws_config)
+function modify_workspace_creation_properties(
+    ResourceId,
+    WorkspaceCreationProperties;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifyWorkspaceCreationProperties",
+        Dict{String,Any}(
+            "ResourceId" => ResourceId,
+            "WorkspaceCreationProperties" => WorkspaceCreationProperties,
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_workspace_creation_properties(
+    ResourceId,
+    WorkspaceCreationProperties,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifyWorkspaceCreationProperties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceId" => ResourceId,
+                    "WorkspaceCreationProperties" => WorkspaceCreationProperties,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_workspace_properties(workspace_id, workspace_properties)
@@ -716,8 +1442,38 @@ the size of the root and user volumes, see  Modify a WorkSpace.
 - `workspace_properties`: The properties of the WorkSpace.
 
 """
-modify_workspace_properties(WorkspaceId, WorkspaceProperties; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyWorkspaceProperties", Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceProperties"=>WorkspaceProperties); aws_config=aws_config)
-modify_workspace_properties(WorkspaceId, WorkspaceProperties, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyWorkspaceProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceProperties"=>WorkspaceProperties), params)); aws_config=aws_config)
+function modify_workspace_properties(
+    WorkspaceId, WorkspaceProperties; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ModifyWorkspaceProperties",
+        Dict{String,Any}(
+            "WorkspaceId" => WorkspaceId, "WorkspaceProperties" => WorkspaceProperties
+        );
+        aws_config=aws_config,
+    )
+end
+function modify_workspace_properties(
+    WorkspaceId,
+    WorkspaceProperties,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifyWorkspaceProperties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "WorkspaceId" => WorkspaceId,
+                    "WorkspaceProperties" => WorkspaceProperties,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     modify_workspace_state(workspace_id, workspace_state)
@@ -733,8 +1489,35 @@ this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTE
 - `workspace_state`: The WorkSpace state.
 
 """
-modify_workspace_state(WorkspaceId, WorkspaceState; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyWorkspaceState", Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceState"=>WorkspaceState); aws_config=aws_config)
-modify_workspace_state(WorkspaceId, WorkspaceState, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("ModifyWorkspaceState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceState"=>WorkspaceState), params)); aws_config=aws_config)
+function modify_workspace_state(
+    WorkspaceId, WorkspaceState; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ModifyWorkspaceState",
+        Dict{String,Any}("WorkspaceId" => WorkspaceId, "WorkspaceState" => WorkspaceState);
+        aws_config=aws_config,
+    )
+end
+function modify_workspace_state(
+    WorkspaceId,
+    WorkspaceState,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifyWorkspaceState",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "WorkspaceId" => WorkspaceId, "WorkspaceState" => WorkspaceState
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     reboot_workspaces(reboot_workspace_requests)
@@ -749,8 +1532,32 @@ have rebooted.
   WorkSpaces.
 
 """
-reboot_workspaces(RebootWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RebootWorkspaces", Dict{String, Any}("RebootWorkspaceRequests"=>RebootWorkspaceRequests); aws_config=aws_config)
-reboot_workspaces(RebootWorkspaceRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RebootWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RebootWorkspaceRequests"=>RebootWorkspaceRequests), params)); aws_config=aws_config)
+function reboot_workspaces(
+    RebootWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "RebootWorkspaces",
+        Dict{String,Any}("RebootWorkspaceRequests" => RebootWorkspaceRequests);
+        aws_config=aws_config,
+    )
+end
+function reboot_workspaces(
+    RebootWorkspaceRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "RebootWorkspaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RebootWorkspaceRequests" => RebootWorkspaceRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     rebuild_workspaces(rebuild_workspace_requests)
@@ -767,8 +1574,32 @@ completely rebuilt.
   WorkSpace.
 
 """
-rebuild_workspaces(RebuildWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RebuildWorkspaces", Dict{String, Any}("RebuildWorkspaceRequests"=>RebuildWorkspaceRequests); aws_config=aws_config)
-rebuild_workspaces(RebuildWorkspaceRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RebuildWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RebuildWorkspaceRequests"=>RebuildWorkspaceRequests), params)); aws_config=aws_config)
+function rebuild_workspaces(
+    RebuildWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "RebuildWorkspaces",
+        Dict{String,Any}("RebuildWorkspaceRequests" => RebuildWorkspaceRequests);
+        aws_config=aws_config,
+    )
+end
+function rebuild_workspaces(
+    RebuildWorkspaceRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "RebuildWorkspaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RebuildWorkspaceRequests" => RebuildWorkspaceRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     register_workspace_directory(directory_id, enable_work_docs)
@@ -805,8 +1636,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   receive an InvalidParameterValuesException error. For more information about BYOL images,
   see Bring Your Own Windows Desktop Images.
 """
-register_workspace_directory(DirectoryId, EnableWorkDocs; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RegisterWorkspaceDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId, "EnableWorkDocs"=>EnableWorkDocs); aws_config=aws_config)
-register_workspace_directory(DirectoryId, EnableWorkDocs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RegisterWorkspaceDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "EnableWorkDocs"=>EnableWorkDocs), params)); aws_config=aws_config)
+function register_workspace_directory(
+    DirectoryId, EnableWorkDocs; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "RegisterWorkspaceDirectory",
+        Dict{String,Any}("DirectoryId" => DirectoryId, "EnableWorkDocs" => EnableWorkDocs);
+        aws_config=aws_config,
+    )
+end
+function register_workspace_directory(
+    DirectoryId,
+    EnableWorkDocs,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "RegisterWorkspaceDirectory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DirectoryId" => DirectoryId, "EnableWorkDocs" => EnableWorkDocs
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     restore_workspace(workspace_id)
@@ -822,8 +1680,26 @@ WorkSpace is completely restored.
 - `workspace_id`: The identifier of the WorkSpace.
 
 """
-restore_workspace(WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RestoreWorkspace", Dict{String, Any}("WorkspaceId"=>WorkspaceId); aws_config=aws_config)
-restore_workspace(WorkspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RestoreWorkspace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId), params)); aws_config=aws_config)
+function restore_workspace(WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "RestoreWorkspace",
+        Dict{String,Any}("WorkspaceId" => WorkspaceId);
+        aws_config=aws_config,
+    )
+end
+function restore_workspace(
+    WorkspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "RestoreWorkspace",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     revoke_ip_rules(group_id, user_rules)
@@ -836,8 +1712,33 @@ Removes one or more rules from the specified IP access control group.
 - `user_rules`: The rules to remove from the group.
 
 """
-revoke_ip_rules(GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RevokeIpRules", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws_config=aws_config)
-revoke_ip_rules(GroupId, UserRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("RevokeIpRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), params)); aws_config=aws_config)
+function revoke_ip_rules(
+    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "RevokeIpRules",
+        Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules);
+        aws_config=aws_config,
+    )
+end
+function revoke_ip_rules(
+    GroupId,
+    UserRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "RevokeIpRules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     start_workspaces(start_workspace_requests)
@@ -850,8 +1751,32 @@ of AutoStop and a state of STOPPED.
 - `start_workspace_requests`: The WorkSpaces to start. You can specify up to 25 WorkSpaces.
 
 """
-start_workspaces(StartWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("StartWorkspaces", Dict{String, Any}("StartWorkspaceRequests"=>StartWorkspaceRequests); aws_config=aws_config)
-start_workspaces(StartWorkspaceRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("StartWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartWorkspaceRequests"=>StartWorkspaceRequests), params)); aws_config=aws_config)
+function start_workspaces(
+    StartWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "StartWorkspaces",
+        Dict{String,Any}("StartWorkspaceRequests" => StartWorkspaceRequests);
+        aws_config=aws_config,
+    )
+end
+function start_workspaces(
+    StartWorkspaceRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "StartWorkspaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("StartWorkspaceRequests" => StartWorkspaceRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     stop_workspaces(stop_workspace_requests)
@@ -864,8 +1789,32 @@ of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
 - `stop_workspace_requests`: The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
 
 """
-stop_workspaces(StopWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("StopWorkspaces", Dict{String, Any}("StopWorkspaceRequests"=>StopWorkspaceRequests); aws_config=aws_config)
-stop_workspaces(StopWorkspaceRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("StopWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StopWorkspaceRequests"=>StopWorkspaceRequests), params)); aws_config=aws_config)
+function stop_workspaces(
+    StopWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "StopWorkspaces",
+        Dict{String,Any}("StopWorkspaceRequests" => StopWorkspaceRequests);
+        aws_config=aws_config,
+    )
+end
+function stop_workspaces(
+    StopWorkspaceRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "StopWorkspaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("StopWorkspaceRequests" => StopWorkspaceRequests),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     terminate_workspaces(terminate_workspace_requests)
@@ -892,8 +1841,34 @@ directory, you can always create a new one when you want to start using WorkSpac
   WorkSpaces.
 
 """
-terminate_workspaces(TerminateWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("TerminateWorkspaces", Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests); aws_config=aws_config)
-terminate_workspaces(TerminateWorkspaceRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("TerminateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests), params)); aws_config=aws_config)
+function terminate_workspaces(
+    TerminateWorkspaceRequests; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "TerminateWorkspaces",
+        Dict{String,Any}("TerminateWorkspaceRequests" => TerminateWorkspaceRequests);
+        aws_config=aws_config,
+    )
+end
+function terminate_workspaces(
+    TerminateWorkspaceRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "TerminateWorkspaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TerminateWorkspaceRequests" => TerminateWorkspaceRequests
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_connection_alias_permission(alias_id, connection_alias_permission)
@@ -918,8 +1893,38 @@ any accounts or associated with any directories.
   with the specified AWS account.
 
 """
-update_connection_alias_permission(AliasId, ConnectionAliasPermission; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateConnectionAliasPermission", Dict{String, Any}("AliasId"=>AliasId, "ConnectionAliasPermission"=>ConnectionAliasPermission); aws_config=aws_config)
-update_connection_alias_permission(AliasId, ConnectionAliasPermission, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateConnectionAliasPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AliasId"=>AliasId, "ConnectionAliasPermission"=>ConnectionAliasPermission), params)); aws_config=aws_config)
+function update_connection_alias_permission(
+    AliasId, ConnectionAliasPermission; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "UpdateConnectionAliasPermission",
+        Dict{String,Any}(
+            "AliasId" => AliasId, "ConnectionAliasPermission" => ConnectionAliasPermission
+        );
+        aws_config=aws_config,
+    )
+end
+function update_connection_alias_permission(
+    AliasId,
+    ConnectionAliasPermission,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "UpdateConnectionAliasPermission",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AliasId" => AliasId,
+                    "ConnectionAliasPermission" => ConnectionAliasPermission,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_rules_of_ip_group(group_id, user_rules)
@@ -933,8 +1938,33 @@ rules.
 - `user_rules`: One or more rules.
 
 """
-update_rules_of_ip_group(GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateRulesOfIpGroup", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws_config=aws_config)
-update_rules_of_ip_group(GroupId, UserRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateRulesOfIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), params)); aws_config=aws_config)
+function update_rules_of_ip_group(
+    GroupId, UserRules; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "UpdateRulesOfIpGroup",
+        Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules);
+        aws_config=aws_config,
+    )
+end
+function update_rules_of_ip_group(
+    GroupId,
+    UserRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "UpdateRulesOfIpGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GroupId" => GroupId, "UserRules" => UserRules),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_workspace_bundle()
@@ -951,8 +1981,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BundleId"`: The identifier of the bundle.
 - `"ImageId"`: The identifier of the image.
 """
-update_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateWorkspaceBundle"; aws_config=aws_config)
-update_workspace_bundle(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateWorkspaceBundle", params; aws_config=aws_config)
+function update_workspace_bundle(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces("UpdateWorkspaceBundle"; aws_config=aws_config)
+end
+function update_workspace_bundle(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces("UpdateWorkspaceBundle", params; aws_config=aws_config)
+end
 
 """
     update_workspace_image_permission(allow_copy_image, image_id, shared_account_id)
@@ -980,5 +2016,42 @@ Region, contact AWS Support.
   ID.
 
 """
-update_workspace_image_permission(AllowCopyImage, ImageId, SharedAccountId; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateWorkspaceImagePermission", Dict{String, Any}("AllowCopyImage"=>AllowCopyImage, "ImageId"=>ImageId, "SharedAccountId"=>SharedAccountId); aws_config=aws_config)
-update_workspace_image_permission(AllowCopyImage, ImageId, SharedAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces("UpdateWorkspaceImagePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowCopyImage"=>AllowCopyImage, "ImageId"=>ImageId, "SharedAccountId"=>SharedAccountId), params)); aws_config=aws_config)
+function update_workspace_image_permission(
+    AllowCopyImage,
+    ImageId,
+    SharedAccountId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "UpdateWorkspaceImagePermission",
+        Dict{String,Any}(
+            "AllowCopyImage" => AllowCopyImage,
+            "ImageId" => ImageId,
+            "SharedAccountId" => SharedAccountId,
+        );
+        aws_config=aws_config,
+    )
+end
+function update_workspace_image_permission(
+    AllowCopyImage,
+    ImageId,
+    SharedAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "UpdateWorkspaceImagePermission",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AllowCopyImage" => AllowCopyImage,
+                    "ImageId" => ImageId,
+                    "SharedAccountId" => SharedAccountId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

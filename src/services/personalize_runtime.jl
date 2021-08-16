@@ -36,8 +36,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter-values.In this case, Amazon Personalize doesn't use that portion of the expression
   to filter recommendations. For more information, see Filtering Recommendations.
 """
-get_personalized_ranking(campaignArn, inputList, userId; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_runtime("POST", "/personalize-ranking", Dict{String, Any}("campaignArn"=>campaignArn, "inputList"=>inputList, "userId"=>userId); aws_config=aws_config)
-get_personalized_ranking(campaignArn, inputList, userId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_runtime("POST", "/personalize-ranking", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn, "inputList"=>inputList, "userId"=>userId), params)); aws_config=aws_config)
+function get_personalized_ranking(
+    campaignArn, inputList, userId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize_runtime(
+        "POST",
+        "/personalize-ranking",
+        Dict{String,Any}(
+            "campaignArn" => campaignArn, "inputList" => inputList, "userId" => userId
+        );
+        aws_config=aws_config,
+    )
+end
+function get_personalized_ranking(
+    campaignArn,
+    inputList,
+    userId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize_runtime(
+        "POST",
+        "/personalize-ranking",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "campaignArn" => campaignArn,
+                    "inputList" => inputList,
+                    "userId" => userId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_recommendations(campaign_arn)
@@ -74,5 +108,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The user ID to provide recommendations for. Required for USER_PERSONALIZATION
   recipe type.
 """
-get_recommendations(campaignArn; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_runtime("POST", "/recommendations", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
-get_recommendations(campaignArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = personalize_runtime("POST", "/recommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), params)); aws_config=aws_config)
+function get_recommendations(campaignArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return personalize_runtime(
+        "POST",
+        "/recommendations",
+        Dict{String,Any}("campaignArn" => campaignArn);
+        aws_config=aws_config,
+    )
+end
+function get_recommendations(
+    campaignArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize_runtime(
+        "POST",
+        "/recommendations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
+        );
+        aws_config=aws_config,
+    )
+end

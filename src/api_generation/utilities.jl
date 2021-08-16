@@ -3,7 +3,7 @@ Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub
 """
 function _get_aws_sdk_js_files(repo_name::String, auth::GitHub.OAuth2)
     master_tree = @mock tree(repo_name, "master"; auth=auth)
-    apis_sha = [t for t in master_tree.tree if t["path"]=="apis"][1]["sha"]
+    apis_sha = [t for t in master_tree.tree if t["path"] == "apis"][1]["sha"]
     files = @mock tree(repo_name, apis_sha)
     files = files.tree
 
@@ -11,7 +11,6 @@ function _get_aws_sdk_js_files(repo_name::String, auth::GitHub.OAuth2)
 
     return _filter_latest_service_version(files)
 end
-
 
 """
 Return a list of all AWS Services and their latest version.
@@ -69,7 +68,6 @@ function _splitline(str, limit)
     return (str[1:stop], str[restart:end])
 end
 
-
 """
 Return a valid index into the string `str`, rounding towards the first index of `str` if `i` is not itself a valid index into `str`.
 `i` must be within the bounds of `string`. `_validindex(str, i)` only protects against a `StringIndexError`, not a `BoundsError`.
@@ -80,7 +78,6 @@ function _validindex(str, limit)
 
     return next == limit ? limit : prev
 end
-
 
 """
 Convert a function name from CamelCase to snake_case
@@ -96,7 +93,7 @@ function _format_name(function_name::String)
 
     # Chop off the leading underscore
     return if startswith(function_name, "_")
-        chop(function_name, head=1, tail=0)
+        chop(function_name; head=1, tail=0)
     else
         function_name
     end
@@ -131,7 +128,6 @@ function _clean_uri(uri::String)
     return uri
 end
 
-
 """
 Clean up the documentation to make it Julia compiler and human-readable.
     * Remove any HTML tags
@@ -155,11 +151,11 @@ Example filename: `{Service}-{Version}.normal.json`
 function _get_service_and_version(filename::String)
     try
         # Remove ".normal.json" suffix
-        service_and_version = join(split(filename, '.')[1:end-2],'.')
+        service_and_version = join(split(filename, '.')[1:(end - 2)], '.')
 
         service_and_version = split(service_and_version, '-')
-        service = join(service_and_version[1:end-3], '-')
-        version = join(service_and_version[end-2:end], '-')
+        service = join(service_and_version[1:(end - 3)], '-')
+        version = join(service_and_version[(end - 2):end], '-')
 
         return (service, version)
     catch e
@@ -187,7 +183,7 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
     # Returns
     - `String`: Either the original parameter name, the locationName for the parameter, or the locationName nested one shape deeper
     """
-    function _get_parameter_name(parameter::String, input_shape::AbstractDict{String, <:Any})
+    function _get_parameter_name(parameter::String, input_shape::AbstractDict{String,<:Any})
         # If the parameter has a locationName, return it
         if haskey(input_shape["members"][parameter], "locationName")
             return input_shape["members"][parameter]["locationName"]
@@ -201,8 +197,8 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
         return get(nested_member, "locationName", parameter)
     end
 
-    required_parameters = LittleDict{String, Any}()
-    optional_parameters = LittleDict{String, Any}()
+    required_parameters = LittleDict{String,Any}()
+    optional_parameters = LittleDict{String,Any}()
     input_shape = shapes[input]
 
     if haskey(input_shape, "required")
@@ -212,26 +208,28 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
             # Check if the parameter needs to be in a certain place
             parameter_location = get(input_shape["members"][parameter], "location", "")
 
-            documentation = _clean_documentation(get(input_shape["members"][parameter], "documentation", ""))
+            documentation = _clean_documentation(
+                get(input_shape["members"][parameter], "documentation", "")
+            )
 
-            required_parameters[parameter_name] = LittleDict{String, String}(
-                "location" => parameter_location,
-                "documentation" => documentation,
+            required_parameters[parameter_name] = LittleDict{String,String}(
+                "location" => parameter_location, "documentation" => documentation
             )
         end
     end
 
     if haskey(input_shape, "members")
         for (member_key, member_value) in input_shape["members"]
-            parameter_name = get(input_shape["members"][member_key], "locationName", member_key)
+            parameter_name = get(
+                input_shape["members"][member_key], "locationName", member_key
+            )
 
             if !haskey(required_parameters, parameter_name)
                 documentation = _clean_documentation(get(member_value, "documentation", ""))
                 idempotent = get(member_value, "idempotencyToken", false)
 
-                optional_parameters[parameter_name] = LittleDict{String, Union{String, Bool}}(
-                    "documentation" => documentation,
-                    "idempotent" => idempotent,
+                optional_parameters[parameter_name] = LittleDict{String,Union{String,Bool}}(
+                    "documentation" => documentation, "idempotent" => idempotent
                 )
             end
         end

@@ -18,8 +18,25 @@ that originates from a single request. Use GetTraceSummaries to get a list of tr
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Pagination token.
 """
-batch_get_traces(TraceIds; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Traces", Dict{String, Any}("TraceIds"=>TraceIds); aws_config=aws_config)
-batch_get_traces(TraceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Traces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TraceIds"=>TraceIds), params)); aws_config=aws_config)
+function batch_get_traces(TraceIds; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray(
+        "POST", "/Traces", Dict{String,Any}("TraceIds" => TraceIds); aws_config=aws_config
+    )
+end
+function batch_get_traces(
+    TraceIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/Traces",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TraceIds" => TraceIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_group(group_name)
@@ -47,8 +64,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values
   are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.
 """
-create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/CreateGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
-create_group(GroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), params)); aws_config=aws_config)
+function create_group(GroupName; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray(
+        "POST",
+        "/CreateGroup",
+        Dict{String,Any}("GroupName" => GroupName);
+        aws_config=aws_config,
+    )
+end
+function create_group(
+    GroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/CreateGroup",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GroupName" => GroupName), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_sampling_rule(sampling_rule)
@@ -74,8 +111,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values
   are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.
 """
-create_sampling_rule(SamplingRule; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/CreateSamplingRule", Dict{String, Any}("SamplingRule"=>SamplingRule); aws_config=aws_config)
-create_sampling_rule(SamplingRule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/CreateSamplingRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SamplingRule"=>SamplingRule), params)); aws_config=aws_config)
+function create_sampling_rule(
+    SamplingRule; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/CreateSamplingRule",
+        Dict{String,Any}("SamplingRule" => SamplingRule);
+        aws_config=aws_config,
+    )
+end
+function create_sampling_rule(
+    SamplingRule,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/CreateSamplingRule",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SamplingRule" => SamplingRule), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_group()
@@ -88,8 +147,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupARN"`: The ARN of the group that was generated on creation.
 - `"GroupName"`: The case-sensitive name of the group.
 """
-delete_group(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteGroup"; aws_config=aws_config)
-delete_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteGroup", params; aws_config=aws_config)
+function delete_group(; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray("POST", "/DeleteGroup"; aws_config=aws_config)
+end
+function delete_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/DeleteGroup", params; aws_config=aws_config)
+end
 
 """
     delete_sampling_rule()
@@ -104,8 +169,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleName"`: The name of the sampling rule. Specify a rule by either name or ARN, but
   not both.
 """
-delete_sampling_rule(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteSamplingRule"; aws_config=aws_config)
-delete_sampling_rule(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/DeleteSamplingRule", params; aws_config=aws_config)
+function delete_sampling_rule(; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray("POST", "/DeleteSamplingRule"; aws_config=aws_config)
+end
+function delete_sampling_rule(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/DeleteSamplingRule", params; aws_config=aws_config)
+end
 
 """
     get_encryption_config()
@@ -114,8 +185,14 @@ delete_sampling_rule(params::AbstractDict{String}; aws_config::AbstractAWSConfig
 Retrieves the current encryption configuration for X-Ray data.
 
 """
-get_encryption_config(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/EncryptionConfig"; aws_config=aws_config)
-get_encryption_config(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/EncryptionConfig", params; aws_config=aws_config)
+function get_encryption_config(; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray("POST", "/EncryptionConfig"; aws_config=aws_config)
+end
+function get_encryption_config(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/EncryptionConfig", params; aws_config=aws_config)
+end
 
 """
     get_group()
@@ -128,8 +205,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupARN"`: The ARN of the group that was generated on creation.
 - `"GroupName"`: The case-sensitive name of the group.
 """
-get_group(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetGroup"; aws_config=aws_config)
-get_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetGroup", params; aws_config=aws_config)
+function get_group(; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray("POST", "/GetGroup"; aws_config=aws_config)
+end
+function get_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/GetGroup", params; aws_config=aws_config)
+end
 
 """
     get_groups()
@@ -141,8 +224,14 @@ Retrieves all active group details.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Pagination token.
 """
-get_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Groups"; aws_config=aws_config)
-get_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Groups", params; aws_config=aws_config)
+function get_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray("POST", "/Groups"; aws_config=aws_config)
+end
+function get_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/Groups", params; aws_config=aws_config)
+end
 
 """
     get_insight(insight_id)
@@ -157,8 +246,28 @@ start and end time of the insight.
   retrieve an InsightId.
 
 """
-get_insight(InsightId; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Insight", Dict{String, Any}("InsightId"=>InsightId); aws_config=aws_config)
-get_insight(InsightId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/Insight", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), params)); aws_config=aws_config)
+function get_insight(InsightId; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray(
+        "POST",
+        "/Insight",
+        Dict{String,Any}("InsightId" => InsightId);
+        aws_config=aws_config,
+    )
+end
+function get_insight(
+    InsightId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/Insight",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InsightId" => InsightId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_insight_events(insight_id)
@@ -178,8 +287,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token returned by a previous request to retrieve
   the next page of events.
 """
-get_insight_events(InsightId; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/InsightEvents", Dict{String, Any}("InsightId"=>InsightId); aws_config=aws_config)
-get_insight_events(InsightId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/InsightEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InsightId"=>InsightId), params)); aws_config=aws_config)
+function get_insight_events(InsightId; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray(
+        "POST",
+        "/InsightEvents",
+        Dict{String,Any}("InsightId" => InsightId);
+        aws_config=aws_config,
+    )
+end
+function get_insight_events(
+    InsightId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/InsightEvents",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InsightId" => InsightId), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_insight_impact_graph(end_time, insight_id, start_time)
@@ -203,8 +332,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token returned by a previous request to retrieve
   the next page of results.
 """
-get_insight_impact_graph(EndTime, InsightId, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/InsightImpactGraph", Dict{String, Any}("EndTime"=>EndTime, "InsightId"=>InsightId, "StartTime"=>StartTime); aws_config=aws_config)
-get_insight_impact_graph(EndTime, InsightId, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/InsightImpactGraph", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "InsightId"=>InsightId, "StartTime"=>StartTime), params)); aws_config=aws_config)
+function get_insight_impact_graph(
+    EndTime, InsightId, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/InsightImpactGraph",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "InsightId" => InsightId, "StartTime" => StartTime
+        );
+        aws_config=aws_config,
+    )
+end
+function get_insight_impact_graph(
+    EndTime,
+    InsightId,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/InsightImpactGraph",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime, "InsightId" => InsightId, "StartTime" => StartTime
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_insight_summaries(end_time, start_time)
@@ -228,8 +389,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 - `"States"`: The list of insight states.
 """
-get_insight_summaries(EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/InsightSummaries", Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime); aws_config=aws_config)
-get_insight_summaries(EndTime, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/InsightSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), params)); aws_config=aws_config)
+function get_insight_summaries(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/InsightSummaries",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config=aws_config,
+    )
+end
+function get_insight_summaries(
+    EndTime,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/InsightSummaries",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_sampling_rules()
@@ -241,8 +429,14 @@ Retrieves all sampling rules.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Pagination token.
 """
-get_sampling_rules(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetSamplingRules"; aws_config=aws_config)
-get_sampling_rules(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/GetSamplingRules", params; aws_config=aws_config)
+function get_sampling_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray("POST", "/GetSamplingRules"; aws_config=aws_config)
+end
+function get_sampling_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/GetSamplingRules", params; aws_config=aws_config)
+end
 
 """
     get_sampling_statistic_summaries()
@@ -254,8 +448,16 @@ Retrieves information about recent sampling results for all sampling rules.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Pagination token.
 """
-get_sampling_statistic_summaries(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/SamplingStatisticSummaries"; aws_config=aws_config)
-get_sampling_statistic_summaries(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/SamplingStatisticSummaries", params; aws_config=aws_config)
+function get_sampling_statistic_summaries(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/SamplingStatisticSummaries"; aws_config=aws_config)
+end
+function get_sampling_statistic_summaries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/SamplingStatisticSummaries", params; aws_config=aws_config)
+end
 
 """
     get_sampling_targets(sampling_statistics_documents)
@@ -268,8 +470,36 @@ Requests a sampling quota for rules that the service is using to sample requests
   sample requests.
 
 """
-get_sampling_targets(SamplingStatisticsDocuments; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/SamplingTargets", Dict{String, Any}("SamplingStatisticsDocuments"=>SamplingStatisticsDocuments); aws_config=aws_config)
-get_sampling_targets(SamplingStatisticsDocuments, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/SamplingTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SamplingStatisticsDocuments"=>SamplingStatisticsDocuments), params)); aws_config=aws_config)
+function get_sampling_targets(
+    SamplingStatisticsDocuments; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/SamplingTargets",
+        Dict{String,Any}("SamplingStatisticsDocuments" => SamplingStatisticsDocuments);
+        aws_config=aws_config,
+    )
+end
+function get_sampling_targets(
+    SamplingStatisticsDocuments,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/SamplingTargets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SamplingStatisticsDocuments" => SamplingStatisticsDocuments
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_service_graph(end_time, start_time)
@@ -292,8 +522,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: The name of a group based on which you want to generate a graph.
 - `"NextToken"`: Pagination token.
 """
-get_service_graph(EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/ServiceGraph", Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime); aws_config=aws_config)
-get_service_graph(EndTime, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/ServiceGraph", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), params)); aws_config=aws_config)
+function get_service_graph(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/ServiceGraph",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config=aws_config,
+    )
+end
+function get_service_graph(
+    EndTime,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/ServiceGraph",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_time_series_service_statistics(end_time, start_time)
@@ -318,8 +575,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 - `"Period"`: Aggregation period in seconds.
 """
-get_time_series_service_statistics(EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TimeSeriesServiceStatistics", Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime); aws_config=aws_config)
-get_time_series_service_statistics(EndTime, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TimeSeriesServiceStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), params)); aws_config=aws_config)
+function get_time_series_service_statistics(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/TimeSeriesServiceStatistics",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config=aws_config,
+    )
+end
+function get_time_series_service_statistics(
+    EndTime,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/TimeSeriesServiceStatistics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_trace_graph(trace_ids)
@@ -334,8 +618,28 @@ Retrieves a service graph for one or more specific trace IDs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Pagination token.
 """
-get_trace_graph(TraceIds; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TraceGraph", Dict{String, Any}("TraceIds"=>TraceIds); aws_config=aws_config)
-get_trace_graph(TraceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TraceGraph", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TraceIds"=>TraceIds), params)); aws_config=aws_config)
+function get_trace_graph(TraceIds; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray(
+        "POST",
+        "/TraceGraph",
+        Dict{String,Any}("TraceIds" => TraceIds);
+        aws_config=aws_config,
+    )
+end
+function get_trace_graph(
+    TraceIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/TraceGraph",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("TraceIds" => TraceIds), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_trace_summaries(end_time, start_time)
@@ -366,8 +670,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeRangeType"`: A parameter to indicate whether to query trace summaries by TraceId or
   Event time.
 """
-get_trace_summaries(EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TraceSummaries", Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime); aws_config=aws_config)
-get_trace_summaries(EndTime, StartTime, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TraceSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "StartTime"=>StartTime), params)); aws_config=aws_config)
+function get_trace_summaries(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/TraceSummaries",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config=aws_config,
+    )
+end
+function get_trace_summaries(
+    EndTime,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/TraceSummaries",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -384,8 +715,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken value returned with the current page of results as the value of this parameter to
   get the next page of results.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config)
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_encryption_config(type)
@@ -406,8 +759,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this
   format to specify a key in a different account.   Omit this key if you set Type to NONE.
 """
-put_encryption_config(Type; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/PutEncryptionConfig", Dict{String, Any}("Type"=>Type); aws_config=aws_config)
-put_encryption_config(Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/PutEncryptionConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type), params)); aws_config=aws_config)
+function put_encryption_config(Type; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray(
+        "POST",
+        "/PutEncryptionConfig",
+        Dict{String,Any}("Type" => Type);
+        aws_config=aws_config,
+    )
+end
+function put_encryption_config(
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/PutEncryptionConfig",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     put_telemetry_records(telemetry_records)
@@ -424,8 +793,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Hostname"`:
 - `"ResourceARN"`:
 """
-put_telemetry_records(TelemetryRecords; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TelemetryRecords", Dict{String, Any}("TelemetryRecords"=>TelemetryRecords); aws_config=aws_config)
-put_telemetry_records(TelemetryRecords, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TelemetryRecords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TelemetryRecords"=>TelemetryRecords), params)); aws_config=aws_config)
+function put_telemetry_records(
+    TelemetryRecords; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/TelemetryRecords",
+        Dict{String,Any}("TelemetryRecords" => TelemetryRecords);
+        aws_config=aws_config,
+    )
+end
+function put_telemetry_records(
+    TelemetryRecords,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/TelemetryRecords",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TelemetryRecords" => TelemetryRecords), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     put_trace_segments(trace_segment_documents)
@@ -459,8 +852,34 @@ hexadecimal digits.
   segments or subsegments.
 
 """
-put_trace_segments(TraceSegmentDocuments; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TraceSegments", Dict{String, Any}("TraceSegmentDocuments"=>TraceSegmentDocuments); aws_config=aws_config)
-put_trace_segments(TraceSegmentDocuments, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TraceSegments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TraceSegmentDocuments"=>TraceSegmentDocuments), params)); aws_config=aws_config)
+function put_trace_segments(
+    TraceSegmentDocuments; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/TraceSegments",
+        Dict{String,Any}("TraceSegmentDocuments" => TraceSegmentDocuments);
+        aws_config=aws_config,
+    )
+end
+function put_trace_segments(
+    TraceSegmentDocuments,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/TraceSegments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TraceSegmentDocuments" => TraceSegmentDocuments),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -480,8 +899,33 @@ Applies tags to an existing AWS X-Ray group or sampling rule.
   use. You cannot edit or delete system tags.
 
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -496,8 +940,35 @@ tags (those with an aws: prefix).
   sampling rule.
 
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_group()
@@ -517,8 +988,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enable insights notifications for the group. Notifications can only be enabled on a group
   with InsightsEnabled set to true.
 """
-update_group(; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UpdateGroup"; aws_config=aws_config)
-update_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UpdateGroup", params; aws_config=aws_config)
+function update_group(; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray("POST", "/UpdateGroup"; aws_config=aws_config)
+end
+function update_group(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray("POST", "/UpdateGroup", params; aws_config=aws_config)
+end
 
 """
     update_sampling_rule(sampling_rule_update)
@@ -530,5 +1007,29 @@ Modifies a sampling rule's configuration.
 - `sampling_rule_update`: The rule and fields to change.
 
 """
-update_sampling_rule(SamplingRuleUpdate; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UpdateSamplingRule", Dict{String, Any}("SamplingRuleUpdate"=>SamplingRuleUpdate); aws_config=aws_config)
-update_sampling_rule(SamplingRuleUpdate, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = xray("POST", "/UpdateSamplingRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SamplingRuleUpdate"=>SamplingRuleUpdate), params)); aws_config=aws_config)
+function update_sampling_rule(
+    SamplingRuleUpdate; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/UpdateSamplingRule",
+        Dict{String,Any}("SamplingRuleUpdate" => SamplingRuleUpdate);
+        aws_config=aws_config,
+    )
+end
+function update_sampling_rule(
+    SamplingRuleUpdate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/UpdateSamplingRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("SamplingRuleUpdate" => SamplingRuleUpdate), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

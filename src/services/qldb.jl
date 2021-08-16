@@ -19,8 +19,28 @@ this limit expires.
   be canceled.
 
 """
-cancel_journal_kinesis_stream(name, streamId; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws_config=aws_config)
-cancel_journal_kinesis_stream(name, streamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", params; aws_config=aws_config)
+function cancel_journal_kinesis_stream(
+    name, streamId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb(
+        "DELETE",
+        "/ledgers/$(name)/journal-kinesis-streams/$(streamId)";
+        aws_config=aws_config,
+    )
+end
+function cancel_journal_kinesis_stream(
+    name,
+    streamId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "DELETE",
+        "/ledgers/$(name)/journal-kinesis-streams/$(streamId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     create_ledger(name, permissions_mode)
@@ -72,8 +92,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pairs to add as tags to the ledger that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
-create_ledger(Name, PermissionsMode; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers", Dict{String, Any}("Name"=>Name, "PermissionsMode"=>PermissionsMode); aws_config=aws_config)
-create_ledger(Name, PermissionsMode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionsMode"=>PermissionsMode), params)); aws_config=aws_config)
+function create_ledger(
+    Name, PermissionsMode; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb(
+        "POST",
+        "/ledgers",
+        Dict{String,Any}("Name" => Name, "PermissionsMode" => PermissionsMode);
+        aws_config=aws_config,
+    )
+end
+function create_ledger(
+    Name,
+    PermissionsMode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "POST",
+        "/ledgers",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Name" => Name, "PermissionsMode" => PermissionsMode),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_ledger(name)
@@ -87,8 +134,14 @@ disable it by calling the UpdateLedger operation to set the flag to false.
 - `name`: The name of the ledger that you want to delete.
 
 """
-delete_ledger(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("DELETE", "/ledgers/$(name)"; aws_config=aws_config)
-delete_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("DELETE", "/ledgers/$(name)", params; aws_config=aws_config)
+function delete_ledger(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb("DELETE", "/ledgers/$(name)"; aws_config=aws_config)
+end
+function delete_ledger(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("DELETE", "/ledgers/$(name)", params; aws_config=aws_config)
+end
 
 """
     describe_journal_kinesis_stream(name, stream_id)
@@ -106,8 +159,26 @@ QLDB Developer Guide.
   describe.
 
 """
-describe_journal_kinesis_stream(name, streamId; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws_config=aws_config)
-describe_journal_kinesis_stream(name, streamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", params; aws_config=aws_config)
+function describe_journal_kinesis_stream(
+    name, streamId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb(
+        "GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws_config=aws_config
+    )
+end
+function describe_journal_kinesis_stream(
+    name,
+    streamId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "GET",
+        "/ledgers/$(name)/journal-kinesis-streams/$(streamId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_journal_s3_export(export_id, name)
@@ -126,8 +197,26 @@ doesn't exist, then throws ResourceNotFoundException.
 - `name`: The name of the ledger.
 
 """
-describe_journal_s3_export(exportId, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)"; aws_config=aws_config)
-describe_journal_s3_export(exportId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)", params; aws_config=aws_config)
+function describe_journal_s3_export(
+    exportId, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb(
+        "GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)"; aws_config=aws_config
+    )
+end
+function describe_journal_s3_export(
+    exportId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "GET",
+        "/ledgers/$(name)/journal-s3-exports/$(exportId)",
+        params;
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_ledger(name)
@@ -140,8 +229,14 @@ rest settings, and when it was created.
 - `name`: The name of the ledger that you want to describe.
 
 """
-describe_ledger(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)"; aws_config=aws_config)
-describe_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)", params; aws_config=aws_config)
+function describe_ledger(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb("GET", "/ledgers/$(name)"; aws_config=aws_config)
+end
+function describe_ledger(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("GET", "/ledgers/$(name)", params; aws_config=aws_config)
+end
 
 """
     export_journal_to_s3(exclusive_end_time, inclusive_start_time, role_arn, s3_export_configuration, name)
@@ -174,8 +269,53 @@ LimitExceededException.
 - `name`: The name of the ledger.
 
 """
-export_journal_to_s3(ExclusiveEndTime, InclusiveStartTime, RoleArn, S3ExportConfiguration, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/journal-s3-exports", Dict{String, Any}("ExclusiveEndTime"=>ExclusiveEndTime, "InclusiveStartTime"=>InclusiveStartTime, "RoleArn"=>RoleArn, "S3ExportConfiguration"=>S3ExportConfiguration); aws_config=aws_config)
-export_journal_to_s3(ExclusiveEndTime, InclusiveStartTime, RoleArn, S3ExportConfiguration, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/journal-s3-exports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExclusiveEndTime"=>ExclusiveEndTime, "InclusiveStartTime"=>InclusiveStartTime, "RoleArn"=>RoleArn, "S3ExportConfiguration"=>S3ExportConfiguration), params)); aws_config=aws_config)
+function export_journal_to_s3(
+    ExclusiveEndTime,
+    InclusiveStartTime,
+    RoleArn,
+    S3ExportConfiguration,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "POST",
+        "/ledgers/$(name)/journal-s3-exports",
+        Dict{String,Any}(
+            "ExclusiveEndTime" => ExclusiveEndTime,
+            "InclusiveStartTime" => InclusiveStartTime,
+            "RoleArn" => RoleArn,
+            "S3ExportConfiguration" => S3ExportConfiguration,
+        );
+        aws_config=aws_config,
+    )
+end
+function export_journal_to_s3(
+    ExclusiveEndTime,
+    InclusiveStartTime,
+    RoleArn,
+    S3ExportConfiguration,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "POST",
+        "/ledgers/$(name)/journal-s3-exports",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExclusiveEndTime" => ExclusiveEndTime,
+                    "InclusiveStartTime" => InclusiveStartTime,
+                    "RoleArn" => RoleArn,
+                    "S3ExportConfiguration" => S3ExportConfiguration,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_block(block_address, name)
@@ -201,8 +341,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request a proof. An address is an Amazon Ion structure that has two fields: strandId and
   sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
-get_block(BlockAddress, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}("BlockAddress"=>BlockAddress); aws_config=aws_config)
-get_block(BlockAddress, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress), params)); aws_config=aws_config)
+function get_block(BlockAddress, name; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb(
+        "POST",
+        "/ledgers/$(name)/block",
+        Dict{String,Any}("BlockAddress" => BlockAddress);
+        aws_config=aws_config,
+    )
+end
+function get_block(
+    BlockAddress,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "POST",
+        "/ledgers/$(name)/block",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BlockAddress" => BlockAddress), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     get_digest(name)
@@ -215,8 +376,14 @@ includes a 256-bit hash value and a block address.
 - `name`: The name of the ledger.
 
 """
-get_digest(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/digest"; aws_config=aws_config)
-get_digest(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/digest", params; aws_config=aws_config)
+function get_digest(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb("POST", "/ledgers/$(name)/digest"; aws_config=aws_config)
+end
+function get_digest(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("POST", "/ledgers/$(name)/digest", params; aws_config=aws_config)
+end
 
 """
     get_revision(block_address, document_id, name)
@@ -239,8 +406,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request a proof. An address is an Amazon Ion structure that has two fields: strandId and
   sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
-get_revision(BlockAddress, DocumentId, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId); aws_config=aws_config)
-get_revision(BlockAddress, DocumentId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId), params)); aws_config=aws_config)
+function get_revision(
+    BlockAddress, DocumentId, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb(
+        "POST",
+        "/ledgers/$(name)/revision",
+        Dict{String,Any}("BlockAddress" => BlockAddress, "DocumentId" => DocumentId);
+        aws_config=aws_config,
+    )
+end
+function get_revision(
+    BlockAddress,
+    DocumentId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "POST",
+        "/ledgers/$(name)/revision",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BlockAddress" => BlockAddress, "DocumentId" => DocumentId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     list_journal_kinesis_streams_for_ledger(name)
@@ -265,8 +462,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If you received a value for NextToken in the response from a previous
   ListJournalKinesisStreamsForLedger call, you should use that value as input here.
 """
-list_journal_kinesis_streams_for_ledger(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams"; aws_config=aws_config)
-list_journal_kinesis_streams_for_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams", params; aws_config=aws_config)
+function list_journal_kinesis_streams_for_ledger(
+    name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("GET", "/ledgers/$(name)/journal-kinesis-streams"; aws_config=aws_config)
+end
+function list_journal_kinesis_streams_for_ledger(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb(
+        "GET", "/ledgers/$(name)/journal-kinesis-streams", params; aws_config=aws_config
+    )
+end
 
 """
     list_journal_s3_exports()
@@ -286,8 +493,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If you received a value for NextToken in the response from a previous
   ListJournalS3Exports call, then you should use that value as input here.
 """
-list_journal_s3_exports(; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/journal-s3-exports"; aws_config=aws_config)
-list_journal_s3_exports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/journal-s3-exports", params; aws_config=aws_config)
+function list_journal_s3_exports(; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb("GET", "/journal-s3-exports"; aws_config=aws_config)
+end
+function list_journal_s3_exports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("GET", "/journal-s3-exports", params; aws_config=aws_config)
+end
 
 """
     list_journal_s3_exports_for_ledger(name)
@@ -311,8 +524,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If you received a value for NextToken in the response from a previous
   ListJournalS3ExportsForLedger call, then you should use that value as input here.
 """
-list_journal_s3_exports_for_ledger(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-s3-exports"; aws_config=aws_config)
-list_journal_s3_exports_for_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers/$(name)/journal-s3-exports", params; aws_config=aws_config)
+function list_journal_s3_exports_for_ledger(
+    name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("GET", "/ledgers/$(name)/journal-s3-exports"; aws_config=aws_config)
+end
+function list_journal_s3_exports_for_ledger(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("GET", "/ledgers/$(name)/journal-s3-exports", params; aws_config=aws_config)
+end
 
 """
     list_ledgers()
@@ -330,8 +551,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. If you received a value for NextToken in the response from a previous ListLedgers
   call, then you should use that value as input here.
 """
-list_ledgers(; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers"; aws_config=aws_config)
-list_ledgers(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/ledgers", params; aws_config=aws_config)
+function list_ledgers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb("GET", "/ledgers"; aws_config=aws_config)
+end
+function list_ledgers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("GET", "/ledgers", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -344,8 +571,18 @@ Returns all tags for a specified Amazon QLDB resource.
   arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb("GET", "/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     stream_journal_to_kinesis(inclusive_start_time, kinesis_configuration, role_arn, stream_name, name)
@@ -382,8 +619,53 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value pairs to add as tags to the stream that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
-stream_journal_to_kinesis(InclusiveStartTime, KinesisConfiguration, RoleArn, StreamName, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/journal-kinesis-streams", Dict{String, Any}("InclusiveStartTime"=>InclusiveStartTime, "KinesisConfiguration"=>KinesisConfiguration, "RoleArn"=>RoleArn, "StreamName"=>StreamName); aws_config=aws_config)
-stream_journal_to_kinesis(InclusiveStartTime, KinesisConfiguration, RoleArn, StreamName, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/ledgers/$(name)/journal-kinesis-streams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InclusiveStartTime"=>InclusiveStartTime, "KinesisConfiguration"=>KinesisConfiguration, "RoleArn"=>RoleArn, "StreamName"=>StreamName), params)); aws_config=aws_config)
+function stream_journal_to_kinesis(
+    InclusiveStartTime,
+    KinesisConfiguration,
+    RoleArn,
+    StreamName,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "POST",
+        "/ledgers/$(name)/journal-kinesis-streams",
+        Dict{String,Any}(
+            "InclusiveStartTime" => InclusiveStartTime,
+            "KinesisConfiguration" => KinesisConfiguration,
+            "RoleArn" => RoleArn,
+            "StreamName" => StreamName,
+        );
+        aws_config=aws_config,
+    )
+end
+function stream_journal_to_kinesis(
+    InclusiveStartTime,
+    KinesisConfiguration,
+    RoleArn,
+    StreamName,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "POST",
+        "/ledgers/$(name)/journal-kinesis-streams",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InclusiveStartTime" => InclusiveStartTime,
+                    "KinesisConfiguration" => KinesisConfiguration,
+                    "RoleArn" => RoleArn,
+                    "StreamName" => StreamName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(tags, resource_arn)
@@ -401,8 +683,27 @@ an error.
   example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
 
 """
-tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config)
+function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    Tags,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -417,8 +718,29 @@ tag keys to remove.
 - `tag_keys`: The list of tag keys to remove.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_ledger(name)
@@ -452,8 +774,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Key identifiers (KeyId) in the Key Management Service Developer
   Guide.
 """
-update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)"; aws_config=aws_config)
-update_ledger(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)", params; aws_config=aws_config)
+function update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return qldb("PATCH", "/ledgers/$(name)"; aws_config=aws_config)
+end
+function update_ledger(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb("PATCH", "/ledgers/$(name)", params; aws_config=aws_config)
+end
 
 """
     update_ledger_permissions_mode(permissions_mode, name)
@@ -482,5 +810,30 @@ QLDB Developer Guide.
 - `name`: The name of the ledger.
 
 """
-update_ledger_permissions_mode(PermissionsMode, name; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)/permissions-mode", Dict{String, Any}("PermissionsMode"=>PermissionsMode); aws_config=aws_config)
-update_ledger_permissions_mode(PermissionsMode, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = qldb("PATCH", "/ledgers/$(name)/permissions-mode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsMode"=>PermissionsMode), params)); aws_config=aws_config)
+function update_ledger_permissions_mode(
+    PermissionsMode, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return qldb(
+        "PATCH",
+        "/ledgers/$(name)/permissions-mode",
+        Dict{String,Any}("PermissionsMode" => PermissionsMode);
+        aws_config=aws_config,
+    )
+end
+function update_ledger_permissions_mode(
+    PermissionsMode,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return qldb(
+        "PATCH",
+        "/ledgers/$(name)/permissions-mode",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("PermissionsMode" => PermissionsMode), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

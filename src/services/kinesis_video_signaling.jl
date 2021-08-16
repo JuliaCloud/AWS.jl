@@ -31,8 +31,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Service"`: Specifies the desired service. Currently, TURN is the only valid value.
 - `"Username"`: An optional user ID to be associated with the credentials.
 """
-get_ice_server_config(ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}("ChannelARN"=>ChannelARN); aws_config=aws_config)
-get_ice_server_config(ChannelARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config)
+function get_ice_server_config(
+    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video_signaling(
+        "POST",
+        "/v1/get-ice-server-config",
+        Dict{String,Any}("ChannelARN" => ChannelARN);
+        aws_config=aws_config,
+    )
+end
+function get_ice_server_config(
+    ChannelARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video_signaling(
+        "POST",
+        "/v1/get-ice-server-config",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ChannelARN" => ChannelARN), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     send_alexa_offer_to_master(channel_arn, message_payload, sender_client_id)
@@ -51,5 +73,44 @@ connected to the signaling channel, redelivery requests are made until the messa
 - `sender_client_id`: The unique identifier for the sender client.
 
 """
-send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId); aws_config=aws_config)
-send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId), params)); aws_config=aws_config)
+function send_alexa_offer_to_master(
+    ChannelARN,
+    MessagePayload,
+    SenderClientId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video_signaling(
+        "POST",
+        "/v1/send-alexa-offer-to-master",
+        Dict{String,Any}(
+            "ChannelARN" => ChannelARN,
+            "MessagePayload" => MessagePayload,
+            "SenderClientId" => SenderClientId,
+        );
+        aws_config=aws_config,
+    )
+end
+function send_alexa_offer_to_master(
+    ChannelARN,
+    MessagePayload,
+    SenderClientId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video_signaling(
+        "POST",
+        "/v1/send-alexa-offer-to-master",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ChannelARN" => ChannelARN,
+                    "MessagePayload" => MessagePayload,
+                    "SenderClientId" => SenderClientId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end

@@ -20,8 +20,31 @@ with the TerminateJob operation.
   recorded in the Batch activity logs.
 
 """
-cancel_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/canceljob", Dict{String, Any}("jobId"=>jobId, "reason"=>reason); aws_config=aws_config)
-cancel_job(jobId, reason, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/canceljob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), params)); aws_config=aws_config)
+function cancel_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/canceljob",
+        Dict{String,Any}("jobId" => jobId, "reason" => reason);
+        aws_config=aws_config,
+    )
+end
+function cancel_job(
+    jobId,
+    reason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/canceljob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("jobId" => jobId, "reason" => reason), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_compute_environment(compute_environment_name, type)
@@ -96,8 +119,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reference. These tags can be updated or removed using the TagResource and UntagResource API
   operations. These tags don't propagate to the underlying compute resources.
 """
-create_compute_environment(computeEnvironmentName, type; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/createcomputeenvironment", Dict{String, Any}("computeEnvironmentName"=>computeEnvironmentName, "type"=>type); aws_config=aws_config)
-create_compute_environment(computeEnvironmentName, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/createcomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironmentName"=>computeEnvironmentName, "type"=>type), params)); aws_config=aws_config)
+function create_compute_environment(
+    computeEnvironmentName, type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/createcomputeenvironment",
+        Dict{String,Any}(
+            "computeEnvironmentName" => computeEnvironmentName, "type" => type
+        );
+        aws_config=aws_config,
+    )
+end
+function create_compute_environment(
+    computeEnvironmentName,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/createcomputeenvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "computeEnvironmentName" => computeEnvironmentName, "type" => type
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     create_job_queue(compute_environment_order, job_queue_name, priority)
@@ -138,8 +192,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your resources. Each tag consists of a key and an optional value. For more information, see
   Tagging your Batch resources in Batch User Guide.
 """
-create_job_queue(computeEnvironmentOrder, jobQueueName, priority; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/createjobqueue", Dict{String, Any}("computeEnvironmentOrder"=>computeEnvironmentOrder, "jobQueueName"=>jobQueueName, "priority"=>priority); aws_config=aws_config)
-create_job_queue(computeEnvironmentOrder, jobQueueName, priority, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/createjobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironmentOrder"=>computeEnvironmentOrder, "jobQueueName"=>jobQueueName, "priority"=>priority), params)); aws_config=aws_config)
+function create_job_queue(
+    computeEnvironmentOrder,
+    jobQueueName,
+    priority;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/createjobqueue",
+        Dict{String,Any}(
+            "computeEnvironmentOrder" => computeEnvironmentOrder,
+            "jobQueueName" => jobQueueName,
+            "priority" => priority,
+        );
+        aws_config=aws_config,
+    )
+end
+function create_job_queue(
+    computeEnvironmentOrder,
+    jobQueueName,
+    priority,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/createjobqueue",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "computeEnvironmentOrder" => computeEnvironmentOrder,
+                    "jobQueueName" => jobQueueName,
+                    "priority" => priority,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_compute_environment(compute_environment)
@@ -157,8 +250,32 @@ invalid state.
   to delete.
 
 """
-delete_compute_environment(computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deletecomputeenvironment", Dict{String, Any}("computeEnvironment"=>computeEnvironment); aws_config=aws_config)
-delete_compute_environment(computeEnvironment, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deletecomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironment"=>computeEnvironment), params)); aws_config=aws_config)
+function delete_compute_environment(
+    computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/deletecomputeenvironment",
+        Dict{String,Any}("computeEnvironment" => computeEnvironment);
+        aws_config=aws_config,
+    )
+end
+function delete_compute_environment(
+    computeEnvironment,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/deletecomputeenvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("computeEnvironment" => computeEnvironment), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     delete_job_queue(job_queue)
@@ -174,8 +291,28 @@ DeleteJobQueue request.
 - `job_queue`: The short name or full Amazon Resource Name (ARN) of the queue to delete.
 
 """
-delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deletejobqueue", Dict{String, Any}("jobQueue"=>jobQueue); aws_config=aws_config)
-delete_job_queue(jobQueue, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deletejobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobQueue"=>jobQueue), params)); aws_config=aws_config)
+function delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/deletejobqueue",
+        Dict{String,Any}("jobQueue" => jobQueue);
+        aws_config=aws_config,
+    )
+end
+function delete_job_queue(
+    jobQueue,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/deletejobqueue",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("jobQueue" => jobQueue), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     deregister_job_definition(job_definition)
@@ -188,8 +325,30 @@ Deregisters an Batch job definition. Job definitions are permanently deleted aft
   (ARN) of the job definition to deregister.
 
 """
-deregister_job_definition(jobDefinition; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deregisterjobdefinition", Dict{String, Any}("jobDefinition"=>jobDefinition); aws_config=aws_config)
-deregister_job_definition(jobDefinition, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/deregisterjobdefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition), params)); aws_config=aws_config)
+function deregister_job_definition(
+    jobDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/deregisterjobdefinition",
+        Dict{String,Any}("jobDefinition" => jobDefinition);
+        aws_config=aws_config,
+    )
+end
+function deregister_job_definition(
+    jobDefinition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/deregisterjobdefinition",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("jobDefinition" => jobDefinition), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_compute_environments()
@@ -217,8 +376,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This token should be treated as an opaque identifier that's only used to retrieve the next
   items in a list and not for other programmatic purposes.
 """
-describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments"; aws_config=aws_config)
-describe_compute_environments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describecomputeenvironments", params; aws_config=aws_config)
+function describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch("POST", "/v1/describecomputeenvironments"; aws_config=aws_config)
+end
+function describe_compute_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch("POST", "/v1/describecomputeenvironments", params; aws_config=aws_config)
+end
 
 """
     describe_job_definitions()
@@ -249,8 +414,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in a list and not for other programmatic purposes.
 - `"status"`: The status used to filter job definitions.
 """
-describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions"; aws_config=aws_config)
-describe_job_definitions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobdefinitions", params; aws_config=aws_config)
+function describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch("POST", "/v1/describejobdefinitions"; aws_config=aws_config)
+end
+function describe_job_definitions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch("POST", "/v1/describejobdefinitions", params; aws_config=aws_config)
+end
 
 """
     describe_job_queues()
@@ -275,8 +446,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   treated as an opaque identifier that's only used to retrieve the next items in a list and
   not for other programmatic purposes.
 """
-describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues"; aws_config=aws_config)
-describe_job_queues(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobqueues", params; aws_config=aws_config)
+function describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch("POST", "/v1/describejobqueues"; aws_config=aws_config)
+end
+function describe_job_queues(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch("POST", "/v1/describejobqueues", params; aws_config=aws_config)
+end
 
 """
     describe_jobs(jobs)
@@ -288,8 +465,21 @@ Describes a list of Batch jobs.
 - `jobs`: A list of up to 100 job IDs.
 
 """
-describe_jobs(jobs; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobs", Dict{String, Any}("jobs"=>jobs); aws_config=aws_config)
-describe_jobs(jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/describejobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), params)); aws_config=aws_config)
+function describe_jobs(jobs; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST", "/v1/describejobs", Dict{String,Any}("jobs" => jobs); aws_config=aws_config
+    )
+end
+function describe_jobs(
+    jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/describejobs",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobs" => jobs), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     list_jobs()
@@ -350,8 +540,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that's only used to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs"; aws_config=aws_config)
-list_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/listjobs", params; aws_config=aws_config)
+function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch("POST", "/v1/listjobs"; aws_config=aws_config)
+end
+function list_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch("POST", "/v1/listjobs", params; aws_config=aws_config)
+end
 
 """
     list_tags_for_resource(resource_arn)
@@ -368,8 +564,18 @@ multi-node parallel (MNP) jobs are not supported.
   jobs are not supported.
 
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = batch("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
-list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("GET", "/v1/tags/$(resourceArn)", params; aws_config=aws_config)
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch("GET", "/v1/tags/$(resourceArn)", params; aws_config=aws_config)
+end
 
 """
     register_job_definition(job_definition_name, type)
@@ -421,8 +627,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the timeout configuration defined here. For more information, see Job Timeouts in the Batch
   User Guide.
 """
-register_job_definition(jobDefinitionName, type; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/registerjobdefinition", Dict{String, Any}("jobDefinitionName"=>jobDefinitionName, "type"=>type); aws_config=aws_config)
-register_job_definition(jobDefinitionName, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/registerjobdefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinitionName"=>jobDefinitionName, "type"=>type), params)); aws_config=aws_config)
+function register_job_definition(
+    jobDefinitionName, type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/registerjobdefinition",
+        Dict{String,Any}("jobDefinitionName" => jobDefinitionName, "type" => type);
+        aws_config=aws_config,
+    )
+end
+function register_job_definition(
+    jobDefinitionName,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/registerjobdefinition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("jobDefinitionName" => jobDefinitionName, "type" => type),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     submit_job(job_definition, job_name, job_queue)
@@ -490,8 +723,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job. For more information, see Job Timeouts in the Amazon Elastic Container Service
   Developer Guide.
 """
-submit_job(jobDefinition, jobName, jobQueue; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/submitjob", Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue); aws_config=aws_config)
-submit_job(jobDefinition, jobName, jobQueue, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/submitjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobDefinition"=>jobDefinition, "jobName"=>jobName, "jobQueue"=>jobQueue), params)); aws_config=aws_config)
+function submit_job(
+    jobDefinition, jobName, jobQueue; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/submitjob",
+        Dict{String,Any}(
+            "jobDefinition" => jobDefinition, "jobName" => jobName, "jobQueue" => jobQueue
+        );
+        aws_config=aws_config,
+    )
+end
+function submit_job(
+    jobDefinition,
+    jobName,
+    jobQueue,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/submitjob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "jobDefinition" => jobDefinition,
+                    "jobName" => jobName,
+                    "jobQueue" => jobQueue,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     tag_resource(resource_arn, tags)
@@ -512,8 +779,27 @@ queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not 
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
 
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     terminate_job(job_id, reason)
@@ -530,8 +816,31 @@ STARTING state are cancelled.
   recorded in the Batch activity logs.
 
 """
-terminate_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/terminatejob", Dict{String, Any}("jobId"=>jobId, "reason"=>reason); aws_config=aws_config)
-terminate_job(jobId, reason, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/terminatejob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "reason"=>reason), params)); aws_config=aws_config)
+function terminate_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/terminatejob",
+        Dict{String,Any}("jobId" => jobId, "reason" => reason);
+        aws_config=aws_config,
+    )
+end
+function terminate_job(
+    jobId,
+    reason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/terminatejob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("jobId" => jobId, "reason" => reason), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -546,8 +855,29 @@ Deletes specified tags from an Batch resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config)
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     update_compute_environment(compute_environment)
@@ -585,8 +915,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RUNNING state continue to progress normally. Managed compute environments in the DISABLED
   state don't scale out. However, they scale in to minvCpus value after instances become idle.
 """
-update_compute_environment(computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/updatecomputeenvironment", Dict{String, Any}("computeEnvironment"=>computeEnvironment); aws_config=aws_config)
-update_compute_environment(computeEnvironment, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/updatecomputeenvironment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("computeEnvironment"=>computeEnvironment), params)); aws_config=aws_config)
+function update_compute_environment(
+    computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return batch(
+        "POST",
+        "/v1/updatecomputeenvironment",
+        Dict{String,Any}("computeEnvironment" => computeEnvironment);
+        aws_config=aws_config,
+    )
+end
+function update_compute_environment(
+    computeEnvironment,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/updatecomputeenvironment",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("computeEnvironment" => computeEnvironment), params
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     update_job_queue(job_queue)
@@ -617,5 +971,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to
   the queue, but jobs already in the queue can finish.
 """
-update_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/updatejobqueue", Dict{String, Any}("jobQueue"=>jobQueue); aws_config=aws_config)
-update_job_queue(jobQueue, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = batch("POST", "/v1/updatejobqueue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobQueue"=>jobQueue), params)); aws_config=aws_config)
+function update_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config())
+    return batch(
+        "POST",
+        "/v1/updatejobqueue",
+        Dict{String,Any}("jobQueue" => jobQueue);
+        aws_config=aws_config,
+    )
+end
+function update_job_queue(
+    jobQueue,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return batch(
+        "POST",
+        "/v1/updatejobqueue",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("jobQueue" => jobQueue), params)
+        );
+        aws_config=aws_config,
+    )
+end

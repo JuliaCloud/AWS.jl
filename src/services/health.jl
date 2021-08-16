@@ -31,8 +31,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-describe_affected_accounts_for_organization(eventArn; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}("eventArn"=>eventArn); aws_config=aws_config)
-describe_affected_accounts_for_organization(eventArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArn"=>eventArn), params)); aws_config=aws_config)
+function describe_affected_accounts_for_organization(
+    eventArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeAffectedAccountsForOrganization",
+        Dict{String,Any}("eventArn" => eventArn);
+        aws_config=aws_config,
+    )
+end
+function describe_affected_accounts_for_organization(
+    eventArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return health(
+        "DescribeAffectedAccountsForOrganization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("eventArn" => eventArn), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_affected_entities(filter)
@@ -63,8 +83,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-describe_affected_entities(filter; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}("filter"=>filter); aws_config=aws_config)
-describe_affected_entities(filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter), params)); aws_config=aws_config)
+function describe_affected_entities(
+    filter; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeAffectedEntities",
+        Dict{String,Any}("filter" => filter);
+        aws_config=aws_config,
+    )
+end
+function describe_affected_entities(
+    filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeAffectedEntities",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filter" => filter), params));
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_affected_entities_for_organization(organization_entity_filters)
@@ -99,8 +135,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-describe_affected_entities_for_organization(organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters); aws_config=aws_config)
-describe_affected_entities_for_organization(organizationEntityFilters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters), params)); aws_config=aws_config)
+function describe_affected_entities_for_organization(
+    organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeAffectedEntitiesForOrganization",
+        Dict{String,Any}("organizationEntityFilters" => organizationEntityFilters);
+        aws_config=aws_config,
+    )
+end
+function describe_affected_entities_for_organization(
+    organizationEntityFilters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return health(
+        "DescribeAffectedEntitiesForOrganization",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("organizationEntityFilters" => organizationEntityFilters),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_entity_aggregates()
@@ -117,8 +177,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101
   \"
 """
-describe_entity_aggregates(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEntityAggregates"; aws_config=aws_config)
-describe_entity_aggregates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEntityAggregates", params; aws_config=aws_config)
+function describe_entity_aggregates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return health("DescribeEntityAggregates"; aws_config=aws_config)
+end
+function describe_entity_aggregates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("DescribeEntityAggregates", params; aws_config=aws_config)
+end
 
 """
     describe_event_aggregates(aggregate_field)
@@ -142,8 +208,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-describe_event_aggregates(aggregateField; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}("aggregateField"=>aggregateField); aws_config=aws_config)
-describe_event_aggregates(aggregateField, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateField"=>aggregateField), params)); aws_config=aws_config)
+function describe_event_aggregates(
+    aggregateField; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeEventAggregates",
+        Dict{String,Any}("aggregateField" => aggregateField);
+        aws_config=aws_config,
+    )
+end
+function describe_event_aggregates(
+    aggregateField,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return health(
+        "DescribeEventAggregates",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("aggregateField" => aggregateField), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_event_details(event_arns)
@@ -170,8 +256,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
 """
-describe_event_details(eventArns; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}("eventArns"=>eventArns); aws_config=aws_config)
-describe_event_details(eventArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArns"=>eventArns), params)); aws_config=aws_config)
+function describe_event_details(
+    eventArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeEventDetails",
+        Dict{String,Any}("eventArns" => eventArns);
+        aws_config=aws_config,
+    )
+end
+function describe_event_details(
+    eventArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return health(
+        "DescribeEventDetails",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("eventArns" => eventArns), params)
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_event_details_for_organization(organization_event_detail_filters)
@@ -207,8 +313,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
 """
-describe_event_details_for_organization(organizationEventDetailFilters; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters); aws_config=aws_config)
-describe_event_details_for_organization(organizationEventDetailFilters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters), params)); aws_config=aws_config)
+function describe_event_details_for_organization(
+    organizationEventDetailFilters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeEventDetailsForOrganization",
+        Dict{String,Any}(
+            "organizationEventDetailFilters" => organizationEventDetailFilters
+        );
+        aws_config=aws_config,
+    )
+end
+function describe_event_details_for_organization(
+    organizationEventDetailFilters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return health(
+        "DescribeEventDetailsForOrganization",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "organizationEventDetailFilters" => organizationEventDetailFilters
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+    )
+end
 
 """
     describe_event_types()
@@ -233,8 +367,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-describe_event_types(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventTypes"; aws_config=aws_config)
-describe_event_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventTypes", params; aws_config=aws_config)
+function describe_event_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return health("DescribeEventTypes"; aws_config=aws_config)
+end
+function describe_event_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("DescribeEventTypes", params; aws_config=aws_config)
+end
 
 """
     describe_events()
@@ -266,8 +406,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-describe_events(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEvents"; aws_config=aws_config)
-describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEvents", params; aws_config=aws_config)
+function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
+    return health("DescribeEvents"; aws_config=aws_config)
+end
+function describe_events(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("DescribeEvents", params; aws_config=aws_config)
+end
 
 """
     describe_events_for_organization()
@@ -299,8 +445,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-describe_events_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventsForOrganization"; aws_config=aws_config)
-describe_events_for_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeEventsForOrganization", params; aws_config=aws_config)
+function describe_events_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("DescribeEventsForOrganization"; aws_config=aws_config)
+end
+function describe_events_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("DescribeEventsForOrganization", params; aws_config=aws_config)
+end
 
 """
     describe_health_service_status_for_organization()
@@ -312,8 +466,18 @@ role, or sign in as the root user (not recommended) in the organization's manage
 account.
 
 """
-describe_health_service_status_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization"; aws_config=aws_config)
-describe_health_service_status_for_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization", params; aws_config=aws_config)
+function describe_health_service_status_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("DescribeHealthServiceStatusForOrganization"; aws_config=aws_config)
+end
+function describe_health_service_status_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeHealthServiceStatusForOrganization", params; aws_config=aws_config
+    )
+end
 
 """
     disable_health_service_access_for_organization()
@@ -333,8 +497,18 @@ Health API operations for organizational view, AWS Health returns an error. AWS 
 continues to aggregate health events for your AWS account.
 
 """
-disable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization"; aws_config=aws_config)
-disable_health_service_access_for_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization", params; aws_config=aws_config)
+function disable_health_service_access_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("DisableHealthServiceAccessForOrganization"; aws_config=aws_config)
+end
+function disable_health_service_access_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DisableHealthServiceAccessForOrganization", params; aws_config=aws_config
+    )
+end
 
 """
     enable_health_service_access_for_organization()
@@ -354,5 +528,13 @@ organizational view feature. For more information, see Aggregating AWS Health ev
 AWS Health User Guide.
 
 """
-enable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization"; aws_config=aws_config)
-enable_health_service_access_for_organization(params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization", params; aws_config=aws_config)
+function enable_health_service_access_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("EnableHealthServiceAccessForOrganization"; aws_config=aws_config)
+end
+function enable_health_service_access_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health("EnableHealthServiceAccessForOrganization", params; aws_config=aws_config)
+end
