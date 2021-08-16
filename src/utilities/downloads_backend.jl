@@ -1,10 +1,10 @@
 struct DownloadsBackend <: AWS.AbstractBackend
-    downloader::Union{Nothing, Downloads.Downloader}
+    downloader::Union{Nothing,Downloads.Downloader}
 end
 
 DownloadsBackend() = DownloadsBackend(nothing)
 
-const AWS_DOWNLOADER = Ref{Union{Nothing, Downloader}}(nothing)
+const AWS_DOWNLOADER = Ref{Union{Nothing,Downloader}}(nothing)
 const AWS_DOWNLOAD_LOCK = ReentrantLock()
 
 # Here we mimic Download.jl's own setup for using a global downloader.
@@ -15,12 +15,13 @@ const AWS_DOWNLOAD_LOCK = ReentrantLock()
 function get_downloader(downloader=nothing)
     lock(AWS_DOWNLOAD_LOCK) do
         yield() # let other downloads finish
-        downloader isa Downloader && return
+        downloader isa Downloader && return nothing
         while true
             downloader = AWS_DOWNLOADER[]
-            downloader isa Downloader && return
+            downloader isa Downloader && return nothing
             D = Downloader()
-            D.easy_hook = (easy, info) -> Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
+            D.easy_hook =
+                (easy, info) -> Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
             AWS_DOWNLOADER[] = D
         end
     end
@@ -69,7 +70,7 @@ function _http_request(backend::DownloadsBackend, request)
     body_arg = if request.request_method == "HEAD" || request.return_stream
         () -> NamedTuple()
     else
-        () -> (; body = read_body(request.response_stream))
+        () -> (; body=read_body(request.response_stream))
     end
 
     # HTTP.jl sets this header automatically.
@@ -90,26 +91,43 @@ function _http_request(backend::DownloadsBackend, request)
         # need to do this on per-request downloaders, because we
         # set our global one with this hook already.
         if backend.downloader !== nothing && downloader.easy_hook === nothing
-            downloader.easy_hook = (easy, info) -> Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
+            downloader.easy_hook =
+                (easy, info) -> Curl.setopt(easy, Curl.CURLOPT_FOLLOWLOCATION, false)
         end
 
         # We seekstart on every attempt, otherwise every attempt
         # but the first will send an empty payload.
         seekstart(input)
 
-        response = Downloads.request(request.url; input_arg..., output_arg...,
-                                    method = request.request_method,
-                                    headers = request.headers, verbose=false, throw=true,
-                                    downloader=downloader)
+        response = Downloads.request(
+            request.url;
+            input_arg...,
+            output_arg...,
+            method=request.request_method,
+            headers=request.headers,
+            verbose=false,
+            throw=true,
+            downloader=downloader,
+        )
 
-        http_response = HTTP.Response(response.status, response.headers; body_arg()..., request=nothing)
+        http_response = HTTP.Response(
+            response.status, response.headers; body_arg()..., request=nothing
+        )
 
         if HTTP.iserror(http_response)
             target = HTTP.resource(HTTP.URI(request.url))
-            throw(HTTP.StatusError(http_response.status, request.request_method, target, http_response))
+            throw(
+                HTTP.StatusError(
+                    http_response.status, request.request_method, target, http_response
+                ),
+            )
         end
         return http_response
     catch e
-        @delay_retry if ((isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) || isa(e, Downloads.RequestError)) end
+        @delay_retry if (
+            (isa(e, HTTP.StatusError) && AWS._http_status(e) >= 500) ||
+            isa(e, Downloads.RequestError)
+        )
+        end
     end
 end
